@@ -1,0 +1,43 @@
+cmake_minimum_required (VERSION 2.8)
+
+cmake_policy (SET CMP0003 OLD)
+cmake_policy (SET CMP0002 OLD)
+cmake_policy (SET CMP0011 NEW)
+cmake_policy (SET CMP0015 NEW)
+
+project (netctl-monitor)
+set (PROJECT_VERSION_MAJOR 1)
+set (PROJECT_VERSION_MINOR 0)
+set (PROJECT_VERSION_PATCH 0)
+set (PROJECT_VERSION ${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}.${PROJECT_VERSION_PATCH})
+configure_file (${CMAKE_SOURCE_DIR}/version.h.in ${CMAKE_CURRENT_BINARY_DIR}/version.h)
+
+message (STATUS "Version ${PROJECT_VERSION}")
+
+set (COMPS netctl-gui
+           netctl-monitor)
+
+# install options
+option (WITH_DEBUG_MODE "Build with debug mode" OFF)
+option (BUILD_GUI "Build GUI" ON)
+option (BUILD_PLASMOID "Build plasmoid" ON)
+
+# verbose
+set (CMAKE_VERBOSE_MAKEFILE ON)
+
+# flags
+if ( WITH_DEBUG_MODE )
+  add_definitions ( -DDEBUG_MODE=1 )
+endif ()
+if ( CMAKE_COMPILER_IS_GNUCXX )
+  set (ADD_CXX_FLAGS  "-Wall")
+  set (CMAKE_CXX_FLAGS "-O0 ${ADD_CXX_FLAGS}")
+  set (CMAKE_CXX_FLAGS_DEBUG "-g -O0")
+  set (CMAKE_CXX_FLAGS_RELEASE "-O3 -DNDEBUG")
+else ()
+  message ("Unknown compiler")
+endif ()
+
+foreach (COMP ${COMPS})
+  add_subdirectory (${COMP})
+endforeach ()

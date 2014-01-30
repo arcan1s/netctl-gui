@@ -1,0 +1,8 @@
+#ifndef VERSION_H
+#define VERSION_H
+
+#ifndef PROJ_VERSION
+#define PROJ_VERSION "@PROJECT_VERSION@"
+#endif /* PROJ_VERSION */
+
+#endif /* VERSION_H */
