@@ -1,0 +1,9 @@
+[Global]
+IconName=netctl-gui
+Name=Netctl plasmoid
+Comment=Netctl plasmoid
+
+[Event/NewEvent]
+Name=New event
+Comment=Comment
+Action=Popup
