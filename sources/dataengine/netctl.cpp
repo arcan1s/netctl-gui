@@ -105,7 +105,6 @@ bool Netctl::updateSourceEvent(const QString &source)
     QProcess command;
     QString cmdOutput = QString("");
     QString value = QString("");
-    QStringList valueList;
 
     if (source == QString("currentProfile")) {
         command.start(cmd + QString(" list"));
@@ -133,15 +132,15 @@ bool Netctl::updateSourceEvent(const QString &source)
     }
     else if (source == QString("interfaces")) {
         if (QDir(netDir).exists())
-            valueList = QDir(netDir).entryList(QDir::Dirs);
-        setData(source, QString("value"), valueList);
+            value = QDir(netDir).entryList(QDir::Dirs | QDir::NoDotAndDotDot).join(QString(","));
+        setData(source, QString("value"), value);
     }
     else if (source == QString("intIp")) {
         if (QDir(netDir).exists()) {
-            valueList = QDir(netDir).entryList(QDir::Dirs);
-            for (int i=0; i<valueList.count(); i++) {
+            QStringList netDevices = QDir(netDir).entryList(QDir::Dirs | QDir::NoDotAndDotDot);
+            for (int i=0; i<netDevices.count(); i++) {
                 cmdOutput = QString("");
-                command.start(ipCmd + QString("ip addr show ") + valueList[i]);
+                command.start(ipCmd + QString(" addr show ") + netDevices[i]);
                 command.waitForFinished(-1);
                 cmdOutput = command.readAllStandardOutput();
                 if (cmdOutput != QString("")) {
@@ -158,15 +157,17 @@ bool Netctl::updateSourceEvent(const QString &source)
         command.start(cmd + QString(" list"));
         command.waitForFinished(-1);
         cmdOutput = command.readAllStandardOutput();
+        QStringList list;
         if (cmdOutput != QString("")) {
             QStringList profileList = cmdOutput.split(QString("\n"), QString::SkipEmptyParts);
             for (int i=0; i<profileList.count(); i++)
                 if (profileList[i].split(QString(" "), QString::SkipEmptyParts).count() == 1)
-                    valueList.append(profileList[i].split(QString(" "), QString::SkipEmptyParts)[0]);
+                    list.append(profileList[i].split(QString(" "), QString::SkipEmptyParts)[0]);
                 else if (profileList[i].split(QString(" "), QString::SkipEmptyParts).count() == 2)
-                    valueList.append(profileList[i].split(QString(" "), QString::SkipEmptyParts)[1]);
+                    list.append(profileList[i].split(QString(" "), QString::SkipEmptyParts)[1]);
         }
-        setData(source, QString("value"), valueList);
+        value = list.join(QString(","));
+        setData(source, QString("value"), value);
     }
     else if (source == QString("statusBool")) {
         command.start(cmd + QString(" list"));
