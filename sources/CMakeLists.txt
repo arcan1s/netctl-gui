@@ -12,18 +12,19 @@ set (PROJECT_VERSION_PATCH 0)
 set (PROJECT_VERSION ${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}.${PROJECT_VERSION_PATCH})
 configure_file (${CMAKE_SOURCE_DIR}/version.h.in ${CMAKE_CURRENT_BINARY_DIR}/version.h)
 
-message (STATUS "Version ${PROJECT_VERSION}")
+message (STATUS "Version: ${PROJECT_VERSION}")
 
 # install options
 option (WITH_DEBUG_MODE "Build with debug mode" OFF)
 option (BUILD_GUI "Build GUI" ON)
+option (BUILD_DATAENGINE "Build data engine" ON)
 option (BUILD_PLASMOID "Build plasmoid" ON)
 
 # verbose
 set (CMAKE_VERBOSE_MAKEFILE ON)
 
 # flags
-if ( WITH_DEBUG_MODE )
+if (WITH_DEBUG_MODE)
   add_definitions ( -DDEBUG_MODE=1 )
 endif ()
 if (CMAKE_COMPILER_IS_GNUCXX)
@@ -32,11 +33,18 @@ if (CMAKE_COMPILER_IS_GNUCXX)
   set (CMAKE_CXX_FLAGS_DEBUG "-g -O0")
   set (CMAKE_CXX_FLAGS_RELEASE "-O3 -DNDEBUG")
 else ()
-  message ("Unknown compiler")
+  message (STATUS "Unknown compiler")
+endif ()
+
+if (BUILD_PLASMOID)
+  set (BUILD_DATAENGINE ON)
 endif ()
 
 if (BUILD_GUI)
   add_subdirectory (netctl-gui)
+endif ()
+if (BUILD_DATAENGINE)
+  add_subdirectory (netctl-dataengine)
 endif ()
 if (BUILD_PLASMOID)
   add_subdirectory (netctl-dataengine)

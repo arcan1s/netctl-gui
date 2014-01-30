@@ -3,9 +3,9 @@ file (GLOB SOURCES *.cpp)
 file (GLOB HEADERS *.h)
 file (GLOB FORMS *.ui)
 
-message (STATUS "${SUBPROJECT} SOURCES: ${SOURCES}")
-message (STATUS "${SUBPROJECT} HEADERS: ${HEADERS}")
-message (STATUS "${SUBPROJECT} FORMS: ${FORMS}")
+message (STATUS "${SUBPROJECT} Sources: ${SOURCES}")
+message (STATUS "${SUBPROJECT} Headers: ${HEADERS}")
+message (STATUS "${SUBPROJECT} Forms: ${FORMS}")
 
 # include_path
 include_directories (${SUBPROJECT_SOURCE_DIR}
@@ -26,6 +26,3 @@ target_link_libraries (${SUBPROJECT} ${QT_LIBRARIES} ${QT_QTMAIN_LIBRARY})
 
 # install properties
 install (TARGETS ${SUBPROJECT} DESTINATION bin)
-install (FILES ../${SUBPROJECT}.desktop DESTINATION share/applications/)
-install (FILES ../${SUBPROJECT}-logo.png DESTINATION share/pixmaps/)
-install (FILES ../${SUBPROJECT}.png DESTINATION share/icons/hicolor/32x32/apps/)

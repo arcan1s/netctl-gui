@@ -11,3 +11,7 @@ set (TARGETS "")
 set (HEADERS "")
 
 add_subdirectory (${SUBPROJECT_SOURCE_DIR})
+
+install (FILES ${SUBPROJECT}.desktop DESTINATION share/applications/)
+install (FILES ${SUBPROJECT}-logo.png DESTINATION share/pixmaps/)
+install (FILES ${SUBPROJECT}.png DESTINATION share/icons/hicolor/32x32/apps/)
