@@ -14,9 +14,6 @@ configure_file (${CMAKE_SOURCE_DIR}/version.h.in ${CMAKE_CURRENT_BINARY_DIR}/ver
 
 message (STATUS "Version ${PROJECT_VERSION}")
 
-set (COMPS netctl-gui
-           netctl-monitor)
-
 # install options
 option (WITH_DEBUG_MODE "Build with debug mode" OFF)
 option (BUILD_GUI "Build GUI" ON)
@@ -29,7 +26,7 @@ set (CMAKE_VERBOSE_MAKEFILE ON)
 if ( WITH_DEBUG_MODE )
   add_definitions ( -DDEBUG_MODE=1 )
 endif ()
-if ( CMAKE_COMPILER_IS_GNUCXX )
+if (CMAKE_COMPILER_IS_GNUCXX)
   set (ADD_CXX_FLAGS  "-Wall")
   set (CMAKE_CXX_FLAGS "-O0 ${ADD_CXX_FLAGS}")
   set (CMAKE_CXX_FLAGS_DEBUG "-g -O0")
@@ -38,6 +35,10 @@ else ()
   message ("Unknown compiler")
 endif ()
 
-foreach (COMP ${COMPS})
-  add_subdirectory (${COMP})
-endforeach ()
+if (BUILD_GUI)
+  add_subdirectory (netctl-gui)
+endif ()
+if (BUILD_PLASMOID)
+  add_subdirectory (netctl-dataengine)
+  add_subdirectory (netctl-monitor)
+endif ()
