@@ -49,3 +49,5 @@ endif ()
 if (BUILD_PLASMOID)
   add_subdirectory (plasmoid)
 endif ()
+
+install (FILES netctl-gui.png DESTINATION ls share/pixmaps/netctl-gui.png)
