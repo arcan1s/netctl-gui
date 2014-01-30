@@ -24,7 +24,9 @@
 #include <KNotification>
 #include <QGraphicsLinearLayout>
 #include <QGraphicsSceneMouseEvent>
+#include <Plasma/Frame>
 #include <plasma/theme.h>
+#include <stdio.h>
 
 
 Netctl::Netctl(QObject *parent, const QVariantList &args) :
@@ -32,30 +34,48 @@ Netctl::Netctl(QObject *parent, const QVariantList &args) :
 {
     setBackgroundHints(DefaultBackground);
     setHasConfigurationInterface(true);
+    // text format init
+    formatLine.append("");
+    formatLine.append("");
 }
 
 
 Netctl::~Netctl()
 {
-    delete main_label;
+    delete iconWidget;
+    delete textLabel;
 }
 
 
 void Netctl::init()
 {
     // generate ui
-    // layout
-    QGraphicsLinearLayout *layout = new QGraphicsLinearLayout(this);
-    layout->setOrientation(Qt::Vertical);
+    // main layout
+    QGraphicsLinearLayout *fullSpaceLayout = new QGraphicsLinearLayout();
+    fullSpaceLayout->setContentsMargins(0,0,0,0);
+    setLayout(fullSpaceLayout);
+
+    // frame
+    Plasma::Frame *frame = new Plasma::Frame();
+    QGraphicsLinearLayout *layout = new QGraphicsLinearLayout();
+    layout->setContentsMargins(0,0,0,0);
+    frame->setLayout(layout);
+    fullSpaceLayout->addItem(frame);
+
+    // icon
+    iconWidget = new Plasma::IconWidget(KIcon("/home/arcanis/Documents/github/netctlplasmoid/sources/icons/network-idle-64x64.png"), QString(), this);
+    iconWidget->setIcon(KIcon("/home/arcanis/Documents/github/netctlplasmoid/sources/icons/network-idle-64x64.png"));
+    //    connect(shutdownIcon.iconWidget, SIGNAL(clicked()), this, SLOT(onShutdown()));
+    layout->addItem(iconWidget);
+
     // label
-    layout->addStretch(1);
-    main_label = new Plasma::Label(this);
-    main_label->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
-    main_label->setToolTip(qApp->translate("tooltip", "Click here to update message"));
-    layout->addItem(main_label);
-    layout->addStretch(1);
+    textLabel = new Plasma::Label(this);
+    textLabel->setText("test1\ntest2\ntest3");
+    fullSpaceLayout->addItem(textLabel);
+
     // read variables
     configChanged();
+    this->resize(-1,48);
 }
 
 
@@ -170,8 +190,8 @@ void Netctl::configChanged()
     fontColor = cg.readEntry("fontColor", "#000000");
     fontWeight = cg.readEntry("fontWeight", 400);
     fontStyle = cg.readEntry("fontStyle", "normal");
-    activeIconPath = cg.readEntry("activeIconPath", "/usr/share/icons/hicolor/48x48/apps/network-idle-64x64.png");
-    inactiveIconPath = cg.readEntry("inactiveIconPath", "/usr/share/icons/hicolor/48x48/apps/network-offline-64x64.png");
+    activeIconPath = cg.readEntry("activeIconPath", "/usr/share/icons/hicolor/64x64/apps/network-idle.png");
+    inactiveIconPath = cg.readEntry("inactiveIconPath", "/usr/share/icons/hicolor/64x64/apps/network-offline.png");
 
     formatLine[0] = ("<p align=\"justify\"><span style=\" font-family:'" + fontFamily + \
                      "'; font-style:" + fontStyle + \

@@ -20,6 +20,7 @@
 
 #include <Plasma/Applet>
 #include <Plasma/Label>
+#include <plasma/widgets/iconwidget.h>
 
 #include <ui_configwindow.h>
 
@@ -47,7 +48,8 @@ protected:
 
 private:
     // ui
-    Plasma::Label *main_label;
+    Plasma::IconWidget *iconWidget;
+    Plasma::Label *textLabel;
     QStringList formatLine;
     // configuration
     int autoUpdateInterval;
