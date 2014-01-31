@@ -21,9 +21,11 @@
 #include <KConfigDialog>
 #include <KNotification>
 #include <Plasma/DataEngine>
-#include <QGraphicsLinearLayout>
-
 #include <plasma/theme.h>
+
+#include <QGraphicsLinearLayout>
+#include <QProcess>
+
 #include <stdio.h>
 
 
@@ -35,7 +37,6 @@ Netctl::Netctl(QObject *parent, const QVariantList &args) :
     // text format init
     formatLine.append(QString(""));
     formatLine.append(QString(""));
-    profileStatus = QString("N\\A");
 }
 
 
@@ -68,16 +69,22 @@ void Netctl::init()
     QGraphicsLinearLayout *textLayout = new QGraphicsLinearLayout();
     textLabel = new Plasma::Label();
     textLayout->addItem(textLabel);
+    textFrame->setLayout(textLayout);
+    fullSpaceLayout->addItem(textFrame);
+    textFrame->hide();
+    // stretch
     fullSpaceLayout->addStretch(1);
 
     // read variables
     configChanged();
-    this->resize(150,64);
+//    this->resize(150,64);
 }
 
 
 int Netctl::showGui()
 {
+    QProcess command;
+    command.startDetached(guiPath);
     return 0;
 }
 
@@ -110,7 +117,7 @@ void Netctl::connectToEngine()
             netctlEngine->connectSource(QString("intIp"), this, autoUpdateInterval);
         if (showNetDev)
             netctlEngine->connectSource(QString("interfaces"), this, autoUpdateInterval);
-        fullSpaceLayout->insertItem(1, textFrame);
+        textFrame->show();
     }
 }
 
@@ -129,8 +136,9 @@ void Netctl::disconnectFromEngine()
             netctlEngine->disconnectSource(QString("intIp"), this);
         if (showNetDev)
             netctlEngine->disconnectSource(QString("interfaces"), this);
-        fullSpaceLayout->removeItem(textFrame);
+        textFrame->hide();
     }
+    update();
 }
 
 
@@ -144,6 +152,17 @@ void Netctl::dataUpdated(const QString &sourceName, const Plasma::DataEngine::Da
         if (value == QString(""))
             value = QString("N\\A");
         profileName = value;
+
+        // update text
+        QStringList text;
+        text.append(profileName + QString(" ") + profileStatus);
+        if (showIntIp)
+            text.append(intIp);
+        if (showExtIp)
+            text.append(extIp);
+        if (showNetDev)
+            text.append(interfaces);
+        textLabel->setText(formatLine[0] + text.join(QString("<br>")) + formatLine[1]);
     }
     else if (sourceName == QString("extIp")) {
         if (value == QString(""))
