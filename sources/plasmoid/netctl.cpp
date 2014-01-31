@@ -26,6 +26,7 @@
 #include <QGraphicsLinearLayout>
 #include <QProcess>
 
+// temporary
 #include <stdio.h>
 
 
@@ -77,7 +78,7 @@ void Netctl::init()
 
     // read variables
     configChanged();
-//    this->resize(150,64);
+    resize(150,64);
 }
 
 
@@ -290,12 +291,10 @@ void Netctl::configChanged()
     fontColor = cg.readEntry("fontColor", "#000000");
     fontWeight = cg.readEntry("fontWeight", 400);
     fontStyle = cg.readEntry("fontStyle", "normal");
-    //    activeIconPath = cg.readEntry("activeIconPath", "/usr/share/icons/hicolor/64x64/apps/network-idle.png");
-    //    inactiveIconPath = cg.readEntry("inactiveIconPath", "/usr/share/icons/hicolor/64x64/apps/network-offline.png");
-    activeIconPath = cg.readEntry("activeIconPath", "/home/arcanis/Documents/github/netctlplasmoid/sources/icons/network-idle-64x64.png");
-    inactiveIconPath = cg.readEntry("inactiveIconPath", "/home/arcanis/Documents/github/netctlplasmoid/sources/icons/network-offline-64x64.png");
+    activeIconPath = cg.readEntry("activeIconPath", "/usr/share/icons/hicolor/64x64/apps/network-idle.png");
+    inactiveIconPath = cg.readEntry("inactiveIconPath", "/usr/share/icons/hicolor/64x64/apps/network-offline.png");
 
-    formatLine[0] = ("<p align=\"justify\"><span style=\" font-family:'" + fontFamily + \
+    formatLine[0] = ("<p align=\"center\"><span style=\" font-family:'" + fontFamily + \
                      "'; font-style:" + fontStyle + \
                      "; font-size:" + QString::number(fontSize) + \
                      "pt; font-weight:" + QString::number(fontWeight) + \
