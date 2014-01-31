@@ -89,6 +89,42 @@
         </layout>
        </item>
        <item>
+        <layout class="QHBoxLayout" name="layout_gui">
+         <item>
+          <widget class="QLabel" name="label_gui">
+           <property name="minimumSize">
+            <size>
+             <width>80</width>
+             <height>23</height>
+            </size>
+           </property>
+           <property name="text">
+            <string>Path to GUI</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLineEdit" name="lineEdit_gui"/>
+         </item>
+         <item>
+          <widget class="QPushButton" name="pushButton_gui">
+           <property name="minimumSize">
+            <size>
+             <width>100</width>
+             <height>23</height>
+            </size>
+           </property>
+           <property name="text">
+            <string>Browse</string>
+           </property>
+           <property name="default">
+            <bool>true</bool>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item>
         <widget class="QCheckBox" name="checkBox_showBigInterface">
          <property name="text">
           <string>Show big interface</string>
@@ -538,6 +574,8 @@
  <tabstops>
   <tabstop>tabWidget</tabstop>
   <tabstop>spinBox_autoUpdate</tabstop>
+  <tabstop>lineEdit_gui</tabstop>
+  <tabstop>pushButton_gui</tabstop>
   <tabstop>checkBox_showBigInterface</tabstop>
   <tabstop>checkBox_showNetDev</tabstop>
   <tabstop>checkBox_showExtIp</tabstop>

@@ -107,6 +107,7 @@ void Netctl::createConfigurationInterface(KConfigDialog *parent)
     uiConfig.setupUi(configwin);
 
     uiConfig.spinBox_autoUpdate->setValue(autoUpdateInterval);
+    uiConfig.lineEdit_gui->setText(guiPath);
     if (showBigInterface)
         uiConfig.checkBox_showBigInterface->setCheckState(Qt::Checked);
     else
@@ -148,6 +149,7 @@ void Netctl::configAccepted()
     KConfigGroup cg = config();
 
     cg.writeEntry("autoUpdateInterval", uiConfig.spinBox_autoUpdate->value());
+    cg.writeEntry("guiPath", uiConfig.lineEdit_gui->text());
     if (uiConfig.checkBox_showBigInterface->checkState() == 0)
         cg.writeEntry("showBigInterface", false);
     else
@@ -180,6 +182,7 @@ void Netctl::configChanged()
     KConfigGroup cg = config();
 
     autoUpdateInterval = cg.readEntry("autoUpdateInterval", 1000);
+    guiPath = cg.readEntry("guiPath", "/usr/bin/netctl-gui");
     showBigInterface = cg.readEntry("showBigInterface", true);
     showNetDev = cg.readEntry("showNetDev", true);
     showExtIp = cg.readEntry("showExtIp", true);

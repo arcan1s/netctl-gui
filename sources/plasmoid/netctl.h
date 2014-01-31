@@ -53,6 +53,7 @@ private:
     QStringList formatLine;
     // configuration
     int autoUpdateInterval;
+    QString guiPath;
     bool showBigInterface;
     bool showNetDev;
     bool showExtIp;
