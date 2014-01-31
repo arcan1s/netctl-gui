@@ -37,21 +37,27 @@ public:
     void init();
 
 public slots:
-    // ui
-    int showGui();
-    int sendNotification(QString eventId, int num);
-    // for dataengine
+    // events
+    void showGui();
+    void sendNotification(const QString eventId, const int num);
+    // dataengine
     void dataUpdated(const QString &sourceName, const Plasma::DataEngine::Data &data);
-    // for configuration interface
+    // configuration interface
     void configAccepted();
     void configChanged();
-    int setBigInterface();
+    void setBigInterface();
 
 private slots:
+    // configuration interface
     void selectGuiExe();
     void selectNetctlExe();
     void selectActiveIcon();
     void selectInactiveIcon();
+    // context menu
+    void startProfileSlot();
+    void stopProfileSlot();
+    void restartProfileSlot();
+    void enableProfileAutoloadSlot();
 
 protected:
     void createConfigurationInterface(KConfigDialog *parent);
@@ -66,6 +72,7 @@ private:
     // text
     Plasma::Frame *textFrame;
     Plasma::Label *textLabel;
+    bool status;
     QString profileName;
     QString profileStatus;
     QString intIp;
@@ -74,7 +81,9 @@ private:
     QStringList formatLine;
     // context menu
     void createActions();
+    QList<QAction*> menuActions;
     QAction *startProfile;
+    QAction *stopProfile;
     QAction *restartProfile;
     QAction *enableProfileAutoload;
     // data engine

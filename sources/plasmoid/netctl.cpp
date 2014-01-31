@@ -86,30 +86,86 @@ void Netctl::init()
 }
 
 
+// context menu
+void Netctl::startProfileSlot()
+{
+
+}
+
+
+void Netctl::stopProfileSlot()
+{
+
+}
+
+
+void Netctl::restartProfileSlot()
+{
+
+}
+
+
+void Netctl::enableProfileAutoloadSlot()
+{
+
+}
+
+
 void Netctl::createActions()
 {
-    //    helpAction = new QAction( KIcon( "help-about" ), i18n( "Help" ), this );
-    //    helpAction->setMenu( ( QMenu* ) (new KHelpMenu( NULL, about, false ) )->menu() );
+    menuActions.clear();
+
+    startProfile = new QAction(QString("Start profile"), this);
+    menuActions.append(startProfile);
+
+    stopProfile = new QAction(QString("Stop profile"), this);
+    connect(stopProfile, SIGNAL(triggered(bool)), this, SLOT(stopProfileSlot()));
+    menuActions.append(stopProfile);
+
+    restartProfile = new QAction(QString("Restart profile"), this);
+    connect(restartProfile, SIGNAL(triggered(bool)), this, SLOT(restartProfileSlot()));
+    menuActions.append(restartProfile);
+
+    enableProfileAutoload = new QAction(QString("Enable profile"), this);
+    connect(enableProfileAutoload, SIGNAL(triggered(bool)), this, SLOT(enableProfileAutoloadSlot()));
+    menuActions.append(enableProfileAutoload);
 }
 
 
 QList<QAction*> Netctl::contextualActions()
 {
-    QList<QAction*> menuActions;
+    if (status) {
+        startProfile->setText(QString("Start another profile"));
+        stopProfile->setVisible(true);
+        stopProfile->setText(QString("Stop ") + profileName);
+        restartProfile->setVisible(true);
+        restartProfile->setText(QString("Restart ") + profileName);
+        enableProfileAutoload->setVisible(true);
+        if (profileStatus == QString("(enable"))
+            enableProfileAutoload->setText(QString("Disable ") + profileName);
+        else
+            enableProfileAutoload->setText(QString("Enable ") + profileName);
+    }
+    else {
+        startProfile->setText(QString("Start profile"));
+        stopProfile->setVisible(false);
+        restartProfile->setVisible(false);
+        enableProfileAutoload->setVisible(false);
+    }
 
     return menuActions;
 }
 
 
-int Netctl::showGui()
+// events
+void Netctl::showGui()
 {
     QProcess command;
     command.startDetached(guiPath);
-    return 0;
 }
 
 
-int Netctl::sendNotification(QString eventId, int num)
+void Netctl::sendNotification(const QString eventId, const int num)
 {
     // send notification
     KNotification *notification = new KNotification(eventId);
@@ -118,7 +174,6 @@ int Netctl::sendNotification(QString eventId, int num)
     notification->setText("test");
     notification->sendEvent();
     delete notification;
-    return 0;
 }
 
 
@@ -128,9 +183,9 @@ void Netctl::connectToEngine()
     Plasma::DataEngine *netctlEngine = dataEngine(QString("netctl"));
     netctlEngine->connectSource(QString("profiles"), this, autoUpdateInterval);
     netctlEngine->connectSource(QString("statusBool"), this, autoUpdateInterval);
+    netctlEngine->connectSource(QString("currentProfile"), this, autoUpdateInterval);
+    netctlEngine->connectSource(QString("statusString"), this, autoUpdateInterval);
     if (showBigInterface) {
-        netctlEngine->connectSource(QString("currentProfile"), this, autoUpdateInterval);
-        netctlEngine->connectSource(QString("statusString"), this, autoUpdateInterval);
         if (showExtIp)
             netctlEngine->connectSource(QString("extIp"), this, autoUpdateInterval);
         if (showIntIp)
@@ -147,9 +202,9 @@ void Netctl::disconnectFromEngine()
     Plasma::DataEngine *netctlEngine = dataEngine(QString("netctl"));
     netctlEngine->disconnectSource(QString("profiles"), this);
     netctlEngine->disconnectSource(QString("statusBool"), this);
+    netctlEngine->disconnectSource(QString("currentProfile"), this);
+    netctlEngine->disconnectSource(QString("statusString"), this);
     if (showBigInterface) {
-        netctlEngine->disconnectSource(QString("currentProfile"), this);
-        netctlEngine->disconnectSource(QString("statusString"), this);
         if (showExtIp)
             netctlEngine->disconnectSource(QString("extIp"), this);
         if (showIntIp)
@@ -203,10 +258,14 @@ void Netctl::dataUpdated(const QString &sourceName, const Plasma::DataEngine::Da
         return;
     }
     else if (sourceName == QString("statusBool")) {
-        if (value == QString("true"))
+        if (value == QString("true")) {
+            status = true;
             iconWidget->setIcon(activeIconPath);
-        else
+        }
+        else {
             iconWidget->setIcon(inactiveIconPath);
+            status = false;
+        }
     }
     else if (sourceName == QString("statusString")) {
         profileStatus = QString("(") + value + QString(")");
@@ -369,7 +428,7 @@ void Netctl::configChanged()
 }
 
 
-int Netctl::setBigInterface()
+void Netctl::setBigInterface()
 {
     if (uiConfig.checkBox_showBigInterface->checkState() == 0) {
         uiConfig.checkBox_showNetDev->setDisabled(true);
@@ -381,9 +440,6 @@ int Netctl::setBigInterface()
         uiConfig.checkBox_showExtIp->setEnabled(true);
         uiConfig.checkBox_showIntIp->setEnabled(true);
     }
-    else
-        return 1;
-    return 0;
 }
 
 
