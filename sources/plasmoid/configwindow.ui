@@ -31,6 +31,16 @@
       </attribute>
       <layout class="QVBoxLayout" name="verticalLayout_2">
        <item>
+        <widget class="QLabel" name="label_info">
+         <property name="text">
+          <string/>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+        </widget>
+       </item>
+       <item>
         <layout class="QHBoxLayout" name="layout_autoUpdate">
          <item>
           <widget class="QLabel" name="label_autoUpdate">
@@ -108,6 +118,42 @@
          </item>
          <item>
           <widget class="QPushButton" name="pushButton_gui">
+           <property name="minimumSize">
+            <size>
+             <width>100</width>
+             <height>23</height>
+            </size>
+           </property>
+           <property name="text">
+            <string>Browse</string>
+           </property>
+           <property name="default">
+            <bool>true</bool>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <layout class="QHBoxLayout" name="layout_netctl">
+         <item>
+          <widget class="QLabel" name="label_netctl">
+           <property name="minimumSize">
+            <size>
+             <width>80</width>
+             <height>23</height>
+            </size>
+           </property>
+           <property name="text">
+            <string>Path to netctl</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLineEdit" name="lineEdit_netctl"/>
+         </item>
+         <item>
+          <widget class="QPushButton" name="pushButton_netctl">
            <property name="minimumSize">
             <size>
              <width>100</width>
@@ -576,6 +622,8 @@
   <tabstop>spinBox_autoUpdate</tabstop>
   <tabstop>lineEdit_gui</tabstop>
   <tabstop>pushButton_gui</tabstop>
+  <tabstop>lineEdit_netctl</tabstop>
+  <tabstop>pushButton_netctl</tabstop>
   <tabstop>checkBox_showBigInterface</tabstop>
   <tabstop>checkBox_showNetDev</tabstop>
   <tabstop>checkBox_showExtIp</tabstop>

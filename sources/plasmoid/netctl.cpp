@@ -17,9 +17,12 @@
 
 #include "netctl.h"
 #include "ui_configwindow.h"
+#include <version.h>
 
 #include <KConfigDialog>
+#include <KFileDialog>
 #include <KNotification>
+#include <KUrl>
 #include <Plasma/DataEngine>
 #include <plasma/theme.h>
 
@@ -51,6 +54,7 @@ Netctl::~Netctl()
 
 void Netctl::init()
 {
+    createActions();
     // generate ui
     // main layout
     fullSpaceLayout = new QGraphicsLinearLayout();
@@ -79,6 +83,21 @@ void Netctl::init()
     // read variables
     configChanged();
     resize(150,64);
+}
+
+
+void Netctl::createActions()
+{
+    //    helpAction = new QAction( KIcon( "help-about" ), i18n( "Help" ), this );
+    //    helpAction->setMenu( ( QMenu* ) (new KHelpMenu( NULL, about, false ) )->menu() );
+}
+
+
+QList<QAction*> Netctl::contextualActions()
+{
+    QList<QAction*> menuActions;
+
+    return menuActions;
 }
 
 
@@ -150,7 +169,7 @@ void Netctl::dataUpdated(const QString &sourceName, const Plasma::DataEngine::Da
     QString value = data[QString("value")].toString();;
 
     if (sourceName == QString("currentProfile")) {
-        if (value == QString(""))
+        if (value.isEmpty())
             value = QString("N\\A");
         profileName = value;
 
@@ -166,17 +185,17 @@ void Netctl::dataUpdated(const QString &sourceName, const Plasma::DataEngine::Da
         textLabel->setText(formatLine[0] + text.join(QString("<br>")) + formatLine[1]);
     }
     else if (sourceName == QString("extIp")) {
-        if (value == QString(""))
+        if (value.isEmpty())
             value = QString("N\\A");
         extIp = value;
     }
     else if (sourceName == QString("intIp")) {
-        if (value == QString(""))
+        if (value.isEmpty())
             value = QString("N\\A");
         intIp = value;
     }
     else if (sourceName == QString("interfaces")) {
-        if (value == QString(""))
+        if (value.isEmpty())
             value = QString("N\\A");
         interfaces = value;
     }
@@ -198,13 +217,48 @@ void Netctl::dataUpdated(const QString &sourceName, const Plasma::DataEngine::Da
 
 
 //  configuration interface
+void Netctl::selectGuiExe()
+{
+    KUrl guiUrl = KFileDialog::getOpenUrl(KUrl(), "*");
+    if (!guiUrl.isEmpty())
+        uiConfig.lineEdit_gui->setText(guiUrl.path());
+}
+
+
+void Netctl::selectNetctlExe()
+{
+    KUrl netctlUrl = KFileDialog::getOpenUrl(KUrl(), "*");
+    if (!netctlUrl.isEmpty())
+        uiConfig.lineEdit_netctl->setText(netctlUrl.path());
+}
+
+
+void Netctl::selectActiveIcon()
+{
+    KUrl activeIconUrl = KFileDialog::getOpenUrl(KUrl(), "*");
+    if (!activeIconUrl.isEmpty())
+        uiConfig.lineEdit_activeIcon->setText(activeIconUrl.path());
+}
+
+
+void Netctl::selectInactiveIcon()
+{
+    KUrl inactiveIconUrl = KFileDialog::getOpenUrl(KUrl(), "*");
+    if (!inactiveIconUrl.isEmpty())
+        uiConfig.lineEdit_inactiveIcon->setText(inactiveIconUrl.path());
+}
+
+
 void Netctl::createConfigurationInterface(KConfigDialog *parent)
 {
     QWidget *configwin = new QWidget;
     uiConfig.setupUi(configwin);
+    QString text = QString(NAME) + " - " + QString(VERSION) + "\n" + "(c) " + QString(DATE) + " " + QString(AUTHOR);
+    uiConfig.label_info->setText(text);
 
     uiConfig.spinBox_autoUpdate->setValue(autoUpdateInterval);
     uiConfig.lineEdit_gui->setText(guiPath);
+    uiConfig.lineEdit_netctl->setText(netctlPath);
     if (showBigInterface)
         uiConfig.checkBox_showBigInterface->setCheckState(Qt::Checked);
     else
@@ -236,8 +290,16 @@ void Netctl::createConfigurationInterface(KConfigDialog *parent)
     uiConfig.lineEdit_inactiveIcon->setText(inactiveIconPath);
 
     parent->addPage(configwin, i18n("Netctl plasmoid"), Applet::icon());
-    connect(parent, SIGNAL(okClicked()), this, SLOT(configAccepted()));
+
     connect(uiConfig.checkBox_showBigInterface, SIGNAL(stateChanged(int)), this, SLOT(setBigInterface()));
+
+    connect(uiConfig.pushButton_gui, SIGNAL(clicked()), this, SLOT(selectGuiExe()));
+    connect(uiConfig.pushButton_netctl, SIGNAL(clicked()), this, SLOT(selectNetctlExe()));
+    connect(uiConfig.pushButton_activeIcon, SIGNAL(clicked()), this, SLOT(selectActiveIcon()));
+    connect(uiConfig.pushButton_inactiveIcon, SIGNAL(clicked()), this, SLOT(selectInactiveIcon()));
+
+    connect(parent, SIGNAL(okClicked()), this, SLOT(configAccepted()));
+    connect(parent, SIGNAL(applyClicked()), this, SLOT(configAccepted()));
 }
 
 
@@ -248,6 +310,7 @@ void Netctl::configAccepted()
 
     cg.writeEntry("autoUpdateInterval", uiConfig.spinBox_autoUpdate->value());
     cg.writeEntry("guiPath", uiConfig.lineEdit_gui->text());
+    cg.writeEntry("netctlPath", uiConfig.lineEdit_netctl->text());
     if (uiConfig.checkBox_showBigInterface->checkState() == 0)
         cg.writeEntry("showBigInterface", false);
     else
@@ -281,6 +344,7 @@ void Netctl::configChanged()
 
     autoUpdateInterval = cg.readEntry("autoUpdateInterval", 1000);
     guiPath = cg.readEntry("guiPath", "/usr/bin/netctl-gui");
+    netctlPath = cg.readEntry("netctlPath", "/usr/bin/netctl");
     showBigInterface = cg.readEntry("showBigInterface", true);
     showNetDev = cg.readEntry("showNetDev", true);
     showExtIp = cg.readEntry("showExtIp", true);

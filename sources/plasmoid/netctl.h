@@ -47,8 +47,15 @@ public slots:
     void configChanged();
     int setBigInterface();
 
+private slots:
+    void selectGuiExe();
+    void selectNetctlExe();
+    void selectActiveIcon();
+    void selectInactiveIcon();
+
 protected:
     void createConfigurationInterface(KConfigDialog *parent);
+    QList<QAction*> contextualActions();
 
 private:
     // ui
@@ -65,6 +72,11 @@ private:
     QString extIp;
     QString interfaces;
     QStringList formatLine;
+    // context menu
+    void createActions();
+    QAction *startProfile;
+    QAction *restartProfile;
+    QAction *enableProfileAutoload;
     // data engine
     void connectToEngine();
     void disconnectFromEngine();
@@ -73,6 +85,7 @@ private:
     // configuration
     int autoUpdateInterval;
     QString guiPath;
+    QString netctlPath;
     bool showBigInterface;
     bool showNetDev;
     bool showExtIp;
