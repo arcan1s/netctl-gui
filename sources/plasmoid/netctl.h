@@ -36,8 +36,11 @@ public:
     void init();
 
 public slots:
+    // ui
     void mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event);
     int sendNotification(QString eventId, int num);
+    // for dataengine
+    void dataUpdated(const QString &sourceName, const Plasma::DataEngine::Data &data);
     // for configuration interface
     void configAccepted();
     void configChanged();
@@ -51,6 +54,10 @@ private:
     Plasma::IconWidget *iconWidget;
     Plasma::Label *textLabel;
     QStringList formatLine;
+    // data engine
+    void connectToEngine();
+    // configuration interface
+    Ui::ConfigWindow uiConfig;
     // configuration
     int autoUpdateInterval;
     QString guiPath;
@@ -65,8 +72,6 @@ private:
     QString fontStyle;
     QString activeIconPath;
     QString inactiveIconPath;
-    // configuration interface
-    Ui::ConfigWindow uiConfig;
 };
 
 K_EXPORT_PLASMA_APPLET(netctl, Netctl)

@@ -200,15 +200,19 @@ bool Netctl::updateSourceEvent(const QString &source)
         command.start(cmd + QString(" status ") + currentProfile);
         command.waitForFinished(-1);
         cmdOutput = command.readAllStandardOutput();
-        value = QString("static");
         if (cmdOutput != QString("")) {
             QStringList profile = cmdOutput.split(QString("\n"), QString::SkipEmptyParts);
             for (int i=0; i<profile.count(); i++)
-                if (profile[i].split(QString(" "), QString::SkipEmptyParts)[0] == QString("Loaded:"))
+                if (profile[i].split(QString(" "), QString::SkipEmptyParts)[0] == QString("Loaded:")) {
                     if (profile[i].indexOf(QString("enabled")) > -1) {
                         value = QString("enabled");
                         break;
                     }
+                    else if (profile[i].indexOf(QString("static")) > -1) {
+                        value = QString("static");
+                        break;
+                    }
+                }
         }
         setData(source, QString("value"), value);
     }

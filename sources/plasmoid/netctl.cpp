@@ -24,6 +24,7 @@
 #include <KNotification>
 #include <QGraphicsLinearLayout>
 #include <QGraphicsSceneMouseEvent>
+#include <Plasma/DataEngine>
 #include <Plasma/Frame>
 #include <plasma/theme.h>
 #include <stdio.h>
@@ -75,7 +76,11 @@ void Netctl::init()
 
     // read variables
     configChanged();
-    this->resize(-1,48);
+    this->resize(100,48);
+
+    // connect to dataengine
+    connectToEngine();
+    printf ("done init\n");
 }
 
 
@@ -97,6 +102,39 @@ int Netctl::sendNotification(QString eventId, int num)
     notification->sendEvent();
     delete notification;
     return 0;
+}
+
+
+// data engine interaction
+void Netctl::connectToEngine()
+{
+    printf ("source\n");
+    Plasma::DataEngine *netctlEngine = dataEngine(QString("netctl"));
+    netctlEngine->connectSource(QString("currentProfile"), this, autoUpdateInterval);
+    netctlEngine->connectSource(QString("extIp"), this, autoUpdateInterval);
+    netctlEngine->connectSource(QString("interfaces"), this, autoUpdateInterval);
+    netctlEngine->connectSource(QString("intIp"), this, autoUpdateInterval);
+    netctlEngine->connectSource(QString("profiles"), this, autoUpdateInterval);
+    netctlEngine->connectSource(QString("statusBool"), this, autoUpdateInterval);
+    netctlEngine->connectSource(QString("statusString"), this, autoUpdateInterval);
+}
+
+
+void Netctl::dataUpdated(const QString &sourceName, const Plasma::DataEngine::Data &data)
+{
+    if (data.keys().count() == 0)
+        return;
+    QString value;
+    printf ("dataupdate\n");
+
+    if (sourceName == QString("currentProfile"))
+    {
+        value = data[QString("value")].toString();
+        if (value == QString(""))
+            value = QString("N\\A");
+        textLabel->setText(value);
+    }
+    update();
 }
 
 
