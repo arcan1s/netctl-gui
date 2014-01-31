@@ -137,19 +137,21 @@ bool Netctl::updateSourceEvent(const QString &source)
     }
     else if (source == QString("intIp")) {
         if (QDir(netDir).exists()) {
+            value = QString("127.0.0.1/8");
             QStringList netDevices = QDir(netDir).entryList(QDir::Dirs | QDir::NoDotAndDotDot);
-            for (int i=0; i<netDevices.count(); i++) {
-                cmdOutput = QString("");
-                command.start(ipCmd + QString(" addr show ") + netDevices[i]);
-                command.waitForFinished(-1);
-                cmdOutput = command.readAllStandardOutput();
-                if (cmdOutput != QString("")) {
-                    QStringList deviceInfo = cmdOutput.split(QString("\n"), QString::SkipEmptyParts);
-                    for (int j=0; j<deviceInfo.count(); j++)
-                        if (deviceInfo[j].split(QString(" "), QString::SkipEmptyParts)[0] == QString("inet"))
-                            value = deviceInfo[j].split(QString(" "), QString::SkipEmptyParts)[1];
+            for (int i=0; i<netDevices.count(); i++)
+                if (netDevices[i] != QString("lo")) {
+                    cmdOutput = QString("");
+                    command.start(ipCmd + QString(" addr show ") + netDevices[i]);
+                    command.waitForFinished(-1);
+                    cmdOutput = command.readAllStandardOutput();
+                    if (cmdOutput != QString("")) {
+                        QStringList deviceInfo = cmdOutput.split(QString("\n"), QString::SkipEmptyParts);
+                        for (int j=0; j<deviceInfo.count(); j++)
+                            if (deviceInfo[j].split(QString(" "), QString::SkipEmptyParts)[0] == QString("inet"))
+                                value = deviceInfo[j].split(QString(" "), QString::SkipEmptyParts)[1];
+                    }
                 }
-            }
         }
         setData(source, QString("value"), value);
     }

@@ -19,8 +19,9 @@
 #define NETCTL_PLASMOID_H
 
 #include <Plasma/Applet>
+#include <Plasma/Frame>
+#include <Plasma/IconWidget>
 #include <Plasma/Label>
-#include <plasma/widgets/iconwidget.h>
 
 #include <ui_configwindow.h>
 
@@ -37,7 +38,7 @@ public:
 
 public slots:
     // ui
-    void mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event);
+    int showGui();
     int sendNotification(QString eventId, int num);
     // for dataengine
     void dataUpdated(const QString &sourceName, const Plasma::DataEngine::Data &data);
@@ -51,11 +52,22 @@ protected:
 
 private:
     // ui
+    QGraphicsLinearLayout *fullSpaceLayout;
+    // icon
+    Plasma::Frame *iconFrame;
     Plasma::IconWidget *iconWidget;
+    // text
+    Plasma::Frame *textFrame;
     Plasma::Label *textLabel;
+    QString profileName;
+    QString profileStatus;
+    QString intIp;
+    QString extIp;
+    QString interfaces;
     QStringList formatLine;
     // data engine
     void connectToEngine();
+    void disconnectFromEngine();
     // configuration interface
     Ui::ConfigWindow uiConfig;
     // configuration

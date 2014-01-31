@@ -18,14 +18,11 @@
 #include "netctl.h"
 #include "ui_configwindow.h"
 
-#include <cstdlib>
-#include <ctime>
 #include <KConfigDialog>
 #include <KNotification>
-#include <QGraphicsLinearLayout>
-#include <QGraphicsSceneMouseEvent>
 #include <Plasma/DataEngine>
-#include <Plasma/Frame>
+#include <QGraphicsLinearLayout>
+
 #include <plasma/theme.h>
 #include <stdio.h>
 
@@ -36,15 +33,17 @@ Netctl::Netctl(QObject *parent, const QVariantList &args) :
     setBackgroundHints(DefaultBackground);
     setHasConfigurationInterface(true);
     // text format init
-    formatLine.append("");
-    formatLine.append("");
+    formatLine.append(QString(""));
+    formatLine.append(QString(""));
+    profileStatus = QString("N\\A");
 }
 
 
 Netctl::~Netctl()
 {
     delete iconWidget;
-    delete textLabel;
+    delete iconFrame;
+    delete textFrame;
 }
 
 
@@ -52,43 +51,34 @@ void Netctl::init()
 {
     // generate ui
     // main layout
-    QGraphicsLinearLayout *fullSpaceLayout = new QGraphicsLinearLayout();
-    fullSpaceLayout->setContentsMargins(0,0,0,0);
+    fullSpaceLayout = new QGraphicsLinearLayout();
     setLayout(fullSpaceLayout);
 
-    // frame
-    Plasma::Frame *frame = new Plasma::Frame();
-    QGraphicsLinearLayout *layout = new QGraphicsLinearLayout();
-    layout->setContentsMargins(0,0,0,0);
-    frame->setLayout(layout);
-    fullSpaceLayout->addItem(frame);
-
+    // frames
     // icon
-    iconWidget = new Plasma::IconWidget(KIcon("/home/arcanis/Documents/github/netctlplasmoid/sources/icons/network-idle-64x64.png"), QString(), this);
-    iconWidget->setIcon(KIcon("/home/arcanis/Documents/github/netctlplasmoid/sources/icons/network-idle-64x64.png"));
-    //    connect(shutdownIcon.iconWidget, SIGNAL(clicked()), this, SLOT(onShutdown()));
-    layout->addItem(iconWidget);
-
-    // label
-    textLabel = new Plasma::Label(this);
-    textLabel->setText("test1\ntest2\ntest3");
-    fullSpaceLayout->addItem(textLabel);
+    iconFrame = new Plasma::Frame();
+    QGraphicsLinearLayout *iconLayout = new QGraphicsLinearLayout();
+    iconWidget = new Plasma::IconWidget(KIcon(""), QString(), this);
+    connect(iconWidget, SIGNAL(doubleClicked()), this, SLOT(showGui()));
+    iconFrame->setLayout(iconLayout);
+    iconLayout->addItem(iconWidget);
+    fullSpaceLayout->addItem(iconFrame);
+    // text
+    textFrame = new Plasma::Frame();
+    QGraphicsLinearLayout *textLayout = new QGraphicsLinearLayout();
+    textLabel = new Plasma::Label();
+    textLayout->addItem(textLabel);
+    fullSpaceLayout->addStretch(1);
 
     // read variables
     configChanged();
-    this->resize(100,48);
-
-    // connect to dataengine
-    connectToEngine();
-    printf ("done init\n");
+    this->resize(150,64);
 }
 
 
-void Netctl::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event)
+int Netctl::showGui()
 {
-    // mouse double click event
-    // add gui support
-    return;
+    return 0;
 }
 
 
@@ -108,15 +98,39 @@ int Netctl::sendNotification(QString eventId, int num)
 // data engine interaction
 void Netctl::connectToEngine()
 {
-    printf ("source\n");
     Plasma::DataEngine *netctlEngine = dataEngine(QString("netctl"));
-    netctlEngine->connectSource(QString("currentProfile"), this, autoUpdateInterval);
-    netctlEngine->connectSource(QString("extIp"), this, autoUpdateInterval);
-    netctlEngine->connectSource(QString("interfaces"), this, autoUpdateInterval);
-    netctlEngine->connectSource(QString("intIp"), this, autoUpdateInterval);
     netctlEngine->connectSource(QString("profiles"), this, autoUpdateInterval);
     netctlEngine->connectSource(QString("statusBool"), this, autoUpdateInterval);
-    netctlEngine->connectSource(QString("statusString"), this, autoUpdateInterval);
+    if (showBigInterface) {
+        netctlEngine->connectSource(QString("currentProfile"), this, autoUpdateInterval);
+        netctlEngine->connectSource(QString("statusString"), this, autoUpdateInterval);
+        if (showExtIp)
+            netctlEngine->connectSource(QString("extIp"), this, autoUpdateInterval);
+        if (showIntIp)
+            netctlEngine->connectSource(QString("intIp"), this, autoUpdateInterval);
+        if (showNetDev)
+            netctlEngine->connectSource(QString("interfaces"), this, autoUpdateInterval);
+        fullSpaceLayout->insertItem(1, textFrame);
+    }
+}
+
+
+void Netctl::disconnectFromEngine()
+{
+    Plasma::DataEngine *netctlEngine = dataEngine(QString("netctl"));
+    netctlEngine->disconnectSource(QString("profiles"), this);
+    netctlEngine->disconnectSource(QString("statusBool"), this);
+    if (showBigInterface) {
+        netctlEngine->disconnectSource(QString("currentProfile"), this);
+        netctlEngine->disconnectSource(QString("statusString"), this);
+        if (showExtIp)
+            netctlEngine->disconnectSource(QString("extIp"), this);
+        if (showIntIp)
+            netctlEngine->disconnectSource(QString("intIp"), this);
+        if (showNetDev)
+            netctlEngine->disconnectSource(QString("interfaces"), this);
+        fullSpaceLayout->removeItem(textFrame);
+    }
 }
 
 
@@ -124,16 +138,41 @@ void Netctl::dataUpdated(const QString &sourceName, const Plasma::DataEngine::Da
 {
     if (data.keys().count() == 0)
         return;
-    QString value;
-    printf ("dataupdate\n");
+    QString value = data[QString("value")].toString();;
 
-    if (sourceName == QString("currentProfile"))
-    {
-        value = data[QString("value")].toString();
+    if (sourceName == QString("currentProfile")) {
         if (value == QString(""))
             value = QString("N\\A");
-        textLabel->setText(value);
+        profileName = value;
     }
+    else if (sourceName == QString("extIp")) {
+        if (value == QString(""))
+            value = QString("N\\A");
+        extIp = value;
+    }
+    else if (sourceName == QString("intIp")) {
+        if (value == QString(""))
+            value = QString("N\\A");
+        intIp = value;
+    }
+    else if (sourceName == QString("interfaces")) {
+        if (value == QString(""))
+            value = QString("N\\A");
+        interfaces = value;
+    }
+    else if (sourceName == QString("profiles")) {
+        return;
+    }
+    else if (sourceName == QString("statusBool")) {
+        if (value == QString("true"))
+            iconWidget->setIcon(activeIconPath);
+        else
+            iconWidget->setIcon(inactiveIconPath);
+    }
+    else if (sourceName == QString("statusString")) {
+        profileStatus = QString("(") + value + QString(")");
+    }
+
     update();
 }
 
@@ -184,6 +223,7 @@ void Netctl::createConfigurationInterface(KConfigDialog *parent)
 
 void Netctl::configAccepted()
 {
+    disconnectFromEngine();
     KConfigGroup cg = config();
 
     cg.writeEntry("autoUpdateInterval", uiConfig.spinBox_autoUpdate->value());
@@ -231,8 +271,10 @@ void Netctl::configChanged()
     fontColor = cg.readEntry("fontColor", "#000000");
     fontWeight = cg.readEntry("fontWeight", 400);
     fontStyle = cg.readEntry("fontStyle", "normal");
-    activeIconPath = cg.readEntry("activeIconPath", "/usr/share/icons/hicolor/64x64/apps/network-idle.png");
-    inactiveIconPath = cg.readEntry("inactiveIconPath", "/usr/share/icons/hicolor/64x64/apps/network-offline.png");
+    //    activeIconPath = cg.readEntry("activeIconPath", "/usr/share/icons/hicolor/64x64/apps/network-idle.png");
+    //    inactiveIconPath = cg.readEntry("inactiveIconPath", "/usr/share/icons/hicolor/64x64/apps/network-offline.png");
+    activeIconPath = cg.readEntry("activeIconPath", "/home/arcanis/Documents/github/netctlplasmoid/sources/icons/network-idle-64x64.png");
+    inactiveIconPath = cg.readEntry("inactiveIconPath", "/home/arcanis/Documents/github/netctlplasmoid/sources/icons/network-offline-64x64.png");
 
     formatLine[0] = ("<p align=\"justify\"><span style=\" font-family:'" + fontFamily + \
                      "'; font-style:" + fontStyle + \
@@ -241,6 +283,7 @@ void Netctl::configChanged()
                      "; color:" + fontColor + \
                      ";\">");
     formatLine[1] = ("</span></p>");
+    connectToEngine();
 }
 
 
