@@ -23,12 +23,11 @@
 #include <KFileDialog>
 #include <KNotification>
 #include <KUrl>
-#include <Plasma/DataEngine>
 #include <plasma/theme.h>
 
 #include <QGraphicsLinearLayout>
 #include <QMenu>
-#include <QProcess>
+#include <cstdio>
 
 
 Netctl::Netctl(QObject *parent, const QVariantList &args) :
@@ -44,14 +43,23 @@ Netctl::Netctl(QObject *parent, const QVariantList &args) :
 
 Netctl::~Netctl()
 {
+    delete startProfileMenu;
+    delete startProfile;
+    delete stopProfile;
+    delete restartProfile;
+    delete enableProfileAutoload;
+
     delete iconWidget;
     delete iconFrame;
     delete textFrame;
+
+    delete netctlEngine;
 }
 
 
 void Netctl::init()
 {
+    netctlEngine = dataEngine(QString("netctl"));
     createActions();
     // generate ui
     // main layout
@@ -80,12 +88,11 @@ void Netctl::init()
 
     // read variables
     configChanged();
-    resize(150,64);
 }
 
 
 // context menu
-void Netctl::startProfileSlot(QAction *action)
+void Netctl::startProfileSlot(QAction *profile)
 {
     QProcess command;
     QString commandLine;
@@ -93,9 +100,9 @@ void Netctl::startProfileSlot(QAction *action)
     if (status)
         commandLine = netctlPath + QString(" stop ") + profileName +  QString(" && ");
     if (useSudo)
-        commandLine = sudoPath + QString(" \"") + commandLine + netctlPath + QString(" start ") + action->text().mid(1) + QString("\"");
+        commandLine = sudoPath + QString(" \"") + commandLine + netctlPath + QString(" start ") + profile->text().mid(1) + QString("\"");
     else
-        commandLine = commandLine + netctlPath + QString(" start ") + action->text().mid(1);
+        commandLine = commandLine + netctlPath + QString(" start ") + profile->text().mid(1);
     command.startDetached(commandLine);
 }
 
@@ -191,7 +198,6 @@ QList<QAction*> Netctl::contextualActions()
         startProfileMenu->addAction(profile);
     }
 
-
     return menuActions;
 }
 
@@ -204,12 +210,12 @@ void Netctl::showGui()
 }
 
 
-void Netctl::sendNotification(const QString eventId, const int num)
+void Netctl::sendNotification(const QString eventId, const QString message)
 {
     KNotification *notification = new KNotification(eventId);
     notification->setComponentData(KComponentData("plasma_applet_netctl"));
-    notification->setTitle(QString(i18n("Netctl plasmoid")));
-    notification->setText("test");
+    notification->setTitle(eventId);
+    notification->setText(message);
     notification->sendEvent();
     delete notification;
 }
@@ -218,7 +224,6 @@ void Netctl::sendNotification(const QString eventId, const int num)
 // data engine interaction
 void Netctl::connectToEngine()
 {
-    Plasma::DataEngine *netctlEngine = dataEngine(QString("netctl"));
     netctlEngine->connectSource(QString("profiles"), this, autoUpdateInterval);
     netctlEngine->connectSource(QString("statusBool"), this, autoUpdateInterval);
     netctlEngine->connectSource(QString("currentProfile"), this, autoUpdateInterval);
@@ -237,7 +242,6 @@ void Netctl::connectToEngine()
 
 void Netctl::disconnectFromEngine()
 {
-    Plasma::DataEngine *netctlEngine = dataEngine(QString("netctl"));
     netctlEngine->disconnectSource(QString("profiles"), this);
     netctlEngine->disconnectSource(QString("statusBool"), this);
     netctlEngine->disconnectSource(QString("currentProfile"), this);
@@ -455,7 +459,7 @@ void Netctl::configChanged()
     showIntIp = cg.readEntry("showIntIp", true);
 
     fontFamily = cg.readEntry("fontFamily", "Terminus");
-    fontSize = cg.readEntry("fontSize", 12);
+    fontSize = cg.readEntry("fontSize", 10);
     fontColor = cg.readEntry("fontColor", "#000000");
     fontWeight = cg.readEntry("fontWeight", 400);
     fontStyle = cg.readEntry("fontStyle", "normal");

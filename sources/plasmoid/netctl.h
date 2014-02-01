@@ -19,9 +19,11 @@
 #define NETCTL_PLASMOID_H
 
 #include <Plasma/Applet>
+#include <Plasma/DataEngine>
 #include <Plasma/Frame>
 #include <Plasma/IconWidget>
 #include <Plasma/Label>
+#include <QProcess>
 
 #include <ui_configwindow.h>
 
@@ -39,7 +41,7 @@ public:
 public slots:
     // events
     void showGui();
-    void sendNotification(const QString eventId, const int num);
+    void sendNotification(const QString eventId, const QString message);
     // dataengine
     void dataUpdated(const QString &sourceName, const Plasma::DataEngine::Data &data);
     // configuration interface
@@ -55,7 +57,7 @@ private slots:
     void selectActiveIcon();
     void selectInactiveIcon();
     // context menu
-    void startProfileSlot(QAction *action);
+    void startProfileSlot(QAction *profile);
     void stopProfileSlot();
     void restartProfileSlot();
     void enableProfileAutoloadSlot();
@@ -90,8 +92,11 @@ private:
     QAction *restartProfile;
     QAction *enableProfileAutoload;
     // data engine
+    Plasma::DataEngine *netctlEngine;
     void connectToEngine();
     void disconnectFromEngine();
+    // notification
+
     // configuration interface
     Ui::ConfigWindow uiConfig;
     // configuration
