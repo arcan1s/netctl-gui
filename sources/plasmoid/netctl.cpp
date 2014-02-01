@@ -27,10 +27,8 @@
 #include <plasma/theme.h>
 
 #include <QGraphicsLinearLayout>
+#include <QMenu>
 #include <QProcess>
-
-// temporary
-#include <stdio.h>
 
 
 Netctl::Netctl(QObject *parent, const QVariantList &args) :
@@ -87,27 +85,58 @@ void Netctl::init()
 
 
 // context menu
-void Netctl::startProfileSlot()
+void Netctl::startProfileSlot(QAction *action)
 {
-
+    QProcess command;
+    QString commandLine;
+    commandLine = QString("");
+    if (status)
+        commandLine = netctlPath + QString(" stop ") + profileName +  QString(" && ");
+    if (useSudo)
+        commandLine = sudoPath + QString(" \"") + commandLine + netctlPath + QString(" start ") + action->text().mid(1) + QString("\"");
+    else
+        commandLine = commandLine + netctlPath + QString(" start ") + action->text().mid(1);
+    command.startDetached(commandLine);
 }
 
 
 void Netctl::stopProfileSlot()
 {
-
+    QProcess command;
+    QString commandLine;
+    if (useSudo)
+        commandLine = sudoPath + QString(" \"") + netctlPath + QString(" stop ") + profileName + QString("\"");
+    else
+        commandLine = netctlPath + QString(" stop ") + profileName;
+    command.startDetached(commandLine);
 }
 
 
 void Netctl::restartProfileSlot()
 {
-
+    QProcess command;
+    QString commandLine;
+    if (useSudo)
+        commandLine = sudoPath + QString(" \"") + netctlPath + QString(" restart ") + profileName + QString("\"");
+    else
+        commandLine = netctlPath + QString(" restart ") + profileName;
+    command.startDetached(commandLine);
 }
 
 
 void Netctl::enableProfileAutoloadSlot()
 {
-
+    QProcess command;
+    QString commandLine, enableStatus;
+    if (profileStatus == QString("(enable"))
+        enableStatus = QString("disable");
+    else
+        enableStatus = QString("enable");
+    if (useSudo)
+        commandLine = sudoPath + QString(" \"") + netctlPath + enableStatus + profileName + QString("\"");
+    else
+        commandLine = netctlPath + enableStatus + profileName;
+    command.startDetached(commandLine);
 }
 
 
@@ -116,6 +145,9 @@ void Netctl::createActions()
     menuActions.clear();
 
     startProfile = new QAction(QString("Start profile"), this);
+    startProfileMenu = new QMenu(NULL);
+    startProfile->setMenu(startProfileMenu);
+    connect(startProfileMenu, SIGNAL(triggered(QAction *)), this, SLOT(startProfileSlot(QAction *)));
     menuActions.append(startProfile);
 
     stopProfile = new QAction(QString("Stop profile"), this);
@@ -153,6 +185,13 @@ QList<QAction*> Netctl::contextualActions()
         enableProfileAutoload->setVisible(false);
     }
 
+    startProfileMenu->clear();
+    for (int i=0; i<profileList.count(); i++) {
+        QAction *profile = new QAction(profileList[i], this);
+        startProfileMenu->addAction(profile);
+    }
+
+
     return menuActions;
 }
 
@@ -167,7 +206,6 @@ void Netctl::showGui()
 
 void Netctl::sendNotification(const QString eventId, const int num)
 {
-    // send notification
     KNotification *notification = new KNotification(eventId);
     notification->setComponentData(KComponentData("plasma_applet_netctl"));
     notification->setTitle(QString(i18n("Netctl plasmoid")));
@@ -222,10 +260,10 @@ void Netctl::dataUpdated(const QString &sourceName, const Plasma::DataEngine::Da
     if (data.keys().count() == 0)
         return;
     QString value = data[QString("value")].toString();;
+    if (value.isEmpty())
+        value = QString("N\\A");
 
     if (sourceName == QString("currentProfile")) {
-        if (value.isEmpty())
-            value = QString("N\\A");
         profileName = value;
 
         // update text
@@ -240,22 +278,16 @@ void Netctl::dataUpdated(const QString &sourceName, const Plasma::DataEngine::Da
         textLabel->setText(formatLine[0] + text.join(QString("<br>")) + formatLine[1]);
     }
     else if (sourceName == QString("extIp")) {
-        if (value.isEmpty())
-            value = QString("N\\A");
         extIp = value;
     }
     else if (sourceName == QString("intIp")) {
-        if (value.isEmpty())
-            value = QString("N\\A");
         intIp = value;
     }
     else if (sourceName == QString("interfaces")) {
-        if (value.isEmpty())
-            value = QString("N\\A");
         interfaces = value;
     }
     else if (sourceName == QString("profiles")) {
-        return;
+        profileList = value.split(QString(","));
     }
     else if (sourceName == QString("statusBool")) {
         if (value == QString("true")) {
@@ -318,6 +350,11 @@ void Netctl::createConfigurationInterface(KConfigDialog *parent)
     uiConfig.spinBox_autoUpdate->setValue(autoUpdateInterval);
     uiConfig.lineEdit_gui->setText(guiPath);
     uiConfig.lineEdit_netctl->setText(netctlPath);
+    if (useSudo)
+        uiConfig.checkBox_sudo->setCheckState(Qt::Checked);
+    else
+        uiConfig.checkBox_sudo->setCheckState(Qt::Unchecked);
+    uiConfig.lineEdit_sudo->setText(sudoPath);
     if (showBigInterface)
         uiConfig.checkBox_showBigInterface->setCheckState(Qt::Checked);
     else
@@ -351,6 +388,7 @@ void Netctl::createConfigurationInterface(KConfigDialog *parent)
     parent->addPage(configwin, i18n("Netctl plasmoid"), Applet::icon());
 
     connect(uiConfig.checkBox_showBigInterface, SIGNAL(stateChanged(int)), this, SLOT(setBigInterface()));
+    connect(uiConfig.checkBox_sudo, SIGNAL(stateChanged(int)), this, SLOT(setSudo()));
 
     connect(uiConfig.pushButton_gui, SIGNAL(clicked()), this, SLOT(selectGuiExe()));
     connect(uiConfig.pushButton_netctl, SIGNAL(clicked()), this, SLOT(selectNetctlExe()));
@@ -370,6 +408,11 @@ void Netctl::configAccepted()
     cg.writeEntry("autoUpdateInterval", uiConfig.spinBox_autoUpdate->value());
     cg.writeEntry("guiPath", uiConfig.lineEdit_gui->text());
     cg.writeEntry("netctlPath", uiConfig.lineEdit_netctl->text());
+    if (uiConfig.checkBox_sudo->checkState() == 0)
+        cg.writeEntry("useSudo", false);
+    else
+        cg.writeEntry("useSudo", true);
+    cg.writeEntry("sudoPath", uiConfig.lineEdit_sudo->text());
     if (uiConfig.checkBox_showBigInterface->checkState() == 0)
         cg.writeEntry("showBigInterface", false);
     else
@@ -404,6 +447,8 @@ void Netctl::configChanged()
     autoUpdateInterval = cg.readEntry("autoUpdateInterval", 1000);
     guiPath = cg.readEntry("guiPath", "/usr/bin/netctl-gui");
     netctlPath = cg.readEntry("netctlPath", "/usr/bin/netctl");
+    useSudo = cg.readEntry("useSudo", true);
+    sudoPath = cg.readEntry("sudoPath", "/usr/bin/kdesu -c");
     showBigInterface = cg.readEntry("showBigInterface", true);
     showNetDev = cg.readEntry("showNetDev", true);
     showExtIp = cg.readEntry("showExtIp", true);
@@ -440,6 +485,15 @@ void Netctl::setBigInterface()
         uiConfig.checkBox_showExtIp->setEnabled(true);
         uiConfig.checkBox_showIntIp->setEnabled(true);
     }
+}
+
+
+void Netctl::setSudo()
+{
+    if (uiConfig.checkBox_sudo->checkState() == 0)
+        uiConfig.lineEdit_sudo->setDisabled(true);
+    else if (uiConfig.checkBox_showBigInterface->checkState() == 2)
+        uiConfig.lineEdit_sudo->setEnabled(true);
 }
 
 

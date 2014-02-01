@@ -46,7 +46,7 @@
           <widget class="QLabel" name="label_autoUpdate">
            <property name="minimumSize">
             <size>
-             <width>100</width>
+             <width>150</width>
              <height>23</height>
             </size>
            </property>
@@ -167,6 +167,29 @@
             <bool>true</bool>
            </property>
           </widget>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <layout class="QHBoxLayout" name="layout_sudo">
+         <item>
+          <widget class="QCheckBox" name="checkBox_sudo">
+           <property name="minimumSize">
+            <size>
+             <width>150</width>
+             <height>23</height>
+            </size>
+           </property>
+           <property name="text">
+            <string>Use sudo for netctl</string>
+           </property>
+           <property name="checked">
+            <bool>true</bool>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLineEdit" name="lineEdit_sudo"/>
          </item>
         </layout>
        </item>
@@ -624,6 +647,8 @@
   <tabstop>pushButton_gui</tabstop>
   <tabstop>lineEdit_netctl</tabstop>
   <tabstop>pushButton_netctl</tabstop>
+  <tabstop>checkBox_sudo</tabstop>
+  <tabstop>lineEdit_sudo</tabstop>
   <tabstop>checkBox_showBigInterface</tabstop>
   <tabstop>checkBox_showNetDev</tabstop>
   <tabstop>checkBox_showExtIp</tabstop>

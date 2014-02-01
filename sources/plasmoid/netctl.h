@@ -46,6 +46,7 @@ public slots:
     void configAccepted();
     void configChanged();
     void setBigInterface();
+    void setSudo();
 
 private slots:
     // configuration interface
@@ -54,7 +55,7 @@ private slots:
     void selectActiveIcon();
     void selectInactiveIcon();
     // context menu
-    void startProfileSlot();
+    void startProfileSlot(QAction *action);
     void stopProfileSlot();
     void restartProfileSlot();
     void enableProfileAutoloadSlot();
@@ -78,11 +79,13 @@ private:
     QString intIp;
     QString extIp;
     QString interfaces;
+    QStringList profileList;
     QStringList formatLine;
     // context menu
     void createActions();
     QList<QAction*> menuActions;
     QAction *startProfile;
+    QMenu *startProfileMenu;
     QAction *stopProfile;
     QAction *restartProfile;
     QAction *enableProfileAutoload;
@@ -95,6 +98,8 @@ private:
     int autoUpdateInterval;
     QString guiPath;
     QString netctlPath;
+    bool useSudo;
+    QString sudoPath;
     bool showBigInterface;
     bool showNetDev;
     bool showExtIp;
