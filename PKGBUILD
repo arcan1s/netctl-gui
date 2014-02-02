@@ -12,7 +12,7 @@ depends=('kdebase-workspace')
 makedepends=('cmake' 'automoc4')
 source=(https://github.com/arcan1s/netctlplasmoid/releases/download/V.${pkgver}/${_pkgname}-${pkgver}-src.tar.xz)
 install=${pkgname}.install
-md5sums=('5ac750e391936a6f3494a819b7b4d0b2')
+md5sums=('1faefe9a5491837863b08fcce79accfe')
 _cmakekeys="-DCMAKE_INSTALL_PREFIX=$(kde4-config --prefix)
             -DBUILD_GUI:BOOL=1
             -DBUILD_PLASMOID:BOOL=1

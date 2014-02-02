@@ -1,6 +1,6 @@
 [Desktop Entry]
 Encoding=UTF-8
-Name=Netctl DataEngine
+Name=Netctl
 Comment=Data engine for netctl
 ServiceTypes=Plasma/DataEngine
 Type=Service
