@@ -110,7 +110,7 @@ bool Netctl::updateSourceEvent(const QString &source)
         command.start(cmd + QString(" list"));
         command.waitForFinished(-1);
         cmdOutput = command.readAllStandardOutput();
-        if (cmdOutput != QString("")) {
+        if (!cmdOutput.isEmpty()) {
             QStringList profileList = cmdOutput.split(QString("\n"), QString::SkipEmptyParts);
             for (int i=0; i<profileList.count(); i++)
                 if (profileList[i].split(QString(" "), QString::SkipEmptyParts).count() == 2) {
@@ -125,7 +125,7 @@ bool Netctl::updateSourceEvent(const QString &source)
             command.start(extIpCmd);
             command.waitForFinished(-1);
             cmdOutput = command.readAllStandardOutput();
-            if (cmdOutput != QString(""))
+            if (!cmdOutput.isEmpty())
                 value = cmdOutput.split(QString("\n"), QString::SkipEmptyParts)[0];
         }
         setData(source, QString("value"), value);
@@ -145,7 +145,7 @@ bool Netctl::updateSourceEvent(const QString &source)
                     command.start(ipCmd + QString(" addr show ") + netDevices[i]);
                     command.waitForFinished(-1);
                     cmdOutput = command.readAllStandardOutput();
-                    if (cmdOutput != QString("")) {
+                    if (!cmdOutput.isEmpty()) {
                         QStringList deviceInfo = cmdOutput.split(QString("\n"), QString::SkipEmptyParts);
                         for (int j=0; j<deviceInfo.count(); j++)
                             if (deviceInfo[j].split(QString(" "), QString::SkipEmptyParts)[0] == QString("inet"))
@@ -160,7 +160,7 @@ bool Netctl::updateSourceEvent(const QString &source)
         command.waitForFinished(-1);
         cmdOutput = command.readAllStandardOutput();
         QStringList list;
-        if (cmdOutput != QString("")) {
+        if (!cmdOutput.isEmpty()) {
             QStringList profileList = cmdOutput.split(QString("\n"), QString::SkipEmptyParts);
             for (int i=0; i<profileList.count(); i++)
                 if (profileList[i].split(QString(" "), QString::SkipEmptyParts).count() == 1)
@@ -176,7 +176,7 @@ bool Netctl::updateSourceEvent(const QString &source)
         command.waitForFinished(-1);
         cmdOutput = command.readAllStandardOutput();
         value = QString("false");
-        if (cmdOutput != QString("")) {
+        if (!cmdOutput.isEmpty()) {
             QStringList profileList = cmdOutput.split(QString("\n"), QString::SkipEmptyParts);
             for (int i=0; i<profileList.count(); i++)
                 if (profileList[i].split(QString(" "), QString::SkipEmptyParts).count() == 2) {
@@ -191,7 +191,7 @@ bool Netctl::updateSourceEvent(const QString &source)
         command.waitForFinished(-1);
         cmdOutput = command.readAllStandardOutput();
         QString currentProfile;
-        if (cmdOutput != QString("")) {
+        if (!cmdOutput.isEmpty()) {
             QStringList profileList = cmdOutput.split(QString("\n"), QString::SkipEmptyParts);
             for (int i=0; i<profileList.count(); i++)
                 if (profileList[i].split(QString(" "), QString::SkipEmptyParts).count() == 2) {
@@ -202,7 +202,7 @@ bool Netctl::updateSourceEvent(const QString &source)
         command.start(cmd + QString(" status ") + currentProfile);
         command.waitForFinished(-1);
         cmdOutput = command.readAllStandardOutput();
-        if (cmdOutput != QString("")) {
+        if (!cmdOutput.isEmpty()) {
             QStringList profile = cmdOutput.split(QString("\n"), QString::SkipEmptyParts);
             for (int i=0; i<profile.count(); i++)
                 if (profile[i].split(QString(" "), QString::SkipEmptyParts)[0] == QString("Loaded:")) {
