@@ -1,0 +1,617 @@
+'\" t
+.\"     Title: netctl.profile
+.\"    Author: [FIXME: author] [see http://docbook.sf.net/el/author]
+.\" Generator: DocBook XSL Stylesheets v1.78.1 <http://docbook.sf.net/>
+.\"      Date: 11/05/2013
+.\"    Manual: \ \&
+.\"    Source: \ \& 1.4
+.\"  Language: English
+.\"
+.TH "NETCTL\&.PROFILE" "5" "11/05/2013" "\ \& 1\&.4" "\ \&"
+.\" -----------------------------------------------------------------
+.\" * Define some portability stuff
+.\" -----------------------------------------------------------------
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" http://bugs.debian.org/507673
+.\" http://lists.gnu.org/archive/html/groff/2009-02/msg00013.html
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.ie \n(.g .ds Aq \(aq
+.el       .ds Aq '
+.\" -----------------------------------------------------------------
+.\" * set default formatting
+.\" -----------------------------------------------------------------
+.\" disable hyphenation
+.nh
+.\" disable justification (adjust text to left margin only)
+.ad l
+.\" -----------------------------------------------------------------
+.\" * MAIN CONTENT STARTS HERE *
+.\" -----------------------------------------------------------------
+.SH "NAME"
+netctl.profile \- Profile options
+.SH "SYNOPSIS"
+.sp
+netctl\&.profile
+.SH "DESCRIPTION"
+.sp
+Profiles for netctl live under \fI/etc/netctl/\fR and are plain text files\&. The files consist of variable definitions following the bash shell syntax and are not expected to execute any code\&. It is good to omit as much quoting as possible\&. For a few WPA\-related variables, special quoting rules (see below) apply\&.
+.sp
+The name of the profile is the name of the file\&. Profile names must not contain newlines and should not end in \fI\&.action\fR, \fI\&.conf\fR, or \fI\&.service\fR\&. Whenever a profile is read, all executable scripts in \fI/etc/netctl/hooks/\fR and any executable script in \fI/etc/netctl/interfaces/\fR with the name of the interface for the profile are sourced\&. Declarations in an interface script override declarations in a profile, which override declarations in hooks\&. For each connection type, there are example profile files in \fI/etc/netctl/examples/\fR\&.
+.SH "AVAILABLE CONNECTION TYPES"
+.PP
+ethernet
+.RS 4
+For wired connections\&.
+.RE
+.PP
+wireless
+.RS 4
+For wireless connections\&. This connection type requires
+\fBwpa_supplicant\fR
+to be available\&.
+.RE
+.PP
+bond
+.RS 4
+Network bonding\&. This connection type requires
+\fBifenslave\fR
+to be available\&.
+.RE
+.PP
+bridge
+.RS 4
+Network bridging\&. This connection type requires
+\fBbrctl\fR
+to be available\&.
+.RE
+.PP
+dummy
+.RS 4
+For dummy interfaces\&.
+.RE
+.PP
+pppoe
+.RS 4
+For PPPoE connections\&.
+.RE
+.PP
+mobile_ppp
+.RS 4
+For mobile broadband PPP connections that use a USB modem\&.
+.RE
+.PP
+tunnel
+.RS 4
+For tunnel interfaces\&.
+.RE
+.PP
+tuntap
+.RS 4
+For TUN/TAP interfaces\&.
+.RE
+.PP
+vlan
+.RS 4
+For VLANs on ethernet\-like connections\&.
+.RE
+.SH "GENERAL OPTIONS"
+.PP
+\fIDescription=\fR
+.RS 4
+A description of the profile\&.
+.RE
+.PP
+\fIConnection=\fR [mandatory for all profiles]
+.RS 4
+The connection type used by the profile\&.
+.RE
+.PP
+\fIInterface=\fR [mandatory for all profiles]
+.RS 4
+The name of the associated network interface\&. The interface name should not be quoted\&.
+.RE
+.PP
+\fIBindsToInterfaces=()\fR
+.RS 4
+An array of physical network interfaces that this profile needs before it can be started\&. For \(oqenabled\(cq profiles,
+\fBsystemd\fR
+will wait for the presence of the specified interfaces before starting a profile\&. If this variable is not specified, it defaults to the value of
+\fIInterface\fR\&.
+.RE
+.PP
+\fIAfter=()\fR
+.RS 4
+An array of profile names that should be started before this profile is started\&. This is only an ordering dependency and is not intended to be a list of profiles that this profile requires\&. The meaning is the same as
+\fIAfter\fR
+in
+\fBsystemd\&.unit\fR(5)\&.
+.RE
+.PP
+\fIExecUpPost=\fR
+.RS 4
+A command that is executed after a connection is established\&. If the specified command returns anything other than 0 (success),
+\fBnetctl\fR
+will abort and stop the profile\&. If the command should be allowed to fail, add \(oq|| true\(cq to the end of it\&.
+.RE
+.PP
+\fIExecDownPre=\fR
+.RS 4
+A command that is executed before a connection is brought down\&. Similar precautions should be taken as with
+\fIExecUpPost\fR\&.
+.RE
+.PP
+\fIForceConnect=\fR
+.RS 4
+Set to \(oqyes\(cq to force connecting even if the interface is up\&. Do not use this unless you know what you are doing\&.
+.RE
+.SH "IP OPTIONS"
+.sp
+These options apply to all connections that set up an IP\-enabled network\&. In particular, these connection types are ethernet, wireless, bond, bridge, tunnel, tuntap, and vlan\&.
+.PP
+\fIIP=\fR [mandatory for IPv4]
+.RS 4
+One of \(oqstatic\(cq, \(oqdhcp\(cq, or \(oqno\(cq, depending on the desired way of obtaining an address\&.
+.RE
+.PP
+\fIIP6=\fR [mandatory for IPv6]
+.RS 4
+One of \(oqstatic\(cq, \(oqstateless\(cq, \(oqdhcp\-noaddr\(cq, \(oqdhcp\(cq, \(oqno\(cq or left out (empty) altogether\&. The difference between not specifying and setting to \(oqno\(cq is in the handling of
+\fIrouter advertisement\fR
+packages, which is blocked by \(oqno\(cq\&.
+.RE
+.PP
+\fIAddress=()\fR [requires \fIIP=static\fR]
+.RS 4
+An array of IP addresses suffixed with \(oq/<netmask>\(cq\&. Leaving out brackets for arrays consisting of a single element is accepted in the Bash syntax\&.
+.RE
+.PP
+\fIGateway=\fR [requires \fIIP=static\fR]
+.RS 4
+An IP routing gateway address\&.
+.RE
+.PP
+\fIRoutes=\fR
+.RS 4
+An array of custom routes of the form
+
+\(oq\fB<address range>\fR
+via
+\fB<gateway>\fR\(cq\&.
+.RE
+.PP
+\fIAddress6=()\fR [requires \fIIP6=static\fR or \fIIP6=stateless\fR]
+.RS 4
+An array of IPv6 addresses\&. Prefix length may be specified via \(oq1234:bcd::11/64\(cq syntax\&. It is possible to specify modifiers, in particular, \(oq1234:bcd::11/64 nodad\(cq disables Duplicate Address Detection for the address\&.
+.RE
+.PP
+\fIGateway6=\fR [requires \fIIP6=static\fR or \fIIP6=stateless\fR]
+.RS 4
+An IPv6 routing gateway address\&.
+.RE
+.PP
+\fIRoutes6=\fR
+.RS 4
+An array of custom routes of the form
+
+\(oq\fB<address range>\fR
+via
+\fB<gateway>\fR\(cq\&.
+.RE
+.PP
+\fIDHCPClient=\fR [requires a DHCP setting]
+.RS 4
+The name of the preferred DHCP client\&. Supported options are \(oqdhcpcd\(cq and \(oqdhclient\(cq\&. Defaults to \(oqdhcpcd\(cq\&.
+.RE
+.PP
+\fIDHCPReleaseOnStop=\fR
+.RS 4
+Set to \(oqyes\(cq to release the DHCP lease when the profile is stopped\&.
+.RE
+.PP
+\fIDhcpcdOptions=\fR, \fIDhclientOptions=\fR, \fIDhclientOptions6=\fR
+.RS 4
+Additional options to be passed to the DHCP client\&. Do not use this unless you know what you are doing\&.
+.RE
+.PP
+\fIIPCustom=()\fR
+.RS 4
+An array of argument lines to pass to
+ip\&. This can be used to achieve complicated configurations within the framework of
+\fBnetctl\fR\&.
+.RE
+.PP
+\fIHostname=\fR
+.RS 4
+A system hostname\&.
+.RE
+.PP
+\fIDNS=()\fR
+.RS 4
+An array of DNS nameservers\&. Simply specify the IP addresses of each of the DNS nameservers\&.
+.RE
+.PP
+\fIDNSDomain=\fR
+.RS 4
+A \(oqdomain\(cq line for
+\fI/etc/resolv\&.conf\fR, passed to
+\fBresolvconf\fR(5)\&.
+.RE
+.PP
+\fIDNSSearch=\fR
+.RS 4
+A \(oqsearch\(cq line for
+\fI/etc/resolv\&.conf\fR, passed to
+\fBresolvconf\fR(5)\&.
+.RE
+.PP
+\fIDNSOptions=()\fR
+.RS 4
+An array of \(oqoptions\(cq lines for
+\fI/etc/resolv\&.conf\fR, passed to
+\fBresolvconf\fR(5)\&.
+.RE
+.PP
+\fITimeoutDHCP=\fR
+.RS 4
+Maximum time, in seconds, to wait for DHCP to be successful\&. Defaults to \(oq30\(cq\&.
+.RE
+.PP
+\fITimeoutDAD=\fR
+.RS 4
+Maximum time, in seconds, to wait for IPv6\(cqs Duplicate Address Detection to succeed\&. Defaults to \(oq3\(cq\&.
+.RE
+.SH "OPTIONS FOR \(oqETHERNET\(cq CONNECTIONS"
+.sp
+Next to the \fBip options\fR, the following are understood for connections of the \(oqethernet\(cq type:
+.PP
+\fISkipNoCarrier=\fR
+.RS 4
+Whether or not the absence of a carrier (plugged\-in cable) is acceptable\&. Defaults to \(oqno\(cq\&.
+.RE
+.PP
+\fIAuth8021X=\fR
+.RS 4
+Set to \(oqyes\(cq to use 802\&.1x authentication\&.
+.RE
+.PP
+\fIWPAConfigFile=\fR
+.RS 4
+Path to a
+\fBwpa_supplicant\fR
+configuration file\&. Defaults to
+\fI/etc/wpa_supplicant\&.conf\fR\&.
+.RE
+.PP
+\fIWPADriver=\fR
+.RS 4
+The
+\fBwpa_supplicant\fR
+driver to use for 802\&.1x authentication\&. Defaults to \(oqwired\(cq\&.
+.RE
+.PP
+\fITimeoutCarrier=\fR
+.RS 4
+Maximum time, in seconds, to wait for a carrier\&. Defaults to \(oq5\(cq\&.
+.RE
+.PP
+\fITimeoutWPA=\fR
+.RS 4
+Maximum time, in seconds, to wait for 802\&.1x authentication to succeed\&. Defaults to \(oq15\(cq\&.
+.RE
+.SH "OPTIONS FOR \(oqWIRELESS\(cq CONNECTIONS"
+.sp
+Next to the \fBip options\fR, the following are understood for connections of the \(oqwireless\(cq type:
+.PP
+\fISecurity=\fR
+.RS 4
+One of \(oqnone\(cq, \(oqwep\(cq, \(oqwpa\(cq, \(oqwpa\-configsection\(cq, or \(oqwpa\-config\(cq\&. Defaults to \(oqnone\(cq\&.
+.RE
+.PP
+\fIESSID=\fR [mandatory]
+.RS 4
+The name of the network to connect to\&. Special quoting rules (see below) apply\&.
+.RE
+.PP
+\fIAP=\fR
+.RS 4
+The BSSID (MAC address) of the access point to connect to\&.
+.RE
+.PP
+\fIKey=\fR
+.RS 4
+The secret key to a WEP, or WPA encrypted network\&. Special quoting rules (see below) apply\&.
+.RE
+.PP
+\fIHidden=\fR
+.RS 4
+Whether or not the specified network is a hidden network\&. Defaults to \(oqno\(cq\&.
+.RE
+.PP
+\fIAdHoc=\fR
+.RS 4
+Whether or not to use ad\-hoc mode\&. Defaults to \(oqno\(cq\&.
+.RE
+.PP
+\fIScanFrequencies=\fR
+.RS 4
+A space\-separated list of frequencies in MHz to scan when searching for the network\&. Defaults to all available frequencies\&.
+.RE
+.PP
+\fIPriority=\fR
+.RS 4
+Priority group for the network\&. In case of automatic profile selection, the matched network with the highest priority will be selected\&. Defaults to \(oq0\(cq\&.
+.RE
+.PP
+\fIWPAConfigSection=()\fR [mandatory for \fISecurity=wpa\-configsection\fR]
+.RS 4
+Array of lines that form a network block for
+\fBwpa_supplicant\fR\&. All of the above options will be ignored\&.
+.RE
+.PP
+\fIWPAConfigFile=\fR
+.RS 4
+Path to a
+\fBwpa_supplicant\fR
+configuration file\&. Used only for
+\fISecurity=wpa\-config\fR\&. All options except
+\fIWPADriver\fR,
+\fITimeoutWPA\fR, and
+\fIRFKill\fR
+will be ignored\&. The profile is excluded from automatic profile selection\&. Defaults to
+\fI/etc/wpa_supplicant\&.conf\fR\&.
+.RE
+.PP
+\fICountry=\fR
+.RS 4
+The country for which frequency regulations will be enforced\&.
+.RE
+.PP
+\fIWPAGroup=\fR
+.RS 4
+Group that has the authority to configure
+\fBwpa_supplicant\fR
+via its control interface\&. Defaults to \(oqwheel\(cq\&.
+.RE
+.PP
+\fIWPADriver=\fR
+.RS 4
+The
+\fBwpa_supplicant\fR
+driver to use\&. Defaults to \(oqnl80211,wext\(cq\&.
+.RE
+.PP
+\fITimeoutWPA=\fR
+.RS 4
+Maximum time, in seconds, to wait for steps in the association and authentication to succeed\&. Defaults to \(oq15\(cq\&.
+.RE
+.PP
+\fIRFKill=\fR
+.RS 4
+The name of an
+\fBrfkill\fR
+device\&. When specified, the device is used to block/unblock the interface when appropriate\&. Names can be found in
+\fI/sys/class/rfkill/rfkillX/name\fR\&. It is also possible to set this variable to \(oqauto\(cq\&. In that case an
+\fBrfkill\fR
+device that is associated with the network interface is used\&.
+.RE
+.PP
+\fIExcludeAuto=\fR
+.RS 4
+Whether or not to exclude this profile from automatic profile selection\&. Defaults to \(oqno\(cq\&.
+.RE
+.SH "OPTIONS FOR \(oqBOND\(cq CONNECTIONS"
+.sp
+The interfaces of \fIBindsToInterfaces\fR are bound together in the interface named by \fIInterface\fR\&. All \fBip options\fR are understood for connections of the \(oqbond\(cq type\&.
+.SH "OPTIONS FOR \(oqBRIDGE\(cq CONNECTIONS"
+.sp
+The interfaces of \fIBindsToInterfaces\fR take part in the bridge named by \fIInterface\fR\&. Next to the \fBip options\fR, the following is understood for connections of the \(oqbridge\(cq type:
+.PP
+\fISkipForwardingDelay=\fR
+.RS 4
+Skip (R)STP and immediately activate all bridge members\&. This can be useful when DHCP is used on the bridge\&.
+.RE
+.SH "OPTIONS FOR \(oqDUMMY\(cq CONNECTIONS"
+.sp
+The name of the dummy interface is sepcified in \fIInterface\fR\&. Only the \fBip options\fR are understood for connections of the \(oqdummy\(cq type\&.
+.SH "OPTIONS FOR \(oqPPPOE\(cq CONNECTIONS"
+.sp
+The interface to dial peer\-to\-peer over ethernet is specified in \fIInterface\fR\&. The following options are understood for connections of the \(oqpppoe\(cq type:
+.PP
+\fIUser=\fR and \fIPassword=\fR
+.RS 4
+The username and password to connect with\&.
+.RE
+.PP
+\fIConnectionMode=\fR
+.RS 4
+This option specifies how a connection should be established, and may take either \(oqpersist\(cq or \(oqdemand\(cq as its argument\&.
+.RE
+.PP
+\fIIdleTimeout=\fR
+.RS 4
+This option specifies the idle time (in seconds) after which \(oqpppd\(cq should disconnect\&. This option is only valid if
+\fIConnectionMode\fR
+is set to \(oqdemand\(cq\&.
+.RE
+.PP
+\fIMaxFail=\fR
+.RS 4
+The number of consecutive failed connection attempts to tolerate\&. A value of 0 means no limit\&. Defaults to \(oq5\(cq\&.
+.RE
+.PP
+\fIDefaultRoute=\fR
+.RS 4
+Use the default route provided by the peer (defaults to \(oqtrue\(cq)
+.RE
+.PP
+\fIUsePeerDNS=\fR
+.RS 4
+Use the DNS provided by the peer (defaults to \(oqtrue\(cq)\&.
+.RE
+.PP
+\fIPPPUnit=\fR
+.RS 4
+Set the ppp unit number in the interface name (ppp0, ppp1, etc\&.)\&.
+.RE
+.PP
+\fILCPEchoInterval=\fR and \fILCPEchoFailure=\fR
+.RS 4
+These options override default LCP parameters from \(oq/etc/ppp/options\(cq\&.
+.RE
+.PP
+\fIOptionsFile=\fR
+.RS 4
+A file to read additional pppd options from\&.
+.RE
+.sp
+The following advanced options are also understood:
+.PP
+\fIPPPoEService=\fR
+.RS 4
+This option specifies the PPPoE service name\&.
+.RE
+.PP
+\fIPPPoEAC=\fR
+.RS 4
+This option specifies the PPPoE access concentrator name\&.
+.RE
+.PP
+\fIPPPoESession=\fR
+.RS 4
+This option specifies an existing session to attach to, and is of the form \(oqsessid:macaddr\(cq\&.
+.RE
+.PP
+\fIPPPoEMAC=\fR
+.RS 4
+Only connect to specified MAC address
+.RE
+.PP
+\fIPPPoEIP6=\fR
+.RS 4
+Enable IPv6 support
+.RE
+.SH "OPTIONS FOR \(oqMOBILE_PPP\(cq CONNECTIONS"
+.sp
+The name of the USB serial device is specified in \fIInterface\fR\&. The following options are understood for connections of the \(oqmobile_ppp\(cq type:
+.PP
+\fIMaxFail=\fR
+.RS 4
+The number of consecutive failed connection attempts to tolerate\&. A value of 0 means no limit\&. Defaults to \(oq5\(cq\&.
+.RE
+.PP
+\fIDefaultRoute=\fR
+.RS 4
+Use the default route provided by the peer (defaults to \(oqtrue\(cq)
+.RE
+.PP
+\fIUsePeerDNS=\fR
+.RS 4
+Use the DNS provided by the peer (defaults to \(oqtrue\(cq)
+.RE
+.PP
+\fIUser=\fR and \fIPassword=\fR
+.RS 4
+The username and password to connect with\&. These are unset by default, as they are often not required\&.
+.RE
+.PP
+\fIAccessPointName=\fR
+.RS 4
+The access point (apn) to connect on\&. This is specific to your ISP\&.
+.RE
+.PP
+\fIPin=\fR
+.RS 4
+If your modem requires a PIN to unlock, use this option\&.
+.RE
+.PP
+\fIMode=\fR
+.RS 4
+This option is used to specify the connection mode\&. Can be one of \(oq3Gpref\(cq, \(oq3Gonly\(cq, \(oqGPRSpref\(cq, \(oqGPRSonly\(cq, \(oqNone\(cq\&. This generates AT commands specific to certain Huawei modems; all other devices should use \(oqNone\(cq\&.
+.RE
+.PP
+\fIOptionsFile=\fR
+.RS 4
+A file to read additional pppd options from\&.
+.RE
+.SH "OPTIONS FOR \(oqTUNNEL\(cq CONNECTIONS"
+.sp
+The name of the tunnel interface is specified in \fIInterface\fR\&. Next to the \fBip options\fR, the following are understood for connections of the \(oqtunnel\(cq type:
+.PP
+\fIMode=\fR
+.RS 4
+The tunnel type (e\&.g\&. \(oqsit\(cq)\&. See
+\fBip\fR(8) for available modes\&.
+.RE
+.PP
+\fILocal=\fR
+.RS 4
+The address of the local end of the tunnel\&.
+.RE
+.PP
+\fIRemote=\fR
+.RS 4
+The address of the remote end of the tunnel\&.
+.RE
+.SH "OPTIONS FOR \(oqTUNTAP\(cq CONNECTIONS"
+.sp
+The name of the tuntap interface is specified in \fIInterface\fR\&. Next to the \fBip options\fR, the following are understood for connections of the \(oqtuntap\(cq type:
+.PP
+\fIMode=\fR
+.RS 4
+Either \(oqtun\(cq, or \(oqtap\(cq\&.
+.RE
+.PP
+\fIUser=\fR
+.RS 4
+The owning user of the tun/tap interface\&.
+.RE
+.PP
+\fIGroup=\fR
+.RS 4
+The owning group of the tun/tap interface\&.
+.RE
+.SH "OPTIONS FOR \(oqVLAN\(cq CONNECTIONS"
+.sp
+The name of the vlan interface is specified in \fIInterface\fR\&. The underlying physical interface is specified in \fIBindsToInterfaces\fR\&. Hence, for vlan profiles, \fIBindsToInterfaces\fR contains the name of a single network interface\&.
+.sp
+All options for connections of the \(oqethernet\(cq type are understood for connections of the \(oqvlan\(cq type\&. Additionally, connections of the \(oqvlan\(cq type can set a vlan identifier using \fIVLANID=\fR\&. See \fBip\fR(8) for details\&.
+.SH "SPECIAL QUOTING RULES"
+.sp
+Configuration files for \fBwpa_supplicant\fR use non\-standard quoting\&. Therefore, non\-standard quoting rules exist for some variables for connections of the \(oqwireless\(cq type\&. In particular, these variables are \fIESSID\fR, and \fIKey\fR\&.
+.sp
+A variable is considered \fBquoted\fR by \fBwpa_supplicant\fR if it is enclosed in double quotes (")\&. A variable is considered \fBnon\-quoted\fR by \fBwpa_supplicant\fR if it does not start with a double quote\&. Hexadecimal values are specified \fBnon\-quoted\fR in configuration files of \fBwpa_supplicant\fR\&. In \fBnetctl\fR, variables are written to \fBwpa_supplicant\fR configuration files \fBquoted\fR by default\&. When special quoting rules apply, it is possible to specify an unquoted (hexadecimal) value using a special syntax\&.
+.sp
+The special quoting rules of \fBnetctl\fR are as follows\&. A string that starts with a literal double quote is considered \fBnon\-quoted\fR\&. Any other string is considered \fBquoted\fR\&. It is possible to specify quoted strings that start with a double quote by quoting manually\&. An extreme example is the specification of a \fBquoted\fR double quote: \fIX=\*(Aq""""\*(Aq\fR\&. On the other end of the spectrum there is the \fBnon\-quoted\fR backslash: \fIX=\e"\e\e\fR\&.
+.sp
+Further examples of \fBquoted\fR strings (all equivalent):
+.sp
+.if n \{\
+.RS 4
+.\}
+.nf
+X=string
+X="string"
+X=\*(Aq""string"\*(Aq
+.fi
+.if n \{\
+.RE
+.\}
+.sp
+Further examples of \fBnon\-quoted\fR strings (all equivalent):
+.sp
+.if n \{\
+.RS 4
+.\}
+.nf
+X=\e"string
+X="\e"string"
+X=\*(Aq"string\*(Aq
+.fi
+.if n \{\
+.RE
+.\}
+.sp
+A mnemonic is to think of the prefix \(oq\e"\(cq as saying \(oqnon\(cq\-\(oqquote\(cq\&.
+.SH "SEE ALSO"
+.sp
+\fBnetctl\fR(1), \fBresolvconf\&.conf\fR(5)

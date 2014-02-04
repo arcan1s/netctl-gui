@@ -15,35 +15,38 @@
  *   along with netctl-plasmoid. If not, see http://www.gnu.org/licenses/  *
  ***************************************************************************/
 
-#ifndef NETCTL_DE_H
-#define NETCTL_DE_H
+#ifndef NETCTLINTERACT_H
+#define NETCTLINTERACT_H
 
-#include <Plasma/DataEngine>
+#include <QDir>
+#include <QWidget>
 
-class Netctl : public Plasma::DataEngine
+
+class MainWindow;
+
+class Netctl : public QWidget
 {
     Q_OBJECT
 
 public:
-    Netctl(QObject *parent, const QVariantList &args);
+    Netctl(MainWindow *wid, QString netctlPath, QString profileDir, QString sudoPath);
+    ~Netctl();
+    // general information
+    QStringList getProfileDescriptions(QStringList profileList);
+    QStringList getProfileList();
+    QStringList getProfileStatuses(QStringList profileList);
+    bool isProfileActive(QString profile);
+    bool isProfileEnabled(QString profile);
+    // functions
+    bool enableProfile(QString profile);
+    bool restartProfile(QString profile);
+    bool startProfile(QString profile);
 
-protected:
-    bool readConfiguration();
-    bool sourceRequestEvent(const QString &name);
-    bool updateSourceEvent(const QString &source);
-    QStringList sources() const;
-
-    // configuration
-    // enable check external IP
-    QString checkExtIP;
-    // path to netctl command
-    QString cmd;
-    // command to check external IP
-    QString extIpCmd;
-    // path to ip command
-    QString ipCmd;
-    // path to directory with network device configuration
-    QString netDir;
+private:
+    MainWindow *parent;
+    QString netctlCommand;
+    QDir *profileDirectory;
+    QString sudoCommand;
 };
 
-#endif /* NETCTL_DE_H */
+#endif /* NETCTLINTERACT_H */

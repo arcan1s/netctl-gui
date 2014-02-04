@@ -15,35 +15,16 @@
  *   along with netctl-plasmoid. If not, see http://www.gnu.org/licenses/  *
  ***************************************************************************/
 
-#ifndef NETCTL_DE_H
-#define NETCTL_DE_H
 
-#include <Plasma/DataEngine>
+#include <QApplication>
 
-class Netctl : public Plasma::DataEngine
+#include "mainwindow.h"
+
+
+int main(int argc, char *argv[])
 {
-    Q_OBJECT
-
-public:
-    Netctl(QObject *parent, const QVariantList &args);
-
-protected:
-    bool readConfiguration();
-    bool sourceRequestEvent(const QString &name);
-    bool updateSourceEvent(const QString &source);
-    QStringList sources() const;
-
-    // configuration
-    // enable check external IP
-    QString checkExtIP;
-    // path to netctl command
-    QString cmd;
-    // command to check external IP
-    QString extIpCmd;
-    // path to ip command
-    QString ipCmd;
-    // path to directory with network device configuration
-    QString netDir;
-};
-
-#endif /* NETCTL_DE_H */
+    QApplication a(argc, argv);
+    MainWindow w;
+    w.show();
+    return a.exec();
+}
