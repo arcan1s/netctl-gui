@@ -32,8 +32,8 @@ public:
     Netctl(MainWindow *wid, QString netctlPath, QString profileDir, QString sudoPath);
     ~Netctl();
     // general information
-    QStringList getProfileDescriptions(QStringList profileList);
     QStringList getProfileList();
+    QStringList getProfileDescriptions(QStringList profileList);
     QStringList getProfileStatuses(QStringList profileList);
     bool isProfileActive(QString profile);
     bool isProfileEnabled(QString profile);
@@ -48,5 +48,6 @@ private:
     QDir *profileDirectory;
     QString sudoCommand;
 };
+
 
 #endif /* NETCTLINTERACT_H */

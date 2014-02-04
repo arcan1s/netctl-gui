@@ -15,52 +15,30 @@
  *   along with netctl-plasmoid. If not, see http://www.gnu.org/licenses/  *
  ***************************************************************************/
 
-#ifndef MAINWINDOW_H
-#define MAINWINDOW_H
+#ifndef WPASUPINTERACT_H
+#define WPASUPINTERACT_H
 
-#include <QApplication>
-#include <QItemSelection>
-#include <QMainWindow>
-#include <QTableWidgetItem>
+#include <QDir>
+#include <QWidget>
 
 
-class Netctl;
-class WpaSup;
-
-namespace Ui {
 class MainWindow;
-}
 
-class MainWindow : public QMainWindow
+class WpaSup : public QWidget
 {
     Q_OBJECT
-    
+
 public:
-    explicit MainWindow(QWidget *parent = 0);
-    ~MainWindow();
-    
-private slots:
-    void updateTabs(const int tab);
-    void updateMainTab();
-    void updateWifiTab();
-    // main tab slots
-    void mainTabEnableProfile();
-    void mainTabRestartProfile();
-    void mainTabStartProfile();
-    void mainTabRefreshButtons(QTableWidgetItem *current, QTableWidgetItem *previous);
+    WpaSup(MainWindow *wid, QString wpaCliPath, QString ifaceDir);
+    ~WpaSup();
+    // general information
+    QStringList getInterfaceList();
 
 private:
-    Netctl *netctlCommand;
-    WpaSup *wpaCliCommand;
-    Ui::MainWindow *ui;
-    void createActions();
-    // configuration
-    QString netctlPath;
-    QString profileDir;
-    QString sudoPath;
-    QString wpaCliPath;
-    QString ifaceDir;
+    MainWindow *parent;
+    QString wpaCliCommand;
+    QDir *ifaceDirectory;
 };
 
 
-#endif /* MAINWINDOW_H */
+#endif /* WPASUPINTERACT_H */

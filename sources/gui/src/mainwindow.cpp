@@ -19,6 +19,7 @@
 #include "ui_mainwindow.h"
 
 #include "netctlinteract.h"
+#include "wpasupinteract.h"
 #include <cstdio>
 
 
@@ -37,8 +38,11 @@ MainWindow::MainWindow(QWidget *parent)
     netctlPath = QString("/usr/bin/netctl");
     profileDir = QString("/etc/netctl");
     sudoPath = QString("/usr/bin/kdesu -c");
+    wpaCliPath = QString("/usr/bin/wpa_cli");
+    ifaceDir = QString("/sys/class/net/");
 
     netctlCommand = new Netctl(this, netctlPath, profileDir, sudoPath);
+    wpaCliCommand = new WpaSup(this, wpaCliPath, ifaceDir);
 
     createActions();
     updateMainTab();
@@ -71,6 +75,8 @@ void MainWindow::updateTabs(const int tab)
 {
     if (tab == 0)
         updateMainTab();
+    else if (tab == 2)
+        updateWifiTab();
 }
 
 
@@ -95,6 +101,12 @@ void MainWindow::updateMainTab()
     ui->tableWidget_main->horizontalHeader()->setStretchLastSection(true);
     ui->tableWidget_main->setCurrentCell(0, 0);
     update();
+}
+
+
+void MainWindow::updateWifiTab()
+{
+
 }
 
 

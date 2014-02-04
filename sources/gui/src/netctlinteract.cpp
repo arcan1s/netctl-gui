@@ -41,6 +41,12 @@ Netctl::~Netctl()
 
 
 // general information
+QStringList Netctl::getProfileList()
+{
+    return profileDirectory->entryList(QDir::Files);
+}
+
+
 QStringList Netctl::getProfileDescriptions(QStringList profileList)
 {
     QStringList descriptions;
@@ -68,12 +74,6 @@ QStringList Netctl::getProfileDescriptions(QStringList profileList)
     }
 
     return descriptions;
-}
-
-
-QStringList Netctl::getProfileList()
-{
-    return profileDirectory->entryList(QDir::Files);
 }
 
 

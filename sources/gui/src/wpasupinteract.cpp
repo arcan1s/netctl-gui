@@ -15,52 +15,38 @@
  *   along with netctl-plasmoid. If not, see http://www.gnu.org/licenses/  *
  ***************************************************************************/
 
-#ifndef MAINWINDOW_H
-#define MAINWINDOW_H
+#include "wpasupinteract.h"
 
-#include <QApplication>
-#include <QItemSelection>
-#include <QMainWindow>
-#include <QTableWidgetItem>
+#include "mainwindow.h"
+#include <cstdio>
 
 
-class Netctl;
-class WpaSup;
+WpaSup::WpaSup(MainWindow *wid, QString wpaCliPath, QString ifaceDir)
+    : parent(wid),
+      wpaCliCommand(wpaCliPath),
+      ifaceDirectory(new QDir(ifaceDir))
+{
 
-namespace Ui {
-class MainWindow;
 }
 
-class MainWindow : public QMainWindow
+
+WpaSup::~WpaSup()
 {
-    Q_OBJECT
-    
-public:
-    explicit MainWindow(QWidget *parent = 0);
-    ~MainWindow();
-    
-private slots:
-    void updateTabs(const int tab);
-    void updateMainTab();
-    void updateWifiTab();
-    // main tab slots
-    void mainTabEnableProfile();
-    void mainTabRestartProfile();
-    void mainTabStartProfile();
-    void mainTabRefreshButtons(QTableWidgetItem *current, QTableWidgetItem *previous);
-
-private:
-    Netctl *netctlCommand;
-    WpaSup *wpaCliCommand;
-    Ui::MainWindow *ui;
-    void createActions();
-    // configuration
-    QString netctlPath;
-    QString profileDir;
-    QString sudoPath;
-    QString wpaCliPath;
-    QString ifaceDir;
-};
+    delete ifaceDirectory;
+}
 
 
-#endif /* MAINWINDOW_H */
+// general information
+QStringList WpaSup::getInterfaceList()
+{
+    QStringList interfaces;
+    QStringList allInterfaces;
+
+    allInterfaces = ifaceDirectory->entryList(QDir::Dirs | QDir::NoDotAndDotDot);
+    for (int i=0; i<allInterfaces.count(); i++)
+        if (QDir(ifaceDirectory->path() + QDir::separator() + allInterfaces[i] +
+                 QDir::separator() + QString("wireless")).exists())
+            interfaces.append(allInterfaces[i]);
+
+    return interfaces;
+}
