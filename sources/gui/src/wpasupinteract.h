@@ -29,15 +29,26 @@ class WpaSup : public QWidget
     Q_OBJECT
 
 public:
-    WpaSup(MainWindow *wid, QString wpaCliPath, QString ifaceDir);
+    WpaSup(MainWindow *wid, QStringList wpaConfig, QString sudoPath, QString ifaceDir, QString preferedInterface);
     ~WpaSup();
     // general information
     QStringList getInterfaceList();
+    // functions
+    bool wpaCliCall(QString commandLine);
+    QString getWpaCliOutput(QString commandLine);
+
+public slots:
+    // functions
+    bool startWpaSupplicant();
+    bool stopWpaSupplicant();
+    QList<QStringList> scanWifi();
 
 private:
     MainWindow *parent;
-    QString wpaCliCommand;
+    QStringList wpaConf;
+    QString sudoCommand;
     QDir *ifaceDirectory;
+    QString mainInterface;
 };
 
 

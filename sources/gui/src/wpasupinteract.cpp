@@ -17,16 +17,25 @@
 
 #include "wpasupinteract.h"
 
+#include <QProcess>
+
 #include "mainwindow.h"
+#include "sleepthread.h"
 #include <cstdio>
 
 
-WpaSup::WpaSup(MainWindow *wid, QString wpaCliPath, QString ifaceDir)
+WpaSup::WpaSup(MainWindow *wid, QStringList wpaConfig, QString sudoPath, QString ifaceDir, QString preferedInterface)
     : parent(wid),
-      wpaCliCommand(wpaCliPath),
-      ifaceDirectory(new QDir(ifaceDir))
+      wpaConf(wpaConfig),
+      sudoCommand(sudoPath),
+      ifaceDirectory(new QDir(ifaceDir)),
+      mainInterface(preferedInterface)
 {
-
+    if (QFile(wpaConf[2]).exists()) {
+        QProcess command;
+        command.start(sudoCommand + QString(" /usr/bin/rm -f ") + wpaConf[2]);
+        command.waitForFinished(-1);
+    }
 }
 
 
@@ -40,13 +49,103 @@ WpaSup::~WpaSup()
 QStringList WpaSup::getInterfaceList()
 {
     QStringList interfaces;
-    QStringList allInterfaces;
 
-    allInterfaces = ifaceDirectory->entryList(QDir::Dirs | QDir::NoDotAndDotDot);
-    for (int i=0; i<allInterfaces.count(); i++)
-        if (QDir(ifaceDirectory->path() + QDir::separator() + allInterfaces[i] +
-                 QDir::separator() + QString("wireless")).exists())
-            interfaces.append(allInterfaces[i]);
+    if (mainInterface.isEmpty()) {
+        QStringList allInterfaces;
+        allInterfaces = ifaceDirectory->entryList(QDir::Dirs | QDir::NoDotAndDotDot);
+        for (int i=0; i<allInterfaces.count(); i++)
+            if (QDir(ifaceDirectory->path() + QDir::separator() + allInterfaces[i] +
+                     QDir::separator() + QString("wireless")).exists())
+                interfaces.append(allInterfaces[i]);
+    }
+    else
+        interfaces.append(mainInterface);
 
     return interfaces;
+}
+
+
+// functions
+bool WpaSup::wpaCliCall(QString commandLine)
+{
+    QString interface = getInterfaceList()[0];
+    QProcess command;
+    command.start(sudoCommand + QString(" ") + wpaConf[0] + QString(" -i ") + interface +
+            QString(" -p ") + wpaConf[4] + QString(" ") + commandLine);
+    command.waitForFinished(-1);
+    SleepThread::sleep(1);
+    if (command.exitCode() == 0)
+        return true;
+    else
+        return false;
+}
+
+
+QString WpaSup::getWpaCliOutput(QString commandLine)
+{
+    QString interface = getInterfaceList()[0];
+    QProcess command;
+    command.start(sudoCommand + QString(" ") + wpaConf[0] + QString(" -i ") + interface +
+            QString(" -p ") + wpaConf[4] + QString(" ") + commandLine);
+    command.waitForFinished(-1);
+    return command.readAllStandardOutput();
+}
+
+
+bool WpaSup::startWpaSupplicant()
+{
+    if (!QFile(wpaConf[2]).exists()) {
+        QString interface = getInterfaceList()[0];
+        QProcess command;
+        command.start(sudoCommand + QString(" ") + wpaConf[1] + QString(" -B -P ") + wpaConf[2] +
+                QString(" -i ") + interface + QString(" -D ") + wpaConf[3] + QString(" -C ") + wpaConf[4]);
+        command.waitForFinished(-1);
+        SleepThread::sleep(1);
+        if (command.exitCode() != 0)
+            return false;
+    }
+    return true;
+}
+
+
+bool WpaSup::stopWpaSupplicant()
+{
+    return wpaCliCall(QString("terminate"));
+}
+
+
+QList<QStringList> WpaSup::scanWifi()
+{
+    QList<QStringList> scanResults;
+    startWpaSupplicant();
+    if (!wpaCliCall(QString("scan")))
+        return scanResults;
+    SleepThread::sleep(3);
+
+    QStringList rawOutput = getWpaCliOutput(QString("scan_results")).split(QString("\n"));
+    rawOutput.removeFirst();
+    for (int i=0; i<rawOutput.count()-1; i++)
+        if (rawOutput[i].split(QString(" "), QString::SkipEmptyParts).count() > 4)
+            for (int j=i+1; j<rawOutput.count(); j++)
+                if (rawOutput[j].split(QString(" "), QString::SkipEmptyParts).count() > 4)
+                    if (rawOutput[i].split(QString(" "), QString::SkipEmptyParts)[4] ==
+                            rawOutput[j].split(QString(" "), QString::SkipEmptyParts)[4])
+                        rawOutput.removeAt(j);
+
+    for (int i=0; i<rawOutput.count(); i++) {
+        QStringList wifiPoint;
+
+        if (rawOutput[i].split(QString(" "), QString::SkipEmptyParts).count() > 4)
+            wifiPoint.append(rawOutput[i].split(QString(" "), QString::SkipEmptyParts)[4]);
+        else
+            wifiPoint.append(QString("<hidden>"));
+        wifiPoint.append(rawOutput[i].split(QString(" "), QString::SkipEmptyParts)[2]);
+        wifiPoint.append(rawOutput[i].split(QString(" "), QString::SkipEmptyParts)[1]);
+        wifiPoint.append(rawOutput[i].split(QString(" "), QString::SkipEmptyParts)[0]);
+
+        scanResults.append(wifiPoint);
+    }
+
+    stopWpaSupplicant();
+    return scanResults;
 }

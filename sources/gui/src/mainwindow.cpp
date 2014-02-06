@@ -37,12 +37,18 @@ MainWindow::MainWindow(QWidget *parent)
     // temporary block
     netctlPath = QString("/usr/bin/netctl");
     profileDir = QString("/etc/netctl");
-    sudoPath = QString("/usr/bin/kdesu -c");
-    wpaCliPath = QString("/usr/bin/wpa_cli");
+    sudoPath = QString("/usr/bin/kdesu");
+    wpaConfig.append(QString("/usr/bin/wpa_cli"));
+    wpaConfig.append(QString("/usr/bin/wpa_supplicant"));
     ifaceDir = QString("/sys/class/net/");
+    preferedInterface  = QString("wifi0");
+    // additional settings
+    wpaConfig.append(QString("/run/wpa_supplicant_netctl-gui.pid"));
+    wpaConfig.append(QString("nl80211,wext"));
+    wpaConfig.append(QString("/run/wpa_supplicant_netctl-gui"));
 
     netctlCommand = new Netctl(this, netctlPath, profileDir, sudoPath);
-    wpaCliCommand = new WpaSup(this, wpaCliPath, ifaceDir);
+    wpaCommand = new WpaSup(this, wpaConfig, sudoPath, ifaceDir, preferedInterface);
 
     createActions();
     updateMainTab();
@@ -51,6 +57,7 @@ MainWindow::MainWindow(QWidget *parent)
 MainWindow::~MainWindow()
 {
     delete netctlCommand;
+    delete wpaCommand;
     delete ui;
 }
 
@@ -106,7 +113,9 @@ void MainWindow::updateMainTab()
 
 void MainWindow::updateWifiTab()
 {
-
+    QList<QStringList> scanResults = wpaCommand->scanWifi();
+    for (int i=0; i<scanResults.count(); i++)
+        printf("%s\n", scanResults[i][0].toUtf8().data());
 }
 
 

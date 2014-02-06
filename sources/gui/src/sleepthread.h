@@ -15,60 +15,32 @@
  *   along with netctl-plasmoid. If not, see http://www.gnu.org/licenses/  *
  ***************************************************************************/
 
-#ifndef MAINWINDOW_H
-#define MAINWINDOW_H
+#ifndef SLEEPTHREAD_H
+#define SLEEPTHREAD_H
 
-#include <QApplication>
-#include <QItemSelection>
-#include <QMainWindow>
-#include <QTableWidgetItem>
+#include <QThread>
 
 
-class Netctl;
-class WpaSup;
-
-namespace Ui {
-class MainWindow;
-}
-
-class MainWindow : public QMainWindow
+// class for sleeping function
+class SleepThread : public QThread
 {
     Q_OBJECT
-    
-public:
-    explicit MainWindow(QWidget *parent = 0);
-    ~MainWindow();
-    enum wpaConfigIndex {
-        wpaCliPath = 0,
-        wpaSupplicantPath = 1,
-        wpaPidPath = 2,
-        wpadSupDrivers = 3,
-        wpaConfDir = 4
-    };
-    
-private slots:
-    void updateTabs(const int tab);
-    void updateMainTab();
-    void updateWifiTab();
-    // main tab slots
-    void mainTabEnableProfile();
-    void mainTabRestartProfile();
-    void mainTabStartProfile();
-    void mainTabRefreshButtons(QTableWidgetItem *current, QTableWidgetItem *previous);
+    // private run
+    void run () {}
 
-private:
-    Netctl *netctlCommand;
-    WpaSup *wpaCommand;
-    Ui::MainWindow *ui;
-    void createActions();
-    // configuration
-    QString netctlPath;
-    QString profileDir;
-    QString sudoPath;
-    QStringList wpaConfig;
-    QString ifaceDir;
-    QString preferedInterface;
+public :
+    static void usleep(long iSleepTime)
+    {
+        QThread::usleep(iSleepTime);
+    }
+    static void sleep(long iSleepTime)
+    {
+        QThread::sleep(iSleepTime);
+    }
+    static void msleep(long iSleepTime)
+    {
+        QThread::msleep(iSleepTime);
+    }
 };
 
-
-#endif /* MAINWINDOW_H */
+#endif /* SLEEPTHREAD_H */

@@ -37,6 +37,8 @@ public:
     QStringList getProfileStatuses(QStringList profileList);
     bool isProfileActive(QString profile);
     bool isProfileEnabled(QString profile);
+
+public slots:
     // functions
     bool enableProfile(QString profile);
     bool restartProfile(QString profile);
