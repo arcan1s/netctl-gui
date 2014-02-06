@@ -18,6 +18,7 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 
+#include <QMimeData>
 #include <QProcess>
 
 #include "netctlinteract.h"
@@ -30,7 +31,6 @@ MainWindow::MainWindow(QWidget *parent)
       ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-    ui->tableWidget_main->setSortingEnabled(true);
     ui->statusBar->showMessage(QApplication::translate("MainWindow", "Ready"));
 
     //  SettingsWindow *settingsWindow;
@@ -66,13 +66,20 @@ MainWindow::~MainWindow()
 }
 
 
-bool MainWindow::checkExternalApps()
+bool MainWindow::checkExternalApps(QString apps = QString("all"))
 {
+    QStringList commandLine;
+    commandLine.append("which");
+    commandLine.append(sudoPath);
+    if ((apps == QString("netctl")) || (apps == QString("all"))) {
+        commandLine.append(netctlPath);
+    }
+    if ((apps == QString("wpasup")) || (apps == QString("all"))) {
+        commandLine.append(wpaConfig[0]);
+        commandLine.append(wpaConfig[1]);
+    }
     QProcess command;
-    command.start(QString("which ") + netctlPath +
-                  QString(" ") + sudoPath +
-                  QString(" ") + wpaConfig[0] +
-                  QString(" ") + wpaConfig[1]);
+    command.start(commandLine.join(QString(" ")));
     command.waitForFinished(-1);
     if (command.exitCode() != 0)
         return false;
@@ -93,6 +100,9 @@ void MainWindow::createActions()
     connect(ui->pushButton_mainRestart, SIGNAL(clicked(bool)), this, SLOT(mainTabRestartProfile()));
     connect(ui->pushButton_mainStart, SIGNAL(clicked(bool)), this, SLOT(mainTabStartProfile()));
     connect(ui->tableWidget_main, SIGNAL(currentItemChanged(QTableWidgetItem *, QTableWidgetItem *)), this, SLOT(mainTabRefreshButtons(QTableWidgetItem *, QTableWidgetItem *)));
+
+    // wifi page events
+    connect(ui->pushButton_wifiRefresh, SIGNAL(clicked(bool)), this, SLOT(updateWifiTab()));
 }
 
 
@@ -108,43 +118,56 @@ void MainWindow::updateTabs(const int tab)
 
 void MainWindow::updateMainTab()
 {
-    if (!checkExternalApps())
+    if (!checkExternalApps(QString("netctl")))
         return;
 
-    QStringList profiles = netctlCommand->getProfileList();
-    QStringList descriptions = netctlCommand->getProfileDescriptions(profiles);
-    QStringList statuses = netctlCommand->getProfileStatuses(profiles);
+    QList<QStringList> profiles = netctlCommand->getProfileList();;
 
-    ui->tableWidget_main->setRowCount(profiles.count());
+    ui->tableWidget_main->selectRow(-1);
     ui->tableWidget_main->sortByColumn(0, Qt::AscendingOrder);
+    ui->tableWidget_main->clear();
+    ui->tableWidget_main->setRowCount(profiles.count());
 
-    for (int i=0; i<profiles.count(); i++) {
-        ui->tableWidget_main->setItem(i, 0, new QTableWidgetItem(profiles[i]));
-        ui->tableWidget_main->setItem(i, 1, new QTableWidgetItem(descriptions[i]));
-        ui->tableWidget_main->setItem(i, 2, new QTableWidgetItem(statuses[i]));
-    }
+    for (int i=0; i<profiles.count(); i++)
+        for (int j=0; j<3; j++)
+            ui->tableWidget_main->setItem(i, j, new QTableWidgetItem(profiles[i][j]));
 
     ui->tableWidget_main->resizeColumnsToContents();
     ui->tableWidget_main->resizeRowsToContents();
     ui->tableWidget_main->horizontalHeader()->setStretchLastSection(true);
-    ui->tableWidget_main->setCurrentCell(0, 0);
+
     update();
 }
 
 
 void MainWindow::updateWifiTab()
 {
-    if (!checkExternalApps())
+    if (!checkExternalApps(QString("wpasup")))
         return;
 
     QList<QStringList> scanResults = wpaCommand->scanWifi();
+
+    ui->tableWidget_wifi->selectRow(-1);
+    ui->tableWidget_wifi->sortByColumn(0, Qt::AscendingOrder);
+    ui->tableWidget_wifi->clear();
+    ui->tableWidget_wifi->setRowCount(scanResults.count());
+
+    for (int i=0; i<scanResults.count(); i++)
+        for (int j=0; j<4; j++)
+            ui->tableWidget_wifi->setItem(i, j, new QTableWidgetItem(scanResults[i][j]));
+
+    ui->tableWidget_wifi->resizeColumnsToContents();
+    ui->tableWidget_wifi->resizeRowsToContents();
+    ui->tableWidget_wifi->horizontalHeader()->setStretchLastSection(true);
+
+    update();
 }
 
 
 // main tab slots
 void MainWindow::mainTabEnableProfile()
 {
-    if (!checkExternalApps())
+    if (!checkExternalApps(QString("netctl")))
         return;
 
     ui->tableWidget_main->setDisabled(true);
@@ -169,7 +192,7 @@ void MainWindow::mainTabEnableProfile()
 
 void MainWindow::mainTabRestartProfile()
 {
-    if (!checkExternalApps())
+    if (!checkExternalApps(QString("netctl")))
         return;
 
     ui->tableWidget_main->setDisabled(true);
@@ -186,7 +209,7 @@ void MainWindow::mainTabRestartProfile()
 
 void MainWindow::mainTabStartProfile()
 {
-    if (!checkExternalApps())
+    if (!checkExternalApps(QString("netctl")))
         return;
 
     ui->tableWidget_main->setDisabled(true);
@@ -212,7 +235,9 @@ void MainWindow::mainTabStartProfile()
 void MainWindow::mainTabRefreshButtons(QTableWidgetItem *current, QTableWidgetItem *previous)
 {
     Q_UNUSED(previous);
-    if (!checkExternalApps())
+    if (current == 0)
+        return;
+    if (!checkExternalApps(QString("netctl")))
         return;
 
     QString profile = ui->tableWidget_main->item(current->row(), 0)->text();

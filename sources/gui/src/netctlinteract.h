@@ -32,7 +32,7 @@ public:
     Netctl(MainWindow *wid, QString netctlPath, QString profileDir, QString sudoPath);
     ~Netctl();
     // general information
-    QStringList getProfileList();
+    QList<QStringList> getProfileList();
     QStringList getProfileDescriptions(QStringList profileList);
     QStringList getProfileStatuses(QStringList profileList);
     bool isProfileActive(QString profile);

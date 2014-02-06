@@ -20,8 +20,8 @@
 
 #include <QApplication>
 #include <QItemSelection>
-#include <QMainWindow>
 #include <QTableWidgetItem>
+#include <QMainWindow>
 
 
 class Netctl;
@@ -46,7 +46,7 @@ public:
         wpaConfDir = 4,
         wpaConfGroup = 5
     };
-    bool checkExternalApps();
+    bool checkExternalApps(QString apps);
     
 private slots:
     void updateTabs(const int tab);

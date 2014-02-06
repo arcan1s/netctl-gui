@@ -41,9 +41,21 @@ Netctl::~Netctl()
 
 
 // general information
-QStringList Netctl::getProfileList()
+QList<QStringList> Netctl::getProfileList()
 {
-    return profileDirectory->entryList(QDir::Files);
+    QList<QStringList> fullProfilesInfo;
+    QStringList profiles = profileDirectory->entryList(QDir::Files);
+    QStringList descriptions = getProfileDescriptions(profiles);
+    QStringList statuses = getProfileStatuses(profiles);
+
+    for (int i=0; i<profiles.count(); i++) {
+        QStringList profileInfo;
+        profileInfo.append(profiles[i]);
+        profileInfo.append(descriptions[i]);
+        profileInfo.append(statuses[i]);
+        fullProfilesInfo.append(profileInfo);
+    }
+    return fullProfilesInfo;
 }
 
 

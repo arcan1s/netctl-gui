@@ -18,5 +18,5 @@
 # Build directory
 build/
 sources/build/
-sources/build/*/
+tmp/
 
