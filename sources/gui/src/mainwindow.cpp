@@ -18,6 +18,8 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 
+#include <QProcess>
+
 #include "netctlinteract.h"
 #include "wpasupinteract.h"
 #include <cstdio>
@@ -37,15 +39,16 @@ MainWindow::MainWindow(QWidget *parent)
     // temporary block
     netctlPath = QString("/usr/bin/netctl");
     profileDir = QString("/etc/netctl");
-    sudoPath = QString("/usr/bin/kdesu");
+    sudoPath = QString("/usr/bin/sudo");
     wpaConfig.append(QString("/usr/bin/wpa_cli"));
     wpaConfig.append(QString("/usr/bin/wpa_supplicant"));
     ifaceDir = QString("/sys/class/net/");
-    preferedInterface  = QString("wifi0");
+    preferedInterface  = QString("");
     // additional settings
     wpaConfig.append(QString("/run/wpa_supplicant_netctl-gui.pid"));
     wpaConfig.append(QString("nl80211,wext"));
     wpaConfig.append(QString("/run/wpa_supplicant_netctl-gui"));
+    wpaConfig.append(QString("users"));
 
     netctlCommand = new Netctl(this, netctlPath, profileDir, sudoPath);
     wpaCommand = new WpaSup(this, wpaConfig, sudoPath, ifaceDir, preferedInterface);
@@ -54,11 +57,27 @@ MainWindow::MainWindow(QWidget *parent)
     updateMainTab();
 }
 
+
 MainWindow::~MainWindow()
 {
     delete netctlCommand;
     delete wpaCommand;
     delete ui;
+}
+
+
+bool MainWindow::checkExternalApps()
+{
+    QProcess command;
+    command.start(QString("which ") + netctlPath +
+                  QString(" ") + sudoPath +
+                  QString(" ") + wpaConfig[0] +
+                  QString(" ") + wpaConfig[1]);
+    command.waitForFinished(-1);
+    if (command.exitCode() != 0)
+        return false;
+    else
+        return true;
 }
 
 
@@ -89,10 +108,12 @@ void MainWindow::updateTabs(const int tab)
 
 void MainWindow::updateMainTab()
 {
+    if (!checkExternalApps())
+        return;
+
     QStringList profiles = netctlCommand->getProfileList();
     QStringList descriptions = netctlCommand->getProfileDescriptions(profiles);
     QStringList statuses = netctlCommand->getProfileStatuses(profiles);
-
 
     ui->tableWidget_main->setRowCount(profiles.count());
     ui->tableWidget_main->sortByColumn(0, Qt::AscendingOrder);
@@ -113,15 +134,19 @@ void MainWindow::updateMainTab()
 
 void MainWindow::updateWifiTab()
 {
+    if (!checkExternalApps())
+        return;
+
     QList<QStringList> scanResults = wpaCommand->scanWifi();
-    for (int i=0; i<scanResults.count(); i++)
-        printf("%s\n", scanResults[i][0].toUtf8().data());
 }
 
 
 // main tab slots
 void MainWindow::mainTabEnableProfile()
 {
+    if (!checkExternalApps())
+        return;
+
     ui->tableWidget_main->setDisabled(true);
     QString profile = ui->tableWidget_main->item(ui->tableWidget_main->currentItem()->row(), 0)->text();
     netctlCommand->enableProfile(profile);
@@ -144,6 +169,9 @@ void MainWindow::mainTabEnableProfile()
 
 void MainWindow::mainTabRestartProfile()
 {
+    if (!checkExternalApps())
+        return;
+
     ui->tableWidget_main->setDisabled(true);
     QString profile = ui->tableWidget_main->item(ui->tableWidget_main->currentItem()->row(), 0)->text();
     netctlCommand->restartProfile(profile);
@@ -158,6 +186,9 @@ void MainWindow::mainTabRestartProfile()
 
 void MainWindow::mainTabStartProfile()
 {
+    if (!checkExternalApps())
+        return;
+
     ui->tableWidget_main->setDisabled(true);
     QString profile = ui->tableWidget_main->item(ui->tableWidget_main->currentItem()->row(), 0)->text();
     netctlCommand->startProfile(profile);
@@ -181,12 +212,11 @@ void MainWindow::mainTabStartProfile()
 void MainWindow::mainTabRefreshButtons(QTableWidgetItem *current, QTableWidgetItem *previous)
 {
     Q_UNUSED(previous);
+    if (!checkExternalApps())
+        return;
 
     QString profile = ui->tableWidget_main->item(current->row(), 0)->text();
-    bool isActive = netctlCommand->isProfileActive(profile);
-    bool isEnable = netctlCommand->isProfileEnabled(profile);
-
-    if (isActive) {
+    if (netctlCommand->isProfileActive(profile)) {
         ui->pushButton_mainRestart->setEnabled(true);
         ui->pushButton_mainStart->setText(QApplication::translate("MainWindow", "Stop"));
     }
@@ -194,7 +224,7 @@ void MainWindow::mainTabRefreshButtons(QTableWidgetItem *current, QTableWidgetIt
         ui->pushButton_mainRestart->setDisabled(true);
         ui->pushButton_mainStart->setText(QApplication::translate("MainWindow", "Start"));
     }
-    if (isEnable)
+    if (netctlCommand->isProfileEnabled(profile))
         ui->pushButton_mainEnable->setText(QApplication::translate("MainWindow", "Disable"));
     else
         ui->pushButton_mainEnable->setText(QApplication::translate("MainWindow", "Enable"));

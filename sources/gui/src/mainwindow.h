@@ -43,8 +43,10 @@ public:
         wpaSupplicantPath = 1,
         wpaPidPath = 2,
         wpadSupDrivers = 3,
-        wpaConfDir = 4
+        wpaConfDir = 4,
+        wpaConfGroup = 5
     };
+    bool checkExternalApps();
     
 private slots:
     void updateTabs(const int tab);

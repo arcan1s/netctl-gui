@@ -31,9 +31,10 @@ WpaSup::WpaSup(MainWindow *wid, QStringList wpaConfig, QString sudoPath, QString
       ifaceDirectory(new QDir(ifaceDir)),
       mainInterface(preferedInterface)
 {
-    if (QFile(wpaConf[2]).exists()) {
+    // remove old files if they exist
+    if (QFile(wpaConf[2]).exists() || QDir(wpaConf[4]).exists()) {
         QProcess command;
-        command.start(sudoCommand + QString(" /usr/bin/rm -f ") + wpaConf[2]);
+        command.start(sudoCommand + QString(" /usr/bin/rm -f ") + wpaConf[2] + QString(" ") + wpaConf[4]);
         command.waitForFinished(-1);
     }
 }
@@ -70,8 +71,8 @@ bool WpaSup::wpaCliCall(QString commandLine)
 {
     QString interface = getInterfaceList()[0];
     QProcess command;
-    command.start(sudoCommand + QString(" ") + wpaConf[0] + QString(" -i ") + interface +
-            QString(" -p ") + wpaConf[4] + QString(" ") + commandLine);
+    command.start(wpaConf[0] + QString(" -i ") + interface + QString(" -p ") + wpaConf[4] +
+            QString(" ") + commandLine);
     command.waitForFinished(-1);
     SleepThread::sleep(1);
     if (command.exitCode() == 0)
@@ -85,8 +86,8 @@ QString WpaSup::getWpaCliOutput(QString commandLine)
 {
     QString interface = getInterfaceList()[0];
     QProcess command;
-    command.start(sudoCommand + QString(" ") + wpaConf[0] + QString(" -i ") + interface +
-            QString(" -p ") + wpaConf[4] + QString(" ") + commandLine);
+    command.start(wpaConf[0] + QString(" -i ") + interface + QString(" -p ") + wpaConf[4] +
+            QString(" ") + commandLine);
     command.waitForFinished(-1);
     return command.readAllStandardOutput();
 }
@@ -98,7 +99,8 @@ bool WpaSup::startWpaSupplicant()
         QString interface = getInterfaceList()[0];
         QProcess command;
         command.start(sudoCommand + QString(" ") + wpaConf[1] + QString(" -B -P ") + wpaConf[2] +
-                QString(" -i ") + interface + QString(" -D ") + wpaConf[3] + QString(" -C ") + wpaConf[4]);
+                QString(" -i ") + interface + QString(" -D ") + wpaConf[3] +
+                QString(" -C \"DIR=") + wpaConf[4] + QString(" GROUP=") + wpaConf[5]);
         command.waitForFinished(-1);
         SleepThread::sleep(1);
         if (command.exitCode() != 0)
@@ -124,6 +126,7 @@ QList<QStringList> WpaSup::scanWifi()
 
     QStringList rawOutput = getWpaCliOutput(QString("scan_results")).split(QString("\n"));
     rawOutput.removeFirst();
+    rawOutput.removeLast();
     for (int i=0; i<rawOutput.count()-1; i++)
         if (rawOutput[i].split(QString(" "), QString::SkipEmptyParts).count() > 4)
             for (int j=i+1; j<rawOutput.count(); j++)
@@ -135,13 +138,27 @@ QList<QStringList> WpaSup::scanWifi()
     for (int i=0; i<rawOutput.count(); i++) {
         QStringList wifiPoint;
 
-        if (rawOutput[i].split(QString(" "), QString::SkipEmptyParts).count() > 4)
-            wifiPoint.append(rawOutput[i].split(QString(" "), QString::SkipEmptyParts)[4]);
+        // point name
+        if (rawOutput[i].split(QString("\t"), QString::SkipEmptyParts).count() > 4)
+            wifiPoint.append(rawOutput[i].split(QString("\t"), QString::SkipEmptyParts)[4]);
         else
             wifiPoint.append(QString("<hidden>"));
-        wifiPoint.append(rawOutput[i].split(QString(" "), QString::SkipEmptyParts)[2]);
-        wifiPoint.append(rawOutput[i].split(QString(" "), QString::SkipEmptyParts)[1]);
-        wifiPoint.append(rawOutput[i].split(QString(" "), QString::SkipEmptyParts)[0]);
+        // point signal
+        wifiPoint.append(rawOutput[i].split(QString("\t"), QString::SkipEmptyParts)[2]);
+        // point security
+        QString security = rawOutput[i].split(QString("\t"), QString::SkipEmptyParts)[3];
+        if (security.indexOf(QString("WPA2")))
+            security = QString("WPA2");
+        else if (security.indexOf(QString("WPA")))
+            security = QString("WPA");
+        else if (security.indexOf(QString("WEP")))
+            security = QString("WEP");
+        else
+            security = QString("none");
+        wifiPoint.append(security);
+        // point bssid
+        wifiPoint.append(rawOutput[i].split(QString("\t"), QString::SkipEmptyParts)[0]);
+        // profile existance
 
         scanResults.append(wifiPoint);
     }
