@@ -94,11 +94,11 @@ QStringList Netctl::getProfileStatuses(QStringList profileList)
     QStringList statuses;
 
     for (int i=0; i<profileList.count(); i++) {
-        QString status = QString("");
+        QString status;
         if (isProfileActive(profileList[i]))
-            status = status + QString("active");
+            status = QString("active");
         else
-            status = status + QString("inactive");
+            status = QString("inactive");
         if (isProfileEnabled(profileList[i]))
             status = status + QString(" (enabled)");
         else
@@ -107,6 +107,33 @@ QStringList Netctl::getProfileStatuses(QStringList profileList)
     }
 
     return statuses;
+}
+
+
+QString Netctl::getSsidFromProfile(QString profile)
+{
+    QString ssidName = QString("");
+    QFile profileFile(profileDirectory->absolutePath() + QDir::separator() + profile);
+    QString fileStr;
+    if (!profileFile.open(QIODevice::ReadOnly))
+        return ssidName;
+
+    while (true) {
+        fileStr = QString(profileFile.readLine());
+        if (profileFile.atEnd())
+            break;
+        else if (fileStr[0] != '#') {
+            if (fileStr.split(QString("="), QString::SkipEmptyParts).count() == 2)
+                if (fileStr.split(QString("="), QString::SkipEmptyParts)[0] == QString("ESSID"))
+                    ssidName = fileStr.split(QString("="), QString::SkipEmptyParts)[1].split(QString("\n"), QString::SkipEmptyParts)[0];
+        }
+    }
+
+    profileFile.close();
+
+    ssidName.remove(QChar('\''));
+    ssidName.remove(QChar('"'));
+    return ssidName;
 }
 
 

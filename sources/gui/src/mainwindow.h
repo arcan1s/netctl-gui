@@ -38,6 +38,8 @@ class MainWindow : public QMainWindow
 public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
+    Netctl *netctlCommand;
+    WpaSup *wpaCommand;
     enum wpaConfigIndex {
         wpaCliPath = 0,
         wpaSupplicantPath = 1,
@@ -57,10 +59,11 @@ private slots:
     void mainTabRestartProfile();
     void mainTabStartProfile();
     void mainTabRefreshButtons(QTableWidgetItem *current, QTableWidgetItem *previous);
+    // wifi tab slots
+    void wifiTabSetEnabled(bool state);
+    void wifiTabRefreshButtons(QTableWidgetItem *current, QTableWidgetItem *previous);
 
 private:
-    Netctl *netctlCommand;
-    WpaSup *wpaCommand;
     Ui::MainWindow *ui;
     void createActions();
     // configuration

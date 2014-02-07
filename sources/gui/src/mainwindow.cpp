@@ -36,6 +36,7 @@ MainWindow::MainWindow(QWidget *parent)
     //  SettingsWindow *settingsWindow;
     //  settingsWindow = new SettingsWindow(this);
     //  delete settingsWindow;
+
     // temporary block
     netctlPath = QString("/usr/bin/netctl");
     profileDir = QString("/etc/netctl");
@@ -54,7 +55,7 @@ MainWindow::MainWindow(QWidget *parent)
     wpaCommand = new WpaSup(this, wpaConfig, sudoPath, ifaceDir, preferedInterface);
 
     createActions();
-    updateMainTab();
+    updateTabs(ui->tabWidget->currentIndex());
 }
 
 
@@ -103,6 +104,7 @@ void MainWindow::createActions()
 
     // wifi page events
     connect(ui->pushButton_wifiRefresh, SIGNAL(clicked(bool)), this, SLOT(updateWifiTab()));
+    connect(ui->tableWidget_wifi, SIGNAL(currentItemChanged(QTableWidgetItem *, QTableWidgetItem *)), this, SLOT(wifiTabRefreshButtons(QTableWidgetItem *, QTableWidgetItem *)));
 }
 
 
@@ -121,20 +123,35 @@ void MainWindow::updateMainTab()
     if (!checkExternalApps(QString("netctl")))
         return;
 
+    ui->tableWidget_main->setDisabled(true);
     QList<QStringList> profiles = netctlCommand->getProfileList();;
 
+    ui->tableWidget_main->setSortingEnabled(false);
     ui->tableWidget_main->selectRow(-1);
     ui->tableWidget_main->sortByColumn(0, Qt::AscendingOrder);
     ui->tableWidget_main->clear();
     ui->tableWidget_main->setRowCount(profiles.count());
 
-    for (int i=0; i<profiles.count(); i++)
-        for (int j=0; j<3; j++)
-            ui->tableWidget_main->setItem(i, j, new QTableWidgetItem(profiles[i][j]));
+    // create header
+    ui->tableWidget_main->setHorizontalHeaderLabels(QString("Name Description Status").split(QString(" ")));
+    // create items
+    for (int i=0; i<profiles.count(); i++) {
+        // name
+        ui->tableWidget_main->setItem(i, 0, new QTableWidgetItem(profiles[i][0]));
+        ui->tableWidget_main->item(i, 0)->setTextAlignment(Qt::AlignLeft | Qt::AlignVCenter);
+        // description
+        ui->tableWidget_main->setItem(i, 1, new QTableWidgetItem(profiles[i][1]));
+        ui->tableWidget_main->item(i, 1)->setTextAlignment(Qt::AlignLeft | Qt::AlignVCenter);
+        // status
+        ui->tableWidget_main->setItem(i, 2, new QTableWidgetItem(profiles[i][2]));
+        ui->tableWidget_main->item(i, 2)->setTextAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
+    }
 
-    ui->tableWidget_main->resizeColumnsToContents();
+    ui->tableWidget_main->setSortingEnabled(true);
     ui->tableWidget_main->resizeRowsToContents();
-    ui->tableWidget_main->horizontalHeader()->setStretchLastSection(true);
+    ui->tableWidget_main->horizontalHeader()->setResizeMode(QHeaderView::Stretch);
+    ui->tableWidget_main->setEnabled(true);
+    ui->statusBar->showMessage(QApplication::translate("MainWindow", "Updated"));
 
     update();
 }
@@ -142,23 +159,42 @@ void MainWindow::updateMainTab()
 
 void MainWindow::updateWifiTab()
 {
+    wifiTabSetEnabled(checkExternalApps(QString("wpasup")));
     if (!checkExternalApps(QString("wpasup")))
         return;
 
     QList<QStringList> scanResults = wpaCommand->scanWifi();
 
+    ui->tableWidget_wifi->setDisabled(true);
+    ui->tableWidget_wifi->setSortingEnabled(false);
     ui->tableWidget_wifi->selectRow(-1);
     ui->tableWidget_wifi->sortByColumn(0, Qt::AscendingOrder);
     ui->tableWidget_wifi->clear();
     ui->tableWidget_wifi->setRowCount(scanResults.count());
 
-    for (int i=0; i<scanResults.count(); i++)
-        for (int j=0; j<4; j++)
-            ui->tableWidget_wifi->setItem(i, j, new QTableWidgetItem(scanResults[i][j]));
+    // create header
+    ui->tableWidget_wifi->setHorizontalHeaderLabels(QString("Name Status Signal Security").split(QString(" ")));
+    // create items
+    for (int i=0; i<scanResults.count(); i++) {
+        // name
+        ui->tableWidget_wifi->setItem(i, 0, new QTableWidgetItem(scanResults[i][0]));
+        ui->tableWidget_wifi->item(i, 0)->setTextAlignment(Qt::AlignLeft | Qt::AlignVCenter);
+        // status
+        ui->tableWidget_wifi->setItem(i, 1, new QTableWidgetItem(scanResults[i][1]));
+        ui->tableWidget_wifi->item(i, 1)->setTextAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
+        // signal
+        ui->tableWidget_wifi->setItem(i, 2, new QTableWidgetItem(scanResults[i][2]));
+        ui->tableWidget_wifi->item(i, 2)->setTextAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
+        // security
+        ui->tableWidget_wifi->setItem(i, 3, new QTableWidgetItem(scanResults[i][3]));
+        ui->tableWidget_wifi->item(i, 3)->setTextAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
+    }
 
-    ui->tableWidget_wifi->resizeColumnsToContents();
+    ui->tableWidget_wifi->setSortingEnabled(true);
     ui->tableWidget_wifi->resizeRowsToContents();
-    ui->tableWidget_wifi->horizontalHeader()->setStretchLastSection(true);
+    ui->tableWidget_wifi->horizontalHeader()->setResizeMode(QHeaderView::Stretch);
+    ui->tableWidget_wifi->setEnabled(true);
+    ui->statusBar->showMessage(QApplication::translate("MainWindow", "Updated"));
 
     update();
 }
@@ -253,4 +289,40 @@ void MainWindow::mainTabRefreshButtons(QTableWidgetItem *current, QTableWidgetIt
         ui->pushButton_mainEnable->setText(QApplication::translate("MainWindow", "Disable"));
     else
         ui->pushButton_mainEnable->setText(QApplication::translate("MainWindow", "Enable"));
+}
+
+
+// wifi tab slots
+void MainWindow::wifiTabSetEnabled(bool state)
+{
+    if (state) {
+        ui->tableWidget_wifi->show();
+        ui->pushButton_wifiRefresh->setEnabled(true);
+        ui->pushButton_wifiStart->setEnabled(true);
+        ui->label_wifi->hide();
+    }
+    else {
+        ui->tableWidget_wifi->hide();
+        ui->pushButton_wifiRefresh->setDisabled(true);
+        ui->pushButton_wifiStart->setDisabled(true);
+        ui->label_wifi->show();
+    }
+}
+
+
+void MainWindow::wifiTabRefreshButtons(QTableWidgetItem *current, QTableWidgetItem *previous)
+{
+    Q_UNUSED(previous);
+    if (current == 0)
+        return;
+    if (!checkExternalApps(QString("wpasup")))
+        return;
+
+    QString network = ui->tableWidget_wifi->item(current->row(), 0)->text();
+    if (wpaCommand->isProfileExists(network)) {
+        if (wpaCommand->isProfileActive(network))
+            ui->pushButton_wifiStart->setText(QApplication::translate("MainWindow", "Stop"));
+        else
+            ui->pushButton_wifiStart->setText(QApplication::translate("MainWindow", "Start"));
+    }
 }

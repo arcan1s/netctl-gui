@@ -35,6 +35,7 @@ public:
     QList<QStringList> getProfileList();
     QStringList getProfileDescriptions(QStringList profileList);
     QStringList getProfileStatuses(QStringList profileList);
+    QString getSsidFromProfile(QString profile);
     bool isProfileActive(QString profile);
     bool isProfileEnabled(QString profile);
 

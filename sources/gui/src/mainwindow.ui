@@ -146,7 +146,10 @@
         <item>
          <widget class="QLabel" name="label_wifi">
           <property name="text">
-           <string>Please install 'wpa_supplicant' before using</string>
+           <string>Please install 'wpa_supplicant' before using it</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignCenter</set>
           </property>
          </widget>
         </item>

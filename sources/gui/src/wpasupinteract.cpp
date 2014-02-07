@@ -20,6 +20,7 @@
 #include <QProcess>
 
 #include "mainwindow.h"
+#include "netctlinteract.h"
 #include "sleepthread.h"
 #include <cstdio>
 
@@ -89,6 +90,28 @@ QString WpaSup::getWpaCliOutput(QString commandLine)
 }
 
 
+bool WpaSup::isProfileActive(QString profile)
+{
+    QString profileFile;
+    QList<QStringList> profileList = parent->netctlCommand->getProfileList();
+    for (int i=0; i<profileList.count(); i++)
+        if (profile == parent->netctlCommand->getSsidFromProfile(profileList[i][0]))
+            profileFile = profileList[i][0];
+    return parent->netctlCommand->isProfileActive(profileFile);
+}
+
+
+bool WpaSup::isProfileExists(QString profile)
+{
+    bool exists = false;
+    QList<QStringList> profileList = parent->netctlCommand->getProfileList();
+    for (int i=0; i<profileList.count(); i++)
+        if (profile == parent->netctlCommand->getSsidFromProfile(profileList[i][0]))
+            exists = true;
+    return exists;
+}
+
+
 bool WpaSup::startWpaSupplicant()
 {
     if (!QFile(wpaConf[2]).exists()) {
@@ -145,17 +168,27 @@ QList<QStringList> WpaSup::scanWifi()
             wifiPoint.append(rawList[i].split(QString("\t"), QString::SkipEmptyParts)[4]);
         else
             wifiPoint.append(QString("<hidden>"));
-        // profile existance
-        wifiPoint.append(QString("null"));
+        // profile status
+        QString status;
+        if (isProfileExists(wifiPoint[0])) {
+            status = QString("exists");
+            if (isProfileActive(wifiPoint[0]))
+                status = status + QString(" (active)");
+            else
+                status = status + QString(" (inactive)");
+        }
+        else
+            status = QString("new");
+        wifiPoint.append(status);
         // point signal
         wifiPoint.append(rawList[i].split(QString("\t"), QString::SkipEmptyParts)[2]);
         // point security
         QString security = rawList[i].split(QString("\t"), QString::SkipEmptyParts)[3];
-        if (security.indexOf(QString("WPA2")))
+        if (security.indexOf(QString("WPA2")) > -1)
             security = QString("WPA2");
-        else if (security.indexOf(QString("WPA")))
+        else if (security.indexOf(QString("WPA")) > -1)
             security = QString("WPA");
-        else if (security.indexOf(QString("WEP")))
+        else if (security.indexOf(QString("WEP")) > -1)
             security = QString("WEP");
         else
             security = QString("none");

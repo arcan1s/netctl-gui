@@ -36,6 +36,8 @@ public:
     // functions
     bool wpaCliCall(QString commandLine);
     QString getWpaCliOutput(QString commandLine);
+    bool isProfileExists(QString profile);
+    bool isProfileActive(QString profile);
 
 public slots:
     // functions
