@@ -49,7 +49,8 @@ QStringList WpaSup::getInterfaceList()
 {
     QStringList interfaces;
 
-    interfaces.append(mainInterface);
+    if (!mainInterface.isEmpty())
+        interfaces.append(mainInterface);
     QStringList allInterfaces = ifaceDirectory->entryList(QDir::Dirs | QDir::NoDotAndDotDot);
     for (int i=0; i<allInterfaces.count(); i++)
         if (QDir(ifaceDirectory->path() + QDir::separator() + allInterfaces[i] +
@@ -107,6 +108,17 @@ bool WpaSup::isProfileExists(QString profile)
         if (profile == parent->netctlCommand->getSsidFromProfile(profileList[i][0]))
             exists = true;
     return exists;
+}
+
+
+QString WpaSup::existentProfile(QString profile)
+{
+    QString profileFile = QString("");
+    QList<QStringList> profileList = parent->netctlCommand->getProfileList();
+    for (int i=0; i<profileList.count(); i++)
+        if (profile == parent->netctlCommand->getSsidFromProfile(profileList[i][0]))
+            profileFile = profileList[i][0];
+    return profileFile;
 }
 
 

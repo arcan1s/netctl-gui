@@ -15,44 +15,40 @@
  *   along with netctl-plasmoid. If not, see http://www.gnu.org/licenses/  *
  ***************************************************************************/
 
-#ifndef WPASUPINTERACT_H
-#define WPASUPINTERACT_H
-
-#include <QDir>
-#include <QWidget>
+#include "errorwindow.h"
+#include "ui_errorwindow.h"
 
 
-class MainWindow;
-
-class WpaSup : public QWidget
+ErrorWindow::ErrorWindow(QWidget *parent, int messageNumber)
+    : QMainWindow(parent),
+      ui(new Ui::ErrorWindow)
 {
-    Q_OBJECT
+    ui->setupUi(this);
+    setMessage(messageNumber);
+}
 
-public:
-    WpaSup(MainWindow *wid, QStringList wpaConfig, QString sudoPath, QString ifaceDir, QString preferedInterface);
-    ~WpaSup();
-    // general information
-    QStringList getInterfaceList();
-    // functions
-    bool wpaCliCall(QString commandLine);
-    QString getWpaCliOutput(QString commandLine);
-    bool isProfileExists(QString profile);
-    QString existentProfile(QString profile);
-    bool isProfileActive(QString profile);
+ErrorWindow::~ErrorWindow()
+{
+    delete ui;
+}
 
-public slots:
-    // functions
-    bool startWpaSupplicant();
-    bool stopWpaSupplicant();
-    QList<QStringList> scanWifi();
+void ErrorWindow::setMessage(int mess)
+{
+    QString message;
+    switch(mess) {
+    case 0:
+        message = QApplication::translate("ErrorWindow", "Unknown error");
+        break;
+    case 1:
+        message = QApplication::translate("ErrorWindow", "Could not find components");
+        break;
+    case 2:
+        message = QApplication::translate("ErrorWindow", "Doesn't support yet");
+        break;
+    default:
+        message = QApplication::translate("ErrorWindow", "Unknown error");
+        break;
+    }
 
-private:
-    MainWindow *parent;
-    QStringList wpaConf;
-    QString sudoCommand;
-    QDir *ifaceDirectory;
-    QString mainInterface;
-};
-
-
-#endif /* WPASUPINTERACT_H */
+    ui->label->setText(message);
+}

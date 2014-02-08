@@ -15,44 +15,54 @@
  *   along with netctl-plasmoid. If not, see http://www.gnu.org/licenses/  *
  ***************************************************************************/
 
-#ifndef WPASUPINTERACT_H
-#define WPASUPINTERACT_H
+#include "passwdwidget.h"
+#include "ui_passwdwidget.h"
 
-#include <QDir>
-#include <QWidget>
+#include "mainwindow.h"
 
 
-class MainWindow;
-
-class WpaSup : public QWidget
+PasswdWidget::PasswdWidget(MainWindow *wid)
+    : QWidget(wid),
+      parent(wid),
+      ui(new Ui::PasswdWidget)
 {
-    Q_OBJECT
-
-public:
-    WpaSup(MainWindow *wid, QStringList wpaConfig, QString sudoPath, QString ifaceDir, QString preferedInterface);
-    ~WpaSup();
-    // general information
-    QStringList getInterfaceList();
-    // functions
-    bool wpaCliCall(QString commandLine);
-    QString getWpaCliOutput(QString commandLine);
-    bool isProfileExists(QString profile);
-    QString existentProfile(QString profile);
-    bool isProfileActive(QString profile);
-
-public slots:
-    // functions
-    bool startWpaSupplicant();
-    bool stopWpaSupplicant();
-    QList<QStringList> scanWifi();
-
-private:
-    MainWindow *parent;
-    QStringList wpaConf;
-    QString sudoCommand;
-    QDir *ifaceDirectory;
-    QString mainInterface;
-};
+    ui->setupUi(this);
+    createActions();
+}
 
 
-#endif /* WPASUPINTERACT_H */
+PasswdWidget::~PasswdWidget()
+{
+    delete ui;
+}
+
+
+// ESC press event
+void PasswdWidget::keyPressEvent(QKeyEvent *pressedKey)
+{
+    if (pressedKey->key() == Qt::Key_Escape) {
+        hide();
+        parent->updateTabs(2);
+        this->~PasswdWidget();
+    }
+}
+
+
+void PasswdWidget::createActions()
+{
+    connect(ui->lineEdit, SIGNAL(returnPressed()), this, SLOT(passwdApply()));
+    connect(ui->pushButton, SIGNAL(clicked(bool)), this, SLOT(passwdApply()));
+}
+
+
+void PasswdWidget::setFocusToLineEdit()
+{
+    ui->lineEdit->setFocus(Qt::ActiveWindowFocusReason);
+}
+
+
+void PasswdWidget::passwdApply()
+{
+    hide();
+    return parent->connectToUnknownEssid(ui->lineEdit->text());
+}

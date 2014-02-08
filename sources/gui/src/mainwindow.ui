@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>MainWindow</string>
+   <string>Netctl GUI</string>
   </property>
   <widget class="QWidget" name="centralWidget">
    <layout class="QGridLayout" name="gridLayout">
@@ -101,6 +101,9 @@
           </item>
           <item>
            <widget class="QPushButton" name="pushButton_mainEnable">
+            <property name="enabled">
+             <bool>false</bool>
+            </property>
             <property name="text">
              <string>Enable</string>
             </property>
@@ -111,6 +114,9 @@
           </item>
           <item>
            <widget class="QPushButton" name="pushButton_mainRestart">
+            <property name="enabled">
+             <bool>false</bool>
+            </property>
             <property name="text">
              <string>Restart</string>
             </property>
@@ -121,6 +127,9 @@
           </item>
           <item>
            <widget class="QPushButton" name="pushButton_mainStart">
+            <property name="enabled">
+             <bool>false</bool>
+            </property>
             <property name="text">
              <string>Start</string>
             </property>
@@ -225,6 +234,9 @@
           </item>
           <item>
            <widget class="QPushButton" name="pushButton_wifiStart">
+            <property name="enabled">
+             <bool>false</bool>
+            </property>
             <property name="text">
              <string>Start</string>
             </property>

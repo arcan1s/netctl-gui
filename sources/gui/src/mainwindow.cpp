@@ -21,7 +21,9 @@
 #include <QMimeData>
 #include <QProcess>
 
+#include "errorwindow.h"
 #include "netctlinteract.h"
+#include "passwdwidget.h"
 #include "wpasupinteract.h"
 #include <cstdio>
 
@@ -114,6 +116,8 @@ void MainWindow::createActions()
 
     // wifi page events
     connect(ui->pushButton_wifiRefresh, SIGNAL(clicked(bool)), this, SLOT(updateWifiTab()));
+    connect(ui->pushButton_wifiStart, SIGNAL(clicked(bool)), this, SLOT(wifiTabStart()));
+    connect(ui->tableWidget_wifi, SIGNAL(itemActivated(QTableWidgetItem *)), this, SLOT(wifiTabStart()));
     connect(ui->tableWidget_wifi, SIGNAL(currentItemChanged(QTableWidgetItem *, QTableWidgetItem *)), this, SLOT(wifiTabRefreshButtons(QTableWidgetItem *, QTableWidgetItem *)));
 }
 
@@ -130,10 +134,13 @@ void MainWindow::updateTabs(const int tab)
 
 void MainWindow::updateMainTab()
 {
-    if (!checkExternalApps(QString("netctl")))
+    if (!checkExternalApps(QString("netctl"))) {
+        errorwin = new ErrorWindow(this, 1);
+        errorwin->show();
         return;
+    }
 
-    ui->tableWidget_main->setDisabled(true);
+    ui->tabWidget->setDisabled(true);
     QList<QStringList> profiles = netctlCommand->getProfileList();;
 
     ui->tableWidget_main->setSortingEnabled(false);
@@ -160,7 +167,7 @@ void MainWindow::updateMainTab()
     ui->tableWidget_main->setSortingEnabled(true);
     ui->tableWidget_main->resizeRowsToContents();
     ui->tableWidget_main->horizontalHeader()->setResizeMode(QHeaderView::Stretch);
-    ui->tableWidget_main->setEnabled(true);
+    ui->tabWidget->setEnabled(true);
     ui->statusBar->showMessage(QApplication::translate("MainWindow", "Updated"));
 
     update();
@@ -170,12 +177,15 @@ void MainWindow::updateMainTab()
 void MainWindow::updateWifiTab()
 {
     wifiTabSetEnabled(checkExternalApps(QString("wpasup")));
-    if (!checkExternalApps(QString("wpasup")))
+    if (!checkExternalApps(QString("wpasup"))) {
+        errorwin = new ErrorWindow(this, 1);
+        errorwin->show();
         return;
+    }
 
     QList<QStringList> scanResults = wpaCommand->scanWifi();
 
-    ui->tableWidget_wifi->setDisabled(true);
+    ui->tabWidget->setDisabled(true);
     ui->tableWidget_wifi->setSortingEnabled(false);
     ui->tableWidget_wifi->selectRow(-1);
     ui->tableWidget_wifi->sortByColumn(0, Qt::AscendingOrder);
@@ -203,7 +213,7 @@ void MainWindow::updateWifiTab()
     ui->tableWidget_wifi->setSortingEnabled(true);
     ui->tableWidget_wifi->resizeRowsToContents();
     ui->tableWidget_wifi->horizontalHeader()->setResizeMode(QHeaderView::Stretch);
-    ui->tableWidget_wifi->setEnabled(true);
+    ui->tabWidget->setEnabled(true);
     ui->statusBar->showMessage(QApplication::translate("MainWindow", "Updated"));
 
     update();
@@ -213,10 +223,15 @@ void MainWindow::updateWifiTab()
 // main tab slots
 void MainWindow::mainTabEnableProfile()
 {
-    if (!checkExternalApps(QString("netctl")))
+    if (!checkExternalApps(QString("netctl"))) {
+        errorwin = new ErrorWindow(this, 1);
+        errorwin->show();
+        return;
+    }
+    if (ui->tableWidget_main->currentItem() == 0)
         return;
 
-    ui->tableWidget_main->setDisabled(true);
+    ui->tabWidget->setDisabled(true);
     QString profile = ui->tableWidget_main->item(ui->tableWidget_main->currentItem()->row(), 0)->text();
     netctlCommand->enableProfile(profile);
     if (ui->tableWidget_main->item(ui->tableWidget_main->currentItem()->row(), 2)->text().indexOf(QString("enabled")) > -1) {
@@ -231,34 +246,42 @@ void MainWindow::mainTabEnableProfile()
         else
             ui->statusBar->showMessage(QApplication::translate("MainWindow", "Error"));
     }
-    ui->tableWidget_main->setEnabled(true);
     updateMainTab();
 }
 
 
 void MainWindow::mainTabRestartProfile()
 {
-    if (!checkExternalApps(QString("netctl")))
+    if (!checkExternalApps(QString("netctl"))) {
+        errorwin = new ErrorWindow(this, 1);
+        errorwin->show();
+        return;
+    }
+    if (ui->tableWidget_main->currentItem() == 0)
         return;
 
-    ui->tableWidget_main->setDisabled(true);
+    ui->tabWidget->setDisabled(true);
     QString profile = ui->tableWidget_main->item(ui->tableWidget_main->currentItem()->row(), 0)->text();
     netctlCommand->restartProfile(profile);
     if (netctlCommand->isProfileActive(profile))
         ui->statusBar->showMessage(QApplication::translate("MainWindow", "Done"));
     else
         ui->statusBar->showMessage(QApplication::translate("MainWindow", "Error"));
-    ui->tableWidget_main->setEnabled(true);
     updateMainTab();
 }
 
 
 void MainWindow::mainTabStartProfile()
 {
-    if (!checkExternalApps(QString("netctl")))
+    if (!checkExternalApps(QString("netctl"))) {
+        errorwin = new ErrorWindow(this, 1);
+        errorwin->show();
+        return;
+    }
+    if (ui->tableWidget_main->currentItem() == 0)
         return;
 
-    ui->tableWidget_main->setDisabled(true);
+    ui->tabWidget->setDisabled(true);
     QString profile = ui->tableWidget_main->item(ui->tableWidget_main->currentItem()->row(), 0)->text();
     netctlCommand->startProfile(profile);
     if (ui->tableWidget_main->item(ui->tableWidget_main->currentItem()->row(), 2)->text().indexOf(QString("inactive")) == -1) {
@@ -273,7 +296,6 @@ void MainWindow::mainTabStartProfile()
         else
             ui->statusBar->showMessage(QApplication::translate("MainWindow", "Error"));
     }
-    ui->tableWidget_main->setEnabled(true);
     updateMainTab();
 }
 
@@ -281,10 +303,20 @@ void MainWindow::mainTabStartProfile()
 void MainWindow::mainTabRefreshButtons(QTableWidgetItem *current, QTableWidgetItem *previous)
 {
     Q_UNUSED(previous);
-    if (current == 0)
+    if (!checkExternalApps(QString("netctl"))) {
+        errorwin = new ErrorWindow(this, 1);
+        errorwin->show();
         return;
-    if (!checkExternalApps(QString("netctl")))
+    }
+    if (current == 0) {
+        ui->pushButton_mainEnable->setDisabled(true);
+        ui->pushButton_mainRestart->setDisabled(true);
+        ui->pushButton_mainStart->setDisabled(true);
         return;
+    }
+
+    ui->pushButton_mainEnable->setEnabled(true);
+    ui->pushButton_mainStart->setEnabled(true);
 
     QString item = ui->tableWidget_main->item(current->row(), 2)->text();
     if (!checkState(QString("inactive"), item)) {
@@ -320,15 +352,105 @@ void MainWindow::wifiTabSetEnabled(bool state)
 }
 
 
+void MainWindow::connectToUnknownEssid(QString passwd)
+{
+    if (!passwd.isEmpty())
+        delete passwdwid;
+    QStringList profileInfo;
+    profileInfo.append(QString("Automatically generated profile by Netctl GUI"));
+    profileInfo.append(wpaCommand->getInterfaceList()[0]);
+    profileInfo.append(QString("wireless"));
+    QString security = ui->tableWidget_wifi->item(ui->tableWidget_wifi->currentItem()->row(), 3)->text();
+    if (checkState(QString("WPA"), security))
+        profileInfo.append(QString("wpa"));
+    else if (checkState(QString("wep"), security))
+        profileInfo.append(QString("wep"));
+    else
+        profileInfo.append(QString("none"));
+    profileInfo.append(ui->tableWidget_wifi->item(ui->tableWidget_wifi->currentItem()->row(), 0)->text());
+    profileInfo.append(passwd);
+    profileInfo.append(QString("dhcp"));
+
+
+
+    updateWifiTab();
+}
+
+
+void MainWindow::wifiTabStart()
+{
+    if (!checkExternalApps(QString("wpasup"))) {
+        errorwin = new ErrorWindow(this, 1);
+        errorwin->show();
+        return;
+    }
+    if (ui->tableWidget_wifi->currentItem() == 0)
+        return;
+    if (ui->tableWidget_wifi->item(ui->tableWidget_wifi->currentItem()->row(), 0)->text() == QString("<hidden>")) {
+        ui->pushButton_wifiStart->setDisabled(true);
+        errorwin = new ErrorWindow(this, 2);
+        errorwin->show();
+        return;
+    }
+
+    ui->tabWidget->setDisabled(true);
+    QString profile = ui->tableWidget_wifi->item(ui->tableWidget_wifi->currentItem()->row(), 0)->text();
+    QString item = ui->tableWidget_wifi->item(ui->tableWidget_wifi->currentItem()->row(), 1)->text();
+    if (checkState(QString("exists"), item)) {
+        QString profileName = wpaCommand->existentProfile(profile);
+        netctlCommand->startProfile(profileName);
+        if (ui->tableWidget_wifi->item(ui->tableWidget_wifi->currentItem()->row(), 1)->text().indexOf(QString("inactive")) == -1) {
+            if (netctlCommand->isProfileActive(profileName))
+                ui->statusBar->showMessage(QApplication::translate("MainWindow", "Error"));
+            else
+                ui->statusBar->showMessage(QApplication::translate("MainWindow", "Done"));
+        }
+        else {
+            if (netctlCommand->isProfileActive(profileName))
+                ui->statusBar->showMessage(QApplication::translate("MainWindow", "Done"));
+            else
+                ui->statusBar->showMessage(QApplication::translate("MainWindow", "Error"));
+        }
+    }
+    else {
+        QString security = ui->tableWidget_wifi->item(ui->tableWidget_wifi->currentItem()->row(), 3)->text();
+        if (checkState(QString("none"), security))
+            return connectToUnknownEssid(QString(""));
+        else {
+            passwdwid = new PasswdWidget(this);
+            int widgetWidth = 270;
+            int widgetHeight = 86;
+            int x = (width() - widgetWidth) / 2;
+            int y = (height() - widgetHeight) / 2;
+            passwdwid->setGeometry(x, y, widgetWidth, widgetHeight);
+            passwdwid->show();
+            passwdwid->setFocusToLineEdit();
+            return;
+        }
+    }
+    updateWifiTab();
+}
+
+
 void MainWindow::wifiTabRefreshButtons(QTableWidgetItem *current, QTableWidgetItem *previous)
 {
     Q_UNUSED(previous);
-    if (current == 0)
+    if (!checkExternalApps(QString("wpasup"))) {
+        errorwin = new ErrorWindow(this, 1);
+        errorwin->show();
         return;
-    if (!checkExternalApps(QString("wpasup")))
+    }
+    if (current == 0) {
+        ui->pushButton_wifiStart->setDisabled(true);
         return;
+    }
+    if (ui->tableWidget_wifi->item(current->row(), 0)->text() == QString("<hidden>")) {
+        ui->pushButton_wifiStart->setDisabled(true);
+        return;
+    }
 
-    QString item = ui->tableWidget_wifi->item(current->row(), 3)->text();
+    ui->pushButton_wifiStart->setEnabled(true);
+    QString item = ui->tableWidget_wifi->item(current->row(), 1)->text();
     if (checkState(QString("exists"), item)) {
         if (!checkState(QString("inactive"), item))
             ui->pushButton_wifiStart->setText(QApplication::translate("MainWindow", "Stop"));

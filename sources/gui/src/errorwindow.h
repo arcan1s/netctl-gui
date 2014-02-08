@@ -15,44 +15,27 @@
  *   along with netctl-plasmoid. If not, see http://www.gnu.org/licenses/  *
  ***************************************************************************/
 
-#ifndef WPASUPINTERACT_H
-#define WPASUPINTERACT_H
+#ifndef ERRORWINDOW_H
+#define ERRORWINDOW_H
 
-#include <QDir>
-#include <QWidget>
+#include <QMainWindow>
 
 
-class MainWindow;
+namespace Ui {
+class ErrorWindow;
+}
 
-class WpaSup : public QWidget
+class ErrorWindow : public QMainWindow
 {
     Q_OBJECT
 
 public:
-    WpaSup(MainWindow *wid, QStringList wpaConfig, QString sudoPath, QString ifaceDir, QString preferedInterface);
-    ~WpaSup();
-    // general information
-    QStringList getInterfaceList();
-    // functions
-    bool wpaCliCall(QString commandLine);
-    QString getWpaCliOutput(QString commandLine);
-    bool isProfileExists(QString profile);
-    QString existentProfile(QString profile);
-    bool isProfileActive(QString profile);
-
-public slots:
-    // functions
-    bool startWpaSupplicant();
-    bool stopWpaSupplicant();
-    QList<QStringList> scanWifi();
+    explicit ErrorWindow(QWidget *parent = 0, int messageNumber = 0);
+    ~ErrorWindow();
 
 private:
-    MainWindow *parent;
-    QStringList wpaConf;
-    QString sudoCommand;
-    QDir *ifaceDirectory;
-    QString mainInterface;
+    Ui::ErrorWindow *ui;
+    void setMessage(int mess);
 };
 
-
-#endif /* WPASUPINTERACT_H */
+#endif /* ERRORWINDOW_H */

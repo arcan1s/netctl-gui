@@ -24,7 +24,9 @@
 #include <QMainWindow>
 
 
+class ErrorWindow;
 class Netctl;
+class PasswdWidget;
 class WpaSup;
 
 namespace Ui {
@@ -48,9 +50,13 @@ public:
         wpaConfDir = 4,
         wpaConfGroup = 5
     };
+
+public slots:
+    void updateTabs(const int tab);
+    // wifi tab slots
+    void connectToUnknownEssid(QString passwd);
     
 private slots:
-    void updateTabs(const int tab);
     void updateMainTab();
     void updateWifiTab();
     // main tab slots
@@ -60,10 +66,13 @@ private slots:
     void mainTabRefreshButtons(QTableWidgetItem *current, QTableWidgetItem *previous);
     // wifi tab slots
     void wifiTabSetEnabled(bool state);
+    void wifiTabStart();
     void wifiTabRefreshButtons(QTableWidgetItem *current, QTableWidgetItem *previous);
 
 private:
     Ui::MainWindow *ui;
+    ErrorWindow *errorwin;
+    PasswdWidget *passwdwid;
     bool checkExternalApps(QString apps);
     bool checkState(QString state, QString item);
     void createActions();

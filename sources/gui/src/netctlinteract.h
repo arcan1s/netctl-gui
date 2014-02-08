@@ -44,6 +44,7 @@ public slots:
     bool enableProfile(QString profile);
     bool restartProfile(QString profile);
     bool startProfile(QString profile);
+//    bool createProfile(QStringList profileInfo);
 
 private:
     MainWindow *parent;
