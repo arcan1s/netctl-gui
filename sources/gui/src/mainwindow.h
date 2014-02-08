@@ -48,7 +48,6 @@ public:
         wpaConfDir = 4,
         wpaConfGroup = 5
     };
-    bool checkExternalApps(QString apps);
     
 private slots:
     void updateTabs(const int tab);
@@ -65,6 +64,8 @@ private slots:
 
 private:
     Ui::MainWindow *ui;
+    bool checkExternalApps(QString apps);
+    bool checkState(QString state, QString item);
     void createActions();
     // configuration
     QString netctlPath;

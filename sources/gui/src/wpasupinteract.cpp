@@ -49,15 +49,13 @@ QStringList WpaSup::getInterfaceList()
 {
     QStringList interfaces;
 
-    if (mainInterface.isEmpty()) {
-        QStringList allInterfaces = ifaceDirectory->entryList(QDir::Dirs | QDir::NoDotAndDotDot);
-        for (int i=0; i<allInterfaces.count(); i++)
-            if (QDir(ifaceDirectory->path() + QDir::separator() + allInterfaces[i] +
-                     QDir::separator() + QString("wireless")).exists())
-                interfaces.append(allInterfaces[i]);
-    }
-    else
-        interfaces.append(mainInterface);
+    interfaces.append(mainInterface);
+    QStringList allInterfaces = ifaceDirectory->entryList(QDir::Dirs | QDir::NoDotAndDotDot);
+    for (int i=0; i<allInterfaces.count(); i++)
+        if (QDir(ifaceDirectory->path() + QDir::separator() + allInterfaces[i] +
+                 QDir::separator() + QString("wireless")).exists())
+            interfaces.append(allInterfaces[i]);
+
 
     return interfaces;
 }
@@ -69,7 +67,7 @@ bool WpaSup::wpaCliCall(QString commandLine)
     QString interface = getInterfaceList()[0];
     QProcess command;
     command.start(wpaConf[0] + QString(" -i ") + interface + QString(" -p ") + wpaConf[4] +
-            QString(" ") + commandLine);
+            QString(" -P ") + wpaConf[2] + QString(" ") + commandLine);
     command.waitForFinished(-1);
     SleepThread::sleep(1);
     if (command.exitCode() == 0)
@@ -84,7 +82,7 @@ QString WpaSup::getWpaCliOutput(QString commandLine)
     QString interface = getInterfaceList()[0];
     QProcess command;
     command.start(wpaConf[0] + QString(" -i ") + interface + QString(" -p ") + wpaConf[4] +
-            QString(" ") + commandLine);
+            QString(" -P ") + wpaConf[2] + QString(" ") + commandLine);
     command.waitForFinished(-1);
     return command.readAllStandardOutput();
 }

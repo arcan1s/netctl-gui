@@ -40,7 +40,7 @@ MainWindow::MainWindow(QWidget *parent)
     // temporary block
     netctlPath = QString("/usr/bin/netctl");
     profileDir = QString("/etc/netctl");
-    sudoPath = QString("/usr/bin/sudo");
+    sudoPath = QString("/usr/bin/kdesu");
     wpaConfig.append(QString("/usr/bin/wpa_cli"));
     wpaConfig.append(QString("/usr/bin/wpa_supplicant"));
     ifaceDir = QString("/sys/class/net/");
@@ -89,6 +89,15 @@ bool MainWindow::checkExternalApps(QString apps = QString("all"))
 }
 
 
+bool MainWindow::checkState(QString state, QString item)
+{
+    if (item.indexOf(state) > -1)
+        return true;
+    else
+        return false;
+}
+
+
 // window signals
 void MainWindow::createActions()
 {
@@ -100,6 +109,7 @@ void MainWindow::createActions()
     connect(ui->pushButton_mainEnable, SIGNAL(clicked(bool)), this, SLOT(mainTabEnableProfile()));
     connect(ui->pushButton_mainRestart, SIGNAL(clicked(bool)), this, SLOT(mainTabRestartProfile()));
     connect(ui->pushButton_mainStart, SIGNAL(clicked(bool)), this, SLOT(mainTabStartProfile()));
+    connect(ui->tableWidget_main, SIGNAL(itemActivated(QTableWidgetItem *)), this, SLOT(mainTabStartProfile()));
     connect(ui->tableWidget_main, SIGNAL(currentItemChanged(QTableWidgetItem *, QTableWidgetItem *)), this, SLOT(mainTabRefreshButtons(QTableWidgetItem *, QTableWidgetItem *)));
 
     // wifi page events
@@ -276,8 +286,8 @@ void MainWindow::mainTabRefreshButtons(QTableWidgetItem *current, QTableWidgetIt
     if (!checkExternalApps(QString("netctl")))
         return;
 
-    QString profile = ui->tableWidget_main->item(current->row(), 0)->text();
-    if (netctlCommand->isProfileActive(profile)) {
+    QString item = ui->tableWidget_main->item(current->row(), 2)->text();
+    if (!checkState(QString("inactive"), item)) {
         ui->pushButton_mainRestart->setEnabled(true);
         ui->pushButton_mainStart->setText(QApplication::translate("MainWindow", "Stop"));
     }
@@ -285,7 +295,7 @@ void MainWindow::mainTabRefreshButtons(QTableWidgetItem *current, QTableWidgetIt
         ui->pushButton_mainRestart->setDisabled(true);
         ui->pushButton_mainStart->setText(QApplication::translate("MainWindow", "Start"));
     }
-    if (netctlCommand->isProfileEnabled(profile))
+    if (checkState(QString("enabled"), item))
         ui->pushButton_mainEnable->setText(QApplication::translate("MainWindow", "Disable"));
     else
         ui->pushButton_mainEnable->setText(QApplication::translate("MainWindow", "Enable"));
@@ -318,11 +328,13 @@ void MainWindow::wifiTabRefreshButtons(QTableWidgetItem *current, QTableWidgetIt
     if (!checkExternalApps(QString("wpasup")))
         return;
 
-    QString network = ui->tableWidget_wifi->item(current->row(), 0)->text();
-    if (wpaCommand->isProfileExists(network)) {
-        if (wpaCommand->isProfileActive(network))
+    QString item = ui->tableWidget_wifi->item(current->row(), 3)->text();
+    if (checkState(QString("exists"), item)) {
+        if (!checkState(QString("inactive"), item))
             ui->pushButton_wifiStart->setText(QApplication::translate("MainWindow", "Stop"));
         else
             ui->pushButton_wifiStart->setText(QApplication::translate("MainWindow", "Start"));
     }
+    else
+        ui->pushButton_wifiStart->setText(QApplication::translate("MainWindow", "Start"));
 }
