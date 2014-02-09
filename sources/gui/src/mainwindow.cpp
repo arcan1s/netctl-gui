@@ -23,6 +23,7 @@
 
 #include "errorwindow.h"
 #include "netctlinteract.h"
+#include "netctlprofile.h"
 #include "passwdwidget.h"
 #include "wpasupinteract.h"
 #include <cstdio>
@@ -54,6 +55,7 @@ MainWindow::MainWindow(QWidget *parent)
     wpaConfig.append(QString("users"));
 
     netctlCommand = new Netctl(this, netctlPath, profileDir, sudoPath);
+    netctlProfile = new NetctlProfile(this, profileDir, sudoPath);
     wpaCommand = new WpaSup(this, wpaConfig, sudoPath, ifaceDir, preferedInterface);
 
     createActions();
@@ -64,6 +66,7 @@ MainWindow::MainWindow(QWidget *parent)
 MainWindow::~MainWindow()
 {
     delete netctlCommand;
+    delete netctlProfile;
     delete wpaCommand;
     delete ui;
 }
@@ -127,6 +130,8 @@ void MainWindow::updateTabs(const int tab)
 {
     if (tab == 0)
         updateMainTab();
+    else if (tab == 1)
+
     else if (tab == 2)
         updateWifiTab();
 }
@@ -171,6 +176,12 @@ void MainWindow::updateMainTab()
     ui->statusBar->showMessage(QApplication::translate("MainWindow", "Updated"));
 
     update();
+}
+
+
+void MainWindow::updateProfileTab()
+{
+
 }
 
 

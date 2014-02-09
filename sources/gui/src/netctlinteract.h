@@ -19,17 +19,20 @@
 #define NETCTLINTERACT_H
 
 #include <QDir>
-#include <QWidget>
+#include <QObject>
 
 
 class MainWindow;
 
-class Netctl : public QWidget
+class Netctl : public QObject
 {
     Q_OBJECT
 
 public:
-    Netctl(MainWindow *wid, QString netctlPath, QString profileDir, QString sudoPath);
+    explicit Netctl(MainWindow *wid = 0,
+                    QString netctlPath = QString(""),
+                    QString profileDir = QString(""),
+                    QString sudoPath = QString(""));
     ~Netctl();
     // general information
     QList<QStringList> getProfileList();
@@ -44,7 +47,6 @@ public slots:
     bool enableProfile(QString profile);
     bool restartProfile(QString profile);
     bool startProfile(QString profile);
-//    bool createProfile(QStringList profileInfo);
 
 private:
     MainWindow *parent;

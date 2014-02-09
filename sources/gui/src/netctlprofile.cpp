@@ -15,48 +15,21 @@
  *   along with netctl-plasmoid. If not, see http://www.gnu.org/licenses/  *
  ***************************************************************************/
 
-#ifndef WPASUPINTERACT_H
-#define WPASUPINTERACT_H
+#include "netctlprofile.h"
 
-#include <QDir>
-#include <QObject>
+#include "mainwindow.h"
 
 
-class MainWindow;
-
-class WpaSup : public QObject
+NetctlProfile::NetctlProfile(MainWindow *wid, QString profileDir, QString sudoPath)
+    : parent(wid),
+      profileDirectory(new QDir(profileDir)),
+      sudoCommand(sudoPath)
 {
-    Q_OBJECT
 
-public:
-    explicit WpaSup(MainWindow *wid = 0,
-                    QStringList wpaConfig = QStringList(),
-                    QString sudoPath = QString(""),
-                    QString ifaceDir = QString(""),
-                    QString preferedInterface = QString(""));
-    ~WpaSup();
-    // general information
-    QStringList getInterfaceList();
-    // functions
-    bool wpaCliCall(QString commandLine);
-    QString getWpaCliOutput(QString commandLine);
-    bool isProfileExists(QString profile);
-    QString existentProfile(QString profile);
-    bool isProfileActive(QString profile);
-
-public slots:
-    // functions
-    bool startWpaSupplicant();
-    bool stopWpaSupplicant();
-    QList<QStringList> scanWifi();
-
-private:
-    MainWindow *parent;
-    QStringList wpaConf;
-    QString sudoCommand;
-    QDir *ifaceDirectory;
-    QString mainInterface;
-};
+}
 
 
-#endif /* WPASUPINTERACT_H */
+NetctlProfile::~NetctlProfile()
+{
+    delete profileDirectory;
+}

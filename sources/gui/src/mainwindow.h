@@ -26,6 +26,7 @@
 
 class ErrorWindow;
 class Netctl;
+class NetctlProfile;
 class PasswdWidget;
 class WpaSup;
 
@@ -41,6 +42,7 @@ public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
     Netctl *netctlCommand;
+    NetctlProfile *netctlProfile;
     WpaSup *wpaCommand;
     enum wpaConfigIndex {
         wpaCliPath = 0,
@@ -58,6 +60,7 @@ public slots:
     
 private slots:
     void updateMainTab();
+    void updateProfileTab();
     void updateWifiTab();
     // main tab slots
     void mainTabEnableProfile();
