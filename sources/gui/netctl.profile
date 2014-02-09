@@ -24,11 +24,11 @@ Routes=('192.168.0.0/24 via 192.168.1.2')
 [IP6=static]|[IP6=stateless] Address6=('1234:5678:9abc:def::1/64' '1234:3456::123/96')
 [IP6=static]|[IP6=stateless] Gateway6='1234:0:123::abcd'
 Routes6=('192.168.0.0/24 via 192.168.1.2')
-DHCPClient=dhcpcd|dhclient
-DHCPReleaseOnStop=yes - release the DHCP lease when the profile is stopped.
-DhcpcdOptions=опции
-DhclientOptions=опции
-DhclientOptions6=опции
+[IP=dhcp] DHCPClient=dhcpcd|dhclient
+[IP=dhcp] DHCPReleaseOnStop=yes - release the DHCP lease when the profile is stopped.
+[IP=dhcp][DHCPClient=dhcpcd] DhcpcdOptions=опции
+[IP=dhcp][DHCPClient=dhclient] DhclientOptions=опции
+[IP=dhcp][DHCPClient=dhclient] DhclientOptions6=опции
 IPCustom=('addr add dev eth0 192.168.1.23/24 brd +' 'route add default via 192.168.1.1') - команда для ip напрямую
 Hostname=
 DNS=('192.168.1.1')

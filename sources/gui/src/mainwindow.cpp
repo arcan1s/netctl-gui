@@ -131,7 +131,7 @@ void MainWindow::updateTabs(const int tab)
     if (tab == 0)
         updateMainTab();
     else if (tab == 1)
-
+        updateProfileTab();
     else if (tab == 2)
         updateWifiTab();
 }
@@ -351,7 +351,6 @@ void MainWindow::wifiTabSetEnabled(bool state)
     if (state) {
         ui->tableWidget_wifi->show();
         ui->pushButton_wifiRefresh->setEnabled(true);
-        ui->pushButton_wifiStart->setEnabled(true);
         ui->label_wifi->hide();
     }
     else {

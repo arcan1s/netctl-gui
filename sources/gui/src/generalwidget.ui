@@ -1,0 +1,378 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>GeneralWidget</class>
+ <widget class="QWidget" name="GeneralWidget">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>587</width>
+    <height>473</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <layout class="QVBoxLayout" name="verticalLayout_4">
+   <item>
+    <widget class="QDockWidget" name="dockWidget_general">
+     <property name="features">
+      <set>QDockWidget::NoDockWidgetFeatures</set>
+     </property>
+     <property name="windowTitle">
+      <string>General</string>
+     </property>
+     <widget class="QWidget" name="dockWidgetContents_general">
+      <layout class="QVBoxLayout" name="verticalLayout_5">
+       <item>
+        <layout class="QHBoxLayout" name="layout_description">
+         <item>
+          <widget class="QLabel" name="label_description">
+           <property name="minimumSize">
+            <size>
+             <width>150</width>
+             <height>0</height>
+            </size>
+           </property>
+           <property name="text">
+            <string>Description</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLineEdit" name="lineEdit_description">
+           <property name="toolTip">
+            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;A description of the profile&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <layout class="QHBoxLayout" name="layout_connection">
+         <item>
+          <widget class="QLabel" name="label_connection">
+           <property name="minimumSize">
+            <size>
+             <width>150</width>
+             <height>0</height>
+            </size>
+           </property>
+           <property name="text">
+            <string>Connection</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QComboBox" name="comboBox_connection">
+           <property name="toolTip">
+            <string>The connection type used by the profile</string>
+           </property>
+           <item>
+            <property name="text">
+             <string notr="true">ethernet</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string notr="true">wireless</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string notr="true">bond</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string notr="true">bridge</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string notr="true">dummy</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string notr="true">pppoe</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string notr="true">mobile_ppp</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string notr="true">tunnel</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string notr="true">tuntap</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string notr="true">vlan</string>
+            </property>
+           </item>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <layout class="QHBoxLayout" name="layout_interface">
+         <item>
+          <widget class="QLabel" name="label_interface">
+           <property name="minimumSize">
+            <size>
+             <width>150</width>
+             <height>0</height>
+            </size>
+           </property>
+           <property name="text">
+            <string>Interface</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QComboBox" name="comboBox_interface">
+           <property name="toolTip">
+            <string>The name of the associated network interface</string>
+           </property>
+           <property name="editable">
+            <bool>true</bool>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <layout class="QHBoxLayout" name="layout_bindto">
+         <item>
+          <layout class="QVBoxLayout" name="layout_bindtoLabel">
+           <item>
+            <widget class="QLabel" name="label_bindto">
+             <property name="text">
+              <string>Binds to interfaces</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <layout class="QHBoxLayout" name="layout_bindtoButton">
+             <item>
+              <widget class="QComboBox" name="comboBox_bindto">
+               <property name="minimumSize">
+                <size>
+                 <width>150</width>
+                 <height>0</height>
+                </size>
+               </property>
+               <property name="editable">
+                <bool>true</bool>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QPushButton" name="pushButton_bindto">
+               <property name="text">
+                <string>Add</string>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </item>
+           <item>
+            <spacer name="spacer_bindto">
+             <property name="orientation">
+              <enum>Qt::Vertical</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>20</width>
+               <height>40</height>
+              </size>
+             </property>
+            </spacer>
+           </item>
+          </layout>
+         </item>
+         <item>
+          <widget class="QListWidget" name="listWidget_bindto">
+           <property name="maximumSize">
+            <size>
+             <width>16777215</width>
+             <height>100</height>
+            </size>
+           </property>
+           <property name="toolTip">
+            <string>An array of physical network interfaces that this profile needs before it can be started</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <layout class="QHBoxLayout" name="layout_advanced">
+         <item>
+          <spacer name="spacer_advanced">
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>40</width>
+             <height>20</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+         <item>
+          <widget class="QPushButton" name="pushButton_advanced">
+           <property name="text">
+            <string>Show advanced</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <widget class="QWidget" name="widget_generalAdvanced" native="true">
+         <layout class="QVBoxLayout" name="verticalLayout_3">
+          <item>
+           <layout class="QHBoxLayout" name="layout_after">
+            <item>
+             <layout class="QVBoxLayout" name="layout_afterLabel">
+              <item>
+               <widget class="QLabel" name="label_after">
+                <property name="text">
+                 <string>After</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <layout class="QHBoxLayout" name="layout_afterButton">
+                <item>
+                 <widget class="QComboBox" name="comboBox_after">
+                  <property name="minimumSize">
+                   <size>
+                    <width>150</width>
+                    <height>0</height>
+                   </size>
+                  </property>
+                  <property name="editable">
+                   <bool>true</bool>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QPushButton" name="pushButton_after">
+                  <property name="text">
+                   <string>Add</string>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
+              </item>
+              <item>
+               <spacer name="spacer_after">
+                <property name="orientation">
+                 <enum>Qt::Vertical</enum>
+                </property>
+                <property name="sizeHint" stdset="0">
+                 <size>
+                  <width>20</width>
+                  <height>40</height>
+                 </size>
+                </property>
+               </spacer>
+              </item>
+             </layout>
+            </item>
+            <item>
+             <widget class="QListWidget" name="listWidget_after">
+              <property name="maximumSize">
+               <size>
+                <width>16777215</width>
+                <height>100</height>
+               </size>
+              </property>
+              <property name="toolTip">
+               <string>An array of profile names that should be started before this profile is started</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+          <item>
+           <layout class="QHBoxLayout" name="layout_execUpPost">
+            <item>
+             <widget class="QLabel" name="label_execUpPost">
+              <property name="minimumSize">
+               <size>
+                <width>150</width>
+                <height>0</height>
+               </size>
+              </property>
+              <property name="text">
+               <string>Command after starting</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLineEdit" name="lineEdit_execUpPost">
+              <property name="toolTip">
+               <string>A command that is executed after a connection is established</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+          <item>
+           <layout class="QHBoxLayout" name="layout_execDownPre">
+            <item>
+             <widget class="QLabel" name="label_execDownPre">
+              <property name="minimumSize">
+               <size>
+                <width>150</width>
+                <height>0</height>
+               </size>
+              </property>
+              <property name="text">
+               <string>Command before stoping</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLineEdit" name="lineEdit_execDownPre">
+              <property name="toolTip">
+               <string>A command that is executed before a connection is brought down</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+          <item>
+           <widget class="QCheckBox" name="checkBox_forceConnect">
+            <property name="toolTip">
+             <string>Set to ‘yes’ to force connecting even if the interface is up</string>
+            </property>
+            <property name="text">
+             <string>Force connect</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
