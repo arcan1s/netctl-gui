@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>587</width>
-    <height>473</height>
+    <width>431</width>
+    <height>498</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -150,9 +150,9 @@
         </layout>
        </item>
        <item>
-        <layout class="QHBoxLayout" name="layout_bindto">
+        <layout class="QVBoxLayout" name="verticalLayout">
          <item>
-          <layout class="QVBoxLayout" name="layout_bindtoLabel">
+          <layout class="QHBoxLayout" name="layout_bindtoButton">
            <item>
             <widget class="QLabel" name="label_bindto">
              <property name="text">
@@ -161,41 +161,24 @@
             </widget>
            </item>
            <item>
-            <layout class="QHBoxLayout" name="layout_bindtoButton">
-             <item>
-              <widget class="QComboBox" name="comboBox_bindto">
-               <property name="minimumSize">
-                <size>
-                 <width>150</width>
-                 <height>0</height>
-                </size>
-               </property>
-               <property name="editable">
-                <bool>true</bool>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <widget class="QPushButton" name="pushButton_bindto">
-               <property name="text">
-                <string>Add</string>
-               </property>
-              </widget>
-             </item>
-            </layout>
-           </item>
-           <item>
-            <spacer name="spacer_bindto">
-             <property name="orientation">
-              <enum>Qt::Vertical</enum>
-             </property>
-             <property name="sizeHint" stdset="0">
+            <widget class="QComboBox" name="comboBox_bindto">
+             <property name="minimumSize">
               <size>
-               <width>20</width>
-               <height>40</height>
+               <width>150</width>
+               <height>0</height>
               </size>
              </property>
-            </spacer>
+             <property name="editable">
+              <bool>true</bool>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QPushButton" name="pushButton_bindto">
+             <property name="text">
+              <string>Add</string>
+             </property>
+            </widget>
            </item>
           </layout>
          </item>
@@ -242,9 +225,9 @@
         <widget class="QWidget" name="widget_generalAdvanced" native="true">
          <layout class="QVBoxLayout" name="verticalLayout_3">
           <item>
-           <layout class="QHBoxLayout" name="layout_after">
+           <layout class="QVBoxLayout" name="verticalLayout_2">
             <item>
-             <layout class="QVBoxLayout" name="layout_afterLabel">
+             <layout class="QHBoxLayout" name="layout_afterButton">
               <item>
                <widget class="QLabel" name="label_after">
                 <property name="text">
@@ -253,41 +236,24 @@
                </widget>
               </item>
               <item>
-               <layout class="QHBoxLayout" name="layout_afterButton">
-                <item>
-                 <widget class="QComboBox" name="comboBox_after">
-                  <property name="minimumSize">
-                   <size>
-                    <width>150</width>
-                    <height>0</height>
-                   </size>
-                  </property>
-                  <property name="editable">
-                   <bool>true</bool>
-                  </property>
-                 </widget>
-                </item>
-                <item>
-                 <widget class="QPushButton" name="pushButton_after">
-                  <property name="text">
-                   <string>Add</string>
-                  </property>
-                 </widget>
-                </item>
-               </layout>
-              </item>
-              <item>
-               <spacer name="spacer_after">
-                <property name="orientation">
-                 <enum>Qt::Vertical</enum>
-                </property>
-                <property name="sizeHint" stdset="0">
+               <widget class="QComboBox" name="comboBox_after">
+                <property name="minimumSize">
                  <size>
-                  <width>20</width>
-                  <height>40</height>
+                  <width>150</width>
+                  <height>0</height>
                  </size>
                 </property>
-               </spacer>
+                <property name="editable">
+                 <bool>true</bool>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QPushButton" name="pushButton_after">
+                <property name="text">
+                 <string>Add</string>
+                </property>
+               </widget>
               </item>
              </layout>
             </item>

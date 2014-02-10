@@ -25,6 +25,9 @@
 
 
 class ErrorWindow;
+class EthernetWidget;
+class GeneralWidget;
+class IpWidget;
 class Netctl;
 class NetctlProfile;
 class PasswdWidget;
@@ -73,9 +76,14 @@ private slots:
     void wifiTabRefreshButtons(QTableWidgetItem *current, QTableWidgetItem *previous);
 
 private:
+    // ui
     Ui::MainWindow *ui;
-    ErrorWindow *errorwin;
-    PasswdWidget *passwdwid;
+    EthernetWidget *ethernetWid;
+    GeneralWidget *generalWid;
+    IpWidget *ipWid;
+    // backend
+    ErrorWindow *errorWin;
+    PasswdWidget *passwdWid;
     bool checkExternalApps(QString apps);
     bool checkState(QString state, QString item);
     void createActions();

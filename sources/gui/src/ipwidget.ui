@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>IpWdiget</class>
- <widget class="QWidget" name="IpWdiget">
+ <class>IpWidget</class>
+ <widget class="QWidget" name="IpWidget">
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>478</width>
-    <height>1254</height>
+    <width>431</width>
+    <height>1287</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -99,7 +99,7 @@
                </size>
               </property>
               <property name="toolTip">
-               <string>An array of physical network interfaces that this profile needs before it can be started</string>
+               <string>An array of IP addresses suffixed with ‘/&lt;netmask&gt;’</string>
               </property>
              </widget>
             </item>
@@ -121,7 +121,11 @@
              </widget>
             </item>
             <item>
-             <widget class="QLineEdit" name="lineEdit_gateway"/>
+             <widget class="QLineEdit" name="lineEdit_gateway">
+              <property name="toolTip">
+               <string>An IP routing gateway address</string>
+              </property>
+             </widget>
             </item>
            </layout>
           </item>
@@ -143,7 +147,11 @@
                </widget>
               </item>
               <item>
-               <widget class="QLineEdit" name="lineEdit_ipRoutes"/>
+               <widget class="QLineEdit" name="lineEdit_ipRoutes">
+                <property name="toolTip">
+                 <string>An array of custom routes</string>
+                </property>
+               </widget>
               </item>
              </layout>
             </item>
@@ -283,7 +291,7 @@
                </size>
               </property>
               <property name="toolTip">
-               <string>An array of physical network interfaces that this profile needs before it can be started</string>
+               <string>An array of IPv6 addresses</string>
               </property>
              </widget>
             </item>
@@ -305,7 +313,11 @@
              </widget>
             </item>
             <item>
-             <widget class="QLineEdit" name="lineEdit_gateway6"/>
+             <widget class="QLineEdit" name="lineEdit_gateway6">
+              <property name="toolTip">
+               <string>An IPv6 routing gateway address</string>
+              </property>
+             </widget>
             </item>
            </layout>
           </item>
@@ -327,7 +339,11 @@
                </widget>
               </item>
               <item>
-               <widget class="QLineEdit" name="lineEdit_ipRoutes6"/>
+               <widget class="QLineEdit" name="lineEdit_ipRoutes6">
+                <property name="toolTip">
+                 <string>An array of custom routes</string>
+                </property>
+               </widget>
               </item>
              </layout>
             </item>
@@ -457,7 +473,7 @@
                </size>
               </property>
               <property name="toolTip">
-               <string>An array of physical network interfaces that this profile needs before it can be started</string>
+               <string>An array of argument lines to pass to ip</string>
               </property>
              </widget>
             </item>
@@ -473,7 +489,11 @@
              </widget>
             </item>
             <item>
-             <widget class="QLineEdit" name="lineEdit_hostname"/>
+             <widget class="QLineEdit" name="lineEdit_hostname">
+              <property name="toolTip">
+               <string>A system hostname</string>
+              </property>
+             </widget>
             </item>
            </layout>
           </item>
@@ -481,6 +501,12 @@
            <layout class="QHBoxLayout" name="layout_timeoutDad">
             <item>
              <widget class="QLabel" name="label_timeoutDad">
+              <property name="minimumSize">
+               <size>
+                <width>150</width>
+                <height>0</height>
+               </size>
+              </property>
               <property name="text">
                <string>Timeout DAD</string>
               </property>
@@ -488,6 +514,9 @@
             </item>
             <item>
              <widget class="QSpinBox" name="spinBox_timeoutDad">
+              <property name="toolTip">
+               <string>Set to ‘yes’ to release the DHCP lease when the profile is stopped</string>
+              </property>
               <property name="minimum">
                <number>1</number>
               </property>
@@ -521,6 +550,9 @@
                </item>
                <item>
                 <widget class="QComboBox" name="comboBox_dhcp">
+                 <property name="toolTip">
+                  <string>The name of the preferred DHCP client</string>
+                 </property>
                  <item>
                   <property name="text">
                    <string>dhcpcd</string>
@@ -531,13 +563,6 @@
                    <string>dhclient</string>
                   </property>
                  </item>
-                </widget>
-               </item>
-               <item>
-                <widget class="QCheckBox" name="checkBox_dhcp">
-                 <property name="text">
-                  <string>DHCP release on stop</string>
-                 </property>
                 </widget>
                </item>
               </layout>
@@ -558,7 +583,11 @@
                 </widget>
                </item>
                <item>
-                <widget class="QLineEdit" name="lineEdit_dhcpcdOpt"/>
+                <widget class="QLineEdit" name="lineEdit_dhcpcdOpt">
+                 <property name="toolTip">
+                  <string>Additional options to be passed to the DHCP client</string>
+                 </property>
+                </widget>
                </item>
               </layout>
              </item>
@@ -578,7 +607,11 @@
                 </widget>
                </item>
                <item>
-                <widget class="QLineEdit" name="lineEdit_dhclientOpt"/>
+                <widget class="QLineEdit" name="lineEdit_dhclientOpt">
+                 <property name="toolTip">
+                  <string>Additional options to be passed to the DHCP client</string>
+                 </property>
+                </widget>
                </item>
               </layout>
              </item>
@@ -598,7 +631,11 @@
                 </widget>
                </item>
                <item>
-                <widget class="QLineEdit" name="lineEdit_dhclientOpt6"/>
+                <widget class="QLineEdit" name="lineEdit_dhclientOpt6">
+                 <property name="toolTip">
+                  <string>Additional options to be passed to the DHCP client</string>
+                 </property>
+                </widget>
                </item>
               </layout>
              </item>
@@ -619,6 +656,9 @@
                </item>
                <item>
                 <widget class="QSpinBox" name="spinBox_timeoutDhcp">
+                 <property name="toolTip">
+                  <string>Maximum time, in seconds, to wait for DHCP to be successful</string>
+                 </property>
                  <property name="minimum">
                   <number>1</number>
                  </property>
@@ -631,6 +671,16 @@
                 </widget>
                </item>
               </layout>
+             </item>
+             <item>
+              <widget class="QCheckBox" name="checkBox_dhcp">
+               <property name="toolTip">
+                <string>Set to ‘yes’ to release the DHCP lease when the profile is stopped</string>
+               </property>
+               <property name="text">
+                <string>DHCP release on stop</string>
+               </property>
+              </widget>
              </item>
             </layout>
            </widget>
@@ -676,7 +726,7 @@
                   </size>
                  </property>
                  <property name="toolTip">
-                  <string>An array of physical network interfaces that this profile needs before it can be started</string>
+                  <string>An array of DNS nameservers</string>
                  </property>
                 </widget>
                </item>
@@ -698,7 +748,11 @@
                 </widget>
                </item>
                <item>
-                <widget class="QLineEdit" name="lineEdit_dnsDomain"/>
+                <widget class="QLineEdit" name="lineEdit_dnsDomain">
+                 <property name="toolTip">
+                  <string>A ‘domain’ line for /etc/resolv.conf</string>
+                 </property>
+                </widget>
                </item>
               </layout>
              </item>
@@ -718,7 +772,11 @@
                 </widget>
                </item>
                <item>
-                <widget class="QLineEdit" name="lineEdit_dnsSearch_2"/>
+                <widget class="QLineEdit" name="lineEdit_dnsSearch_2">
+                 <property name="toolTip">
+                  <string>A ‘search’ line for /etc/resolv.conf</string>
+                 </property>
+                </widget>
                </item>
               </layout>
              </item>
@@ -760,7 +818,7 @@
                   </size>
                  </property>
                  <property name="toolTip">
-                  <string>An array of physical network interfaces that this profile needs before it can be started</string>
+                  <string>An array of ‘options’ lines for /etc/resolv.conf</string>
                  </property>
                 </widget>
                </item>
@@ -777,23 +835,49 @@
     </widget>
    </item>
   </layout>
-  <zorder>label</zorder>
-  <zorder>comboBox_ip</zorder>
-  <zorder>spinBox</zorder>
-  <zorder>label_2</zorder>
-  <zorder>spinBox_2</zorder>
-  <zorder>spinBox_3</zorder>
-  <zorder>label_3</zorder>
-  <zorder>label_4</zorder>
-  <zorder>spinBox_4</zorder>
-  <zorder>pushButton_bindto</zorder>
-  <zorder>label_5</zorder>
-  <zorder>spinBox_5</zorder>
-  <zorder>label_15</zorder>
-  <zorder>label_timeoutDhcp</zorder>
-  <zorder>spinBox_timeoutDhcp</zorder>
-  <zorder>dockWidget_ip</zorder>
  </widget>
+ <tabstops>
+  <tabstop>checkBox_ip</tabstop>
+  <tabstop>comboBox_ip</tabstop>
+  <tabstop>lineEdit_ipAddress</tabstop>
+  <tabstop>pushButton_ipAddress</tabstop>
+  <tabstop>listWidget_ipAddress</tabstop>
+  <tabstop>lineEdit_gateway</tabstop>
+  <tabstop>lineEdit_ipRoutes</tabstop>
+  <tabstop>lineEdit_ipRoutes2</tabstop>
+  <tabstop>pushButton_ipRoutes</tabstop>
+  <tabstop>listWidget_ipRoutes</tabstop>
+  <tabstop>checkBox_ip6</tabstop>
+  <tabstop>comboBox_ip6</tabstop>
+  <tabstop>lineEdit_ipAddress6</tabstop>
+  <tabstop>pushButton_ipAddress6</tabstop>
+  <tabstop>listWidget_ipAddress6</tabstop>
+  <tabstop>lineEdit_gateway6</tabstop>
+  <tabstop>lineEdit_ipRoutes6</tabstop>
+  <tabstop>lineEdit_ipRoutes62</tabstop>
+  <tabstop>pushButton_ipRoutes6</tabstop>
+  <tabstop>listWidget_ipRoutes6</tabstop>
+  <tabstop>pushButton_ipAdvanced</tabstop>
+  <tabstop>lineEdit_custom</tabstop>
+  <tabstop>pushButton_custom</tabstop>
+  <tabstop>listWidget_custom</tabstop>
+  <tabstop>lineEdit_hostname</tabstop>
+  <tabstop>spinBox_timeoutDad</tabstop>
+  <tabstop>comboBox_dhcp</tabstop>
+  <tabstop>lineEdit_dhcpcdOpt</tabstop>
+  <tabstop>lineEdit_dhclientOpt</tabstop>
+  <tabstop>lineEdit_dhclientOpt6</tabstop>
+  <tabstop>spinBox_timeoutDhcp</tabstop>
+  <tabstop>checkBox_dhcp</tabstop>
+  <tabstop>lineEdit_dns</tabstop>
+  <tabstop>pushButton_dns</tabstop>
+  <tabstop>listWidget_dns</tabstop>
+  <tabstop>lineEdit_dnsDomain</tabstop>
+  <tabstop>lineEdit_dnsSearch_2</tabstop>
+  <tabstop>lineEdit_dnsSearch</tabstop>
+  <tabstop>pushButton_dnsSearch</tabstop>
+  <tabstop>listWidget_dnsSearch</tabstop>
+ </tabstops>
  <resources/>
  <connections>
   <connection>
@@ -803,12 +887,12 @@
    <slot>setEnabled(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>23</x>
-     <y>19</y>
+     <x>33</x>
+     <y>49</y>
     </hint>
     <hint type="destinationlabel">
-     <x>225</x>
-     <y>24</y>
+     <x>458</x>
+     <y>53</y>
     </hint>
    </hints>
   </connection>
@@ -819,12 +903,12 @@
    <slot>setShown(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>23</x>
-     <y>24</y>
+     <x>33</x>
+     <y>54</y>
     </hint>
     <hint type="destinationlabel">
-     <x>19</x>
-     <y>46</y>
+     <x>28</x>
+     <y>101</y>
     </hint>
    </hints>
   </connection>
@@ -835,12 +919,12 @@
    <slot>setEnabled(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>117</x>
-     <y>291</y>
+     <x>127</x>
+     <y>348</y>
     </hint>
     <hint type="destinationlabel">
-     <x>264</x>
-     <y>302</y>
+     <x>458</x>
+     <y>349</y>
     </hint>
    </hints>
   </connection>
@@ -851,12 +935,12 @@
    <slot>setShown(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>96</x>
-     <y>291</y>
+     <x>106</x>
+     <y>348</y>
     </hint>
     <hint type="destinationlabel">
-     <x>47</x>
-     <y>315</y>
+     <x>56</x>
+     <y>608</y>
     </hint>
    </hints>
   </connection>

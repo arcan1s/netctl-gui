@@ -15,19 +15,19 @@
  *   along with netctl-plasmoid. If not, see http://www.gnu.org/licenses/  *
  ***************************************************************************/
 
-#include "ipwidget.h"
-#include "ui_ipwidget.h"
+#include "ethernetwidget.h"
+#include "ui_ethernetwidget.h"
 
 
-IpWidget::IpWidget(QWidget *parent)
+EthernetWidget::EthernetWidget(QWidget *parent)
     : QWidget(parent),
-      ui(new Ui::IpWidget)
+      ui(new Ui::EthernetWidget)
 {
     ui->setupUi(this);
 }
 
 
-IpWidget::~IpWidget()
+EthernetWidget::~EthernetWidget()
 {
     delete ui;
 }

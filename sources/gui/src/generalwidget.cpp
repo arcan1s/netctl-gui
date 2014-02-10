@@ -26,6 +26,7 @@ GeneralWidget::GeneralWidget(QWidget *parent)
     ui->setupUi(this);
 }
 
+
 GeneralWidget::~GeneralWidget()
 {
     delete ui;

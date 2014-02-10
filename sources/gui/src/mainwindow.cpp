@@ -22,6 +22,9 @@
 #include <QProcess>
 
 #include "errorwindow.h"
+#include "ethernetwidget.h"
+#include "generalwidget.h"
+#include "ipwidget.h"
 #include "netctlinteract.h"
 #include "netctlprofile.h"
 #include "passwdwidget.h"
@@ -54,6 +57,14 @@ MainWindow::MainWindow(QWidget *parent)
     wpaConfig.append(QString("/run/wpa_supplicant_netctl-gui"));
     wpaConfig.append(QString("users"));
 
+    // gui
+    generalWid = new GeneralWidget(this);
+    ui->scrollAreaWidgetContents->layout()->addWidget(generalWid);
+    ipWid = new IpWidget(this);
+    ui->scrollAreaWidgetContents->layout()->addWidget(ipWid);
+    ethernetWid = new EthernetWidget(this);
+    ui->scrollAreaWidgetContents->layout()->addWidget(ethernetWid);
+    // backend
     netctlCommand = new Netctl(this, netctlPath, profileDir, sudoPath);
     netctlProfile = new NetctlProfile(this, profileDir, sudoPath);
     wpaCommand = new WpaSup(this, wpaConfig, sudoPath, ifaceDir, preferedInterface);
@@ -65,6 +76,9 @@ MainWindow::MainWindow(QWidget *parent)
 
 MainWindow::~MainWindow()
 {
+    delete ethernetWid;
+    delete generalWid;
+    delete ipWid;
     delete netctlCommand;
     delete netctlProfile;
     delete wpaCommand;
@@ -140,8 +154,8 @@ void MainWindow::updateTabs(const int tab)
 void MainWindow::updateMainTab()
 {
     if (!checkExternalApps(QString("netctl"))) {
-        errorwin = new ErrorWindow(this, 1);
-        errorwin->show();
+        errorWin = new ErrorWindow(this, 1);
+        errorWin->show();
         return;
     }
 
@@ -189,8 +203,8 @@ void MainWindow::updateWifiTab()
 {
     wifiTabSetEnabled(checkExternalApps(QString("wpasup")));
     if (!checkExternalApps(QString("wpasup"))) {
-        errorwin = new ErrorWindow(this, 1);
-        errorwin->show();
+        errorWin = new ErrorWindow(this, 1);
+        errorWin->show();
         return;
     }
 
@@ -235,8 +249,8 @@ void MainWindow::updateWifiTab()
 void MainWindow::mainTabEnableProfile()
 {
     if (!checkExternalApps(QString("netctl"))) {
-        errorwin = new ErrorWindow(this, 1);
-        errorwin->show();
+        errorWin = new ErrorWindow(this, 1);
+        errorWin->show();
         return;
     }
     if (ui->tableWidget_main->currentItem() == 0)
@@ -264,8 +278,8 @@ void MainWindow::mainTabEnableProfile()
 void MainWindow::mainTabRestartProfile()
 {
     if (!checkExternalApps(QString("netctl"))) {
-        errorwin = new ErrorWindow(this, 1);
-        errorwin->show();
+        errorWin = new ErrorWindow(this, 1);
+        errorWin->show();
         return;
     }
     if (ui->tableWidget_main->currentItem() == 0)
@@ -285,8 +299,8 @@ void MainWindow::mainTabRestartProfile()
 void MainWindow::mainTabStartProfile()
 {
     if (!checkExternalApps(QString("netctl"))) {
-        errorwin = new ErrorWindow(this, 1);
-        errorwin->show();
+        errorWin = new ErrorWindow(this, 1);
+        errorWin->show();
         return;
     }
     if (ui->tableWidget_main->currentItem() == 0)
@@ -315,8 +329,8 @@ void MainWindow::mainTabRefreshButtons(QTableWidgetItem *current, QTableWidgetIt
 {
     Q_UNUSED(previous);
     if (!checkExternalApps(QString("netctl"))) {
-        errorwin = new ErrorWindow(this, 1);
-        errorwin->show();
+        errorWin = new ErrorWindow(this, 1);
+        errorWin->show();
         return;
     }
     if (current == 0) {
@@ -365,7 +379,7 @@ void MainWindow::wifiTabSetEnabled(bool state)
 void MainWindow::connectToUnknownEssid(QString passwd)
 {
     if (!passwd.isEmpty())
-        delete passwdwid;
+        delete passwdWid;
     QStringList profileInfo;
     profileInfo.append(QString("Automatically generated profile by Netctl GUI"));
     profileInfo.append(wpaCommand->getInterfaceList()[0]);
@@ -390,16 +404,16 @@ void MainWindow::connectToUnknownEssid(QString passwd)
 void MainWindow::wifiTabStart()
 {
     if (!checkExternalApps(QString("wpasup"))) {
-        errorwin = new ErrorWindow(this, 1);
-        errorwin->show();
+        errorWin = new ErrorWindow(this, 1);
+        errorWin->show();
         return;
     }
     if (ui->tableWidget_wifi->currentItem() == 0)
         return;
     if (ui->tableWidget_wifi->item(ui->tableWidget_wifi->currentItem()->row(), 0)->text() == QString("<hidden>")) {
         ui->pushButton_wifiStart->setDisabled(true);
-        errorwin = new ErrorWindow(this, 2);
-        errorwin->show();
+        errorWin = new ErrorWindow(this, 2);
+        errorWin->show();
         return;
     }
 
@@ -427,14 +441,14 @@ void MainWindow::wifiTabStart()
         if (checkState(QString("none"), security))
             return connectToUnknownEssid(QString(""));
         else {
-            passwdwid = new PasswdWidget(this);
+            passwdWid = new PasswdWidget(this);
             int widgetWidth = 270;
             int widgetHeight = 86;
             int x = (width() - widgetWidth) / 2;
             int y = (height() - widgetHeight) / 2;
-            passwdwid->setGeometry(x, y, widgetWidth, widgetHeight);
-            passwdwid->show();
-            passwdwid->setFocusToLineEdit();
+            passwdWid->setGeometry(x, y, widgetWidth, widgetHeight);
+            passwdWid->show();
+            passwdWid->setFocusToLineEdit();
             return;
         }
     }
@@ -446,8 +460,8 @@ void MainWindow::wifiTabRefreshButtons(QTableWidgetItem *current, QTableWidgetIt
 {
     Q_UNUSED(previous);
     if (!checkExternalApps(QString("wpasup"))) {
-        errorwin = new ErrorWindow(this, 1);
-        errorwin->show();
+        errorWin = new ErrorWindow(this, 1);
+        errorWin->show();
         return;
     }
     if (current == 0) {
