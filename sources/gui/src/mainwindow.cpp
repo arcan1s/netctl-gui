@@ -29,6 +29,7 @@
 #include "netctlprofile.h"
 #include "passwdwidget.h"
 #include "wpasupinteract.h"
+#include "wirelesswidget.h"
 #include <cstdio>
 
 
@@ -64,6 +65,8 @@ MainWindow::MainWindow(QWidget *parent)
     ui->scrollAreaWidgetContents->layout()->addWidget(ipWid);
     ethernetWid = new EthernetWidget(this);
     ui->scrollAreaWidgetContents->layout()->addWidget(ethernetWid);
+    wirelessWid = new WirelessWidget(this);
+    ui->scrollAreaWidgetContents->layout()->addWidget(wirelessWid);
     // backend
     netctlCommand = new Netctl(this, netctlPath, profileDir, sudoPath);
     netctlProfile = new NetctlProfile(this, profileDir, sudoPath);
@@ -81,8 +84,9 @@ MainWindow::~MainWindow()
     delete ipWid;
     delete netctlCommand;
     delete netctlProfile;
-    delete wpaCommand;
     delete ui;
+    delete wpaCommand;
+    delete wirelessWid;
 }
 
 

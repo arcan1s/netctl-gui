@@ -31,6 +31,7 @@ class IpWidget;
 class Netctl;
 class NetctlProfile;
 class PasswdWidget;
+class WirelessWidget;
 class WpaSup;
 
 namespace Ui {
@@ -81,6 +82,7 @@ private:
     EthernetWidget *ethernetWid;
     GeneralWidget *generalWid;
     IpWidget *ipWid;
+    WirelessWidget *wirelessWid;
     // backend
     ErrorWindow *errorWin;
     PasswdWidget *passwdWid;

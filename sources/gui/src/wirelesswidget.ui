@@ -1,0 +1,527 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>WirelessWidget</class>
+ <widget class="QWidget" name="WirelessWidget">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>431</width>
+    <height>760</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <layout class="QVBoxLayout" name="verticalLayout">
+   <item>
+    <widget class="QDockWidget" name="dockWidget_wireless">
+     <property name="features">
+      <set>QDockWidget::NoDockWidgetFeatures</set>
+     </property>
+     <property name="windowTitle">
+      <string>Wireless options</string>
+     </property>
+     <widget class="QWidget" name="dockWidgetContents_wireless">
+      <layout class="QVBoxLayout" name="verticalLayout_4">
+       <item>
+        <layout class="QHBoxLayout" name="layout_security">
+         <item>
+          <widget class="QLabel" name="label_security">
+           <property name="minimumSize">
+            <size>
+             <width>150</width>
+             <height>0</height>
+            </size>
+           </property>
+           <property name="text">
+            <string>Security</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QComboBox" name="comboBox_security">
+           <item>
+            <property name="text">
+             <string>none</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>wep</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>wpa</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>wpa-configsection</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>wpa-config</string>
+            </property>
+           </item>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <layout class="QHBoxLayout" name="layout_essid">
+         <item>
+          <widget class="QLabel" name="label_essid">
+           <property name="minimumSize">
+            <size>
+             <width>150</width>
+             <height>0</height>
+            </size>
+           </property>
+           <property name="text">
+            <string>ESSID</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLineEdit" name="lineEdit_essid">
+           <property name="toolTip">
+            <string>The name of the network to connect to</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <widget class="QWidget" name="widget_wpaConfigSection" native="true">
+         <layout class="QVBoxLayout" name="verticalLayout_2">
+          <item>
+           <layout class="QHBoxLayout" name="layout_wpaConfigSection">
+            <item>
+             <widget class="QLabel" name="label_wpaConfigSection">
+              <property name="minimumSize">
+               <size>
+                <width>150</width>
+                <height>0</height>
+               </size>
+              </property>
+              <property name="text">
+               <string>Wpa config section</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLineEdit" name="lineEdit_wpaConfigSection"/>
+            </item>
+            <item>
+             <widget class="QPushButton" name="pushButton_wpaConfigSection">
+              <property name="text">
+               <string>Add</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+          <item>
+           <widget class="QListWidget" name="listWidget_wpaConfigSection">
+            <property name="maximumSize">
+             <size>
+              <width>16777215</width>
+              <height>50</height>
+             </size>
+            </property>
+            <property name="toolTip">
+             <string>Array of lines that form a network block for wpa_supplicant</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item>
+        <widget class="QWidget" name="widget_wpaConfigFile" native="true">
+         <layout class="QHBoxLayout" name="layout_wpaConfigFile">
+          <item>
+           <widget class="QLabel" name="label_wpaConfigFile">
+            <property name="minimumSize">
+             <size>
+              <width>150</width>
+              <height>0</height>
+             </size>
+            </property>
+            <property name="text">
+             <string>Wpa config file</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLineEdit" name="lineEdit_wpaConfigFile">
+            <property name="toolTip">
+             <string>Path to a wpa_supplicant configuration file</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item>
+        <widget class="QWidget" name="widget_key" native="true">
+         <layout class="QHBoxLayout" name="horizontalLayout_5">
+          <item>
+           <widget class="QLabel" name="label_key">
+            <property name="minimumSize">
+             <size>
+              <width>150</width>
+              <height>0</height>
+             </size>
+            </property>
+            <property name="text">
+             <string>Key</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLineEdit" name="lineEdit_key">
+            <property name="toolTip">
+             <string>The secret key to a WEP, or WPA encrypted network</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item>
+        <widget class="QCheckBox" name="checkBox_hidden">
+         <property name="toolTip">
+          <string>Whether or not the specified network is a hidden network</string>
+         </property>
+         <property name="text">
+          <string>Hidden</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QCheckBox" name="checkBox_adhoc">
+         <property name="toolTip">
+          <string>Whether or not to use ad-hoc mode</string>
+         </property>
+         <property name="text">
+          <string>Ad-hoc</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <layout class="QHBoxLayout" name="layout_wirelessAdvanced">
+         <item>
+          <spacer name="spacer_wirelessAdvanced">
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>40</width>
+             <height>20</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+         <item>
+          <widget class="QPushButton" name="pushButton_wirelessAdvanced">
+           <property name="text">
+            <string>Show advanced</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <widget class="QWidget" name="widget_wirelessAdvanced" native="true">
+         <layout class="QVBoxLayout" name="verticalLayout_3">
+          <item>
+           <layout class="QVBoxLayout" name="layout_freq">
+            <item>
+             <layout class="QHBoxLayout" name="layout_freqLine">
+              <item>
+               <widget class="QLabel" name="label_freq">
+                <property name="minimumSize">
+                 <size>
+                  <width>150</width>
+                  <height>0</height>
+                 </size>
+                </property>
+                <property name="text">
+                 <string>Scan frequencies</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QSpinBox" name="spinBox_freq">
+                <property name="minimum">
+                 <number>2000</number>
+                </property>
+                <property name="maximum">
+                 <number>6000</number>
+                </property>
+                <property name="value">
+                 <number>2412</number>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QPushButton" name="pushButton_freq">
+                <property name="text">
+                 <string>Add</string>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </item>
+            <item>
+             <widget class="QListWidget" name="listWidget_freq">
+              <property name="maximumSize">
+               <size>
+                <width>16777215</width>
+                <height>50</height>
+               </size>
+              </property>
+              <property name="toolTip">
+               <string>A space-separated list of frequencies in MHz to scan when searching for the network</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+          <item>
+           <layout class="QHBoxLayout" name="layout_priority">
+            <item>
+             <widget class="QLabel" name="label_priority">
+              <property name="minimumSize">
+               <size>
+                <width>150</width>
+                <height>0</height>
+               </size>
+              </property>
+              <property name="text">
+               <string>Priority</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QSpinBox" name="spinBox_priority">
+              <property name="toolTip">
+               <string>Priority group for the network</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+          <item>
+           <layout class="QHBoxLayout" name="layout_country">
+            <item>
+             <widget class="QLabel" name="label_country">
+              <property name="minimumSize">
+               <size>
+                <width>150</width>
+                <height>0</height>
+               </size>
+              </property>
+              <property name="text">
+               <string>Country</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLineEdit" name="lineEdit_country">
+              <property name="toolTip">
+               <string>The country for which frequency regulations will be enforced</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+          <item>
+           <layout class="QHBoxLayout" name="layourt_wpaGroup">
+            <item>
+             <widget class="QLabel" name="label_wpaGroup">
+              <property name="minimumSize">
+               <size>
+                <width>150</width>
+                <height>0</height>
+               </size>
+              </property>
+              <property name="text">
+               <string>WPA group</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLineEdit" name="lineEdit_wpaGroup">
+              <property name="toolTip">
+               <string>Group that has the authority to configure wpa_supplicant via its control interface</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+          <item>
+           <layout class="QVBoxLayout" name="layout_drivers">
+            <item>
+             <layout class="QHBoxLayout" name="layout_driversLine">
+              <item>
+               <widget class="QLabel" name="label_drivers">
+                <property name="minimumSize">
+                 <size>
+                  <width>150</width>
+                  <height>0</height>
+                 </size>
+                </property>
+                <property name="text">
+                 <string>Drivers</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QComboBox" name="comboBox_drivers">
+                <item>
+                 <property name="text">
+                  <string>west</string>
+                 </property>
+                </item>
+                <item>
+                 <property name="text">
+                  <string>nl80211</string>
+                 </property>
+                </item>
+                <item>
+                 <property name="text">
+                  <string>wired</string>
+                 </property>
+                </item>
+               </widget>
+              </item>
+              <item>
+               <widget class="QPushButton" name="pushButton_drivers">
+                <property name="text">
+                 <string>Add</string>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </item>
+            <item>
+             <widget class="QListWidget" name="listWidget_drivers">
+              <property name="maximumSize">
+               <size>
+                <width>16777215</width>
+                <height>50</height>
+               </size>
+              </property>
+              <property name="toolTip">
+               <string>The wpa_supplicant driver to use</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+          <item>
+           <layout class="QHBoxLayout" name="layout_rfkill">
+            <item>
+             <widget class="QLabel" name="label_rfkill">
+              <property name="minimumSize">
+               <size>
+                <width>150</width>
+                <height>0</height>
+               </size>
+              </property>
+              <property name="text">
+               <string>RFkill device</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QComboBox" name="comboBox_rfkill">
+              <property name="toolTip">
+               <string>The name of an rfkill device</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+          <item>
+           <layout class="QHBoxLayout" name="layout_timeoutWpa">
+            <item>
+             <widget class="QLabel" name="label_timeoutWpa">
+              <property name="minimumSize">
+               <size>
+                <width>150</width>
+                <height>0</height>
+               </size>
+              </property>
+              <property name="text">
+               <string>Timeout WPA</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QSpinBox" name="spinBox_timeoutWpa">
+              <property name="toolTip">
+               <string>Maximum time, in seconds, to wait for steps in the association and authentication to succeed</string>
+              </property>
+              <property name="maximum">
+               <number>999</number>
+              </property>
+              <property name="value">
+               <number>15</number>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+          <item>
+           <widget class="QCheckBox" name="checkBox_exclude">
+            <property name="toolTip">
+             <string>Whether or not to exclude this profile from automatic profile selection</string>
+            </property>
+            <property name="text">
+             <string>Exclude auto</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <tabstops>
+  <tabstop>comboBox_security</tabstop>
+  <tabstop>lineEdit_essid</tabstop>
+  <tabstop>lineEdit_wpaConfigSection</tabstop>
+  <tabstop>pushButton_wpaConfigSection</tabstop>
+  <tabstop>listWidget_wpaConfigSection</tabstop>
+  <tabstop>lineEdit_wpaConfigFile</tabstop>
+  <tabstop>lineEdit_key</tabstop>
+  <tabstop>checkBox_hidden</tabstop>
+  <tabstop>checkBox_adhoc</tabstop>
+  <tabstop>pushButton_wirelessAdvanced</tabstop>
+  <tabstop>spinBox_freq</tabstop>
+  <tabstop>pushButton_freq</tabstop>
+  <tabstop>listWidget_freq</tabstop>
+  <tabstop>spinBox_priority</tabstop>
+  <tabstop>lineEdit_country</tabstop>
+  <tabstop>lineEdit_wpaGroup</tabstop>
+  <tabstop>comboBox_drivers</tabstop>
+  <tabstop>pushButton_drivers</tabstop>
+  <tabstop>listWidget_drivers</tabstop>
+  <tabstop>comboBox_rfkill</tabstop>
+  <tabstop>spinBox_timeoutWpa</tabstop>
+  <tabstop>checkBox_exclude</tabstop>
+ </tabstops>
+ <resources/>
+ <connections/>
+</ui>
