@@ -28,10 +28,14 @@ class ErrorWindow;
 class EthernetWidget;
 class GeneralWidget;
 class IpWidget;
+class MobilePpp;
 class Netctl;
 class NetctlProfile;
 class PasswdWidget;
 class PppoeWidget;
+class TunnelWidget;
+class TuntapWidget;
+class VlanWidget;
 class WirelessWidget;
 class WpaSup;
 
@@ -83,7 +87,11 @@ private:
     EthernetWidget *ethernetWid;
     GeneralWidget *generalWid;
     IpWidget *ipWid;
+    MobilePpp *mobileWid;
     PppoeWidget *pppoeWid;
+    TunnelWidget *tunnelWid;
+    TuntapWidget *tuntapWid;
+    VlanWidget *vlanWid;
     WirelessWidget *wirelessWid;
     // backend
     ErrorWindow *errorWin;

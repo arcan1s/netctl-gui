@@ -25,10 +25,14 @@
 #include "ethernetwidget.h"
 #include "generalwidget.h"
 #include "ipwidget.h"
+#include "mobileppp.h"
 #include "netctlinteract.h"
 #include "netctlprofile.h"
 #include "passwdwidget.h"
 #include "pppoewidget.h"
+#include "tunnelwidget.h"
+#include "tuntapwidget.h"
+#include "vlanwidget.h"
 #include "wpasupinteract.h"
 #include "wirelesswidget.h"
 #include <cstdio>
@@ -66,10 +70,18 @@ MainWindow::MainWindow(QWidget *parent)
     ui->scrollAreaWidgetContents->layout()->addWidget(ipWid);
     ethernetWid = new EthernetWidget(this);
     ui->scrollAreaWidgetContents->layout()->addWidget(ethernetWid);
-    wirelessWid = new WirelessWidget(this);
-    ui->scrollAreaWidgetContents->layout()->addWidget(wirelessWid);
+    mobileWid = new MobilePpp(this);
+    ui->scrollAreaWidgetContents->layout()->addWidget(mobileWid);
     pppoeWid = new PppoeWidget(this);
     ui->scrollAreaWidgetContents->layout()->addWidget(pppoeWid);
+    tunnelWid = new TunnelWidget(this);
+    ui->scrollAreaWidgetContents->layout()->addWidget(tunnelWid);
+    tuntapWid = new TuntapWidget(this);
+    ui->scrollAreaWidgetContents->layout()->addWidget(tuntapWid);
+    vlanWid = new VlanWidget(this);
+    ui->scrollAreaWidgetContents->layout()->addWidget(vlanWid);
+    wirelessWid = new WirelessWidget(this);
+    ui->scrollAreaWidgetContents->layout()->addWidget(wirelessWid);
     // backend
     netctlCommand = new Netctl(this, netctlPath, profileDir, sudoPath);
     netctlProfile = new NetctlProfile(this, profileDir, sudoPath);
@@ -85,10 +97,14 @@ MainWindow::~MainWindow()
     delete ethernetWid;
     delete generalWid;
     delete ipWid;
+    delete mobileWid;
     delete netctlCommand;
     delete netctlProfile;
     delete pppoeWid;
+    delete tunnelWid;
+    delete tuntapWid;
     delete ui;
+    delete vlanWid;
     delete wpaCommand;
     delete wirelessWid;
 }

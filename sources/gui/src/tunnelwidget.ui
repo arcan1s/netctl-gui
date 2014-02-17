@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>TunnelWidget</class>
+ <widget class="QWidget" name="TunnelWidget">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>411</width>
+    <height>146</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <layout class="QVBoxLayout" name="verticalLayout">
+   <item>
+    <widget class="QDockWidget" name="dockWidget_tunnel">
+     <property name="features">
+      <set>QDockWidget::NoDockWidgetFeatures</set>
+     </property>
+     <property name="windowTitle">
+      <string>Tunnel settings</string>
+     </property>
+     <widget class="QWidget" name="dockWidgetContents_tunnel">
+      <layout class="QVBoxLayout" name="verticalLayout_2">
+       <item>
+        <layout class="QHBoxLayout" name="layout_mode">
+         <item>
+          <widget class="QLabel" name="label_mode">
+           <property name="minimumSize">
+            <size>
+             <width>150</width>
+             <height>0</height>
+            </size>
+           </property>
+           <property name="text">
+            <string>Mode</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QComboBox" name="comboBox_mode">
+           <property name="toolTip">
+            <string>The tunnel type</string>
+           </property>
+           <item>
+            <property name="text">
+             <string>ipip</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>gre</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>sit</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>isatap</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>ip6ip6</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>ipip6</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>ip6gre</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>any</string>
+            </property>
+           </item>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <layout class="QHBoxLayout" name="layout_local">
+         <item>
+          <widget class="QLabel" name="label_local">
+           <property name="minimumSize">
+            <size>
+             <width>150</width>
+             <height>0</height>
+            </size>
+           </property>
+           <property name="text">
+            <string>Local</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLineEdit" name="lineEdit_local">
+           <property name="toolTip">
+            <string>The address of the local end of the tunnel</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <layout class="QHBoxLayout" name="layout_remote">
+         <item>
+          <widget class="QLabel" name="label_remote">
+           <property name="minimumSize">
+            <size>
+             <width>150</width>
+             <height>0</height>
+            </size>
+           </property>
+           <property name="text">
+            <string>Remote</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLineEdit" name="lineEdit_remote">
+           <property name="toolTip">
+            <string>The address of the remote end of the tunnel</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+      </layout>
+     </widget>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <tabstops>
+  <tabstop>comboBox_mode</tabstop>
+  <tabstop>lineEdit_local</tabstop>
+  <tabstop>lineEdit_remote</tabstop>
+ </tabstops>
+ <resources/>
+ <connections/>
+</ui>
