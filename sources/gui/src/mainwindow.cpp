@@ -28,6 +28,7 @@
 #include "netctlinteract.h"
 #include "netctlprofile.h"
 #include "passwdwidget.h"
+#include "pppoewidget.h"
 #include "wpasupinteract.h"
 #include "wirelesswidget.h"
 #include <cstdio>
@@ -52,7 +53,7 @@ MainWindow::MainWindow(QWidget *parent)
     wpaConfig.append(QString("/usr/bin/wpa_supplicant"));
     ifaceDir = QString("/sys/class/net/");
     preferedInterface  = QString("");
-    // additional settings
+    //// additional settings
     wpaConfig.append(QString("/run/wpa_supplicant_netctl-gui.pid"));
     wpaConfig.append(QString("nl80211,wext"));
     wpaConfig.append(QString("/run/wpa_supplicant_netctl-gui"));
@@ -67,6 +68,8 @@ MainWindow::MainWindow(QWidget *parent)
     ui->scrollAreaWidgetContents->layout()->addWidget(ethernetWid);
     wirelessWid = new WirelessWidget(this);
     ui->scrollAreaWidgetContents->layout()->addWidget(wirelessWid);
+    pppoeWid = new PppoeWidget(this);
+    ui->scrollAreaWidgetContents->layout()->addWidget(pppoeWid);
     // backend
     netctlCommand = new Netctl(this, netctlPath, profileDir, sudoPath);
     netctlProfile = new NetctlProfile(this, profileDir, sudoPath);
@@ -84,6 +87,7 @@ MainWindow::~MainWindow()
     delete ipWid;
     delete netctlCommand;
     delete netctlProfile;
+    delete pppoeWid;
     delete ui;
     delete wpaCommand;
     delete wirelessWid;

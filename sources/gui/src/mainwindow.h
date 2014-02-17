@@ -31,6 +31,7 @@ class IpWidget;
 class Netctl;
 class NetctlProfile;
 class PasswdWidget;
+class PppoeWidget;
 class WirelessWidget;
 class WpaSup;
 
@@ -82,6 +83,7 @@ private:
     EthernetWidget *ethernetWid;
     GeneralWidget *generalWid;
     IpWidget *ipWid;
+    PppoeWidget *pppoeWid;
     WirelessWidget *wirelessWid;
     // backend
     ErrorWindow *errorWin;
