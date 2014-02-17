@@ -198,9 +198,9 @@
         </layout>
        </item>
        <item>
-        <layout class="QHBoxLayout" name="layout_advanced">
+        <layout class="QHBoxLayout" name="layout_generalAdvanced">
          <item>
-          <spacer name="spacer_advanced">
+          <spacer name="spacer_generalAdvanced">
            <property name="orientation">
             <enum>Qt::Horizontal</enum>
            </property>
@@ -213,9 +213,9 @@
           </spacer>
          </item>
          <item>
-          <widget class="QPushButton" name="pushButton_advanced">
+          <widget class="QPushButton" name="pushButton_generalAdvanced">
            <property name="text">
-            <string>Show advanced</string>
+            <string>Hide advanced</string>
            </property>
           </widget>
          </item>

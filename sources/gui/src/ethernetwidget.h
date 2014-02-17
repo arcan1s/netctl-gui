@@ -18,6 +18,7 @@
 #ifndef ETHERNETWIDGET_H
 #define ETHERNETWIDGET_H
 
+#include <QHash>
 #include <QWidget>
 
 
@@ -32,6 +33,8 @@ class EthernetWidget : public QWidget
 public:
     explicit EthernetWidget(QWidget *parent = 0);
     ~EthernetWidget();
+    QHash<QString, QString> getSettings();
+    int isOk();
 
 public slots:
     void clear();

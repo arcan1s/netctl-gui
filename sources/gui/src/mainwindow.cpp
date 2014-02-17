@@ -64,7 +64,7 @@ MainWindow::MainWindow(QWidget *parent)
     wpaConfig.append(QString("users"));
 
     // gui
-    generalWid = new GeneralWidget(this);
+    generalWid = new GeneralWidget(this, ifaceDir, profileDir);
     ui->scrollAreaWidgetContents->layout()->addWidget(generalWid);
     ipWid = new IpWidget(this);
     ui->scrollAreaWidgetContents->layout()->addWidget(ipWid);

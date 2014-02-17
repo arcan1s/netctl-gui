@@ -18,6 +18,8 @@
 #ifndef GENERALWIDGET_H
 #define GENERALWIDGET_H
 
+#include <QDir>
+#include <QHash>
 #include <QWidget>
 
 
@@ -30,11 +32,27 @@ class GeneralWidget : public QWidget
     Q_OBJECT
 
 public:
-    explicit GeneralWidget(QWidget *parent = 0);
+    explicit GeneralWidget(QWidget *parent = 0,
+                           QString ifaceDir = QString(""),
+                           QString profileDir = QString(""));
     ~GeneralWidget();
+    QHash<QString, QString> getSettings();
+    int isOk();
+
+public slots:
+    void clear();
+
+private slots:
+    void addAfter();
+    void addBindTo();
+    void showAdvanced();
 
 private:
+    QDir *ifaceDirectory;
+    QDir *profileDirectory;
     Ui::GeneralWidget *ui;
+    void createActions();
+    void keyPressEvent(QKeyEvent *pressedKey);
 };
 
 

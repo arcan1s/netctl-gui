@@ -18,6 +18,8 @@
 #include "ethernetwidget.h"
 #include "ui_ethernetwidget.h"
 
+#include <QFile>
+
 
 EthernetWidget::EthernetWidget(QWidget *parent)
     : QWidget(parent),
@@ -25,6 +27,7 @@ EthernetWidget::EthernetWidget(QWidget *parent)
 {
     ui->setupUi(this);
     createActions();
+    clear();
     showAdvanced();
 }
 
@@ -39,7 +42,7 @@ void EthernetWidget::clear()
 {
     ui->checkBox_skip->setCheckState(Qt::Unchecked);
     ui->checkBox_8021x->setCheckState(Qt::Unchecked);
-    ui->lineEdit_wpaConfig->clear();
+    ui->lineEdit_wpaConfig->setText(QString("/etc/wpa_supplicant.conf"));
     ui->comboBox_driver->setCurrentIndex(0);
     ui->spinBox_timeoutCarrier->setValue(5);
     ui->spinBox_timeoutWpa->setValue(15);
@@ -63,7 +66,6 @@ void EthernetWidget::showAdvanced()
         ui->widget_ethernetAdvanced->setHidden(true);
         ui->pushButton_ethernetAdvanced->setText(QApplication::translate("EthernetWidget", "Show advanced"));
     }
-    clear();
 }
 
 
@@ -73,4 +75,36 @@ void EthernetWidget::showWpa(int state)
         ui->widget_wpa->setHidden(true);
     else
         ui->widget_wpa->setShown(true);
+}
+
+
+QHash<QString, QString> EthernetWidget::getSettings()
+{
+    QHash<QString, QString> ethernetSettings;
+
+    if (isOk() == 0) {
+        if (ui->checkBox_skip->checkState() == Qt::Checked)
+            ethernetSettings[QString("SkipNoCarrier")] = QString("yes");
+        if (ui->checkBox_8021x->checkState() == Qt::Checked) {
+            ethernetSettings[QString("Auth8021X")] = QString("yes");
+            ethernetSettings[QString("WPAConfigFile")] = ui->lineEdit_wpaConfig->text();
+            ethernetSettings[QString("WPADriver")] = ui->comboBox_driver->currentText();
+        }
+        if (ui->spinBox_timeoutCarrier->value() != 5)
+            ethernetSettings[QString("TimeoutCarrier")] = QString(ui->spinBox_timeoutCarrier->value());
+        if (ui->spinBox_timeoutWpa->value() != 15)
+            ethernetSettings[QString("TimeoutWPA")] = QString(ui->spinBox_timeoutWpa->value());
+    }
+
+    return ethernetSettings;
+}
+
+
+int EthernetWidget::isOk()
+{
+    // file wpa_supplicant doesn't exists
+    if (!QFile(ui->lineEdit_wpaConfig->text()).exists())
+        return 1;
+    // all fine
+    return 0;
 }
