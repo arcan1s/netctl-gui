@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>431</width>
-    <height>275</height>
+    <height>296</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -15,19 +15,19 @@
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
-    <widget class="QDockWidget" name="dockWidget">
+    <widget class="QDockWidget" name="dockWidget_ethernet">
      <property name="features">
       <set>QDockWidget::NoDockWidgetFeatures</set>
      </property>
      <property name="windowTitle">
       <string>Ethernet options</string>
      </property>
-     <widget class="QWidget" name="dockWidgetContents">
+     <widget class="QWidget" name="dockWidgetContents_ethernet">
       <layout class="QVBoxLayout" name="verticalLayout_4">
        <item>
-        <layout class="QHBoxLayout" name="layout_advanced">
+        <layout class="QHBoxLayout" name="layout_ethernetAdvanced">
          <item>
-          <spacer name="spacer_advanced">
+          <spacer name="spacer_ethernetAdvanced">
            <property name="orientation">
             <enum>Qt::Horizontal</enum>
            </property>
@@ -40,19 +40,19 @@
           </spacer>
          </item>
          <item>
-          <widget class="QPushButton" name="pushButton_advanced">
+          <widget class="QPushButton" name="pushButton_ethernetAdvanced">
            <property name="text">
-            <string>Show advanced</string>
+            <string>Hide advanced</string>
            </property>
           </widget>
          </item>
         </layout>
        </item>
        <item>
-        <widget class="QWidget" name="widget" native="true">
+        <widget class="QWidget" name="widget_ethernetAdvanced" native="true">
          <layout class="QVBoxLayout" name="verticalLayout_3">
           <item>
-           <widget class="QCheckBox" name="checkBox">
+           <widget class="QCheckBox" name="checkBox_skip">
             <property name="toolTip">
              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Whether or not the absence of a carrier is acceptable&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
             </property>
@@ -62,7 +62,7 @@
            </widget>
           </item>
           <item>
-           <widget class="QCheckBox" name="checkBox_2">
+           <widget class="QCheckBox" name="checkBox_8021x">
             <property name="toolTip">
              <string>Set to ‘yes’ to use 802.1x authentication</string>
             </property>
@@ -75,12 +75,12 @@
            </widget>
           </item>
           <item>
-           <widget class="QWidget" name="widget_2" native="true">
+           <widget class="QWidget" name="widget_wpa" native="true">
             <layout class="QVBoxLayout" name="verticalLayout_2">
              <item>
-              <layout class="QHBoxLayout" name="horizontalLayout">
+              <layout class="QHBoxLayout" name="layout_wpaConfig">
                <item>
-                <widget class="QLabel" name="label">
+                <widget class="QLabel" name="label_wpaConfig">
                  <property name="minimumSize">
                   <size>
                    <width>150</width>
@@ -93,7 +93,7 @@
                 </widget>
                </item>
                <item>
-                <widget class="QLineEdit" name="lineEdit">
+                <widget class="QLineEdit" name="lineEdit_wpaConfig">
                  <property name="toolTip">
                   <string>Path to a wpa_supplicant configuration file</string>
                  </property>
@@ -102,9 +102,9 @@
               </layout>
              </item>
              <item>
-              <layout class="QHBoxLayout" name="horizontalLayout_2">
+              <layout class="QHBoxLayout" name="layout_driver">
                <item>
-                <widget class="QLabel" name="label_2">
+                <widget class="QLabel" name="label_driver">
                  <property name="minimumSize">
                   <size>
                    <width>150</width>
@@ -117,7 +117,7 @@
                 </widget>
                </item>
                <item>
-                <widget class="QComboBox" name="comboBox">
+                <widget class="QComboBox" name="comboBox_driver">
                  <property name="toolTip">
                   <string>The wpa_supplicant driver to use for 802.1x authentication</string>
                  </property>
@@ -144,9 +144,9 @@
            </widget>
           </item>
           <item>
-           <layout class="QHBoxLayout" name="horizontalLayout_3">
+           <layout class="QHBoxLayout" name="layout_timeoutCarrier">
             <item>
-             <widget class="QLabel" name="label_3">
+             <widget class="QLabel" name="label_timeoutCarrier">
               <property name="minimumSize">
                <size>
                 <width>150</width>
@@ -159,7 +159,7 @@
              </widget>
             </item>
             <item>
-             <widget class="QSpinBox" name="spinBox">
+             <widget class="QSpinBox" name="spinBox_timeoutCarrier">
               <property name="toolTip">
                <string>Maximum time, in seconds, to wait for a carrier</string>
               </property>
@@ -174,9 +174,9 @@
            </layout>
           </item>
           <item>
-           <layout class="QHBoxLayout" name="horizontalLayout_4">
+           <layout class="QHBoxLayout" name="layout_timeoutWpa">
             <item>
-             <widget class="QLabel" name="label_4">
+             <widget class="QLabel" name="label_timeoutWpa">
               <property name="minimumSize">
                <size>
                 <width>150</width>
@@ -184,12 +184,12 @@
                </size>
               </property>
               <property name="text">
-               <string>Timeout carrier</string>
+               <string>Timeout WPA</string>
               </property>
              </widget>
             </item>
             <item>
-             <widget class="QSpinBox" name="spinBox_2">
+             <widget class="QSpinBox" name="spinBox_timeoutWpa">
               <property name="toolTip">
                <string>Maximum time, in seconds, to wait for 802.1x authentication to succeed</string>
               </property>
@@ -213,31 +213,14 @@
   </layout>
  </widget>
  <tabstops>
-  <tabstop>pushButton_advanced</tabstop>
-  <tabstop>checkBox</tabstop>
-  <tabstop>checkBox_2</tabstop>
-  <tabstop>lineEdit</tabstop>
-  <tabstop>comboBox</tabstop>
-  <tabstop>spinBox</tabstop>
-  <tabstop>spinBox_2</tabstop>
+  <tabstop>pushButton_ethernetAdvanced</tabstop>
+  <tabstop>checkBox_skip</tabstop>
+  <tabstop>checkBox_8021x</tabstop>
+  <tabstop>lineEdit_wpaConfig</tabstop>
+  <tabstop>comboBox_driver</tabstop>
+  <tabstop>spinBox_timeoutCarrier</tabstop>
+  <tabstop>spinBox_timeoutWpa</tabstop>
  </tabstops>
  <resources/>
- <connections>
-  <connection>
-   <sender>checkBox_2</sender>
-   <signal>clicked(bool)</signal>
-   <receiver>widget_2</receiver>
-   <slot>setShown(bool)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>70</x>
-     <y>112</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>125</x>
-     <y>130</y>
-    </hint>
-   </hints>
-  </connection>
- </connections>
+ <connections/>
 </ui>

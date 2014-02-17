@@ -24,10 +24,53 @@ EthernetWidget::EthernetWidget(QWidget *parent)
       ui(new Ui::EthernetWidget)
 {
     ui->setupUi(this);
+    createActions();
+    showAdvanced();
 }
 
 
 EthernetWidget::~EthernetWidget()
 {
     delete ui;
+}
+
+
+void EthernetWidget::clear()
+{
+    ui->checkBox_skip->setCheckState(Qt::Unchecked);
+    ui->checkBox_8021x->setCheckState(Qt::Unchecked);
+    ui->lineEdit_wpaConfig->clear();
+    ui->comboBox_driver->setCurrentIndex(0);
+    ui->spinBox_timeoutCarrier->setValue(5);
+    ui->spinBox_timeoutWpa->setValue(15);
+}
+
+
+void EthernetWidget::createActions()
+{
+    connect(ui->pushButton_ethernetAdvanced, SIGNAL(clicked(bool)), this, SLOT(showAdvanced()));
+    connect(ui->checkBox_8021x, SIGNAL(stateChanged(int)), this, SLOT(showWpa(int)));
+}
+
+
+void EthernetWidget::showAdvanced()
+{
+    if (ui->pushButton_ethernetAdvanced->text().indexOf(QString("Show")) > -1) {
+        ui->widget_ethernetAdvanced->setShown(true);
+        ui->pushButton_ethernetAdvanced->setText(QApplication::translate("EthernetWidget", "Hide advanced"));
+    }
+    else {
+        ui->widget_ethernetAdvanced->setHidden(true);
+        ui->pushButton_ethernetAdvanced->setText(QApplication::translate("EthernetWidget", "Show advanced"));
+    }
+    clear();
+}
+
+
+void EthernetWidget::showWpa(int state)
+{
+    if (state == 0)
+        ui->widget_wpa->setHidden(true);
+    else
+        ui->widget_wpa->setShown(true);
 }

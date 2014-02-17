@@ -33,8 +33,16 @@ public:
     explicit EthernetWidget(QWidget *parent = 0);
     ~EthernetWidget();
 
+public slots:
+    void clear();
+
+private slots:
+    void showAdvanced();
+    void showWpa(int state);
+
 private:
     Ui::EthernetWidget *ui;
+    void createActions();
 };
 
 
