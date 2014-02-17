@@ -20,7 +20,7 @@
       <set>QDockWidget::NoDockWidgetFeatures</set>
      </property>
      <property name="windowTitle">
-      <string>Tunnel settings</string>
+      <string>Tuntap settings</string>
      </property>
      <widget class="QWidget" name="dockWidgetContents_tuntap">
       <layout class="QVBoxLayout" name="verticalLayout_2">

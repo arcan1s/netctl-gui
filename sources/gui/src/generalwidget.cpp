@@ -44,7 +44,7 @@ GeneralWidget::~GeneralWidget()
 
 void GeneralWidget::clear()
 {
-    ui->lineEdit_description->clear();
+    ui->lineEdit_description->setText(QString("Generated from Netctl GUI"));
     ui->comboBox_connection->setCurrentIndex(0);
     ui->comboBox_interface->clear();
     ui->comboBox_interface->addItems(ifaceDirectory->entryList(QDir::Dirs | QDir::NoDotAndDotDot));
@@ -108,11 +108,46 @@ void GeneralWidget::showAdvanced()
 
 QHash<QString, QString> GeneralWidget::getSettings()
 {
+    QHash<QString, QString> generalSettings;
 
+    if (isOk() == 0) {
+        generalSettings[QString("Description")] = ui->lineEdit_description->text();
+        generalSettings[QString("Connection")] = ui->comboBox_connection->currentText();
+        generalSettings[QString("Interface")] = ui->comboBox_interface->currentText();
+        if (ui->listWidget_bindto->count() != 0) {
+            QStringList interfaces;
+            for (int i=0; i<ui->listWidget_bindto->count(); i++)
+                interfaces.append(ui->listWidget_bindto->item(i)->text());
+            generalSettings[QString("BindsToInterfaces")] = interfaces.join(QString(" "));
+        }
+        if (ui->listWidget_after->count() != 0) {
+            QStringList profiles;
+            for (int i=0; i<ui->listWidget_after->count(); i++)
+                profiles.append(ui->listWidget_after->item(i)->text());
+            generalSettings[QString("After")] = profiles.join(QString(" "));
+        }
+        if (!ui->lineEdit_execUpPost->text().isEmpty())
+            generalSettings[QString("ExecUpPost")] = ui->lineEdit_execUpPost->text();
+        if (!ui->lineEdit_execDownPre->text().isEmpty())
+            generalSettings[QString("ExecDownPre")] = ui->lineEdit_execDownPre->text();
+        if (ui->checkBox_forceConnect->checkState() == Qt::Checked)
+            generalSettings[QString("ForceConnect")] = QString("yes");
+    }
+
+    return generalSettings;
 }
 
 
 int GeneralWidget::isOk()
 {
+    // bind interfaces is not set
+    if ((ui->comboBox_connection->currentText() == QString("bond")) ||
+            (ui->comboBox_connection->currentText() == QString("bridge")))
+        if (ui->listWidget_bindto->count() == 0)
+        return 1;
+    // empty description
+    if (ui->lineEdit_description->text().isEmpty())
+        return 2;
+    // all fine
     return 0;
 }

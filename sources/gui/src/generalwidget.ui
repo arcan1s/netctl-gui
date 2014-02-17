@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>431</width>
-    <height>498</height>
+    <height>537</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -150,7 +150,7 @@
         </layout>
        </item>
        <item>
-        <layout class="QVBoxLayout" name="verticalLayout">
+        <layout class="QVBoxLayout" name="layout_bindto">
          <item>
           <layout class="QHBoxLayout" name="layout_bindtoButton">
            <item>
@@ -225,7 +225,7 @@
         <widget class="QWidget" name="widget_generalAdvanced" native="true">
          <layout class="QVBoxLayout" name="verticalLayout_3">
           <item>
-           <layout class="QVBoxLayout" name="verticalLayout_2">
+           <layout class="QVBoxLayout" name="layout_after">
             <item>
              <layout class="QHBoxLayout" name="layout_afterButton">
               <item>

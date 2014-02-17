@@ -24,6 +24,7 @@
 #include <QMainWindow>
 
 
+class BridgeWidget;
 class ErrorWindow;
 class EthernetWidget;
 class GeneralWidget;
@@ -84,6 +85,7 @@ private slots:
 private:
     // ui
     Ui::MainWindow *ui;
+    BridgeWidget *bridgeWid;
     EthernetWidget *ethernetWid;
     GeneralWidget *generalWid;
     IpWidget *ipWid;

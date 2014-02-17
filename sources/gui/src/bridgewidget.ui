@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>BridgeWidget</class>
+ <widget class="QWidget" name="BridgeWidget">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>424</width>
+    <height>76</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <layout class="QVBoxLayout" name="verticalLayout">
+   <item>
+    <widget class="QDockWidget" name="dockWidget_bridge">
+     <property name="features">
+      <set>QDockWidget::NoDockWidgetFeatures</set>
+     </property>
+     <property name="windowTitle">
+      <string>Bridge settings</string>
+     </property>
+     <widget class="QWidget" name="dockWidgetContents_bridge">
+      <layout class="QVBoxLayout" name="verticalLayout_2">
+       <item>
+        <widget class="QCheckBox" name="checkBox_skip">
+         <property name="toolTip">
+          <string>Skip (R)STP and immediately activate all bridge members</string>
+         </property>
+         <property name="text">
+          <string>Skip forwarding delay</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

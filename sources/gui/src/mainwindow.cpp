@@ -21,6 +21,7 @@
 #include <QMimeData>
 #include <QProcess>
 
+#include "bridgewidget.h"
 #include "errorwindow.h"
 #include "ethernetwidget.h"
 #include "generalwidget.h"
@@ -68,6 +69,8 @@ MainWindow::MainWindow(QWidget *parent)
     ui->scrollAreaWidgetContents->layout()->addWidget(generalWid);
     ipWid = new IpWidget(this);
     ui->scrollAreaWidgetContents->layout()->addWidget(ipWid);
+    bridgeWid = new BridgeWidget(this);
+    ui->scrollAreaWidgetContents->layout()->addWidget(bridgeWid);
     ethernetWid = new EthernetWidget(this);
     ui->scrollAreaWidgetContents->layout()->addWidget(ethernetWid);
     mobileWid = new MobilePpp(this);
@@ -94,19 +97,21 @@ MainWindow::MainWindow(QWidget *parent)
 
 MainWindow::~MainWindow()
 {
+    delete netctlCommand;
+    delete netctlProfile;
+    delete wpaCommand;
+
+    delete bridgeWid;
     delete ethernetWid;
     delete generalWid;
     delete ipWid;
     delete mobileWid;
-    delete netctlCommand;
-    delete netctlProfile;
     delete pppoeWid;
     delete tunnelWid;
     delete tuntapWid;
-    delete ui;
     delete vlanWid;
-    delete wpaCommand;
     delete wirelessWid;
+    delete ui;
 }
 
 
