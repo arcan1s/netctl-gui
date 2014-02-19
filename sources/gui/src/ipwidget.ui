@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>431</width>
+    <width>430</width>
     <height>1287</height>
    </rect>
   </property>
@@ -46,12 +46,12 @@
           <widget class="QComboBox" name="comboBox_ip">
            <item>
             <property name="text">
-             <string>static</string>
+             <string>dhcp</string>
             </property>
            </item>
            <item>
             <property name="text">
-             <string>dhcp</string>
+             <string>static</string>
             </property>
            </item>
           </widget>
@@ -129,90 +129,6 @@
             </item>
            </layout>
           </item>
-          <item>
-           <layout class="QVBoxLayout" name="layout_ipRoutes">
-            <item>
-             <layout class="QHBoxLayout" name="layout_ipRoutesLine">
-              <item>
-               <widget class="QLabel" name="label_ipRoutes">
-                <property name="minimumSize">
-                 <size>
-                  <width>150</width>
-                  <height>0</height>
-                 </size>
-                </property>
-                <property name="text">
-                 <string>Routes</string>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QLineEdit" name="lineEdit_ipRoutes">
-                <property name="toolTip">
-                 <string>An array of custom routes</string>
-                </property>
-               </widget>
-              </item>
-             </layout>
-            </item>
-            <item>
-             <layout class="QHBoxLayout" name="layout_ipRoutesLine2">
-              <item>
-               <spacer name="spacer_ipRoutes">
-                <property name="orientation">
-                 <enum>Qt::Horizontal</enum>
-                </property>
-                <property name="sizeType">
-                 <enum>QSizePolicy::Preferred</enum>
-                </property>
-                <property name="sizeHint" stdset="0">
-                 <size>
-                  <width>68</width>
-                  <height>20</height>
-                 </size>
-                </property>
-               </spacer>
-              </item>
-              <item>
-               <widget class="QLabel" name="label_ipRoutes2">
-                <property name="minimumSize">
-                 <size>
-                  <width>75</width>
-                  <height>0</height>
-                 </size>
-                </property>
-                <property name="text">
-                 <string>via</string>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QLineEdit" name="lineEdit_ipRoutes2"/>
-              </item>
-              <item>
-               <widget class="QPushButton" name="pushButton_ipRoutes">
-                <property name="text">
-                 <string>Add</string>
-                </property>
-               </widget>
-              </item>
-             </layout>
-            </item>
-            <item>
-             <widget class="QListWidget" name="listWidget_ipRoutes">
-              <property name="maximumSize">
-               <size>
-                <width>16777215</width>
-                <height>50</height>
-               </size>
-              </property>
-              <property name="toolTip">
-               <string>An array of physical network interfaces that this profile needs before it can be started</string>
-              </property>
-             </widget>
-            </item>
-           </layout>
-          </item>
          </layout>
         </widget>
        </item>
@@ -238,12 +154,22 @@
           <widget class="QComboBox" name="comboBox_ip6">
            <item>
             <property name="text">
+             <string>dhcp</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>dhcp-noaddr</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
              <string>static</string>
             </property>
            </item>
            <item>
             <property name="text">
-             <string>dhcp</string>
+             <string>stateless</string>
             </property>
            </item>
           </widget>
@@ -321,90 +247,6 @@
             </item>
            </layout>
           </item>
-          <item>
-           <layout class="QVBoxLayout" name="layout_ipRoutes6">
-            <item>
-             <layout class="QHBoxLayout" name="layout_ipRoutes6Line">
-              <item>
-               <widget class="QLabel" name="label_ipRoutes6">
-                <property name="minimumSize">
-                 <size>
-                  <width>150</width>
-                  <height>0</height>
-                 </size>
-                </property>
-                <property name="text">
-                 <string>Routes6</string>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QLineEdit" name="lineEdit_ipRoutes6">
-                <property name="toolTip">
-                 <string>An array of custom routes</string>
-                </property>
-               </widget>
-              </item>
-             </layout>
-            </item>
-            <item>
-             <layout class="QHBoxLayout" name="layout_ipRoutes62">
-              <item>
-               <spacer name="spacer_ipRoutes6">
-                <property name="orientation">
-                 <enum>Qt::Horizontal</enum>
-                </property>
-                <property name="sizeType">
-                 <enum>QSizePolicy::Preferred</enum>
-                </property>
-                <property name="sizeHint" stdset="0">
-                 <size>
-                  <width>68</width>
-                  <height>20</height>
-                 </size>
-                </property>
-               </spacer>
-              </item>
-              <item>
-               <widget class="QLabel" name="label_ipRoutes62">
-                <property name="minimumSize">
-                 <size>
-                  <width>75</width>
-                  <height>0</height>
-                 </size>
-                </property>
-                <property name="text">
-                 <string>via</string>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QLineEdit" name="lineEdit_ipRoutes62"/>
-              </item>
-              <item>
-               <widget class="QPushButton" name="pushButton_ipRoutes6">
-                <property name="text">
-                 <string>Add</string>
-                </property>
-               </widget>
-              </item>
-             </layout>
-            </item>
-            <item>
-             <widget class="QListWidget" name="listWidget_ipRoutes6">
-              <property name="maximumSize">
-               <size>
-                <width>16777215</width>
-                <height>50</height>
-               </size>
-              </property>
-              <property name="toolTip">
-               <string>An array of physical network interfaces that this profile needs before it can be started</string>
-              </property>
-             </widget>
-            </item>
-           </layout>
-          </item>
          </layout>
         </widget>
        </item>
@@ -426,7 +268,7 @@
          <item>
           <widget class="QPushButton" name="pushButton_ipAdvanced">
            <property name="text">
-            <string>Show advanced</string>
+            <string>Hide advanced</string>
            </property>
           </widget>
          </item>
@@ -435,6 +277,178 @@
        <item>
         <widget class="QWidget" name="widget_ipAdvanced" native="true">
          <layout class="QVBoxLayout" name="verticalLayout_6">
+          <item>
+           <widget class="QWidget" name="widget_ipRoutes" native="true">
+            <layout class="QVBoxLayout" name="layout_ipRoutes">
+             <item>
+              <layout class="QHBoxLayout" name="layout_ipRoutesLine">
+               <item>
+                <widget class="QLabel" name="label_ipRoutes">
+                 <property name="minimumSize">
+                  <size>
+                   <width>150</width>
+                   <height>0</height>
+                  </size>
+                 </property>
+                 <property name="text">
+                  <string>Routes</string>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QLineEdit" name="lineEdit_ipRoutes">
+                 <property name="toolTip">
+                  <string>An array of custom routes</string>
+                 </property>
+                </widget>
+               </item>
+              </layout>
+             </item>
+             <item>
+              <layout class="QHBoxLayout" name="layout_ipRoutesLine2">
+               <item>
+                <spacer name="spacer_ipRoutes">
+                 <property name="orientation">
+                  <enum>Qt::Horizontal</enum>
+                 </property>
+                 <property name="sizeType">
+                  <enum>QSizePolicy::Preferred</enum>
+                 </property>
+                 <property name="sizeHint" stdset="0">
+                  <size>
+                   <width>68</width>
+                   <height>20</height>
+                  </size>
+                 </property>
+                </spacer>
+               </item>
+               <item>
+                <widget class="QLabel" name="label_ipRoutes2">
+                 <property name="minimumSize">
+                  <size>
+                   <width>75</width>
+                   <height>0</height>
+                  </size>
+                 </property>
+                 <property name="text">
+                  <string>via</string>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QLineEdit" name="lineEdit_ipRoutes2"/>
+               </item>
+               <item>
+                <widget class="QPushButton" name="pushButton_ipRoutes">
+                 <property name="text">
+                  <string>Add</string>
+                 </property>
+                </widget>
+               </item>
+              </layout>
+             </item>
+             <item>
+              <widget class="QListWidget" name="listWidget_ipRoutes">
+               <property name="maximumSize">
+                <size>
+                 <width>16777215</width>
+                 <height>50</height>
+                </size>
+               </property>
+               <property name="toolTip">
+                <string>An array of physical network interfaces that this profile needs before it can be started</string>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </widget>
+          </item>
+          <item>
+           <widget class="QWidget" name="widget_ipRoutes6" native="true">
+            <layout class="QVBoxLayout" name="layout_ipRoutes6">
+             <item>
+              <layout class="QHBoxLayout" name="layout_ipRoutes6Line">
+               <item>
+                <widget class="QLabel" name="label_ipRoutes6">
+                 <property name="minimumSize">
+                  <size>
+                   <width>150</width>
+                   <height>0</height>
+                  </size>
+                 </property>
+                 <property name="text">
+                  <string>Routes6</string>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QLineEdit" name="lineEdit_ipRoutes6">
+                 <property name="toolTip">
+                  <string>An array of custom routes</string>
+                 </property>
+                </widget>
+               </item>
+              </layout>
+             </item>
+             <item>
+              <layout class="QHBoxLayout" name="layout_ipRoutes62">
+               <item>
+                <spacer name="spacer_ipRoutes6">
+                 <property name="orientation">
+                  <enum>Qt::Horizontal</enum>
+                 </property>
+                 <property name="sizeType">
+                  <enum>QSizePolicy::Preferred</enum>
+                 </property>
+                 <property name="sizeHint" stdset="0">
+                  <size>
+                   <width>68</width>
+                   <height>20</height>
+                  </size>
+                 </property>
+                </spacer>
+               </item>
+               <item>
+                <widget class="QLabel" name="label_ipRoutes62">
+                 <property name="minimumSize">
+                  <size>
+                   <width>75</width>
+                   <height>0</height>
+                  </size>
+                 </property>
+                 <property name="text">
+                  <string>via</string>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QLineEdit" name="lineEdit_ipRoutes62"/>
+               </item>
+               <item>
+                <widget class="QPushButton" name="pushButton_ipRoutes6">
+                 <property name="text">
+                  <string>Add</string>
+                 </property>
+                </widget>
+               </item>
+              </layout>
+             </item>
+             <item>
+              <widget class="QListWidget" name="listWidget_ipRoutes6">
+               <property name="maximumSize">
+                <size>
+                 <width>16777215</width>
+                 <height>50</height>
+                </size>
+               </property>
+               <property name="toolTip">
+                <string>An array of physical network interfaces that this profile needs before it can be started</string>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </widget>
+          </item>
           <item>
            <layout class="QVBoxLayout" name="layout_custom">
             <item>
@@ -568,76 +582,84 @@
               </layout>
              </item>
              <item>
-              <layout class="QHBoxLayout" name="layout_dhcpcdOpt">
-               <item>
-                <widget class="QLabel" name="label_dhcpcdOpt">
-                 <property name="minimumSize">
-                  <size>
-                   <width>150</width>
-                   <height>0</height>
-                  </size>
-                 </property>
-                 <property name="text">
-                  <string>dhcpcd options</string>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <widget class="QLineEdit" name="lineEdit_dhcpcdOpt">
-                 <property name="toolTip">
-                  <string>Additional options to be passed to the DHCP client</string>
-                 </property>
-                </widget>
-               </item>
-              </layout>
+              <widget class="QWidget" name="widget_dhcpcdOpt" native="true">
+               <layout class="QHBoxLayout" name="horizontalLayout">
+                <item>
+                 <widget class="QLabel" name="label_dhcpcdOpt">
+                  <property name="minimumSize">
+                   <size>
+                    <width>150</width>
+                    <height>0</height>
+                   </size>
+                  </property>
+                  <property name="text">
+                   <string>dhcpcd options</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QLineEdit" name="lineEdit_dhcpcdOpt">
+                  <property name="toolTip">
+                   <string>Additional options to be passed to the DHCP client</string>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
+              </widget>
              </item>
              <item>
-              <layout class="QHBoxLayout" name="layout_dhclientOpt">
-               <item>
-                <widget class="QLabel" name="label_dhclientOpt">
-                 <property name="minimumSize">
-                  <size>
-                   <width>150</width>
-                   <height>0</height>
-                  </size>
-                 </property>
-                 <property name="text">
-                  <string>dhclient options</string>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <widget class="QLineEdit" name="lineEdit_dhclientOpt">
-                 <property name="toolTip">
-                  <string>Additional options to be passed to the DHCP client</string>
-                 </property>
-                </widget>
-               </item>
-              </layout>
-             </item>
-             <item>
-              <layout class="QHBoxLayout" name="layout_dhclientOpt6">
-               <item>
-                <widget class="QLabel" name="label_dhclientOpt6">
-                 <property name="minimumSize">
-                  <size>
-                   <width>150</width>
-                   <height>0</height>
-                  </size>
-                 </property>
-                 <property name="text">
-                  <string>dhclient options (6)</string>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <widget class="QLineEdit" name="lineEdit_dhclientOpt6">
-                 <property name="toolTip">
-                  <string>Additional options to be passed to the DHCP client</string>
-                 </property>
-                </widget>
-               </item>
-              </layout>
+              <widget class="QWidget" name="widget_dhclientOpt" native="true">
+               <layout class="QVBoxLayout" name="verticalLayout_8">
+                <item>
+                 <layout class="QHBoxLayout" name="layout_dhclientOpt">
+                  <item>
+                   <widget class="QLabel" name="label_dhclientOpt">
+                    <property name="minimumSize">
+                     <size>
+                      <width>150</width>
+                      <height>0</height>
+                     </size>
+                    </property>
+                    <property name="text">
+                     <string>dhclient options</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QLineEdit" name="lineEdit_dhclientOpt">
+                    <property name="toolTip">
+                     <string>Additional options to be passed to the DHCP client</string>
+                    </property>
+                   </widget>
+                  </item>
+                 </layout>
+                </item>
+                <item>
+                 <layout class="QHBoxLayout" name="layout_dhclientOpt6">
+                  <item>
+                   <widget class="QLabel" name="label_dhclientOpt6">
+                    <property name="minimumSize">
+                     <size>
+                      <width>150</width>
+                      <height>0</height>
+                     </size>
+                    </property>
+                    <property name="text">
+                     <string>dhclient options (6)</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QLineEdit" name="lineEdit_dhclientOpt6">
+                    <property name="toolTip">
+                     <string>Additional options to be passed to the DHCP client</string>
+                    </property>
+                   </widget>
+                  </item>
+                 </layout>
+                </item>
+               </layout>
+              </widget>
              </item>
              <item>
               <layout class="QHBoxLayout" name="layout_timeoutDhcp">
@@ -759,7 +781,7 @@
              <item>
               <layout class="QHBoxLayout" name="layout_dnsSearch">
                <item>
-                <widget class="QLabel" name="label_dnsSearch_2">
+                <widget class="QLabel" name="label_dnsSearch">
                  <property name="minimumSize">
                   <size>
                    <width>150</width>
@@ -772,7 +794,7 @@
                 </widget>
                </item>
                <item>
-                <widget class="QLineEdit" name="lineEdit_dnsSearch_2">
+                <widget class="QLineEdit" name="lineEdit_dnsSearch">
                  <property name="toolTip">
                   <string>A ‘search’ line for /etc/resolv.conf</string>
                  </property>
@@ -785,7 +807,7 @@
                <item>
                 <layout class="QHBoxLayout" name="layout_dnsOptionsLine">
                  <item>
-                  <widget class="QLabel" name="label_dnsSearch">
+                  <widget class="QLabel" name="label_dnsOptions">
                    <property name="minimumSize">
                     <size>
                      <width>150</width>
@@ -798,10 +820,10 @@
                   </widget>
                  </item>
                  <item>
-                  <widget class="QLineEdit" name="lineEdit_dnsSearch"/>
+                  <widget class="QLineEdit" name="lineEdit_dnsOptions"/>
                  </item>
                  <item>
-                  <widget class="QPushButton" name="pushButton_dnsSearch">
+                  <widget class="QPushButton" name="pushButton_dnsOptions">
                    <property name="text">
                     <string>Add</string>
                    </property>
@@ -810,7 +832,7 @@
                 </layout>
                </item>
                <item>
-                <widget class="QListWidget" name="listWidget_dnsSearch">
+                <widget class="QListWidget" name="listWidget_dnsOptions">
                  <property name="maximumSize">
                   <size>
                    <width>16777215</width>
@@ -843,21 +865,21 @@
   <tabstop>pushButton_ipAddress</tabstop>
   <tabstop>listWidget_ipAddress</tabstop>
   <tabstop>lineEdit_gateway</tabstop>
-  <tabstop>lineEdit_ipRoutes</tabstop>
-  <tabstop>lineEdit_ipRoutes2</tabstop>
-  <tabstop>pushButton_ipRoutes</tabstop>
-  <tabstop>listWidget_ipRoutes</tabstop>
   <tabstop>checkBox_ip6</tabstop>
   <tabstop>comboBox_ip6</tabstop>
   <tabstop>lineEdit_ipAddress6</tabstop>
   <tabstop>pushButton_ipAddress6</tabstop>
   <tabstop>listWidget_ipAddress6</tabstop>
   <tabstop>lineEdit_gateway6</tabstop>
+  <tabstop>pushButton_ipAdvanced</tabstop>
+  <tabstop>lineEdit_ipRoutes</tabstop>
+  <tabstop>lineEdit_ipRoutes2</tabstop>
+  <tabstop>pushButton_ipRoutes</tabstop>
+  <tabstop>listWidget_ipRoutes</tabstop>
   <tabstop>lineEdit_ipRoutes6</tabstop>
   <tabstop>lineEdit_ipRoutes62</tabstop>
   <tabstop>pushButton_ipRoutes6</tabstop>
   <tabstop>listWidget_ipRoutes6</tabstop>
-  <tabstop>pushButton_ipAdvanced</tabstop>
   <tabstop>lineEdit_custom</tabstop>
   <tabstop>pushButton_custom</tabstop>
   <tabstop>listWidget_custom</tabstop>
@@ -873,76 +895,11 @@
   <tabstop>pushButton_dns</tabstop>
   <tabstop>listWidget_dns</tabstop>
   <tabstop>lineEdit_dnsDomain</tabstop>
-  <tabstop>lineEdit_dnsSearch_2</tabstop>
   <tabstop>lineEdit_dnsSearch</tabstop>
-  <tabstop>pushButton_dnsSearch</tabstop>
-  <tabstop>listWidget_dnsSearch</tabstop>
+  <tabstop>lineEdit_dnsOptions</tabstop>
+  <tabstop>pushButton_dnsOptions</tabstop>
+  <tabstop>listWidget_dnsOptions</tabstop>
  </tabstops>
  <resources/>
- <connections>
-  <connection>
-   <sender>checkBox_ip</sender>
-   <signal>clicked(bool)</signal>
-   <receiver>comboBox_ip</receiver>
-   <slot>setEnabled(bool)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>33</x>
-     <y>49</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>458</x>
-     <y>53</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>checkBox_ip</sender>
-   <signal>clicked(bool)</signal>
-   <receiver>widget_ip</receiver>
-   <slot>setShown(bool)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>33</x>
-     <y>54</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>28</x>
-     <y>101</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>checkBox_ip6</sender>
-   <signal>clicked(bool)</signal>
-   <receiver>comboBox_ip6</receiver>
-   <slot>setEnabled(bool)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>127</x>
-     <y>348</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>458</x>
-     <y>349</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>checkBox_ip6</sender>
-   <signal>clicked(bool)</signal>
-   <receiver>widget_ip6</receiver>
-   <slot>setShown(bool)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>106</x>
-     <y>348</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>56</x>
-     <y>608</y>
-    </hint>
-   </hints>
-  </connection>
- </connections>
+ <connections/>
 </ui>

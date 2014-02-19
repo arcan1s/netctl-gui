@@ -32,9 +32,36 @@ class IpWidget : public QWidget
 public:
     explicit IpWidget(QWidget *parent = 0);
     ~IpWidget();
+    QHash<QString, QString> getSettings();
+    int isOk();
+
+public slots:
+    void clear();
+
+private slots:
+    // buttons
+    void addIp();
+    void addIpRoutes();
+    void addIp6();
+    void addIpRoutes6();
+    void addCustom();
+    void addDns();
+    void addDnsOpt();
+    // ip mode
+    void changeIpMode(int index);
+    void ipEnable(int state);
+    // ipv6 mode
+    void changeIp6Mode(int index);
+    void ip6Enable(int state);
+    // dhcp client
+    void changeDhcpClient(int index);
+    void showAdvanced();
 
 private:
     Ui::IpWidget *ui;
+    void createActions();
+    void createFilter();
+    void keyPressEvent(QKeyEvent *pressedKey);
 };
 
 

@@ -134,6 +134,7 @@ QHash<QString, QString> GeneralWidget::getSettings()
             generalSettings[QString("ForceConnect")] = QString("yes");
     }
 
+    clear();
     return generalSettings;
 }
 

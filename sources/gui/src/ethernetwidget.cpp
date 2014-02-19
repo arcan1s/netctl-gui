@@ -96,6 +96,7 @@ QHash<QString, QString> EthernetWidget::getSettings()
             ethernetSettings[QString("TimeoutWPA")] = QString(ui->spinBox_timeoutWpa->value());
     }
 
+    clear();
     return ethernetSettings;
 }
 
