@@ -32,9 +32,16 @@ class TunnelWidget : public QWidget
 public:
     explicit TunnelWidget(QWidget *parent = 0);
     ~TunnelWidget();
+    QHash<QString, QString> getSettings();
+    int isOk();
+
+public slots:
+    void clear();
 
 private:
     Ui::TunnelWidget *ui;
+    void createFilter();
+    QString getIp(QString rawIp);
 };
 
 

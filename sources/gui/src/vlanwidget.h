@@ -32,6 +32,11 @@ class VlanWidget : public QWidget
 public:
     explicit VlanWidget(QWidget *parent = 0);
     ~VlanWidget();
+    QHash<QString, QString> getSettings();
+    int isOk();
+
+public slots:
+    void clear();
 
 private:
     Ui::VlanWidget *ui;

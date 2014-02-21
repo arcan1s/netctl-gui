@@ -24,10 +24,37 @@ VlanWidget::VlanWidget(QWidget *parent)
       ui(new Ui::VlanWidget)
 {
     ui->setupUi(this);
+    clear();
 }
 
 
 VlanWidget::~VlanWidget()
 {
     delete ui;
+}
+
+
+void VlanWidget::clear()
+{
+    ui->spinBox_vlan->setValue(55);
+}
+
+
+QHash<QString, QString> VlanWidget::getSettings()
+{
+    QHash<QString, QString> vlanSettings;
+
+    if (isOk() == 0) {
+        vlanSettings[QString("VLANID")] = QString(ui->spinBox_vlan->value());
+        clear();
+    }
+
+    return vlanSettings;
+}
+
+
+int VlanWidget::isOk()
+{
+    // all fine
+    return 0;
 }

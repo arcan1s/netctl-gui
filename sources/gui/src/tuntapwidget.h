@@ -32,6 +32,11 @@ class TuntapWidget : public QWidget
 public:
     explicit TuntapWidget(QWidget *parent = 0);
     ~TuntapWidget();
+    QHash<QString, QString> getSettings();
+    int isOk();
+
+public slots:
+    void clear();
 
 private:
     Ui::TuntapWidget *ui;

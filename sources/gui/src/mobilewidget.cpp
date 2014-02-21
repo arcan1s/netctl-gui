@@ -111,9 +111,9 @@ QHash<QString, QString> MobileWidget::getSettings()
             mobileSettings[QString("UsePeerDNS")] = QString("false");
         if (!ui->lineEdit_options->text().isEmpty())
             mobileSettings[QString("OptionsFile")] = ui->lineEdit_options->text();
+        clear();
     }
 
-    clear();
     return mobileSettings;
 }
 

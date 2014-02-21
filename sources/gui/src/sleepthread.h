@@ -33,10 +33,12 @@ public :
     {
         QThread::usleep(iSleepTime);
     }
+
     static void sleep(long iSleepTime)
     {
         QThread::sleep(iSleepTime);
     }
+
     static void msleep(long iSleepTime)
     {
         QThread::msleep(iSleepTime);

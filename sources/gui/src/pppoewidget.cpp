@@ -152,9 +152,9 @@ QHash<QString, QString> PppoeWidget::getSettings()
             pppoeSettings[QString("PPPoEMAC")] = QString("'") + ui->lineEdit_mac->text() + QString("'");
         if (ui->checkBox_ipv6->checkState() == Qt::Checked)
             pppoeSettings[QString("PPPoEIP6")] = QString("yes");
+        clear();
     }
 
-    clear();
     return pppoeSettings;
 }
 

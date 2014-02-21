@@ -24,10 +24,75 @@ TunnelWidget::TunnelWidget(QWidget *parent)
       ui(new Ui::TunnelWidget)
 {
     ui->setupUi(this);
+    createFilter();
+    clear();
 }
 
 
 TunnelWidget::~TunnelWidget()
 {
     delete ui;
+}
+
+
+void TunnelWidget::clear()
+{
+    ui->comboBox_mode->setCurrentIndex(0);
+    ui->lineEdit_local->clear();
+    ui->lineEdit_remote->clear();
+}
+
+
+void TunnelWidget::createFilter()
+{
+    // using input mask because validators is not comfortable
+    // ipv4
+    ui->lineEdit_local->setInputMask(QString("999.999.999.999"));
+    ui->lineEdit_remote->setInputMask(QString("999.999.999.999"));
+}
+
+
+QString TunnelWidget::getIp(QString rawIp)
+{
+    QStringList ip = rawIp.split(QString("."));
+
+    // fix empty fields
+    if (ip[0].isEmpty())
+        ip[0] = QString("127");
+    if (ip[1].isEmpty())
+        ip[1] = QString("0");
+    if (ip[2].isEmpty())
+        ip[2] = QString("0");
+    if (ip[3].isEmpty())
+        ip[3] = QString("1");
+    // fix numbers
+    for (int i=0; i<4; i++)
+        if (ip[i].toInt() > 255)
+            ip[i] = QString("255");
+
+    return ip.join(QString("."));
+}
+
+
+QHash<QString, QString> TunnelWidget::getSettings()
+{
+    QHash<QString, QString> tunnelSettings;
+
+    if (isOk() == 0) {
+        tunnelSettings[QString("Mode")] = QString("'") + ui->comboBox_mode->currentText() + QString("'");
+        if (!ui->lineEdit_local->text().split(QString(".")).join(QString("")).remove(QString(" ")).isEmpty())
+            tunnelSettings[QString("Local")] = QString("'") + getIp(ui->lineEdit_local->text().remove(QString(" "))) + QString("'");
+        if (!ui->lineEdit_remote->text().split(QString(".")).join(QString("")).remove(QString(" ")).isEmpty())
+            tunnelSettings[QString("Remote")] = QString("'") + getIp(ui->lineEdit_remote->text().remove(QString(" "))) + QString("'");
+        clear();
+    }
+
+    return tunnelSettings;
+}
+
+
+int TunnelWidget::isOk()
+{
+    // all fine
+    return 0;
 }

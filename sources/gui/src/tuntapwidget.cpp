@@ -24,10 +24,47 @@ TuntapWidget::TuntapWidget(QWidget *parent)
       ui(new Ui::TuntapWidget)
 {
     ui->setupUi(this);
+    clear();
 }
 
 
 TuntapWidget::~TuntapWidget()
 {
     delete ui;
+}
+
+
+void TuntapWidget::clear()
+{
+    ui->comboBox_mode->setCurrentIndex(0);
+    ui->lineEdit_user->setText(QString("nobody"));
+    ui->lineEdit_group->setText(QString("nobody"));
+}
+
+
+QHash<QString, QString> TuntapWidget::getSettings()
+{
+    QHash<QString, QString> tuntapSettings;
+
+    if (isOk() == 0) {
+        tuntapSettings[QString("Mode")] = QString("'") + ui->comboBox_mode->currentText() + QString("'");
+        tuntapSettings[QString("User")] = QString("'") + ui->lineEdit_user->text() + QString("'");
+        tuntapSettings[QString("Group")] = QString("'") + ui->lineEdit_group->text() + QString("'");
+        clear();
+    }
+
+    return tuntapSettings;
+}
+
+
+int TuntapWidget::isOk()
+{
+    // empty username
+    if (ui->lineEdit_user->text().isEmpty())
+        return 1;
+    // empty group name
+    if (ui->lineEdit_group->text().isEmpty())
+        return 2;
+    // all fine
+    return 0;
 }
