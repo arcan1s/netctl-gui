@@ -59,13 +59,15 @@ MainWindow::MainWindow(QWidget *parent, bool defaultSettings, int tabNum)
     sudoPath = QString("/usr/bin/kdesu");
     wpaConfig.append(QString("/usr/bin/wpa_cli"));
     wpaConfig.append(QString("/usr/bin/wpa_supplicant"));
-    ifaceDir = QString("/sys/class/net/");
     preferedInterface  = QString("");
     //// additional settings
+    ifaceDir = QString("/sys/class/net/");
+    rfkillDir = QString("/sys/class/rfkill/");
     wpaConfig.append(QString("/run/wpa_supplicant_netctl-gui.pid"));
     wpaConfig.append(QString("nl80211,wext"));
     wpaConfig.append(QString("/run/wpa_supplicant_netctl-gui"));
     wpaConfig.append(QString("users"));
+
 
     // gui
     generalWid = new GeneralWidget(this, ifaceDir, profileDir);
@@ -86,7 +88,7 @@ MainWindow::MainWindow(QWidget *parent, bool defaultSettings, int tabNum)
     ui->scrollAreaWidgetContents->layout()->addWidget(tuntapWid);
     vlanWid = new VlanWidget(this);
     ui->scrollAreaWidgetContents->layout()->addWidget(vlanWid);
-    wirelessWid = new WirelessWidget(this);
+    wirelessWid = new WirelessWidget(this, rfkillDir);
     ui->scrollAreaWidgetContents->layout()->addWidget(wirelessWid);
     // backend
     netctlCommand = new Netctl(this, netctlPath, profileDir, sudoPath);

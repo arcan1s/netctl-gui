@@ -57,7 +57,7 @@ void GeneralWidget::clear()
     ui->lineEdit_execDownPre->clear();
     ui->checkBox_forceConnect->setCheckState(Qt::Unchecked);
 
-    ui->pushButton_generalAdvanced->setText(QApplication::translate("GeneralWidget", "Hide advanced"));
+    ui->pushButton_generalAdvanced->setChecked(false);
     showAdvanced();
 }
 
@@ -97,7 +97,7 @@ void GeneralWidget::keyPressEvent(QKeyEvent *pressedKey)
 
 void GeneralWidget::showAdvanced()
 {
-    if (ui->pushButton_generalAdvanced->text().indexOf(QString("Show")) > -1) {
+    if (ui->pushButton_generalAdvanced->isChecked()) {
         ui->widget_generalAdvanced->setShown(true);
         ui->pushButton_generalAdvanced->setText(QApplication::translate("GeneralWidget", "Hide advanced"));
     }

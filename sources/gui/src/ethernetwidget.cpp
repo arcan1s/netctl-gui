@@ -48,7 +48,7 @@ void EthernetWidget::clear()
     ui->spinBox_timeoutCarrier->setValue(5);
     ui->spinBox_timeoutWpa->setValue(15);
 
-    ui->pushButton_ethernetAdvanced->setText(QApplication::translate("EthernetWidget", "Hide advanced"));
+    ui->pushButton_ethernetAdvanced->setChecked(false);
     showAdvanced();
 }
 
@@ -75,7 +75,7 @@ void EthernetWidget::selectWpaConfig()
 
 void EthernetWidget::showAdvanced()
 {
-    if (ui->pushButton_ethernetAdvanced->text().indexOf(QString("Show")) > -1) {
+    if (ui->pushButton_ethernetAdvanced->isChecked()) {
         ui->widget_ethernetAdvanced->setShown(true);
         ui->pushButton_ethernetAdvanced->setText(QApplication::translate("EthernetWidget", "Hide advanced"));
     }

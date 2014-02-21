@@ -76,7 +76,7 @@ void IpWidget::clear()
     ui->lineEdit_dnsOptions->clear();
     ui->listWidget_dnsOptions->clear();
 
-    ui->pushButton_ipAdvanced->setText(QApplication::translate("IpWidget", "Hide advanced"));
+    ui->pushButton_ipAdvanced->setChecked(false);;
     showAdvanced();
 }
 
@@ -360,7 +360,7 @@ void IpWidget::changeDhcpClient(int index)
 
 void IpWidget::showAdvanced()
 {
-    if (ui->pushButton_ipAdvanced->text().indexOf(QString("Show")) > -1) {
+    if (ui->pushButton_ipAdvanced->isChecked()) {
         ui->widget_ipAdvanced->setShown(true);
         ui->pushButton_ipAdvanced->setText(QApplication::translate("IpWidget", "Hide advanced"));
     }

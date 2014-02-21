@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>430</width>
-    <height>1287</height>
+    <height>1353</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -269,6 +269,9 @@
           <widget class="QPushButton" name="pushButton_ipAdvanced">
            <property name="text">
             <string>Hide advanced</string>
+           </property>
+           <property name="checkable">
+            <bool>true</bool>
            </property>
           </widget>
          </item>

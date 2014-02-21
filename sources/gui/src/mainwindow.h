@@ -104,12 +104,13 @@ private:
     bool checkState(QString state, QString item);
     void createActions();
     // configuration
+    QString ifaceDir;
     QString netctlPath;
+    QString preferedInterface;
     QString profileDir;
+    QString rfkillDir;
     QString sudoPath;
     QStringList wpaConfig;
-    QString ifaceDir;
-    QString preferedInterface;
 };
 
 

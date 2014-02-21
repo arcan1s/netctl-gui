@@ -18,6 +18,7 @@
 #ifndef WIRELESSWIDGET_H
 #define WIRELESSWIDGET_H
 
+#include <QDir>
 #include <QWidget>
 
 
@@ -30,11 +31,28 @@ class WirelessWidget : public QWidget
     Q_OBJECT
 
 public:
-    explicit WirelessWidget(QWidget *parent = 0);
+    explicit WirelessWidget(QWidget *parent = 0,
+                            QString rfkillDir = QString(""));
     ~WirelessWidget();
+    QHash<QString, QString> getSettings();
+    int isOk();
+
+public slots:
+    void clear();
+
+private slots:
+    void addDriver();
+    void addFreq();
+    void addOption();
+    void changeSecurity(int index);
+    void showAdvanced();
+    void selectWpaConfig();
 
 private:
+    QDir *rfkillDirectory;
     Ui::WirelessWidget *ui;
+    void createActions();
+    void keyPressEvent(QKeyEvent *pressedKey);
 };
 
 

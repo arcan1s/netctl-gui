@@ -51,7 +51,7 @@ void MobileWidget::clear()
     ui->checkBox_dns->setCheckState(Qt::Checked);
     ui->lineEdit_options->clear();
 
-    ui->pushButton_mobileAdvanced->setText(QApplication::translate("MobileWidget", "Hide advanced"));
+    ui->pushButton_mobileAdvanced->setChecked(false);;
     showAdvanced();
 }
 
@@ -77,7 +77,7 @@ void MobileWidget::selectOptionsFile()
 
 void MobileWidget::showAdvanced()
 {
-    if (ui->pushButton_mobileAdvanced->text().indexOf(QString("Show")) > -1) {
+    if (ui->pushButton_mobileAdvanced->isChecked()) {
         ui->widget_mobileAdvanced->setShown(true);
         ui->pushButton_mobileAdvanced->setText(QApplication::translate("MobileWidget", "Hide advanced"));
     }

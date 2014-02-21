@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>431</width>
-    <height>573</height>
+    <height>602</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -160,6 +160,9 @@
           <widget class="QPushButton" name="pushButton_pppoeAdvanced">
            <property name="text">
             <string>Show advanced</string>
+           </property>
+           <property name="checkable">
+            <bool>true</bool>
            </property>
           </widget>
          </item>

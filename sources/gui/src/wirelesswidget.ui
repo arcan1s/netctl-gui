@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>431</width>
-    <height>760</height>
+    <height>765</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -141,10 +141,10 @@
         </widget>
        </item>
        <item>
-        <widget class="QWidget" name="widget_wpaConfigFile" native="true">
+        <widget class="QWidget" name="widget_wpaConfig" native="true">
          <layout class="QHBoxLayout" name="layout_wpaConfigFile">
           <item>
-           <widget class="QLabel" name="label_wpaConfigFile">
+           <widget class="QLabel" name="label_wpaConfig">
             <property name="minimumSize">
              <size>
               <width>150</width>
@@ -157,9 +157,16 @@
            </widget>
           </item>
           <item>
-           <widget class="QLineEdit" name="lineEdit_wpaConfigFile">
+           <widget class="QLineEdit" name="lineEdit_wpaConfig">
             <property name="toolTip">
              <string>Path to a wpa_supplicant configuration file</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="pushButton_wpaConfig">
+            <property name="text">
+             <string>Browse</string>
             </property>
            </widget>
           </item>
@@ -231,6 +238,9 @@
           <widget class="QPushButton" name="pushButton_wirelessAdvanced">
            <property name="text">
             <string>Show advanced</string>
+           </property>
+           <property name="checkable">
+            <bool>true</bool>
            </property>
           </widget>
          </item>
@@ -504,7 +514,8 @@
   <tabstop>lineEdit_wpaConfigSection</tabstop>
   <tabstop>pushButton_wpaConfigSection</tabstop>
   <tabstop>listWidget_wpaConfigSection</tabstop>
-  <tabstop>lineEdit_wpaConfigFile</tabstop>
+  <tabstop>lineEdit_wpaConfig</tabstop>
+  <tabstop>pushButton_wpaConfig</tabstop>
   <tabstop>lineEdit_key</tabstop>
   <tabstop>checkBox_hidden</tabstop>
   <tabstop>checkBox_adhoc</tabstop>

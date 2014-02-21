@@ -60,7 +60,7 @@ void PppoeWidget::clear()
     ui->lineEdit_mac->clear();
     ui->checkBox_ipv6->setCheckState(Qt::Unchecked);
 
-    ui->pushButton_pppoeAdvanced->setText(QApplication::translate("PppoeWidget", "Hide advanced"));
+    ui->pushButton_pppoeAdvanced->setChecked(false);;
     showAdvanced();
 }
 
@@ -105,7 +105,7 @@ void PppoeWidget::selectOptionsFile()
 
 void PppoeWidget::showAdvanced()
 {
-    if (ui->pushButton_pppoeAdvanced->text().indexOf(QString("Show")) > -1) {
+    if (ui->pushButton_pppoeAdvanced->isChecked()) {
         ui->widget_pppoeAdvanced->setShown(true);
         ui->pushButton_pppoeAdvanced->setText(QApplication::translate("PppoeWidget", "Hide advanced"));
     }
