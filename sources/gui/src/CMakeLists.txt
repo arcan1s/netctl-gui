@@ -8,7 +8,7 @@ message (STATUS "${SUBPROJECT} Headers: ${HEADERS}")
 message (STATUS "${SUBPROJECT} Forms: ${FORMS}")
 
 # include_path
-include_directories (${SUBPROJECT_SOURCE_DIR} ${CMAKE_CURRENT_BINARY_DIR} ${CMAKE_CURRENT_BINARY_DIR}/../)
+include_directories (${CMAKE_SOURCE_DIR} ${CMAKE_BINARY_DIR} ${CMAKE_CURRENT_BINARY_DIR} ${CMAKE_CURRENT_BINARY_DIR}/../)
 
 find_package (Qt4 REQUIRED)
 include (${QT_USE_FILE})

@@ -39,15 +39,18 @@
 #include <cstdio>
 
 
-MainWindow::MainWindow(QWidget *parent)
+MainWindow::MainWindow(QWidget *parent, bool defaultSettings, int tabNum)
     : QMainWindow(parent),
       ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+    ui->tabWidget->setCurrentIndex(tabNum-1);
     ui->statusBar->showMessage(QApplication::translate("MainWindow", "Ready"));
 
     //  SettingsWindow *settingsWindow;
     //  settingsWindow = new SettingsWindow(this);
+    // if (defaultSettings)
+    //      тандартные настройки
     //  delete settingsWindow;
 
     // temporary block

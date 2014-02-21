@@ -49,7 +49,9 @@ class MainWindow : public QMainWindow
     Q_OBJECT
     
 public:
-    explicit MainWindow(QWidget *parent = 0);
+    explicit MainWindow(QWidget *parent = 0,
+                        bool defaultSettings = false,
+                        int tabNum = 0);
     ~MainWindow();
     Netctl *netctlCommand;
     NetctlProfile *netctlProfile;
