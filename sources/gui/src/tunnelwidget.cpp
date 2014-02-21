@@ -96,3 +96,9 @@ int TunnelWidget::isOk()
     // all fine
     return 0;
 }
+
+
+void TunnelWidget::setSettings(QHash<QString, QString> settings)
+{
+
+}

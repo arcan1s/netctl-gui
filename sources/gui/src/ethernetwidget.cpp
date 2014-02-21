@@ -127,3 +127,9 @@ int EthernetWidget::isOk()
     // all fine
     return 0;
 }
+
+
+void EthernetWidget::setSettings(QHash<QString, QString> settings)
+{
+
+}

@@ -183,3 +183,9 @@ int PppoeWidget::isOk()
     // all fine
     return 0;
 }
+
+
+void PppoeWidget::setSettings(QHash<QString, QString> settings)
+{
+
+}

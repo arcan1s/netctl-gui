@@ -130,3 +130,9 @@ int MobileWidget::isOk()
     // all fine
     return 0;
 }
+
+
+void MobileWidget::setSettings(QHash<QString, QString> settings)
+{
+
+}

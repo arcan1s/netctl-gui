@@ -58,3 +58,9 @@ int VlanWidget::isOk()
     // all fine
     return 0;
 }
+
+
+void VlanWidget::setSettings(QHash<QString, QString> settings)
+{
+
+}

@@ -59,3 +59,9 @@ int BridgeWidget::isOk()
     // all fine
     return 0;
 }
+
+
+void BridgeWidget::setSettings(QHash<QString, QString> settings)
+{
+
+}

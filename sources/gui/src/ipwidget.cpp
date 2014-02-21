@@ -44,19 +44,23 @@ void IpWidget::clear()
     ui->comboBox_ip->setCurrentIndex(0);
     changeIpMode(ui->comboBox_ip->currentIndex());
     ui->lineEdit_ipAddress->clear();
+    ui->listWidget_ipAddress->setCurrentRow(-1);
     ui->listWidget_ipAddress->clear();
     ui->lineEdit_gateway->clear();
     ui->lineEdit_ipRoutes->clear();
     ui->lineEdit_ipRoutes2->clear();
+    ui->listWidget_ipRoutes->setCurrentRow(-1);
     ui->listWidget_ipRoutes->clear();
     ui->checkBox_ip6->setCheckState(Qt::Unchecked);
     ui->comboBox_ip6->setCurrentIndex(0);
     changeIp6Mode(ui->comboBox_ip6->currentIndex());
     ui->lineEdit_ipAddress6->clear();
+    ui->listWidget_ipAddress6->setCurrentRow(-1);
     ui->listWidget_ipAddress6->clear();
     ui->lineEdit_gateway6->clear();
     ui->lineEdit_ipRoutes6->clear();
     ui->lineEdit_ipRoutes62->clear();
+    ui->listWidget_ipRoutes6->setCurrentRow(-1);
     ui->listWidget_ipRoutes6->clear();
     ui->lineEdit_custom->clear();
     ui->listWidget_custom->clear();
@@ -70,10 +74,12 @@ void IpWidget::clear()
     ui->spinBox_timeoutDhcp->setValue(30);
     ui->checkBox_dhcp->setCheckState(Qt::Unchecked);
     ui->lineEdit_dns->clear();
+    ui->listWidget_dns->setCurrentRow(-1);
     ui->listWidget_dns->clear();
     ui->lineEdit_dnsDomain->clear();
     ui->lineEdit_dnsSearch->clear();
     ui->lineEdit_dnsOptions->clear();
+    ui->listWidget_dnsOptions->setCurrentRow(-1);
     ui->listWidget_dnsOptions->clear();
 
     ui->pushButton_ipAdvanced->setChecked(false);;
@@ -452,7 +458,7 @@ QHash<QString, QString> IpWidget::getSettings()
             QStringList dnsOpt;
             for (int i=0; i<ui->listWidget_dnsOptions->count(); i++)
                 dnsOpt.append(QString("'") + ui->listWidget_dnsOptions->item(i)->text() + QString("'"));
-            ipSettings[QString("DNS")] = dnsOpt.join(QString(" "));
+            ipSettings[QString("DNS")] = dnsOpt.join(QString("\n"));
         }
         clear();
     }
@@ -479,3 +485,8 @@ int IpWidget::isOk()
     return 0;
 }
 
+
+void IpWidget::setSettings(QHash<QString, QString> settings)
+{
+
+}

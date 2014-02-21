@@ -35,6 +35,7 @@ public:
     ~EthernetWidget();
     QHash<QString, QString> getSettings();
     int isOk();
+    void setSettings(QHash<QString, QString> settings);
 
 public slots:
     void clear();

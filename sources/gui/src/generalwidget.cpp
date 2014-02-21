@@ -49,9 +49,11 @@ void GeneralWidget::clear()
     ui->comboBox_interface->addItems(ifaceDirectory->entryList(QDir::Dirs | QDir::NoDotAndDotDot));
     ui->comboBox_bindto->clear();
     ui->comboBox_bindto->addItems(ifaceDirectory->entryList(QDir::Dirs | QDir::NoDotAndDotDot));
+    ui->listWidget_bindto->setCurrentRow(-1);
     ui->listWidget_bindto->clear();
     ui->comboBox_after->clear();
     ui->comboBox_after->addItems(profileDirectory->entryList(QDir::Files));
+    ui->listWidget_after->setCurrentRow(-1);
     ui->listWidget_after->clear();
     ui->lineEdit_execUpPost->clear();
     ui->lineEdit_execDownPre->clear();
@@ -153,4 +155,10 @@ int GeneralWidget::isOk()
         return 2;
     // all fine
     return 0;
+}
+
+
+void GeneralWidget::setSettings(QHash<QString, QString> settings)
+{
+
 }

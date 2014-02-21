@@ -68,3 +68,9 @@ int TuntapWidget::isOk()
     // all fine
     return 0;
 }
+
+
+void TuntapWidget::setSettings(QHash<QString, QString> settings)
+{
+
+}
