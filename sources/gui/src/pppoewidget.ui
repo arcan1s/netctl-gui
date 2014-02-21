@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>431</width>
-    <height>549</height>
+    <height>573</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -16,12 +16,6 @@
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
     <widget class="QDockWidget" name="dockWidget_pppoe">
-     <property name="minimumSize">
-      <size>
-       <width>319</width>
-       <height>47</height>
-      </size>
-     </property>
      <property name="features">
       <set>QDockWidget::NoDockWidgetFeatures</set>
      </property>
@@ -113,37 +107,39 @@
         </layout>
        </item>
        <item>
-        <layout class="QHBoxLayout" name="layout_timeout">
-         <item>
-          <widget class="QLabel" name="label_timeout">
-           <property name="minimumSize">
-            <size>
-             <width>150</width>
-             <height>0</height>
-            </size>
-           </property>
-           <property name="text">
-            <string>Idle timeout</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QSpinBox" name="spinBox_timeout">
-           <property name="toolTip">
-            <string>This option specifies the idle time (in seconds) after which ‘pppd’ should disconnect</string>
-           </property>
-           <property name="maximum">
-            <number>999</number>
-           </property>
-           <property name="singleStep">
-            <number>10</number>
-           </property>
-           <property name="value">
-            <number>300</number>
-           </property>
-          </widget>
-         </item>
-        </layout>
+        <widget class="QWidget" name="widget_timeout" native="true">
+         <layout class="QHBoxLayout" name="layout_timeout">
+          <item>
+           <widget class="QLabel" name="label_timeout">
+            <property name="minimumSize">
+             <size>
+              <width>150</width>
+              <height>0</height>
+             </size>
+            </property>
+            <property name="text">
+             <string>Idle timeout</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QSpinBox" name="spinBox_timeout">
+            <property name="toolTip">
+             <string>This option specifies the idle time (in seconds) after which ‘pppd’ should disconnect</string>
+            </property>
+            <property name="maximum">
+             <number>999</number>
+            </property>
+            <property name="singleStep">
+             <number>10</number>
+            </property>
+            <property name="value">
+             <number>300</number>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
        </item>
        <item>
         <layout class="QHBoxLayout" name="layout_pppoeAdvanced">
@@ -410,21 +406,7 @@
              </widget>
             </item>
             <item>
-             <widget class="QLineEdit" name="lineEdit_sessionId">
-              <property name="toolTip">
-               <string>This option specifies an existing session to attach to, session ID</string>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QLabel" name="label_sessionSep">
-              <property name="text">
-               <string>:</string>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QLineEdit" name="lineEdit_sessionMac">
+             <widget class="QLineEdit" name="lineEdit_session">
               <property name="toolTip">
                <string>This option specifies an existing session to attach to, MAC address</string>
               </property>

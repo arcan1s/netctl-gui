@@ -32,9 +32,21 @@ class PppoeWidget : public QWidget
 public:
     explicit PppoeWidget(QWidget *parent = 0);
     ~PppoeWidget();
+    QHash<QString, QString> getSettings();
+    int isOk();
+
+public slots:
+    void clear();
+
+private slots:
+    void changeMode(int index);
+    void selectOptionsFile();
+    void showAdvanced();
 
 private:
     Ui::PppoeWidget *ui;
+    void createActions();
+    void createFilter();
 };
 
 
