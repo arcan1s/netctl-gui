@@ -18,6 +18,8 @@
 #include "ethernetwidget.h"
 #include "ui_ethernetwidget.h"
 
+#include <QDir>
+#include <QFileDialog>
 #include <QFile>
 
 
@@ -28,7 +30,6 @@ EthernetWidget::EthernetWidget(QWidget *parent)
     ui->setupUi(this);
     createActions();
     clear();
-    showAdvanced();
 }
 
 
@@ -46,13 +47,29 @@ void EthernetWidget::clear()
     ui->comboBox_driver->setCurrentIndex(0);
     ui->spinBox_timeoutCarrier->setValue(5);
     ui->spinBox_timeoutWpa->setValue(15);
+
+    ui->pushButton_ethernetAdvanced->setText(QApplication::translate("EthernetWidget", "Hide advanced"));
+    showAdvanced();
 }
 
 
 void EthernetWidget::createActions()
 {
     connect(ui->pushButton_ethernetAdvanced, SIGNAL(clicked(bool)), this, SLOT(showAdvanced()));
+    connect(ui->pushButton_wpaConfig, SIGNAL(clicked(bool)), this, SLOT(selectWpaConfig()));
     connect(ui->checkBox_8021x, SIGNAL(stateChanged(int)), this, SLOT(showWpa(int)));
+}
+
+
+void EthernetWidget::selectWpaConfig()
+{
+    QString filename = QFileDialog::getOpenFileName(
+                this,
+                QApplication::translate("EthernetWidget", "Select wpa configuration file"),
+                QDir::currentPath(),
+                QApplication::translate("EthernetWidget", "Configuration files (*.conf)"));
+    if (!filename.isEmpty())
+        ui->lineEdit_wpaConfig->setText(filename);
 }
 
 
@@ -104,8 +121,9 @@ QHash<QString, QString> EthernetWidget::getSettings()
 int EthernetWidget::isOk()
 {
     // file wpa_supplicant doesn't exists
-    if (!QFile(ui->lineEdit_wpaConfig->text()).exists())
-        return 1;
+    if (!ui->lineEdit_wpaConfig->text().isEmpty())
+        if (!QFile(ui->lineEdit_wpaConfig->text()).exists())
+            return 1;
     // all fine
     return 0;
 }

@@ -15,27 +15,37 @@
  *   along with netctl-plasmoid. If not, see http://www.gnu.org/licenses/  *
  ***************************************************************************/
 
-#ifndef MOBILEPPP_H
-#define MOBILEPPP_H
+#ifndef MOBILEWIDGET_H
+#define MOBILEWIDGET_H
 
 #include <QWidget>
 
 
 namespace Ui {
-class MobilePpp;
+class MobileWidget;
 }
 
-class MobilePpp : public QWidget
+class MobileWidget : public QWidget
 {
     Q_OBJECT
 
 public:
-    explicit MobilePpp(QWidget *parent = 0);
-    ~MobilePpp();
+    explicit MobileWidget(QWidget *parent = 0);
+    ~MobileWidget();
+    QHash<QString, QString> getSettings();
+    int isOk();
+
+public slots:
+    void clear();
+
+private slots:
+    void selectOptionsFile();
+    void showAdvanced();
 
 private:
-    Ui::MobilePpp *ui;
+    Ui::MobileWidget *ui;
+    void createActions();
 };
 
 
-#endif /* MOBILEPPP_H */
+#endif /* MOBILEWIDGET_H */

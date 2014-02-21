@@ -30,7 +30,6 @@ GeneralWidget::GeneralWidget(QWidget *parent, QString ifaceDir, QString profileD
     ui->setupUi(this);
     createActions();
     clear();
-    showAdvanced();
 }
 
 
@@ -57,6 +56,9 @@ void GeneralWidget::clear()
     ui->lineEdit_execUpPost->clear();
     ui->lineEdit_execDownPre->clear();
     ui->checkBox_forceConnect->setCheckState(Qt::Unchecked);
+
+    ui->pushButton_generalAdvanced->setText(QApplication::translate("GeneralWidget", "Hide advanced"));
+    showAdvanced();
 }
 
 

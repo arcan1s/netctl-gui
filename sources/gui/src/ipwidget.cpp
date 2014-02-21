@@ -29,7 +29,6 @@ IpWidget::IpWidget(QWidget *parent)
     createActions();
     createFilter();
     clear();
-    showAdvanced();
 }
 
 
@@ -76,6 +75,9 @@ void IpWidget::clear()
     ui->lineEdit_dnsSearch->clear();
     ui->lineEdit_dnsOptions->clear();
     ui->listWidget_dnsOptions->clear();
+
+    ui->pushButton_ipAdvanced->setText(QApplication::translate("IpWidget", "Hide advanced"));
+    showAdvanced();
 }
 
 

@@ -40,6 +40,7 @@ public slots:
     void clear();
 
 private slots:
+    void selectWpaConfig();
     void showAdvanced();
     void showWpa(int state);
 

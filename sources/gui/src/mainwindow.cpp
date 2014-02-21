@@ -26,7 +26,7 @@
 #include "ethernetwidget.h"
 #include "generalwidget.h"
 #include "ipwidget.h"
-#include "mobileppp.h"
+#include "mobilewidget.h"
 #include "netctlinteract.h"
 #include "netctlprofile.h"
 #include "passwdwidget.h"
@@ -73,7 +73,7 @@ MainWindow::MainWindow(QWidget *parent)
     ui->scrollAreaWidgetContents->layout()->addWidget(bridgeWid);
     ethernetWid = new EthernetWidget(this);
     ui->scrollAreaWidgetContents->layout()->addWidget(ethernetWid);
-    mobileWid = new MobilePpp(this);
+    mobileWid = new MobileWidget(this);
     ui->scrollAreaWidgetContents->layout()->addWidget(mobileWid);
     pppoeWid = new PppoeWidget(this);
     ui->scrollAreaWidgetContents->layout()->addWidget(pppoeWid);

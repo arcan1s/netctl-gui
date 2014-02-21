@@ -24,10 +24,38 @@ BridgeWidget::BridgeWidget(QWidget *parent)
       ui(new Ui::BridgeWidget)
 {
     ui->setupUi(this);
+    clear();
 }
 
 
 BridgeWidget::~BridgeWidget()
 {
     delete ui;
+}
+
+
+void BridgeWidget::clear()
+{
+    ui->checkBox_skip->setCheckState(Qt::Unchecked);
+}
+
+
+QHash<QString, QString> BridgeWidget::getSettings()
+{
+    QHash<QString, QString> bridgeSettings;
+
+    if (isOk() == 0) {
+        if (ui->checkBox_skip->checkState() == Qt::Checked)
+            bridgeSettings[QString("SkipForwardingDelay")] = QString("yes");
+    }
+
+    clear();
+    return bridgeSettings;
+}
+
+
+int BridgeWidget::isOk()
+{
+    // all fine
+    return 0;
 }

@@ -99,6 +99,13 @@
                  </property>
                 </widget>
                </item>
+               <item>
+                <widget class="QPushButton" name="pushButton_wpaConfig">
+                 <property name="text">
+                  <string>Browse</string>
+                 </property>
+                </widget>
+               </item>
               </layout>
              </item>
              <item>
@@ -217,6 +224,7 @@
   <tabstop>checkBox_skip</tabstop>
   <tabstop>checkBox_8021x</tabstop>
   <tabstop>lineEdit_wpaConfig</tabstop>
+  <tabstop>pushButton_wpaConfig</tabstop>
   <tabstop>comboBox_driver</tabstop>
   <tabstop>spinBox_timeoutCarrier</tabstop>
   <tabstop>spinBox_timeoutWpa</tabstop>

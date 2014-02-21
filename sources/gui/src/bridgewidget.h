@@ -32,6 +32,11 @@ class BridgeWidget : public QWidget
 public:
     explicit BridgeWidget(QWidget *parent = 0);
     ~BridgeWidget();
+    QHash<QString, QString> getSettings();
+    int isOk();
+
+public slots:
+    void clear();
 
 private:
     Ui::BridgeWidget *ui;

@@ -29,7 +29,7 @@ class ErrorWindow;
 class EthernetWidget;
 class GeneralWidget;
 class IpWidget;
-class MobilePpp;
+class MobileWidget;
 class Netctl;
 class NetctlProfile;
 class PasswdWidget;
@@ -89,7 +89,7 @@ private:
     EthernetWidget *ethernetWid;
     GeneralWidget *generalWid;
     IpWidget *ipWid;
-    MobilePpp *mobileWid;
+    MobileWidget *mobileWid;
     PppoeWidget *pppoeWid;
     TunnelWidget *tunnelWid;
     TuntapWidget *tuntapWid;
