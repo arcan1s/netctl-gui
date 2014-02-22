@@ -134,5 +134,26 @@ int MobileWidget::isOk()
 
 void MobileWidget::setSettings(QHash<QString, QString> settings)
 {
-
+    if (settings.contains(QString("User")))
+        ui->lineEdit_username->setText(settings[QString("User")].remove(QString("'")));
+    if (settings.contains(QString("Password")))
+        ui->lineEdit_password->setText(settings[QString("Password")].remove(QString("'")));
+    if (settings.contains(QString("AccessPointName")))
+        ui->lineEdit_apn->setText(settings[QString("AccessPointName")].remove(QString("'")));
+    if (settings.contains(QString("PIN")))
+        ui->lineEdit_pin->setText(settings[QString("PIN")].remove(QString("'")));
+    if (settings.contains(QString("Mode")))
+        for (int i=0; i<ui->comboBox_mode->count(); i++)
+            if (settings[QString("Mode")] == ui->comboBox_mode->itemText(i))
+                ui->comboBox_mode->setCurrentIndex(i);
+    if (settings.contains(QString("MaxFail")))
+        ui->spinBox_fail->setValue(settings[QString("MaxFail")].toInt());
+    if (settings.contains(QString("DefaultRoute")))
+        if (settings[QString("DefaultRoute")] == QString("false"))
+            ui->checkBox_route->setCheckState(Qt::Unchecked);
+    if (settings.contains(QString("UsePeerDNS")))
+        if (settings[QString("UsePeerDNS")] == QString("false"))
+            ui->checkBox_dns->setCheckState(Qt::Unchecked);
+    if (settings.contains(QString("OptionsFile")))
+        ui->lineEdit_options->setText(settings[QString("OptionsFile")]);
 }
