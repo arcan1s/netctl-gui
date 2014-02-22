@@ -131,5 +131,20 @@ int EthernetWidget::isOk()
 
 void EthernetWidget::setSettings(QHash<QString, QString> settings)
 {
-
+    if (settings.contains(QString("SkipNoCarrier")))
+        if (settings[QString("SkipNoCarrier")] == QString("yes"))
+            ui->checkBox_skip->setCheckState(Qt::Checked);
+    if (settings.contains(QString("Auth8021X")))
+        if (settings[QString("Auth8021X")] == QString("yes"))
+            ui->checkBox_8021x->setCheckState(Qt::Checked);
+    if (settings.contains(QString("WPAConfigFile")))
+        ui->lineEdit_wpaConfig->setText(settings[QString("WPAConfigFile")]);
+    if (settings.contains(QString("WPADriver")))
+        for (int i=0; i<ui->comboBox_driver->count(); i++)
+            if (settings[QString("WPADriver")] == ui->comboBox_driver->itemText(i))
+                ui->comboBox_driver->setCurrentIndex(i);
+    if (settings.contains(QString("TimeoutCarrier")))
+        ui->spinBox_timeoutCarrier->setValue(settings[QString("TimeoutCarrier")].toInt());
+    if (settings.contains(QString("TimeoutWPA")))
+        ui->spinBox_timeoutWpa->setValue(settings[QString("TimeoutWPA")].toInt());
 }

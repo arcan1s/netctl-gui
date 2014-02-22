@@ -115,7 +115,7 @@ QHash<QString, QString> GeneralWidget::getSettings()
     QHash<QString, QString> generalSettings;
 
     if (isOk() == 0) {
-        generalSettings[QString("Description")] = ui->lineEdit_description->text();
+        generalSettings[QString("Description")] = QString("'") + ui->lineEdit_description->text() + QString("'");
         generalSettings[QString("Connection")] = ui->comboBox_connection->currentText();
         generalSettings[QString("Interface")] = ui->comboBox_interface->currentText();
         if (ui->listWidget_bindto->count() != 0) {
@@ -160,5 +160,25 @@ int GeneralWidget::isOk()
 
 void GeneralWidget::setSettings(QHash<QString, QString> settings)
 {
-
+    if (settings.contains(QString("Description")))
+        ui->lineEdit_description->setText(settings[QString("Description")].remove(QString("'")));
+    if (settings.contains(QString("Connection")))
+        for (int i=0; i<ui->comboBox_connection->count(); i++)
+            if (settings[QString("Connection")] == ui->comboBox_connection->itemText(i))
+                ui->comboBox_connection->setCurrentIndex(i);
+    if (settings.contains(QString("Interface")))
+        for (int i=0; i<ui->comboBox_interface->count(); i++)
+            if (settings[QString("Interface")] == ui->comboBox_interface->itemText(i))
+                ui->comboBox_interface->setCurrentIndex(i);
+    if (settings.contains(QString("BindsToInterfaces")))
+        ui->listWidget_bindto->addItems(settings[QString("BindsToInterfaces")].split(QString(" ")));
+    if (settings.contains(QString("After")))
+        ui->listWidget_after->addItems(settings[QString("After")].split(QString(" ")));
+    if (settings.contains(QString("ExecUpPost")))
+        ui->lineEdit_execUpPost->setText(settings[QString("ExecUpPost")]);
+    if (settings.contains(QString("ExecDownPre")))
+        ui->lineEdit_execDownPre->setText(settings[QString("ExecDownPre")]);
+    if (settings.contains(QString("ForceConnect")))
+        if (settings[QString("ForceConnect")] == QString("yes"))
+            ui->checkBox_forceConnect->setCheckState(Qt::Checked);
 }
