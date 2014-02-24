@@ -42,6 +42,15 @@ void TuntapWidget::clear()
 }
 
 
+void TuntapWidget::setShown(bool state)
+{
+    if (state)
+        TuntapWidget::show();
+    else
+        TuntapWidget::hide();
+}
+
+
 QHash<QString, QString> TuntapWidget::getSettings()
 {
     QHash<QString, QString> tuntapSettings;

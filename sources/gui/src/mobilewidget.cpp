@@ -56,6 +56,15 @@ void MobileWidget::clear()
 }
 
 
+void MobileWidget::setShown(bool state)
+{
+    if (state)
+        MobileWidget::show();
+    else
+        MobileWidget::hide();
+}
+
+
 void MobileWidget::createActions()
 {
     connect(ui->pushButton_mobileAdvanced, SIGNAL(clicked(bool)), this, SLOT(showAdvanced()));

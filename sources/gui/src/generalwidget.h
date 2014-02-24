@@ -18,6 +18,7 @@
 #ifndef GENERALWIDGET_H
 #define GENERALWIDGET_H
 
+#include <QComboBox>
 #include <QDir>
 #include <QHash>
 #include <QWidget>
@@ -36,12 +37,14 @@ public:
                            QString ifaceDir = QString(""),
                            QString profileDir = QString(""));
     ~GeneralWidget();
+    QComboBox *connectionType;
     QHash<QString, QString> getSettings();
     int isOk();
     void setSettings(QHash<QString, QString> settings);
 
 public slots:
     void clear();
+    void setShown(bool state);
 
 private slots:
     void addAfter();

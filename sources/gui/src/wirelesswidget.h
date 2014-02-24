@@ -40,6 +40,7 @@ public:
 
 public slots:
     void clear();
+    void setShown(bool state);
 
 private slots:
     void addDriver();

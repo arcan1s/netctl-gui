@@ -26,7 +26,8 @@ class SleepThread : public QThread
 {
     Q_OBJECT
     // private run
-    void run () {}
+    void run()
+    {}
 
 public :
     static void usleep(long iSleepTime)

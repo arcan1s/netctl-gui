@@ -40,6 +40,15 @@ void BridgeWidget::clear()
 }
 
 
+void BridgeWidget::setShown(bool state)
+{
+    if (state)
+        BridgeWidget::show();
+    else
+        BridgeWidget::hide();
+}
+
+
 QHash<QString, QString> BridgeWidget::getSettings()
 {
     QHash<QString, QString> bridgeSettings;

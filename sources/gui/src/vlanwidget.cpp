@@ -40,6 +40,15 @@ void VlanWidget::clear()
 }
 
 
+void VlanWidget::setShown(bool state)
+{
+    if (state)
+        VlanWidget::show();
+    else
+        VlanWidget::hide();
+}
+
+
 QHash<QString, QString> VlanWidget::getSettings()
 {
     QHash<QString, QString> vlanSettings;

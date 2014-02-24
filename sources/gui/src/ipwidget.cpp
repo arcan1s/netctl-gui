@@ -89,6 +89,15 @@ void IpWidget::clear()
 }
 
 
+void IpWidget::setShown(bool state)
+{
+    if (state)
+        IpWidget::show();
+    else
+        IpWidget::hide();
+}
+
+
 void IpWidget::createActions()
 {
     connect(ui->pushButton_ipAdvanced, SIGNAL(clicked(bool)), this, SLOT(showAdvanced()));

@@ -18,7 +18,7 @@
     <item>
      <widget class="QTabWidget" name="tabWidget">
       <property name="currentIndex">
-       <number>0</number>
+       <number>1</number>
       </property>
       <widget class="QWidget" name="tab_main">
        <attribute name="title">
@@ -190,8 +190,8 @@
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>429</width>
-             <height>348</height>
+             <width>439</width>
+             <height>357</height>
             </rect>
            </property>
            <property name="sizePolicy">
@@ -210,6 +210,13 @@
            <widget class="QPushButton" name="pushButton_profileClear">
             <property name="text">
              <string>Clear</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="pushButton_profileLoad">
+            <property name="text">
+             <string>Load</string>
             </property>
            </widget>
           </item>
@@ -349,7 +356,7 @@
      <x>0</x>
      <y>0</y>
      <width>471</width>
-     <height>20</height>
+     <height>23</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuMenu">

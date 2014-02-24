@@ -17,6 +17,8 @@
 
 #include "netctlprofile.h"
 
+#include <QFile>
+
 #include "mainwindow.h"
 
 
@@ -32,4 +34,34 @@ NetctlProfile::NetctlProfile(MainWindow *wid, QString profileDir, QString sudoPa
 NetctlProfile::~NetctlProfile()
 {
     delete profileDirectory;
+}
+
+
+QHash<QString, QString> NetctlProfile::getSettingsFromProfile(QString profile)
+{
+    QHash<QString, QString> settings;
+    QFile profileFile;
+    QString fileStr;
+
+    if (profile[0] == QDir::separator())
+        profileFile.setFileName(profile);
+    else
+        profileFile.setFileName(profileDirectory->absolutePath() + QDir::separator() + profile);
+    if (!profileFile.open(QIODevice::ReadOnly))
+        return settings;
+    while (true) {
+        fileStr = QString(profileFile.readLine());
+        if (profileFile.atEnd())
+            break;
+        else if (fileStr[0] != '#') {
+            if (fileStr.split(QString("="), QString::SkipEmptyParts).count() == 2)
+                settings[fileStr.split(QString("="))[0]] = fileStr.split(QString("="))[1]
+                        .remove(QString("("))
+                        .remove(QString(")"))
+                        .remove(QString("\n"));
+        }
+    }
+
+    profileFile.close();
+    return settings;
 }

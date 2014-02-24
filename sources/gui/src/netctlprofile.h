@@ -33,6 +33,7 @@ public:
                            QString profileDir = QString(""),
                            QString sudoPath = QString(""));
     ~NetctlProfile();
+    QHash<QString, QString> getSettingsFromProfile(QString profile);
 
 private:
     MainWindow *parent;

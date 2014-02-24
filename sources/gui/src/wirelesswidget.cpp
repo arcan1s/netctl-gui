@@ -83,6 +83,15 @@ void WirelessWidget::clear()
 }
 
 
+void WirelessWidget::setShown(bool state)
+{
+    if (state)
+        WirelessWidget::show();
+    else
+        WirelessWidget::hide();
+}
+
+
 void WirelessWidget::createActions()
 {
     connect(ui->pushButton_wirelessAdvanced, SIGNAL(clicked(bool)), this, SLOT(showAdvanced()));

@@ -43,6 +43,15 @@ void TunnelWidget::clear()
 }
 
 
+void TunnelWidget::setShown(bool state)
+{
+    if (state)
+        TunnelWidget::show();
+    else
+        TunnelWidget::hide();
+}
+
+
 void TunnelWidget::createFilter()
 {
     // using input mask because validators is not comfortable

@@ -19,9 +19,8 @@
 #define MAINWINDOW_H
 
 #include <QApplication>
-#include <QItemSelection>
-#include <QTableWidgetItem>
 #include <QMainWindow>
+#include <QTableWidgetItem>
 
 
 class BridgeWidget;
@@ -79,6 +78,11 @@ private slots:
     void mainTabRestartProfile();
     void mainTabStartProfile();
     void mainTabRefreshButtons(QTableWidgetItem *current, QTableWidgetItem *previous);
+    // profile tab slots
+    void profileTabBrowseProfile();
+    void profileTabChangeState(QString current);
+    void profileTabClear();
+    void profileTabLoadProfile();
     // wifi tab slots
     void wifiTabSetEnabled(bool state);
     void wifiTabStart();

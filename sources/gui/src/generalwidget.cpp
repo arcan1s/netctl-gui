@@ -28,6 +28,7 @@ GeneralWidget::GeneralWidget(QWidget *parent, QString ifaceDir, QString profileD
       ui(new Ui::GeneralWidget)
 {
     ui->setupUi(this);
+    connectionType = ui->comboBox_connection;
     createActions();
     clear();
 }
@@ -35,6 +36,7 @@ GeneralWidget::GeneralWidget(QWidget *parent, QString ifaceDir, QString profileD
 
 GeneralWidget::~GeneralWidget()
 {
+    delete connectionType;
     delete ifaceDirectory;
     delete profileDirectory;
     delete ui;
@@ -61,6 +63,15 @@ void GeneralWidget::clear()
 
     ui->pushButton_generalAdvanced->setChecked(false);
     showAdvanced();
+}
+
+
+void GeneralWidget::setShown(bool state)
+{
+    if (state)
+        GeneralWidget::show();
+    else
+        GeneralWidget::hide();
 }
 
 

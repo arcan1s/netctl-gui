@@ -54,6 +54,15 @@ void EthernetWidget::clear()
 }
 
 
+void EthernetWidget::setShown(bool state)
+{
+    if (state)
+        EthernetWidget::show();
+    else
+        EthernetWidget::hide();
+}
+
+
 void EthernetWidget::createActions()
 {
     connect(ui->pushButton_ethernetAdvanced, SIGNAL(clicked(bool)), this, SLOT(showAdvanced()));

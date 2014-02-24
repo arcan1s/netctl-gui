@@ -65,6 +65,15 @@ void PppoeWidget::clear()
 }
 
 
+void PppoeWidget::setShown(bool state)
+{
+    if (state)
+        PppoeWidget::show();
+    else
+        PppoeWidget::hide();
+}
+
+
 void PppoeWidget::createFilter()
 {
     // session mac
