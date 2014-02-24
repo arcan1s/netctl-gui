@@ -187,5 +187,41 @@ int PppoeWidget::isOk()
 
 void PppoeWidget::setSettings(QHash<QString, QString> settings)
 {
-
+    if (settings.contains(QString("User")))
+        ui->lineEdit_username->setText(settings[QString("User")].remove(QString("'")));
+    if (settings.contains(QString("Password")))
+        ui->lineEdit_password->setText(settings[QString("Password")].remove(QString("'")));
+    if (settings.contains(QString("ConnectionMode")))
+        for (int i=0; i<ui->comboBox_connection->count(); i++)
+            if (settings[QString("ConnectionMode")] == ui->comboBox_connection->itemText(i))
+                ui->comboBox_connection->setCurrentIndex(i);
+    if (settings.contains(QString("IdleTimeout")))
+        ui->spinBox_timeout->setValue(settings[QString("IdleTimeout")].toInt());
+    if (settings.contains(QString("MaxFail")))
+        ui->spinBox_fail->setValue(settings[QString("MaxFail")].toInt());
+    if (settings.contains(QString("DefaultRoute")))
+        if (settings[QString("DefaultRoute")] == QString("false"))
+            ui->checkBox_route->setCheckState(Qt::Unchecked);
+    if (settings.contains(QString("UsePeerDNS")))
+        if (settings[QString("UsePeerDNS")] == QString("false"))
+            ui->checkBox_dns->setCheckState(Qt::Unchecked);
+    if (settings.contains(QString("PPPUnit")))
+        ui->lineEdit_unit->setText(settings[QString("PPPUnit")]);
+    if (settings.contains(QString("LCPEchoInterval")))
+        ui->spinBox_lcpInterval->setValue(settings[QString("LCPEchoInterval")].toInt());
+    if (settings.contains(QString("LCPEchoFailure")))
+        ui->spinBox_lcpFailure->setValue(settings[QString("LCPEchoFailure")].toInt());
+    if (settings.contains(QString("OptionsFile")))
+        ui->lineEdit_options->setText(settings[QString("OptionsFile")]);
+    if (settings.contains(QString("PPPoEService")))
+        ui->lineEdit_service->setText(settings[QString("PPPoEService")].remove(QString("'")));
+    if (settings.contains(QString("PPPoEAC")))
+        ui->lineEdit_ac->setText(settings[QString("PPPoEAC")].remove(QString("'")));
+    if (settings.contains(QString("PPPoESession")))
+        ui->lineEdit_session->setText(settings[QString("PPPoESession")].remove(QString("'")));
+    if (settings.contains(QString("PPPoEMAC")))
+        ui->lineEdit_mac->setText(settings[QString("PPPoEMAC")].remove(QString("'")));
+    if (settings.contains(QString("PPPoEIP6")))
+        if (settings[QString("PPPoEIP6")] == QString("yes"))
+            ui->checkBox_dns->setCheckState(Qt::Checked);
 }
