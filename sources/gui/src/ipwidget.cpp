@@ -42,6 +42,7 @@ void IpWidget::clear()
 {
     ui->checkBox_ip->setCheckState(Qt::Checked);
     ui->comboBox_ip->setCurrentIndex(0);
+    ipEnable(ui->checkBox_ip->checkState());
     changeIpMode(ui->comboBox_ip->currentIndex());
     ui->lineEdit_ipAddress->clear();
     ui->listWidget_ipAddress->setCurrentRow(-1);
@@ -53,6 +54,7 @@ void IpWidget::clear()
     ui->listWidget_ipRoutes->clear();
     ui->checkBox_ip6->setCheckState(Qt::Unchecked);
     ui->comboBox_ip6->setCurrentIndex(0);
+    ip6Enable(ui->checkBox_ip6->checkState());
     changeIp6Mode(ui->comboBox_ip6->currentIndex());
     ui->lineEdit_ipAddress6->clear();
     ui->listWidget_ipAddress6->setCurrentRow(-1);
@@ -434,11 +436,11 @@ QHash<QString, QString> IpWidget::getSettings()
                 ipSettings[QString("DhcpcdOptions")] = QString("'") + ui->lineEdit_dhcpcdOpt->text() + QString("'");
         }
         else if (ui->comboBox_dhcp->currentIndex() == 1) {
-            ipSettings[QString("DHCPClient")] = QString(ui->spinBox_timeoutDad->value());
+            ipSettings[QString("DHCPClient")] = ui->comboBox_dhcp->currentText();
             if (!ui->lineEdit_dhclientOpt->text().isEmpty())
                 ipSettings[QString("DhclientOptions")] = QString("'") + ui->lineEdit_dhclientOpt->text() + QString("'");
             if (!ui->lineEdit_dhclientOpt6->text().isEmpty())
-                ipSettings[QString("DhclientOptions")] = QString("'") + ui->lineEdit_dhclientOpt6->text() + QString("'");
+                ipSettings[QString("DhclientOptions6")] = QString("'") + ui->lineEdit_dhclientOpt6->text() + QString("'");
         }
         if (ui->spinBox_timeoutDhcp->value() != 30)
             ipSettings[QString("TimeoutDHCP")] = QString(ui->spinBox_timeoutDhcp->value());
@@ -458,7 +460,7 @@ QHash<QString, QString> IpWidget::getSettings()
             QStringList dnsOpt;
             for (int i=0; i<ui->listWidget_dnsOptions->count(); i++)
                 dnsOpt.append(QString("'") + ui->listWidget_dnsOptions->item(i)->text() + QString("'"));
-            ipSettings[QString("DNS")] = dnsOpt.join(QString("\n"));
+            ipSettings[QString("DNSOptions")] = dnsOpt.join(QString(" "));
         }
         clear();
     }
@@ -488,5 +490,71 @@ int IpWidget::isOk()
 
 void IpWidget::setSettings(QHash<QString, QString> settings)
 {
+    if (settings.contains(QString("IP"))) {
+        if (settings[QString("IP")].remove(QString("'")) == QString("no"))
+            ui->checkBox_ip->setCheckState(Qt::Unchecked);
+        else {
+            ui->checkBox_ip->setCheckState(Qt::Checked);
+            for (int i=0; i<ui->comboBox_ip->count(); i++)
+                if (settings[QString("IP")].remove(QString("'")) == ui->comboBox_ip->itemText(i))
+                    ui->comboBox_ip->setCurrentIndex(i);
+        }
+    }
+    if (settings.contains(QString("Address")))
+        ui->listWidget_ipAddress->addItems(settings[QString("Address")].remove(QString("'")).split(QString(" ")));
+    if (settings.contains(QString("Gateway")))
+        ui->lineEdit_gateway->setText(settings[QString("Gateway")].remove(QString("'")));
+    if (settings.contains(QString("Routes")))
+        ui->listWidget_ipRoutes->addItems(settings[QString("Routes")].remove(QString("'")).split(QString(" ")));
+    if (settings.contains(QString("IP6"))) {
+        if (settings[QString("IP6")].remove(QString("'")) == QString("no"))
+            ui->checkBox_ip6->setCheckState(Qt::Unchecked);
+        else {
+            ui->checkBox_ip6->setCheckState(Qt::Checked);
+            for (int i=0; i<ui->comboBox_ip6->count(); i++)
+                if (settings[QString("IP6")].remove(QString("'")) == ui->comboBox_ip6->itemText(i))
+                    ui->comboBox_ip6->setCurrentIndex(i);
+        }
+    }
+    if (settings.contains(QString("Address6")))
+        ui->listWidget_ipAddress6->addItems(settings[QString("Address6")].remove(QString("'")).split(QString(" ")));
+    if (settings.contains(QString("Gateway6")))
+        ui->lineEdit_gateway6->setText(settings[QString("Gateway6")].remove(QString("'")));
+    if (settings.contains(QString("Routes6")))
+        ui->listWidget_ipRoutes6->addItems(settings[QString("Routes6")].remove(QString("'")).split(QString(" ")));
+    if (settings.contains(QString("IPCustom")))
+        ui->listWidget_custom->addItems(settings[QString("IPCustom")].remove(QString("'")).split(QString(" ")));
+    if (settings.contains(QString("Hostname")))
+        ui->lineEdit_hostname->setText(settings[QString("Hostname")].remove(QString("'")));
+    if (settings.contains(QString("TimeoutDAD")))
+        ui->spinBox_timeoutDad->setValue(settings[QString("TimeoutDAD")].toInt());
+    if (settings.contains(QString("DHCPClient")))
+        for (int i=0; i<ui->comboBox_dhcp->count(); i++)
+            if (settings[QString("DHCPClient")].remove(QString("'")) == ui->comboBox_dhcp->itemText(i))
+                ui->comboBox_dhcp->setCurrentIndex(i);
+    if (settings.contains(QString("DhcpcdOptions")))
+        ui->lineEdit_dhcpcdOpt->setText(settings[QString("DhcpcdOptions")].remove(QString("'")));
+    if (settings.contains(QString("DhclientOptions")))
+        ui->lineEdit_dhclientOpt->setText(settings[QString("DhclientOptions")].remove(QString("'")));
+    if (settings.contains(QString("DhclientOptions6")))
+        ui->lineEdit_dhclientOpt6->setText(settings[QString("DhclientOptions6")].remove(QString("'")));
+    if (settings.contains(QString("TimeoutDHCP")))
+        ui->spinBox_timeoutDhcp->setValue(settings[QString("TimeoutDHCP")].toInt());
+    if (settings.contains(QString("DHCPReleaseOnStop")))
+        if (settings[QString("DHCPReleaseOnStop")].remove(QString("'")) == QString("yes"))
+            ui->checkBox_dhcp->setCheckState(Qt::Checked);
+    if (settings.contains(QString("DNS")))
+        ui->listWidget_dns->addItems(settings[QString("DNS")].remove(QString("'")).split(QString(" ")));
+    if (settings.contains(QString("DNSDomain")))
+        ui->lineEdit_dnsDomain->setText(settings[QString("DNSDomain")].remove(QString("'")));
+    if (settings.contains(QString("DNSSearch")))
+        ui->lineEdit_dnsSearch->setText(settings[QString("DNSSearch")].remove(QString("'")));
+    if (settings.contains(QString("DNSOptions")))
+        ui->listWidget_dnsOptions->addItems(settings[QString("DNSOptions")].remove(QString("'")).split(QString(" ")));
 
+    ipEnable(ui->checkBox_ip->checkState());
+    changeIpMode(ui->comboBox_ip->currentIndex());
+    ip6Enable(ui->checkBox_ip6->checkState());
+    changeIp6Mode(ui->comboBox_ip6->currentIndex());
+    changeDhcpClient(ui->comboBox_dhcp->currentIndex());
 }
