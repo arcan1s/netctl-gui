@@ -141,7 +141,7 @@ QHash<QString, QString> PppoeWidget::getSettings()
         if (ui->spinBox_lcpFailure->value() != 4)
             pppoeSettings[QString("LCPEchoFailure")] = QString(ui->spinBox_lcpFailure->value());
         if (!ui->lineEdit_options->text().isEmpty())
-            pppoeSettings[QString("OptionsFile")] = ui->lineEdit_options->text();
+            pppoeSettings[QString("OptionsFile")] = QString("'") + ui->lineEdit_options->text() + QString("'");
         if (!ui->lineEdit_service->text().isEmpty())
             pppoeSettings[QString("PPPoEService")] = QString("'") + ui->lineEdit_service->text() + QString("'");
         if (!ui->lineEdit_ac->text().isEmpty())
@@ -193,17 +193,17 @@ void PppoeWidget::setSettings(QHash<QString, QString> settings)
         ui->lineEdit_password->setText(settings[QString("Password")].remove(QString("'")));
     if (settings.contains(QString("ConnectionMode")))
         for (int i=0; i<ui->comboBox_connection->count(); i++)
-            if (settings[QString("ConnectionMode")] == ui->comboBox_connection->itemText(i))
+            if (settings[QString("ConnectionMode")].remove(QString("'")) == ui->comboBox_connection->itemText(i))
                 ui->comboBox_connection->setCurrentIndex(i);
     if (settings.contains(QString("IdleTimeout")))
         ui->spinBox_timeout->setValue(settings[QString("IdleTimeout")].toInt());
     if (settings.contains(QString("MaxFail")))
         ui->spinBox_fail->setValue(settings[QString("MaxFail")].toInt());
     if (settings.contains(QString("DefaultRoute")))
-        if (settings[QString("DefaultRoute")] == QString("false"))
+        if (settings[QString("DefaultRoute")].remove(QString("'")) == QString("false"))
             ui->checkBox_route->setCheckState(Qt::Unchecked);
     if (settings.contains(QString("UsePeerDNS")))
-        if (settings[QString("UsePeerDNS")] == QString("false"))
+        if (settings[QString("UsePeerDNS")].remove(QString("'")) == QString("false"))
             ui->checkBox_dns->setCheckState(Qt::Unchecked);
     if (settings.contains(QString("PPPUnit")))
         ui->lineEdit_unit->setText(settings[QString("PPPUnit")]);
@@ -212,7 +212,7 @@ void PppoeWidget::setSettings(QHash<QString, QString> settings)
     if (settings.contains(QString("LCPEchoFailure")))
         ui->spinBox_lcpFailure->setValue(settings[QString("LCPEchoFailure")].toInt());
     if (settings.contains(QString("OptionsFile")))
-        ui->lineEdit_options->setText(settings[QString("OptionsFile")]);
+        ui->lineEdit_options->setText(settings[QString("OptionsFile")].remove(QString("'")));
     if (settings.contains(QString("PPPoEService")))
         ui->lineEdit_service->setText(settings[QString("PPPoEService")].remove(QString("'")));
     if (settings.contains(QString("PPPoEAC")))

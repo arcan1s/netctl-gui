@@ -131,9 +131,9 @@ QHash<QString, QString> GeneralWidget::getSettings()
             generalSettings[QString("After")] = profiles.join(QString(" "));
         }
         if (!ui->lineEdit_execUpPost->text().isEmpty())
-            generalSettings[QString("ExecUpPost")] = ui->lineEdit_execUpPost->text();
+            generalSettings[QString("ExecUpPost")] = QString("'") + ui->lineEdit_execUpPost->text() + QString("'");
         if (!ui->lineEdit_execDownPre->text().isEmpty())
-            generalSettings[QString("ExecDownPre")] = ui->lineEdit_execDownPre->text();
+            generalSettings[QString("ExecDownPre")] = QString("'") + ui->lineEdit_execDownPre->text() + QString("'");
         if (ui->checkBox_forceConnect->checkState() == Qt::Checked)
             generalSettings[QString("ForceConnect")] = QString("yes");
         clear();
@@ -164,21 +164,21 @@ void GeneralWidget::setSettings(QHash<QString, QString> settings)
         ui->lineEdit_description->setText(settings[QString("Description")].remove(QString("'")));
     if (settings.contains(QString("Connection")))
         for (int i=0; i<ui->comboBox_connection->count(); i++)
-            if (settings[QString("Connection")] == ui->comboBox_connection->itemText(i))
+            if (settings[QString("Connection")].remove(QString("'")) == ui->comboBox_connection->itemText(i))
                 ui->comboBox_connection->setCurrentIndex(i);
     if (settings.contains(QString("Interface")))
         for (int i=0; i<ui->comboBox_interface->count(); i++)
-            if (settings[QString("Interface")] == ui->comboBox_interface->itemText(i))
+            if (settings[QString("Interface")].remove(QString("'")) == ui->comboBox_interface->itemText(i))
                 ui->comboBox_interface->setCurrentIndex(i);
     if (settings.contains(QString("BindsToInterfaces")))
         ui->listWidget_bindto->addItems(settings[QString("BindsToInterfaces")].split(QString(" ")));
     if (settings.contains(QString("After")))
         ui->listWidget_after->addItems(settings[QString("After")].split(QString(" ")));
     if (settings.contains(QString("ExecUpPost")))
-        ui->lineEdit_execUpPost->setText(settings[QString("ExecUpPost")]);
+        ui->lineEdit_execUpPost->setText(settings[QString("ExecUpPost")].remove(QString("'")));
     if (settings.contains(QString("ExecDownPre")))
-        ui->lineEdit_execDownPre->setText(settings[QString("ExecDownPre")]);
+        ui->lineEdit_execDownPre->setText(settings[QString("ExecDownPre")].remove(QString("'")));
     if (settings.contains(QString("ForceConnect")))
-        if (settings[QString("ForceConnect")] == QString("yes"))
+        if (settings[QString("ForceConnect")].remove(QString("'")) == QString("yes"))
             ui->checkBox_forceConnect->setCheckState(Qt::Checked);
 }

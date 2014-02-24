@@ -64,6 +64,6 @@ int BridgeWidget::isOk()
 void BridgeWidget::setSettings(QHash<QString, QString> settings)
 {
     if (settings.contains(QString("SkipForwardingDelay")))
-        if (settings[QString("SkipForwardingDelay")] == QString("yes"))
+        if (settings[QString("SkipForwardingDelay")].remove(QString("'")) == QString("yes"))
             ui->checkBox_skip->setCheckState(Qt::Checked);
 }
