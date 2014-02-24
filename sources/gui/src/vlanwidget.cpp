@@ -62,5 +62,6 @@ int VlanWidget::isOk()
 
 void VlanWidget::setSettings(QHash<QString, QString> settings)
 {
-
+    if (settings.contains(QString("VLANID")))
+        ui->spinBox_vlan->setValue(settings[QString("VLANID")].toInt());
 }

@@ -100,5 +100,12 @@ int TunnelWidget::isOk()
 
 void TunnelWidget::setSettings(QHash<QString, QString> settings)
 {
-
+    if (settings.contains(QString("Mode")))
+        for (int i=0; i<ui->comboBox_mode->count(); i++)
+            if (settings[QString("Mode")].remove(QString("'")) == ui->comboBox_mode->itemText(i))
+                ui->comboBox_mode->setCurrentIndex(i);
+    if (settings.contains(QString("Local")))
+        ui->lineEdit_local->setText(settings[QString("Local")].remove(QString("'")));
+    if (settings.contains(QString("Remote")))
+        ui->lineEdit_remote->setText(settings[QString("Remote")].remove(QString("'")));
 }
