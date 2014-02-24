@@ -224,4 +224,6 @@ void PppoeWidget::setSettings(QHash<QString, QString> settings)
     if (settings.contains(QString("PPPoEIP6")))
         if (settings[QString("PPPoEIP6")] == QString("yes"))
             ui->checkBox_dns->setCheckState(Qt::Checked);
+
+    changeMode(ui->comboBox_connection->currentIndex());
 }

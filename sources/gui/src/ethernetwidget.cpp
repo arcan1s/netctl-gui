@@ -43,6 +43,7 @@ void EthernetWidget::clear()
 {
     ui->checkBox_skip->setCheckState(Qt::Unchecked);
     ui->checkBox_8021x->setCheckState(Qt::Unchecked);
+    showWpa(ui->checkBox_8021x->checkState());
     ui->lineEdit_wpaConfig->setText(QString("/etc/wpa_supplicant.conf"));
     ui->comboBox_driver->setCurrentIndex(0);
     ui->spinBox_timeoutCarrier->setValue(5);
@@ -147,4 +148,6 @@ void EthernetWidget::setSettings(QHash<QString, QString> settings)
         ui->spinBox_timeoutCarrier->setValue(settings[QString("TimeoutCarrier")].toInt());
     if (settings.contains(QString("TimeoutWPA")))
         ui->spinBox_timeoutWpa->setValue(settings[QString("TimeoutWPA")].toInt());
+
+    showWpa(ui->checkBox_8021x->checkState());
 }

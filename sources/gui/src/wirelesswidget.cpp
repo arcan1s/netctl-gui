@@ -310,4 +310,6 @@ void WirelessWidget::setSettings(QHash<QString, QString> settings)
     if (settings.contains(QString("ExcludeAuto")))
         if (settings[QString("ExcludeAuto")].remove(QString("'")) == QString("yes"))
             ui->checkBox_exclude->setCheckState(Qt::Checked);
+
+    changeSecurity(ui->comboBox_security->currentIndex());
 }
