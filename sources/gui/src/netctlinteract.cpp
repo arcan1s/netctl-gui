@@ -21,7 +21,6 @@
 #include <QProcess>
 
 #include "mainwindow.h"
-#include "cstdio"
 
 
 Netctl::Netctl(MainWindow *wid, QString netctlPath, QString profileDir, QString sudoPath)

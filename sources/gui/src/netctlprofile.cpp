@@ -23,6 +23,7 @@
 #include <QTextStream>
 
 #include "mainwindow.h"
+#include <cstdio>
 
 
 NetctlProfile::NetctlProfile(MainWindow *wid, QString profileDir, QString sudoPath)
@@ -104,11 +105,45 @@ QHash<QString, QString> NetctlProfile::getSettingsFromProfile(QString profile)
         if (profileFile.atEnd())
             break;
         else if (fileStr[0] != '#') {
-            if (fileStr.split(QString("="), QString::SkipEmptyParts).count() == 2)
-                settings[fileStr.split(QString("="))[0]] = fileStr.split(QString("="))[1]
-                        .remove(QString("("))
-                        .remove(QString(")"))
-                        .trimmed();
+            if (fileStr.split(QString("="), QString::SkipEmptyParts).count() == 2) {
+                if ((fileStr.split(QString("="))[1][0] == QChar('(')) &&
+                        (fileStr.split(QString("="))[1][fileStr.split(QString("="))[1].size()-2] == QChar(')')))
+                    settings[fileStr.split(QString("="))[0]] = fileStr.split(QString("="))[1]
+                            .remove(QString("("))
+                            .remove(QString(")"))
+                            .trimmed();
+                else if (fileStr.split(QString("="))[1][0] == QChar('(')) {
+                    QString parameterName = fileStr.split(QString("="))[0];
+                    QStringList parameter;
+                    if (!fileStr.split(QString("="))[1]
+                            .remove(QString("("))
+                            .remove(QString(")"))
+                            .trimmed()
+                            .isEmpty())
+                        parameter.append(fileStr.split(QString("="))[1]
+                                .remove(QString("("))
+                                .remove(QString(")"))
+                                .trimmed());
+                    while(true) {
+                        fileStr = QString(profileFile.readLine());
+                        if ((profileFile.atEnd()) ||
+                                (fileStr[fileStr.size()-2] == QChar(')')))
+                            break;
+                        if (!fileStr.remove(QString("("))
+                                .remove(QString(")"))
+                                .trimmed()
+                                .isEmpty())
+                            parameter.append(fileStr.remove(QString("("))
+                                    .remove(QString(")"))
+                                    .trimmed());
+                    }
+                    settings[parameterName] = parameter.join(QString("\n"));
+                }
+                else
+                    settings[fileStr.split(QString("="))[0]] = fileStr.split(QString("="))[1]
+                            .trimmed();
+            }
+
         }
     }
 

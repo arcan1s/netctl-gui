@@ -22,7 +22,6 @@
 #include "mainwindow.h"
 #include "netctlinteract.h"
 #include "sleepthread.h"
-#include <cstdio>
 
 
 WpaSup::WpaSup(MainWindow *wid, QStringList wpaConfig, QString sudoPath, QString ifaceDir, QString preferedInterface)
