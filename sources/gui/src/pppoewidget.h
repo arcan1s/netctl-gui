@@ -41,7 +41,7 @@ public slots:
     void setShown(bool state);
 
 private slots:
-    void changeMode(int index);
+    void changeMode(QString currentText);
     void selectOptionsFile();
     void showAdvanced();
 

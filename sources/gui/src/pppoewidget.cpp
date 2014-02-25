@@ -45,7 +45,7 @@ void PppoeWidget::clear()
     ui->lineEdit_username->clear();
     ui->lineEdit_password->clear();
     ui->comboBox_connection->setCurrentIndex(0);
-    changeMode(ui->comboBox_connection->currentIndex());
+    changeMode(ui->comboBox_connection->currentText());
     ui->spinBox_timeout->setValue(300);
     ui->spinBox_fail->setValue(5);
     ui->checkBox_route->setCheckState(Qt::Checked);
@@ -68,9 +68,9 @@ void PppoeWidget::clear()
 void PppoeWidget::setShown(bool state)
 {
     if (state)
-        PppoeWidget::show();
+        show();
     else
-        PppoeWidget::hide();
+        hide();
 }
 
 
@@ -86,16 +86,16 @@ void PppoeWidget::createFilter()
 void PppoeWidget::createActions()
 {
     connect(ui->pushButton_pppoeAdvanced, SIGNAL(clicked(bool)), this, SLOT(showAdvanced()));
-    connect(ui->comboBox_connection, SIGNAL(currentIndexChanged(int)), this, SLOT(changeMode(int)));
+    connect(ui->comboBox_connection, SIGNAL(currentIndexChanged(QString)), this, SLOT(changeMode(QString)));
     connect(ui->pushButton_options, SIGNAL(clicked(bool)), this, SLOT(selectOptionsFile()));
 }
 
 
-void PppoeWidget::changeMode(int index)
+void PppoeWidget::changeMode(QString currentText)
 {
-    if (index == 0)
+    if (currentText == QString("persist"))
         ui->widget_timeout->setHidden(true);
-    else if (index == 1)
+    else if (currentText == QString("demand"))
         ui->widget_timeout->setShown(true);
 }
 
@@ -135,7 +135,7 @@ QHash<QString, QString> PppoeWidget::getSettings()
         if (!ui->lineEdit_password->text().isEmpty())
             pppoeSettings[QString("Password")] = QString("'") + ui->lineEdit_password->text() + QString("'");
         pppoeSettings[QString("ConnectionMode")] = QString("'") + ui->comboBox_connection->currentText() + QString("'");
-        if (ui->comboBox_connection->currentIndex() == 1)
+        if (ui->comboBox_connection->currentText() == QString("demand"))
             pppoeSettings[QString("IdleTimeout")] = QString(ui->spinBox_timeout->value());
         if (ui->spinBox_fail->value() != 5)
             pppoeSettings[QString("MaxFail")] = QString(ui->spinBox_fail->value());
@@ -233,5 +233,5 @@ void PppoeWidget::setSettings(QHash<QString, QString> settings)
         if (settings[QString("PPPoEIP6")] == QString("yes"))
             ui->checkBox_dns->setCheckState(Qt::Checked);
 
-    changeMode(ui->comboBox_connection->currentIndex());
+    changeMode(ui->comboBox_connection->currentText());
 }

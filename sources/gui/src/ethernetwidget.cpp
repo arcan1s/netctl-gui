@@ -57,9 +57,9 @@ void EthernetWidget::clear()
 void EthernetWidget::setShown(bool state)
 {
     if (state)
-        EthernetWidget::show();
+        show();
     else
-        EthernetWidget::hide();
+        hide();
 }
 
 

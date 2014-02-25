@@ -69,9 +69,9 @@ void GeneralWidget::clear()
 void GeneralWidget::setShown(bool state)
 {
     if (state)
-        GeneralWidget::show();
+        show();
     else
-        GeneralWidget::hide();
+        hide();
 }
 
 

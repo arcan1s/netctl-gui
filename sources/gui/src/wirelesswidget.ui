@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>431</width>
-    <height>765</height>
+    <height>776</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -71,28 +71,30 @@
         </layout>
        </item>
        <item>
-        <layout class="QHBoxLayout" name="layout_essid">
-         <item>
-          <widget class="QLabel" name="label_essid">
-           <property name="minimumSize">
-            <size>
-             <width>150</width>
-             <height>0</height>
-            </size>
-           </property>
-           <property name="text">
-            <string>ESSID</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QLineEdit" name="lineEdit_essid">
-           <property name="toolTip">
-            <string>The name of the network to connect to</string>
-           </property>
-          </widget>
-         </item>
-        </layout>
+        <widget class="QWidget" name="widget_essid" native="true">
+         <layout class="QHBoxLayout" name="layout_essid">
+          <item>
+           <widget class="QLabel" name="label_essid">
+            <property name="minimumSize">
+             <size>
+              <width>150</width>
+              <height>0</height>
+             </size>
+            </property>
+            <property name="text">
+             <string>ESSID</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLineEdit" name="lineEdit_essid">
+            <property name="toolTip">
+             <string>The name of the network to connect to</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
        </item>
        <item>
         <widget class="QWidget" name="widget_wpaConfigSection" native="true">

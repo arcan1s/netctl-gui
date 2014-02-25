@@ -46,7 +46,7 @@ private slots:
     void addDriver();
     void addFreq();
     void addOption();
-    void changeSecurity(int index);
+    void changeSecurity(QString currentText);
     void showAdvanced();
     void selectWpaConfig();
 

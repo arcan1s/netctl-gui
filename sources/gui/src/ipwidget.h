@@ -50,13 +50,13 @@ private slots:
     void addDns();
     void addDnsOpt();
     // ip mode
-    void changeIpMode(int index);
+    void changeIpMode(QString currentText);
     void ipEnable(int state);
     // ipv6 mode
-    void changeIp6Mode(int index);
+    void changeIp6Mode(QString currentText);
     void ip6Enable(int state);
     // dhcp client
-    void changeDhcpClient(int index);
+    void changeDhcpClient(QString currentText);
     void showAdvanced();
 
 private:
@@ -64,6 +64,10 @@ private:
     void createActions();
     void createFilter();
     void keyPressEvent(QKeyEvent *pressedKey);
+    QString getIp(QString rawIp);
+    QString getPrefix(QString rawPrefix);
+    QString getIp6(QString rawIp);
+    QString getPrefix6(QString rawPrefix);
 };
 
 

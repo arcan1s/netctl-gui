@@ -44,7 +44,7 @@ bool NetctlProfile::copyProfile(QString oldPath)
 {
     QString newPath = profileDirectory->absolutePath() + QDir::separator() + QFileInfo(oldPath).fileName();
     QProcess command;
-    command.start(sudoCommand + QString(" /usr/bin/cp ") + oldPath + QString(" ") + newPath);
+    command.start(sudoCommand + QString(" /usr/bin/mv ") + oldPath + QString(" ") + newPath);
     command.waitForFinished(-1);
     if (command.exitCode() == 0)
         return true;
@@ -64,8 +64,23 @@ QString NetctlProfile::createProfile(QString profile, QHash<QString, QString> se
         return profileTempName;
 
     QTextStream out(&profileFile);
-    for (int i=0; i<settings.keys().count(); i++)
-        out << settings.keys()[i] << QString("=") << settings[settings.keys()[i]] << QString("\n");
+    for (int i=0; i<settings.keys().count(); i++) {
+        out << settings.keys()[i] << QString("=");
+        if ((settings.keys()[i] == QString("BindsToInterfaces")) ||
+                (settings.keys()[i] == QString("After")) ||
+                (settings.keys()[i] == QString("Address")) ||
+                (settings.keys()[i] == QString("Routes")) ||
+                (settings.keys()[i] == QString("Address6")) ||
+                (settings.keys()[i] == QString("Routes6")) ||
+                (settings.keys()[i] == QString("IPCustom")) ||
+                (settings.keys()[i] == QString("DNS")) ||
+                (settings.keys()[i] == QString("DNSOptions")) ||
+                (settings.keys()[i] == QString("WPAConfigSection")) ||
+                (settings.keys()[i] == QString("WPAConfigSection")))
+            out << QString("(") + settings[settings.keys()[i]] << QString(")\n");
+        else
+            out << settings[settings.keys()[i]] << QString("\n");
+    }
     profileFile.close();
 
     return profileTempName;
@@ -93,7 +108,7 @@ QHash<QString, QString> NetctlProfile::getSettingsFromProfile(QString profile)
                 settings[fileStr.split(QString("="))[0]] = fileStr.split(QString("="))[1]
                         .remove(QString("("))
                         .remove(QString(")"))
-                        .remove(QString("\n"));
+                        .trimmed();
         }
     }
 

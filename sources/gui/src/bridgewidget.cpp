@@ -43,9 +43,9 @@ void BridgeWidget::clear()
 void BridgeWidget::setShown(bool state)
 {
     if (state)
-        BridgeWidget::show();
+        show();
     else
-        BridgeWidget::hide();
+        hide();
 }
 
 

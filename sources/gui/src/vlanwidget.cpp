@@ -43,9 +43,9 @@ void VlanWidget::clear()
 void VlanWidget::setShown(bool state)
 {
     if (state)
-        VlanWidget::show();
+        show();
     else
-        VlanWidget::hide();
+        hide();
 }
 
 

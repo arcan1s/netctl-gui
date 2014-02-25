@@ -386,6 +386,23 @@
    </property>
   </action>
  </widget>
+ <tabstops>
+  <tabstop>tabWidget</tabstop>
+  <tabstop>tableWidget_main</tabstop>
+  <tabstop>pushButton_mainRefresh</tabstop>
+  <tabstop>pushButton_mainEnable</tabstop>
+  <tabstop>pushButton_mainRestart</tabstop>
+  <tabstop>pushButton_mainStart</tabstop>
+  <tabstop>lineEdit_profile</tabstop>
+  <tabstop>pushButton_profile</tabstop>
+  <tabstop>scrollArea</tabstop>
+  <tabstop>pushButton_profileClear</tabstop>
+  <tabstop>pushButton_profileLoad</tabstop>
+  <tabstop>pushButton_profileSave</tabstop>
+  <tabstop>tableWidget_wifi</tabstop>
+  <tabstop>pushButton_wifiRefresh</tabstop>
+  <tabstop>pushButton_wifiStart</tabstop>
+ </tabstops>
  <resources/>
  <connections/>
 </ui>

@@ -552,12 +552,18 @@ void MainWindow::profileTabCreateProfile()
 {
     // error checking
     if (ui->lineEdit_profile->text().isEmpty()) {
+        errorWin = new ErrorWindow(this, 3);
+        errorWin->show();
         return;
     }
     if (generalWid->isOk() == 1) {
+        errorWin = new ErrorWindow(this, 4);
+        errorWin->show();
         return;
     }
     else if (generalWid->isOk() == 2) {
+        errorWin = new ErrorWindow(this, 5);
+        errorWin->show();
         return;
     }
     if ((generalWid->connectionType->currentText() == QString("ethernet")) ||
@@ -569,31 +575,47 @@ void MainWindow::profileTabCreateProfile()
             (generalWid->connectionType->currentText() == QString("tuntap")) ||
             (generalWid->connectionType->currentText() == QString("vlan"))) {
         if (ipWid->isOk() == 1) {
+            errorWin = new ErrorWindow(this, 6);
+            errorWin->show();
             return;
         }
         else if (ipWid->isOk() == 2) {
+            errorWin = new ErrorWindow(this, 6);
+            errorWin->show();
             return;
         }
     }
     if (generalWid->connectionType->currentText() == QString("ethernet")) {
         if (ethernetWid->isOk() == 1) {
+            errorWin = new ErrorWindow(this, 7);
+            errorWin->show();
             return;
         }
     }
     else if (generalWid->connectionType->currentText() == QString("wireless")) {
         if (wirelessWid->isOk() == 1) {
+            errorWin = new ErrorWindow(this, 8);
+            errorWin->show();
             return;
         }
         else if (wirelessWid->isOk() == 2) {
+            errorWin = new ErrorWindow(this, 9);
+            errorWin->show();
             return;
         }
         else if (wirelessWid->isOk() == 3) {
+            errorWin = new ErrorWindow(this, 10);
+            errorWin->show();
             return;
         }
         else if (wirelessWid->isOk() == 4) {
+            errorWin = new ErrorWindow(this, 7);
+            errorWin->show();
             return;
         }
         else if (wirelessWid->isOk() == 5) {
+            errorWin = new ErrorWindow(this, 11);
+            errorWin->show();
             return;
         }
     }
@@ -601,23 +623,35 @@ void MainWindow::profileTabCreateProfile()
     }
     else if (generalWid->connectionType->currentText() == QString("pppoe")) {
         if (pppoeWid->isOk() == 1) {
+            errorWin = new ErrorWindow(this, 7);
+            errorWin->show();
             return;
         }
         else if (pppoeWid->isOk() == 2) {
+            errorWin = new ErrorWindow(this, 12);
+            errorWin->show();
             return;
         }
         else if (pppoeWid->isOk() == 3) {
+            errorWin = new ErrorWindow(this, 13);
+            errorWin->show();
             return;
         }
         else if (pppoeWid->isOk() == 4) {
+            errorWin = new ErrorWindow(this, 12);
+            errorWin->show();
             return;
         }
     }
     else if (generalWid->connectionType->currentText() == QString("mobile_ppp")) {
         if (mobileWid->isOk() == 1) {
+            errorWin = new ErrorWindow(this, 14);
+            errorWin->show();
             return;
         }
         if (mobileWid->isOk() == 2) {
+            errorWin = new ErrorWindow(this, 7);
+            errorWin->show();
             return;
         }
     }
@@ -625,14 +659,20 @@ void MainWindow::profileTabCreateProfile()
     }
     else if (generalWid->connectionType->currentText() == QString("tuntap")) {
         if (tuntapWid->isOk() == 1) {
+            errorWin = new ErrorWindow(this, 15);
+            errorWin->show();
             return;
         }
         if (tuntapWid->isOk() == 2) {
+            errorWin = new ErrorWindow(this, 15);
+            errorWin->show();
             return;
         }
     }
     else if (generalWid->connectionType->currentText() == QString("vlan")) {
         if (ethernetWid->isOk() == 1) {
+            errorWin = new ErrorWindow(this, 7);
+            errorWin->show();
             return;
         }
     }
@@ -659,7 +699,7 @@ void MainWindow::profileTabCreateProfile()
             settings.insert(addSettings.keys()[i], addSettings[addSettings.keys()[i]]);
     }
     else if ((generalWid->connectionType->currentText() == QString("bond")) ||
-            (generalWid->connectionType->currentText() == QString("dummy"))) {
+             (generalWid->connectionType->currentText() == QString("dummy"))) {
         QHash<QString, QString> addSettings = ipWid->getSettings();
         for (int i=0; i<addSettings.keys().count(); i++)
             settings.insert(addSettings.keys()[i], addSettings[addSettings.keys()[i]]);
@@ -736,7 +776,7 @@ void MainWindow::profileTabLoadProfile()
         wirelessWid->setSettings(settings);
     }
     else if ((generalWid->connectionType->currentText() == QString("bond")) ||
-            (generalWid->connectionType->currentText() == QString("dummy"))) {
+             (generalWid->connectionType->currentText() == QString("dummy"))) {
         ipWid->setSettings(settings);
     }
     else if (generalWid->connectionType->currentText() == QString("bridge")) {
@@ -786,23 +826,33 @@ void MainWindow::connectToUnknownEssid(QString passwd)
 {
     if (!passwd.isEmpty())
         delete passwdWid;
-    QStringList profileInfo;
-    profileInfo.append(QString("Automatically generated profile by Netctl GUI"));
-    profileInfo.append(wpaCommand->getInterfaceList()[0]);
-    profileInfo.append(QString("wireless"));
+
+    QHash<QString, QString> settings;
+    settings[QString("Description")] = QString("'Automatically generated profile by Netctl GUI'");
+    settings[QString("Interface")] = wpaCommand->getInterfaceList()[0];
+    settings[QString("Connection")] = QString("wireless");
     QString security = ui->tableWidget_wifi->item(ui->tableWidget_wifi->currentItem()->row(), 3)->text();
     if (checkState(QString("WPA"), security))
-        profileInfo.append(QString("wpa"));
+        settings[QString("Security")] = QString("wpa");
     else if (checkState(QString("wep"), security))
-        profileInfo.append(QString("wep"));
+        settings[QString("Security")] = QString("wep");
     else
-        profileInfo.append(QString("none"));
-    profileInfo.append(ui->tableWidget_wifi->item(ui->tableWidget_wifi->currentItem()->row(), 0)->text());
-    profileInfo.append(passwd);
-    profileInfo.append(QString("dhcp"));
+        settings[QString("Security")] = QString("none");
+    settings[QString("ESSID")] = QString("'") +
+            ui->tableWidget_wifi->item(ui->tableWidget_wifi->currentItem()->row(), 0)->text() +
+            QString("'");
+    if (!passwd.isEmpty())
+        settings[QString("Key")] = QString("'") + passwd + QString("'");
+    settings[QString("IP")] = QString("dhcp");
 
-
-
+    QString profile = QString("netctl-gui-") + settings[QString("ESSID")];
+    QString profileTempName = netctlProfile->createProfile(profile, settings);
+    netctlProfile->copyProfile(profileTempName);
+    netctlCommand->startProfile(profile);
+    if (netctlCommand->isProfileActive(profile))
+        ui->statusBar->showMessage(QApplication::translate("MainWindow", "Done"));
+    else
+        ui->statusBar->showMessage(QApplication::translate("MainWindow", "Error"));
     updateWifiTab();
 }
 

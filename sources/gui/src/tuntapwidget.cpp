@@ -45,9 +45,9 @@ void TuntapWidget::clear()
 void TuntapWidget::setShown(bool state)
 {
     if (state)
-        TuntapWidget::show();
+        show();
     else
-        TuntapWidget::hide();
+        hide();
 }
 
 

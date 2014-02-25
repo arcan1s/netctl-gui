@@ -59,9 +59,9 @@ void MobileWidget::clear()
 void MobileWidget::setShown(bool state)
 {
     if (state)
-        MobileWidget::show();
+        show();
     else
-        MobileWidget::hide();
+        hide();
 }
 
 

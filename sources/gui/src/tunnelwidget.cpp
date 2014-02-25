@@ -46,9 +46,9 @@ void TunnelWidget::clear()
 void TunnelWidget::setShown(bool state)
 {
     if (state)
-        TunnelWidget::show();
+        show();
     else
-        TunnelWidget::hide();
+        hide();
 }
 
 
