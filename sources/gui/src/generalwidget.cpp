@@ -147,7 +147,6 @@ QHash<QString, QString> GeneralWidget::getSettings()
             generalSettings[QString("ExecDownPre")] = QString("'") + ui->lineEdit_execDownPre->text() + QString("'");
         if (ui->checkBox_forceConnect->checkState() == Qt::Checked)
             generalSettings[QString("ForceConnect")] = QString("yes");
-        clear();
     }
 
     return generalSettings;

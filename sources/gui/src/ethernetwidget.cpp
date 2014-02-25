@@ -121,7 +121,6 @@ QHash<QString, QString> EthernetWidget::getSettings()
             ethernetSettings[QString("TimeoutCarrier")] = QString(ui->spinBox_timeoutCarrier->value());
         if (ui->spinBox_timeoutWpa->value() != 15)
             ethernetSettings[QString("TimeoutWPA")] = QString(ui->spinBox_timeoutWpa->value());
-        clear();
     }
 
     return ethernetSettings;

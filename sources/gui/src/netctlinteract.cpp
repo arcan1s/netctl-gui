@@ -74,7 +74,7 @@ QStringList Netctl::getProfileDescriptions(QStringList profileList)
                 else if (fileStr[0] != '#')
                     if (fileStr.split(QString("="), QString::SkipEmptyParts).count() == 2)
                         if (fileStr.split(QString("="), QString::SkipEmptyParts)[0] == QString("Description"))
-                            descriptions.append(fileStr.split(QString("="), QString::SkipEmptyParts)[1].split(QString("\n"), QString::SkipEmptyParts)[0]);
+                            descriptions.append(fileStr.split(QString("="), QString::SkipEmptyParts)[1].remove(QString("\n")));
             }
         else
             descriptions.append(QString("<unknown>"));
@@ -125,7 +125,7 @@ QString Netctl::getSsidFromProfile(QString profile)
         else if (fileStr[0] != '#') {
             if (fileStr.split(QString("="), QString::SkipEmptyParts).count() == 2)
                 if (fileStr.split(QString("="), QString::SkipEmptyParts)[0] == QString("ESSID"))
-                    ssidName = fileStr.split(QString("="), QString::SkipEmptyParts)[1].split(QString("\n"), QString::SkipEmptyParts)[0];
+                    ssidName = fileStr.split(QString("="), QString::SkipEmptyParts)[1].remove(QString("\n"));
         }
     }
 

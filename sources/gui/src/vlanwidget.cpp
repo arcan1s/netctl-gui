@@ -55,7 +55,6 @@ QHash<QString, QString> VlanWidget::getSettings()
 
     if (isOk() == 0) {
         vlanSettings[QString("VLANID")] = QString(ui->spinBox_vlan->value());
-        clear();
     }
 
     return vlanSettings;

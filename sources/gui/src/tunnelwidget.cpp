@@ -93,7 +93,6 @@ QHash<QString, QString> TunnelWidget::getSettings()
             tunnelSettings[QString("Local")] = QString("'") + getIp(ui->lineEdit_local->text().remove(QString(" "))) + QString("'");
         if (!ui->lineEdit_remote->text().split(QString(".")).join(QString("")).remove(QString(" ")).isEmpty())
             tunnelSettings[QString("Remote")] = QString("'") + getIp(ui->lineEdit_remote->text().remove(QString(" "))) + QString("'");
-        clear();
     }
 
     return tunnelSettings;

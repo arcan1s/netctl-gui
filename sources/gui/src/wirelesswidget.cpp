@@ -232,7 +232,7 @@ QHash<QString, QString> WirelessWidget::getSettings()
             wirelessSettings[QString("Priority")] = QString(ui->spinBox_priority->value());
         if (!ui->lineEdit_country->text().isEmpty())
             wirelessSettings[QString("Country")] = QString("'") + ui->lineEdit_country->text() + QString("'");
-        if (!ui->lineEdit_wpaGroup->text().isEmpty())
+        if (ui->lineEdit_wpaGroup->text() != QString("wheel"))
             wirelessSettings[QString("WPAGroup")] = QString("'") + ui->lineEdit_wpaGroup->text() + QString("'");
         if (ui->listWidget_drivers->count() != 0) {
             QStringList drivers;
@@ -246,7 +246,6 @@ QHash<QString, QString> WirelessWidget::getSettings()
             wirelessSettings[QString("TimeoutWPA")] = QString(ui->spinBox_timeoutWpa->value());
         if (ui->checkBox_exclude->checkState() == Qt::Checked)
             wirelessSettings[QString("ExcludeAuto")] = QString("yes");
-        clear();
     }
 
     return wirelessSettings;

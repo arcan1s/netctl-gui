@@ -82,6 +82,7 @@ private slots:
     void profileTabBrowseProfile();
     void profileTabChangeState(QString current);
     void profileTabClear();
+    void profileTabCreateProfile();
     void profileTabLoadProfile();
     // wifi tab slots
     void wifiTabSetEnabled(bool state);

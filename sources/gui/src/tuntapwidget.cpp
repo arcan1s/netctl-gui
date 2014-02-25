@@ -59,7 +59,6 @@ QHash<QString, QString> TuntapWidget::getSettings()
         tuntapSettings[QString("Mode")] = QString("'") + ui->comboBox_mode->currentText() + QString("'");
         tuntapSettings[QString("User")] = QString("'") + ui->lineEdit_user->text() + QString("'");
         tuntapSettings[QString("Group")] = QString("'") + ui->lineEdit_group->text() + QString("'");
-        clear();
     }
 
     return tuntapSettings;

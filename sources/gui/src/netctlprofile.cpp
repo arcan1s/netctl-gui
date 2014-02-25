@@ -18,6 +18,9 @@
 #include "netctlprofile.h"
 
 #include <QFile>
+#include <QFileInfo>
+#include <QProcess>
+#include <QTextStream>
 
 #include "mainwindow.h"
 
@@ -34,6 +37,38 @@ NetctlProfile::NetctlProfile(MainWindow *wid, QString profileDir, QString sudoPa
 NetctlProfile::~NetctlProfile()
 {
     delete profileDirectory;
+}
+
+
+bool NetctlProfile::copyProfile(QString oldPath)
+{
+    QString newPath = profileDirectory->absolutePath() + QDir::separator() + QFileInfo(oldPath).fileName();
+    QProcess command;
+    command.start(sudoCommand + QString(" /usr/bin/cp ") + oldPath + QString(" ") + newPath);
+    command.waitForFinished(-1);
+    if (command.exitCode() == 0)
+        return true;
+    else
+        return false;
+}
+
+
+QString NetctlProfile::createProfile(QString profile, QHash<QString, QString> settings)
+{
+
+    QString profileTempName = QDir::homePath() + QDir::separator() +
+            QString(".cache") + QDir::separator() + QFileInfo(profile).fileName();
+    QFile profileFile(profileTempName);
+
+    if (!profileFile.open(QIODevice::WriteOnly | QIODevice::Text))
+        return profileTempName;
+
+    QTextStream out(&profileFile);
+    for (int i=0; i<settings.keys().count(); i++)
+        out << settings.keys()[i] << QString("=") << settings[settings.keys()[i]] << QString("\n");
+    profileFile.close();
+
+    return profileTempName;
 }
 
 

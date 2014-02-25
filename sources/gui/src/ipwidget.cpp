@@ -471,7 +471,6 @@ QHash<QString, QString> IpWidget::getSettings()
                 dnsOpt.append(QString("'") + ui->listWidget_dnsOptions->item(i)->text() + QString("'"));
             ipSettings[QString("DNSOptions")] = dnsOpt.join(QString(" "));
         }
-        clear();
     }
 
     return ipSettings;

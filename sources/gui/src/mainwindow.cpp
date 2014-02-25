@@ -168,6 +168,7 @@ void MainWindow::createActions()
     connect(ui->lineEdit_profile, SIGNAL(returnPressed()), this, SLOT(profileTabLoadProfile()));
     connect(ui->pushButton_profile, SIGNAL(clicked(bool)), this, SLOT(profileTabBrowseProfile()));
     connect(ui->pushButton_profileClear, SIGNAL(clicked(bool)), this, SLOT(profileTabClear()));
+    connect(ui->pushButton_profileSave, SIGNAL(clicked(bool)), this, SLOT(profileTabCreateProfile()));
     connect(ui->pushButton_profileLoad, SIGNAL(clicked(bool)), this, SLOT(profileTabLoadProfile()));
     connect(generalWid->connectionType, SIGNAL(currentIndexChanged(QString)), this, SLOT(profileTabChangeState(QString)));
 
@@ -235,7 +236,9 @@ void MainWindow::updateMainTab()
 
 void MainWindow::updateProfileTab()
 {
+    ui->tabWidget->setDisabled(true);
     profileTabClear();
+    ui->tabWidget->setEnabled(true);
 }
 
 
@@ -412,25 +415,6 @@ void MainWindow::profileTabBrowseProfile()
 }
 
 
-void MainWindow::profileTabClear()
-{
-    ui->lineEdit_profile->clear();
-
-    generalWid->clear();
-    ipWid->clear();
-    bridgeWid->clear();
-    ethernetWid->clear();
-    mobileWid->clear();
-    pppoeWid->clear();
-    tunnelWid->clear();
-    tuntapWid->clear();
-    vlanWid->clear();
-    wirelessWid->clear();
-
-    profileTabChangeState(generalWid->connectionType->currentText());
-}
-
-
 void MainWindow::profileTabChangeState(QString current)
 {
     if (current == QString("ethernet")) {
@@ -545,11 +529,202 @@ void MainWindow::profileTabChangeState(QString current)
 }
 
 
+void MainWindow::profileTabClear()
+{
+    ui->lineEdit_profile->clear();
+
+    generalWid->clear();
+    ipWid->clear();
+    bridgeWid->clear();
+    ethernetWid->clear();
+    mobileWid->clear();
+    pppoeWid->clear();
+    tunnelWid->clear();
+    tuntapWid->clear();
+    vlanWid->clear();
+    wirelessWid->clear();
+
+    profileTabChangeState(generalWid->connectionType->currentText());
+}
+
+
+void MainWindow::profileTabCreateProfile()
+{
+    // error checking
+    if (ui->lineEdit_profile->text().isEmpty()) {
+        return;
+    }
+    if (generalWid->isOk() == 1) {
+        return;
+    }
+    else if (generalWid->isOk() == 2) {
+        return;
+    }
+    if ((generalWid->connectionType->currentText() == QString("ethernet")) ||
+            (generalWid->connectionType->currentText() == QString("wireless")) ||
+            (generalWid->connectionType->currentText() == QString("bond")) ||
+            (generalWid->connectionType->currentText() == QString("dummy")) ||
+            (generalWid->connectionType->currentText() == QString("bridge")) ||
+            (generalWid->connectionType->currentText() == QString("tunnel")) ||
+            (generalWid->connectionType->currentText() == QString("tuntap")) ||
+            (generalWid->connectionType->currentText() == QString("vlan"))) {
+        if (ipWid->isOk() == 1) {
+            return;
+        }
+        else if (ipWid->isOk() == 2) {
+            return;
+        }
+    }
+    if (generalWid->connectionType->currentText() == QString("ethernet")) {
+        if (ethernetWid->isOk() == 1) {
+            return;
+        }
+    }
+    else if (generalWid->connectionType->currentText() == QString("wireless")) {
+        if (wirelessWid->isOk() == 1) {
+            return;
+        }
+        else if (wirelessWid->isOk() == 2) {
+            return;
+        }
+        else if (wirelessWid->isOk() == 3) {
+            return;
+        }
+        else if (wirelessWid->isOk() == 4) {
+            return;
+        }
+        else if (wirelessWid->isOk() == 5) {
+            return;
+        }
+    }
+    else if (generalWid->connectionType->currentText() == QString("bridge")) {
+    }
+    else if (generalWid->connectionType->currentText() == QString("pppoe")) {
+        if (pppoeWid->isOk() == 1) {
+            return;
+        }
+        else if (pppoeWid->isOk() == 2) {
+            return;
+        }
+        else if (pppoeWid->isOk() == 3) {
+            return;
+        }
+        else if (pppoeWid->isOk() == 4) {
+            return;
+        }
+    }
+    else if (generalWid->connectionType->currentText() == QString("mobile_ppp")) {
+        if (mobileWid->isOk() == 1) {
+            return;
+        }
+        if (mobileWid->isOk() == 2) {
+            return;
+        }
+    }
+    else if (generalWid->connectionType->currentText() == QString("tunnel")) {
+    }
+    else if (generalWid->connectionType->currentText() == QString("tuntap")) {
+        if (tuntapWid->isOk() == 1) {
+            return;
+        }
+        if (tuntapWid->isOk() == 2) {
+            return;
+        }
+    }
+    else if (generalWid->connectionType->currentText() == QString("vlan")) {
+        if (ethernetWid->isOk() == 1) {
+            return;
+        }
+    }
+
+    ui->tabWidget->setDisabled(true);
+    // read settings
+    QString profile = ui->lineEdit_profile->text();
+    QHash<QString, QString> settings;
+    settings = generalWid->getSettings();
+    if (generalWid->connectionType->currentText() == QString("ethernet")) {
+        QHash<QString, QString> addSettings = ipWid->getSettings();
+        for (int i=0; i<addSettings.keys().count(); i++)
+            settings.insert(addSettings.keys()[i], addSettings[addSettings.keys()[i]]);
+        addSettings = ethernetWid->getSettings();
+        for (int i=0; i<addSettings.keys().count(); i++)
+            settings.insert(addSettings.keys()[i], addSettings[addSettings.keys()[i]]);
+    }
+    else if (generalWid->connectionType->currentText() == QString("wireless")) {
+        QHash<QString, QString> addSettings = ipWid->getSettings();
+        for (int i=0; i<addSettings.keys().count(); i++)
+            settings.insert(addSettings.keys()[i], addSettings[addSettings.keys()[i]]);
+        addSettings = wirelessWid->getSettings();
+        for (int i=0; i<addSettings.keys().count(); i++)
+            settings.insert(addSettings.keys()[i], addSettings[addSettings.keys()[i]]);
+    }
+    else if ((generalWid->connectionType->currentText() == QString("bond")) ||
+            (generalWid->connectionType->currentText() == QString("dummy"))) {
+        QHash<QString, QString> addSettings = ipWid->getSettings();
+        for (int i=0; i<addSettings.keys().count(); i++)
+            settings.insert(addSettings.keys()[i], addSettings[addSettings.keys()[i]]);
+    }
+    else if (generalWid->connectionType->currentText() == QString("bridge")) {
+        QHash<QString, QString> addSettings = ipWid->getSettings();
+        for (int i=0; i<addSettings.keys().count(); i++)
+            settings.insert(addSettings.keys()[i], addSettings[addSettings.keys()[i]]);
+        addSettings =  bridgeWid->getSettings();
+        for (int i=0; i<addSettings.keys().count(); i++)
+            settings.insert(addSettings.keys()[i], addSettings[addSettings.keys()[i]]);
+    }
+    else if (generalWid->connectionType->currentText() == QString("pppoe")) {
+        QHash<QString, QString> addSettings = pppoeWid->getSettings();
+        for (int i=0; i<addSettings.keys().count(); i++)
+            settings.insert(addSettings.keys()[i], addSettings[addSettings.keys()[i]]);
+    }
+    else if (generalWid->connectionType->currentText() == QString("mobile_ppp")) {
+        QHash<QString, QString> addSettings = mobileWid->getSettings();
+        for (int i=0; i<addSettings.keys().count(); i++)
+            settings.insert(addSettings.keys()[i], addSettings[addSettings.keys()[i]]);
+    }
+    else if (generalWid->connectionType->currentText() == QString("tunnel")) {
+        QHash<QString, QString> addSettings = ipWid->getSettings();
+        for (int i=0; i<addSettings.keys().count(); i++)
+            settings.insert(addSettings.keys()[i], addSettings[addSettings.keys()[i]]);
+        addSettings = tunnelWid->getSettings();
+        for (int i=0; i<addSettings.keys().count(); i++)
+            settings.insert(addSettings.keys()[i], addSettings[addSettings.keys()[i]]);
+    }
+    else if (generalWid->connectionType->currentText() == QString("tuntap")) {
+        QHash<QString, QString> addSettings = ipWid->getSettings();
+        for (int i=0; i<addSettings.keys().count(); i++)
+            settings.insert(addSettings.keys()[i], addSettings[addSettings.keys()[i]]);
+        addSettings = tuntapWid->getSettings();
+        for (int i=0; i<addSettings.keys().count(); i++)
+            settings.insert(addSettings.keys()[i], addSettings[addSettings.keys()[i]]);
+    }
+    else if (generalWid->connectionType->currentText() == QString("vlan")) {
+        QHash<QString, QString> addSettings = ipWid->getSettings();
+        for (int i=0; i<addSettings.keys().count(); i++)
+            settings.insert(addSettings.keys()[i], addSettings[addSettings.keys()[i]]);
+        addSettings = ethernetWid->getSettings();
+        for (int i=0; i<addSettings.keys().count(); i++)
+            settings.insert(addSettings.keys()[i], addSettings[addSettings.keys()[i]]);
+        addSettings = vlanWid->getSettings();
+        for (int i=0; i<addSettings.keys().count(); i++)
+            settings.insert(addSettings.keys()[i], addSettings[addSettings.keys()[i]]);
+    }
+
+    // call netctlprofile
+    QString profileTempName = netctlProfile->createProfile(profile, settings);
+    if (netctlProfile->copyProfile(profileTempName))
+        ui->statusBar->showMessage(QApplication::translate("MainWindow", "Done"));
+    else
+        ui->statusBar->showMessage(QApplication::translate("MainWindow", "Error"));
+
+    updateProfileTab();
+}
+
+
 void MainWindow::profileTabLoadProfile()
 {
     QString profile = ui->lineEdit_profile->text();
     QHash<QString, QString> settings = netctlProfile->getSettingsFromProfile(profile);
-    printf("%i\n", settings.count());
 
     generalWid->setSettings(settings);
     if (generalWid->connectionType->currentText() == QString("ethernet")) {
