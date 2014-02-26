@@ -51,9 +51,9 @@ void TuntapWidget::setShown(bool state)
 }
 
 
-QHash<QString, QString> TuntapWidget::getSettings()
+QMap<QString, QString> TuntapWidget::getSettings()
 {
-    QHash<QString, QString> tuntapSettings;
+    QMap<QString, QString> tuntapSettings;
 
     if (isOk() == 0) {
         tuntapSettings[QString("Mode")] = QString("'") + ui->comboBox_mode->currentText() + QString("'");
@@ -78,7 +78,7 @@ int TuntapWidget::isOk()
 }
 
 
-void TuntapWidget::setSettings(QHash<QString, QString> settings)
+void TuntapWidget::setSettings(QMap<QString, QString> settings)
 {
     if (settings.contains(QString("Mode")))
         for (int i=0; i<ui->comboBox_mode->count(); i++)

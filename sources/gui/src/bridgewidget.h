@@ -32,9 +32,9 @@ class BridgeWidget : public QWidget
 public:
     explicit BridgeWidget(QWidget *parent = 0);
     ~BridgeWidget();
-    QHash<QString, QString> getSettings();
+    QMap<QString, QString> getSettings();
     int isOk();
-    void setSettings(QHash<QString, QString> settings);
+    void setSettings(QMap<QString, QString> settings);
 
 public slots:
     void clear();

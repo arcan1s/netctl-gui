@@ -34,9 +34,9 @@ public:
     explicit WirelessWidget(QWidget *parent = 0,
                             QString rfkillDir = QString(""));
     ~WirelessWidget();
-    QHash<QString, QString> getSettings();
+    QMap<QString, QString> getSettings();
     int isOk();
-    void setSettings(QHash<QString, QString> settings);
+    void setSettings(QMap<QString, QString> settings);
 
 public slots:
     void clear();

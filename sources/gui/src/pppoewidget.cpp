@@ -125,9 +125,9 @@ void PppoeWidget::showAdvanced()
 }
 
 
-QHash<QString, QString> PppoeWidget::getSettings()
+QMap<QString, QString> PppoeWidget::getSettings()
 {
-    QHash<QString, QString> pppoeSettings;
+    QMap<QString, QString> pppoeSettings;
 
     if (isOk() == 0) {
         if (!ui->lineEdit_username->text().isEmpty())
@@ -193,7 +193,7 @@ int PppoeWidget::isOk()
 }
 
 
-void PppoeWidget::setSettings(QHash<QString, QString> settings)
+void PppoeWidget::setSettings(QMap<QString, QString> settings)
 {
     if (settings.contains(QString("User")))
         ui->lineEdit_username->setText(settings[QString("User")].remove(QString("'")));

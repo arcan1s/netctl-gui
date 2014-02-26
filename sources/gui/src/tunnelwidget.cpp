@@ -83,9 +83,9 @@ QString TunnelWidget::getIp(QString rawIp)
 }
 
 
-QHash<QString, QString> TunnelWidget::getSettings()
+QMap<QString, QString> TunnelWidget::getSettings()
 {
-    QHash<QString, QString> tunnelSettings;
+    QMap<QString, QString> tunnelSettings;
 
     if (isOk() == 0) {
         tunnelSettings[QString("Mode")] = QString("'") + ui->comboBox_mode->currentText() + QString("'");
@@ -106,7 +106,7 @@ int TunnelWidget::isOk()
 }
 
 
-void TunnelWidget::setSettings(QHash<QString, QString> settings)
+void TunnelWidget::setSettings(QMap<QString, QString> settings)
 {
     if (settings.contains(QString("Mode")))
         for (int i=0; i<ui->comboBox_mode->count(); i++)

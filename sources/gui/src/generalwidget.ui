@@ -333,6 +333,13 @@
             </property>
            </widget>
           </item>
+          <item>
+           <widget class="QCheckBox" name="checkBox_debug">
+            <property name="text">
+             <string>Debug mode</string>
+            </property>
+           </widget>
+          </item>
          </layout>
         </widget>
        </item>

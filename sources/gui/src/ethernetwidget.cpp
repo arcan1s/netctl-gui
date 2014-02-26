@@ -105,9 +105,9 @@ void EthernetWidget::showWpa(int state)
 }
 
 
-QHash<QString, QString> EthernetWidget::getSettings()
+QMap<QString, QString> EthernetWidget::getSettings()
 {
-    QHash<QString, QString> ethernetSettings;
+    QMap<QString, QString> ethernetSettings;
 
     if (isOk() == 0) {
         if (ui->checkBox_skip->checkState() == Qt::Checked)
@@ -138,7 +138,7 @@ int EthernetWidget::isOk()
 }
 
 
-void EthernetWidget::setSettings(QHash<QString, QString> settings)
+void EthernetWidget::setSettings(QMap<QString, QString> settings)
 {
     if (settings.contains(QString("SkipNoCarrier")))
         if (settings[QString("SkipNoCarrier")].remove(QString("'")) == QString("yes"))

@@ -376,9 +376,9 @@ void IpWidget::showAdvanced()
 }
 
 
-QHash<QString, QString> IpWidget::getSettings()
+QMap<QString, QString> IpWidget::getSettings()
 {
-    QHash<QString, QString> ipSettings;
+    QMap<QString, QString> ipSettings;
 
     if (isOk() == 0) {
         if (ui->checkBox_ip->checkState() == Qt::Checked) {
@@ -485,7 +485,7 @@ int IpWidget::isOk()
 }
 
 
-void IpWidget::setSettings(QHash<QString, QString> settings)
+void IpWidget::setSettings(QMap<QString, QString> settings)
 {
     if (settings.contains(QString("IP"))) {
         if (settings[QString("IP")].remove(QString("'")) == QString("no"))

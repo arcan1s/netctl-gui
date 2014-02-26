@@ -20,7 +20,7 @@
 
 #include <QComboBox>
 #include <QDir>
-#include <QHash>
+#include <QMap>
 #include <QWidget>
 
 
@@ -38,9 +38,9 @@ public:
                            QString profileDir = QString(""));
     ~GeneralWidget();
     QComboBox *connectionType;
-    QHash<QString, QString> getSettings();
+    QMap<QString, QString> getSettings();
     int isOk();
-    void setSettings(QHash<QString, QString> settings);
+    void setSettings(QMap<QString, QString> settings);
 
 public slots:
     void clear();

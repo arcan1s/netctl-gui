@@ -32,9 +32,9 @@ class MobileWidget : public QWidget
 public:
     explicit MobileWidget(QWidget *parent = 0);
     ~MobileWidget();
-    QHash<QString, QString> getSettings();
+    QMap<QString, QString> getSettings();
     int isOk();
-    void setSettings(QHash<QString, QString> settings);
+    void setSettings(QMap<QString, QString> settings);
 
 public slots:
     void clear();

@@ -205,9 +205,9 @@ void WirelessWidget::showAdvanced()
 }
 
 
-QHash<QString, QString> WirelessWidget::getSettings()
+QMap<QString, QString> WirelessWidget::getSettings()
 {
-    QHash<QString, QString> wirelessSettings;
+    QMap<QString, QString> wirelessSettings;
 
     if (isOk() == 0) {
         wirelessSettings[QString("Security")] = ui->comboBox_security->currentText();
@@ -288,7 +288,7 @@ int WirelessWidget::isOk()
 }
 
 
-void WirelessWidget::setSettings(QHash<QString, QString> settings)
+void WirelessWidget::setSettings(QMap<QString, QString> settings)
 {
     if (settings.contains(QString("Security")))
         for (int i=0; i<ui->comboBox_security->count(); i++)

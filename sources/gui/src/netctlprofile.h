@@ -34,8 +34,8 @@ public:
                            QString sudoPath = QString(""));
     ~NetctlProfile();
     bool copyProfile(QString oldPath);
-    QString createProfile(QString profile, QHash<QString, QString> settings);
-    QHash<QString, QString> getSettingsFromProfile(QString profile);
+    QString createProfile(QString profile, QMap<QString, QString> settings);
+    QMap<QString, QString> getSettingsFromProfile(QString profile);
 
 private:
     MainWindow *parent;

@@ -1,4 +1,0 @@
-#!/bin/bash
-
-kate /usr/lib/network/wpa /usr/lib/network/globals /usr/bin/wifi-menu &> /dev/null 
-

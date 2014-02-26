@@ -18,7 +18,7 @@
 #ifndef ETHERNETWIDGET_H
 #define ETHERNETWIDGET_H
 
-#include <QHash>
+#include <QMap>
 #include <QWidget>
 
 
@@ -33,9 +33,9 @@ class EthernetWidget : public QWidget
 public:
     explicit EthernetWidget(QWidget *parent = 0);
     ~EthernetWidget();
-    QHash<QString, QString> getSettings();
+    QMap<QString, QString> getSettings();
     int isOk();
-    void setSettings(QHash<QString, QString> settings);
+    void setSettings(QMap<QString, QString> settings);
 
 public slots:
     void clear();

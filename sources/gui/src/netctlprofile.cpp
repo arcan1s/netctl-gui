@@ -54,7 +54,7 @@ bool NetctlProfile::copyProfile(QString oldPath)
 }
 
 
-QString NetctlProfile::createProfile(QString profile, QHash<QString, QString> settings)
+QString NetctlProfile::createProfile(QString profile, QMap<QString, QString> settings)
 {
 
     QString profileTempName = QDir::homePath() + QDir::separator() +
@@ -88,9 +88,9 @@ QString NetctlProfile::createProfile(QString profile, QHash<QString, QString> se
 }
 
 
-QHash<QString, QString> NetctlProfile::getSettingsFromProfile(QString profile)
+QMap<QString, QString> NetctlProfile::getSettingsFromProfile(QString profile)
 {
-    QHash<QString, QString> settings;
+    QMap<QString, QString> settings;
     QFile profileFile;
     QString fileStr;
 

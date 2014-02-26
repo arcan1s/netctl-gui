@@ -97,9 +97,9 @@ void MobileWidget::showAdvanced()
 }
 
 
-QHash<QString, QString> MobileWidget::getSettings()
+QMap<QString, QString> MobileWidget::getSettings()
 {
-    QHash<QString, QString> mobileSettings;
+    QMap<QString, QString> mobileSettings;
 
     if (isOk() == 0) {
         if (!ui->lineEdit_username->text().isEmpty())
@@ -140,7 +140,7 @@ int MobileWidget::isOk()
 }
 
 
-void MobileWidget::setSettings(QHash<QString, QString> settings)
+void MobileWidget::setSettings(QMap<QString, QString> settings)
 {
     if (settings.contains(QString("User")))
         ui->lineEdit_username->setText(settings[QString("User")].remove(QString("'")));

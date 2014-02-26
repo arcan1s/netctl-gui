@@ -680,10 +680,10 @@ void MainWindow::profileTabCreateProfile()
     ui->tabWidget->setDisabled(true);
     // read settings
     QString profile = ui->lineEdit_profile->text();
-    QHash<QString, QString> settings;
+    QMap<QString, QString> settings;
     settings = generalWid->getSettings();
     if (generalWid->connectionType->currentText() == QString("ethernet")) {
-        QHash<QString, QString> addSettings = ipWid->getSettings();
+        QMap<QString, QString> addSettings = ipWid->getSettings();
         for (int i=0; i<addSettings.keys().count(); i++)
             settings.insert(addSettings.keys()[i], addSettings[addSettings.keys()[i]]);
         addSettings = ethernetWid->getSettings();
@@ -691,7 +691,7 @@ void MainWindow::profileTabCreateProfile()
             settings.insert(addSettings.keys()[i], addSettings[addSettings.keys()[i]]);
     }
     else if (generalWid->connectionType->currentText() == QString("wireless")) {
-        QHash<QString, QString> addSettings = ipWid->getSettings();
+        QMap<QString, QString> addSettings = ipWid->getSettings();
         for (int i=0; i<addSettings.keys().count(); i++)
             settings.insert(addSettings.keys()[i], addSettings[addSettings.keys()[i]]);
         addSettings = wirelessWid->getSettings();
@@ -700,12 +700,12 @@ void MainWindow::profileTabCreateProfile()
     }
     else if ((generalWid->connectionType->currentText() == QString("bond")) ||
              (generalWid->connectionType->currentText() == QString("dummy"))) {
-        QHash<QString, QString> addSettings = ipWid->getSettings();
+        QMap<QString, QString> addSettings = ipWid->getSettings();
         for (int i=0; i<addSettings.keys().count(); i++)
             settings.insert(addSettings.keys()[i], addSettings[addSettings.keys()[i]]);
     }
     else if (generalWid->connectionType->currentText() == QString("bridge")) {
-        QHash<QString, QString> addSettings = ipWid->getSettings();
+        QMap<QString, QString> addSettings = ipWid->getSettings();
         for (int i=0; i<addSettings.keys().count(); i++)
             settings.insert(addSettings.keys()[i], addSettings[addSettings.keys()[i]]);
         addSettings =  bridgeWid->getSettings();
@@ -713,17 +713,17 @@ void MainWindow::profileTabCreateProfile()
             settings.insert(addSettings.keys()[i], addSettings[addSettings.keys()[i]]);
     }
     else if (generalWid->connectionType->currentText() == QString("pppoe")) {
-        QHash<QString, QString> addSettings = pppoeWid->getSettings();
+        QMap<QString, QString> addSettings = pppoeWid->getSettings();
         for (int i=0; i<addSettings.keys().count(); i++)
             settings.insert(addSettings.keys()[i], addSettings[addSettings.keys()[i]]);
     }
     else if (generalWid->connectionType->currentText() == QString("mobile_ppp")) {
-        QHash<QString, QString> addSettings = mobileWid->getSettings();
+        QMap<QString, QString> addSettings = mobileWid->getSettings();
         for (int i=0; i<addSettings.keys().count(); i++)
             settings.insert(addSettings.keys()[i], addSettings[addSettings.keys()[i]]);
     }
     else if (generalWid->connectionType->currentText() == QString("tunnel")) {
-        QHash<QString, QString> addSettings = ipWid->getSettings();
+        QMap<QString, QString> addSettings = ipWid->getSettings();
         for (int i=0; i<addSettings.keys().count(); i++)
             settings.insert(addSettings.keys()[i], addSettings[addSettings.keys()[i]]);
         addSettings = tunnelWid->getSettings();
@@ -731,7 +731,7 @@ void MainWindow::profileTabCreateProfile()
             settings.insert(addSettings.keys()[i], addSettings[addSettings.keys()[i]]);
     }
     else if (generalWid->connectionType->currentText() == QString("tuntap")) {
-        QHash<QString, QString> addSettings = ipWid->getSettings();
+        QMap<QString, QString> addSettings = ipWid->getSettings();
         for (int i=0; i<addSettings.keys().count(); i++)
             settings.insert(addSettings.keys()[i], addSettings[addSettings.keys()[i]]);
         addSettings = tuntapWid->getSettings();
@@ -739,7 +739,7 @@ void MainWindow::profileTabCreateProfile()
             settings.insert(addSettings.keys()[i], addSettings[addSettings.keys()[i]]);
     }
     else if (generalWid->connectionType->currentText() == QString("vlan")) {
-        QHash<QString, QString> addSettings = ipWid->getSettings();
+        QMap<QString, QString> addSettings = ipWid->getSettings();
         for (int i=0; i<addSettings.keys().count(); i++)
             settings.insert(addSettings.keys()[i], addSettings[addSettings.keys()[i]]);
         addSettings = ethernetWid->getSettings();
@@ -764,7 +764,7 @@ void MainWindow::profileTabCreateProfile()
 void MainWindow::profileTabLoadProfile()
 {
     QString profile = ui->lineEdit_profile->text();
-    QHash<QString, QString> settings = netctlProfile->getSettingsFromProfile(profile);
+    QMap<QString, QString> settings = netctlProfile->getSettingsFromProfile(profile);
 
     generalWid->setSettings(settings);
     if (generalWid->connectionType->currentText() == QString("ethernet")) {
@@ -827,7 +827,7 @@ void MainWindow::connectToUnknownEssid(QString passwd)
     if (!passwd.isEmpty())
         delete passwdWid;
 
-    QHash<QString, QString> settings;
+    QMap<QString, QString> settings;
     settings[QString("Description")] = QString("'Automatically generated profile by Netctl GUI'");
     settings[QString("Interface")] = wpaCommand->getInterfaceList()[0];
     settings[QString("Connection")] = QString("wireless");

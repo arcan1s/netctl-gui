@@ -121,9 +121,9 @@ void GeneralWidget::showAdvanced()
 }
 
 
-QHash<QString, QString> GeneralWidget::getSettings()
+QMap<QString, QString> GeneralWidget::getSettings()
 {
-    QHash<QString, QString> generalSettings;
+    QMap<QString, QString> generalSettings;
 
     if (isOk() == 0) {
         generalSettings[QString("Description")] = QString("'") + ui->lineEdit_description->text() + QString("'");
@@ -147,6 +147,8 @@ QHash<QString, QString> GeneralWidget::getSettings()
             generalSettings[QString("ExecDownPre")] = QString("'") + ui->lineEdit_execDownPre->text() + QString("'");
         if (ui->checkBox_forceConnect->checkState() == Qt::Checked)
             generalSettings[QString("ForceConnect")] = QString("yes");
+        if (ui->checkBox_debug->checkState() == Qt::Checked)
+            generalSettings[QString("NETCTL_DEBUG")] = QString("yes");
     }
 
     return generalSettings;
@@ -168,7 +170,7 @@ int GeneralWidget::isOk()
 }
 
 
-void GeneralWidget::setSettings(QHash<QString, QString> settings)
+void GeneralWidget::setSettings(QMap<QString, QString> settings)
 {
     if (settings.contains(QString("Description")))
         ui->lineEdit_description->setText(settings[QString("Description")].remove(QString("'")));
@@ -191,4 +193,7 @@ void GeneralWidget::setSettings(QHash<QString, QString> settings)
     if (settings.contains(QString("ForceConnect")))
         if (settings[QString("ForceConnect")].remove(QString("'")) == QString("yes"))
             ui->checkBox_forceConnect->setCheckState(Qt::Checked);
+    if (settings.contains(QString("NETCTL_DEBUG")))
+        if (settings[QString("NETCTL_DEBUG")].remove(QString("'")) == QString("yes"))
+            ui->checkBox_debug->setCheckState(Qt::Checked);
 }

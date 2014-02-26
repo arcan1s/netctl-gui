@@ -32,9 +32,9 @@ class TunnelWidget : public QWidget
 public:
     explicit TunnelWidget(QWidget *parent = 0);
     ~TunnelWidget();
-    QHash<QString, QString> getSettings();
+    QMap<QString, QString> getSettings();
     int isOk();
-    void setSettings(QHash<QString, QString> settings);
+    void setSettings(QMap<QString, QString> settings);
 
 public slots:
     void clear();
