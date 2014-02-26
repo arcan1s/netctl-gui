@@ -19,6 +19,7 @@
 #define PASSWDWIDGET_H
 
 #include <QKeyEvent>
+#include <QPushButton>
 #include <QWidget>
 
 
@@ -40,11 +41,14 @@ public slots:
     void setFocusToLineEdit();
 
 private slots:
+    void cancel();
     void passwdApply();
 
 private:
     MainWindow *parent;
     Ui::PasswdWidget *ui;
+    QPushButton *cancelButton;
+    QPushButton *okButton;
     // ESC pressed event
     void keyPressEvent(QKeyEvent *pressedKey);
     void createActions();

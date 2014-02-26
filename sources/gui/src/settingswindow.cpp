@@ -15,64 +15,19 @@
  *   along with netctl-plasmoid. If not, see http://www.gnu.org/licenses/  *
  ***************************************************************************/
 
-#include "passwdwidget.h"
-#include "ui_passwdwidget.h"
-
-#include "mainwindow.h"
+#include "settingswindow.h"
+#include "ui_settingswindow.h"
 
 
-PasswdWidget::PasswdWidget(MainWindow *wid)
-    : QWidget(wid),
-      parent(wid),
-      ui(new Ui::PasswdWidget)
+SettingsWindow::SettingsWindow(QWidget *parent)
+    : QMainWindow(parent),
+      ui(new Ui::SettingsWindow)
 {
     ui->setupUi(this);
-    okButton = ui->buttonBox->button(QDialogButtonBox::Ok);
-    cancelButton = ui->buttonBox->button(QDialogButtonBox::Cancel);
-    createActions();
 }
 
 
-PasswdWidget::~PasswdWidget()
+SettingsWindow::~SettingsWindow()
 {
-    delete cancelButton;
-    delete okButton;
     delete ui;
-}
-
-
-// ESC press event
-void PasswdWidget::keyPressEvent(QKeyEvent *pressedKey)
-{
-    if (pressedKey->key() == Qt::Key_Escape)
-        cancel();
-}
-
-
-void PasswdWidget::createActions()
-{
-    connect(ui->lineEdit, SIGNAL(returnPressed()), this, SLOT(passwdApply()));
-    connect(cancelButton, SIGNAL(clicked(bool)), this, SLOT(cancel()));
-    connect(okButton, SIGNAL(clicked(bool)), this, SLOT(passwdApply()));
-}
-
-
-void PasswdWidget::setFocusToLineEdit()
-{
-    ui->lineEdit->setFocus(Qt::ActiveWindowFocusReason);
-}
-
-
-void PasswdWidget::cancel()
-{
-    hide();
-    parent->updateTabs(2);
-    this->~PasswdWidget();
-}
-
-
-void PasswdWidget::passwdApply()
-{
-    hide();
-    return parent->connectToUnknownEssid(ui->lineEdit->text());
 }
