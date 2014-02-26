@@ -1,6 +1,6 @@
 #!/bin/bash
 
-ARCHIVE="netctl-plasmoid"
+ARCHIVE="netctl-gui"
 SRCDIR="sources"
 FILES="LICENSE README.md"
 IGNORELIST="CMakeLists.txt.user"
