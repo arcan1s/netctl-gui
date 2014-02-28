@@ -3,7 +3,7 @@
 ARCHIVE="netctl-gui"
 SRCDIR="sources"
 FILES="LICENSE README.md"
-IGNORELIST="CMakeLists.txt.user"
+IGNORELIST="gui/resources/translations/english.qm gui/resources/translations/russian.qm"
 VERSION=$(grep -m1 PROJECT_VERSION_MAJOR sources/CMakeLists.txt | awk '{print $3}' | cut -c 1).\
 $(grep -m1 PROJECT_VERSION_MINOR sources/CMakeLists.txt | awk '{print $3}' | cut -c 1).\
 $(grep -m1 PROJECT_VERSION_PATCH sources/CMakeLists.txt | awk '{print $3}' | cut -c 1)

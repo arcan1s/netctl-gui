@@ -265,9 +265,9 @@ QMap<QString, QString> SettingsWindow::getSettings()
             break;
         else if (fileStr[0] != '#') {
             if (fileStr.indexOf(QString("=")) > -1)
-                    settings[fileStr.split(QString("="))[0]] = fileStr.split(QString("="))[1]
-                            .remove(QString(" "))
-                            .trimmed();
+                settings[fileStr.split(QString("="))[0]] = fileStr.split(QString("="))[1]
+                        .remove(QString(" "))
+                        .trimmed();
         }
     }
 

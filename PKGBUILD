@@ -17,7 +17,7 @@ optdepends=('kdebase-runtime: sudo support'
             'sudo: sudo support')
 source=("https://github.com/arcan1s/netctlplasmoid/releases/download/V.${pkgver}/${pkgname}-${pkgver}-src.tar.xz")
 install="${pkgname}.install"
-md5sums=('772eb08f63d45b4f1505e3dfc59bbb20')
+md5sums=('a8893bf6d745cbcc7e54bab227cc6d5a')
 
 # flags
 _cmakekeys="-DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_BUILD_TYPE=Release"

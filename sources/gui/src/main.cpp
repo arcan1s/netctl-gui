@@ -18,8 +18,10 @@
 
 #include <QApplication>
 
+#include <QDir>
+#include <QTextStream>
+#include <QTranslator>
 #include <iostream>
-#include <cstdlib>
 
 #include "mainwindow.h"
 #include "version.h"
@@ -30,6 +32,31 @@ using namespace std;
 
 int main(int argc, char *argv[])
 {
+    QApplication a(argc, argv);
+
+    // translation
+    QString configPath = QDir::homePath() + QDir::separator() + QString(".config") +
+            QDir::separator() + QString("netctl-gui.conf");
+    QFile configFile(configPath);
+    QString fileStr;
+    QString language = QString("english");
+    if (configFile.open(QIODevice::ReadOnly))
+        while (true) {
+            fileStr = QString(configFile.readLine());
+            if (configFile.atEnd())
+                break;
+            else if (fileStr[0] != '#') {
+                if (fileStr.contains(QString("LANGUAGE=")))
+                    language = fileStr.split(QString("="))[1]
+                            .remove(QString(" "))
+                            .trimmed();
+            }
+        }
+    configFile.close();
+    QTranslator translator;
+    translator.load(QString(":/translations/") + language);
+    a.installTranslator(&translator);
+
     QString helpMessage = QString("");
     helpMessage += QApplication::translate("MainWindow", "                                    Netctl GUI\n");
     helpMessage += QApplication::translate("MainWindow", "Version : %1                                                  License : GPLv3\n")
@@ -73,7 +100,6 @@ int main(int argc, char *argv[])
         }
     }
 
-    QApplication a(argc, argv);
     MainWindow w(0, defaultSettings, tabNumber);
     w.show();
     return a.exec();
