@@ -87,13 +87,14 @@ QMap<QString, QString> TunnelWidget::getSettings()
 {
     QMap<QString, QString> tunnelSettings;
 
-    if (isOk() == 0) {
-        tunnelSettings[QString("Mode")] = QString("'") + ui->comboBox_mode->currentText() + QString("'");
-        if (!ui->lineEdit_local->text().split(QString(".")).join(QString("")).remove(QString(" ")).isEmpty())
-            tunnelSettings[QString("Local")] = QString("'") + getIp(ui->lineEdit_local->text().remove(QString(" "))) + QString("'");
-        if (!ui->lineEdit_remote->text().split(QString(".")).join(QString("")).remove(QString(" ")).isEmpty())
-            tunnelSettings[QString("Remote")] = QString("'") + getIp(ui->lineEdit_remote->text().remove(QString(" "))) + QString("'");
-    }
+    if (isOk() != 0)
+        return tunnelSettings;
+
+    tunnelSettings[QString("Mode")] = QString("'") + ui->comboBox_mode->currentText() + QString("'");
+    if (!ui->lineEdit_local->text().split(QString(".")).join(QString("")).remove(QString(" ")).isEmpty())
+        tunnelSettings[QString("Local")] = QString("'") + getIp(ui->lineEdit_local->text().remove(QString(" "))) + QString("'");
+    if (!ui->lineEdit_remote->text().split(QString(".")).join(QString("")).remove(QString(" ")).isEmpty())
+        tunnelSettings[QString("Remote")] = QString("'") + getIp(ui->lineEdit_remote->text().remove(QString(" "))) + QString("'");
 
     return tunnelSettings;
 }
@@ -106,14 +107,16 @@ int TunnelWidget::isOk()
 }
 
 
-void TunnelWidget::setSettings(QMap<QString, QString> settings)
+void TunnelWidget::setSettings(const QMap<QString, QString> settings)
 {
-    if (settings.contains(QString("Mode")))
+    QMap<QString, QString> tunnelSettings = settings;
+
+    if (tunnelSettings.contains(QString("Mode")))
         for (int i=0; i<ui->comboBox_mode->count(); i++)
-            if (settings[QString("Mode")].remove(QString("'")) == ui->comboBox_mode->itemText(i))
+            if (tunnelSettings[QString("Mode")].remove(QString("'")) == ui->comboBox_mode->itemText(i))
                 ui->comboBox_mode->setCurrentIndex(i);
-    if (settings.contains(QString("Local")))
-        ui->lineEdit_local->setText(settings[QString("Local")].remove(QString("'")));
-    if (settings.contains(QString("Remote")))
-        ui->lineEdit_remote->setText(settings[QString("Remote")].remove(QString("'")));
+    if (tunnelSettings.contains(QString("Local")))
+        ui->lineEdit_local->setText(tunnelSettings[QString("Local")].remove(QString("'")));
+    if (tunnelSettings.contains(QString("Remote")))
+        ui->lineEdit_remote->setText(tunnelSettings[QString("Remote")].remove(QString("'")));
 }

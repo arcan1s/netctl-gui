@@ -34,7 +34,7 @@ public:
     ~IpWidget();
     QMap<QString, QString> getSettings();
     int isOk();
-    void setSettings(QMap<QString, QString> settings);
+    void setSettings(const QMap<QString, QString> settings);
 
 public slots:
     void clear();
@@ -63,7 +63,7 @@ private:
     Ui::IpWidget *ui;
     void createActions();
     void createFilter();
-    void keyPressEvent(QKeyEvent *pressedKey);
+    void keyPressEvent(const QKeyEvent *pressedKey);
     QString getIp(const QString rawIp);
     QString getPrefix(const QString rawPrefix);
     QString getIp6(const QString rawIp);

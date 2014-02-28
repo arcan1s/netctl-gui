@@ -34,7 +34,7 @@ public:
     ~VlanWidget();
     QMap<QString, QString> getSettings();
     int isOk();
-    void setSettings(QMap<QString, QString> settings);
+    void setSettings(const QMap<QString, QString> settings);
 
 public slots:
     void clear();

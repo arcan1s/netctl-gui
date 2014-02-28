@@ -23,7 +23,6 @@
 #include <QTextStream>
 
 #include "mainwindow.h"
-#include <cstdio>
 
 
 NetctlProfile::NetctlProfile(MainWindow *wid, QMap<QString, QString> settings)

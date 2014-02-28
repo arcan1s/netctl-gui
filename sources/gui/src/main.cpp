@@ -65,6 +65,8 @@ int main(int argc, char *argv[])
                   (argv[i][3] == 'a') && (argv[i][4] == 'b') && (argv[i][5] == '\0'))) {
             if (atoi(argv[i+1]) > 3)
                 tabNumber = 3;
+            else if (atoi(argv[i+1]) < 1)
+                tabNumber = 1;
             else
                 tabNumber = atoi(argv[i+1]);
             i++;

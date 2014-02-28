@@ -20,7 +20,6 @@
 
 #include <QKeyEvent>
 #include <QMainWindow>
-#include <QPushButton>
 
 
 class MainWindow;
@@ -45,6 +44,7 @@ public slots:
     void showWindow();
 
 private slots:
+    void addLanguages();
     void saveSettings();
     // buttons
     void selectIfaceDir();
@@ -59,14 +59,11 @@ private:
     MainWindow *parent;
     QString file;
     Ui::SettingsWindow *ui;
-    QPushButton *cancelButton;
-    QPushButton *defaultButton;
-    QPushButton *okButton;
     void createActions();
     // ESC pressed event
-    void keyPressEvent(QKeyEvent *pressedKey);
+    void keyPressEvent(const QKeyEvent *pressedKey);
     QMap<QString, QString> readSettings();
-    void setSettings(QMap<QString, QString> settings);
+    void setSettings(const QMap<QString, QString> settings);
 };
 
 

@@ -38,7 +38,6 @@
 #include "vlanwidget.h"
 #include "wpasupinteract.h"
 #include "wirelesswidget.h"
-#include <cstdio>
 
 
 MainWindow::MainWindow(QWidget *parent, const bool defaultSettings, const int tabNum)

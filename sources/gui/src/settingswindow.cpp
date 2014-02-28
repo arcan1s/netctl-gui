@@ -23,7 +23,6 @@
 #include <QTextStream>
 
 #include "mainwindow.h"
-#include <cstdio>
 
 
 SettingsWindow::SettingsWindow(MainWindow *wid, QString configFile)
@@ -33,20 +32,13 @@ SettingsWindow::SettingsWindow(MainWindow *wid, QString configFile)
       ui(new Ui::SettingsWindow)
 {
     ui->setupUi(this);
-    cancelButton = ui->buttonBox->button(QDialogButtonBox::Cancel);
-    defaultButton = ui->buttonBox->button(QDialogButtonBox::Reset);
-    okButton = ui->buttonBox->button(QDialogButtonBox::Ok);
-    ui->comboBox_language->addItem(QString("english"));
-    ui->comboBox_language->addItem(QString("russian"));
+    addLanguages();
     createActions();
 }
 
 
 SettingsWindow::~SettingsWindow()
 {
-    delete cancelButton;
-    delete defaultButton;
-    delete okButton;
     delete ui;
 }
 
@@ -54,10 +46,10 @@ SettingsWindow::~SettingsWindow()
 void SettingsWindow::createActions()
 {
     connect(ui->comboBox_language, SIGNAL(currentIndexChanged(int)), ui->label_info, SLOT(show()));
-    connect(cancelButton, SIGNAL(clicked(bool)), this, SLOT(close()));
-    connect(defaultButton, SIGNAL(clicked(bool)), this, SLOT(setDefault()));
-    connect(okButton, SIGNAL(clicked(bool)), this, SLOT(saveSettings()));
-    connect(okButton, SIGNAL(clicked(bool)), this, SLOT(close()));
+    connect(ui->buttonBox->button(QDialogButtonBox::Cancel), SIGNAL(clicked(bool)), this, SLOT(close()));
+    connect(ui->buttonBox->button(QDialogButtonBox::Reset), SIGNAL(clicked(bool)), this, SLOT(setDefault()));
+    connect(ui->buttonBox->button(QDialogButtonBox::Ok), SIGNAL(clicked(bool)), this, SLOT(saveSettings()));
+    connect(ui->buttonBox->button(QDialogButtonBox::Ok), SIGNAL(clicked(bool)), this, SLOT(close()));
     // buttons
     connect(ui->pushButton_interfaceDir, SIGNAL(clicked(bool)), SLOT(selectIfaceDir()));
     connect(ui->pushButton_netctlPath, SIGNAL(clicked(bool)), SLOT(selectNetctlPath()));
@@ -70,10 +62,17 @@ void SettingsWindow::createActions()
 
 
 // ESC press event
-void SettingsWindow::keyPressEvent(QKeyEvent *pressedKey)
+void SettingsWindow::keyPressEvent(const QKeyEvent *pressedKey)
 {
     if (pressedKey->key() == Qt::Key_Escape)
         close();
+}
+
+
+void SettingsWindow::addLanguages()
+{
+    ui->comboBox_language->addItem(QString("english"));
+    ui->comboBox_language->addItem(QString("russian"));
 }
 
 
@@ -209,7 +208,7 @@ QMap<QString, QString> SettingsWindow::readSettings()
 }
 
 
-void SettingsWindow::setSettings(QMap<QString, QString> settings)
+void SettingsWindow::setSettings(const QMap<QString, QString> settings)
 {
     ui->lineEdit_wpaDir->setText(settings[QString("CTRL_DIR")]);
     ui->lineEdit_wpaGroup->setText(settings[QString("CTRL_GROUP")]);

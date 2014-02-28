@@ -109,19 +109,20 @@ QMap<QString, QString> EthernetWidget::getSettings()
 {
     QMap<QString, QString> ethernetSettings;
 
-    if (isOk() == 0) {
-        if (ui->checkBox_skip->checkState() == Qt::Checked)
-            ethernetSettings[QString("SkipNoCarrier")] = QString("yes");
-        if (ui->checkBox_8021x->checkState() == Qt::Checked) {
-            ethernetSettings[QString("Auth8021X")] = QString("yes");
-            ethernetSettings[QString("WPAConfigFile")] = QString("'") + ui->lineEdit_wpaConfig->text() + QString("'");
-            ethernetSettings[QString("WPADriver")] = ui->comboBox_driver->currentText();
-        }
-        if (ui->spinBox_timeoutCarrier->value() != 5)
-            ethernetSettings[QString("TimeoutCarrier")] = QString(ui->spinBox_timeoutCarrier->value());
-        if (ui->spinBox_timeoutWpa->value() != 15)
-            ethernetSettings[QString("TimeoutWPA")] = QString(ui->spinBox_timeoutWpa->value());
+    if (isOk() != 0)
+        return ethernetSettings;
+
+    if (ui->checkBox_skip->checkState() == Qt::Checked)
+        ethernetSettings[QString("SkipNoCarrier")] = QString("yes");
+    if (ui->checkBox_8021x->checkState() == Qt::Checked) {
+        ethernetSettings[QString("Auth8021X")] = QString("yes");
+        ethernetSettings[QString("WPAConfigFile")] = QString("'") + ui->lineEdit_wpaConfig->text() + QString("'");
+        ethernetSettings[QString("WPADriver")] = ui->comboBox_driver->currentText();
     }
+    if (ui->spinBox_timeoutCarrier->value() != 5)
+        ethernetSettings[QString("TimeoutCarrier")] = QString(ui->spinBox_timeoutCarrier->value());
+    if (ui->spinBox_timeoutWpa->value() != 15)
+        ethernetSettings[QString("TimeoutWPA")] = QString(ui->spinBox_timeoutWpa->value());
 
     return ethernetSettings;
 }
@@ -138,24 +139,26 @@ int EthernetWidget::isOk()
 }
 
 
-void EthernetWidget::setSettings(QMap<QString, QString> settings)
+void EthernetWidget::setSettings(const QMap<QString, QString> settings)
 {
-    if (settings.contains(QString("SkipNoCarrier")))
-        if (settings[QString("SkipNoCarrier")].remove(QString("'")) == QString("yes"))
+    QMap<QString, QString> ethernetSettings = settings;
+
+    if (ethernetSettings.contains(QString("SkipNoCarrier")))
+        if (ethernetSettings[QString("SkipNoCarrier")].remove(QString("'")) == QString("yes"))
             ui->checkBox_skip->setCheckState(Qt::Checked);
-    if (settings.contains(QString("Auth8021X")))
-        if (settings[QString("Auth8021X")].remove(QString("'")) == QString("yes"))
+    if (ethernetSettings.contains(QString("Auth8021X")))
+        if (ethernetSettings[QString("Auth8021X")].remove(QString("'")) == QString("yes"))
             ui->checkBox_8021x->setCheckState(Qt::Checked);
-    if (settings.contains(QString("WPAConfigFile")))
-        ui->lineEdit_wpaConfig->setText(settings[QString("WPAConfigFile")].remove(QString("'")));
-    if (settings.contains(QString("WPADriver")))
+    if (ethernetSettings.contains(QString("WPAConfigFile")))
+        ui->lineEdit_wpaConfig->setText(ethernetSettings[QString("WPAConfigFile")].remove(QString("'")));
+    if (ethernetSettings.contains(QString("WPADriver")))
         for (int i=0; i<ui->comboBox_driver->count(); i++)
-            if (settings[QString("WPADriver")].remove(QString("'")) == ui->comboBox_driver->itemText(i))
+            if (ethernetSettings[QString("WPADriver")].remove(QString("'")) == ui->comboBox_driver->itemText(i))
                 ui->comboBox_driver->setCurrentIndex(i);
-    if (settings.contains(QString("TimeoutCarrier")))
-        ui->spinBox_timeoutCarrier->setValue(settings[QString("TimeoutCarrier")].toInt());
-    if (settings.contains(QString("TimeoutWPA")))
-        ui->spinBox_timeoutWpa->setValue(settings[QString("TimeoutWPA")].toInt());
+    if (ethernetSettings.contains(QString("TimeoutCarrier")))
+        ui->spinBox_timeoutCarrier->setValue(ethernetSettings[QString("TimeoutCarrier")].toInt());
+    if (ethernetSettings.contains(QString("TimeoutWPA")))
+        ui->spinBox_timeoutWpa->setValue(ethernetSettings[QString("TimeoutWPA")].toInt());
 
     showWpa(ui->checkBox_8021x->checkState());
 }

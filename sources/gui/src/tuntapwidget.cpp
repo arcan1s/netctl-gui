@@ -55,11 +55,12 @@ QMap<QString, QString> TuntapWidget::getSettings()
 {
     QMap<QString, QString> tuntapSettings;
 
-    if (isOk() == 0) {
-        tuntapSettings[QString("Mode")] = QString("'") + ui->comboBox_mode->currentText() + QString("'");
-        tuntapSettings[QString("User")] = QString("'") + ui->lineEdit_user->text() + QString("'");
-        tuntapSettings[QString("Group")] = QString("'") + ui->lineEdit_group->text() + QString("'");
-    }
+    if (isOk() != 0)
+        return tuntapSettings;
+
+    tuntapSettings[QString("Mode")] = QString("'") + ui->comboBox_mode->currentText() + QString("'");
+    tuntapSettings[QString("User")] = QString("'") + ui->lineEdit_user->text() + QString("'");
+    tuntapSettings[QString("Group")] = QString("'") + ui->lineEdit_group->text() + QString("'");
 
     return tuntapSettings;
 }
@@ -78,14 +79,16 @@ int TuntapWidget::isOk()
 }
 
 
-void TuntapWidget::setSettings(QMap<QString, QString> settings)
+void TuntapWidget::setSettings(const QMap<QString, QString> settings)
 {
-    if (settings.contains(QString("Mode")))
+    QMap<QString, QString> tuntapSettings = settings;
+
+    if (tuntapSettings.contains(QString("Mode")))
         for (int i=0; i<ui->comboBox_mode->count(); i++)
-            if (settings[QString("Mode")].remove(QString("'")) == ui->comboBox_mode->itemText(i))
+            if (tuntapSettings[QString("Mode")].remove(QString("'")) == ui->comboBox_mode->itemText(i))
                 ui->comboBox_mode->setCurrentIndex(i);
-    if (settings.contains(QString("User")))
-        ui->lineEdit_user->setText(settings[QString("User")].remove(QString("'")));
-    if (settings.contains(QString("Group")))
-        ui->lineEdit_group->setText(settings[QString("Group")].remove(QString("'")));
+    if (tuntapSettings.contains(QString("User")))
+        ui->lineEdit_user->setText(tuntapSettings[QString("User")].remove(QString("'")));
+    if (tuntapSettings.contains(QString("Group")))
+        ui->lineEdit_group->setText(tuntapSettings[QString("Group")].remove(QString("'")));
 }
