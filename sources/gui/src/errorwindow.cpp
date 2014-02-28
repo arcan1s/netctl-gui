@@ -32,7 +32,7 @@ ErrorWindow::~ErrorWindow()
     delete ui;
 }
 
-void ErrorWindow::setMessage(int mess)
+void ErrorWindow::setMessage(const int mess)
 {
     QString message;
     switch(mess) {

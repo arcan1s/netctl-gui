@@ -43,7 +43,7 @@ void TunnelWidget::clear()
 }
 
 
-void TunnelWidget::setShown(bool state)
+void TunnelWidget::setShown(const bool state)
 {
     if (state)
         show();
@@ -61,7 +61,7 @@ void TunnelWidget::createFilter()
 }
 
 
-QString TunnelWidget::getIp(QString rawIp)
+QString TunnelWidget::getIp(const QString rawIp)
 {
     QStringList ip = rawIp.split(QString("."));
 

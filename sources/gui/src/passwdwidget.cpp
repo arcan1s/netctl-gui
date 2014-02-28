@@ -27,8 +27,8 @@ PasswdWidget::PasswdWidget(MainWindow *wid)
       ui(new Ui::PasswdWidget)
 {
     ui->setupUi(this);
-    okButton = ui->buttonBox->button(QDialogButtonBox::Ok);
     cancelButton = ui->buttonBox->button(QDialogButtonBox::Cancel);
+    okButton = ui->buttonBox->button(QDialogButtonBox::Ok);
     createActions();
 }
 

@@ -30,12 +30,13 @@ class ErrorWindow : public QMainWindow
     Q_OBJECT
 
 public:
-    explicit ErrorWindow(QWidget *parent = 0, int messageNumber = 0);
+    explicit ErrorWindow(QWidget *parent = 0,
+                         int messageNumber = 0);
     ~ErrorWindow();
 
 private:
     Ui::ErrorWindow *ui;
-    void setMessage(int mess);
+    void setMessage(const int mess);
 };
 
 #endif /* ERRORWINDOW_H */

@@ -65,7 +65,7 @@ void PppoeWidget::clear()
 }
 
 
-void PppoeWidget::setShown(bool state)
+void PppoeWidget::setShown(const bool state)
 {
     if (state)
         show();
@@ -91,7 +91,7 @@ void PppoeWidget::createActions()
 }
 
 
-void PppoeWidget::changeMode(QString currentText)
+void PppoeWidget::changeMode(const QString currentText)
 {
     if (currentText == QString("persist"))
         ui->widget_timeout->setHidden(true);

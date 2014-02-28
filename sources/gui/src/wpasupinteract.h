@@ -19,6 +19,7 @@
 #define WPASUPINTERACT_H
 
 #include <QDir>
+#include <QMap>
 #include <QObject>
 
 
@@ -30,19 +31,16 @@ class WpaSup : public QObject
 
 public:
     explicit WpaSup(MainWindow *wid = 0,
-                    QStringList wpaConfig = QStringList(),
-                    QString sudoPath = QString(""),
-                    QString ifaceDir = QString(""),
-                    QString preferedInterface = QString(""));
+                    QMap<QString, QString> settings = QMap<QString, QString>());
     ~WpaSup();
     // general information
     QStringList getInterfaceList();
     // functions
-    bool wpaCliCall(QString commandLine);
-    QString getWpaCliOutput(QString commandLine);
-    bool isProfileExists(QString profile);
-    QString existentProfile(QString profile);
-    bool isProfileActive(QString profile);
+    bool wpaCliCall(const QString commandLine);
+    QString getWpaCliOutput(const QString commandLine);
+    bool isProfileExists(const QString profile);
+    QString existentProfile(const QString profile);
+    bool isProfileActive(const QString profile);
 
 public slots:
     // functions
@@ -52,10 +50,15 @@ public slots:
 
 private:
     MainWindow *parent;
-    QStringList wpaConf;
-    QString sudoCommand;
+    QString ctrlDir;
+    QString ctrlGroup;
     QDir *ifaceDirectory;
     QString mainInterface;
+    QString pidFile;
+    QString sudoCommand;
+    QString wpaCliPath;
+    QString wpaDrivers;
+    QString wpaSupPath;
 };
 
 

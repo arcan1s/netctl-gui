@@ -40,7 +40,7 @@ void BridgeWidget::clear()
 }
 
 
-void BridgeWidget::setShown(bool state)
+void BridgeWidget::setShown(const bool state)
 {
     if (state)
         show();

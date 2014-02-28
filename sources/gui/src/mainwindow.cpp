@@ -19,6 +19,7 @@
 #include "ui_mainwindow.h"
 
 #include <QFileDialog>
+#include <QFileInfo>
 #include <QProcess>
 
 #include "bridgewidget.h"
@@ -31,6 +32,7 @@
 #include "netctlprofile.h"
 #include "passwdwidget.h"
 #include "pppoewidget.h"
+#include "settingswindow.h"
 #include "tunnelwidget.h"
 #include "tuntapwidget.h"
 #include "vlanwidget.h"
@@ -39,36 +41,22 @@
 #include <cstdio>
 
 
-MainWindow::MainWindow(QWidget *parent, bool defaultSettings, int tabNum)
+MainWindow::MainWindow(QWidget *parent, const bool defaultSettings, const int tabNum)
     : QMainWindow(parent),
       ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
     ui->tabWidget->setCurrentIndex(tabNum-1);
 
-    //  SettingsWindow *settingsWindow;
-    //  settingsWindow = new SettingsWindow(this);
-    // if (defaultSettings)
-    //      стандартные настройки
-    //  delete settingsWindow;
-
-    // temporary block
-    netctlPath = QString("/usr/bin/netctl");
-    profileDir = QString("/etc/netctl");
-    sudoPath = QString("/usr/bin/kdesu");
-    wpaConfig.append(QString("/usr/bin/wpa_cli"));
-    wpaConfig.append(QString("/usr/bin/wpa_supplicant"));
-    preferedInterface  = QString("");
-    //// additional settings
-    ifaceDir = QString("/sys/class/net/");
-    rfkillDir = QString("/sys/class/rfkill/");
-    wpaConfig.append(QString("/run/wpa_supplicant_netctl-gui.pid"));
-    wpaConfig.append(QString("nl80211,wext"));
-    wpaConfig.append(QString("/run/wpa_supplicant_netctl-gui"));
-    wpaConfig.append(QString("users"));
+    QString configPath = QDir::homePath() + QDir::separator() + QString(".config") +
+            QDir::separator() + QString("netctl-gui.conf");
+    settingsWin = new SettingsWindow(this, configPath);
+    if (defaultSettings)
+        settingsWin->setDefault();
+    configuration = settingsWin->getSettings();
 
     // gui
-    generalWid = new GeneralWidget(this, ifaceDir, profileDir);
+    generalWid = new GeneralWidget(this, configuration);
     ui->scrollAreaWidgetContents->layout()->addWidget(generalWid);
     ipWid = new IpWidget(this);
     ui->scrollAreaWidgetContents->layout()->addWidget(ipWid);
@@ -86,12 +74,12 @@ MainWindow::MainWindow(QWidget *parent, bool defaultSettings, int tabNum)
     ui->scrollAreaWidgetContents->layout()->addWidget(tuntapWid);
     vlanWid = new VlanWidget(this);
     ui->scrollAreaWidgetContents->layout()->addWidget(vlanWid);
-    wirelessWid = new WirelessWidget(this, rfkillDir);
+    wirelessWid = new WirelessWidget(this, configuration);
     ui->scrollAreaWidgetContents->layout()->addWidget(wirelessWid);
     // backend
-    netctlCommand = new Netctl(this, netctlPath, profileDir, sudoPath);
-    netctlProfile = new NetctlProfile(this, profileDir, sudoPath);
-    wpaCommand = new WpaSup(this, wpaConfig, sudoPath, ifaceDir, preferedInterface);
+    netctlCommand = new Netctl(this, configuration);
+    netctlProfile = new NetctlProfile(this, configuration);
+    wpaCommand = new WpaSup(this, configuration);
 
     createActions();
     updateTabs(ui->tabWidget->currentIndex());
@@ -115,21 +103,23 @@ MainWindow::~MainWindow()
     delete tuntapWid;
     delete vlanWid;
     delete wirelessWid;
+
+    delete settingsWin;
     delete ui;
 }
 
 
-bool MainWindow::checkExternalApps(QString apps = QString("all"))
+bool MainWindow::checkExternalApps(const QString apps = QString("all"))
 {
     QStringList commandLine;
     commandLine.append("which");
-    commandLine.append(sudoPath);
+    commandLine.append(configuration[QString("SUDO_PATH")]);
     if ((apps == QString("netctl")) || (apps == QString("all"))) {
-        commandLine.append(netctlPath);
+        commandLine.append(configuration[QString("NETCTL_PATH")]);
     }
     if ((apps == QString("wpasup")) || (apps == QString("all"))) {
-        commandLine.append(wpaConfig[0]);
-        commandLine.append(wpaConfig[1]);
+        commandLine.append(configuration[QString("WPACLI_PATH")]);
+        commandLine.append(configuration[QString("WPASUP_PATH")]);
     }
     QProcess command;
     command.start(commandLine.join(QString(" ")));
@@ -141,7 +131,7 @@ bool MainWindow::checkExternalApps(QString apps = QString("all"))
 }
 
 
-bool MainWindow::checkState(QString state, QString item)
+bool MainWindow::checkState(const QString state, const QString item)
 {
     if (item.indexOf(state) > -1)
         return true;
@@ -154,6 +144,7 @@ bool MainWindow::checkState(QString state, QString item)
 void MainWindow::createActions()
 {
     connect(ui->tabWidget, SIGNAL(currentChanged(int)), this, SLOT(updateTabs(int)));
+    connect(ui->actionSettings, SIGNAL(triggered(bool)), settingsWin, SLOT(showWindow()));
     connect(ui->actionQuit, SIGNAL(triggered(bool)), this, SLOT(close()));
 
     // main page events
@@ -415,7 +406,7 @@ void MainWindow::profileTabBrowseProfile()
 }
 
 
-void MainWindow::profileTabChangeState(QString current)
+void MainWindow::profileTabChangeState(const QString current)
 {
     if (current == QString("ethernet")) {
         generalWid->setShown(true);
@@ -806,7 +797,7 @@ void MainWindow::profileTabLoadProfile()
 
 
 // wifi tab slots
-void MainWindow::wifiTabSetEnabled(bool state)
+void MainWindow::wifiTabSetEnabled(const bool state)
 {
     if (state) {
         ui->tableWidget_wifi->show();
@@ -822,7 +813,7 @@ void MainWindow::wifiTabSetEnabled(bool state)
 }
 
 
-void MainWindow::connectToUnknownEssid(QString passwd)
+void MainWindow::connectToUnknownEssid(const QString passwd)
 {
     if (!passwd.isEmpty())
         delete passwdWid;

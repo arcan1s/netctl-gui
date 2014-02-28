@@ -54,7 +54,7 @@ void EthernetWidget::clear()
 }
 
 
-void EthernetWidget::setShown(bool state)
+void EthernetWidget::setShown(const bool state)
 {
     if (state)
         show();
@@ -96,7 +96,7 @@ void EthernetWidget::showAdvanced()
 }
 
 
-void EthernetWidget::showWpa(int state)
+void EthernetWidget::showWpa(const int state)
 {
     if (state == 0)
         ui->widget_wpa->setHidden(true);

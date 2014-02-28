@@ -33,6 +33,7 @@ class Netctl;
 class NetctlProfile;
 class PasswdWidget;
 class PppoeWidget;
+class SettingsWindow;
 class TunnelWidget;
 class TuntapWidget;
 class VlanWidget;
@@ -49,25 +50,17 @@ class MainWindow : public QMainWindow
     
 public:
     explicit MainWindow(QWidget *parent = 0,
-                        bool defaultSettings = false,
-                        int tabNum = 0);
+                        const bool defaultSettings = false,
+                        const int tabNum = 0);
     ~MainWindow();
     Netctl *netctlCommand;
     NetctlProfile *netctlProfile;
     WpaSup *wpaCommand;
-    enum wpaConfigIndex {
-        wpaCliPath = 0,
-        wpaSupplicantPath = 1,
-        wpaPidPath = 2,
-        wpadSupDrivers = 3,
-        wpaConfDir = 4,
-        wpaConfGroup = 5
-    };
 
 public slots:
     void updateTabs(const int tab);
     // wifi tab slots
-    void connectToUnknownEssid(QString passwd);
+    void connectToUnknownEssid(const QString passwd);
     
 private slots:
     void updateMainTab();
@@ -80,12 +73,12 @@ private slots:
     void mainTabRefreshButtons(QTableWidgetItem *current, QTableWidgetItem *previous);
     // profile tab slots
     void profileTabBrowseProfile();
-    void profileTabChangeState(QString current);
+    void profileTabChangeState(const QString current);
     void profileTabClear();
     void profileTabCreateProfile();
     void profileTabLoadProfile();
     // wifi tab slots
-    void wifiTabSetEnabled(bool state);
+    void wifiTabSetEnabled(const bool state);
     void wifiTabStart();
     void wifiTabRefreshButtons(QTableWidgetItem *current, QTableWidgetItem *previous);
 
@@ -105,17 +98,12 @@ private:
     // backend
     ErrorWindow *errorWin;
     PasswdWidget *passwdWid;
-    bool checkExternalApps(QString apps);
-    bool checkState(QString state, QString item);
+    SettingsWindow *settingsWin;
+    bool checkExternalApps(const QString apps);
+    bool checkState(const QString state, const QString item);
     void createActions();
     // configuration
-    QString ifaceDir;
-    QString netctlPath;
-    QString preferedInterface;
-    QString profileDir;
-    QString rfkillDir;
-    QString sudoPath;
-    QStringList wpaConfig;
+    QMap<QString, QString> configuration;
 };
 
 

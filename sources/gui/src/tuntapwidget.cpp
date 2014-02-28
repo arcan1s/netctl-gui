@@ -42,7 +42,7 @@ void TuntapWidget::clear()
 }
 
 
-void TuntapWidget::setShown(bool state)
+void TuntapWidget::setShown(const bool state)
 {
     if (state)
         show();

@@ -38,12 +38,12 @@ public:
 
 public slots:
     void clear();
-    void setShown(bool state);
+    void setShown(const bool state);
 
 private:
     Ui::TunnelWidget *ui;
     void createFilter();
-    QString getIp(QString rawIp);
+    QString getIp(const QString rawIp);
 };
 
 

@@ -23,13 +23,12 @@
 #include "mainwindow.h"
 
 
-Netctl::Netctl(MainWindow *wid, QString netctlPath, QString profileDir, QString sudoPath)
-    : parent(wid),
-      netctlCommand(netctlPath),
-      profileDirectory(new QDir(profileDir)),
-      sudoCommand(sudoPath)
+Netctl::Netctl(MainWindow *wid, QMap<QString, QString> settings)
+    : parent(wid)
 {
-
+    netctlCommand = settings[QString("NETCTL_PATH")];
+    profileDirectory = new QDir(settings[QString("PROFILE_DIR")]);
+    sudoCommand = settings[QString("SUDO_PATH")];
 }
 
 
@@ -58,7 +57,7 @@ QList<QStringList> Netctl::getProfileList()
 }
 
 
-QStringList Netctl::getProfileDescriptions(QStringList profileList)
+QStringList Netctl::getProfileDescriptions(const QStringList profileList)
 {
     QStringList descriptions;
 
@@ -88,7 +87,7 @@ QStringList Netctl::getProfileDescriptions(QStringList profileList)
 }
 
 
-QStringList Netctl::getProfileStatuses(QStringList profileList)
+QStringList Netctl::getProfileStatuses(const QStringList profileList)
 {
     QStringList statuses;
 
@@ -109,7 +108,7 @@ QStringList Netctl::getProfileStatuses(QStringList profileList)
 }
 
 
-QString Netctl::getSsidFromProfile(QString profile)
+QString Netctl::getSsidFromProfile(const QString profile)
 {
     QString ssidName = QString("");
     QFile profileFile(profileDirectory->absolutePath() + QDir::separator() + profile);
@@ -136,7 +135,7 @@ QString Netctl::getSsidFromProfile(QString profile)
 }
 
 
-bool Netctl::isProfileActive(QString profile)
+bool Netctl::isProfileActive(const QString profile)
 {
     bool status = false;
     QProcess command;
@@ -153,7 +152,7 @@ bool Netctl::isProfileActive(QString profile)
 }
 
 
-bool Netctl::isProfileEnabled(QString profile)
+bool Netctl::isProfileEnabled(const QString profile)
 {
     bool status = false;
     QProcess command;
@@ -175,7 +174,7 @@ bool Netctl::isProfileEnabled(QString profile)
 
 
 // functions
-bool Netctl::enableProfile(QString profile)
+bool Netctl::enableProfile(const QString profile)
 {
     QProcess command;
     if (isProfileEnabled(profile))
@@ -190,7 +189,7 @@ bool Netctl::enableProfile(QString profile)
 }
 
 
-bool Netctl::restartProfile(QString profile)
+bool Netctl::restartProfile(const QString profile)
 {
     QProcess command;
     if (isProfileActive(profile))
@@ -203,7 +202,7 @@ bool Netctl::restartProfile(QString profile)
 }
 
 
-bool Netctl::startProfile(QString profile)
+bool Netctl::startProfile(const QString profile)
 {
     QProcess command;
     if (isProfileActive(profile))

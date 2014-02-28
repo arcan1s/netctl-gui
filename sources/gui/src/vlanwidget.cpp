@@ -40,7 +40,7 @@ void VlanWidget::clear()
 }
 
 
-void VlanWidget::setShown(bool state)
+void VlanWidget::setShown(const bool state)
 {
     if (state)
         show();

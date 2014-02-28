@@ -19,6 +19,7 @@
 #define NETCTLINTERACT_H
 
 #include <QDir>
+#include <QMap>
 #include <QObject>
 
 
@@ -30,23 +31,21 @@ class Netctl : public QObject
 
 public:
     explicit Netctl(MainWindow *wid = 0,
-                    QString netctlPath = QString(""),
-                    QString profileDir = QString(""),
-                    QString sudoPath = QString(""));
+                    QMap<QString, QString> settings = QMap<QString, QString>());
     ~Netctl();
     // general information
     QList<QStringList> getProfileList();
-    QStringList getProfileDescriptions(QStringList profileList);
-    QStringList getProfileStatuses(QStringList profileList);
-    QString getSsidFromProfile(QString profile);
-    bool isProfileActive(QString profile);
-    bool isProfileEnabled(QString profile);
+    QStringList getProfileDescriptions(const QStringList profileList);
+    QStringList getProfileStatuses(const QStringList profileList);
+    QString getSsidFromProfile(const QString profile);
+    bool isProfileActive(const QString profile);
+    bool isProfileEnabled(const QString profile);
 
 public slots:
     // functions
-    bool enableProfile(QString profile);
-    bool restartProfile(QString profile);
-    bool startProfile(QString profile);
+    bool enableProfile(const QString profile);
+    bool restartProfile(const QString profile);
+    bool startProfile(const QString profile);
 
 private:
     MainWindow *parent;

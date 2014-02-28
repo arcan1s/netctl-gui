@@ -89,7 +89,7 @@ void IpWidget::clear()
 }
 
 
-void IpWidget::setShown(bool state)
+void IpWidget::setShown(const bool state)
 {
     if (state)
         show();
@@ -168,7 +168,7 @@ void IpWidget::keyPressEvent(QKeyEvent *pressedKey)
 }
 
 
-QString IpWidget::getIp(QString rawIp)
+QString IpWidget::getIp(const QString rawIp)
 {
     QStringList ip = rawIp.split(QString("."));
 
@@ -190,7 +190,7 @@ QString IpWidget::getIp(QString rawIp)
 }
 
 
-QString IpWidget::getPrefix(QString rawPrefix)
+QString IpWidget::getPrefix(const QString rawPrefix)
 {
     QString prefix;
 
@@ -205,7 +205,7 @@ QString IpWidget::getPrefix(QString rawPrefix)
 }
 
 
-QString IpWidget::getIp6(QString rawIp)
+QString IpWidget::getIp6(const QString rawIp)
 {
     QString ip = rawIp;
 
@@ -216,7 +216,7 @@ QString IpWidget::getIp6(QString rawIp)
 }
 
 
-QString IpWidget::getPrefix6(QString rawPrefix)
+QString IpWidget::getPrefix6(const QString rawPrefix)
 {
     QString prefix;
 
@@ -300,7 +300,7 @@ void IpWidget::addDnsOpt()
 }
 
 
-void IpWidget::changeIpMode(QString currentText)
+void IpWidget::changeIpMode(const QString currentText)
 {
     if (currentText == QString("dhcp"))
         ui->widget_ip->setHidden(true);
@@ -309,7 +309,7 @@ void IpWidget::changeIpMode(QString currentText)
 }
 
 
-void IpWidget::ipEnable(int state)
+void IpWidget::ipEnable(const int state)
 {
     if (state == 0) {
         ui->comboBox_ip->setDisabled(true);
@@ -324,7 +324,7 @@ void IpWidget::ipEnable(int state)
 }
 
 
-void IpWidget::changeIp6Mode(QString currentText)
+void IpWidget::changeIp6Mode(const QString currentText)
 {
     if ((currentText == QString("dhcp")) ||
             (currentText == QString("dhcp-noaddr")))
@@ -335,7 +335,7 @@ void IpWidget::changeIp6Mode(QString currentText)
 }
 
 
-void IpWidget::ip6Enable(int state)
+void IpWidget::ip6Enable(const int state)
 {
     if (state == 0) {
         ui->comboBox_ip6->setDisabled(true);
@@ -350,7 +350,7 @@ void IpWidget::ip6Enable(int state)
 }
 
 
-void IpWidget::changeDhcpClient(QString currentText)
+void IpWidget::changeDhcpClient(const QString currentText)
 {
     if (currentText == QString("dhcpcd")) {
         ui->widget_dhcpcdOpt->setShown(true);

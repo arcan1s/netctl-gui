@@ -38,10 +38,10 @@ public:
 
 public slots:
     void clear();
-    void setShown(bool state);
+    void setShown(const bool state);
 
 private slots:
-    void changeMode(QString currentText);
+    void changeMode(const QString currentText);
     void selectOptionsFile();
     void showAdvanced();
 

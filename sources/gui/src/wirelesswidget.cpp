@@ -23,12 +23,12 @@
 #include <QKeyEvent>
 
 
-WirelessWidget::WirelessWidget(QWidget *parent, QString rfkillDir)
+WirelessWidget::WirelessWidget(QWidget *parent, QMap<QString, QString> settings)
     : QWidget(parent),
-      rfkillDirectory(new QDir(rfkillDir)),
       ui(new Ui::WirelessWidget)
 {
     ui->setupUi(this);
+    rfkillDirectory = new QDir(settings[QString("RFKILL_DIR")]);
     createActions();
     clear();
 }
@@ -83,7 +83,7 @@ void WirelessWidget::clear()
 }
 
 
-void WirelessWidget::setShown(bool state)
+void WirelessWidget::setShown(const bool state)
 {
     if (state)
         show();
@@ -150,7 +150,7 @@ void WirelessWidget::addOption()
 }
 
 
-void WirelessWidget::changeSecurity(QString currentText)
+void WirelessWidget::changeSecurity(const QString currentText)
 {
     if (currentText == QString("none")) {
         ui->widget_essid->setShown(true);

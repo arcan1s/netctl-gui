@@ -24,15 +24,21 @@
 #include "sleepthread.h"
 
 
-WpaSup::WpaSup(MainWindow *wid, QStringList wpaConfig, QString sudoPath, QString ifaceDir, QString preferedInterface)
-    : parent(wid),
-      wpaConf(wpaConfig),
-      sudoCommand(sudoPath),
-      ifaceDirectory(new QDir(ifaceDir)),
-      mainInterface(preferedInterface)
+WpaSup::WpaSup(MainWindow *wid, QMap<QString, QString> settings)
+    : parent(wid)
 {
+    ctrlDir = settings[QString("CTRL_DIR")];
+    ctrlGroup = settings[QString("CTRL_GROUP")];
+    ifaceDirectory = new QDir(settings[QString("IFACE_DIR")]);
+    mainInterface = settings[QString("PREFERED_IFACE")];
+    pidFile = settings[QString("PID_FILE")];
+    sudoCommand = settings[QString("SUDO_PATH")];
+    wpaCliPath = settings[QString("WPACLI_PATH")];
+    wpaDrivers = settings[QString("WPA_DRIVERS")];
+    wpaSupPath = settings[QString("WPASUP_PATH")];
+
     // terminate old loaded profile
-    if (QFile(wpaConf[2]).exists() || QDir(wpaConf[4]).exists())
+    if (QFile(pidFile).exists() || QDir(ctrlDir).exists())
         stopWpaSupplicant();
 }
 
@@ -62,12 +68,12 @@ QStringList WpaSup::getInterfaceList()
 
 
 // functions
-bool WpaSup::wpaCliCall(QString commandLine)
+bool WpaSup::wpaCliCall(const QString commandLine)
 {
     QString interface = getInterfaceList()[0];
     QProcess command;
-    command.start(wpaConf[0] + QString(" -i ") + interface + QString(" -p ") + wpaConf[4] +
-            QString(" -P ") + wpaConf[2] + QString(" ") + commandLine);
+    command.start(wpaCliPath + QString(" -i ") + interface + QString(" -p ") + ctrlDir +
+            QString(" -P ") + pidFile + QString(" ") + commandLine);
     command.waitForFinished(-1);
     SleepThread::sleep(1);
     if (command.exitCode() == 0)
@@ -77,18 +83,18 @@ bool WpaSup::wpaCliCall(QString commandLine)
 }
 
 
-QString WpaSup::getWpaCliOutput(QString commandLine)
+QString WpaSup::getWpaCliOutput(const QString commandLine)
 {
     QString interface = getInterfaceList()[0];
     QProcess command;
-    command.start(wpaConf[0] + QString(" -i ") + interface + QString(" -p ") + wpaConf[4] +
-            QString(" -P ") + wpaConf[2] + QString(" ") + commandLine);
+    command.start(wpaCliPath + QString(" -i ") + interface + QString(" -p ") + ctrlDir +
+            QString(" -P ") + pidFile + QString(" ") + commandLine);
     command.waitForFinished(-1);
     return command.readAllStandardOutput();
 }
 
 
-bool WpaSup::isProfileActive(QString profile)
+bool WpaSup::isProfileActive(const QString profile)
 {
     QString profileFile;
     QList<QStringList> profileList = parent->netctlCommand->getProfileList();
@@ -99,7 +105,7 @@ bool WpaSup::isProfileActive(QString profile)
 }
 
 
-bool WpaSup::isProfileExists(QString profile)
+bool WpaSup::isProfileExists(const QString profile)
 {
     bool exists = false;
     QList<QStringList> profileList = parent->netctlCommand->getProfileList();
@@ -110,7 +116,7 @@ bool WpaSup::isProfileExists(QString profile)
 }
 
 
-QString WpaSup::existentProfile(QString profile)
+QString WpaSup::existentProfile(const QString profile)
 {
     QString profileFile = QString("");
     QList<QStringList> profileList = parent->netctlCommand->getProfileList();
@@ -123,12 +129,12 @@ QString WpaSup::existentProfile(QString profile)
 
 bool WpaSup::startWpaSupplicant()
 {
-    if (!QFile(wpaConf[2]).exists()) {
+    if (!QFile(pidFile).exists()) {
         QString interface = getInterfaceList()[0];
         QProcess command;
-        command.start(sudoCommand + QString(" ") + wpaConf[1] + QString(" -B -P ") + wpaConf[2] +
-                QString(" -i ") + interface + QString(" -D ") + wpaConf[3] +
-                QString(" -C \"DIR=") + wpaConf[4] + QString(" GROUP=") + wpaConf[5]);
+        command.start(sudoCommand + QString(" ") + wpaSupPath + QString(" -B -P ") + pidFile +
+                QString(" -i ") + interface + QString(" -D ") + wpaDrivers +
+                QString(" -C \"DIR=") + ctrlDir + QString(" GROUP=") + ctrlGroup);
         command.waitForFinished(-1);
         SleepThread::sleep(1);
         if (command.exitCode() != 0)

@@ -18,8 +18,12 @@
 #ifndef SETTINGSWINDOW_H
 #define SETTINGSWINDOW_H
 
+#include <QKeyEvent>
 #include <QMainWindow>
+#include <QPushButton>
 
+
+class MainWindow;
 
 namespace Ui {
 class SettingsWindow;
@@ -30,11 +34,39 @@ class SettingsWindow : public QMainWindow
     Q_OBJECT
 
 public:
-    explicit SettingsWindow(QWidget *parent = 0);
+    explicit SettingsWindow(MainWindow *wid = 0,
+                            QString configFile = QString(""));
     ~SettingsWindow();
+    QMap<QString, QString> getDefault();
+    QMap<QString, QString> getSettings();
+
+public slots:
+    void setDefault();
+    void showWindow();
+
+private slots:
+    void saveSettings();
+    // buttons
+    void selectIfaceDir();
+    void selectNetctlPath();
+    void selectProfileDir();
+    void selectRfkillDir();
+    void selectSudoPath();
+    void selectWpaCliPath();
+    void selectWpaSupPath();
 
 private:
+    MainWindow *parent;
+    QString file;
     Ui::SettingsWindow *ui;
+    QPushButton *cancelButton;
+    QPushButton *defaultButton;
+    QPushButton *okButton;
+    void createActions();
+    // ESC pressed event
+    void keyPressEvent(QKeyEvent *pressedKey);
+    QMap<QString, QString> readSettings();
+    void setSettings(QMap<QString, QString> settings);
 };
 
 

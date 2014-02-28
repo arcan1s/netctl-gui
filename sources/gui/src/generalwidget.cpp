@@ -21,14 +21,14 @@
 #include <QKeyEvent>
 
 
-GeneralWidget::GeneralWidget(QWidget *parent, QString ifaceDir, QString profileDir)
+GeneralWidget::GeneralWidget(QWidget *parent, QMap<QString, QString> settings)
     : QWidget(parent),
-      ifaceDirectory(new QDir(ifaceDir)),
-      profileDirectory(new QDir(profileDir)),
       ui(new Ui::GeneralWidget)
 {
     ui->setupUi(this);
     connectionType = ui->comboBox_connection;
+    ifaceDirectory = new QDir(settings[QString("IFACE_DIR")]);
+    profileDirectory = new QDir(settings[QString("PROFILE_DIR")]);
     createActions();
     clear();
 }
@@ -66,7 +66,7 @@ void GeneralWidget::clear()
 }
 
 
-void GeneralWidget::setShown(bool state)
+void GeneralWidget::setShown(const bool state)
 {
     if (state)
         show();

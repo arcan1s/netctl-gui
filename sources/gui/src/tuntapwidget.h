@@ -38,7 +38,7 @@ public:
 
 public slots:
     void clear();
-    void setShown(bool state);
+    void setShown(const bool state);
 
 private:
     Ui::TuntapWidget *ui;

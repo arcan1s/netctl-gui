@@ -26,12 +26,11 @@
 #include <cstdio>
 
 
-NetctlProfile::NetctlProfile(MainWindow *wid, QString profileDir, QString sudoPath)
-    : parent(wid),
-      profileDirectory(new QDir(profileDir)),
-      sudoCommand(sudoPath)
+NetctlProfile::NetctlProfile(MainWindow *wid, QMap<QString, QString> settings)
+    : parent(wid)
 {
-
+    profileDirectory = new QDir(settings[QString("PROFILE_DIR")]);
+    sudoCommand = settings[QString("SUDO_PATH")];
 }
 
 
@@ -41,7 +40,7 @@ NetctlProfile::~NetctlProfile()
 }
 
 
-bool NetctlProfile::copyProfile(QString oldPath)
+bool NetctlProfile::copyProfile(const QString oldPath)
 {
     QString newPath = profileDirectory->absolutePath() + QDir::separator() + QFileInfo(oldPath).fileName();
     QProcess command;
@@ -54,7 +53,7 @@ bool NetctlProfile::copyProfile(QString oldPath)
 }
 
 
-QString NetctlProfile::createProfile(QString profile, QMap<QString, QString> settings)
+QString NetctlProfile::createProfile(const QString profile, const QMap<QString, QString> settings)
 {
 
     QString profileTempName = QDir::homePath() + QDir::separator() +
@@ -88,7 +87,7 @@ QString NetctlProfile::createProfile(QString profile, QMap<QString, QString> set
 }
 
 
-QMap<QString, QString> NetctlProfile::getSettingsFromProfile(QString profile)
+QMap<QString, QString> NetctlProfile::getSettingsFromProfile(const QString profile)
 {
     QMap<QString, QString> settings;
     QFile profileFile;

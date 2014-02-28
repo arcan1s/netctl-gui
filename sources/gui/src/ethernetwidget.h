@@ -39,12 +39,12 @@ public:
 
 public slots:
     void clear();
-    void setShown(bool state);
+    void setShown(const bool state);
 
 private slots:
     void selectWpaConfig();
     void showAdvanced();
-    void showWpa(int state);
+    void showWpa(const int state);
 
 private:
     Ui::EthernetWidget *ui;

@@ -34,8 +34,7 @@ class GeneralWidget : public QWidget
 
 public:
     explicit GeneralWidget(QWidget *parent = 0,
-                           QString ifaceDir = QString(""),
-                           QString profileDir = QString(""));
+                           QMap<QString, QString> settings = QMap<QString, QString>());
     ~GeneralWidget();
     QComboBox *connectionType;
     QMap<QString, QString> getSettings();
@@ -44,7 +43,7 @@ public:
 
 public slots:
     void clear();
-    void setShown(bool state);
+    void setShown(const bool state);
 
 private slots:
     void addAfter();

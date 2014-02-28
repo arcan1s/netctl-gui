@@ -19,6 +19,7 @@
 #define NETCTLPROFILE_H
 
 #include <QDir>
+#include <QMap>
 #include <QObject>
 
 
@@ -30,12 +31,11 @@ class NetctlProfile : public QObject
 
 public:
     explicit NetctlProfile(MainWindow *wid = 0,
-                           QString profileDir = QString(""),
-                           QString sudoPath = QString(""));
+                           QMap<QString, QString> settings = QMap<QString, QString>());
     ~NetctlProfile();
-    bool copyProfile(QString oldPath);
-    QString createProfile(QString profile, QMap<QString, QString> settings);
-    QMap<QString, QString> getSettingsFromProfile(QString profile);
+    bool copyProfile(const QString oldPath);
+    QString createProfile(const QString profile, const QMap<QString, QString> settings);
+    QMap<QString, QString> getSettingsFromProfile(const QString profile);
 
 private:
     MainWindow *parent;

@@ -38,7 +38,7 @@ public:
 
 public slots:
     void clear();
-    void setShown(bool state);
+    void setShown(const bool state);
 
 private slots:
     // buttons
@@ -50,13 +50,13 @@ private slots:
     void addDns();
     void addDnsOpt();
     // ip mode
-    void changeIpMode(QString currentText);
-    void ipEnable(int state);
+    void changeIpMode(const QString currentText);
+    void ipEnable(const int state);
     // ipv6 mode
-    void changeIp6Mode(QString currentText);
+    void changeIp6Mode(const QString currentText);
     void ip6Enable(int state);
     // dhcp client
-    void changeDhcpClient(QString currentText);
+    void changeDhcpClient(const QString currentText);
     void showAdvanced();
 
 private:
@@ -64,10 +64,10 @@ private:
     void createActions();
     void createFilter();
     void keyPressEvent(QKeyEvent *pressedKey);
-    QString getIp(QString rawIp);
-    QString getPrefix(QString rawPrefix);
-    QString getIp6(QString rawIp);
-    QString getPrefix6(QString rawPrefix);
+    QString getIp(const QString rawIp);
+    QString getPrefix(const QString rawPrefix);
+    QString getIp6(const QString rawIp);
+    QString getPrefix6(const QString rawPrefix);
 };
 
 

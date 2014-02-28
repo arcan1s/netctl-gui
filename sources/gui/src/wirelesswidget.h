@@ -19,6 +19,7 @@
 #define WIRELESSWIDGET_H
 
 #include <QDir>
+#include <QMap>
 #include <QWidget>
 
 
@@ -32,7 +33,7 @@ class WirelessWidget : public QWidget
 
 public:
     explicit WirelessWidget(QWidget *parent = 0,
-                            QString rfkillDir = QString(""));
+                            QMap<QString, QString> settings = QMap<QString, QString>());
     ~WirelessWidget();
     QMap<QString, QString> getSettings();
     int isOk();
@@ -40,13 +41,13 @@ public:
 
 public slots:
     void clear();
-    void setShown(bool state);
+    void setShown(const bool state);
 
 private slots:
     void addDriver();
     void addFreq();
     void addOption();
-    void changeSecurity(QString currentText);
+    void changeSecurity(const QString currentText);
     void showAdvanced();
     void selectWpaConfig();
 

@@ -56,7 +56,7 @@ void MobileWidget::clear()
 }
 
 
-void MobileWidget::setShown(bool state)
+void MobileWidget::setShown(const bool state)
 {
     if (state)
         show();
