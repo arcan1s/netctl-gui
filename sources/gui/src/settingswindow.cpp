@@ -25,7 +25,7 @@
 #include "mainwindow.h"
 
 
-SettingsWindow::SettingsWindow(MainWindow *wid, QString configFile)
+SettingsWindow::SettingsWindow(MainWindow *wid, const QString configFile)
     : QMainWindow(wid),
       parent(wid),
       file(configFile),

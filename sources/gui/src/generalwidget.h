@@ -34,7 +34,7 @@ class GeneralWidget : public QWidget
 
 public:
     explicit GeneralWidget(QWidget *parent = 0,
-                           QMap<QString, QString> settings = QMap<QString, QString>());
+                           const QMap<QString, QString> settings = QMap<QString, QString>());
     ~GeneralWidget();
     QComboBox *connectionType;
     QMap<QString, QString> getSettings();

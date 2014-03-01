@@ -51,7 +51,7 @@ class MainWindow : public QMainWindow
 public:
     explicit MainWindow(QWidget *parent = 0,
                         const bool defaultSettings = false,
-                        const int tabNum = 0);
+                        const int tabNum = 1);
     ~MainWindow();
     Netctl *netctlCommand;
     NetctlProfile *netctlProfile;

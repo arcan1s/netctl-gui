@@ -25,7 +25,7 @@
 #include "mainwindow.h"
 
 
-NetctlProfile::NetctlProfile(MainWindow *wid, QMap<QString, QString> settings)
+NetctlProfile::NetctlProfile(MainWindow *wid, const QMap<QString, QString> settings)
     : parent(wid)
 {
     profileDirectory = new QDir(settings[QString("PROFILE_DIR")]);

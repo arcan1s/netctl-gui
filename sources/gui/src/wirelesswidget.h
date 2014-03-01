@@ -33,7 +33,7 @@ class WirelessWidget : public QWidget
 
 public:
     explicit WirelessWidget(QWidget *parent = 0,
-                            QMap<QString, QString> settings = QMap<QString, QString>());
+                            const QMap<QString, QString> settings = QMap<QString, QString>());
     ~WirelessWidget();
     QMap<QString, QString> getSettings();
     int isOk();

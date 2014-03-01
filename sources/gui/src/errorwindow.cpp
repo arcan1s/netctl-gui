@@ -19,7 +19,7 @@
 #include "ui_errorwindow.h"
 
 
-ErrorWindow::ErrorWindow(QWidget *parent, int messageNumber)
+ErrorWindow::ErrorWindow(QWidget *parent, const int messageNumber)
     : QMainWindow(parent),
       ui(new Ui::ErrorWindow)
 {

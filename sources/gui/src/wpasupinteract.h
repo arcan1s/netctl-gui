@@ -31,7 +31,7 @@ class WpaSup : public QObject
 
 public:
     explicit WpaSup(MainWindow *wid = 0,
-                    QMap<QString, QString> settings = QMap<QString, QString>());
+                    const QMap<QString, QString> settings = QMap<QString, QString>());
     ~WpaSup();
     // general information
     QStringList getInterfaceList();

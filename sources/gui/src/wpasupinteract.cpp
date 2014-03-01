@@ -24,7 +24,7 @@
 #include "sleepthread.h"
 
 
-WpaSup::WpaSup(MainWindow *wid, QMap<QString, QString> settings)
+WpaSup::WpaSup(MainWindow *wid, const QMap<QString, QString> settings)
     : parent(wid)
 {
     ctrlDir = settings[QString("CTRL_DIR")];

@@ -31,7 +31,7 @@ class Netctl : public QObject
 
 public:
     explicit Netctl(MainWindow *wid = 0,
-                    QMap<QString, QString> settings = QMap<QString, QString>());
+                    const QMap<QString, QString> settings = QMap<QString, QString>());
     ~Netctl();
     // general information
     QList<QStringList> getProfileList();

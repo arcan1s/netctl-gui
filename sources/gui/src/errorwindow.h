@@ -31,7 +31,7 @@ class ErrorWindow : public QMainWindow
 
 public:
     explicit ErrorWindow(QWidget *parent = 0,
-                         int messageNumber = 0);
+                         const int messageNumber = 0);
     ~ErrorWindow();
 
 private:

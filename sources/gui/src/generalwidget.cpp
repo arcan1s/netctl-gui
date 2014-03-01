@@ -21,7 +21,7 @@
 #include <QKeyEvent>
 
 
-GeneralWidget::GeneralWidget(QWidget *parent, QMap<QString, QString> settings)
+GeneralWidget::GeneralWidget(QWidget *parent, const QMap<QString, QString> settings)
     : QWidget(parent),
       ui(new Ui::GeneralWidget)
 {

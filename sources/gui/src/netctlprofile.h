@@ -31,7 +31,7 @@ class NetctlProfile : public QObject
 
 public:
     explicit NetctlProfile(MainWindow *wid = 0,
-                           QMap<QString, QString> settings = QMap<QString, QString>());
+                           const QMap<QString, QString> settings = QMap<QString, QString>());
     ~NetctlProfile();
     bool copyProfile(const QString oldPath);
     QString createProfile(const QString profile, const QMap<QString, QString> settings);

@@ -34,7 +34,7 @@ class SettingsWindow : public QMainWindow
 
 public:
     explicit SettingsWindow(MainWindow *wid = 0,
-                            QString configFile = QString(""));
+                            const QString configFile = QString(""));
     ~SettingsWindow();
     QMap<QString, QString> getDefault();
     QMap<QString, QString> getSettings();

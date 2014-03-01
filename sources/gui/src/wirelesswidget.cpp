@@ -23,7 +23,7 @@
 #include <QKeyEvent>
 
 
-WirelessWidget::WirelessWidget(QWidget *parent, QMap<QString, QString> settings)
+WirelessWidget::WirelessWidget(QWidget *parent, const QMap<QString, QString> settings)
     : QWidget(parent),
       ui(new Ui::WirelessWidget)
 {

@@ -23,7 +23,7 @@
 #include "mainwindow.h"
 
 
-Netctl::Netctl(MainWindow *wid, QMap<QString, QString> settings)
+Netctl::Netctl(MainWindow *wid, const QMap<QString, QString> settings)
     : parent(wid)
 {
     netctlCommand = settings[QString("NETCTL_PATH")];
