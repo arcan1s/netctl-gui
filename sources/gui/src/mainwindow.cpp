@@ -200,7 +200,8 @@ void MainWindow::updateMainTab()
     ui->tableWidget_main->setRowCount(profiles.count());
 
     // create header
-    ui->tableWidget_main->setHorizontalHeaderLabels(QString("Name Description Status").split(QString(" ")));
+    ui->tableWidget_main->setHorizontalHeaderLabels(QApplication::translate("MainWindow", "Name Description Status")
+                                                    .split(QString(" ")));
     // create items
     for (int i=0; i<profiles.count(); i++) {
         // name
@@ -251,7 +252,8 @@ void MainWindow::updateWifiTab()
     ui->tableWidget_wifi->setRowCount(scanResults.count());
 
     // create header
-    ui->tableWidget_wifi->setHorizontalHeaderLabels(QString("Name Status Signal Security").split(QString(" ")));
+    ui->tableWidget_wifi->setHorizontalHeaderLabels(QApplication::translate("MainWindow", "Name Status Signal Security")
+                                                    .split(QString(" ")));
     // create items
     for (int i=0; i<scanResults.count(); i++) {
         // name

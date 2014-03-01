@@ -299,11 +299,7 @@
                 </widget>
                </item>
                <item>
-                <widget class="QLineEdit" name="lineEdit_ipRoutes">
-                 <property name="toolTip">
-                  <string>An array of custom routes</string>
-                 </property>
-                </widget>
+                <widget class="QLineEdit" name="lineEdit_ipRoutes"/>
                </item>
               </layout>
              </item>
@@ -359,7 +355,7 @@
                 </size>
                </property>
                <property name="toolTip">
-                <string>An array of physical network interfaces that this profile needs before it can be started</string>
+                <string>An array of custom routes</string>
                </property>
               </widget>
              </item>
@@ -385,11 +381,7 @@
                 </widget>
                </item>
                <item>
-                <widget class="QLineEdit" name="lineEdit_ipRoutes6">
-                 <property name="toolTip">
-                  <string>An array of custom routes</string>
-                 </property>
-                </widget>
+                <widget class="QLineEdit" name="lineEdit_ipRoutes6"/>
                </item>
               </layout>
              </item>
@@ -445,7 +437,7 @@
                 </size>
                </property>
                <property name="toolTip">
-                <string>An array of physical network interfaces that this profile needs before it can be started</string>
+                <string>An array of custom routes</string>
                </property>
               </widget>
              </item>
@@ -532,7 +524,7 @@
             <item>
              <widget class="QSpinBox" name="spinBox_timeoutDad">
               <property name="toolTip">
-               <string>Set to ‘yes’ to release the DHCP lease when the profile is stopped</string>
+               <string>Maximum time, in seconds, to wait for IPv6’s Duplicate Address Detection to succeed</string>
               </property>
               <property name="minimum">
                <number>1</number>
