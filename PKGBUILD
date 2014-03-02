@@ -18,21 +18,18 @@ optdepends=('kdebase-runtime: sudo support'
             'wpa_supplicant: wifi support')
 source=("https://github.com/arcan1s/netctlplasmoid/releases/download/V.${pkgver}/${pkgname}-${pkgver}-src.tar.xz")
 install="${pkgname}.install"
-md5sums=('5e7573643d528f770fca2dc3e2122e69')
+md5sums=('866d6b7b819a43f1661ef133f3b255da')
 
 # flags
 _cmakekeys="-DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_BUILD_TYPE=Release"
 [[ ${_build_gui} == 0 ]] && _cmakekeys=${_cmakekeys}" -DBUILD_GUI:BOOL=0"
 [[ ${_build_plasmoid} == 0 ]] && _cmakekeys=${_cmakekeys}" -DBUILD_DATAENGINE:BOOL=0 -DBUILD_PLASMOID:BOOL=0" || depends[1]='kdebase-workspace'
 
-prepare() {
+build() {
   rm -rf "${srcdir}/build"
   mkdir "${srcdir}/build"
-}
-
-build () {
   cd "${srcdir}/build"
-  cmake ${_cmakekeys} ../${pkgname}
+  cmake ${_cmakekeys} "../${pkgname}"
   make
 }
 

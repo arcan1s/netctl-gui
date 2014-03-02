@@ -27,6 +27,7 @@
 
 #include <ui_configwindow.h>
 
+
 class QGraphicsLinearLayout;
 
 class Netctl : public Plasma::Applet
@@ -96,7 +97,7 @@ private:
     void connectToEngine();
     void disconnectFromEngine();
     // notification
-
+    //
     // configuration interface
     Ui::ConfigWindow uiConfig;
     // configuration
@@ -119,5 +120,6 @@ private:
 };
 
 K_EXPORT_PLASMA_APPLET(netctl, Netctl)
+
 
 #endif /* NETCTL_PLASMOID_H */

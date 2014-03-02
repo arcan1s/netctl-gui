@@ -20,6 +20,7 @@
 
 #include <Plasma/DataEngine>
 
+
 class Netctl : public Plasma::DataEngine
 {
     Q_OBJECT
@@ -33,6 +34,7 @@ protected:
     bool updateSourceEvent(const QString &source);
     QStringList sources() const;
 
+private:
     // configuration
     // enable check external IP
     QString checkExtIP;
@@ -45,5 +47,6 @@ protected:
     // path to directory with network device configuration
     QString netDir;
 };
+
 
 #endif /* NETCTL_DE_H */

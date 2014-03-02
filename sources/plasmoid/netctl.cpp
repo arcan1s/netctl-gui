@@ -17,7 +17,6 @@
 
 #include "netctl.h"
 #include "ui_configwindow.h"
-#include <version.h>
 
 #include <KConfigDialog>
 #include <KFileDialog>
@@ -27,11 +26,12 @@
 
 #include <QGraphicsLinearLayout>
 #include <QMenu>
-#include <cstdio>
+
+#include <version.h>
 
 
-Netctl::Netctl(QObject *parent, const QVariantList &args) :
-    Plasma::Applet(parent, args)
+Netctl::Netctl(QObject *parent, const QVariantList &args)
+    : Plasma::Applet(parent, args)
 {
     setBackgroundHints(DefaultBackground);
     setHasConfigurationInterface(true);
@@ -463,8 +463,8 @@ void Netctl::configChanged()
     fontColor = cg.readEntry("fontColor", "#000000");
     fontWeight = cg.readEntry("fontWeight", 400);
     fontStyle = cg.readEntry("fontStyle", "normal");
-    activeIconPath = cg.readEntry("activeIconPath", "/usr/share/icons/hicolor/64x64/apps/network-idle.png");
-    inactiveIconPath = cg.readEntry("inactiveIconPath", "/usr/share/icons/hicolor/64x64/apps/network-offline.png");
+    activeIconPath = cg.readEntry("activeIconPath", "/usr/share/icons/hicolor/64x64/apps/netctl-idle.png");
+    inactiveIconPath = cg.readEntry("inactiveIconPath", "/usr/share/icons/hicolor/64x64/apps/netctl-offline.png");
 
     formatLine[0] = ("<p align=\"center\"><span style=\" font-family:'" + fontFamily + \
                      "'; font-style:" + fontStyle + \

@@ -71,9 +71,7 @@ bool Netctl::readConfiguration()
 
     while (true) {
         fileStr = QString(confFile.readLine());
-        if (confFile.atEnd())
-            break;
-        else if (fileStr[0] != '#') {
+        if (fileStr[0] != '#') {
             if (fileStr.split(QString("="), QString::SkipEmptyParts).count() == 2) {
                 if (fileStr.split(QString("="), QString::SkipEmptyParts)[0] == QString("EXTIP"))
                     checkExtIP = fileStr.split(QString("="), QString::SkipEmptyParts)[1].split(QString("\n"), QString::SkipEmptyParts)[0];
@@ -87,6 +85,8 @@ bool Netctl::readConfiguration()
                     netDir = fileStr.split(QString("="), QString::SkipEmptyParts)[1].split(QString("\n"), QString::SkipEmptyParts)[0];
             }
         }
+        if (confFile.atEnd())
+            break;
     }
 
     confFile.close();
