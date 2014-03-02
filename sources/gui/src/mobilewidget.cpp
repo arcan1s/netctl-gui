@@ -115,7 +115,7 @@ QMap<QString, QString> MobileWidget::getSettings()
         mobileSettings[QString("PIN")] = QString("None");
     mobileSettings[QString("Mode")] = ui->comboBox_mode->currentText();
     if (ui->spinBox_fail->value() != 5)
-        mobileSettings[QString("MaxFail")] = QString(ui->spinBox_fail->value());
+        mobileSettings[QString("MaxFail")] = QString::number(ui->spinBox_fail->value());
     if (ui->checkBox_route->checkState() == Qt::Unchecked)
         mobileSettings[QString("DefaultRoute")] = QString("false");
     if (ui->checkBox_dns->checkState() == Qt::Unchecked)

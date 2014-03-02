@@ -133,7 +133,7 @@ void WirelessWidget::addDriver()
 
 void WirelessWidget::addFreq()
 {
-    QString freq = QString(ui->spinBox_freq->value());
+    QString freq = QString::number(ui->spinBox_freq->value());
     bool exists = false;
     for (int i=0; i<ui->listWidget_freq->count(); i++)
         if (ui->listWidget_freq->item(i)->text() == freq)
@@ -214,8 +214,13 @@ QMap<QString, QString> WirelessWidget::getSettings()
 
     wirelessSettings[QString("Security")] = ui->comboBox_security->currentText();
     wirelessSettings[QString("ESSID")] = QString("'") + ui->lineEdit_essid->text() + QString("'");
-    if ((ui->comboBox_security->currentText() == QString("wep")) ||
-            (ui->comboBox_security->currentText() == QString("wpa")))
+    if (ui->comboBox_security->currentText() == QString("wep")) {
+        if (ui->lineEdit_key->text().indexOf(QString("\\\"")) == 0)
+            wirelessSettings[QString("Key")] = ui->lineEdit_key->text();
+        else
+            wirelessSettings[QString("Key")] = QString("'") + ui->lineEdit_key->text() + QString("'");
+    }
+    else if (ui->comboBox_security->currentText() == QString("wpa"))
         wirelessSettings[QString("Key")] = QString("'") + ui->lineEdit_key->text() + QString("'");
     if (ui->comboBox_security->currentText() == QString("wpa-configsection")) {
         QStringList section;
@@ -236,7 +241,7 @@ QMap<QString, QString> WirelessWidget::getSettings()
         wirelessSettings[QString("ScanFrequencies")] = freqs.join(QString(" "));
     }
     if (ui->spinBox_priority->value() != 0)
-        wirelessSettings[QString("Priority")] = QString(ui->spinBox_priority->value());
+        wirelessSettings[QString("Priority")] = QString::number(ui->spinBox_priority->value());
     if (!ui->lineEdit_country->text().isEmpty())
         wirelessSettings[QString("Country")] = QString("'") + ui->lineEdit_country->text() + QString("'");
     if (ui->lineEdit_wpaGroup->text() != QString("wheel"))
@@ -250,7 +255,7 @@ QMap<QString, QString> WirelessWidget::getSettings()
     if (ui->comboBox_rfkill->currentText() != QString("auto"))
         wirelessSettings[QString("RFKill")] = ui->comboBox_rfkill->currentText();
     if (ui->spinBox_timeoutWpa->value() != 15)
-        wirelessSettings[QString("TimeoutWPA")] = QString(ui->spinBox_timeoutWpa->value());
+        wirelessSettings[QString("TimeoutWPA")] = QString::number(ui->spinBox_timeoutWpa->value());
     if (ui->checkBox_exclude->checkState() == Qt::Checked)
         wirelessSettings[QString("ExcludeAuto")] = QString("yes");
 
@@ -301,8 +306,15 @@ void WirelessWidget::setSettings(const QMap<QString, QString> settings)
         ui->lineEdit_essid->setText(wirelessSettings[QString("ESSID")].remove(QString("'")));
     if (wirelessSettings.contains(QString("Key")))
         ui->lineEdit_key->setText(wirelessSettings[QString("Key")].remove(QString("'")));
-    if (wirelessSettings.contains(QString("WPAConfigSection")))
-        ui->listWidget_wpaConfigSection->addItems(wirelessSettings[QString("WPAConfigSection")].split(QString("\n")));
+    if (wirelessSettings.contains(QString("WPAConfigSection")))  {
+        QStringList custom;
+        if (wirelessSettings[QString("WPAConfigSection")].contains(QString("\n")))
+            custom = wirelessSettings[QString("WPAConfigSection")].split(QString("'\n'"));
+        else
+            custom = wirelessSettings[QString("WPAConfigSection")].split(QString("' '"));
+        for (int i=0; i<custom.count(); i++)
+            ui->listWidget_wpaConfigSection->addItem(custom[i].remove(QString("'")));
+    }
     if (wirelessSettings.contains(QString("WPAConfigFile")))
         ui->lineEdit_wpaConfig->setText(wirelessSettings[QString("WPAConfigFile")].remove(QString("'")));
     if (wirelessSettings.contains(QString("Hidden")))

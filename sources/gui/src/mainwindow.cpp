@@ -125,6 +125,7 @@ bool MainWindow::checkExternalApps(const QString apps = QString("all"))
         commandLine.append(configuration[QString("WPASUP_PATH")]);
     }
     QProcess command;
+    qDebug() << "[MainWindow]" << "[checkExternalApps]" << ":" << "Run cmd" << commandLine.join(QString(" "));
     command.start(commandLine.join(QString(" ")));
     command.waitForFinished(-1);
     qDebug() << "[MainWindow]" << "[checkExternalApps]" << ":" << "Cmd returns" << command.exitCode();
@@ -137,7 +138,7 @@ bool MainWindow::checkExternalApps(const QString apps = QString("all"))
 
 bool MainWindow::checkState(const QString state, const QString item)
 {
-    if (item.indexOf(state) > -1)
+    if (item.contains(state))
         return true;
     else
         return false;
@@ -306,7 +307,8 @@ void MainWindow::mainTabEnableProfile()
     ui->tabWidget->setDisabled(true);
     QString profile = ui->tableWidget_main->item(ui->tableWidget_main->currentItem()->row(), 0)->text();
     netctlCommand->enableProfile(profile);
-    if (ui->tableWidget_main->item(ui->tableWidget_main->currentItem()->row(), 2)->text().indexOf(QString("enabled")) > -1) {
+    QString item = ui->tableWidget_main->item(ui->tableWidget_main->currentItem()->row(), 2)->text();
+    if (checkState(QString("enabled"), item)) {
         if (netctlCommand->isProfileEnabled(profile))
             ui->statusBar->showMessage(QApplication::translate("MainWindow", "Error"));
         else
@@ -358,7 +360,8 @@ void MainWindow::mainTabStartProfile()
     ui->tabWidget->setDisabled(true);
     QString profile = ui->tableWidget_main->item(ui->tableWidget_main->currentItem()->row(), 0)->text();
     netctlCommand->startProfile(profile);
-    if (ui->tableWidget_main->item(ui->tableWidget_main->currentItem()->row(), 2)->text().indexOf(QString("inactive")) == -1) {
+    QString item = ui->tableWidget_main->item(ui->tableWidget_main->currentItem()->row(), 2)->text();
+    if (checkState(QString("inactive"), item)) {
         if (netctlCommand->isProfileActive(profile))
             ui->statusBar->showMessage(QApplication::translate("MainWindow", "Error"));
         else
@@ -894,7 +897,8 @@ void MainWindow::wifiTabStart()
     if (checkState(QString("exists"), item)) {
         QString profileName = wpaCommand->existentProfile(profile);
         netctlCommand->startProfile(profileName);
-        if (ui->tableWidget_wifi->item(ui->tableWidget_wifi->currentItem()->row(), 1)->text().indexOf(QString("inactive")) == -1) {
+        item = ui->tableWidget_wifi->item(ui->tableWidget_wifi->currentItem()->row(), 1)->text();
+        if (checkState(QString("inactive"), item)) {
             if (netctlCommand->isProfileActive(profileName))
                 ui->statusBar->showMessage(QApplication::translate("MainWindow", "Error"));
             else

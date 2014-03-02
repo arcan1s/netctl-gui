@@ -56,7 +56,7 @@ QMap<QString, QString> VlanWidget::getSettings()
     if (isOk() != 0)
         return vlanSettings;
 
-    vlanSettings[QString("VLANID")] = QString(ui->spinBox_vlan->value());
+    vlanSettings[QString("VLANID")] = QString::number(ui->spinBox_vlan->value());
 
     return vlanSettings;
 }

@@ -21,15 +21,11 @@
 #include <QThread>
 
 
-// class for sleeping function
 class SleepThread : public QThread
 {
     Q_OBJECT
-    // private run
-    void run()
-    {}
 
-public :
+public:
     static void usleep(long iSleepTime)
     {
         QThread::usleep(iSleepTime);
@@ -45,5 +41,6 @@ public :
         QThread::msleep(iSleepTime);
     }
 };
+
 
 #endif /* SLEEPTHREAD_H */

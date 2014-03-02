@@ -18,6 +18,7 @@
 #include "ipwidget.h"
 #include "ui_ipwidget.h"
 
+#include <QDebug>
 #include <QKeyEvent>
 
 
@@ -390,7 +391,7 @@ QMap<QString, QString> IpWidget::getSettings()
             for (int i=0; i<ui->listWidget_ipAddress->count(); i++)
                 addresses.append(QString("'") + ui->listWidget_ipAddress->item(i)->text() + QString("'"));
             ipSettings[QString("Address")] = addresses.join(QString(" "));
-            ipSettings[QString("Gateway")] = ui->lineEdit_gateway->text();
+            ipSettings[QString("Gateway")] = QString("'") + ui->lineEdit_gateway->text() + QString("'");
         }
         if (ui->listWidget_ipRoutes->count() > 0) {
             QStringList routes;
@@ -409,7 +410,7 @@ QMap<QString, QString> IpWidget::getSettings()
             for (int i=0; i<ui->listWidget_ipAddress6->count(); i++)
                 addresses.append(QString("'") + ui->listWidget_ipAddress6->item(i)->text() + QString("'"));
             ipSettings[QString("Address6")] = addresses.join(QString(" "));
-            ipSettings[QString("Gateway6")] = ui->lineEdit_gateway6->text();
+            ipSettings[QString("Gateway6")] = QString("'") + ui->lineEdit_gateway6->text() + QString("'");
         }
         if (ui->listWidget_ipRoutes6->count() > 0) {
             QStringList routes;
@@ -429,7 +430,7 @@ QMap<QString, QString> IpWidget::getSettings()
     if (!ui->lineEdit_hostname->text().isEmpty())
         ipSettings[QString("Hostname")] = QString("'") + ui->lineEdit_hostname->text() + QString("'");
     if (ui->spinBox_timeoutDad->value() != 3)
-        ipSettings[QString("TimeoutDAD")] = QString(ui->spinBox_timeoutDad->value());
+        ipSettings[QString("TimeoutDAD")] = QString::number(ui->spinBox_timeoutDad->value());
     if (ui->comboBox_dhcp->currentText() == QString("dhcpcd")) {
         if (!ui->lineEdit_dhcpcdOpt->text().isEmpty())
             ipSettings[QString("DhcpcdOptions")] = QString("'") + ui->lineEdit_dhcpcdOpt->text() + QString("'");
@@ -442,7 +443,7 @@ QMap<QString, QString> IpWidget::getSettings()
             ipSettings[QString("DhclientOptions6")] = QString("'") + ui->lineEdit_dhclientOpt6->text() + QString("'");
     }
     if (ui->spinBox_timeoutDhcp->value() != 30)
-        ipSettings[QString("TimeoutDHCP")] = QString(ui->spinBox_timeoutDhcp->value());
+        ipSettings[QString("TimeoutDHCP")] = QString::number(ui->spinBox_timeoutDhcp->value());
     if (ui->checkBox_dhcp->checkState() == Qt::Checked)
         ipSettings[QString("DHCPReleaseOnStop")] = QString("yes");
     if (ui->listWidget_dns->count() > 0) {
@@ -522,8 +523,15 @@ void IpWidget::setSettings(const QMap<QString, QString> settings)
         ui->lineEdit_gateway6->setText(ipSettings[QString("Gateway6")].remove(QString("'")));
     if (ipSettings.contains(QString("Routes6")))
         ui->listWidget_ipRoutes6->addItems(ipSettings[QString("Routes6")].remove(QString("'")).split(QString(" ")));
-    if (ipSettings.contains(QString("IPCustom")))
-        ui->listWidget_custom->addItems(ipSettings[QString("IPCustom")].remove(QString("'")).split(QString(" ")));
+    if (ipSettings.contains(QString("IPCustom"))) {
+        QStringList custom;
+        if (ipSettings[QString("IPCustom")].contains(QString("\n")))
+            custom = ipSettings[QString("IPCustom")].split(QString("'\n'"));
+        else
+            custom = ipSettings[QString("IPCustom")].split(QString("' '"));
+        for (int i=0; i<custom.count(); i++)
+            ui->listWidget_custom->addItem(custom[i].remove(QString("'")));
+    }
     if (ipSettings.contains(QString("Hostname")))
         ui->lineEdit_hostname->setText(ipSettings[QString("Hostname")].remove(QString("'")));
     if (ipSettings.contains(QString("TimeoutDAD")))

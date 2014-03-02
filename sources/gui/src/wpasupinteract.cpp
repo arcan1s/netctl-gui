@@ -187,11 +187,11 @@ QList<QStringList> WpaSup::scanWifi()
         wifiPoint.append(rawList[i].split(QString("\t"), QString::SkipEmptyParts)[2]);
         // point security
         QString security = rawList[i].split(QString("\t"), QString::SkipEmptyParts)[3];
-        if (security.indexOf(QString("WPA2")) > -1)
+        if (security.contains(QString("WPA2")))
             security = QString("WPA2");
-        else if (security.indexOf(QString("WPA")) > -1)
+        else if (security.contains(QString("WPA")))
             security = QString("WPA");
-        else if (security.indexOf(QString("WEP")) > -1)
+        else if (security.contains(QString("WEP")))
             security = QString("WEP");
         else
             security = QString("none");

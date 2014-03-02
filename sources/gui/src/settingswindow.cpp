@@ -275,7 +275,7 @@ QMap<QString, QString> SettingsWindow::getSettings()
     while (true) {
         fileStr = QString(configFile.readLine());
         if (fileStr[0] != '#') {
-            if (fileStr.indexOf(QString("=")) > -1)
+            if (fileStr.contains(QString("=")))
                 settings[fileStr.split(QString("="))[0]] = fileStr.split(QString("="))[1]
                         .remove(QString(" "))
                         .trimmed();

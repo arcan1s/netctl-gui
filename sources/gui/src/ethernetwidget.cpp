@@ -120,9 +120,9 @@ QMap<QString, QString> EthernetWidget::getSettings()
         ethernetSettings[QString("WPADriver")] = ui->comboBox_driver->currentText();
     }
     if (ui->spinBox_timeoutCarrier->value() != 5)
-        ethernetSettings[QString("TimeoutCarrier")] = QString(ui->spinBox_timeoutCarrier->value());
+        ethernetSettings[QString("TimeoutCarrier")] = QString::number(ui->spinBox_timeoutCarrier->value());
     if (ui->spinBox_timeoutWpa->value() != 15)
-        ethernetSettings[QString("TimeoutWPA")] = QString(ui->spinBox_timeoutWpa->value());
+        ethernetSettings[QString("TimeoutWPA")] = QString::number(ui->spinBox_timeoutWpa->value());
 
     return ethernetSettings;
 }

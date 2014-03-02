@@ -138,9 +138,9 @@ QMap<QString, QString> PppoeWidget::getSettings()
         pppoeSettings[QString("Password")] = QString("'") + ui->lineEdit_password->text() + QString("'");
     pppoeSettings[QString("ConnectionMode")] = QString("'") + ui->comboBox_connection->currentText() + QString("'");
     if (ui->comboBox_connection->currentText() == QString("demand"))
-        pppoeSettings[QString("IdleTimeout")] = QString(ui->spinBox_timeout->value());
+        pppoeSettings[QString("IdleTimeout")] = QString::number(ui->spinBox_timeout->value());
     if (ui->spinBox_fail->value() != 5)
-        pppoeSettings[QString("MaxFail")] = QString(ui->spinBox_fail->value());
+        pppoeSettings[QString("MaxFail")] = QString::number(ui->spinBox_fail->value());
     if (ui->checkBox_route->checkState() == Qt::Unchecked)
         pppoeSettings[QString("DefaultRoute")] = QString("false");
     if (ui->checkBox_dns->checkState() == Qt::Unchecked)
@@ -148,9 +148,9 @@ QMap<QString, QString> PppoeWidget::getSettings()
     if (!ui->lineEdit_unit->text().isEmpty())
         pppoeSettings[QString("PPPUnit")] = ui->lineEdit_unit->text();
     if (ui->spinBox_lcpInterval->value() != 30)
-        pppoeSettings[QString("LCPEchoInterval")] = QString(ui->spinBox_lcpInterval->value());
+        pppoeSettings[QString("LCPEchoInterval")] = QString::number(ui->spinBox_lcpInterval->value());
     if (ui->spinBox_lcpFailure->value() != 4)
-        pppoeSettings[QString("LCPEchoFailure")] = QString(ui->spinBox_lcpFailure->value());
+        pppoeSettings[QString("LCPEchoFailure")] = QString::number(ui->spinBox_lcpFailure->value());
     if (!ui->lineEdit_options->text().isEmpty())
         pppoeSettings[QString("OptionsFile")] = QString("'") + ui->lineEdit_options->text() + QString("'");
     if (!ui->lineEdit_service->text().isEmpty())
@@ -176,7 +176,7 @@ int PppoeWidget::isOk()
             return 1;
     // mac address
     if (!ui->lineEdit_mac->text().split(QString(":")).join(QString("")).remove(QString(" ")).isEmpty())
-        if (ui->lineEdit_mac->text().indexOf(QString(" ")) > -1)
+        if (ui->lineEdit_mac->text().contains(QString(" ")))
             return 2;
     // session id is not set
     if (!ui->lineEdit_session->text().split(QString(":")).join(QString("")).remove(QString(" ")).isEmpty())
@@ -186,7 +186,7 @@ int PppoeWidget::isOk()
     if (!ui->lineEdit_session->text().split(QString(":")).join(QString("")).remove(QString(" ")).isEmpty()) {
         QStringList item = ui->lineEdit_session->text().split(QString(":"));
         for (int i=1; i<7; i++)
-            if (item[i].indexOf(QString(" ")) > -1)
+            if (item[i].contains(QString(" ")))
                 return 4;
     }
     // all fine
