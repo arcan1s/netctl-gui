@@ -27,16 +27,12 @@ PasswdWidget::PasswdWidget(MainWindow *wid)
       ui(new Ui::PasswdWidget)
 {
     ui->setupUi(this);
-    cancelButton = ui->buttonBox->button(QDialogButtonBox::Cancel);
-    okButton = ui->buttonBox->button(QDialogButtonBox::Ok);
     createActions();
 }
 
 
 PasswdWidget::~PasswdWidget()
 {
-    delete cancelButton;
-    delete okButton;
     delete ui;
 }
 
@@ -52,8 +48,8 @@ void PasswdWidget::keyPressEvent(QKeyEvent *pressedKey)
 void PasswdWidget::createActions()
 {
     connect(ui->lineEdit, SIGNAL(returnPressed()), this, SLOT(passwdApply()));
-    connect(cancelButton, SIGNAL(clicked(bool)), this, SLOT(cancel()));
-    connect(okButton, SIGNAL(clicked(bool)), this, SLOT(passwdApply()));
+    connect(ui->buttonBox->button(QDialogButtonBox::Cancel), SIGNAL(clicked(bool)), this, SLOT(cancel()));
+    connect(ui->buttonBox->button(QDialogButtonBox::Ok), SIGNAL(clicked(bool)), this, SLOT(passwdApply()));
 }
 
 

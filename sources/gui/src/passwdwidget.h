@@ -47,8 +47,6 @@ private slots:
 private:
     MainWindow *parent;
     Ui::PasswdWidget *ui;
-    QPushButton *cancelButton;
-    QPushButton *okButton;
     // ESC pressed event
     void keyPressEvent(QKeyEvent *pressedKey);
     void createActions();
