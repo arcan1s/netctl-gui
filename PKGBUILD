@@ -5,7 +5,7 @@
 #_build_plasmoid=0
 
 pkgname=netctl-gui
-pkgver=1.0.0a
+pkgver=1.0.0
 pkgrel=1
 pkgdesc="Qt4 GUI for netctl. Provides a plasmoid for KDE4"
 arch=('i686' 'x86_64')
