@@ -60,6 +60,7 @@ void GeneralWidget::clear()
     ui->lineEdit_execUpPost->clear();
     ui->lineEdit_execDownPre->clear();
     ui->checkBox_forceConnect->setCheckState(Qt::Unchecked);
+    ui->checkBox_debug->setCheckState(Qt::Unchecked);
 
     ui->pushButton_generalAdvanced->setChecked(false);
     showAdvanced();
@@ -160,7 +161,8 @@ int GeneralWidget::isOk()
 {
     // bind interfaces is not set
     if ((ui->comboBox_connection->currentText() == QString("bond")) ||
-            (ui->comboBox_connection->currentText() == QString("bridge")))
+            (ui->comboBox_connection->currentText() == QString("bridge")) ||
+            (ui->comboBox_connection->currentText() == QString("vlan")))
         if (ui->listWidget_bindto->count() == 0)
             return 1;
     // empty description
