@@ -859,9 +859,10 @@ void MainWindow::connectToUnknownEssid(const QString passwd)
     settings[QString("IP")] = QString("dhcp");
 
     QString profile = QString("netctl-gui-") + settings[QString("ESSID")];
+    profile.remove(QString("'"));
     QString profileTempName = netctlProfile->createProfile(profile, settings);
-    netctlProfile->copyProfile(profileTempName);
-    netctlCommand->startProfile(profile);
+    if (netctlProfile->copyProfile(profileTempName))
+        netctlCommand->startProfile(profile);
     if (netctlCommand->isProfileActive(profile))
         ui->statusBar->showMessage(QApplication::translate("MainWindow", "Done"));
     else
