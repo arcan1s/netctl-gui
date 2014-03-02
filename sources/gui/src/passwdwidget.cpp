@@ -42,7 +42,7 @@ PasswdWidget::~PasswdWidget()
 
 
 // ESC press event
-void PasswdWidget::keyPressEvent(const QKeyEvent *pressedKey)
+void PasswdWidget::keyPressEvent(QKeyEvent *pressedKey)
 {
     if (pressedKey->key() == Qt::Key_Escape)
         cancel();

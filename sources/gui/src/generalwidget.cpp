@@ -95,7 +95,7 @@ void GeneralWidget::addBindTo()
 }
 
 
-void GeneralWidget::keyPressEvent(const QKeyEvent *pressedKey)
+void GeneralWidget::keyPressEvent(QKeyEvent *pressedKey)
 {
     if (pressedKey->key() == Qt::Key_Delete) {
         if (ui->listWidget_bindto->hasFocus() &&

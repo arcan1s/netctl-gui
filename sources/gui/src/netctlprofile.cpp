@@ -17,6 +17,7 @@
 
 #include "netctlprofile.h"
 
+#include <QDebug>
 #include <QFile>
 #include <QFileInfo>
 #include <QProcess>
@@ -43,7 +44,9 @@ bool NetctlProfile::copyProfile(const QString oldPath)
 {
     QString newPath = profileDirectory->absolutePath() + QDir::separator() + QFileInfo(oldPath).fileName();
     QProcess command;
-    command.start(sudoCommand + QString(" /usr/bin/mv ") + oldPath + QString(" ") + newPath);
+    QString commandText = sudoCommand + QString(" /usr/bin/mv ") + oldPath + QString(" ") + newPath;
+    qDebug() << "[NetctlProfile]" << "[copyProfile]" << ":" << "Run cmd" << commandText;
+    command.start(commandText);
     command.waitForFinished(-1);
     if (command.exitCode() == 0)
         return true;
@@ -58,6 +61,7 @@ QString NetctlProfile::createProfile(const QString profile, const QMap<QString, 
     QString profileTempName = QDir::homePath() + QDir::separator() +
             QString(".cache") + QDir::separator() + QFileInfo(profile).fileName();
     QFile profileFile(profileTempName);
+    qDebug() << "[NetctlProfile]" << "[createProfile]" << ":" << "Save to" << profileTempName;
 
     if (!profileFile.open(QIODevice::WriteOnly | QIODevice::Text))
         return profileTempName;
@@ -89,20 +93,19 @@ QString NetctlProfile::createProfile(const QString profile, const QMap<QString, 
 QMap<QString, QString> NetctlProfile::getSettingsFromProfile(const QString profile)
 {
     QMap<QString, QString> settings;
-    QFile profileFile;
-    QString fileStr;
-
+    QString fileStr, profileUrl;
     if (profile[0] == QDir::separator())
-        profileFile.setFileName(profile);
+        profileUrl = profile;
     else
-        profileFile.setFileName(profileDirectory->absolutePath() + QDir::separator() + profile);
+        profileUrl = profileDirectory->absolutePath() + QDir::separator() + profile;
+    QFile profileFile(profileUrl);
+    qDebug() << "[NetctlProfile]" << "[getSettingsFromProfile]" << ":" << "Read from" << profileUrl;
+
     if (!profileFile.open(QIODevice::ReadOnly))
         return settings;
     while (true) {
         fileStr = QString(profileFile.readLine());
-        if (profileFile.atEnd())
-            break;
-        else if (fileStr[0] != '#') {
+        if (fileStr[0] != '#') {
             if (fileStr.split(QString("="), QString::SkipEmptyParts).count() == 2) {
                 if ((fileStr.split(QString("="))[1][0] == QChar('(')) &&
                         (fileStr.split(QString("="))[1][fileStr.split(QString("="))[1].size()-2] == QChar(')')))
@@ -124,8 +127,7 @@ QMap<QString, QString> NetctlProfile::getSettingsFromProfile(const QString profi
                                 .trimmed());
                     while(true) {
                         fileStr = QString(profileFile.readLine());
-                        if ((profileFile.atEnd()) ||
-                                (fileStr[fileStr.size()-2] == QChar(')')))
+                        if (fileStr[fileStr.size()-2] == QChar(')'))
                             break;
                         if (!fileStr.remove(QString("("))
                                 .remove(QString(")"))
@@ -134,6 +136,8 @@ QMap<QString, QString> NetctlProfile::getSettingsFromProfile(const QString profi
                             parameter.append(fileStr.remove(QString("("))
                                     .remove(QString(")"))
                                     .trimmed());
+                        if (profileFile.atEnd())
+                            break;
                     }
                     settings[parameterName] = parameter.join(QString("\n"));
                 }
@@ -143,6 +147,8 @@ QMap<QString, QString> NetctlProfile::getSettingsFromProfile(const QString profi
             }
 
         }
+        if (profileFile.atEnd())
+            break;
     }
 
     profileFile.close();

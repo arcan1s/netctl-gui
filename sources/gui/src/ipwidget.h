@@ -63,7 +63,7 @@ private:
     Ui::IpWidget *ui;
     void createActions();
     void createFilter();
-    void keyPressEvent(const QKeyEvent *pressedKey);
+    void keyPressEvent(QKeyEvent *pressedKey);
     QString getIp(const QString rawIp);
     QString getPrefix(const QString rawPrefix);
     QString getIp6(const QString rawIp);

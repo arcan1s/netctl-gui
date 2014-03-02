@@ -61,7 +61,7 @@ private:
     Ui::SettingsWindow *ui;
     void createActions();
     // ESC pressed event
-    void keyPressEvent(const QKeyEvent *pressedKey);
+    void keyPressEvent(QKeyEvent *pressedKey);
     QMap<QString, QString> readSettings();
     void setSettings(const QMap<QString, QString> settings);
 };

@@ -55,7 +55,7 @@ private:
     QDir *profileDirectory;
     Ui::GeneralWidget *ui;
     void createActions();
-    void keyPressEvent(const QKeyEvent *pressedKey);
+    void keyPressEvent(QKeyEvent *pressedKey);
 };
 
 

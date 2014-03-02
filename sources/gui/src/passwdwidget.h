@@ -50,7 +50,7 @@ private:
     QPushButton *cancelButton;
     QPushButton *okButton;
     // ESC pressed event
-    void keyPressEvent(const QKeyEvent *pressedKey);
+    void keyPressEvent(QKeyEvent *pressedKey);
     void createActions();
 };
 

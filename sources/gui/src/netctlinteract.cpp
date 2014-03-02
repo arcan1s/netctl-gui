@@ -17,6 +17,7 @@
 
 #include "netctlinteract.h"
 
+#include <QDebug>
 #include <QFile>
 #include <QProcess>
 
@@ -35,6 +36,43 @@ Netctl::Netctl(MainWindow *wid, const QMap<QString, QString> settings)
 Netctl::~Netctl()
 {
     delete profileDirectory;
+}
+
+
+// functions
+QString Netctl::getNetctlOutput(const bool sudo, const QString commandLine, const QString profile)
+{
+    QProcess command;
+    QString commandText;
+    if (sudo)
+        commandText = sudoCommand + QString(" ") + netctlCommand + QString(" ") + commandLine +
+                QString(" ") + profile;
+    else
+        commandText = netctlCommand + QString(" ") + commandLine + QString(" ") + profile;
+    qDebug() << "[Netctl]" << "[getNetctlOutput]" << ":" << "Run cmd" << commandText;
+    command.start(commandText);
+    command.waitForFinished(-1);
+    return command.readAllStandardOutput();
+}
+
+
+bool Netctl::netctlCall(const bool sudo, const QString commandLine, const QString profile)
+{
+    QProcess command;
+    QString commandText;
+    if (sudo)
+        commandText = sudoCommand + QString(" ") + netctlCommand + QString(" ") + commandLine +
+                QString(" ") + profile;
+    else
+        commandText = netctlCommand + QString(" ") + commandLine + QString(" ") + profile;
+    qDebug() << "[Netctl]" << "[netctlCall]" << ":" << "Run cmd" << commandText;
+    command.start(commandText);
+    command.waitForFinished(-1);
+    qDebug() << "[Netctl]" << "[netctlCall]" << ":" << "Cmd returns" << command.exitCode();
+    if (command.exitCode() == 0)
+        return true;
+    else
+        return false;
 }
 
 
@@ -62,17 +100,19 @@ QStringList Netctl::getProfileDescriptions(const QStringList profileList)
     QStringList descriptions;
 
     for (int i=0; i<profileList.count(); i++) {
-        QFile profile(profileDirectory->absolutePath() + QDir::separator() + profileList[i]);
+        QString profileUrl = profileDirectory->absolutePath() + QDir::separator() + profileList[i];
+        qDebug() << "[Netctl]" << "[getProfileDescriptions]" << ":" << "Check" << profileUrl;
+        QFile profile(profileUrl);
         QString fileStr;
         if (profile.open(QIODevice::ReadOnly))
             while (true) {
                 fileStr = QString(profile.readLine());
-                if (profile.atEnd())
-                    break;
-                else if (fileStr[0] != '#')
+                if (fileStr[0] != '#')
                     if (fileStr.split(QString("="), QString::SkipEmptyParts).count() == 2)
                         if (fileStr.split(QString("="), QString::SkipEmptyParts)[0] == QString("Description"))
                             descriptions.append(fileStr.split(QString("="), QString::SkipEmptyParts)[1].trimmed());
+                if (profile.atEnd())
+                    break;
             }
         else
             descriptions.append(QString("<unknown>"));
@@ -111,20 +151,22 @@ QStringList Netctl::getProfileStatuses(const QStringList profileList)
 QString Netctl::getSsidFromProfile(const QString profile)
 {
     QString ssidName = QString("");
-    QFile profileFile(profileDirectory->absolutePath() + QDir::separator() + profile);
+    QString profileUrl = profileDirectory->absolutePath() + QDir::separator() + profile;
+    qDebug() << "[Netctl]" << "[getSsidFromProfile]" << ":" << "Check" << profileUrl;
+    QFile profileFile(profileUrl);
     QString fileStr;
     if (!profileFile.open(QIODevice::ReadOnly))
         return ssidName;
 
     while (true) {
         fileStr = QString(profileFile.readLine());
-        if (profileFile.atEnd())
-            break;
-        else if (fileStr[0] != '#') {
+        if (fileStr[0] != '#') {
             if (fileStr.split(QString("="), QString::SkipEmptyParts).count() == 2)
                 if (fileStr.split(QString("="), QString::SkipEmptyParts)[0] == QString("ESSID"))
                     ssidName = fileStr.split(QString("="), QString::SkipEmptyParts)[1].trimmed();
         }
+        if (profileFile.atEnd())
+            break;
     }
 
     profileFile.close();
@@ -138,16 +180,10 @@ QString Netctl::getSsidFromProfile(const QString profile)
 bool Netctl::isProfileActive(const QString profile)
 {
     bool status = false;
-    QProcess command;
-    QString cmdOutput = QString("");
-
-    command.start(netctlCommand + QString(" status ") + profile);
-    command.waitForFinished(-1);
-    cmdOutput = command.readAllStandardOutput();
+    QString cmdOutput = getNetctlOutput(false, QString("status"), profile);
     if (!cmdOutput.isEmpty())
         if (cmdOutput.indexOf(QString("Active: active")) > -1)
             status = true;
-
     return status;
 }
 
@@ -155,12 +191,7 @@ bool Netctl::isProfileActive(const QString profile)
 bool Netctl::isProfileEnabled(const QString profile)
 {
     bool status = false;
-    QProcess command;
-    QString cmdOutput = QString("");
-
-    command.start(netctlCommand + QString(" status ") + profile);
-    command.waitForFinished(-1);
-    cmdOutput = command.readAllStandardOutput();
+    QString cmdOutput = getNetctlOutput(false, QString("status"), profile);
     if (!cmdOutput.isEmpty()) {
         QStringList profileStatus = cmdOutput.split(QString("\n"), QString::SkipEmptyParts);
         for (int i=0; i<profileStatus.count(); i++)
@@ -168,7 +199,6 @@ bool Netctl::isProfileEnabled(const QString profile)
                 if (profileStatus[i].indexOf(QString("enabled")) > -1)
                     status = true;
     }
-
     return status;
 }
 
@@ -176,42 +206,23 @@ bool Netctl::isProfileEnabled(const QString profile)
 // functions
 bool Netctl::enableProfile(const QString profile)
 {
-    QProcess command;
     if (isProfileEnabled(profile))
-        command.start(sudoCommand + QString(" ") + netctlCommand + QString(" disable ") + profile);
+        return netctlCall(true, QString("disable"), profile);
     else
-        command.start(sudoCommand + QString(" ") + netctlCommand + QString(" enable ") + profile);
-    command.waitForFinished(-1);
-    if (command.exitCode() == 0)
-        return true;
-    else
-        return false;
+        return netctlCall(true, QString("enable"), profile);
 }
 
 
 bool Netctl::restartProfile(const QString profile)
 {
-    QProcess command;
-    if (isProfileActive(profile))
-        command.start(sudoCommand + QString(" ") + netctlCommand + QString(" restart ") + profile);
-    command.waitForFinished(-1);
-    if (command.exitCode() == 0)
-        return true;
-    else
-        return false;
+    return netctlCall(true, QString("restart"), profile);
 }
 
 
 bool Netctl::startProfile(const QString profile)
 {
-    QProcess command;
     if (isProfileActive(profile))
-        command.start(sudoCommand + QString(" ") + netctlCommand + QString(" stop ") + profile);
+        return netctlCall(true, QString("stop"), profile);
     else
-        command.start(sudoCommand + QString(" ") + netctlCommand + QString(" start ") + profile);
-    command.waitForFinished(-1);
-    if (command.exitCode() == 0)
-        return true;
-    else
-        return false;
+        return netctlCall(true, QString("start"), profile);
 }

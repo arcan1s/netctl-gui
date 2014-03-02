@@ -18,6 +18,7 @@
 #include "settingswindow.h"
 #include "ui_settingswindow.h"
 
+#include <QDebug>
 #include <QFile>
 #include <QFileDialog>
 #include <QTextStream>
@@ -62,7 +63,7 @@ void SettingsWindow::createActions()
 
 
 // ESC press event
-void SettingsWindow::keyPressEvent(const QKeyEvent *pressedKey)
+void SettingsWindow::keyPressEvent(QKeyEvent *pressedKey)
 {
     if (pressedKey->key() == Qt::Key_Escape)
         close();
@@ -200,9 +201,13 @@ QMap<QString, QString> SettingsWindow::readSettings()
     settings[QString("PROFILE_DIR")] = ui->lineEdit_profilePath->text();
     settings[QString("RFKILL_DIR")] = ui->lineEdit_rfkill->text();
     settings[QString("SUDO_PATH")] = ui->lineEdit_sudo->text();
-    settings[QString("WPA_DRIVERS")] = ui->lineEdit_wpaSupDrivers->text();
     settings[QString("WPACLI_PATH")] = ui->lineEdit_wpaCliPath->text();
     settings[QString("WPASUP_PATH")] = ui->lineEdit_wpaSupPath->text();
+    settings[QString("WPA_DRIVERS")] = ui->lineEdit_wpaSupDrivers->text();
+
+    for (int i=0; i<settings.keys().count(); i++)
+        qDebug() << "[SettingsWindow]" << "[readSettings]" << ":" <<
+                    settings.keys()[i] + QString("=") + settings[settings.keys()[i]];
 
     return settings;
 }
@@ -223,9 +228,13 @@ void SettingsWindow::setSettings(const QMap<QString, QString> settings)
     ui->lineEdit_profilePath->setText(settings[QString("PROFILE_DIR")]);
     ui->lineEdit_rfkill->setText(settings[QString("RFKILL_DIR")]);
     ui->lineEdit_sudo->setText(settings[QString("SUDO_PATH")]);
-    ui->lineEdit_wpaSupDrivers->setText(settings[QString("WPA_DRIVERS")]);
     ui->lineEdit_wpaCliPath->setText(settings[QString("WPACLI_PATH")]);
     ui->lineEdit_wpaSupPath->setText(settings[QString("WPASUP_PATH")]);
+    ui->lineEdit_wpaSupDrivers->setText(settings[QString("WPA_DRIVERS")]);
+
+    for (int i=0; i<settings.keys().count(); i++)
+        qDebug() << "[SettingsWindow]" << "[setSettings]" << ":" <<
+                    settings.keys()[i] + QString("=") + settings[settings.keys()[i]];
 }
 
 
@@ -243,9 +252,13 @@ QMap<QString, QString> SettingsWindow::getDefault()
     settings[QString("PROFILE_DIR")] = QString("/etc/netctl/");
     settings[QString("RFKILL_DIR")] = QString("/sys/class/rfkill/");
     settings[QString("SUDO_PATH")] = QString("/usr/bin/kdesu");
-    settings[QString("WPA_DRIVERS")] = QString("nl80211,wext");
     settings[QString("WPACLI_PATH")] = QString("/usr/bin/wpa_cli");
     settings[QString("WPASUP_PATH")] = QString("/usr/bin/wpa_supplicant");
+    settings[QString("WPA_DRIVERS")] = QString("nl80211,wext");
+
+    for (int i=0; i<settings.keys().count(); i++)
+        qDebug() << "[SettingsWindow]" << "[getDefault]" << ":" <<
+                    settings.keys()[i] + QString("=") + settings[settings.keys()[i]];
 
     return settings;
 }
@@ -261,17 +274,21 @@ QMap<QString, QString> SettingsWindow::getSettings()
         return getDefault();
     while (true) {
         fileStr = QString(configFile.readLine());
-        if (configFile.atEnd())
-            break;
-        else if (fileStr[0] != '#') {
+        if (fileStr[0] != '#') {
             if (fileStr.indexOf(QString("=")) > -1)
                 settings[fileStr.split(QString("="))[0]] = fileStr.split(QString("="))[1]
                         .remove(QString(" "))
                         .trimmed();
         }
+        if (configFile.atEnd())
+            break;
     }
 
     configFile.close();
+
+    for (int i=0; i<settings.keys().count(); i++)
+        qDebug() << "[SettingsWindow]" << "[getSettings]" << ":" <<
+                    settings.keys()[i] + QString("=") + settings[settings.keys()[i]];
 
     return settings;
 }

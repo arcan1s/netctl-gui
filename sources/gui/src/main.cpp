@@ -43,14 +43,14 @@ int main(int argc, char *argv[])
     if (configFile.open(QIODevice::ReadOnly))
         while (true) {
             fileStr = QString(configFile.readLine());
-            if (configFile.atEnd())
-                break;
-            else if (fileStr[0] != '#') {
+            if (fileStr[0] != '#') {
                 if (fileStr.contains(QString("LANGUAGE=")))
                     language = fileStr.split(QString("="))[1]
                             .remove(QString(" "))
                             .trimmed();
             }
+            if (configFile.atEnd())
+                break;
         }
     configFile.close();
     QTranslator translator;
@@ -81,9 +81,9 @@ int main(int argc, char *argv[])
             return 0;
         }
         // default settings
-        else if ((argv[i][0] == '-') && (argv[i][1] == '-') && (argv[i][2] == 'd') && (argv[i][2] == 'd') &&
-                 (argv[i][3] == 'e') && (argv[i][4] == 'f') && (argv[i][5] == 'a') && (argv[i][6] == 'u') &&
-                 (argv[i][7] == '8') && (argv[i][2] == 't') && (argv[i][9] == '\0')) {
+        else if ((argv[i][0] == '-') && (argv[i][1] == '-') && (argv[i][2] == 'd') && (argv[i][3] == 'e') &&
+                 (argv[i][4] == 'f') && (argv[i][5] == 'a') && (argv[i][6] == 'u') && (argv[i][7] == 'l') &&
+                 (argv[i][8] == 't') && (argv[i][9] == '\0')) {
             defaultSettings = true;
         }
         // tab number

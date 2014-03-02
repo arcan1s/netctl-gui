@@ -103,7 +103,7 @@ void WirelessWidget::createActions()
 }
 
 
-void WirelessWidget::keyPressEvent(const QKeyEvent *pressedKey)
+void WirelessWidget::keyPressEvent(QKeyEvent *pressedKey)
 {
     if (pressedKey->key() == Qt::Key_Delete) {
         if (ui->listWidget_wpaConfigSection->hasFocus() &&

@@ -34,19 +34,16 @@ public:
                     const QMap<QString, QString> settings = QMap<QString, QString>());
     ~WpaSup();
     // general information
-    QStringList getInterfaceList();
-    // functions
-    bool wpaCliCall(const QString commandLine);
-    QString getWpaCliOutput(const QString commandLine);
-    bool isProfileExists(const QString profile);
     QString existentProfile(const QString profile);
+    QStringList getInterfaceList();
     bool isProfileActive(const QString profile);
+    bool isProfileExists(const QString profile);
 
 public slots:
     // functions
+    QList<QStringList> scanWifi();
     bool startWpaSupplicant();
     bool stopWpaSupplicant();
-    QList<QStringList> scanWifi();
 
 private:
     MainWindow *parent;
@@ -59,6 +56,9 @@ private:
     QString wpaCliPath;
     QString wpaDrivers;
     QString wpaSupPath;
+    // functions
+    bool wpaCliCall(const QString commandLine);
+    QString getWpaCliOutput(const QString commandLine);
 };
 
 

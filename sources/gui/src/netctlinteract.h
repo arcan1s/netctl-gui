@@ -52,6 +52,9 @@ private:
     QString netctlCommand;
     QDir *profileDirectory;
     QString sudoCommand;
+    // functions
+    QString getNetctlOutput(const bool sudo, const QString commandLine, const QString profile);
+    bool netctlCall(const bool sudo, const QString commandLine, const QString profile);
 };
 
 

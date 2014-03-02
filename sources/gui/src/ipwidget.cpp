@@ -140,7 +140,7 @@ void IpWidget::createFilter()
 }
 
 
-void IpWidget::keyPressEvent(const QKeyEvent *pressedKey)
+void IpWidget::keyPressEvent(QKeyEvent *pressedKey)
 {
     if (pressedKey->key() == Qt::Key_Delete) {
         if (ui->listWidget_ipAddress->hasFocus() &&

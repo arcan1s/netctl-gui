@@ -55,7 +55,7 @@ private:
     QDir *rfkillDirectory;
     Ui::WirelessWidget *ui;
     void createActions();
-    void keyPressEvent(const QKeyEvent *pressedKey);
+    void keyPressEvent(QKeyEvent *pressedKey);
 };
 
 
