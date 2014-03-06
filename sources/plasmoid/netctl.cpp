@@ -75,19 +75,34 @@ void Netctl::init()
     iconFrame->setLayout(iconLayout);
     iconLayout->addItem(iconWidget);
     fullSpaceLayout->addItem(iconFrame);
-    // text
-    textFrame = new Plasma::Frame();
-    QGraphicsLinearLayout *textLayout = new QGraphicsLinearLayout();
-    textLabel = new Plasma::Label();
-    textLayout->addItem(textLabel);
-    textFrame->setLayout(textLayout);
-    fullSpaceLayout->addItem(textFrame);
-    textFrame->hide();
-    // stretch
-    fullSpaceLayout->addStretch(1);
 
     // read variables
     configChanged();
+}
+
+
+void Netctl::addTextFrame(const bool state)
+{
+    if (state) {
+        textFrame = new Plasma::Frame();
+        QGraphicsLinearLayout *textLayout = new QGraphicsLinearLayout();
+        textLabel = new Plasma::Label();
+        textLayout->addItem(textLabel);
+        textFrame->setLayout(textLayout);
+        fullSpaceLayout->addItem(textFrame);
+    }
+    else {
+        fullSpaceLayout->removeItem(textFrame);
+        delete textLabel;
+        delete textFrame;
+    }
+}
+
+
+void Netctl::updateWidget()
+{
+    update();
+    resize(0, 0);
 }
 
 
@@ -100,9 +115,10 @@ void Netctl::startProfileSlot(QAction *profile)
     if (status)
         commandLine = netctlPath + QString(" stop ") + profileName +  QString(" && ");
     if (useSudo)
-        commandLine = sudoPath + QString(" \"") + commandLine + netctlPath + QString(" start ") + profile->text().mid(1) + QString("\"");
+        commandLine = sudoPath + QString(" \"") + commandLine +
+                netctlPath + QString(" start ") + profile->text().remove(QString("&")) + QString("\"");
     else
-        commandLine = commandLine + netctlPath + QString(" start ") + profile->text().mid(1);
+        commandLine = commandLine + netctlPath + QString(" start ") + profile->text().remove(QString("&"));
     command.startDetached(commandLine);
 }
 
@@ -135,10 +151,10 @@ void Netctl::enableProfileAutoloadSlot()
 {
     QProcess command;
     QString commandLine, enableStatus;
-    if (profileStatus == QString("(enable"))
-        enableStatus = QString("disable");
+    if (profileStatus.contains(QString("enabled")))
+        enableStatus = QString(" disable ");
     else
-        enableStatus = QString("enable");
+        enableStatus = QString(" enable ");
     if (useSudo)
         commandLine = sudoPath + QString(" \"") + netctlPath + enableStatus + profileName + QString("\"");
     else
@@ -180,7 +196,7 @@ QList<QAction*> Netctl::contextualActions()
         restartProfile->setVisible(true);
         restartProfile->setText(QString("Restart ") + profileName);
         enableProfileAutoload->setVisible(true);
-        if (profileStatus == QString("(enable"))
+        if (profileStatus.contains(QString("enabled")))
             enableProfileAutoload->setText(QString("Disable ") + profileName);
         else
             enableProfileAutoload->setText(QString("Enable ") + profileName);
@@ -235,8 +251,9 @@ void Netctl::connectToEngine()
             netctlEngine->connectSource(QString("intIp"), this, autoUpdateInterval);
         if (showNetDev)
             netctlEngine->connectSource(QString("interfaces"), this, autoUpdateInterval);
-        textFrame->show();
+        addTextFrame(true);
     }
+    updateWidget();
 }
 
 
@@ -253,9 +270,9 @@ void Netctl::disconnectFromEngine()
             netctlEngine->disconnectSource(QString("intIp"), this);
         if (showNetDev)
             netctlEngine->disconnectSource(QString("interfaces"), this);
-        textFrame->hide();
+        addTextFrame(false);
     }
-    update();
+    updateWidget();
 }
 
 
@@ -263,7 +280,7 @@ void Netctl::dataUpdated(const QString &sourceName, const Plasma::DataEngine::Da
 {
     if (data.keys().count() == 0)
         return;
-    QString value = data[QString("value")].toString();;
+    QString value = data[QString("value")].toString();
     if (value.isEmpty())
         value = QString("N\\A");
 
@@ -280,6 +297,7 @@ void Netctl::dataUpdated(const QString &sourceName, const Plasma::DataEngine::Da
         if (showNetDev)
             text.append(interfaces);
         textLabel->setText(formatLine[0] + text.join(QString("<br>")) + formatLine[1]);
+        updateWidget();
     }
     else if (sourceName == QString("extIp")) {
         extIp = value;

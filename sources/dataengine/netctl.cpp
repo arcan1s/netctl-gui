@@ -206,14 +206,11 @@ bool Netctl::updateSourceEvent(const QString &source)
             QStringList profile = cmdOutput.split(QString("\n"), QString::SkipEmptyParts);
             for (int i=0; i<profile.count(); i++)
                 if (profile[i].split(QString(" "), QString::SkipEmptyParts)[0] == QString("Loaded:")) {
-                    if (profile[i].indexOf(QString("enabled")) > -1) {
+                    if (profile[i].indexOf(QString("enabled")) > -1)
                         value = QString("enabled");
-                        break;
-                    }
-                    else if (profile[i].indexOf(QString("static")) > -1) {
+                    else if (profile[i].indexOf(QString("static")) > -1)
                         value = QString("static");
-                        break;
-                    }
+                    break;
                 }
         }
         setData(source, QString("value"), value);

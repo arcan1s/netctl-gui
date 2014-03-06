@@ -52,6 +52,9 @@ public slots:
     void setSudo();
 
 private slots:
+    // main interface
+    void addTextFrame(const bool state = true);
+    void updateWidget();
     // configuration interface
     void selectGuiExe();
     void selectNetctlExe();
