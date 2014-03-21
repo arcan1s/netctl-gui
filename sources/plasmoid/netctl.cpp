@@ -71,31 +71,28 @@ void Netctl::init()
     iconFrame = new Plasma::Frame();
     QGraphicsLinearLayout *iconLayout = new QGraphicsLinearLayout();
     iconWidget = new Plasma::IconWidget(KIcon(""), QString(), this);
+    iconWidget->setPreferredWidth(30);
+    iconWidget->setPreferredHeight(30);
+    iconWidget->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Minimum);
     connect(iconWidget, SIGNAL(doubleClicked()), this, SLOT(showGui()));
     iconFrame->setLayout(iconLayout);
     iconLayout->addItem(iconWidget);
     fullSpaceLayout->addItem(iconFrame);
+    // text
+    textFrame = new Plasma::Frame();
+    QGraphicsLinearLayout *textLayout = new QGraphicsLinearLayout();
+    textLabel = new Plasma::Label();
+    textLabel->setPreferredHeight(30);
+    textLabel->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Expanding);
+    textLayout->addItem(textLabel);
+    textFrame->setLayout(textLayout);
+    fullSpaceLayout->addItem(textFrame);
+    textFrame->hide();
+    // stretch
+    fullSpaceLayout->addStretch(1);
 
     // read variables
     configChanged();
-}
-
-
-void Netctl::addTextFrame(const bool state)
-{
-    if (state) {
-        textFrame = new Plasma::Frame();
-        QGraphicsLinearLayout *textLayout = new QGraphicsLinearLayout();
-        textLabel = new Plasma::Label();
-        textLayout->addItem(textLabel);
-        textFrame->setLayout(textLayout);
-        fullSpaceLayout->addItem(textFrame);
-    }
-    else {
-        fullSpaceLayout->removeItem(textFrame);
-        delete textLabel;
-        delete textFrame;
-    }
 }
 
 
@@ -251,7 +248,7 @@ void Netctl::connectToEngine()
             netctlEngine->connectSource(QString("intIp"), this, autoUpdateInterval);
         if (showNetDev)
             netctlEngine->connectSource(QString("interfaces"), this, autoUpdateInterval);
-        addTextFrame(true);
+        textFrame->show();
     }
     updateWidget();
 }
@@ -270,7 +267,7 @@ void Netctl::disconnectFromEngine()
             netctlEngine->disconnectSource(QString("intIp"), this);
         if (showNetDev)
             netctlEngine->disconnectSource(QString("interfaces"), this);
-        addTextFrame(false);
+        textFrame->hide();
     }
     updateWidget();
 }

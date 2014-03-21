@@ -53,7 +53,6 @@ public slots:
 
 private slots:
     // main interface
-    void addTextFrame(const bool state = true);
     void updateWidget();
     // configuration interface
     void selectGuiExe();

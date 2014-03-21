@@ -15,19 +15,12 @@ configure_file (${CMAKE_SOURCE_DIR}/version.h.in ${CMAKE_CURRENT_BINARY_DIR}/ver
 message (STATUS "Version: ${PROJECT_VERSION}")
 
 # install options
-option (WITH_DEBUG_MODE "Build with debug mode" OFF)
 option (BUILD_GUI "Build GUI" ON)
 option (BUILD_DATAENGINE "Build data engine" ON)
 option (BUILD_PLASMOID "Build plasmoid" ON)
 option (BUILD_SCRIPTS "Build special scripts" ON)
 
-# verbose
-set (CMAKE_VERBOSE_MAKEFILE ON)
-
 # flags
-if (WITH_DEBUG_MODE)
-  add_definitions (-DDEBUG_MODE=1)
-endif ()
 if (CMAKE_COMPILER_IS_GNUCXX)
   set (ADD_CXX_FLAGS  "-Wall")
   set (CMAKE_CXX_FLAGS "-O0 ${ADD_CXX_FLAGS}")
