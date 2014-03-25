@@ -5,7 +5,7 @@
 #_build_plasmoid=0
 
 pkgname=netctl-gui
-pkgver=1.0.0
+pkgver=1.0.1
 pkgrel=1
 pkgdesc="Qt4 GUI for netctl. Provides a plasmoid for KDE4"
 arch=('i686' 'x86_64')
@@ -18,7 +18,7 @@ optdepends=('kdebase-runtime: sudo support'
             'wpa_supplicant: wifi support')
 source=("https://github.com/arcan1s/netctlplasmoid/releases/download/V.${pkgver}/${pkgname}-${pkgver}-src.tar.xz")
 install="${pkgname}.install"
-md5sums=('bc727268cdc3b9ab7d567a2fe9ad3330')
+md5sums=('b2bdfabd96a436823c9d46fc0d58bbe8')
 
 # flags
 _cmakekeys="-DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_BUILD_TYPE=Release"

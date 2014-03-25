@@ -456,7 +456,7 @@ void Netctl::configChanged()
 
     autoUpdateInterval = cg.readEntry("autoUpdateInterval", 1000);
     guiPath = cg.readEntry("guiPath", "/usr/bin/netctl-gui");
-    netctlPath = cg.readEntry("netctlPath", "/usr/bin/netctl-gui-netctl");
+    netctlPath = cg.readEntry("netctlPath", "/usr/bin/netctl");
     useSudo = cg.readEntry("useSudo", true);
     sudoPath = cg.readEntry("sudoPath", "/usr/bin/kdesu -c");
     showBigInterface = cg.readEntry("showBigInterface", true);
