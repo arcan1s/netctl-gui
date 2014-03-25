@@ -52,8 +52,8 @@ public slots:
     void setSudo();
 
 private slots:
-    // main interface
-    void updateWidget();
+    // ui
+    void updateInterface(bool setHidden);
     // configuration interface
     void selectGuiExe();
     void selectNetctlExe();
@@ -73,10 +73,8 @@ private:
     // ui
     QGraphicsLinearLayout *fullSpaceLayout;
     // icon
-    Plasma::Frame *iconFrame;
     Plasma::IconWidget *iconWidget;
     // text
-    Plasma::Frame *textFrame;
     Plasma::Label *textLabel;
     bool status;
     QString profileName;

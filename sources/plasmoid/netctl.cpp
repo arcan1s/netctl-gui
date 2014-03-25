@@ -43,17 +43,15 @@ Netctl::Netctl(QObject *parent, const QVariantList &args)
 
 Netctl::~Netctl()
 {
-    delete startProfileMenu;
-    delete startProfile;
-    delete stopProfile;
-    delete restartProfile;
-    delete enableProfileAutoload;
+//    delete startProfileMenu;
+//    delete startProfile;
+//    delete stopProfile;
+//    delete restartProfile;
+//    delete enableProfileAutoload;
 
-    delete iconWidget;
-    delete iconFrame;
-    delete textFrame;
+//    delete iconWidget;
 
-    delete netctlEngine;
+//    delete netctlEngine;
 }
 
 
@@ -68,38 +66,32 @@ void Netctl::init()
 
     // frames
     // icon
-    iconFrame = new Plasma::Frame();
-    QGraphicsLinearLayout *iconLayout = new QGraphicsLinearLayout();
     iconWidget = new Plasma::IconWidget(KIcon(""), QString(), this);
-    iconWidget->setPreferredWidth(30);
-    iconWidget->setPreferredHeight(30);
-    iconWidget->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Minimum);
+    iconWidget->setPreferredSize(30, 30);
     connect(iconWidget, SIGNAL(doubleClicked()), this, SLOT(showGui()));
-    iconFrame->setLayout(iconLayout);
-    iconLayout->addItem(iconWidget);
-    fullSpaceLayout->addItem(iconFrame);
+    fullSpaceLayout->addItem(iconWidget);
     // text
-    textFrame = new Plasma::Frame();
-    QGraphicsLinearLayout *textLayout = new QGraphicsLinearLayout();
     textLabel = new Plasma::Label();
     textLabel->setPreferredHeight(30);
-    textLabel->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Expanding);
-    textLayout->addItem(textLabel);
-    textFrame->setLayout(textLayout);
-    fullSpaceLayout->addItem(textFrame);
-    textFrame->hide();
-    // stretch
-    fullSpaceLayout->addStretch(1);
+    fullSpaceLayout->addItem(textLabel);
 
     // read variables
     configChanged();
 }
 
 
-void Netctl::updateWidget()
+void Netctl::updateInterface(bool setShown)
 {
-    update();
-    resize(0, 0);
+    if (setShown) {
+        textLabel->show();
+        fullSpaceLayout->updateGeometry();
+        updateGeometry();
+    }
+    else {
+        textLabel->hide();
+        fullSpaceLayout->updateGeometry();
+        updateGeometry();
+    }
 }
 
 
@@ -241,6 +233,7 @@ void Netctl::connectToEngine()
     netctlEngine->connectSource(QString("statusBool"), this, autoUpdateInterval);
     netctlEngine->connectSource(QString("currentProfile"), this, autoUpdateInterval);
     netctlEngine->connectSource(QString("statusString"), this, autoUpdateInterval);
+    updateInterface(false);
     if (showBigInterface) {
         if (showExtIp)
             netctlEngine->connectSource(QString("extIp"), this, autoUpdateInterval);
@@ -248,9 +241,8 @@ void Netctl::connectToEngine()
             netctlEngine->connectSource(QString("intIp"), this, autoUpdateInterval);
         if (showNetDev)
             netctlEngine->connectSource(QString("interfaces"), this, autoUpdateInterval);
-        textFrame->show();
+        updateInterface(true);
     }
-    updateWidget();
 }
 
 
@@ -267,9 +259,8 @@ void Netctl::disconnectFromEngine()
             netctlEngine->disconnectSource(QString("intIp"), this);
         if (showNetDev)
             netctlEngine->disconnectSource(QString("interfaces"), this);
-        textFrame->hide();
     }
-    updateWidget();
+    updateInterface(false);
 }
 
 
@@ -293,8 +284,8 @@ void Netctl::dataUpdated(const QString &sourceName, const Plasma::DataEngine::Da
             text.append(extIp);
         if (showNetDev)
             text.append(interfaces);
-        textLabel->setText(formatLine[0] + text.join(QString("<br>")) + formatLine[1]);
-        updateWidget();
+        if (showBigInterface)
+            textLabel->setText(formatLine[0] + text.join(QString("<br>")) + formatLine[1]);
     }
     else if (sourceName == QString("extIp")) {
         extIp = value;
@@ -465,12 +456,12 @@ void Netctl::configChanged()
 
     autoUpdateInterval = cg.readEntry("autoUpdateInterval", 1000);
     guiPath = cg.readEntry("guiPath", "/usr/bin/netctl-gui");
-    netctlPath = cg.readEntry("netctlPath", "/usr/bin/netctl");
+    netctlPath = cg.readEntry("netctlPath", "/usr/bin/netctl-gui-netctl");
     useSudo = cg.readEntry("useSudo", true);
     sudoPath = cg.readEntry("sudoPath", "/usr/bin/kdesu -c");
     showBigInterface = cg.readEntry("showBigInterface", true);
     showNetDev = cg.readEntry("showNetDev", true);
-    showExtIp = cg.readEntry("showExtIp", true);
+    showExtIp = cg.readEntry("showExtIp", false);
     showIntIp = cg.readEntry("showIntIp", true);
 
     fontFamily = cg.readEntry("fontFamily", "Terminus");

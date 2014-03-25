@@ -246,14 +246,14 @@ QMap<QString, QString> SettingsWindow::getDefault()
     settings[QString("CTRL_GROUP")] = QString("users");
     settings[QString("IFACE_DIR")] = QString("/sys/class/net/");
     settings[QString("LANGUAGE")] = QString("english");
-    settings[QString("NETCTL_PATH")] = QString("/usr/bin/netctl");
+    settings[QString("NETCTL_PATH")] = QString("/usr/bin/netctl-gui-netctl");
     settings[QString("PID_FILE")] = QString("/run/wpa_supplicant_netctl-gui.pid");
     settings[QString("PREFERED_IFACE")] = QString("");
     settings[QString("PROFILE_DIR")] = QString("/etc/netctl/");
     settings[QString("RFKILL_DIR")] = QString("/sys/class/rfkill/");
     settings[QString("SUDO_PATH")] = QString("/usr/bin/kdesu");
     settings[QString("WPACLI_PATH")] = QString("/usr/bin/wpa_cli");
-    settings[QString("WPASUP_PATH")] = QString("/usr/bin/wpa_supplicant");
+    settings[QString("WPASUP_PATH")] = QString("/usr/bin/netctl-gui-wpa_supplicant");
     settings[QString("WPA_DRIVERS")] = QString("nl80211,wext");
 
     for (int i=0; i<settings.keys().count(); i++)
