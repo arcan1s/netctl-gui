@@ -7,12 +7,14 @@ Graphical interface for netctl. Now it may work with profiles and may create new
 
 Configuration
 -------------
-It is recommended to use graphical interface for widget configuration. DataEngine settings are stored in /usr/share/config/netctl.conf:
+It is recommended to use graphical interface for widget configuration. DataEngine settings are stored in `/usr/share/config/netctl.conf`:
+
 * `CMD` - netctl command. Default value is `/usr/bin/netctl`.
 * `IPCMD` - ip command. `/usr/bin/ip` by default.
 * `NETDIR` - a directory, which contains subdirectories with names of network interfaces. Default is `/sys/class/net/`.
 * `EXTIPCMD` - a command, which returns external IP address. Default value is `wget -qO- http://ifconfig.me/ip`.
 * `EXTIP` - `true` will enable external IP definition. Default is `false`.
+
 All settings of GUI are stored in `$HOME/.config/netctl-gui.conf`. It is highly recommended to edit it from graphical interface.
 
 Instruction
