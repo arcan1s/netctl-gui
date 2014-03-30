@@ -62,6 +62,7 @@ void Netctl::init()
     // generate ui
     // main layout
     fullSpaceLayout = new QGraphicsLinearLayout();
+    fullSpaceLayout->setContentsMargins(1, 1, 1, 1);
     setLayout(fullSpaceLayout);
 
     // frames
