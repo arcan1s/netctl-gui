@@ -157,21 +157,21 @@ void Netctl::createActions()
 {
     menuActions.clear();
 
-    startProfile = new QAction(QString("Start profile"), this);
+    startProfile = new QAction(i18n("Start profile"), this);
     startProfileMenu = new QMenu(NULL);
     startProfile->setMenu(startProfileMenu);
     connect(startProfileMenu, SIGNAL(triggered(QAction *)), this, SLOT(startProfileSlot(QAction *)));
     menuActions.append(startProfile);
 
-    stopProfile = new QAction(QString("Stop profile"), this);
+    stopProfile = new QAction(i18n("Stop profile"), this);
     connect(stopProfile, SIGNAL(triggered(bool)), this, SLOT(stopProfileSlot()));
     menuActions.append(stopProfile);
 
-    restartProfile = new QAction(QString("Restart profile"), this);
+    restartProfile = new QAction(i18n("Restart profile"), this);
     connect(restartProfile, SIGNAL(triggered(bool)), this, SLOT(restartProfileSlot()));
     menuActions.append(restartProfile);
 
-    enableProfileAutoload = new QAction(QString("Enable profile"), this);
+    enableProfileAutoload = new QAction(i18n("Enable profile"), this);
     connect(enableProfileAutoload, SIGNAL(triggered(bool)), this, SLOT(enableProfileAutoloadSlot()));
     menuActions.append(enableProfileAutoload);
 }
@@ -180,19 +180,19 @@ void Netctl::createActions()
 QList<QAction*> Netctl::contextualActions()
 {
     if (status) {
-        startProfile->setText(QString("Start another profile"));
+        startProfile->setText(i18n("Start another profile"));
         stopProfile->setVisible(true);
-        stopProfile->setText(QString("Stop ") + profileName);
+        stopProfile->setText(i18n("Stop ") + profileName);
         restartProfile->setVisible(true);
-        restartProfile->setText(QString("Restart ") + profileName);
+        restartProfile->setText(i18n("Restart ") + profileName);
         enableProfileAutoload->setVisible(true);
         if (profileStatus.contains(QString("enabled")))
-            enableProfileAutoload->setText(QString("Disable ") + profileName);
+            enableProfileAutoload->setText(i18n("Disable ") + profileName);
         else
-            enableProfileAutoload->setText(QString("Enable ") + profileName);
+            enableProfileAutoload->setText(i18n("Enable ") + profileName);
     }
     else {
-        startProfile->setText(QString("Start profile"));
+        startProfile->setText(i18n("Start profile"));
         stopProfile->setVisible(false);
         restartProfile->setVisible(false);
         enableProfileAutoload->setVisible(false);
