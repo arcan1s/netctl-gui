@@ -41,8 +41,8 @@ public:
 
 public slots:
     // events
-    void showGui();
     void sendNotification(const QString eventId, const QString message);
+    void showGui();
     // dataengine
     void dataUpdated(const QString &sourceName, const Plasma::DataEngine::Data &data);
     // configuration interface
@@ -55,15 +55,15 @@ private slots:
     // ui
     void updateInterface(bool setHidden);
     // configuration interface
-    void selectGuiExe();
-    void selectNetctlExe();
     void selectActiveIcon();
+    void selectGuiExe();
     void selectInactiveIcon();
+    void selectNetctlExe();
     // context menu
+    void enableProfileAutoloadSlot();
     void startProfileSlot(QAction *profile);
     void stopProfileSlot();
     void restartProfileSlot();
-    void enableProfileAutoloadSlot();
 
 protected:
     void createConfigurationInterface(KConfigDialog *parent);
@@ -77,21 +77,16 @@ private:
     // text
     Plasma::Label *textLabel;
     bool status;
-    QString profileName;
-    QString profileStatus;
-    QString intIp;
-    QString extIp;
-    QString interfaces;
+    QMap<QString, QString> info;
     QStringList profileList;
-    QStringList formatLine;
     // context menu
     void createActions();
     QList<QAction*> menuActions;
-    QAction *startProfile;
     QMenu *startProfileMenu;
+    QAction *enableProfileAutoload;
+    QAction *startProfile;
     QAction *stopProfile;
     QAction *restartProfile;
-    QAction *enableProfileAutoload;
     // data engine
     Plasma::DataEngine *netctlEngine;
     void connectToEngine();
@@ -102,21 +97,10 @@ private:
     Ui::ConfigWindow uiConfig;
     // configuration
     int autoUpdateInterval;
-    QString guiPath;
-    QString netctlPath;
+    QMap<QString, bool> bigInterface;
+    QStringList formatLine;
+    QMap<QString, QString> paths;
     bool useSudo;
-    QString sudoPath;
-    bool showBigInterface;
-    bool showNetDev;
-    bool showExtIp;
-    bool showIntIp;
-    QString fontFamily;
-    int fontSize;
-    QString fontColor;
-    int fontWeight;
-    QString fontStyle;
-    QString activeIconPath;
-    QString inactiveIconPath;
 };
 
 K_EXPORT_PLASMA_APPLET(netctl, Netctl)

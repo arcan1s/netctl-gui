@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: http://kde-look.org/content/show.php?content=98925\n"
-"POT-Creation-Date: 2014-04-06 12:31+0400\n"
+"POT-Creation-Date: 2014-04-06 18:45+0400\n"
 "PO-Revision-Date: 2014-04-06 12:32+0400\n"
 "Last-Translator: Evgeniy Alekseev <esalexeev@gmail.com>\n"
 "Language-Team: Russian <kde-russian@lists.kde.ru>\n"
@@ -18,43 +18,43 @@ msgstr ""
 "%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 "X-Generator: Lokalize 1.5\n"
 
-#: netctl.cpp:160 netctl.cpp:195
-msgid "Start profile"
-msgstr "Запустить профиль"
-
-#: netctl.cpp:166
-msgid "Stop profile"
-msgstr "Остановить профиль"
-
-#: netctl.cpp:170
-msgid "Restart profile"
-msgstr "Перезапустить профиль"
-
-#: netctl.cpp:174
-msgid "Enable profile"
-msgstr "Включить профиль"
-
-#: netctl.cpp:183
+#: netctl.cpp:171
 msgid "Start another profile"
 msgstr "Запустить другой профиль"
 
-#: netctl.cpp:185
+#: netctl.cpp:173
 msgid "Stop "
 msgstr "Остановить "
 
-#: netctl.cpp:187
+#: netctl.cpp:175
 msgid "Restart "
 msgstr "Перезапустить "
 
-#: netctl.cpp:190
+#: netctl.cpp:178
 msgid "Disable "
 msgstr "Отключить "
 
-#: netctl.cpp:192
+#: netctl.cpp:180
 msgid "Enable "
 msgstr "Включить "
 
-#: netctl.cpp:399
+#: netctl.cpp:183 netctl.cpp:203
+msgid "Start profile"
+msgstr "Запустить профиль"
+
+#: netctl.cpp:210
+msgid "Stop profile"
+msgstr "Остановить профиль"
+
+#: netctl.cpp:214
+msgid "Restart profile"
+msgstr "Перезапустить профиль"
+
+#: netctl.cpp:218
+msgid "Enable profile"
+msgstr "Включить профиль"
+
+#: netctl.cpp:420
 msgid "Netctl plasmoid"
 msgstr "Netctl plasmoid"
 
@@ -78,146 +78,146 @@ msgstr "Путь к GUI"
 
 #. i18n: file: configwindow.ui:128
 #. i18n: ectx: property (text), widget (QPushButton, pushButton_gui)
-#. i18n: file: configwindow.ui:164
+#. i18n: file: configwindow.ui:161
 #. i18n: ectx: property (text), widget (QPushButton, pushButton_netctl)
-#. i18n: file: configwindow.ui:578
+#. i18n: file: configwindow.ui:572
 #. i18n: ectx: property (text), widget (QPushButton, pushButton_activeIcon)
-#. i18n: file: configwindow.ui:614
+#. i18n: file: configwindow.ui:605
 #. i18n: ectx: property (text), widget (QPushButton, pushButton_inactiveIcon)
 #. i18n: file: configwindow.ui:128
 #. i18n: ectx: property (text), widget (QPushButton, pushButton_gui)
-#. i18n: file: configwindow.ui:164
+#. i18n: file: configwindow.ui:161
 #. i18n: ectx: property (text), widget (QPushButton, pushButton_netctl)
-#. i18n: file: configwindow.ui:578
+#. i18n: file: configwindow.ui:572
 #. i18n: ectx: property (text), widget (QPushButton, pushButton_activeIcon)
-#. i18n: file: configwindow.ui:614
+#. i18n: file: configwindow.ui:605
 #. i18n: ectx: property (text), widget (QPushButton, pushButton_inactiveIcon)
 #: po/rc.cpp:12 po/rc.cpp:18 po/rc.cpp:78 po/rc.cpp:84 rc.cpp:12 rc.cpp:18
 #: rc.cpp:78 rc.cpp:84
 msgid "Browse"
 msgstr "Обзор"
 
-#. i18n: file: configwindow.ui:148
+#. i18n: file: configwindow.ui:145
 #. i18n: ectx: property (text), widget (QLabel, label_netctl)
 #: po/rc.cpp:15 rc.cpp:15
 msgid "Path to netctl"
 msgstr "Путь к netctl"
 
-#. i18n: file: configwindow.ui:184
+#. i18n: file: configwindow.ui:178
 #. i18n: ectx: property (text), widget (QCheckBox, checkBox_sudo)
 #: po/rc.cpp:21 rc.cpp:21
 msgid "Use sudo for netctl"
 msgstr "Использовать sudo для netctl"
 
-#. i18n: file: configwindow.ui:199
+#. i18n: file: configwindow.ui:193
 #. i18n: ectx: property (text), widget (QCheckBox, checkBox_showBigInterface)
 #: po/rc.cpp:24 rc.cpp:24
 msgid "Show more detailed interface"
 msgstr "Показать более детальный интерфейс"
 
-#. i18n: file: configwindow.ui:209
+#. i18n: file: configwindow.ui:203
 #. i18n: ectx: property (text), widget (QCheckBox, checkBox_showNetDev)
 #: po/rc.cpp:27 rc.cpp:27
 msgid "Show network devices"
 msgstr "Показать сетевые устройства"
 
-#. i18n: file: configwindow.ui:219
+#. i18n: file: configwindow.ui:213
 #. i18n: ectx: property (text), widget (QCheckBox, checkBox_showExtIp)
 #: po/rc.cpp:30 rc.cpp:30
 msgid "Show external IP"
 msgstr "Показать внешний IP"
 
-#. i18n: file: configwindow.ui:229
+#. i18n: file: configwindow.ui:223
 #. i18n: ectx: property (text), widget (QCheckBox, checkBox_showIntIp)
 #: po/rc.cpp:33 rc.cpp:33
 msgid "Show internal IP"
 msgstr "Показать внутренний IP"
 
-#. i18n: file: configwindow.ui:253
+#. i18n: file: configwindow.ui:247
 #. i18n: ectx: attribute (title), widget (QWidget, tabAppearance)
 #: po/rc.cpp:36 rc.cpp:36
 msgid "Appearance"
 msgstr "Внешний вид"
 
-#. i18n: file: configwindow.ui:267
+#. i18n: file: configwindow.ui:261
 #. i18n: ectx: property (text), widget (QLabel, label_font)
 #: po/rc.cpp:39 rc.cpp:39
 msgid "Font"
 msgstr "Шрифт"
 
-#. i18n: file: configwindow.ui:299
+#. i18n: file: configwindow.ui:293
 #. i18n: ectx: property (toolTip), widget (QFontComboBox, fontComboBox_font)
 #: po/rc.cpp:42 rc.cpp:42
 msgid "Set font family"
 msgstr "Укажите шрифт"
 
-#. i18n: file: configwindow.ui:316
+#. i18n: file: configwindow.ui:310
 #. i18n: ectx: property (text), widget (QLabel, label_fontSize)
 #: po/rc.cpp:45 rc.cpp:45
 msgid "Font size"
 msgstr "Размер шрифта"
 
-#. i18n: file: configwindow.ui:348
+#. i18n: file: configwindow.ui:342
 #. i18n: ectx: property (toolTip), widget (QSpinBox, spinBox_fontSize)
 #: po/rc.cpp:48 rc.cpp:48
 msgid "Set font size"
 msgstr "Укажите размер шрифта"
 
-#. i18n: file: configwindow.ui:377
+#. i18n: file: configwindow.ui:371
 #. i18n: ectx: property (text), widget (QLabel, label_fontColor)
 #: po/rc.cpp:51 rc.cpp:51
 msgid "Font color"
 msgstr "Цвет шрифта"
 
-#. i18n: file: configwindow.ui:409
+#. i18n: file: configwindow.ui:403
 #. i18n: ectx: property (toolTip), widget (KColorCombo, kcolorcombo_fontColor)
 #: po/rc.cpp:54 rc.cpp:54
 msgid "Set font color"
 msgstr "Укажите цвет шрифта"
 
-#. i18n: file: configwindow.ui:426
+#. i18n: file: configwindow.ui:420
 #. i18n: ectx: property (text), widget (QLabel, label_fontWeight)
 #: po/rc.cpp:57 rc.cpp:57
 msgid "Font weight"
 msgstr "Толщина шрифта"
 
-#. i18n: file: configwindow.ui:458
+#. i18n: file: configwindow.ui:452
 #. i18n: ectx: property (toolTip), widget (QSpinBox, spinBox_fontWeight)
 #: po/rc.cpp:60 rc.cpp:60
 msgid "Set font weight"
 msgstr "Укажите ширину шрифта"
 
-#. i18n: file: configwindow.ui:490
+#. i18n: file: configwindow.ui:484
 #. i18n: ectx: property (text), widget (QLabel, label_fontStyle)
 #: po/rc.cpp:63 rc.cpp:63
 msgid "Font style"
 msgstr "Стиль шрифта"
 
-#. i18n: file: configwindow.ui:522
+#. i18n: file: configwindow.ui:516
 #. i18n: ectx: property (toolTip), widget (QComboBox, comboBox_fontStyle)
 #: po/rc.cpp:66 rc.cpp:66
 msgid "Set font style"
 msgstr "Укажите стиль шрифта"
 
-#. i18n: file: configwindow.ui:526
+#. i18n: file: configwindow.ui:520
 #. i18n: ectx: property (text), item, widget (QComboBox, comboBox_fontStyle)
 #: po/rc.cpp:69 rc.cpp:69
 msgid "normal"
 msgstr "normal"
 
-#. i18n: file: configwindow.ui:531
+#. i18n: file: configwindow.ui:525
 #. i18n: ectx: property (text), item, widget (QComboBox, comboBox_fontStyle)
 #: po/rc.cpp:72 rc.cpp:72
 msgid "italic"
 msgstr "italic"
 
-#. i18n: file: configwindow.ui:562
+#. i18n: file: configwindow.ui:556
 #. i18n: ectx: property (text), widget (QLabel, label_activeIcon)
 #: po/rc.cpp:75 rc.cpp:75
 msgid "Active icon"
 msgstr "Иконка активного подключения"
 
-#. i18n: file: configwindow.ui:598
+#. i18n: file: configwindow.ui:589
 #. i18n: ectx: property (text), widget (QLabel, label_inactiveIcon)
 #: po/rc.cpp:81 rc.cpp:81
 msgid "Inactive icon"
@@ -232,4 +232,3 @@ msgstr "Evgeniy Alekseev"
 msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
 msgstr "esalexeev@gmail.com"
-
