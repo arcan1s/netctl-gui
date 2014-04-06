@@ -16,18 +16,21 @@ makedepends=('automoc4' 'cmake' 'desktop-file-utils' 'xdg-utils')
 optdepends=('kdebase-runtime: sudo support'
             'sudo: sudo support'
             'wpa_supplicant: wifi support')
-source=("https://github.com/arcan1s/netctlplasmoid/releases/download/V.${pkgver}/${pkgname}-${pkgver}-src.tar.xz")
+source=("https://github.com/arcan1s/netctl-gui/releases/download/V.${pkgver}/${pkgname}-${pkgver}-src.tar.xz")
 install="${pkgname}.install"
-md5sums=('9d52df62a7bb642bb86adc8020177fb8')
+md5sums=('46371fb9aa75a63499d804b500adaadb')
 
 # flags
 _cmakekeys="-DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_BUILD_TYPE=Release"
 [[ ${_build_gui} == 0 ]] && _cmakekeys=${_cmakekeys}" -DBUILD_GUI:BOOL=0"
 [[ ${_build_plasmoid} == 0 ]] && _cmakekeys=${_cmakekeys}" -DBUILD_DATAENGINE:BOOL=0 -DBUILD_PLASMOID:BOOL=0" || depends[1]='kdebase-workspace'
 
-build() {
+prepare() {
   rm -rf "${srcdir}/build"
   mkdir "${srcdir}/build"
+}
+
+build() {
   cd "${srcdir}/build"
   cmake ${_cmakekeys} "../${pkgname}"
   make
