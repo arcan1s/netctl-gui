@@ -96,7 +96,7 @@ void PppoeWidget::changeMode(const QString currentText)
     if (currentText == QString("persist"))
         ui->widget_timeout->setHidden(true);
     else if (currentText == QString("demand"))
-        ui->widget_timeout->setShown(true);
+        ui->widget_timeout->setHidden(false);
 }
 
 
@@ -115,7 +115,7 @@ void PppoeWidget::selectOptionsFile()
 void PppoeWidget::showAdvanced()
 {
     if (ui->pushButton_pppoeAdvanced->isChecked()) {
-        ui->widget_pppoeAdvanced->setShown(true);
+        ui->widget_pppoeAdvanced->setHidden(false);
         ui->pushButton_pppoeAdvanced->setText(QApplication::translate("PppoeWidget", "Hide advanced"));
     }
     else {

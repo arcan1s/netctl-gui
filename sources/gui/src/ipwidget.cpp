@@ -306,7 +306,7 @@ void IpWidget::changeIpMode(const QString currentText)
     if (currentText == QString("dhcp"))
         ui->widget_ip->setHidden(true);
     else if (currentText == QString("static"))
-        ui->widget_ip->setShown(true);
+        ui->widget_ip->setHidden(false);
 }
 
 
@@ -332,7 +332,7 @@ void IpWidget::changeIp6Mode(const QString currentText)
         ui->widget_ip6->setHidden(true);
     else if ((currentText == QString("static")) ||
              (currentText == QString("stateless")))
-        ui->widget_ip6->setShown(true);
+        ui->widget_ip6->setHidden(false);
 }
 
 
@@ -354,12 +354,12 @@ void IpWidget::ip6Enable(const int state)
 void IpWidget::changeDhcpClient(const QString currentText)
 {
     if (currentText == QString("dhcpcd")) {
-        ui->widget_dhcpcdOpt->setShown(true);
+        ui->widget_dhcpcdOpt->setHidden(false);
         ui->widget_dhclientOpt->setHidden(true);
     }
     else if (currentText == QString("dhclient")) {
         ui->widget_dhcpcdOpt->setHidden(true);
-        ui->widget_dhclientOpt->setShown(true);
+        ui->widget_dhclientOpt->setHidden(false);
     }
 }
 
@@ -367,7 +367,7 @@ void IpWidget::changeDhcpClient(const QString currentText)
 void IpWidget::showAdvanced()
 {
     if (ui->pushButton_ipAdvanced->isChecked()) {
-        ui->widget_ipAdvanced->setShown(true);
+        ui->widget_ipAdvanced->setHidden(false);
         ui->pushButton_ipAdvanced->setText(QApplication::translate("IpWidget", "Hide advanced"));
     }
     else {

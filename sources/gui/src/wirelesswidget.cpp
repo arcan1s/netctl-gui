@@ -153,28 +153,28 @@ void WirelessWidget::addOption()
 void WirelessWidget::changeSecurity(const QString currentText)
 {
     if (currentText == QString("none")) {
-        ui->widget_essid->setShown(true);
+        ui->widget_essid->setHidden(false);
         ui->widget_wpaConfigSection->setHidden(true);
         ui->widget_wpaConfig->setHidden(true);
         ui->widget_key->setHidden(true);
     }
     else if ((currentText == QString("wep")) ||
              (currentText == QString("wpa"))) {
-        ui->widget_essid->setShown(true);
+        ui->widget_essid->setHidden(false);
         ui->widget_wpaConfigSection->setHidden(true);
         ui->widget_wpaConfig->setHidden(true);
-        ui->widget_key->setShown(true);
+        ui->widget_key->setHidden(false);
     }
     else if (currentText == QString("wpa-configsection")) {
         ui->widget_essid->setHidden(true);
-        ui->widget_wpaConfigSection->setShown(true);
+        ui->widget_wpaConfigSection->setHidden(false);
         ui->widget_wpaConfig->setHidden(true);
         ui->widget_key->setHidden(true);
     }
     else if (currentText == QString("wpa-config")) {
         ui->widget_essid->setHidden(true);
         ui->widget_wpaConfigSection->setHidden(true);
-        ui->widget_wpaConfig->setShown(true);
+        ui->widget_wpaConfig->setHidden(false);
         ui->widget_key->setHidden(true);
     }
 }
@@ -195,7 +195,7 @@ void WirelessWidget::selectWpaConfig()
 void WirelessWidget::showAdvanced()
 {
     if (ui->pushButton_wirelessAdvanced->isChecked()) {
-        ui->widget_wirelessAdvanced->setShown(true);
+        ui->widget_wirelessAdvanced->setHidden(false);
         ui->pushButton_wirelessAdvanced->setText(QApplication::translate("WirelessWidget", "Hide advanced"));
     }
     else {

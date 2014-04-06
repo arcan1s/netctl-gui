@@ -86,7 +86,7 @@ void EthernetWidget::selectWpaConfig()
 void EthernetWidget::showAdvanced()
 {
     if (ui->pushButton_ethernetAdvanced->isChecked()) {
-        ui->widget_ethernetAdvanced->setShown(true);
+        ui->widget_ethernetAdvanced->setHidden(false);
         ui->pushButton_ethernetAdvanced->setText(QApplication::translate("EthernetWidget", "Hide advanced"));
     }
     else {
@@ -101,7 +101,7 @@ void EthernetWidget::showWpa(const int state)
     if (state == 0)
         ui->widget_wpa->setHidden(true);
     else
-        ui->widget_wpa->setShown(true);
+        ui->widget_wpa->setHidden(false);
 }
 
 
