@@ -36,16 +36,17 @@ protected:
 
 private:
     // configuration
-    // enable check external IP
-    QString checkExtIP;
-    // path to netctl command
-    QString cmd;
-    // command to check external IP
-    QString extIpCmd;
-    // path to ip command
-    QString ipCmd;
-    // path to directory with network device configuration
-    QString netDir;
+    QMap<QString, QString> configuration;
+//     // enable check external IP
+//     QString checkExtIP;
+//     // path to netctl command
+//     QString cmd;
+//     // command to check external IP
+//     QString extIpCmd;
+//     // path to ip command
+//     QString ipCmd;
+//     // path to directory with network device configuration
+//     QString netDir;
 };
 
 

@@ -52,11 +52,11 @@ QStringList Netctl::sources() const
 bool Netctl::readConfiguration()
 {
     // default configuration
-    checkExtIP = QString("false");
-    cmd = QString("/usr/bin/netctl");
-    extIpCmd = QString("wget -qO- http://ifconfig.me/ip");
-    ipCmd = QString("/usr/bin/ip");
-    netDir = QString("/sys/class/net/");
+    configuration[QString("CMD")] = QString("/usr/bin/netctl");
+    configuration[QString("EXTIP")] = QString("false");
+    configuration[QString("EXTIPCMD")] = QString("wget -qO- http://ifconfig.me/ip");
+    configuration[QString("IPCMD")] = QString("/usr/bin/ip");
+    configuration[QString("NETDIR")] = QString("/sys/class/net/");
 
     QString fileStr;
     // FIXME: define configuration file
@@ -72,18 +72,10 @@ bool Netctl::readConfiguration()
     while (true) {
         fileStr = QString(confFile.readLine());
         if (fileStr[0] != '#') {
-            if (fileStr.split(QString("="), QString::SkipEmptyParts).count() == 2) {
-                if (fileStr.split(QString("="), QString::SkipEmptyParts)[0] == QString("EXTIP"))
-                    checkExtIP = fileStr.split(QString("="), QString::SkipEmptyParts)[1].split(QString("\n"), QString::SkipEmptyParts)[0];
-                else if (fileStr.split(QString("="), QString::SkipEmptyParts)[0] == QString("CMD"))
-                    cmd = fileStr.split(QString("="), QString::SkipEmptyParts)[1].split(QString("\n"), QString::SkipEmptyParts)[0];
-                else if (fileStr.split(QString("="), QString::SkipEmptyParts)[0] == QString("EXTIPCMD"))
-                    extIpCmd = fileStr.split(QString("="), QString::SkipEmptyParts)[1].split(QString("\n"), QString::SkipEmptyParts)[0];
-                else if (fileStr.split(QString("="), QString::SkipEmptyParts)[0] == QString("IPCMD"))
-                    ipCmd = fileStr.split(QString("="), QString::SkipEmptyParts)[1].split(QString("\n"), QString::SkipEmptyParts)[0];
-                else if (fileStr.split(QString("="), QString::SkipEmptyParts)[0] == QString("NETDIR"))
-                    netDir = fileStr.split(QString("="), QString::SkipEmptyParts)[1].split(QString("\n"), QString::SkipEmptyParts)[0];
-            }
+            if (fileStr.contains(QString("=")))
+                configuration[fileStr.split(QString("="))[0]] = fileStr.split(QString("="))[1]
+                      .remove(QString(" "))
+                      .trimmed();
         }
         if (confFile.atEnd())
             break;
@@ -107,7 +99,7 @@ bool Netctl::updateSourceEvent(const QString &source)
     QString value = QString("");
 
     if (source == QString("currentProfile")) {
-        command.start(cmd + QString(" list"));
+        command.start(configuration[QString("CMD")] + QString(" list"));
         command.waitForFinished(-1);
         cmdOutput = command.readAllStandardOutput();
         if (!cmdOutput.isEmpty()) {
@@ -121,8 +113,8 @@ bool Netctl::updateSourceEvent(const QString &source)
         setData(source, QString("value"), value);
     }
     else if (source == QString("extIp")) {
-        if (checkExtIP == QString("true")) {
-            command.start(extIpCmd);
+        if (configuration[QString("EXTIP")] == QString("true")) {
+            command.start(configuration[QString("EXTIPCMD")]);
             command.waitForFinished(-1);
             cmdOutput = command.readAllStandardOutput();
             if (!cmdOutput.isEmpty())
@@ -131,18 +123,18 @@ bool Netctl::updateSourceEvent(const QString &source)
         setData(source, QString("value"), value);
     }
     else if (source == QString("interfaces")) {
-        if (QDir(netDir).exists())
-            value = QDir(netDir).entryList(QDir::Dirs | QDir::NoDotAndDotDot).join(QString(","));
+        if (QDir(configuration[QString("NETDIR")]).exists())
+            value = QDir(configuration[QString("NETDIR")]).entryList(QDir::Dirs | QDir::NoDotAndDotDot).join(QString(","));
         setData(source, QString("value"), value);
     }
     else if (source == QString("intIp")) {
-        if (QDir(netDir).exists()) {
+        if (QDir(configuration[QString("NETDIR")]).exists()) {
             value = QString("127.0.0.1/8");
-            QStringList netDevices = QDir(netDir).entryList(QDir::Dirs | QDir::NoDotAndDotDot);
+            QStringList netDevices = QDir(configuration[QString("NETDIR")]).entryList(QDir::Dirs | QDir::NoDotAndDotDot);
             for (int i=0; i<netDevices.count(); i++)
                 if (netDevices[i] != QString("lo")) {
                     cmdOutput = QString("");
-                    command.start(ipCmd + QString(" addr show ") + netDevices[i]);
+                    command.start(configuration[QString("IPCMD")] + QString(" addr show ") + netDevices[i]);
                     command.waitForFinished(-1);
                     cmdOutput = command.readAllStandardOutput();
                     if (!cmdOutput.isEmpty()) {
@@ -156,7 +148,7 @@ bool Netctl::updateSourceEvent(const QString &source)
         setData(source, QString("value"), value);
     }
     else if (source == QString("profiles")) {
-        command.start(cmd + QString(" list"));
+        command.start(configuration[QString("CMD")] + QString(" list"));
         command.waitForFinished(-1);
         cmdOutput = command.readAllStandardOutput();
         QStringList list;
@@ -172,7 +164,7 @@ bool Netctl::updateSourceEvent(const QString &source)
         setData(source, QString("value"), value);
     }
     else if (source == QString("statusBool")) {
-        command.start(cmd + QString(" list"));
+        command.start(configuration[QString("CMD")] + QString(" list"));
         command.waitForFinished(-1);
         cmdOutput = command.readAllStandardOutput();
         value = QString("false");
@@ -187,7 +179,7 @@ bool Netctl::updateSourceEvent(const QString &source)
         setData(source, QString("value"), value);
     }
     else if (source == QString("statusString")) {
-        command.start(cmd + QString(" list"));
+        command.start(configuration[QString("CMD")] + QString(" list"));
         command.waitForFinished(-1);
         cmdOutput = command.readAllStandardOutput();
         QString currentProfile;
@@ -199,7 +191,7 @@ bool Netctl::updateSourceEvent(const QString &source)
                     break;
                 }
         }
-        command.start(cmd + QString(" status ") + currentProfile);
+        command.start(configuration[QString("CMD")] + QString(" status ") + currentProfile);
         command.waitForFinished(-1);
         cmdOutput = command.readAllStandardOutput();
         if (!cmdOutput.isEmpty()) {
