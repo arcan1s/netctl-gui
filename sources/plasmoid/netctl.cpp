@@ -116,8 +116,8 @@ void Netctl::enableProfileSlot()
         sendNotification(QString("Info"), i18n("Set profile %1 enabled", info[QString("name")]));
     }
     if (useSudo)
-        commandLine = paths[QString("sudo")] + QString(" \"") + paths[QString("netctl")] +
-                enableStatus + info[QString("name")] + QString("\"");
+        commandLine = paths[QString("sudo")] + QString(" ") + paths[QString("netctl")] +
+                enableStatus + info[QString("name")];
     else
         commandLine = paths[QString("netctl")] + enableStatus + info[QString("name")];
     command.startDetached(commandLine);
@@ -134,9 +134,9 @@ void Netctl::startProfileSlot(QAction *profile)
         commandLine = paths[QString("netctl")] + QString(" stop ") +
                 info[QString("name")] +  QString(" && ");
     if (useSudo)
-        commandLine = paths[QString("sudo")] + QString(" \"") + commandLine +
+        commandLine = paths[QString("sudo")] + QString(" ") + commandLine +
                 paths[QString("netctl")] + QString(" start ") +
-                profile->text().remove(QString("&")) + QString("\"");
+                profile->text().remove(QString("&"));
     else
         commandLine = commandLine + paths[QString("netctl")] + QString(" start ") +
                 profile->text().remove(QString("&"));
@@ -150,8 +150,8 @@ void Netctl::stopProfileSlot()
     QString commandLine;
     sendNotification(QString("Info"), i18n("Stop profile %1", info[QString("name")]));
     if (useSudo)
-        commandLine = paths[QString("sudo")] + QString(" \"") + paths[QString("netctl")] +
-                QString(" stop ") + info[QString("name")] + QString("\"");
+        commandLine = paths[QString("sudo")] + QString(" ") + paths[QString("netctl")] +
+                QString(" stop ") + info[QString("name")];
     else
         commandLine = paths[QString("netctl")] + QString(" stop ") + info[QString("name")];
     command.startDetached(commandLine);
@@ -164,8 +164,8 @@ void Netctl::restartProfileSlot()
     QString commandLine;
     sendNotification(QString("Info"), i18n("Restart profile %1", info[QString("name")]));
     if (useSudo)
-        commandLine = paths[QString("sudo")] + QString(" \"") + paths[QString("netctl")] +
-                QString(" restart ") + info[QString("name")] + QString("\"");
+        commandLine = paths[QString("sudo")] + QString(" ") + paths[QString("netctl")] +
+                QString(" restart ") + info[QString("name")];
     else
         commandLine = paths[QString("netctl")] + QString(" restart ") + info[QString("name")];
     command.startDetached(commandLine);
@@ -492,7 +492,7 @@ void Netctl::configChanged()
     paths[QString("gui")] = cg.readEntry("guiPath", "/usr/bin/netctl-gui");
     paths[QString("netctl")] = cg.readEntry("netctlPath", "/usr/bin/netctl");
     useSudo = cg.readEntry("useSudo", true);
-    paths[QString("sudo")] = cg.readEntry("sudoPath", "/usr/bin/kdesu -c");
+    paths[QString("sudo")] = cg.readEntry("sudoPath", "/usr/bin/kdesu");
     bigInterface[QString("main")] = cg.readEntry("showBigInterface", true);
     bigInterface[QString("extIp")] = cg.readEntry("showExtIp", false);
     bigInterface[QString("netDev")] = cg.readEntry("showNetDev", true);

@@ -19,7 +19,7 @@ optdepends=('kdebase-runtime: sudo support'
             'wpa_supplicant: wifi support')
 source=("https://github.com/arcan1s/netctl-gui/releases/download/V.${pkgver}/${pkgname}-${pkgver}-src.tar.xz")
 install="${pkgname}.install"
-md5sums=('6bb4897a9244cf5b9c2e45dff43c07b2')
+md5sums=('4dc8aa4d357fe6bdbd0a18d778a53187')
 
 # flags
 _cmakekeys="-DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_BUILD_TYPE=Release"
