@@ -47,7 +47,7 @@ Netctl::~Netctl()
 //    delete startProfile;
 //    delete stopProfile;
 //    delete restartProfile;
-//    delete enableProfileAutoload;
+//    delete enableProfile;
 
 //    delete iconWidget;
 
@@ -103,14 +103,18 @@ void Netctl::updateInterface(bool setShown)
 
 
 // context menu
-void Netctl::enableProfileAutoloadSlot()
+void Netctl::enableProfileSlot()
 {
     QProcess command;
     QString commandLine, enableStatus;
-    if (info[QString("status")].contains(QString("enabled")))
+    if (info[QString("status")].contains(QString("enabled"))) {
         enableStatus = QString(" disable ");
-    else
+        sendNotification(QString("Info"), i18n("Set profile %1 disabled", info[QString("name")]));
+    }
+    else {
         enableStatus = QString(" enable ");
+        sendNotification(QString("Info"), i18n("Set profile %1 enabled", info[QString("name")]));
+    }
     if (useSudo)
         commandLine = paths[QString("sudo")] + QString(" \"") + paths[QString("netctl")] +
                 enableStatus + info[QString("name")] + QString("\"");
@@ -125,6 +129,7 @@ void Netctl::startProfileSlot(QAction *profile)
     QProcess command;
     QString commandLine;
     commandLine = QString("");
+    sendNotification(QString("Info"), i18n("Start profile %1", profile->text().remove(QString("&"))));
     if (status)
         commandLine = paths[QString("netctl")] + QString(" stop ") +
                 info[QString("name")] +  QString(" && ");
@@ -143,6 +148,7 @@ void Netctl::stopProfileSlot()
 {
     QProcess command;
     QString commandLine;
+    sendNotification(QString("Info"), i18n("Stop profile %1", info[QString("name")]));
     if (useSudo)
         commandLine = paths[QString("sudo")] + QString(" \"") + paths[QString("netctl")] +
                 QString(" stop ") + info[QString("name")] + QString("\"");
@@ -156,6 +162,7 @@ void Netctl::restartProfileSlot()
 {
     QProcess command;
     QString commandLine;
+    sendNotification(QString("Info"), i18n("Restart profile %1", info[QString("name")]));
     if (useSudo)
         commandLine = paths[QString("sudo")] + QString(" \"") + paths[QString("netctl")] +
                 QString(" restart ") + info[QString("name")] + QString("\"");
@@ -173,17 +180,17 @@ QList<QAction*> Netctl::contextualActions()
         stopProfile->setText(i18n("Stop ") + info[QString("name")]);
         restartProfile->setVisible(true);
         restartProfile->setText(i18n("Restart ") + info[QString("name")]);
-        enableProfileAutoload->setVisible(true);
+        enableProfile->setVisible(true);
         if (info[QString("status")].contains(QString("enabled")))
-            enableProfileAutoload->setText(i18n("Disable ") + info[QString("name")]);
+            enableProfile->setText(i18n("Disable ") + info[QString("name")]);
         else
-            enableProfileAutoload->setText(i18n("Enable ") + info[QString("name")]);
+            enableProfile->setText(i18n("Enable ") + info[QString("name")]);
     }
     else {
         startProfile->setText(i18n("Start profile"));
         stopProfile->setVisible(false);
         restartProfile->setVisible(false);
-        enableProfileAutoload->setVisible(false);
+        enableProfile->setVisible(false);
     }
 
     startProfileMenu->clear();
@@ -215,10 +222,9 @@ void Netctl::createActions()
     connect(restartProfile, SIGNAL(triggered(bool)), this, SLOT(restartProfileSlot()));
     menuActions.append(restartProfile);
 
-    enableProfileAutoload = new QAction(i18n("Enable profile"), this);
-    connect(enableProfileAutoload, SIGNAL(triggered(bool)), this,
-            SLOT(enableProfileAutoloadSlot()));
-    menuActions.append(enableProfileAutoload);
+    enableProfile = new QAction(i18n("Enable profile"), this);
+    connect(enableProfile, SIGNAL(triggered(bool)), this, SLOT(enableProfileSlot()));
+    menuActions.append(enableProfile);
 }
 
 
@@ -227,7 +233,7 @@ void Netctl::sendNotification(const QString eventId, const QString message)
 {
     KNotification *notification = new KNotification(eventId);
     notification->setComponentData(KComponentData("plasma_applet_netctl"));
-    notification->setTitle(eventId);
+    notification->setTitle(QString("Netctl ::: ") + eventId);
     notification->setText(message);
     notification->sendEvent();
     delete notification;
@@ -236,6 +242,7 @@ void Netctl::sendNotification(const QString eventId, const QString message)
 
 void Netctl::showGui()
 {
+    sendNotification(QString("Info"), i18n("Start GUI"));
     QProcess command;
     command.startDetached(paths[QString("gui")]);
 }
@@ -298,12 +305,16 @@ void Netctl::dataUpdated(const QString &sourceName, const Plasma::DataEngine::Da
     }
     else if (sourceName == QString("statusBool")) {
         if (value == QString("true")) {
+            if (! status)
+                sendNotification(QString("Info"), i18n("Network is up"));
             status = true;
             iconWidget->setIcon(paths[QString("active")]);
         }
         else {
-            iconWidget->setIcon(paths[QString("inactive")]);
+            if (status)
+                sendNotification(QString("Info"), i18n("Network is down"));
             status = false;
+            iconWidget->setIcon(paths[QString("inactive")]);
         }
     }
     else if (sourceName == QString("statusString")) {

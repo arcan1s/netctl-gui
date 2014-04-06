@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: http://kde-look.org/content/show.php?content=98925\n"
-"POT-Creation-Date: 2014-04-06 18:45+0400\n"
-"PO-Revision-Date: 2014-04-06 12:32+0400\n"
+"POT-Creation-Date: 2014-04-07 00:27+0400\n"
+"PO-Revision-Date: 2014-04-07 00:28+0400\n"
 "Last-Translator: Evgeniy Alekseev <esalexeev@gmail.com>\n"
 "Language-Team: Russian <kde-russian@lists.kde.ru>\n"
 "Language: ru\n"
@@ -18,43 +18,75 @@ msgstr ""
 "%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 "X-Generator: Lokalize 1.5\n"
 
-#: netctl.cpp:171
+#: netctl.cpp:112
+msgid "Set profile %1 disabled"
+msgstr "Выключение автозагрузки профиля %1"
+
+#: netctl.cpp:116
+msgid "Set profile %1 enabled"
+msgstr "Включение автозагрузки профиля %1"
+
+#: netctl.cpp:132
+msgid "Start profile %1"
+msgstr "Запуск профиля %1"
+
+#: netctl.cpp:151
+msgid "Stop profile %1"
+msgstr "Остановка профиля %1"
+
+#: netctl.cpp:165
+msgid "Restart profile %1"
+msgstr "Перезапуск профиля %1"
+
+#: netctl.cpp:178
 msgid "Start another profile"
 msgstr "Запустить другой профиль"
 
-#: netctl.cpp:173
+#: netctl.cpp:180
 msgid "Stop "
 msgstr "Остановить "
 
-#: netctl.cpp:175
+#: netctl.cpp:182
 msgid "Restart "
 msgstr "Перезапустить "
 
-#: netctl.cpp:178
+#: netctl.cpp:185
 msgid "Disable "
 msgstr "Отключить "
 
-#: netctl.cpp:180
+#: netctl.cpp:187
 msgid "Enable "
 msgstr "Включить "
 
-#: netctl.cpp:183 netctl.cpp:203
+#: netctl.cpp:190 netctl.cpp:210
 msgid "Start profile"
 msgstr "Запустить профиль"
 
-#: netctl.cpp:210
+#: netctl.cpp:217
 msgid "Stop profile"
 msgstr "Остановить профиль"
 
-#: netctl.cpp:214
+#: netctl.cpp:221
 msgid "Restart profile"
 msgstr "Перезапустить профиль"
 
-#: netctl.cpp:218
+#: netctl.cpp:225
 msgid "Enable profile"
 msgstr "Включить профиль"
 
-#: netctl.cpp:420
+#: netctl.cpp:245
+msgid "Start GUI"
+msgstr "Запуск GUI"
+
+#: netctl.cpp:309
+msgid "Network is up"
+msgstr "Сеть работает"
+
+#: netctl.cpp:315
+msgid "Network is down"
+msgstr "Сеть не работает"
+
+#: netctl.cpp:431
 msgid "Netctl plasmoid"
 msgstr "Netctl plasmoid"
 
@@ -232,3 +264,4 @@ msgstr "Evgeniy Alekseev"
 msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
 msgstr "esalexeev@gmail.com"
+

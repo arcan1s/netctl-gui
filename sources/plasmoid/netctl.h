@@ -60,7 +60,7 @@ private slots:
     void selectInactiveIcon();
     void selectNetctlExe();
     // context menu
-    void enableProfileAutoloadSlot();
+    void enableProfileSlot();
     void startProfileSlot(QAction *profile);
     void stopProfileSlot();
     void restartProfileSlot();
@@ -83,7 +83,7 @@ private:
     void createActions();
     QList<QAction*> menuActions;
     QMenu *startProfileMenu;
-    QAction *enableProfileAutoload;
+    QAction *enableProfile;
     QAction *startProfile;
     QAction *stopProfile;
     QAction *restartProfile;

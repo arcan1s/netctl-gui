@@ -30,6 +30,8 @@ else ()
   message (STATUS "Unknown compiler")
 endif ()
 
+add_subdirectory (icons)
+
 if (BUILD_PLASMOID)
   set (BUILD_DATAENGINE ON)
 endif ()

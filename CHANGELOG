@@ -1,5 +1,6 @@
 Ver.1.0.4:
 + added Qt5 gui (by default)
++ added notifications
 
 Ver.1.0.3:
 + [plasmoid] edited russian translation

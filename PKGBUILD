@@ -8,7 +8,7 @@
 pkgname=netctl-gui
 pkgver=1.0.4
 pkgrel=1
-pkgdesc="Qt GUI for netctl. Provides a plasmoid for KDE4"
+pkgdesc="Qt4/Qt5 GUI for netctl. Provides a plasmoid for KDE4"
 arch=('i686' 'x86_64')
 url="http://arcanis.name/projects/netctl-gui"
 license=('GPLv3')
@@ -19,7 +19,7 @@ optdepends=('kdebase-runtime: sudo support'
             'wpa_supplicant: wifi support')
 source=("https://github.com/arcan1s/netctl-gui/releases/download/V.${pkgver}/${pkgname}-${pkgver}-src.tar.xz")
 install="${pkgname}.install"
-md5sums=('df44243e2dc1acf1536ab58be9af0081')
+md5sums=('6bb4897a9244cf5b9c2e45dff43c07b2')
 
 # flags
 _cmakekeys="-DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_BUILD_TYPE=Release"
