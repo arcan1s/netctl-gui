@@ -5,6 +5,8 @@ Information
 -----------
 Graphical interface for netctl. Now it may work with profiles and may create new profiles. Also it may create a connection to WiFi. Moreover, it provides a widget and DataEngine for KDE.
 
+**NOTE** LOOKING FOR TRANSLATORS!
+
 Configuration
 -------------
 It is recommended to use graphical interface for widget configuration. DataEngine settings are stored in `/usr/share/config/netctl.conf`:
@@ -52,6 +54,14 @@ Installation
         cd /path/to/extracted/archive
         mkdir build && cd build
         cmake -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_BUILD_TYPE=Release -DBUILD_DATAENGINE:BOOL=0 -DBUILD_PLASMOID:BOOL=0 ../
+        make
+        sudo make install
+
+  If you want install it without GUI run:
+
+        cd /path/to/extracted/archive
+        mkdir build && cd build
+        cmake -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_BUILD_TYPE=Release -DBUILD_GUI:BOOL=0 ../
         make
         sudo make install
 
