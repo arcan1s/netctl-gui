@@ -224,7 +224,11 @@ void MainWindow::updateMainTab()
 
     ui->tableWidget_main->setSortingEnabled(true);
     ui->tableWidget_main->resizeRowsToContents();
+#if QT_VERSION >= 0x050000
     ui->tableWidget_main->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
+#else
+    ui->tableWidget_main->horizontalHeader()->setResizeMode(QHeaderView::Stretch);
+#endif
     ui->tabWidget->setEnabled(true);
     ui->statusBar->showMessage(QApplication::translate("MainWindow", "Updated"));
 
@@ -284,7 +288,11 @@ void MainWindow::updateWifiTab()
 
     ui->tableWidget_wifi->setSortingEnabled(true);
     ui->tableWidget_wifi->resizeRowsToContents();
+#if QT_VERSION >= 0x050000
     ui->tableWidget_wifi->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
+#else
+    ui->tableWidget_wifi->horizontalHeader()->setResizeMode(QHeaderView::Stretch);
+#endif
     ui->tabWidget->setEnabled(true);
     ui->statusBar->showMessage(QApplication::translate("MainWindow", "Updated"));
 
