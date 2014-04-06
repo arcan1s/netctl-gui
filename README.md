@@ -3,7 +3,7 @@ Netctl GUI
 
 Information
 -----------
-Graphical interface for netctl. Now it may work with profiles and may create new profiles. Also it may create a connection to WiFi. Moreover, it provides a widget and DataEngine for KDE.
+Qt4/Qt5 graphical interface for netctl. It may work with profiles and may create new profiles. Also it may create a connection to WiFi. Moreover, it provides a widget and DataEngine for KDE.
 
 **NOTE** LOOKING FOR TRANSLATORS!
 
@@ -25,7 +25,7 @@ Instruction
 Dependencies
 ------------
 * netctl
-* qt4
+* qt5-base (if Qt5 is used) or qt4 (if Qt4 is used)
 
 Optional dependencies
 ---------------------
@@ -37,6 +37,7 @@ Make dependencies
 -----------------
 * automoc4
 * cmake
+* qt5-tools (if Qt5 is used)
 
 Installation
 ------------
@@ -49,21 +50,12 @@ Installation
         make
         sudo make install
 
-  If you want install it without KDE widget just run:
+  Available cmake flags:
 
-        cd /path/to/extracted/archive
-        mkdir build && cd build
-        cmake -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_BUILD_TYPE=Release -DBUILD_DATAENGINE:BOOL=0 -DBUILD_PLASMOID:BOOL=0 ../
-        make
-        sudo make install
-
-  If you want install it without GUI run:
-
-        cd /path/to/extracted/archive
-        mkdir build && cd build
-        cmake -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_BUILD_TYPE=Release -DBUILD_GUI:BOOL=0 ../
-        make
-        sudo make install
+  * `-DBUILD_DATAENGINE:BOOL=0` - do not build DataEngine
+  * `-DBUILD_GUI:BOOL=0` - do not build GUI
+  * `-DBUILD_PLASMOID:BOOL=0` - do not build Plasmoid
+  * `-DUSE_QT5:BOOL=0` - use Qt4 instead of Qt5 for GUI
 
 Additional information
 ======================
