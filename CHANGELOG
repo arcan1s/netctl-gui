@@ -1,7 +1,7 @@
 Ver.1.0.4:
-+ added Qt5 gui (by default)
-+ added notifications
-* fix run command with sudo from plasmoid
++ [gui] added Qt5 gui (by default)
++ [plasmoid] added notifications
+* [plasmoid] fix run command with sudo from plasmoid
 
 Ver.1.0.3:
 + [plasmoid] edited russian translation
