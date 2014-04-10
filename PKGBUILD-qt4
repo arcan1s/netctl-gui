@@ -9,7 +9,7 @@ arch=('i686' 'x86_64')
 url="http://arcanis.name/projects/netctl-gui"
 license=('GPLv3')
 depends=('netctl' 'qt4')
-makedepends=('automoc4' 'cmake' 'desktop-file-utils' 'xdg-utils')
+makedepends=('automoc4' 'cmake' 'desktop-file-utils')
 optdepends=('kdebase-runtime: sudo support'
             'kdeplasma-applets-netctl-gui: KDE widget'
             'sudo: sudo support'

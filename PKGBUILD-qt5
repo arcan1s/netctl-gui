@@ -7,7 +7,7 @@ pkgdesc="Qt5 graphical front-end for netctl. A part of netctl-gui"
 arch=('i686' 'x86_64')
 url="http://arcanis.name/projects/netctl-gui"
 license=('GPLv3')
-depends=('netctl' 'qt5-base')
+depends=('netctl' 'qt5-base' 'xdg-utils')
 makedepends=('automoc4' 'cmake' 'qt5-tools')
 optdepends=('kdebase-runtime: sudo support'
             'kdeplasma-applets-netctl-gui: KDE widget'

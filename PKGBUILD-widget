@@ -12,6 +12,7 @@ depends=('netctl' 'kdebase-workspace')
 makedepends=('automoc4' 'cmake')
 optdepends=('kdebase-runtime: sudo support'
             'netctl-gui: graphical front-end'
+            'netctl-gui-qt4: graphical front-end'
             'sudo: sudo support')
 source=("https://github.com/arcan1s/netctl-gui/releases/download/V.${pkgver}/${_pkgname}-${pkgver}-src.tar.xz")
 install="${_pkgname}.install"
