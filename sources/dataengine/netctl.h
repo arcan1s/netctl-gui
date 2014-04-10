@@ -29,7 +29,6 @@ public:
     Netctl(QObject *parent, const QVariantList &args);
 
 protected:
-    bool readConfiguration();
     bool sourceRequestEvent(const QString &name);
     bool updateSourceEvent(const QString &source);
     QStringList sources() const;
@@ -37,6 +36,8 @@ protected:
 private:
     // configuration
     QMap<QString, QString> configuration;
+    void readConfiguration();
+    QMap<QString, QString> updateConfiguration(const QMap<QString, QString> rawConfig);
 };
 
 

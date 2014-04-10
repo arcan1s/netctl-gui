@@ -18,6 +18,8 @@
 #include "netctl.h"
 
 #include <Plasma/DataContainer>
+#include <KDE/KGlobal>
+#include <KDE/KStandardDirs>
 #include <QDir>
 #include <QFile>
 #include <QProcess>
@@ -49,40 +51,60 @@ QStringList Netctl::sources() const
 }
 
 
-bool Netctl::readConfiguration()
+void Netctl::readConfiguration()
 {
     // default configuration
-    configuration[QString("CMD")] = QString("/usr/bin/netctl");
-    configuration[QString("EXTIP")] = QString("false");
-    configuration[QString("EXTIPCMD")] = QString("wget -qO- http://ifconfig.me/ip");
-    configuration[QString("IPCMD")] = QString("/usr/bin/ip");
-    configuration[QString("NETDIR")] = QString("/sys/class/net/");
+    QMap<QString, QString> rawConfig;
+    rawConfig[QString("CMD")] = QString("/usr/bin/netctl");
+    rawConfig[QString("EXTIP")] = QString("false");
+    rawConfig[QString("EXTIPCMD")] = QString("wget -qO- http://ifconfig.me/ip");
+    rawConfig[QString("IPCMD")] = QString("/usr/bin/ip");
+    rawConfig[QString("NETDIR")] = QString("/sys/class/net/");
 
-    QString fileStr;
-    // FIXME: define configuration file
-    QFile confFile(QString(getenv("HOME")) + QString("/.kde4/share/config/netctl.conf"));
-    bool exists = confFile.open(QIODevice::ReadOnly);
-    if (!exists) {
-        confFile.setFileName("/usr/share/config/netctl.conf");
-        exists = confFile.open(QIODevice::ReadOnly);
-        if (!exists)
-            return false;
+    QString fileName = KGlobal::dirs()->findResource("config", "netctl.conf");
+    QFile confFile(fileName);
+    bool ok = confFile.open(QIODevice::ReadOnly);
+    if (!ok) {
+        configuration = updateConfiguration(rawConfig);
+        return;
     }
-
+    QString fileStr;
+    QStringList value;
     while (true) {
-        fileStr = QString(confFile.readLine());
-        if (fileStr[0] != '#') {
-            if (fileStr.contains(QString("=")))
-                configuration[fileStr.split(QString("="))[0]] = fileStr.split(QString("="))[1]
-                      .remove(QString(" "))
-                      .trimmed();
+        fileStr = QString(confFile.readLine()).trimmed();
+        if (fileStr[0] == QChar('#')) continue;
+        if (fileStr[0] == QChar(';')) continue;
+        if (fileStr.contains(QChar('='))) {
+            value.clear();
+            for (int i=1; i<fileStr.split(QChar('=')).count(); i++)
+                value.append(fileStr.split(QChar('='))[i]);
+            rawConfig[fileStr.split(QChar('='))[0]] = value.join(QChar('='));
         }
         if (confFile.atEnd())
             break;
     }
-
     confFile.close();
-    return true;
+    configuration = updateConfiguration(rawConfig);
+    return;
+}
+
+
+QMap<QString, QString> Netctl::updateConfiguration(const QMap<QString, QString> rawConfig)
+{
+    QMap<QString, QString> config;
+    QString key, value;
+    // remove spaces and copy source map
+    for (int i=0; i<rawConfig.keys().count(); i++) {
+        key = rawConfig.keys()[i];
+        value = rawConfig[key];
+        key.remove(QChar(' '));
+        if ((key != QString("CMD")) &&
+            (key != QString("EXTIPCMD")) &&
+            (key != QString("IPCMD")))
+            value.remove(QChar(' '));
+        config[key] = value;
+    }
+    return config;
 }
 
 

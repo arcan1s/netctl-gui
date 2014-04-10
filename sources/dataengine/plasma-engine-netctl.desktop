@@ -4,7 +4,7 @@ Name=Netctl
 Comment=Data engine for netctl
 ServiceTypes=Plasma/DataEngine
 Type=Service
-Icon=netctl-gui
+Icon=netctl-gui-widget
 
 X-KDE-ServiceTypes=Plasma/DataEngine
 X-KDE-Library=plasma_engine_netctl

@@ -3,7 +3,7 @@ Encoding=UTF-8
 Name=Netctl
 Comment=Plasmoid for netctl
 Type=Service
-Icon=netctl-gui
+Icon=netctl-gui-widget
 
 X-KDE-ServiceTypes=Plasma/Applet
 X-KDE-Library=plasma_applet_netctl

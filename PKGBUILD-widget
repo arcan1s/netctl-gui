@@ -1,0 +1,36 @@
+# Maintainer: Evgeniy "arcanis" Alexeev <arcanis.arch at gmail dot com>
+
+pkgname=kdeplasma-applets-netctl-gui
+_pkgname=netctl-gui
+pkgver=1.0.4
+pkgrel=1
+pkgdesc="A plasmoid for KDE4 whih interacts with netctl. A part of netctl-gui"
+arch=('i686' 'x86_64')
+url="http://arcanis.name/projects/netctl-gui"
+license=('GPLv3')
+depends=('netctl' 'kdebase-workspace')
+makedepends=('automoc4' 'cmake')
+optdepends=('kdebase-runtime: sudo support'
+            'netctl-gui: graphical front-end'
+            'sudo: sudo support')
+source=("https://github.com/arcan1s/netctl-gui/releases/download/V.${pkgver}/${_pkgname}-${pkgver}-src.tar.xz")
+install="${_pkgname}.install"
+md5sums=('04ec09228a54fa4fe9e13a7a8e325bcb')
+
+_cmakekeys="-DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_BUILD_TYPE=Release -DBUILD_GUI:BOOL=0"
+
+prepare() {
+  rm -rf "${srcdir}/build"
+  mkdir "${srcdir}/build"
+}
+
+build() {
+  cd "${srcdir}/build"
+  cmake ${_cmakekeys} "../${_pkgname}"
+  make
+}
+
+package() {
+  cd "${srcdir}/build"
+  make DESTDIR="${pkgdir}" install
+}
