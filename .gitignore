@@ -14,6 +14,7 @@
 
 # Source archive
 *.tar.xz
+*.tar.gz
 
 # Build directory
 build/
