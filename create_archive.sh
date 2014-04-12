@@ -3,7 +3,7 @@
 ARCHIVE="netctl-gui"
 SRCDIR="sources"
 FILES="AUTHORS CHANGELOG COPYING README.md"
-IGNORELIST="build gui/resources/translations/english.qm gui/resources/translations/russian.qm dataengine/dataengine.cppcheck gui/gui.cppcheck plasmoid/plasmoid.cppcheck"
+IGNORELIST="build gui/resources/translations/english.qm gui/resources/translations/russian.qm dataengine/dataengine.cppcheck gui/src/gui.cppcheck plasmoid/plasmoid.cppcheck"
 VERSION=$(grep -m1 PROJECT_VERSION_MAJOR sources/CMakeLists.txt | awk '{print $3}' | cut -c 1).\
 $(grep -m1 PROJECT_VERSION_MINOR sources/CMakeLists.txt | awk '{print $3}' | cut -c 1).\
 $(grep -m1 PROJECT_VERSION_PATCH sources/CMakeLists.txt | awk '{print $3}' | cut -c 1)
