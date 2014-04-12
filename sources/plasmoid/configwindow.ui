@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>480</width>
-    <height>320</height>
+    <height>343</height>
    </rect>
   </property>
   <property name="minimumSize">
@@ -184,6 +184,55 @@
          </item>
          <item>
           <widget class="QLineEdit" name="lineEdit_sudo"/>
+         </item>
+         <item>
+          <widget class="QPushButton" name="pushButton_sudo">
+           <property name="minimumSize">
+            <size>
+             <width>100</width>
+             <height>23</height>
+            </size>
+           </property>
+           <property name="text">
+            <string>Browse</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <layout class="QHBoxLayout" name="layout_wifi">
+         <item>
+          <widget class="QCheckBox" name="checkBox_wifi">
+           <property name="minimumSize">
+            <size>
+             <width>150</width>
+             <height>23</height>
+            </size>
+           </property>
+           <property name="text">
+            <string>Show 'Start WiFi menu'</string>
+           </property>
+           <property name="checked">
+            <bool>true</bool>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLineEdit" name="lineEdit_wifi"/>
+         </item>
+         <item>
+          <widget class="QPushButton" name="pushButton_wifi">
+           <property name="minimumSize">
+            <size>
+             <width>100</width>
+             <height>23</height>
+            </size>
+           </property>
+           <property name="text">
+            <string>Browse</string>
+           </property>
+          </widget>
          </item>
         </layout>
        </item>
@@ -643,6 +692,10 @@
   <tabstop>pushButton_netctl</tabstop>
   <tabstop>checkBox_sudo</tabstop>
   <tabstop>lineEdit_sudo</tabstop>
+  <tabstop>pushButton_sudo</tabstop>
+  <tabstop>checkBox_wifi</tabstop>
+  <tabstop>lineEdit_wifi</tabstop>
+  <tabstop>pushButton_wifi</tabstop>
   <tabstop>checkBox_showBigInterface</tabstop>
   <tabstop>checkBox_showNetDev</tabstop>
   <tabstop>checkBox_showExtIp</tabstop>

@@ -175,23 +175,27 @@ void Netctl::restartProfileSlot()
 QList<QAction*> Netctl::contextualActions()
 {
     if (status) {
-        startProfile->setText(i18n("Start another profile"));
-        stopProfile->setVisible(true);
-        stopProfile->setText(i18n("Stop ") + info[QString("name")]);
-        restartProfile->setVisible(true);
-        restartProfile->setText(i18n("Restart ") + info[QString("name")]);
-        enableProfile->setVisible(true);
+        contextMenu[QString("start")]->setText(i18n("Start another profile"));
+        contextMenu[QString("stop")]->setVisible(true);
+        contextMenu[QString("stop")]->setText(i18n("Stop ") + info[QString("name")]);
+        contextMenu[QString("restart")]->setVisible(true);
+        contextMenu[QString("restart")]->setText(i18n("Restart ") + info[QString("name")]);
+        contextMenu[QString("enable")]->setVisible(true);
         if (info[QString("status")].contains(QString("enabled")))
-            enableProfile->setText(i18n("Disable ") + info[QString("name")]);
+            contextMenu[QString("enable")]->setText(i18n("Disable ") + info[QString("name")]);
         else
-            enableProfile->setText(i18n("Enable ") + info[QString("name")]);
+            contextMenu[QString("enable")]->setText(i18n("Enable ") + info[QString("name")]);
     }
     else {
-        startProfile->setText(i18n("Start profile"));
-        stopProfile->setVisible(false);
-        restartProfile->setVisible(false);
-        enableProfile->setVisible(false);
+        contextMenu[QString("start")]->setText(i18n("Start profile"));
+        contextMenu[QString("stop")]->setVisible(false);
+        contextMenu[QString("restart")]->setVisible(false);
+        contextMenu[QString("enable")]->setVisible(false);
     }
+    if (useWifi)
+        contextMenu[QString("wifi")]->setVisible(true);
+    else
+        contextMenu[QString("wifi")]->setVisible(false);
 
     startProfileMenu->clear();
     for (int i=0; i<profileList.count(); i++) {
@@ -207,24 +211,28 @@ void Netctl::createActions()
 {
     menuActions.clear();
 
-    startProfile = new QAction(i18n("Start profile"), this);
+    contextMenu[QString("start")] = new QAction(i18n("Start profile"), this);
     startProfileMenu = new QMenu(NULL);
-    startProfile->setMenu(startProfileMenu);
+    contextMenu[QString("start")]->setMenu(startProfileMenu);
     connect(startProfileMenu, SIGNAL(triggered(QAction *)), this,
             SLOT(startProfileSlot(QAction *)));
-    menuActions.append(startProfile);
+    menuActions.append(contextMenu[QString("start")]);
 
-    stopProfile = new QAction(i18n("Stop profile"), this);
-    connect(stopProfile, SIGNAL(triggered(bool)), this, SLOT(stopProfileSlot()));
-    menuActions.append(stopProfile);
+    contextMenu[QString("stop")] = new QAction(i18n("Stop profile"), this);
+    connect(contextMenu[QString("stop")], SIGNAL(triggered(bool)), this, SLOT(stopProfileSlot()));
+    menuActions.append(contextMenu[QString("stop")]);
 
-    restartProfile = new QAction(i18n("Restart profile"), this);
-    connect(restartProfile, SIGNAL(triggered(bool)), this, SLOT(restartProfileSlot()));
-    menuActions.append(restartProfile);
+    contextMenu[QString("restart")] = new QAction(i18n("Restart profile"), this);
+    connect(contextMenu[QString("restart")], SIGNAL(triggered(bool)), this, SLOT(restartProfileSlot()));
+    menuActions.append(contextMenu[QString("restart")]);
 
-    enableProfile = new QAction(i18n("Enable profile"), this);
-    connect(enableProfile, SIGNAL(triggered(bool)), this, SLOT(enableProfileSlot()));
-    menuActions.append(enableProfile);
+    contextMenu[QString("enable")] = new QAction(i18n("Enable profile"), this);
+    connect(contextMenu[QString("enable")], SIGNAL(triggered(bool)), this, SLOT(enableProfileSlot()));
+    menuActions.append(contextMenu[QString("enable")]);
+
+    contextMenu[QString("wifi")] = new QAction(i18n("Show WiFi menu"), this);
+    connect(contextMenu[QString("wifi")], SIGNAL(triggered(bool)), this, SLOT(showWifi()));
+    menuActions.append(contextMenu[QString("wifi")]);
 }
 
 
@@ -245,6 +253,14 @@ void Netctl::showGui()
     sendNotification(QString("Info"), i18n("Start GUI"));
     QProcess command;
     command.startDetached(paths[QString("gui")]);
+}
+
+
+void Netctl::showWifi()
+{
+    sendNotification(QString("Info"), i18n("Start WiFi menu"));
+    QProcess command;
+    command.startDetached(paths[QString("wifi")]);
 }
 
 
@@ -376,6 +392,22 @@ void Netctl::selectNetctlExe()
 }
 
 
+void Netctl::selectSudoExe()
+{
+    KUrl url = KFileDialog::getOpenUrl(KUrl(), "*");
+    if (!url.isEmpty())
+        uiConfig.lineEdit_sudo->setText(url.path());
+}
+
+
+void Netctl::selectWifiExe()
+{
+    KUrl url = KFileDialog::getOpenUrl(KUrl(), "*");
+    if (!url.isEmpty())
+        uiConfig.lineEdit_wifi->setText(url.path());
+}
+
+
 void Netctl::createConfigurationInterface(KConfigDialog *parent)
 {
     QWidget *configwin = new QWidget;
@@ -392,6 +424,11 @@ void Netctl::createConfigurationInterface(KConfigDialog *parent)
     else
         uiConfig.checkBox_sudo->setCheckState(Qt::Unchecked);
     uiConfig.lineEdit_sudo->setText(paths[QString("sudo")]);
+    if (useWifi)
+        uiConfig.checkBox_wifi->setCheckState(Qt::Checked);
+    else
+        uiConfig.checkBox_wifi->setCheckState(Qt::Unchecked);
+    uiConfig.lineEdit_wifi->setText(paths[QString("wifi")]);
     if (bigInterface[QString("main")])
         uiConfig.checkBox_showBigInterface->setCheckState(Qt::Checked);
     else
@@ -433,9 +470,12 @@ void Netctl::createConfigurationInterface(KConfigDialog *parent)
     connect(uiConfig.checkBox_showBigInterface, SIGNAL(stateChanged(int)), this,
             SLOT(setBigInterface()));
     connect(uiConfig.checkBox_sudo, SIGNAL(stateChanged(int)), this, SLOT(setSudo()));
+    connect(uiConfig.checkBox_wifi, SIGNAL(stateChanged(int)), this, SLOT(setWifi()));
 
     connect(uiConfig.pushButton_gui, SIGNAL(clicked()), this, SLOT(selectGuiExe()));
     connect(uiConfig.pushButton_netctl, SIGNAL(clicked()), this, SLOT(selectNetctlExe()));
+    connect(uiConfig.pushButton_sudo, SIGNAL(clicked()), this, SLOT(selectSudoExe()));
+    connect(uiConfig.pushButton_wifi, SIGNAL(clicked()), this, SLOT(selecWifiExe()));
     connect(uiConfig.pushButton_activeIcon, SIGNAL(clicked()), this, SLOT(selectActiveIcon()));
     connect(uiConfig.pushButton_inactiveIcon, SIGNAL(clicked()), this, SLOT(selectInactiveIcon()));
 
@@ -457,6 +497,11 @@ void Netctl::configAccepted()
     else
         cg.writeEntry("useSudo", true);
     cg.writeEntry("sudoPath", uiConfig.lineEdit_sudo->text());
+    if (uiConfig.checkBox_wifi->checkState() == 0)
+        cg.writeEntry("useWifi", false);
+    else
+        cg.writeEntry("useWifi", true);
+    cg.writeEntry("wifiPath", uiConfig.lineEdit_wifi->text());
     if (uiConfig.checkBox_showBigInterface->checkState() == 0)
         cg.writeEntry("showBigInterface", false);
     else
@@ -491,8 +536,10 @@ void Netctl::configChanged()
     autoUpdateInterval = cg.readEntry("autoUpdateInterval", 1000);
     paths[QString("gui")] = cg.readEntry("guiPath", "/usr/bin/netctl-gui");
     paths[QString("netctl")] = cg.readEntry("netctlPath", "/usr/bin/netctl");
-    useSudo = cg.readEntry("useSudo", true);
     paths[QString("sudo")] = cg.readEntry("sudoPath", "/usr/bin/kdesu");
+    paths[QString("wifi")] = cg.readEntry("wifiPath", "/usr/bin/netctl-gui -t 3");
+    useSudo = cg.readEntry("useSudo", true);
+    useWifi = cg.readEntry("useWifi", true);
     bigInterface[QString("main")] = cg.readEntry("showBigInterface", true);
     bigInterface[QString("extIp")] = cg.readEntry("showExtIp", false);
     bigInterface[QString("netDev")] = cg.readEntry("showNetDev", true);
@@ -538,8 +585,17 @@ void Netctl::setSudo()
 {
     if (uiConfig.checkBox_sudo->checkState() == 0)
         uiConfig.lineEdit_sudo->setDisabled(true);
-    else if (uiConfig.checkBox_showBigInterface->checkState() == 2)
+    else if (uiConfig.checkBox_sudo->checkState() == 2)
         uiConfig.lineEdit_sudo->setEnabled(true);
+}
+
+
+void Netctl::setWifi()
+{
+    if (uiConfig.checkBox_wifi->checkState() == 0)
+        uiConfig.lineEdit_wifi->setDisabled(true);
+    else if (uiConfig.checkBox_wifi->checkState() == 2)
+        uiConfig.checkBox_wifi->setEnabled(true);
 }
 
 

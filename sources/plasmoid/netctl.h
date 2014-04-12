@@ -43,6 +43,7 @@ public slots:
     // events
     void sendNotification(const QString eventId, const QString message);
     void showGui();
+    void showWifi();
     // dataengine
     void dataUpdated(const QString &sourceName, const Plasma::DataEngine::Data &data);
     // configuration interface
@@ -50,6 +51,7 @@ public slots:
     void configChanged();
     void setBigInterface();
     void setSudo();
+    void setWifi();
 
 private slots:
     // ui
@@ -59,6 +61,8 @@ private slots:
     void selectGuiExe();
     void selectInactiveIcon();
     void selectNetctlExe();
+    void selectSudoExe();
+    void selectWifiExe();
     // context menu
     void enableProfileSlot();
     void startProfileSlot(QAction *profile);
@@ -83,16 +87,11 @@ private:
     void createActions();
     QList<QAction*> menuActions;
     QMenu *startProfileMenu;
-    QAction *enableProfile;
-    QAction *startProfile;
-    QAction *stopProfile;
-    QAction *restartProfile;
+    QMap<QString, QAction*> contextMenu;
     // data engine
     Plasma::DataEngine *netctlEngine;
     void connectToEngine();
     void disconnectFromEngine();
-    // notification
-    //
     // configuration interface
     Ui::ConfigWindow uiConfig;
     // configuration
@@ -100,7 +99,7 @@ private:
     QMap<QString, bool> bigInterface;
     QStringList formatLine;
     QMap<QString, QString> paths;
-    bool useSudo;
+    bool useSudo, useWifi;
 };
 
 K_EXPORT_PLASMA_APPLET(netctl, Netctl)
