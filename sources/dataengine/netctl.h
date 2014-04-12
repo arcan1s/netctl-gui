@@ -27,6 +27,13 @@ class Netctl : public Plasma::DataEngine
 
 public:
     Netctl(QObject *parent, const QVariantList &args);
+    QString getCurrentProfile(const QString cmd);
+    QString getExtIp(const QString cmd);
+    QStringList getInterfaceList(const QString dir);
+    QString getIntIp(const QString cmd, const QString dir);
+    QStringList getProfileList(const QString cmd);
+    bool getProfileStatus(const QString cmd);
+    QString getProfileStringStatus(const QString cmd);
 
 protected:
     bool sourceRequestEvent(const QString &name);

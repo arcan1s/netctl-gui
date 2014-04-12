@@ -23,6 +23,7 @@
 #include <QDir>
 #include <QFile>
 #include <QProcess>
+#include <QTextCodec>
 
 
 Netctl::Netctl(QObject *parent, const QVariantList &args)
@@ -114,122 +115,136 @@ bool Netctl::sourceRequestEvent(const QString &name)
 }
 
 
-bool Netctl::updateSourceEvent(const QString &source)
+QString Netctl::getCurrentProfile(const QString cmd)
 {
     QProcess command;
-    QString cmdOutput = QString("");
-    QString value = QString("");
-
-    if (source == QString("currentProfile")) {
-        command.start(configuration[QString("CMD")] + QString(" list"));
-        command.waitForFinished(-1);
-        cmdOutput = command.readAllStandardOutput();
-        if (!cmdOutput.isEmpty()) {
-            QStringList profileList = cmdOutput.split(QString("\n"), QString::SkipEmptyParts);
-            for (int i=0; i<profileList.count(); i++)
-                if (profileList[i].split(QString(" "), QString::SkipEmptyParts).count() == 2) {
-                    value = profileList[i].split(QString(" "), QString::SkipEmptyParts)[1];
-                    break;
-                }
+    QString profile = QString("");
+    command.start(cmd + QString(" list"));
+    command.waitForFinished(-1);
+    QString cmdOutput = QTextCodec::codecForMib(106)->toUnicode(command.readAllStandardOutput());
+    QStringList profileList = cmdOutput.split(QChar('\n'), QString::SkipEmptyParts);
+    for (int i=0; i<profileList.count(); i++)
+        if (profileList[i][0] == QChar('*')) {
+            profile = profileList[i];
+            break;
         }
-        setData(source, QString("value"), value);
+    profile.remove(0, 1);
+    return profile;
+}
+
+
+QString Netctl::getExtIp(const QString cmd)
+{
+    QProcess command;
+    QString extIp = QString("");
+    command.start(cmd);
+    command.waitForFinished(-1);
+    QString cmdOutput = QTextCodec::codecForMib(106)->toUnicode(command.readAllStandardOutput());
+    extIp = cmdOutput.trimmed();
+    return extIp;
+}
+
+
+QStringList Netctl::getInterfaceList(const QString dir)
+{
+    QStringList interfaceList;
+    if (QDir(dir).exists())
+        interfaceList = QDir(dir).entryList(QDir::Dirs | QDir::NoDotAndDotDot);
+    return interfaceList;
+}
+
+
+QString Netctl::getIntIp(const QString cmd, const QString dir)
+{
+    QProcess command;
+    QString intIp = QString("127.0.0.1/8");
+    QStringList interfaceList = getInterfaceList(dir);
+    for (int i=0; i<interfaceList.count(); i++)
+        if (interfaceList[i] != QString("lo")) {
+            command.start(cmd + QString(" addr show ") + interfaceList[i]);
+            command.waitForFinished(-1);
+            QString cmdOutput = QTextCodec::codecForMib(106)->toUnicode(command.readAllStandardOutput());
+            QStringList deviceInfo = cmdOutput.split(QChar('\n'), QString::SkipEmptyParts);
+            for (int j=0; j<deviceInfo.count(); j++)
+                if (deviceInfo[j].split(QChar(' '), QString::SkipEmptyParts)[0] == QString("inet"))
+                    intIp = deviceInfo[j].split(QChar(' '), QString::SkipEmptyParts)[1];
+        }
+    return intIp;
+}
+
+
+QStringList Netctl::getProfileList(const QString cmd)
+{
+    QProcess command;
+    command.start(cmd + QString(" list"));
+    command.waitForFinished(-1);
+    QString cmdOutput = QTextCodec::codecForMib(106)->toUnicode(command.readAllStandardOutput());
+    QStringList profileList = cmdOutput.split(QChar('\n'), QString::SkipEmptyParts);
+    for (int i=0; i<profileList.count(); i++)
+        profileList[i].remove(0, 1);
+    return profileList;
+}
+
+
+bool Netctl::getProfileStatus(const QString cmd)
+{
+    bool status = false;
+    QString cmdOutput = getCurrentProfile(cmd);
+    if (!cmdOutput.isEmpty())
+        status = true;
+    return status;
+}
+
+
+QString Netctl::getProfileStringStatus(const QString cmd)
+{
+    QProcess command;
+    QString status = QString("static");
+    QString profile = getCurrentProfile(cmd);
+    command.start(cmd + QString(" status ") + profile);
+    command.waitForFinished(-1);
+    QString cmdOutput = QTextCodec::codecForMib(106)->toUnicode(command.readAllStandardOutput());
+    QStringList profileStatus = cmdOutput.split(QChar('\n'), QString::SkipEmptyParts);
+    for (int i=0; i<profileStatus.count(); i++)
+        if (profileStatus[i].split(QChar(' '), QString::SkipEmptyParts)[0] == QString("Loaded:")) {
+            if (profileStatus[i].contains(QString("enabled")))
+                status = QString("enabled");
+            break;
+        }
+    return status;
+}
+
+
+bool Netctl::updateSourceEvent(const QString &source)
+{
+    QString key = QString("value");
+    QString value = QString("");
+    if (source == QString("currentProfile")) {
+        value = getCurrentProfile(configuration[QString("CMD")]);
     }
     else if (source == QString("extIp")) {
-        if (configuration[QString("EXTIP")] == QString("true")) {
-            command.start(configuration[QString("EXTIPCMD")]);
-            command.waitForFinished(-1);
-            cmdOutput = command.readAllStandardOutput();
-            if (!cmdOutput.isEmpty())
-                value = cmdOutput.split(QString("\n"), QString::SkipEmptyParts)[0];
-        }
-        setData(source, QString("value"), value);
+        if (configuration[QString("EXTIP")] == QString("true"))
+            value = getExtIp(configuration[QString("EXTIPCMD")]);
     }
     else if (source == QString("interfaces")) {
-        if (QDir(configuration[QString("NETDIR")]).exists())
-            value = QDir(configuration[QString("NETDIR")]).entryList(QDir::Dirs | QDir::NoDotAndDotDot).join(QString(","));
-        setData(source, QString("value"), value);
+        value = getInterfaceList(configuration[QString("NETDIR")]).join(QChar(','));
     }
     else if (source == QString("intIp")) {
-        if (QDir(configuration[QString("NETDIR")]).exists()) {
-            value = QString("127.0.0.1/8");
-            QStringList netDevices = QDir(configuration[QString("NETDIR")]).entryList(QDir::Dirs | QDir::NoDotAndDotDot);
-            for (int i=0; i<netDevices.count(); i++)
-                if (netDevices[i] != QString("lo")) {
-                    cmdOutput = QString("");
-                    command.start(configuration[QString("IPCMD")] + QString(" addr show ") + netDevices[i]);
-                    command.waitForFinished(-1);
-                    cmdOutput = command.readAllStandardOutput();
-                    if (!cmdOutput.isEmpty()) {
-                        QStringList deviceInfo = cmdOutput.split(QString("\n"), QString::SkipEmptyParts);
-                        for (int j=0; j<deviceInfo.count(); j++)
-                            if (deviceInfo[j].split(QString(" "), QString::SkipEmptyParts)[0] == QString("inet"))
-                                value = deviceInfo[j].split(QString(" "), QString::SkipEmptyParts)[1];
-                    }
-                }
-        }
-        setData(source, QString("value"), value);
+        value = getIntIp(configuration[QString("IPCMD")], configuration[QString("NETDIR")]);
     }
     else if (source == QString("profiles")) {
-        command.start(configuration[QString("CMD")] + QString(" list"));
-        command.waitForFinished(-1);
-        cmdOutput = command.readAllStandardOutput();
-        QStringList list;
-        if (!cmdOutput.isEmpty()) {
-            QStringList profileList = cmdOutput.split(QString("\n"), QString::SkipEmptyParts);
-            for (int i=0; i<profileList.count(); i++)
-                if (profileList[i].split(QString(" "), QString::SkipEmptyParts).count() == 1)
-                    list.append(profileList[i].split(QString(" "), QString::SkipEmptyParts)[0]);
-                else if (profileList[i].split(QString(" "), QString::SkipEmptyParts).count() == 2)
-                    list.append(profileList[i].split(QString(" "), QString::SkipEmptyParts)[1]);
-        }
-        value = list.join(QString(","));
-        setData(source, QString("value"), value);
+        value = getProfileList(configuration[QString("CMD")]).join(QChar(','));
     }
     else if (source == QString("statusBool")) {
-        command.start(configuration[QString("CMD")] + QString(" list"));
-        command.waitForFinished(-1);
-        cmdOutput = command.readAllStandardOutput();
-        value = QString("false");
-        if (!cmdOutput.isEmpty()) {
-            QStringList profileList = cmdOutput.split(QString("\n"), QString::SkipEmptyParts);
-            for (int i=0; i<profileList.count(); i++)
-                if (profileList[i].split(QString(" "), QString::SkipEmptyParts).count() == 2) {
-                    value = QString("true");
-                    break;
-                }
-        }
-        setData(source, QString("value"), value);
+        if (getProfileStatus(configuration[QString("CMD")]))
+            value = QString("true");
+        else
+            value = QString("false");
     }
     else if (source == QString("statusString")) {
-        command.start(configuration[QString("CMD")] + QString(" list"));
-        command.waitForFinished(-1);
-        cmdOutput = command.readAllStandardOutput();
-        QString currentProfile;
-        if (!cmdOutput.isEmpty()) {
-            QStringList profileList = cmdOutput.split(QString("\n"), QString::SkipEmptyParts);
-            for (int i=0; i<profileList.count(); i++)
-                if (profileList[i].split(QString(" "), QString::SkipEmptyParts).count() == 2) {
-                    currentProfile = profileList[i].split(QString(" "), QString::SkipEmptyParts)[1];
-                    break;
-                }
-        }
-        command.start(configuration[QString("CMD")] + QString(" status ") + currentProfile);
-        command.waitForFinished(-1);
-        cmdOutput = command.readAllStandardOutput();
-        if (!cmdOutput.isEmpty()) {
-            QStringList profile = cmdOutput.split(QString("\n"), QString::SkipEmptyParts);
-            for (int i=0; i<profile.count(); i++)
-                if (profile[i].split(QString(" "), QString::SkipEmptyParts)[0] == QString("Loaded:")) {
-                    if (profile[i].contains(QString("enabled")))
-                        value = QString("enabled");
-                    else if (profile[i].contains(QString("static")))
-                        value = QString("static");
-                    break;
-                }
-        }
-        setData(source, QString("value"), value);
+        value = getProfileStringStatus(configuration[QString("CMD")]);
     }
-
+    setData(source, key, value);
     return true;
 }
 
