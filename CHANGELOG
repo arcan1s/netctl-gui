@@ -1,3 +1,8 @@
+Ver.1.0.5:
++ [plasmoid] added "Start WiFi menu" function
+* [plasmoid] refactoring
+* [plasmoid] edited icon
+
 Ver.1.0.4:
 + [gui] added Qt5 gui (by default)
 + [plasmoid] added notifications
