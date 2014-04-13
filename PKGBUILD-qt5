@@ -2,7 +2,7 @@
 
 pkgname=netctl-gui
 pkgver=1.0.5
-pkgrel=4
+pkgrel=1
 pkgdesc="Qt5 graphical front-end for netctl. A part of netctl-gui"
 arch=('i686' 'x86_64')
 url="http://arcanis.name/projects/netctl-gui"
