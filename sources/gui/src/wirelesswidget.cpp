@@ -280,9 +280,8 @@ int WirelessWidget::isOk()
             return 3;
     // file wpa_supplicant doesn't exists
     if (ui->comboBox_security->currentText() == QString("wpa-config"))
-        if (!ui->lineEdit_wpaConfig->text().isEmpty())
-            if (!QFile(ui->lineEdit_wpaConfig->text()).exists())
-                return 4;
+        if (!QFile(ui->lineEdit_wpaConfig->text()).exists())
+            return 4;
     // essid is not set
     if ((ui->comboBox_security->currentText() == QString("none")) ||
             (ui->comboBox_security->currentText() == QString("wep")) ||
