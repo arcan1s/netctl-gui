@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.0" language="en">
+<TS version="2.1" language="en">
 <context>
     <name>BridgeWidget</name>
     <message>
@@ -133,7 +133,7 @@
         <source>Skip no carrier</source>
         <translation>Skip no carrier</translation>
     </message>
-    <message utf8="true">
+    <message>
         <source>Set to ‘yes’ to use 802.1x authentication</source>
         <translation>Set to ‘yes’ to use 802.1x authentication</translation>
     </message>
@@ -268,7 +268,7 @@
         <source>A command that is executed before a connection is brought down</source>
         <translation>A command that is executed before a connection is brought down</translation>
     </message>
-    <message utf8="true">
+    <message>
         <source>Set to ‘yes’ to force connecting even if the interface is up</source>
         <translation>Set to ‘yes’ to force connecting even if the interface is up</translation>
     </message>
@@ -319,7 +319,7 @@
         <source>Add</source>
         <translation>Add</translation>
     </message>
-    <message utf8="true">
+    <message>
         <source>An array of IP addresses suffixed with ‘/&lt;netmask&gt;’</source>
         <translation>An array of IP addresses suffixed with ‘/&lt;netmask&gt;’</translation>
     </message>
@@ -399,7 +399,7 @@
         <source>Timeout DAD</source>
         <translation>Timeout DAD</translation>
     </message>
-    <message utf8="true">
+    <message>
         <source>Set to ‘yes’ to release the DHCP lease when the profile is stopped</source>
         <translation>Set to ‘yes’ to release the DHCP lease when the profile is stopped</translation>
     </message>
@@ -459,7 +459,7 @@
         <source>DNS domain</source>
         <translation>DNS domain</translation>
     </message>
-    <message utf8="true">
+    <message>
         <source>A ‘domain’ line for /etc/resolv.conf</source>
         <translation>A ‘domain’ line for /etc/resolv.conf</translation>
     </message>
@@ -467,7 +467,7 @@
         <source>DNS search</source>
         <translation>DNS search</translation>
     </message>
-    <message utf8="true">
+    <message>
         <source>A ‘search’ line for /etc/resolv.conf</source>
         <translation>A ‘search’ line for /etc/resolv.conf</translation>
     </message>
@@ -475,11 +475,11 @@
         <source>DNS options</source>
         <translation>DNS options</translation>
     </message>
-    <message utf8="true">
+    <message>
         <source>An array of ‘options’ lines for /etc/resolv.conf</source>
         <translation>An array of ‘options’ lines for /etc/resolv.conf</translation>
     </message>
-    <message utf8="true">
+    <message>
         <source>Maximum time, in seconds, to wait for IPv6’s Duplicate Address Detection to succeed</source>
         <translation>Maximum time, in seconds, to wait for IPv6’s Duplicate Address Detection to succeed</translation>
     </message>
@@ -879,7 +879,7 @@
         <source>Idle timeout</source>
         <translation>Idle timeout</translation>
     </message>
-    <message utf8="true">
+    <message>
         <source>This option specifies the idle time (in seconds) after which ‘pppd’ should disconnect</source>
         <translation>This option specifies the idle time (in seconds) after which ‘pppd’ should disconnect</translation>
     </message>
@@ -919,7 +919,7 @@
         <source>LCP echo interval</source>
         <translation>LCP echo interval</translation>
     </message>
-    <message utf8="true">
+    <message>
         <source>These options override default LCP parameters from ‘/etc/ppp/options’</source>
         <translation>These options override default LCP parameters from ‘/etc/ppp/options’</translation>
     </message>
@@ -1236,7 +1236,7 @@
         <source>tap</source>
         <translation>tap</translation>
     </message>
-    <message utf8="true">
+    <message>
         <source>Either ‘tun’, or ‘tap’</source>
         <translation>Either ‘tun’, or ‘tap’</translation>
     </message>
@@ -1449,6 +1449,10 @@
     <message>
         <source>Exclude auto</source>
         <translation>Exclude auto</translation>
+    </message>
+    <message>
+        <source>Frequency</source>
+        <translation>Frequency</translation>
     </message>
 </context>
 </TS>

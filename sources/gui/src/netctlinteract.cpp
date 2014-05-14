@@ -190,16 +190,7 @@ bool Netctl::isProfileActive(const QString profile)
 
 bool Netctl::isProfileEnabled(const QString profile)
 {
-    bool status = false;
-    QString cmdOutput = getNetctlOutput(false, QString("status"), profile);
-    if (!cmdOutput.isEmpty()) {
-        QStringList profileStatus = cmdOutput.split(QString("\n"), QString::SkipEmptyParts);
-        for (int i=0; i<profileStatus.count(); i++)
-            if (profileStatus[i].split(QString(" "), QString::SkipEmptyParts)[0] == QString("Loaded:"))
-                if (profileStatus[i].contains(QString("enabled")))
-                    status = true;
-    }
-    return status;
+    return netctlCall(false, QString("is-enabled"), profile);
 }
 
 

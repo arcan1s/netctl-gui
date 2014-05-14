@@ -56,6 +56,7 @@ void WirelessWidget::clear()
     ui->spinBox_freq->setValue(2412);
     ui->listWidget_freq->setCurrentRow(-1);
     ui->listWidget_freq->clear();
+    ui->spinBox_frequency->setValue(2000);
     ui->spinBox_priority->setValue(0);
     ui->lineEdit_country->clear();
     ui->lineEdit_wpaGroup->setText(QString("wheel"));
@@ -240,6 +241,8 @@ QMap<QString, QString> WirelessWidget::getSettings()
             freqs.append(ui->listWidget_freq->item(i)->text());
         wirelessSettings[QString("ScanFrequencies")] = freqs.join(QString(" "));
     }
+    if (ui->spinBox_frequency->value() != 2000)
+        wirelessSettings[QString("Frequency")] = QString::number(ui->spinBox_frequency->value());
     if (ui->spinBox_priority->value() != 0)
         wirelessSettings[QString("Priority")] = QString::number(ui->spinBox_priority->value());
     if (!ui->lineEdit_country->text().isEmpty())
@@ -324,6 +327,8 @@ void WirelessWidget::setSettings(const QMap<QString, QString> settings)
             ui->checkBox_adhoc->setCheckState(Qt::Checked);
     if (wirelessSettings.contains(QString("ScanFrequencies")))
         ui->listWidget_freq->addItems(wirelessSettings[QString("ScanFrequencies")].split(QString("\n")));
+    if (wirelessSettings.contains(QString("Frequency")))
+        ui->spinBox_frequency->setValue(wirelessSettings[QString("Frequency")].toInt());
     if (wirelessSettings.contains(QString("Priority")))
         ui->spinBox_priority->setValue(wirelessSettings[QString("Priority")].toInt());
     if (wirelessSettings.contains(QString("Country")))

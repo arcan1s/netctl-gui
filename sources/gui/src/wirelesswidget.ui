@@ -306,6 +306,36 @@
            </layout>
           </item>
           <item>
+           <layout class="QHBoxLayout" name="layout_frequency">
+            <item>
+             <widget class="QLabel" name="label_frequency">
+              <property name="minimumSize">
+               <size>
+                <width>150</width>
+                <height>0</height>
+               </size>
+              </property>
+              <property name="text">
+               <string>Frequency</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QSpinBox" name="spinBox_frequency">
+              <property name="toolTip">
+               <string>Priority group for the network</string>
+              </property>
+              <property name="minimum">
+               <number>2000</number>
+              </property>
+              <property name="maximum">
+               <number>6000</number>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+          <item>
            <layout class="QHBoxLayout" name="layout_priority">
             <item>
              <widget class="QLabel" name="label_priority">
@@ -525,6 +555,7 @@
   <tabstop>spinBox_freq</tabstop>
   <tabstop>pushButton_freq</tabstop>
   <tabstop>listWidget_freq</tabstop>
+  <tabstop>spinBox_frequency</tabstop>
   <tabstop>spinBox_priority</tabstop>
   <tabstop>lineEdit_country</tabstop>
   <tabstop>lineEdit_wpaGroup</tabstop>

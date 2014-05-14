@@ -201,16 +201,10 @@ QString Netctl::getProfileStringStatus(const QString cmd)
     QProcess command;
     QString status = QString("static");
     QString profile = getCurrentProfile(cmd);
-    command.start(cmd + QString(" status ") + profile);
+    command.start(cmd + QString(" is-enabled ") + profile);
     command.waitForFinished(-1);
-    QString cmdOutput = QTextCodec::codecForMib(106)->toUnicode(command.readAllStandardOutput());
-    QStringList profileStatus = cmdOutput.split(QChar('\n'), QString::SkipEmptyParts);
-    for (int i=0; i<profileStatus.count(); i++)
-        if (profileStatus[i].split(QChar(' '), QString::SkipEmptyParts)[0] == QString("Loaded:")) {
-            if (profileStatus[i].contains(QString("enabled")))
-                status = QString("enabled");
-            break;
-        }
+    if (command.exitCode() == 0)
+        status = QString("enabled");
     return status;
 }
 

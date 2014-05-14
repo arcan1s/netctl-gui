@@ -1,3 +1,8 @@
+Ver.1.1.0 (netctl-1.7 update):
++ [gui] added frequency
+* [gui] changed definition if profile is enabled
+* [dataengine] changed definition if profile is enabled
+
 Ver.1.0.6:
 * [gui] fix error checking
 
