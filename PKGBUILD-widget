@@ -16,7 +16,7 @@ optdepends=('kdebase-runtime: sudo support'
             'sudo: sudo support')
 source=("https://github.com/arcan1s/netctl-gui/releases/download/V.${pkgver}/${_pkgname}-${pkgver}-src.tar.xz")
 install="${_pkgname}.install"
-md5sums=('7c25aa8597a2a89555e7b04c253d9019')
+md5sums=('59679c899b1d429b41b60188e1de91dd')
 
 _cmakekeys="-DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_BUILD_TYPE=Release -DBUILD_GUI:BOOL=0"
 

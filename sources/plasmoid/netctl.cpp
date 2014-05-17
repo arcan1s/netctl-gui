@@ -174,6 +174,12 @@ void Netctl::restartProfileSlot()
 
 QList<QAction*> Netctl::contextualActions()
 {
+    if (status)
+        contextMenu[QString("title")]->setIcon(QIcon(paths[QString("active")]));
+    else
+        contextMenu[QString("title")]->setIcon(QIcon(paths[QString("inactive")]));
+    contextMenu[QString("title")]->setText(info[QString("name")] + QString(" ") + info[QString("status")]);
+
     if (status) {
         contextMenu[QString("start")]->setText(i18n("Start another profile"));
         contextMenu[QString("stop")]->setVisible(true);
@@ -210,6 +216,9 @@ QList<QAction*> Netctl::contextualActions()
 void Netctl::createActions()
 {
     menuActions.clear();
+
+    contextMenu[QString("title")] = new QAction(QString("netctl-gui"), this);
+    menuActions.append(contextMenu[QString("title")]);
 
     contextMenu[QString("start")] = new QAction(i18n("Start profile"), this);
     startProfileMenu = new QMenu(NULL);
