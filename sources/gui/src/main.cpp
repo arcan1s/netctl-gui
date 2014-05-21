@@ -70,7 +70,7 @@ int main(int argc, char *argv[])
     helpMessage += QApplication::translate("MainWindow", "  -t NUM   --tab NUM    - open a tab with number NUM\n");
     helpMessage += QApplication::translate("MainWindow", "  -h       --help       - show this help and exit\n");
     bool defaultSettings = false;
-    int tabNumber = 0;
+    int tabNumber = 1;
 
     for (int i=1; i<argc; i++) {
         // help message
