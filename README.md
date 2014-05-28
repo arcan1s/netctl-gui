@@ -60,6 +60,13 @@ Installation
 Additional information
 ======================
 
+TODO (wish list)
+----------------
+
+* update to upstream (add support of macvlan)
+* add option to remove profile
+* add contextual actions to tables
+
 Links
 -----
 * [Homepage](http://arcanis.name/projects/netctl-gui)
