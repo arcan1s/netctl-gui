@@ -55,6 +55,22 @@ bool NetctlProfile::copyProfile(const QString oldPath)
 }
 
 
+bool NetctlProfile::removeProfile(const QString profile)
+{
+    QString profilePath = profileDirectory->absolutePath() + QDir::separator() + profile;
+    QProcess command;
+    QString commandText = sudoCommand + QString(" /usr/bin/rm ") + profilePath;
+    qDebug() << "[NetctlProfile]" << "[removeProfile]" << ":" << "Run cmd" << commandText;
+    command.start(commandText);
+    command.waitForFinished(-1);
+    if (command.exitCode() == 0)
+        return true;
+    else
+        return false;
+}
+
+
+
 QString NetctlProfile::createProfile(const QString profile, const QMap<QString, QString> settings)
 {
 

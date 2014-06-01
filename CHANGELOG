@@ -1,3 +1,7 @@
+Ver.1.1.1:
++ [gui] added suppoort of macvlan
++ [gui] added ability to remove profile
+
 Ver.1.1.0 (netctl-1.7 update):
 + [gui] added frequency
 + [plasmoid] added menu title

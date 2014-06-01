@@ -15,34 +15,35 @@
  *   along with netctl-gui. If not, see http://www.gnu.org/licenses/       *
  ***************************************************************************/
 
-#ifndef NETCTLPROFILE_H
-#define NETCTLPROFILE_H
+#ifndef MACVLANWIDGET_H
+#define MACVLANWIDGET_H
 
-#include <QDir>
-#include <QMap>
-#include <QObject>
+#include <QWidget>
 
 
-class MainWindow;
+namespace Ui {
+class MacvlanWidget;
+}
 
-class NetctlProfile : public QObject
+class MacvlanWidget : public QWidget
 {
     Q_OBJECT
 
 public:
-    explicit NetctlProfile(MainWindow *wid = 0,
-                           const QMap<QString, QString> settings = QMap<QString, QString>());
-    ~NetctlProfile();
-    bool copyProfile(const QString oldPath);
-    bool removeProfile(const QString profile);
-    QString createProfile(const QString profile, const QMap<QString, QString> settings);
-    QMap<QString, QString> getSettingsFromProfile(const QString profile);
+    explicit MacvlanWidget(QWidget *parent = 0);
+    ~MacvlanWidget();
+    QMap<QString, QString> getSettings();
+    int isOk();
+    void setSettings(const QMap<QString, QString> settings);
+
+public slots:
+    void clear();
+    void setShown(const bool state);
 
 private:
-    MainWindow *parent;
-    QDir *profileDirectory;
-    QString sudoCommand;
+    Ui::MacvlanWidget *ui;
+    void createFilter();
 };
 
 
-#endif /* NETCTLPROFILE_H */
+#endif /* MACVLANWIDGET_H */

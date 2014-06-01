@@ -485,6 +485,33 @@
     </message>
 </context>
 <context>
+    <name>MacvlanWidget</name>
+    <message>
+        <source>Form</source>
+        <translation>Form</translation>
+    </message>
+    <message>
+        <source>macvlan settings</source>
+        <translation>macvlan settings</translation>
+    </message>
+    <message>
+        <source>Mode</source>
+        <translation>Mode</translation>
+    </message>
+    <message>
+        <source>MAC address</source>
+        <translation>MAC address</translation>
+    </message>
+    <message>
+        <source>Only connect to specified MAC address</source>
+        <translation type="obsolete">Only connect to specified MAC address</translation>
+    </message>
+    <message>
+        <source>Optional static MAC address</source>
+        <translation>Optional static MAC address</translation>
+    </message>
+</context>
+<context>
     <name>MainWindow</name>
     <message>
         <source>Ready</source>
@@ -689,6 +716,10 @@
     <message>
         <source>Name Description Status</source>
         <translation>Name Description Status</translation>
+    </message>
+    <message>
+        <source>Remove</source>
+        <translation>Remove</translation>
     </message>
 </context>
 <context>

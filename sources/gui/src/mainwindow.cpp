@@ -28,6 +28,7 @@
 #include "ethernetwidget.h"
 #include "generalwidget.h"
 #include "ipwidget.h"
+#include "macvlanwidget.h"
 #include "mobilewidget.h"
 #include "netctlinteract.h"
 #include "netctlprofile.h"
@@ -67,6 +68,8 @@ MainWindow::MainWindow(QWidget *parent, const bool defaultSettings, const int ta
     ui->scrollAreaWidgetContents->layout()->addWidget(bridgeWid);
     ethernetWid = new EthernetWidget(this);
     ui->scrollAreaWidgetContents->layout()->addWidget(ethernetWid);
+    macvlanWid = new MacvlanWidget(this);
+    ui->scrollAreaWidgetContents->layout()->addWidget(macvlanWid);
     mobileWid = new MobileWidget(this);
     ui->scrollAreaWidgetContents->layout()->addWidget(mobileWid);
     pppoeWid = new PppoeWidget(this);
@@ -100,6 +103,7 @@ MainWindow::~MainWindow()
     delete ethernetWid;
     delete generalWid;
     delete ipWid;
+    delete macvlanWid;
     delete mobileWid;
     delete pppoeWid;
     delete tunnelWid;
@@ -154,6 +158,7 @@ void MainWindow::createActions()
 
     // main page events
     connect(ui->pushButton_mainRefresh, SIGNAL(clicked(bool)), this, SLOT(updateMainTab()));
+    connect(ui->pushButton_mainRemove, SIGNAL(clicked(bool)), this, SLOT(mainTabRemoveProfile()));
     connect(ui->pushButton_mainEnable, SIGNAL(clicked(bool)), this, SLOT(mainTabEnableProfile()));
     connect(ui->pushButton_mainRestart, SIGNAL(clicked(bool)), this, SLOT(mainTabRestartProfile()));
     connect(ui->pushButton_mainStart, SIGNAL(clicked(bool)), this, SLOT(mainTabStartProfile()));
@@ -301,6 +306,21 @@ void MainWindow::updateWifiTab()
 
 
 // main tab slots
+void MainWindow::mainTabRemoveProfile()
+{
+    qDebug() << "[MainWindow]" << "[mainTabRemoveProfile]";
+    ui->tabWidget->setDisabled(true);
+    // call netctlprofile
+    QString profile = ui->tableWidget_main->item(ui->tableWidget_main->currentItem()->row(), 0)->text();
+    if (netctlProfile->removeProfile(profile))
+        ui->statusBar->showMessage(QApplication::translate("MainWindow", "Done"));
+    else
+        ui->statusBar->showMessage(QApplication::translate("MainWindow", "Error"));
+
+    updateMainTab();
+}
+
+
 void MainWindow::mainTabEnableProfile()
 {
     if (!checkExternalApps(QString("netctl"))) {
@@ -442,6 +462,7 @@ void MainWindow::profileTabChangeState(const QString current)
         ipWid->setShown(true);
         bridgeWid->setShown(false);
         ethernetWid->setShown(true);
+        macvlanWid->setShown(false);
         mobileWid->setShown(false);
         pppoeWid->setShown(false);
         tunnelWid->setShown(false);
@@ -454,6 +475,7 @@ void MainWindow::profileTabChangeState(const QString current)
         ipWid->setShown(true);
         bridgeWid->setShown(false);
         ethernetWid->setShown(false);
+        macvlanWid->setShown(false);
         mobileWid->setShown(false);
         pppoeWid->setShown(false);
         tunnelWid->setShown(false);
@@ -467,6 +489,7 @@ void MainWindow::profileTabChangeState(const QString current)
         ipWid->setShown(true);
         bridgeWid->setShown(false);
         ethernetWid->setShown(false);
+        macvlanWid->setShown(false);
         mobileWid->setShown(false);
         pppoeWid->setShown(false);
         tunnelWid->setShown(false);
@@ -479,6 +502,7 @@ void MainWindow::profileTabChangeState(const QString current)
         ipWid->setShown(true);
         bridgeWid->setShown(true);
         ethernetWid->setShown(false);
+        macvlanWid->setShown(false);
         mobileWid->setShown(false);
         pppoeWid->setShown(false);
         tunnelWid->setShown(false);
@@ -491,6 +515,7 @@ void MainWindow::profileTabChangeState(const QString current)
         ipWid->setShown(false);
         bridgeWid->setShown(false);
         ethernetWid->setShown(false);
+        macvlanWid->setShown(false);
         mobileWid->setShown(false);
         pppoeWid->setShown(true);
         tunnelWid->setShown(false);
@@ -503,6 +528,7 @@ void MainWindow::profileTabChangeState(const QString current)
         ipWid->setShown(false);
         bridgeWid->setShown(false);
         ethernetWid->setShown(false);
+        macvlanWid->setShown(false);
         mobileWid->setShown(true);
         pppoeWid->setShown(false);
         tunnelWid->setShown(false);
@@ -515,6 +541,7 @@ void MainWindow::profileTabChangeState(const QString current)
         ipWid->setShown(true);
         bridgeWid->setShown(false);
         ethernetWid->setShown(false);
+        macvlanWid->setShown(false);
         mobileWid->setShown(false);
         pppoeWid->setShown(false);
         tunnelWid->setShown(true);
@@ -527,6 +554,7 @@ void MainWindow::profileTabChangeState(const QString current)
         ipWid->setShown(true);
         bridgeWid->setShown(false);
         ethernetWid->setShown(false);
+        macvlanWid->setShown(false);
         mobileWid->setShown(false);
         pppoeWid->setShown(false);
         tunnelWid->setShown(false);
@@ -539,11 +567,25 @@ void MainWindow::profileTabChangeState(const QString current)
         ipWid->setShown(true);
         bridgeWid->setShown(false);
         ethernetWid->setShown(true);
+        macvlanWid->setShown(false);
         mobileWid->setShown(false);
         pppoeWid->setShown(false);
         tunnelWid->setShown(false);
         tuntapWid->setShown(false);
         vlanWid->setShown(true);
+        wirelessWid->setShown(false);
+    }
+    else if (current == QString("macvlan")) {
+        generalWid->setShown(true);
+        ipWid->setShown(true);
+        bridgeWid->setShown(false);
+        ethernetWid->setShown(true);
+        macvlanWid->setShown(true);
+        mobileWid->setShown(false);
+        pppoeWid->setShown(false);
+        tunnelWid->setShown(false);
+        tuntapWid->setShown(false);
+        vlanWid->setShown(false);
         wirelessWid->setShown(false);
     }
 }
@@ -594,7 +636,8 @@ void MainWindow::profileTabCreateProfile()
             (generalWid->connectionType->currentText() == QString("bridge")) ||
             (generalWid->connectionType->currentText() == QString("tunnel")) ||
             (generalWid->connectionType->currentText() == QString("tuntap")) ||
-            (generalWid->connectionType->currentText() == QString("vlan"))) {
+            (generalWid->connectionType->currentText() == QString("vlan")) ||
+            (generalWid->connectionType->currentText() == QString("macvlan"))) {
         if (ipWid->isOk() == 1) {
             errorWin = new ErrorWindow(this, 6);
             errorWin->show();
@@ -697,6 +740,13 @@ void MainWindow::profileTabCreateProfile()
             return;
         }
     }
+    else if (generalWid->connectionType->currentText() == QString("macvlan")) {
+        if (ethernetWid->isOk() == 1) {
+            errorWin = new ErrorWindow(this, 7);
+            errorWin->show();
+            return;
+        }
+    }
 
     qDebug() << "[MainWindow]" << "[profileTabCreateProfile]";
     ui->tabWidget->setDisabled(true);
@@ -771,6 +821,17 @@ void MainWindow::profileTabCreateProfile()
         for (int i=0; i<addSettings.keys().count(); i++)
             settings.insert(addSettings.keys()[i], addSettings[addSettings.keys()[i]]);
     }
+    else if (generalWid->connectionType->currentText() == QString("macvlan")) {
+        QMap<QString, QString> addSettings = ipWid->getSettings();
+        for (int i=0; i<addSettings.keys().count(); i++)
+            settings.insert(addSettings.keys()[i], addSettings[addSettings.keys()[i]]);
+        addSettings = ethernetWid->getSettings();
+        for (int i=0; i<addSettings.keys().count(); i++)
+            settings.insert(addSettings.keys()[i], addSettings[addSettings.keys()[i]]);
+        addSettings = macvlanWid->getSettings();
+        for (int i=0; i<addSettings.keys().count(); i++)
+            settings.insert(addSettings.keys()[i], addSettings[addSettings.keys()[i]]);
+    }
 
     // call netctlprofile
     QString profileTempName = netctlProfile->createProfile(profile, settings);
@@ -824,6 +885,11 @@ void MainWindow::profileTabLoadProfile()
         ipWid->setSettings(settings);
         ethernetWid->setSettings(settings);
         vlanWid->setSettings(settings);
+    }
+    else if (generalWid->connectionType->currentText() == QString("macvlan")) {
+        ipWid->setSettings(settings);
+        ethernetWid->setSettings(settings);
+        macvlanWid->setSettings(settings);
     }
 }
 

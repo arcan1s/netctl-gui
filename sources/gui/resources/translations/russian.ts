@@ -485,6 +485,33 @@
     </message>
 </context>
 <context>
+    <name>MacvlanWidget</name>
+    <message>
+        <source>Form</source>
+        <translation>Form</translation>
+    </message>
+    <message>
+        <source>macvlan settings</source>
+        <translation>Опции macvlan</translation>
+    </message>
+    <message>
+        <source>Mode</source>
+        <translation>Режим</translation>
+    </message>
+    <message>
+        <source>MAC address</source>
+        <translation>MAC адрес</translation>
+    </message>
+    <message>
+        <source>Only connect to specified MAC address</source>
+        <translation type="obsolete">Подключаться только к указанному MAC адресу</translation>
+    </message>
+    <message>
+        <source>Optional static MAC address</source>
+        <translation>Статический MAC адрес, если нужно</translation>
+    </message>
+</context>
+<context>
     <name>MainWindow</name>
     <message>
         <source>Ready</source>
@@ -689,6 +716,10 @@
     <message>
         <source>Name Description Status</source>
         <translation>Имя Описание Статус</translation>
+    </message>
+    <message>
+        <source>Remove</source>
+        <translation>Удалить</translation>
     </message>
 </context>
 <context>

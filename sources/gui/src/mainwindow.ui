@@ -87,6 +87,16 @@
            </widget>
           </item>
           <item>
+           <widget class="QPushButton" name="pushButton_mainRemove">
+            <property name="text">
+             <string>Remove</string>
+            </property>
+            <property name="autoDefault">
+             <bool>true</bool>
+            </property>
+           </widget>
+          </item>
+          <item>
            <spacer name="spacer_mainButtons">
             <property name="orientation">
              <enum>Qt::Horizontal</enum>
@@ -190,8 +200,8 @@
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>98</width>
-             <height>28</height>
+             <width>96</width>
+             <height>26</height>
             </rect>
            </property>
            <property name="sizePolicy">
@@ -356,7 +366,7 @@
      <x>0</x>
      <y>0</y>
      <width>491</width>
-     <height>20</height>
+     <height>22</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuMenu">
@@ -390,6 +400,7 @@
   <tabstop>tabWidget</tabstop>
   <tabstop>tableWidget_main</tabstop>
   <tabstop>pushButton_mainRefresh</tabstop>
+  <tabstop>pushButton_mainRemove</tabstop>
   <tabstop>pushButton_mainEnable</tabstop>
   <tabstop>pushButton_mainRestart</tabstop>
   <tabstop>pushButton_mainStart</tabstop>

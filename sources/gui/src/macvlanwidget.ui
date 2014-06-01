@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MacvlanWidget</class>
+ <widget class="QWidget" name="MacvlanWidget">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>396</width>
+    <height>101</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <layout class="QVBoxLayout" name="verticalLayout">
+   <item>
+    <widget class="QDockWidget" name="dockWidget_macvlan">
+     <property name="features">
+      <set>QDockWidget::NoDockWidgetFeatures</set>
+     </property>
+     <property name="windowTitle">
+      <string>macvlan settings</string>
+     </property>
+     <widget class="QWidget" name="dockWidgetContents_macvlan">
+      <layout class="QGridLayout" name="gridLayout_2">
+       <item row="0" column="0">
+        <layout class="QHBoxLayout" name="layout_mode">
+         <item>
+          <widget class="QLabel" name="label_mode">
+           <property name="text">
+            <string>Mode</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QComboBox" name="comboBox_mode">
+           <item>
+            <property name="text">
+             <string notr="true">bridge</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string notr="true">vepa</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string notr="true">private</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string notr="true">passthru</string>
+            </property>
+           </item>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item row="1" column="0">
+        <layout class="QHBoxLayout" name="layout_mac">
+         <item>
+          <widget class="QLabel" name="label_mac">
+           <property name="minimumSize">
+            <size>
+             <width>150</width>
+             <height>0</height>
+            </size>
+           </property>
+           <property name="text">
+            <string>MAC address</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLineEdit" name="lineEdit_mac">
+           <property name="toolTip">
+            <string>Optional static MAC address</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+      </layout>
+     </widget>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

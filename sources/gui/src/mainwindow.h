@@ -28,6 +28,7 @@ class ErrorWindow;
 class EthernetWidget;
 class GeneralWidget;
 class IpWidget;
+class MacvlanWidget;
 class MobileWidget;
 class Netctl;
 class NetctlProfile;
@@ -67,6 +68,7 @@ private slots:
     void updateProfileTab();
     void updateWifiTab();
     // main tab slots
+    void mainTabRemoveProfile();
     void mainTabEnableProfile();
     void mainTabRestartProfile();
     void mainTabStartProfile();
@@ -89,6 +91,7 @@ private:
     EthernetWidget *ethernetWid;
     GeneralWidget *generalWid;
     IpWidget *ipWid;
+    MacvlanWidget *macvlanWid;
     MobileWidget *mobileWid;
     PppoeWidget *pppoeWid;
     TunnelWidget *tunnelWid;
