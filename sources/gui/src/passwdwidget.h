@@ -39,6 +39,7 @@ public:
 
 public slots:
     void setFocusToLineEdit();
+    void setPassword(const bool mode = true);
 
 private slots:
     void cancel();

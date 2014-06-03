@@ -851,6 +851,10 @@
         <source>Password</source>
         <translation>Password</translation>
     </message>
+    <message>
+        <source>ESSID</source>
+        <translation>ESSID</translation>
+    </message>
 </context>
 <context>
     <name>PppoeWidget</name>

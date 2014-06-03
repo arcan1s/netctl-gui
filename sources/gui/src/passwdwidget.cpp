@@ -18,6 +18,8 @@
 #include "passwdwidget.h"
 #include "ui_passwdwidget.h"
 
+#include <QLineEdit>
+
 #include "mainwindow.h"
 
 
@@ -59,6 +61,19 @@ void PasswdWidget::setFocusToLineEdit()
 }
 
 
+void PasswdWidget::setPassword(const bool mode)
+{
+    if (mode) {
+        ui->lineEdit->setEchoMode(QLineEdit::Password);
+        ui->label->setText(QApplication::translate("PasswdWidget", "Password"));
+    }
+    else {
+        ui->lineEdit->setEchoMode(QLineEdit::Normal);
+        ui->label->setText(QApplication::translate("PasswdWidget", "ESSID"));
+    }
+}
+
+
 void PasswdWidget::cancel()
 {
     hide();
@@ -70,5 +85,8 @@ void PasswdWidget::cancel()
 void PasswdWidget::passwdApply()
 {
     hide();
-    return parent->connectToUnknownEssid(ui->lineEdit->text());
+    if (ui->lineEdit->echoMode() == QLineEdit::Normal)
+        return parent->setHiddenName(ui->lineEdit->text());
+    else
+        return parent->connectToUnknownEssid(ui->lineEdit->text());
 }

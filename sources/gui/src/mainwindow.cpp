@@ -948,6 +948,13 @@ void MainWindow::connectToUnknownEssid(const QString passwd)
 }
 
 
+void MainWindow::setHiddenName(const QString name)
+{
+    ui->tableWidget_wifi->item(ui->tableWidget_wifi->currentItem()->row(), 0)->setText(name);
+    wifiTabStart();
+}
+
+
 void MainWindow::wifiTabStart()
 {
     if (!checkExternalApps(QString("wpasup"))) {
@@ -958,9 +965,15 @@ void MainWindow::wifiTabStart()
     if (ui->tableWidget_wifi->currentItem() == 0)
         return;
     if (ui->tableWidget_wifi->item(ui->tableWidget_wifi->currentItem()->row(), 0)->text() == QString("<hidden>")) {
-        ui->pushButton_wifiStart->setDisabled(true);
-        errorWin = new ErrorWindow(this, 2);
-        errorWin->show();
+        passwdWid = new PasswdWidget(this);
+        passwdWid->setPassword(false);
+        int widgetWidth = 270;
+        int widgetHeight = 86;
+        int x = (width() - widgetWidth) / 2;
+        int y = (height() - widgetHeight) / 2;
+        passwdWid->setGeometry(x, y, widgetWidth, widgetHeight);
+        passwdWid->show();
+        passwdWid->setFocusToLineEdit();
         return;
     }
 
@@ -991,6 +1004,7 @@ void MainWindow::wifiTabStart()
             return connectToUnknownEssid(QString(""));
         else {
             passwdWid = new PasswdWidget(this);
+            passwdWid->setPassword(true);
             int widgetWidth = 270;
             int widgetHeight = 86;
             int x = (width() - widgetWidth) / 2;
