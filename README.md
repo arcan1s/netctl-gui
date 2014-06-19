@@ -69,4 +69,4 @@ Links
 -----
 * [Homepage](http://arcanis.name/projects/netctl-gui)
 * Page on [kde-apps](http://kde-apps.org/content/show.php?content=164490)
-* Archlinux [AUR](https://aur.archlinux.org/packages/netctl-gui) package
+* Archlinux [AUR](https://aur.archlinux.org/pkgbase/netctl-gui/) package
