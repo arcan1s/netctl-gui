@@ -69,6 +69,8 @@ Additional information
 TODO (wish list)
 ----------------
 
+* netctl-auto frontend
+
 Links
 -----
 

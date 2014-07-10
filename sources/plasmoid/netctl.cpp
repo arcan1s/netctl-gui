@@ -222,7 +222,7 @@ void Netctl::createActions()
     menuActions.append(contextMenu[QString("title")]);
 
     contextMenu[QString("start")] = new QAction(i18n("Start profile"), this);
-//    contextMenu[QString("start")]->setIcon(QIcon(""));
+    contextMenu[QString("start")]->setIcon(QIcon::fromTheme("dialog-apply"));
     startProfileMenu = new QMenu(NULL);
     contextMenu[QString("start")]->setMenu(startProfileMenu);
     connect(startProfileMenu, SIGNAL(triggered(QAction *)), this,
@@ -230,17 +230,16 @@ void Netctl::createActions()
     menuActions.append(contextMenu[QString("start")]);
 
     contextMenu[QString("stop")] = new QAction(i18n("Stop profile"), this);
-//    contextMenu[QString("stop")]->setIcon(QIcon(""));
+    contextMenu[QString("stop")]->setIcon(QIcon::fromTheme("dialog-close"));
     connect(contextMenu[QString("stop")], SIGNAL(triggered(bool)), this, SLOT(stopProfileSlot()));
     menuActions.append(contextMenu[QString("stop")]);
 
     contextMenu[QString("restart")] = new QAction(i18n("Restart profile"), this);
-//    contextMenu[QString("restart")]->setIcon(QIcon(""));
+    contextMenu[QString("restart")]->setIcon(QIcon::fromTheme("stock-refresh"));
     connect(contextMenu[QString("restart")], SIGNAL(triggered(bool)), this, SLOT(restartProfileSlot()));
     menuActions.append(contextMenu[QString("restart")]);
 
     contextMenu[QString("enable")] = new QAction(i18n("Enable profile"), this);
-//    contextMenu[QString("enable")]->setIcon(QIcon(""));
     connect(contextMenu[QString("enable")], SIGNAL(triggered(bool)), this, SLOT(enableProfileSlot()));
     menuActions.append(contextMenu[QString("enable")]);
 
