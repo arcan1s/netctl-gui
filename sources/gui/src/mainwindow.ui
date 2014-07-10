@@ -274,6 +274,9 @@
         </item>
         <item>
          <widget class="QTableWidget" name="tableWidget_wifi">
+          <property name="contextMenuPolicy">
+           <enum>Qt::CustomContextMenu</enum>
+          </property>
           <property name="editTriggers">
            <set>QAbstractItemView::NoEditTriggers</set>
           </property>

@@ -181,6 +181,7 @@ void MainWindow::createActions()
     connect(ui->pushButton_wifiStart, SIGNAL(clicked(bool)), this, SLOT(wifiTabStart()));
     connect(ui->tableWidget_wifi, SIGNAL(itemActivated(QTableWidgetItem *)), this, SLOT(wifiTabStart()));
     connect(ui->tableWidget_wifi, SIGNAL(currentItemChanged(QTableWidgetItem *, QTableWidgetItem *)), this, SLOT(wifiTabRefreshButtons(QTableWidgetItem *, QTableWidgetItem *)));
+    connect(ui->tableWidget_wifi, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(wifiTabContextualMenu(QPoint)));
 }
 
 
@@ -657,6 +658,7 @@ void MainWindow::profileTabClear()
     ipWid->clear();
     bridgeWid->clear();
     ethernetWid->clear();
+    macvlanWid->clear();
     mobileWid->clear();
     pppoeWid->clear();
     tunnelWid->clear();
@@ -952,6 +954,40 @@ void MainWindow::profileTabLoadProfile()
 
 
 // wifi tab slots
+void MainWindow::wifiTabContextualMenu(const QPoint &pos)
+{
+    if (debug) qDebug() << "[MainWindow]" << "[wifiTabContextualMenu]";
+
+    // create menu
+    QMenu menu(this);
+    QAction *refreshTable = menu.addAction(QApplication::translate("MainWindow", "Refresh"));
+    menu.addSeparator();
+    QAction *startWifi = menu.addAction(QApplication::translate("MainWindow", "Start WiFi"));
+
+    // set text
+    QString item = ui->tableWidget_wifi->item(ui->tableWidget_wifi->currentItem()->row(), 1)->text();
+    if (checkState(QString("exists"), item)) {
+        if (!checkState(QString("inactive"), item))
+            startWifi->setText(QApplication::translate("MainWindow", "Stop WiFi"));
+        else
+            startWifi->setText(QApplication::translate("MainWindow", "Start WiFi"));
+    }
+    else
+        startWifi->setText(QApplication::translate("MainWindow", "Start WiFi"));
+
+    // actions
+    QAction *action = menu.exec(ui->tableWidget_main->viewport()->mapToGlobal(pos));
+    if (action == refreshTable) {
+        if (debug) qDebug() << "[MainWindow]" << "[wifiTabContextualMenu]" << "Refresh WiFi";
+        updateWifiTab();
+    }
+    else if (action == startWifi) {
+        if (debug) qDebug() << "[MainWindow]" << "[wifiTabContextualMenu]" << "Start WiFi";
+        wifiTabStart();
+    }
+}
+
+
 void MainWindow::wifiTabSetEnabled(const bool state)
 {
     if (state) {

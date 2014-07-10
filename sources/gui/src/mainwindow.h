@@ -83,6 +83,7 @@ private slots:
     void profileTabCreateProfile();
     void profileTabLoadProfile();
     // wifi tab slots
+    void wifiTabContextualMenu(const QPoint &pos);
     void wifiTabSetEnabled(const bool state);
     void wifiTabStart();
     void wifiTabRefreshButtons(QTableWidgetItem *current, QTableWidgetItem *previous);
