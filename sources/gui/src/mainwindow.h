@@ -109,6 +109,7 @@ private:
     bool checkExternalApps(const QString apps);
     bool checkState(const QString state, const QString item);
     void createActions();
+    void setIconsToButtons();
     bool debug;
     // configuration
     QMap<QString, QString> configuration;

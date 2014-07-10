@@ -1,0 +1,10 @@
+<!DOCTYPE RCC><RCC version="1.0">
+<qresource>
+<!--     gui translations -->
+    <file>translations/english.qm</file>
+    <file>translations/russian.qm</file>
+<!--     icons -->
+    <file>icon.png</file>
+    <file>wifi.png</file>
+</qresource>
+</RCC>

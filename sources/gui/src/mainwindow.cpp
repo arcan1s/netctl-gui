@@ -90,6 +90,7 @@ MainWindow::MainWindow(QWidget *parent, const bool defaultSettings, const bool d
     wpaCommand = new WpaSup(this, debug, configuration);
 
     createActions();
+    setIconsToButtons();
     updateTabs(ui->tabWidget->currentIndex());
     ui->statusBar->showMessage(QApplication::translate("MainWindow", "Ready"));
 }
@@ -158,7 +159,7 @@ void MainWindow::createActions()
     connect(ui->actionSettings, SIGNAL(triggered(bool)), settingsWin, SLOT(showWindow()));
     connect(ui->actionQuit, SIGNAL(triggered(bool)), this, SLOT(close()));
 
-    // main page events
+    // main tab events
     connect(ui->pushButton_mainRefresh, SIGNAL(clicked(bool)), this, SLOT(updateMainTab()));
     connect(ui->pushButton_mainRemove, SIGNAL(clicked(bool)), this, SLOT(mainTabRemoveProfile()));
     connect(ui->pushButton_mainEnable, SIGNAL(clicked(bool)), this, SLOT(mainTabEnableProfile()));
@@ -176,12 +177,38 @@ void MainWindow::createActions()
     connect(ui->pushButton_profileLoad, SIGNAL(clicked(bool)), this, SLOT(profileTabLoadProfile()));
     connect(generalWid->connectionType, SIGNAL(currentIndexChanged(QString)), this, SLOT(profileTabChangeState(QString)));
 
-    // wifi page events
+    // wifi tab events
     connect(ui->pushButton_wifiRefresh, SIGNAL(clicked(bool)), this, SLOT(updateWifiTab()));
     connect(ui->pushButton_wifiStart, SIGNAL(clicked(bool)), this, SLOT(wifiTabStart()));
     connect(ui->tableWidget_wifi, SIGNAL(itemActivated(QTableWidgetItem *)), this, SLOT(wifiTabStart()));
     connect(ui->tableWidget_wifi, SIGNAL(currentItemChanged(QTableWidgetItem *, QTableWidgetItem *)), this, SLOT(wifiTabRefreshButtons(QTableWidgetItem *, QTableWidgetItem *)));
     connect(ui->tableWidget_wifi, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(wifiTabContextualMenu(QPoint)));
+}
+
+
+void MainWindow::setIconsToButtons()
+{
+    // tab widget
+    ui->tabWidget->setTabIcon(0, QIcon(":icon"));
+    ui->tabWidget->setTabIcon(1, QIcon::fromTheme("document-new"));
+    ui->tabWidget->setTabIcon(2, QIcon(":wifi"));
+
+    // main tab
+    ui->pushButton_mainRefresh->setIcon(QIcon::fromTheme("stock-refresh"));
+    ui->pushButton_mainRemove->setIcon(QIcon::fromTheme("edit-delete"));
+//    ui->pushButton_mainEnable->setIcon(QIcon(""));
+//    ui->pushButton_mainRestart->setIcon(QIcon(""));
+//    ui->pushButton_mainStart->setIcon(QIcon(""));
+
+    // profile tab
+    ui->pushButton_profileClear->setIcon(QIcon::fromTheme("edit-clear"));
+    ui->pushButton_profileSave->setIcon(QIcon::fromTheme("document-save"));
+    ui->pushButton_profileLoad->setIcon(QIcon::fromTheme("document-open"));
+
+
+    // wifi tab
+    ui->pushButton_wifiRefresh->setIcon(QIcon::fromTheme("stock-refresh"));
+//    ui->pushButton_wifiStart->setIcon(QIcon(""));
 }
 
 
@@ -317,12 +344,17 @@ void MainWindow::mainTabContextualMenu(const QPoint &pos)
     // create menu
     QMenu menu(this);
     QAction *refreshTable = menu.addAction(QApplication::translate("MainWindow", "Refresh"));
+    refreshTable->setIcon(QIcon::fromTheme("stock-refresh"));
     menu.addSeparator();
     QAction *startProfile = menu.addAction(QApplication::translate("MainWindow", "Start profile"));
+//    startProfile->setIcon(QIcon(""));
     QAction *restartProfile = menu.addAction(QApplication::translate("MainWindow", "Restart profile"));
+//    restartProfile->setIcon(QIcon(""));
     QAction *enableProfile = menu.addAction(QApplication::translate("MainWindow", "Enable profile"));
+//    enableProfile->setIcon(QIcon(""));
     menu.addSeparator();
     QAction *removeProfile = menu.addAction(QApplication::translate("MainWindow", "Remove profile"));
+    removeProfile->setIcon(QIcon::fromTheme("edit-delete"));
 
     // set text
     QString item = ui->tableWidget_main->item(ui->tableWidget_main->currentItem()->row(), 2)->text();
@@ -961,8 +993,10 @@ void MainWindow::wifiTabContextualMenu(const QPoint &pos)
     // create menu
     QMenu menu(this);
     QAction *refreshTable = menu.addAction(QApplication::translate("MainWindow", "Refresh"));
+    refreshTable->setIcon(QIcon::fromTheme("stock-refresh"));
     menu.addSeparator();
     QAction *startWifi = menu.addAction(QApplication::translate("MainWindow", "Start WiFi"));
+//    startWifi->setIcon(QIcon(""));
 
     // set text
     QString item = ui->tableWidget_wifi->item(ui->tableWidget_wifi->currentItem()->row(), 1)->text();

@@ -1,6 +1,8 @@
 # set project name
 set (SUBPROJECT plasma_applet_netctl)
 message (STATUS "Subproject ${SUBPROJECT}")
+# find resources
+set (RESOURCES ${PROJECT_RESOURCE_DIR}/resources.qrc)
 
 # find required libaries
 find_package (KDE4 REQUIRED)
@@ -23,8 +25,9 @@ file (GLOB SUBPROJECT_UI *.ui)
 configure_file (${SUBPROJECT_DESKTOP_IN} ${CMAKE_CURRENT_BINARY_DIR}/${SUBPROJECT_DESKTOP})
 
 # make
+qt4_add_resources (QRC_SOURCES ${RESOURCES})
 kde4_add_ui_files (SUBPROJECT_SOURCE ${SUBPROJECT_UI})
-kde4_add_plugin (${PLUGIN_NAME} ${SUBPROJECT_SOURCE})
+kde4_add_plugin (${PLUGIN_NAME} ${SUBPROJECT_SOURCE} ${QRC_SOURCES})
 target_link_libraries (${PLUGIN_NAME} ${KDE4_PLASMA_LIBS} ${KDE4_KDEUI_LIBS} ${KDE4_KIO_LIBS})
 
 # install

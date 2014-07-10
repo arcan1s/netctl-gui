@@ -19,6 +19,9 @@ option (USE_QT5 "Use Qt5 instead of Qt4" ON)
 option (BUILD_GUI "Build GUI" ON)
 option (BUILD_DATAENGINE "Build data engine" ON)
 option (BUILD_PLASMOID "Build plasmoid" ON)
+if (BUILD_PLASMOID)
+  set (BUILD_DATAENGINE ON)
+endif ()
 
 # flags
 if (CMAKE_COMPILER_IS_GNUCXX)
@@ -30,12 +33,11 @@ else ()
   message (STATUS "Unknown compiler")
 endif ()
 
-add_subdirectory (icons)
+# resources
+set (PROJECT_RESOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/resources)
+add_subdirectory (${PROJECT_RESOURCE_DIR})
 
-if (BUILD_PLASMOID)
-  set (BUILD_DATAENGINE ON)
-endif ()
-
+# components
 if (BUILD_GUI)
   add_subdirectory (gui)
 endif ()

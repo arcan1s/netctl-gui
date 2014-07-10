@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>489</width>
-    <height>517</height>
+    <width>487</width>
+    <height>515</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -203,8 +203,8 @@
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>457</width>
-             <height>359</height>
+             <width>96</width>
+             <height>26</height>
             </rect>
            </property>
            <property name="sizePolicy">
@@ -371,7 +371,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>489</width>
+     <width>487</width>
      <height>22</height>
     </rect>
    </property>
@@ -386,6 +386,9 @@
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
   <action name="actionSettings">
+   <property name="icon">
+    <iconset theme="configure"/>
+   </property>
    <property name="text">
     <string>Settings</string>
    </property>
@@ -394,6 +397,9 @@
    </property>
   </action>
   <action name="actionQuit">
+   <property name="icon">
+    <iconset theme="exit"/>
+   </property>
    <property name="text">
     <string>Quit</string>
    </property>

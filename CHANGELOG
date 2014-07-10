@@ -1,15 +1,17 @@
 Ver.1.2.0:
++ [all] added icons
 + [gui] added suppoort of macvlan
 + [gui] added ability to remove profile
 + [gui] added support of hidden wifi network
 + [gui] added contextual menu to tables
+* [all] small changes in the project architecture
 * [plasmoid] edited configuration interface
 
 Ver.1.1.0 (netctl-1.7 update):
 + [gui] added frequency
 + [plasmoid] added menu title
-* [gui] changed definition if profile is enabled]
 * [dataengine] changed definition if profile is enabled
+* [gui] changed definition if profile is enabled
 
 Ver.1.0.6:
 * [gui] fix error checking

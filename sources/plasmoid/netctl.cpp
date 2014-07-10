@@ -184,14 +184,14 @@ QList<QAction*> Netctl::contextualActions()
     if (status) {
         contextMenu[QString("start")]->setText(i18n("Start another profile"));
         contextMenu[QString("stop")]->setVisible(true);
-        contextMenu[QString("stop")]->setText(i18n("Stop ") + info[QString("name")]);
+        contextMenu[QString("stop")]->setText(i18n("Stop %1", info[QString("name")]));
         contextMenu[QString("restart")]->setVisible(true);
-        contextMenu[QString("restart")]->setText(i18n("Restart ") + info[QString("name")]);
+        contextMenu[QString("restart")]->setText(i18n("Restart %1", info[QString("name")]));
         contextMenu[QString("enable")]->setVisible(true);
         if (info[QString("status")].contains(QString("enabled")))
-            contextMenu[QString("enable")]->setText(i18n("Disable ") + info[QString("name")]);
+            contextMenu[QString("enable")]->setText(i18n("Disable %1", info[QString("name")]));
         else
-            contextMenu[QString("enable")]->setText(i18n("Enable ") + info[QString("name")]);
+            contextMenu[QString("enable")]->setText(i18n("Enable %1", info[QString("name")]));
     }
     else {
         contextMenu[QString("start")]->setText(i18n("Start profile"));
@@ -222,6 +222,7 @@ void Netctl::createActions()
     menuActions.append(contextMenu[QString("title")]);
 
     contextMenu[QString("start")] = new QAction(i18n("Start profile"), this);
+//    contextMenu[QString("start")]->setIcon(QIcon(""));
     startProfileMenu = new QMenu(NULL);
     contextMenu[QString("start")]->setMenu(startProfileMenu);
     connect(startProfileMenu, SIGNAL(triggered(QAction *)), this,
@@ -229,18 +230,22 @@ void Netctl::createActions()
     menuActions.append(contextMenu[QString("start")]);
 
     contextMenu[QString("stop")] = new QAction(i18n("Stop profile"), this);
+//    contextMenu[QString("stop")]->setIcon(QIcon(""));
     connect(contextMenu[QString("stop")], SIGNAL(triggered(bool)), this, SLOT(stopProfileSlot()));
     menuActions.append(contextMenu[QString("stop")]);
 
     contextMenu[QString("restart")] = new QAction(i18n("Restart profile"), this);
+//    contextMenu[QString("restart")]->setIcon(QIcon(""));
     connect(contextMenu[QString("restart")], SIGNAL(triggered(bool)), this, SLOT(restartProfileSlot()));
     menuActions.append(contextMenu[QString("restart")]);
 
     contextMenu[QString("enable")] = new QAction(i18n("Enable profile"), this);
+//    contextMenu[QString("enable")]->setIcon(QIcon(""));
     connect(contextMenu[QString("enable")], SIGNAL(triggered(bool)), this, SLOT(enableProfileSlot()));
     menuActions.append(contextMenu[QString("enable")]);
 
     contextMenu[QString("wifi")] = new QAction(i18n("Show WiFi menu"), this);
+    contextMenu[QString("wifi")]->setIcon(QIcon(":wifi"));
     connect(contextMenu[QString("wifi")], SIGNAL(triggered(bool)), this, SLOT(showWifi()));
     menuActions.append(contextMenu[QString("wifi")]);
 }
