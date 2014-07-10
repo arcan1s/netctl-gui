@@ -31,6 +31,7 @@ class Netctl : public QObject
 
 public:
     explicit Netctl(MainWindow *wid = 0,
+                    const bool debugCmd = false,
                     const QMap<QString, QString> settings = QMap<QString, QString>());
     ~Netctl();
     // general information
@@ -49,6 +50,7 @@ public slots:
 
 private:
     MainWindow *parent;
+    bool debug;
     QString netctlCommand;
     QDir *profileDirectory;
     QString sudoCommand;

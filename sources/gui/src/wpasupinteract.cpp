@@ -25,8 +25,9 @@
 #include "sleepthread.h"
 
 
-WpaSup::WpaSup(MainWindow *wid, const QMap<QString, QString> settings)
-    : parent(wid)
+WpaSup::WpaSup(MainWindow *wid, const bool debugCmd, const QMap<QString, QString> settings)
+    : parent(wid),
+      debug(debugCmd)
 {
     ctrlDir = settings[QString("CTRL_DIR")];
     ctrlGroup = settings[QString("CTRL_GROUP")];
@@ -70,7 +71,7 @@ QStringList WpaSup::getInterfaceList()
         interfaces.append(mainInterface);
     QStringList allInterfaces = ifaceDirectory->entryList(QDir::Dirs | QDir::NoDotAndDotDot);
     for (int i=0; i<allInterfaces.count(); i++) {
-        qDebug() << "[WpaSup]" << "[getInterfaceList]" << ":" << "Check directory"
+        if (debug) qDebug() << "[WpaSup]" << "[getInterfaceList]" << ":" << "Check directory"
                  << ifaceDirectory->path() + QDir::separator() + allInterfaces[i] + QDir::separator() + QString("wireless");
         if (QDir(ifaceDirectory->path() + QDir::separator() + allInterfaces[i] +
                  QDir::separator() + QString("wireless")).exists())
@@ -110,11 +111,11 @@ bool WpaSup::wpaCliCall(const QString commandLine)
     QProcess command;
     QString commandText = wpaCliPath + QString(" -i ") + interface + QString(" -p ") + ctrlDir +
             QString(" -P ") + pidFile + QString(" ") + commandLine;
-    qDebug() << "[WpaSup]" << "[wpaCliCall]" << ":" << "Run cmd" << commandText;
+    if (debug) qDebug() << "[WpaSup]" << "[wpaCliCall]" << ":" << "Run cmd" << commandText;
     command.start(commandText);
     command.waitForFinished(-1);
     SleepThread::sleep(1);
-    qDebug() << "[WpaSup]" << "[wpaCliCall]" << ":" << "Cmd returns" << command.exitCode();
+    if (debug) qDebug() << "[WpaSup]" << "[wpaCliCall]" << ":" << "Cmd returns" << command.exitCode();
     if (command.exitCode() == 0)
         return true;
     else
@@ -128,7 +129,7 @@ QString WpaSup::getWpaCliOutput(const QString commandLine)
     QProcess command;
     QString commandText = wpaCliPath + QString(" -i ") + interface + QString(" -p ") + ctrlDir +
             QString(" -P ") + pidFile + QString(" ") + commandLine;
-    qDebug() << "[WpaSup]" << "[getWpaCliOutput]" << ":" << "Run cmd" << commandText;
+    if (debug) qDebug() << "[WpaSup]" << "[getWpaCliOutput]" << ":" << "Run cmd" << commandText;
     command.start(commandText);
     command.waitForFinished(-1);
     return command.readAllStandardOutput();
@@ -213,11 +214,11 @@ bool WpaSup::startWpaSupplicant()
         QString commandText = sudoCommand + QString(" ") + wpaSupPath + QString(" -B -P ") + pidFile +
                 QString(" -i ") + interface + QString(" -D ") + wpaDrivers +
                 QString(" -C \"DIR=") + ctrlDir + QString(" GROUP=") + ctrlGroup + QString("\"");
-        qDebug() << "[WpaSup]" << "[startWpaSupplicant]" << ":" << "Run cmd" << commandText;
+        if (debug) qDebug() << "[WpaSup]" << "[startWpaSupplicant]" << ":" << "Run cmd" << commandText;
         command.start(commandText);
         command.waitForFinished(-1);
         SleepThread::sleep(1);
-        qDebug() << "[WpaSup]" << "[startWpaSupplicant]" << ":" << "Cmd returns" << command.exitCode();
+        if (debug) qDebug() << "[WpaSup]" << "[startWpaSupplicant]" << ":" << "Cmd returns" << command.exitCode();
         if (command.exitCode() != 0)
             return false;
     }

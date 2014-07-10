@@ -42,19 +42,21 @@
 #include "wirelesswidget.h"
 
 
-MainWindow::MainWindow(QWidget *parent, const bool defaultSettings, const int tabNum)
+MainWindow::MainWindow(QWidget *parent, const bool defaultSettings, const bool debugCmd, const int tabNum)
     : QMainWindow(parent),
-      ui(new Ui::MainWindow)
+      ui(new Ui::MainWindow),
+      debug(debugCmd)
 {
-    qDebug() << "[MainWindow]" << "[MainWindow]" << ":" << QString("defaultSettings") << defaultSettings;
-    qDebug() << "[MainWindow]" << "[MainWindow]" << ":" << QString("tabNum") << tabNum;
+    if (debug) qDebug() << "[MainWindow]" << "[MainWindow]" << ":" << "defaultSettings" << defaultSettings;
+    if (debug) qDebug() << "[MainWindow]" << "[MainWindow]" << ":" << "tabNum" << tabNum;
+    if (debug) qDebug() << "[MainWindow]" << "[MainWindow]" << ":" << "debug" << debug;
 
     ui->setupUi(this);
     ui->tabWidget->setCurrentIndex(tabNum-1);
 
     QString configPath = QDir::homePath() + QDir::separator() + QString(".config") +
             QDir::separator() + QString("netctl-gui.conf");
-    settingsWin = new SettingsWindow(this, configPath);
+    settingsWin = new SettingsWindow(this, debug, configPath);
     if (defaultSettings)
         settingsWin->setDefault();
     configuration = settingsWin->getSettings();
@@ -83,9 +85,9 @@ MainWindow::MainWindow(QWidget *parent, const bool defaultSettings, const int ta
     wirelessWid = new WirelessWidget(this, configuration);
     ui->scrollAreaWidgetContents->layout()->addWidget(wirelessWid);
     // backend
-    netctlCommand = new Netctl(this, configuration);
-    netctlProfile = new NetctlProfile(this, configuration);
-    wpaCommand = new WpaSup(this, configuration);
+    netctlCommand = new Netctl(this, debug, configuration);
+    netctlProfile = new NetctlProfile(this, debug, configuration);
+    wpaCommand = new WpaSup(this, debug, configuration);
 
     createActions();
     updateTabs(ui->tabWidget->currentIndex());
@@ -129,10 +131,10 @@ bool MainWindow::checkExternalApps(const QString apps = QString("all"))
         commandLine.append(configuration[QString("WPASUP_PATH")]);
     }
     QProcess command;
-    qDebug() << "[MainWindow]" << "[checkExternalApps]" << ":" << "Run cmd" << commandLine.join(QString(" "));
+    if (debug) qDebug() << "[MainWindow]" << "[checkExternalApps]" << ":" << "Run cmd" << commandLine.join(QString(" "));
     command.start(commandLine.join(QString(" ")));
     command.waitForFinished(-1);
-    qDebug() << "[MainWindow]" << "[checkExternalApps]" << ":" << "Cmd returns" << command.exitCode();
+    if (debug) qDebug() << "[MainWindow]" << "[checkExternalApps]" << ":" << "Cmd returns" << command.exitCode();
     if (command.exitCode() != 0)
         return false;
     else
@@ -196,12 +198,12 @@ void MainWindow::updateTabs(const int tab)
 void MainWindow::updateMainTab()
 {
     if (!checkExternalApps(QString("netctl"))) {
-        errorWin = new ErrorWindow(this, 1);
+        errorWin = new ErrorWindow(this, debug, 1);
         errorWin->show();
         return;
     }
 
-    qDebug() << "[MainWindow]" << "[updateMainTab]";
+    if (debug) qDebug() << "[MainWindow]" << "[updateMainTab]";
     ui->tabWidget->setDisabled(true);
     QList<QStringList> profiles = netctlCommand->getProfileList();;
 
@@ -243,7 +245,7 @@ void MainWindow::updateMainTab()
 
 void MainWindow::updateProfileTab()
 {
-    qDebug() << "[MainWindow]" << "[updateProfileTab]";
+    if (debug) qDebug() << "[MainWindow]" << "[updateProfileTab]";
     ui->tabWidget->setDisabled(true);
     profileTabClear();
     ui->tabWidget->setEnabled(true);
@@ -257,14 +259,14 @@ void MainWindow::updateWifiTab()
 {
     wifiTabSetEnabled(checkExternalApps(QString("wpasup")));
     if (!checkExternalApps(QString("wpasup"))) {
-        errorWin = new ErrorWindow(this, 1);
+        errorWin = new ErrorWindow(this, debug, 1);
         errorWin->show();
         return;
     }
 
     QList<QStringList> scanResults = wpaCommand->scanWifi();
 
-    qDebug() << "[MainWindow]" << "[updateWifiTab]";
+    if (debug) qDebug() << "[MainWindow]" << "[updateWifiTab]";
     ui->tabWidget->setDisabled(true);
     ui->tableWidget_wifi->setSortingEnabled(false);
     ui->tableWidget_wifi->selectRow(-1);
@@ -308,7 +310,7 @@ void MainWindow::updateWifiTab()
 // main tab slots
 void MainWindow::mainTabRemoveProfile()
 {
-    qDebug() << "[MainWindow]" << "[mainTabRemoveProfile]";
+    if (debug) qDebug() << "[MainWindow]" << "[mainTabRemoveProfile]";
     ui->tabWidget->setDisabled(true);
     // call netctlprofile
     QString profile = ui->tableWidget_main->item(ui->tableWidget_main->currentItem()->row(), 0)->text();
@@ -324,14 +326,14 @@ void MainWindow::mainTabRemoveProfile()
 void MainWindow::mainTabEnableProfile()
 {
     if (!checkExternalApps(QString("netctl"))) {
-        errorWin = new ErrorWindow(this, 1);
+        errorWin = new ErrorWindow(this, debug, 1);
         errorWin->show();
         return;
     }
     if (ui->tableWidget_main->currentItem() == 0)
         return;
 
-    qDebug() << "[MainWindow]" << "[mainTabEnableProfile]";
+    if (debug) qDebug() << "[MainWindow]" << "[mainTabEnableProfile]";
     ui->tabWidget->setDisabled(true);
     QString profile = ui->tableWidget_main->item(ui->tableWidget_main->currentItem()->row(), 0)->text();
     netctlCommand->enableProfile(profile);
@@ -355,14 +357,14 @@ void MainWindow::mainTabEnableProfile()
 void MainWindow::mainTabRestartProfile()
 {
     if (!checkExternalApps(QString("netctl"))) {
-        errorWin = new ErrorWindow(this, 1);
+        errorWin = new ErrorWindow(this, debug, 1);
         errorWin->show();
         return;
     }
     if (ui->tableWidget_main->currentItem() == 0)
         return;
 
-    qDebug() << "[MainWindow]" << "[mainTabRestartProfile]";
+    if (debug) qDebug() << "[MainWindow]" << "[mainTabRestartProfile]";
     ui->tabWidget->setDisabled(true);
     QString profile = ui->tableWidget_main->item(ui->tableWidget_main->currentItem()->row(), 0)->text();
     netctlCommand->restartProfile(profile);
@@ -377,14 +379,14 @@ void MainWindow::mainTabRestartProfile()
 void MainWindow::mainTabStartProfile()
 {
     if (!checkExternalApps(QString("netctl"))) {
-        errorWin = new ErrorWindow(this, 1);
+        errorWin = new ErrorWindow(this, debug, 1);
         errorWin->show();
         return;
     }
     if (ui->tableWidget_main->currentItem() == 0)
         return;
 
-    qDebug() << "[MainWindow]" << "[mainTabStartProfile]";
+    if (debug) qDebug() << "[MainWindow]" << "[mainTabStartProfile]";
     ui->tabWidget->setDisabled(true);
     QString profile = ui->tableWidget_main->item(ui->tableWidget_main->currentItem()->row(), 0)->text();
     netctlCommand->startProfile(profile);
@@ -409,7 +411,7 @@ void MainWindow::mainTabRefreshButtons(QTableWidgetItem *current, QTableWidgetIt
 {
     Q_UNUSED(previous);
     if (!checkExternalApps(QString("netctl"))) {
-        errorWin = new ErrorWindow(this, 1);
+        errorWin = new ErrorWindow(this, debug, 1);
         errorWin->show();
         return;
     }
@@ -420,7 +422,7 @@ void MainWindow::mainTabRefreshButtons(QTableWidgetItem *current, QTableWidgetIt
         return;
     }
 
-    qDebug() << "[MainWindow]" << "[mainTabRefreshButtons]";
+    if (debug) qDebug() << "[MainWindow]" << "[mainTabRefreshButtons]";
     ui->pushButton_mainEnable->setEnabled(true);
     ui->pushButton_mainStart->setEnabled(true);
 
@@ -443,7 +445,7 @@ void MainWindow::mainTabRefreshButtons(QTableWidgetItem *current, QTableWidgetIt
 // profile tab slots
 void MainWindow::profileTabBrowseProfile()
 {
-    qDebug() << "[MainWindow]" << "[profileTabBrowseProfile]";
+    if (debug) qDebug() << "[MainWindow]" << "[profileTabBrowseProfile]";
     QString filename = QFileDialog::getSaveFileName(
                 this,
                 QApplication::translate("MainWindow", "Save profile as..."),
@@ -456,7 +458,7 @@ void MainWindow::profileTabBrowseProfile()
 
 void MainWindow::profileTabChangeState(const QString current)
 {
-    qDebug() << "[MainWindow]" << "[profileTabChangeState]";
+    if (debug) qDebug() << "[MainWindow]" << "[profileTabChangeState]";
     if (current == QString("ethernet")) {
         generalWid->setShown(true);
         ipWid->setShown(true);
@@ -593,7 +595,7 @@ void MainWindow::profileTabChangeState(const QString current)
 
 void MainWindow::profileTabClear()
 {
-    qDebug() << "[MainWindow]" << "[profileTabClear]";
+    if (debug) qDebug() << "[MainWindow]" << "[profileTabClear]";
     ui->lineEdit_profile->clear();
 
     generalWid->clear();
@@ -615,17 +617,17 @@ void MainWindow::profileTabCreateProfile()
 {
     // error checking
     if (ui->lineEdit_profile->text().isEmpty()) {
-        errorWin = new ErrorWindow(this, 3);
+        errorWin = new ErrorWindow(this, debug, 3);
         errorWin->show();
         return;
     }
     if (generalWid->isOk() == 1) {
-        errorWin = new ErrorWindow(this, 4);
+        errorWin = new ErrorWindow(this, debug, 4);
         errorWin->show();
         return;
     }
     else if (generalWid->isOk() == 2) {
-        errorWin = new ErrorWindow(this, 5);
+        errorWin = new ErrorWindow(this, debug, 5);
         errorWin->show();
         return;
     }
@@ -639,46 +641,46 @@ void MainWindow::profileTabCreateProfile()
             (generalWid->connectionType->currentText() == QString("vlan")) ||
             (generalWid->connectionType->currentText() == QString("macvlan"))) {
         if (ipWid->isOk() == 1) {
-            errorWin = new ErrorWindow(this, 6);
+            errorWin = new ErrorWindow(this, debug, 6);
             errorWin->show();
             return;
         }
         else if (ipWid->isOk() == 2) {
-            errorWin = new ErrorWindow(this, 6);
+            errorWin = new ErrorWindow(this, debug, 6);
             errorWin->show();
             return;
         }
     }
     if (generalWid->connectionType->currentText() == QString("ethernet")) {
         if (ethernetWid->isOk() == 1) {
-            errorWin = new ErrorWindow(this, 7);
+            errorWin = new ErrorWindow(this, debug, 7);
             errorWin->show();
             return;
         }
     }
     else if (generalWid->connectionType->currentText() == QString("wireless")) {
         if (wirelessWid->isOk() == 1) {
-            errorWin = new ErrorWindow(this, 8);
+            errorWin = new ErrorWindow(this, debug, 8);
             errorWin->show();
             return;
         }
         else if (wirelessWid->isOk() == 2) {
-            errorWin = new ErrorWindow(this, 9);
+            errorWin = new ErrorWindow(this, debug, 9);
             errorWin->show();
             return;
         }
         else if (wirelessWid->isOk() == 3) {
-            errorWin = new ErrorWindow(this, 10);
+            errorWin = new ErrorWindow(this, debug, 10);
             errorWin->show();
             return;
         }
         else if (wirelessWid->isOk() == 4) {
-            errorWin = new ErrorWindow(this, 7);
+            errorWin = new ErrorWindow(this, debug, 7);
             errorWin->show();
             return;
         }
         else if (wirelessWid->isOk() == 5) {
-            errorWin = new ErrorWindow(this, 11);
+            errorWin = new ErrorWindow(this, debug, 11);
             errorWin->show();
             return;
         }
@@ -687,34 +689,34 @@ void MainWindow::profileTabCreateProfile()
     }
     else if (generalWid->connectionType->currentText() == QString("pppoe")) {
         if (pppoeWid->isOk() == 1) {
-            errorWin = new ErrorWindow(this, 7);
+            errorWin = new ErrorWindow(this, debug, 7);
             errorWin->show();
             return;
         }
         else if (pppoeWid->isOk() == 2) {
-            errorWin = new ErrorWindow(this, 12);
+            errorWin = new ErrorWindow(this, debug, 12);
             errorWin->show();
             return;
         }
         else if (pppoeWid->isOk() == 3) {
-            errorWin = new ErrorWindow(this, 13);
+            errorWin = new ErrorWindow(this, debug, 13);
             errorWin->show();
             return;
         }
         else if (pppoeWid->isOk() == 4) {
-            errorWin = new ErrorWindow(this, 12);
+            errorWin = new ErrorWindow(this, debug, 12);
             errorWin->show();
             return;
         }
     }
     else if (generalWid->connectionType->currentText() == QString("mobile_ppp")) {
         if (mobileWid->isOk() == 1) {
-            errorWin = new ErrorWindow(this, 14);
+            errorWin = new ErrorWindow(this, debug, 14);
             errorWin->show();
             return;
         }
         if (mobileWid->isOk() == 2) {
-            errorWin = new ErrorWindow(this, 7);
+            errorWin = new ErrorWindow(this, debug, 7);
             errorWin->show();
             return;
         }
@@ -723,32 +725,32 @@ void MainWindow::profileTabCreateProfile()
     }
     else if (generalWid->connectionType->currentText() == QString("tuntap")) {
         if (tuntapWid->isOk() == 1) {
-            errorWin = new ErrorWindow(this, 15);
+            errorWin = new ErrorWindow(this, debug, 15);
             errorWin->show();
             return;
         }
         if (tuntapWid->isOk() == 2) {
-            errorWin = new ErrorWindow(this, 15);
+            errorWin = new ErrorWindow(this, debug, 15);
             errorWin->show();
             return;
         }
     }
     else if (generalWid->connectionType->currentText() == QString("vlan")) {
         if (ethernetWid->isOk() == 1) {
-            errorWin = new ErrorWindow(this, 7);
+            errorWin = new ErrorWindow(this, debug, 7);
             errorWin->show();
             return;
         }
     }
     else if (generalWid->connectionType->currentText() == QString("macvlan")) {
         if (ethernetWid->isOk() == 1) {
-            errorWin = new ErrorWindow(this, 7);
+            errorWin = new ErrorWindow(this, debug, 7);
             errorWin->show();
             return;
         }
     }
 
-    qDebug() << "[MainWindow]" << "[profileTabCreateProfile]";
+    if (debug) qDebug() << "[MainWindow]" << "[profileTabCreateProfile]";
     ui->tabWidget->setDisabled(true);
     // read settings
     QString profile = ui->lineEdit_profile->text();
@@ -846,7 +848,7 @@ void MainWindow::profileTabCreateProfile()
 
 void MainWindow::profileTabLoadProfile()
 {
-    qDebug() << "[MainWindow]" << "[profileTabLoadProfile]";
+    if (debug) qDebug() << "[MainWindow]" << "[profileTabLoadProfile]";
     QString profile = ui->lineEdit_profile->text();
     QMap<QString, QString> settings = netctlProfile->getSettingsFromProfile(profile);
 
@@ -916,7 +918,7 @@ void MainWindow::connectToUnknownEssid(const QString passwd)
     if (!passwd.isEmpty())
         delete passwdWid;
 
-    qDebug() << "[MainWindow]" << "[connectToUnknownEssid]";
+    if (debug) qDebug() << "[MainWindow]" << "[connectToUnknownEssid]";
     QMap<QString, QString> settings;
     settings[QString("Description")] = QString("'Automatically generated profile by Netctl GUI'");
     settings[QString("Interface")] = wpaCommand->getInterfaceList()[0];
@@ -958,7 +960,7 @@ void MainWindow::setHiddenName(const QString name)
 void MainWindow::wifiTabStart()
 {
     if (!checkExternalApps(QString("wpasup"))) {
-        errorWin = new ErrorWindow(this, 1);
+        errorWin = new ErrorWindow(this, debug, 1);
         errorWin->show();
         return;
     }
@@ -977,7 +979,7 @@ void MainWindow::wifiTabStart()
         return;
     }
 
-    qDebug() << "[MainWindow]" << "[wifiTabStart]";
+    if (debug) qDebug() << "[MainWindow]" << "[wifiTabStart]";
     ui->tabWidget->setDisabled(true);
     QString profile = ui->tableWidget_wifi->item(ui->tableWidget_wifi->currentItem()->row(), 0)->text();
     QString item = ui->tableWidget_wifi->item(ui->tableWidget_wifi->currentItem()->row(), 1)->text();
@@ -1023,7 +1025,7 @@ void MainWindow::wifiTabRefreshButtons(QTableWidgetItem *current, QTableWidgetIt
 {
     Q_UNUSED(previous);
     if (!checkExternalApps(QString("wpasup"))) {
-        errorWin = new ErrorWindow(this, 1);
+        errorWin = new ErrorWindow(this, debug, 1);
         errorWin->show();
         return;
     }
@@ -1036,7 +1038,7 @@ void MainWindow::wifiTabRefreshButtons(QTableWidgetItem *current, QTableWidgetIt
         return;
     }
 
-    qDebug() << "[MainWindow]" << "[wifiTabRefreshButtons]";
+    if (debug) qDebug() << "[MainWindow]" << "[wifiTabRefreshButtons]";
     ui->pushButton_wifiStart->setEnabled(true);
     QString item = ui->tableWidget_wifi->item(current->row(), 1)->text();
     if (checkState(QString("exists"), item)) {

@@ -31,10 +31,12 @@ class ErrorWindow : public QMainWindow
 
 public:
     explicit ErrorWindow(QWidget *parent = 0,
+                         const bool debugCmd = false,
                          const int messageNumber = 0);
     ~ErrorWindow();
 
 private:
+    bool debug;
     Ui::ErrorWindow *ui;
     void setMessage(const int mess);
 };

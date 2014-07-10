@@ -31,6 +31,7 @@ class WpaSup : public QObject
 
 public:
     explicit WpaSup(MainWindow *wid = 0,
+                    const bool debugCmd = false,
                     const QMap<QString, QString> settings = QMap<QString, QString>());
     ~WpaSup();
     // general information
@@ -47,6 +48,7 @@ public slots:
 
 private:
     MainWindow *parent;
+    bool debug;
     QString ctrlDir;
     QString ctrlGroup;
     QDir *ifaceDirectory;

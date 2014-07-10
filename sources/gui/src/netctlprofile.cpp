@@ -26,8 +26,9 @@
 #include "mainwindow.h"
 
 
-NetctlProfile::NetctlProfile(MainWindow *wid, const QMap<QString, QString> settings)
-    : parent(wid)
+NetctlProfile::NetctlProfile(MainWindow *wid, const bool debugCmd, const QMap<QString, QString> settings)
+    : parent(wid),
+      debug(debugCmd)
 {
     profileDirectory = new QDir(settings[QString("PROFILE_DIR")]);
     sudoCommand = settings[QString("SUDO_PATH")];
@@ -45,7 +46,7 @@ bool NetctlProfile::copyProfile(const QString oldPath)
     QString newPath = profileDirectory->absolutePath() + QDir::separator() + QFileInfo(oldPath).fileName();
     QProcess command;
     QString commandText = sudoCommand + QString(" /usr/bin/mv ") + oldPath + QString(" ") + newPath;
-    qDebug() << "[NetctlProfile]" << "[copyProfile]" << ":" << "Run cmd" << commandText;
+    if (debug) qDebug() << "[NetctlProfile]" << "[copyProfile]" << ":" << "Run cmd" << commandText;
     command.start(commandText);
     command.waitForFinished(-1);
     if (command.exitCode() == 0)
@@ -60,7 +61,7 @@ bool NetctlProfile::removeProfile(const QString profile)
     QString profilePath = profileDirectory->absolutePath() + QDir::separator() + profile;
     QProcess command;
     QString commandText = sudoCommand + QString(" /usr/bin/rm ") + profilePath;
-    qDebug() << "[NetctlProfile]" << "[removeProfile]" << ":" << "Run cmd" << commandText;
+    if (debug) qDebug() << "[NetctlProfile]" << "[removeProfile]" << ":" << "Run cmd" << commandText;
     command.start(commandText);
     command.waitForFinished(-1);
     if (command.exitCode() == 0)
@@ -77,7 +78,7 @@ QString NetctlProfile::createProfile(const QString profile, const QMap<QString, 
     QString profileTempName = QDir::homePath() + QDir::separator() +
             QString(".cache") + QDir::separator() + QFileInfo(profile).fileName();
     QFile profileFile(profileTempName);
-    qDebug() << "[NetctlProfile]" << "[createProfile]" << ":" << "Save to" << profileTempName;
+    if (debug) qDebug() << "[NetctlProfile]" << "[createProfile]" << ":" << "Save to" << profileTempName;
 
     if (!profileFile.open(QIODevice::WriteOnly | QIODevice::Text))
         return profileTempName;
@@ -115,7 +116,7 @@ QMap<QString, QString> NetctlProfile::getSettingsFromProfile(const QString profi
     else
         profileUrl = profileDirectory->absolutePath() + QDir::separator() + profile;
     QFile profileFile(profileUrl);
-    qDebug() << "[NetctlProfile]" << "[getSettingsFromProfile]" << ":" << "Read from" << profileUrl;
+    if (debug) qDebug() << "[NetctlProfile]" << "[getSettingsFromProfile]" << ":" << "Read from" << profileUrl;
 
     if (!profileFile.open(QIODevice::ReadOnly))
         return settings;

@@ -26,9 +26,10 @@
 #include "mainwindow.h"
 
 
-SettingsWindow::SettingsWindow(MainWindow *wid, const QString configFile)
+SettingsWindow::SettingsWindow(MainWindow *wid, const bool debugCmd, const QString configFile)
     : QMainWindow(wid),
       parent(wid),
+      debug(debugCmd),
       file(configFile),
       ui(new Ui::SettingsWindow)
 {
@@ -206,7 +207,7 @@ QMap<QString, QString> SettingsWindow::readSettings()
     settings[QString("WPA_DRIVERS")] = ui->lineEdit_wpaSupDrivers->text();
 
     for (int i=0; i<settings.keys().count(); i++)
-        qDebug() << "[SettingsWindow]" << "[readSettings]" << ":" <<
+        if (debug) qDebug() << "[SettingsWindow]" << "[readSettings]" << ":" <<
                     settings.keys()[i] + QString("=") + settings[settings.keys()[i]];
 
     return settings;
@@ -233,7 +234,7 @@ void SettingsWindow::setSettings(const QMap<QString, QString> settings)
     ui->lineEdit_wpaSupDrivers->setText(settings[QString("WPA_DRIVERS")]);
 
     for (int i=0; i<settings.keys().count(); i++)
-        qDebug() << "[SettingsWindow]" << "[setSettings]" << ":" <<
+        if (debug) qDebug() << "[SettingsWindow]" << "[setSettings]" << ":" <<
                     settings.keys()[i] + QString("=") + settings[settings.keys()[i]];
 }
 
@@ -257,7 +258,7 @@ QMap<QString, QString> SettingsWindow::getDefault()
     settings[QString("WPA_DRIVERS")] = QString("nl80211,wext");
 
     for (int i=0; i<settings.keys().count(); i++)
-        qDebug() << "[SettingsWindow]" << "[getDefault]" << ":" <<
+        if (debug) qDebug() << "[SettingsWindow]" << "[getDefault]" << ":" <<
                     settings.keys()[i] + QString("=") + settings[settings.keys()[i]];
 
     return settings;
@@ -287,7 +288,7 @@ QMap<QString, QString> SettingsWindow::getSettings()
     configFile.close();
 
     for (int i=0; i<settings.keys().count(); i++)
-        qDebug() << "[SettingsWindow]" << "[getSettings]" << ":" <<
+        if (debug) qDebug() << "[SettingsWindow]" << "[getSettings]" << ":" <<
                     settings.keys()[i] + QString("=") + settings[settings.keys()[i]];
 
     return settings;

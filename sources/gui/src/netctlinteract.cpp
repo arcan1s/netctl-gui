@@ -24,8 +24,9 @@
 #include "mainwindow.h"
 
 
-Netctl::Netctl(MainWindow *wid, const QMap<QString, QString> settings)
-    : parent(wid)
+Netctl::Netctl(MainWindow *wid, const bool debugCmd, const QMap<QString, QString> settings)
+    : parent(wid),
+      debug(debugCmd)
 {
     netctlCommand = settings[QString("NETCTL_PATH")];
     profileDirectory = new QDir(settings[QString("PROFILE_DIR")]);
@@ -49,7 +50,7 @@ QString Netctl::getNetctlOutput(const bool sudo, const QString commandLine, cons
                 QString(" ") + profile;
     else
         commandText = netctlCommand + QString(" ") + commandLine + QString(" ") + profile;
-    qDebug() << "[Netctl]" << "[getNetctlOutput]" << ":" << "Run cmd" << commandText;
+    if (debug) qDebug() << "[Netctl]" << "[getNetctlOutput]" << ":" << "Run cmd" << commandText;
     command.start(commandText);
     command.waitForFinished(-1);
     return command.readAllStandardOutput();
@@ -65,10 +66,10 @@ bool Netctl::netctlCall(const bool sudo, const QString commandLine, const QStrin
                 QString(" ") + profile;
     else
         commandText = netctlCommand + QString(" ") + commandLine + QString(" ") + profile;
-    qDebug() << "[Netctl]" << "[netctlCall]" << ":" << "Run cmd" << commandText;
+    if (debug) qDebug() << "[Netctl]" << "[netctlCall]" << ":" << "Run cmd" << commandText;
     command.start(commandText);
     command.waitForFinished(-1);
-    qDebug() << "[Netctl]" << "[netctlCall]" << ":" << "Cmd returns" << command.exitCode();
+    if (debug) qDebug() << "[Netctl]" << "[netctlCall]" << ":" << "Cmd returns" << command.exitCode();
     if (command.exitCode() == 0)
         return true;
     else
@@ -101,7 +102,7 @@ QStringList Netctl::getProfileDescriptions(const QStringList profileList)
 
     for (int i=0; i<profileList.count(); i++) {
         QString profileUrl = profileDirectory->absolutePath() + QDir::separator() + profileList[i];
-        qDebug() << "[Netctl]" << "[getProfileDescriptions]" << ":" << "Check" << profileUrl;
+        if (debug) qDebug() << "[Netctl]" << "[getProfileDescriptions]" << ":" << "Check" << profileUrl;
         QFile profile(profileUrl);
         QString fileStr;
         if (profile.open(QIODevice::ReadOnly))
@@ -152,7 +153,7 @@ QString Netctl::getSsidFromProfile(const QString profile)
 {
     QString ssidName = QString("");
     QString profileUrl = profileDirectory->absolutePath() + QDir::separator() + profile;
-    qDebug() << "[Netctl]" << "[getSsidFromProfile]" << ":" << "Check" << profileUrl;
+    if (debug) qDebug() << "[Netctl]" << "[getSsidFromProfile]" << ":" << "Check" << profileUrl;
     QFile profileFile(profileUrl);
     QString fileStr;
     if (!profileFile.open(QIODevice::ReadOnly))

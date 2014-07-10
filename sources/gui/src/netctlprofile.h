@@ -31,6 +31,7 @@ class NetctlProfile : public QObject
 
 public:
     explicit NetctlProfile(MainWindow *wid = 0,
+                           const bool debugCmd = false,
                            const QMap<QString, QString> settings = QMap<QString, QString>());
     ~NetctlProfile();
     bool copyProfile(const QString oldPath);
@@ -40,6 +41,7 @@ public:
 
 private:
     MainWindow *parent;
+    bool debug;
     QDir *profileDirectory;
     QString sudoCommand;
 };

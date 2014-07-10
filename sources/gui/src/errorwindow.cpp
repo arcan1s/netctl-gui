@@ -21,12 +21,13 @@
 #include <QDebug>
 
 
-ErrorWindow::ErrorWindow(QWidget *parent, const int messageNumber)
+ErrorWindow::ErrorWindow(QWidget *parent, const bool debugCmd, const int messageNumber)
     : QMainWindow(parent),
+      debug(debugCmd),
       ui(new Ui::ErrorWindow)
 {
     ui->setupUi(this);
-    qDebug() << "[ErrorWindow]" << "[ErrorWindow]" << ":" << "Initializate with error code" << messageNumber;
+    if (debug) qDebug() << "[ErrorWindow]" << "[ErrorWindow]" << ":" << "Initializate with error code" << messageNumber;
     setMessage(messageNumber);
 }
 

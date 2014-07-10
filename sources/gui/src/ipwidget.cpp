@@ -18,7 +18,6 @@
 #include "ipwidget.h"
 #include "ui_ipwidget.h"
 
-#include <QDebug>
 #include <QKeyEvent>
 
 

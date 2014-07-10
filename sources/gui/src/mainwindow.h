@@ -52,6 +52,7 @@ class MainWindow : public QMainWindow
 public:
     explicit MainWindow(QWidget *parent = 0,
                         const bool defaultSettings = false,
+                        const bool debugCmd = false,
                         const int tabNum = 1);
     ~MainWindow();
     Netctl *netctlCommand;
@@ -106,6 +107,7 @@ private:
     bool checkExternalApps(const QString apps);
     bool checkState(const QString state, const QString item);
     void createActions();
+    bool debug;
     // configuration
     QMap<QString, QString> configuration;
 };
