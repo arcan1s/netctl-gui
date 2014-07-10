@@ -166,6 +166,7 @@ void MainWindow::createActions()
     connect(ui->pushButton_mainStart, SIGNAL(clicked(bool)), this, SLOT(mainTabStartProfile()));
     connect(ui->tableWidget_main, SIGNAL(itemActivated(QTableWidgetItem *)), this, SLOT(mainTabStartProfile()));
     connect(ui->tableWidget_main, SIGNAL(currentItemChanged(QTableWidgetItem *, QTableWidgetItem *)), this, SLOT(mainTabRefreshButtons(QTableWidgetItem *, QTableWidgetItem *)));
+    connect(ui->tableWidget_main, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(mainTabContextualMenu(QPoint)));
 
     // profile tab events
     connect(ui->lineEdit_profile, SIGNAL(returnPressed()), this, SLOT(profileTabLoadProfile()));
@@ -308,6 +309,60 @@ void MainWindow::updateWifiTab()
 
 
 // main tab slots
+void MainWindow::mainTabContextualMenu(const QPoint &pos)
+{
+    if (debug) qDebug() << "[MainWindow]" << "[mainTabContextualMenu]";
+
+    // create menu
+    QMenu menu(this);
+    QAction *refreshTable = menu.addAction(QApplication::translate("MainWindow", "Refresh"));
+    menu.addSeparator();
+    QAction *startProfile = menu.addAction(QApplication::translate("MainWindow", "Start profile"));
+    QAction *restartProfile = menu.addAction(QApplication::translate("MainWindow", "Restart profile"));
+    QAction *enableProfile = menu.addAction(QApplication::translate("MainWindow", "Enable profile"));
+    menu.addSeparator();
+    QAction *removeProfile = menu.addAction(QApplication::translate("MainWindow", "Remove profile"));
+
+    // set text
+    QString item = ui->tableWidget_main->item(ui->tableWidget_main->currentItem()->row(), 2)->text();
+    if (!checkState(QString("inactive"), item)) {
+        restartProfile->setVisible(true);
+        startProfile->setText(QApplication::translate("MainWindow", "Stop profile"));
+    }
+    else {
+        restartProfile->setVisible(false);
+        startProfile->setText(QApplication::translate("MainWindow", "Start profile"));
+    }
+    if (checkState(QString("enabled"), item))
+        enableProfile->setText(QApplication::translate("MainWindow", "Disable profile"));
+    else
+        enableProfile->setText(QApplication::translate("MainWindow", "Enable profile"));
+
+    // actions
+    QAction *action = menu.exec(ui->tableWidget_main->viewport()->mapToGlobal(pos));
+    if (action == refreshTable) {
+        if (debug) qDebug() << "[MainWindow]" << "[mainTabContextualMenu]" << "Refresh table";
+        updateMainTab();
+    }
+    else if (action == startProfile) {
+        if (debug) qDebug() << "[MainWindow]" << "[mainTabContextualMenu]" << "Start profile";
+        mainTabStartProfile();
+    }
+    else if (action == restartProfile) {
+        if (debug) qDebug() << "[MainWindow]" << "[mainTabContextualMenu]" << "Restart profile";
+        mainTabRestartProfile();
+    }
+    else if (action == enableProfile) {
+        if (debug) qDebug() << "[MainWindow]" << "[mainTabContextualMenu]" << "Enable profile";
+        mainTabEnableProfile();
+    }
+    else if (action == removeProfile) {
+        if (debug) qDebug() << "[MainWindow]" << "[mainTabContextualMenu]" << "Remove profile";
+        mainTabRemoveProfile();
+    }
+}
+
+
 void MainWindow::mainTabRemoveProfile()
 {
     if (debug) qDebug() << "[MainWindow]" << "[mainTabRemoveProfile]";

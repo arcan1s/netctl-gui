@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>491</width>
-    <height>519</height>
+    <width>489</width>
+    <height>517</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -27,6 +27,9 @@
        <layout class="QVBoxLayout" name="verticalLayout">
         <item>
          <widget class="QTableWidget" name="tableWidget_main">
+          <property name="contextMenuPolicy">
+           <enum>Qt::CustomContextMenu</enum>
+          </property>
           <property name="editTriggers">
            <set>QAbstractItemView::NoEditTriggers</set>
           </property>
@@ -200,8 +203,8 @@
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>96</width>
-             <height>26</height>
+             <width>457</width>
+             <height>359</height>
             </rect>
            </property>
            <property name="sizePolicy">
@@ -365,7 +368,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>491</width>
+     <width>489</width>
      <height>22</height>
     </rect>
    </property>

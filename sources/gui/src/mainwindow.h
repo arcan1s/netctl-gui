@@ -70,6 +70,7 @@ private slots:
     void updateProfileTab();
     void updateWifiTab();
     // main tab slots
+    void mainTabContextualMenu(const QPoint &pos);
     void mainTabRemoveProfile();
     void mainTabEnableProfile();
     void mainTabRestartProfile();
