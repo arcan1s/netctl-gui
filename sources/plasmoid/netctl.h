@@ -25,7 +25,8 @@
 #include <Plasma/Label>
 #include <QProcess>
 
-#include <ui_configwindow.h>
+#include <ui_appearance.h>
+#include <ui_widget.h>
 
 
 class QGraphicsLinearLayout;
@@ -93,7 +94,8 @@ private:
     void connectToEngine();
     void disconnectFromEngine();
     // configuration interface
-    Ui::ConfigWindow uiConfig;
+    Ui::AppearanceWindow uiAppConfig;
+    Ui::ConfigWindow uiWidConfig;
     // configuration
     int autoUpdateInterval;
     QMap<QString, bool> bigInterface;

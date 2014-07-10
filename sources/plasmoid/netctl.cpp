@@ -16,7 +16,8 @@
  ***************************************************************************/
 
 #include "netctl.h"
-#include "ui_configwindow.h"
+#include <ui_appearance.h>
+#include <ui_widget.h>
 
 #include <KConfigDialog>
 #include <KFileDialog>
@@ -373,7 +374,7 @@ void Netctl::selectActiveIcon()
 {
     KUrl url = KFileDialog::getOpenUrl(KUrl(), "*");
     if (!url.isEmpty())
-        uiConfig.lineEdit_activeIcon->setText(url.path());
+        uiAppConfig.lineEdit_activeIcon->setText(url.path());
 }
 
 
@@ -381,7 +382,7 @@ void Netctl::selectGuiExe()
 {
     KUrl url = KFileDialog::getOpenUrl(KUrl(), "*");
     if (!url.isEmpty())
-        uiConfig.lineEdit_gui->setText(url.path());
+        uiWidConfig.lineEdit_gui->setText(url.path());
 }
 
 
@@ -389,7 +390,7 @@ void Netctl::selectInactiveIcon()
 {
     KUrl url = KFileDialog::getOpenUrl(KUrl(), "*");
     if (!url.isEmpty())
-        uiConfig.lineEdit_inactiveIcon->setText(url.path());
+        uiAppConfig.lineEdit_inactiveIcon->setText(url.path());
 }
 
 
@@ -397,7 +398,7 @@ void Netctl::selectNetctlExe()
 {
     KUrl url = KFileDialog::getOpenUrl(KUrl(), "*");
     if (!url.isEmpty())
-        uiConfig.lineEdit_netctl->setText(url.path());
+        uiWidConfig.lineEdit_netctl->setText(url.path());
 }
 
 
@@ -405,7 +406,7 @@ void Netctl::selectSudoExe()
 {
     KUrl url = KFileDialog::getOpenUrl(KUrl(), "*");
     if (!url.isEmpty())
-        uiConfig.lineEdit_sudo->setText(url.path());
+        uiWidConfig.lineEdit_sudo->setText(url.path());
 }
 
 
@@ -413,47 +414,49 @@ void Netctl::selectWifiExe()
 {
     KUrl url = KFileDialog::getOpenUrl(KUrl(), "*");
     if (!url.isEmpty())
-        uiConfig.lineEdit_wifi->setText(url.path());
+        uiWidConfig.lineEdit_wifi->setText(url.path());
 }
 
 
 void Netctl::createConfigurationInterface(KConfigDialog *parent)
 {
-    QWidget *configwin = new QWidget;
-    uiConfig.setupUi(configwin);
+    QWidget *configWidget = new QWidget;
+    uiWidConfig.setupUi(configWidget);
+    QWidget *appWidget = new QWidget;
+    uiAppConfig.setupUi(appWidget);
     QString text = QString(NAME) + " - " + QString(VERSION) + "\n" + "(c) " +
             QString(DATE) + " " + QString(AUTHOR);
-    uiConfig.label_info->setText(text);
+    uiWidConfig.label_info->setText(text);
 
-    uiConfig.spinBox_autoUpdate->setValue(autoUpdateInterval);
-    uiConfig.lineEdit_gui->setText(paths[QString("gui")]);
-    uiConfig.lineEdit_netctl->setText(paths[QString("netctl")]);
+    uiWidConfig.spinBox_autoUpdate->setValue(autoUpdateInterval);
+    uiWidConfig.lineEdit_gui->setText(paths[QString("gui")]);
+    uiWidConfig.lineEdit_netctl->setText(paths[QString("netctl")]);
     if (useSudo)
-        uiConfig.checkBox_sudo->setCheckState(Qt::Checked);
+        uiWidConfig.checkBox_sudo->setCheckState(Qt::Checked);
     else
-        uiConfig.checkBox_sudo->setCheckState(Qt::Unchecked);
-    uiConfig.lineEdit_sudo->setText(paths[QString("sudo")]);
+        uiWidConfig.checkBox_sudo->setCheckState(Qt::Unchecked);
+    uiWidConfig.lineEdit_sudo->setText(paths[QString("sudo")]);
     if (useWifi)
-        uiConfig.checkBox_wifi->setCheckState(Qt::Checked);
+        uiWidConfig.checkBox_wifi->setCheckState(Qt::Checked);
     else
-        uiConfig.checkBox_wifi->setCheckState(Qt::Unchecked);
-    uiConfig.lineEdit_wifi->setText(paths[QString("wifi")]);
+        uiWidConfig.checkBox_wifi->setCheckState(Qt::Unchecked);
+    uiWidConfig.lineEdit_wifi->setText(paths[QString("wifi")]);
     if (bigInterface[QString("main")])
-        uiConfig.checkBox_showBigInterface->setCheckState(Qt::Checked);
+        uiWidConfig.checkBox_showBigInterface->setCheckState(Qt::Checked);
     else
-        uiConfig.checkBox_showBigInterface->setCheckState(Qt::Unchecked);
+        uiWidConfig.checkBox_showBigInterface->setCheckState(Qt::Unchecked);
     if (bigInterface[QString("netDev")])
-        uiConfig.checkBox_showNetDev->setCheckState(Qt::Checked);
+        uiWidConfig.checkBox_showNetDev->setCheckState(Qt::Checked);
     else
-        uiConfig.checkBox_showNetDev->setCheckState(Qt::Unchecked);
+        uiWidConfig.checkBox_showNetDev->setCheckState(Qt::Unchecked);
     if (bigInterface[QString("extIp")])
-        uiConfig.checkBox_showExtIp->setCheckState(Qt::Checked);
+        uiWidConfig.checkBox_showExtIp->setCheckState(Qt::Checked);
     else
-        uiConfig.checkBox_showExtIp->setCheckState(Qt::Unchecked);
+        uiWidConfig.checkBox_showExtIp->setCheckState(Qt::Unchecked);
     if (bigInterface[QString("intIp")])
-        uiConfig.checkBox_showIntIp->setCheckState(Qt::Checked);
+        uiWidConfig.checkBox_showIntIp->setCheckState(Qt::Checked);
     else
-        uiConfig.checkBox_showIntIp->setCheckState(Qt::Unchecked);
+        uiWidConfig.checkBox_showIntIp->setCheckState(Qt::Unchecked);
     setBigInterface();
 
     KConfigGroup cg = config();
@@ -463,30 +466,31 @@ void Netctl::createConfigurationInterface(KConfigDialog *parent)
     int fontWeight = cg.readEntry("fontWeight", 400);
     QString fontStyle = cg.readEntry("fontStyle", "normal");
     QFont font = QFont(fontFamily, 12, 400, FALSE);
-    uiConfig.fontComboBox_font->setCurrentFont(font);
-    uiConfig.spinBox_fontSize->setValue(fontSize);
-    uiConfig.kcolorcombo_fontColor->setColor(fontColor);
-    uiConfig.spinBox_fontWeight->setValue(fontWeight);
+    uiAppConfig.fontComboBox_font->setCurrentFont(font);
+    uiAppConfig.spinBox_fontSize->setValue(fontSize);
+    uiAppConfig.kcolorcombo_fontColor->setColor(fontColor);
+    uiAppConfig.spinBox_fontWeight->setValue(fontWeight);
     if (fontStyle == "normal")
-        uiConfig.comboBox_fontStyle->setCurrentIndex(0);
+        uiAppConfig.comboBox_fontStyle->setCurrentIndex(0);
     else if (fontStyle == "italic")
-        uiConfig.comboBox_fontStyle->setCurrentIndex(1);
-    uiConfig.lineEdit_activeIcon->setText(paths[QString("active")]);
-    uiConfig.lineEdit_inactiveIcon->setText(paths[QString("inactive")]);
+        uiAppConfig.comboBox_fontStyle->setCurrentIndex(1);
+    uiAppConfig.lineEdit_activeIcon->setText(paths[QString("active")]);
+    uiAppConfig.lineEdit_inactiveIcon->setText(paths[QString("inactive")]);
 
-    parent->addPage(configwin, i18n("Netctl plasmoid"), Applet::icon());
+    parent->addPage(configWidget, i18n("Netctl plasmoid"), Applet::icon());
+    parent->addPage(appWidget, i18n("Appearance"), QString("preferences-desktop-theme"));
 
-    connect(uiConfig.checkBox_showBigInterface, SIGNAL(stateChanged(int)), this,
+    connect(uiWidConfig.checkBox_showBigInterface, SIGNAL(stateChanged(int)), this,
             SLOT(setBigInterface()));
-    connect(uiConfig.checkBox_sudo, SIGNAL(stateChanged(int)), this, SLOT(setSudo()));
-    connect(uiConfig.checkBox_wifi, SIGNAL(stateChanged(int)), this, SLOT(setWifi()));
+    connect(uiWidConfig.checkBox_sudo, SIGNAL(stateChanged(int)), this, SLOT(setSudo()));
+    connect(uiWidConfig.checkBox_wifi, SIGNAL(stateChanged(int)), this, SLOT(setWifi()));
 
-    connect(uiConfig.pushButton_gui, SIGNAL(clicked()), this, SLOT(selectGuiExe()));
-    connect(uiConfig.pushButton_netctl, SIGNAL(clicked()), this, SLOT(selectNetctlExe()));
-    connect(uiConfig.pushButton_sudo, SIGNAL(clicked()), this, SLOT(selectSudoExe()));
-    connect(uiConfig.pushButton_wifi, SIGNAL(clicked()), this, SLOT(selecWifiExe()));
-    connect(uiConfig.pushButton_activeIcon, SIGNAL(clicked()), this, SLOT(selectActiveIcon()));
-    connect(uiConfig.pushButton_inactiveIcon, SIGNAL(clicked()), this, SLOT(selectInactiveIcon()));
+    connect(uiWidConfig.pushButton_gui, SIGNAL(clicked()), this, SLOT(selectGuiExe()));
+    connect(uiWidConfig.pushButton_netctl, SIGNAL(clicked()), this, SLOT(selectNetctlExe()));
+    connect(uiWidConfig.pushButton_sudo, SIGNAL(clicked()), this, SLOT(selectSudoExe()));
+    connect(uiWidConfig.pushButton_wifi, SIGNAL(clicked()), this, SLOT(selecWifiExe()));
+    connect(uiAppConfig.pushButton_activeIcon, SIGNAL(clicked()), this, SLOT(selectActiveIcon()));
+    connect(uiAppConfig.pushButton_inactiveIcon, SIGNAL(clicked()), this, SLOT(selectInactiveIcon()));
 
     connect(parent, SIGNAL(okClicked()), this, SLOT(configAccepted()));
     connect(parent, SIGNAL(applyClicked()), this, SLOT(configAccepted()));
@@ -498,43 +502,43 @@ void Netctl::configAccepted()
     disconnectFromEngine();
     KConfigGroup cg = config();
 
-    cg.writeEntry("autoUpdateInterval", uiConfig.spinBox_autoUpdate->value());
-    cg.writeEntry("guiPath", uiConfig.lineEdit_gui->text());
-    cg.writeEntry("netctlPath", uiConfig.lineEdit_netctl->text());
-    if (uiConfig.checkBox_sudo->checkState() == 0)
+    cg.writeEntry("autoUpdateInterval", uiWidConfig.spinBox_autoUpdate->value());
+    cg.writeEntry("guiPath", uiWidConfig.lineEdit_gui->text());
+    cg.writeEntry("netctlPath", uiWidConfig.lineEdit_netctl->text());
+    if (uiWidConfig.checkBox_sudo->checkState() == 0)
         cg.writeEntry("useSudo", false);
     else
         cg.writeEntry("useSudo", true);
-    cg.writeEntry("sudoPath", uiConfig.lineEdit_sudo->text());
-    if (uiConfig.checkBox_wifi->checkState() == 0)
+    cg.writeEntry("sudoPath", uiWidConfig.lineEdit_sudo->text());
+    if (uiWidConfig.checkBox_wifi->checkState() == 0)
         cg.writeEntry("useWifi", false);
     else
         cg.writeEntry("useWifi", true);
-    cg.writeEntry("wifiPath", uiConfig.lineEdit_wifi->text());
-    if (uiConfig.checkBox_showBigInterface->checkState() == 0)
+    cg.writeEntry("wifiPath", uiWidConfig.lineEdit_wifi->text());
+    if (uiWidConfig.checkBox_showBigInterface->checkState() == 0)
         cg.writeEntry("showBigInterface", false);
     else
         cg.writeEntry("showBigInterface", true);
-    if (uiConfig.checkBox_showNetDev->checkState() == 0)
+    if (uiWidConfig.checkBox_showNetDev->checkState() == 0)
         cg.writeEntry("showNetDev", false);
     else
         cg.writeEntry("showNetDev", true);
-    if (uiConfig.checkBox_showExtIp->checkState() == 0)
+    if (uiWidConfig.checkBox_showExtIp->checkState() == 0)
         cg.writeEntry("showExtIp", false);
     else
         cg.writeEntry("showExtIp", true);
-    if (uiConfig.checkBox_showIntIp->checkState() == 0)
+    if (uiWidConfig.checkBox_showIntIp->checkState() == 0)
         cg.writeEntry("showIntIp", false);
     else
         cg.writeEntry("showIntIp", true);
 
-    cg.writeEntry("fontFamily", uiConfig.fontComboBox_font->currentFont().family());
-    cg.writeEntry("fontSize", uiConfig.spinBox_fontSize->value());
-    cg.writeEntry("fontColor", uiConfig.kcolorcombo_fontColor->color().name());
-    cg.writeEntry("fontWeight", uiConfig.spinBox_fontWeight->value());
-    cg.writeEntry("fontStyle", uiConfig.comboBox_fontStyle->currentText());
-    cg.writeEntry("activeIconPath", uiConfig.lineEdit_activeIcon->text());
-    cg.writeEntry("inactiveIconPath", uiConfig.lineEdit_inactiveIcon->text());
+    cg.writeEntry("fontFamily", uiAppConfig.fontComboBox_font->currentFont().family());
+    cg.writeEntry("fontSize", uiAppConfig.spinBox_fontSize->value());
+    cg.writeEntry("fontColor", uiAppConfig.kcolorcombo_fontColor->color().name());
+    cg.writeEntry("fontWeight", uiAppConfig.spinBox_fontWeight->value());
+    cg.writeEntry("fontStyle", uiAppConfig.comboBox_fontStyle->currentText());
+    cg.writeEntry("activeIconPath", uiAppConfig.lineEdit_activeIcon->text());
+    cg.writeEntry("inactiveIconPath", uiAppConfig.lineEdit_inactiveIcon->text());
 }
 
 
@@ -577,34 +581,34 @@ void Netctl::configChanged()
 
 void Netctl::setBigInterface()
 {
-    if (uiConfig.checkBox_showBigInterface->checkState() == 0) {
-        uiConfig.checkBox_showNetDev->setDisabled(true);
-        uiConfig.checkBox_showExtIp->setDisabled(true);
-        uiConfig.checkBox_showIntIp->setDisabled(true);
+    if (uiWidConfig.checkBox_showBigInterface->checkState() == 0) {
+        uiWidConfig.checkBox_showNetDev->setDisabled(true);
+        uiWidConfig.checkBox_showExtIp->setDisabled(true);
+        uiWidConfig.checkBox_showIntIp->setDisabled(true);
     }
-    else if (uiConfig.checkBox_showBigInterface->checkState() == 2) {
-        uiConfig.checkBox_showNetDev->setEnabled(true);
-        uiConfig.checkBox_showExtIp->setEnabled(true);
-        uiConfig.checkBox_showIntIp->setEnabled(true);
+    else if (uiWidConfig.checkBox_showBigInterface->checkState() == 2) {
+        uiWidConfig.checkBox_showNetDev->setEnabled(true);
+        uiWidConfig.checkBox_showExtIp->setEnabled(true);
+        uiWidConfig.checkBox_showIntIp->setEnabled(true);
     }
 }
 
 
 void Netctl::setSudo()
 {
-    if (uiConfig.checkBox_sudo->checkState() == 0)
-        uiConfig.lineEdit_sudo->setDisabled(true);
-    else if (uiConfig.checkBox_sudo->checkState() == 2)
-        uiConfig.lineEdit_sudo->setEnabled(true);
+    if (uiWidConfig.checkBox_sudo->checkState() == 0)
+        uiWidConfig.lineEdit_sudo->setDisabled(true);
+    else if (uiWidConfig.checkBox_sudo->checkState() == 2)
+        uiWidConfig.lineEdit_sudo->setEnabled(true);
 }
 
 
 void Netctl::setWifi()
 {
-    if (uiConfig.checkBox_wifi->checkState() == 0)
-        uiConfig.lineEdit_wifi->setDisabled(true);
-    else if (uiConfig.checkBox_wifi->checkState() == 2)
-        uiConfig.checkBox_wifi->setEnabled(true);
+    if (uiWidConfig.checkBox_wifi->checkState() == 0)
+        uiWidConfig.lineEdit_wifi->setDisabled(true);
+    else if (uiWidConfig.checkBox_wifi->checkState() == 2)
+        uiWidConfig.checkBox_wifi->setEnabled(true);
 }
 
 

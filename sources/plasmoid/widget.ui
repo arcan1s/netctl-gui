@@ -1,0 +1,299 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>ConfigWindow</class>
+ <widget class="QWidget" name="ConfigWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>480</width>
+    <height>341</height>
+   </rect>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>480</width>
+    <height>320</height>
+   </size>
+  </property>
+  <property name="windowTitle">
+   <string notr="true">Configuration Window</string>
+  </property>
+  <layout class="QGridLayout" name="gridLayout">
+   <item row="0" column="0">
+    <widget class="QLabel" name="label_info">
+     <property name="text">
+      <string/>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+    </widget>
+   </item>
+   <item row="7" column="0">
+    <widget class="QCheckBox" name="checkBox_showNetDev">
+     <property name="text">
+      <string>Show network devices</string>
+     </property>
+     <property name="checked">
+      <bool>true</bool>
+     </property>
+    </widget>
+   </item>
+   <item row="5" column="0">
+    <layout class="QHBoxLayout" name="layout_wifi">
+     <item>
+      <widget class="QCheckBox" name="checkBox_wifi">
+       <property name="minimumSize">
+        <size>
+         <width>150</width>
+         <height>23</height>
+        </size>
+       </property>
+       <property name="text">
+        <string>Show 'Start WiFi menu'</string>
+       </property>
+       <property name="checked">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLineEdit" name="lineEdit_wifi"/>
+     </item>
+     <item>
+      <widget class="QPushButton" name="pushButton_wifi">
+       <property name="minimumSize">
+        <size>
+         <width>100</width>
+         <height>23</height>
+        </size>
+       </property>
+       <property name="text">
+        <string>Browse</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item row="6" column="0">
+    <widget class="QCheckBox" name="checkBox_showBigInterface">
+     <property name="text">
+      <string>Show more detailed interface</string>
+     </property>
+     <property name="checked">
+      <bool>true</bool>
+     </property>
+    </widget>
+   </item>
+   <item row="9" column="0">
+    <widget class="QCheckBox" name="checkBox_showIntIp">
+     <property name="text">
+      <string>Show internal IP</string>
+     </property>
+     <property name="checked">
+      <bool>true</bool>
+     </property>
+    </widget>
+   </item>
+   <item row="2" column="0">
+    <layout class="QHBoxLayout" name="layout_gui">
+     <item>
+      <widget class="QLabel" name="label_gui">
+       <property name="minimumSize">
+        <size>
+         <width>80</width>
+         <height>23</height>
+        </size>
+       </property>
+       <property name="text">
+        <string>Path to GUI</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLineEdit" name="lineEdit_gui"/>
+     </item>
+     <item>
+      <widget class="QPushButton" name="pushButton_gui">
+       <property name="minimumSize">
+        <size>
+         <width>100</width>
+         <height>23</height>
+        </size>
+       </property>
+       <property name="text">
+        <string>Browse</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item row="1" column="0">
+    <layout class="QHBoxLayout" name="layout_autoUpdate">
+     <item>
+      <widget class="QLabel" name="label_autoUpdate">
+       <property name="minimumSize">
+        <size>
+         <width>150</width>
+         <height>23</height>
+        </size>
+       </property>
+       <property name="text">
+        <string>Auto update interval, msec</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <spacer name="horizontalSpacer_autoUpdate">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>40</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item>
+      <widget class="QSpinBox" name="spinBox_autoUpdate">
+       <property name="minimumSize">
+        <size>
+         <width>100</width>
+         <height>0</height>
+        </size>
+       </property>
+       <property name="layoutDirection">
+        <enum>Qt::LeftToRight</enum>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+       </property>
+       <property name="minimum">
+        <number>333</number>
+       </property>
+       <property name="maximum">
+        <number>10000</number>
+       </property>
+       <property name="singleStep">
+        <number>500</number>
+       </property>
+       <property name="value">
+        <number>1000</number>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item row="8" column="0">
+    <widget class="QCheckBox" name="checkBox_showExtIp">
+     <property name="text">
+      <string>Show external IP</string>
+     </property>
+     <property name="checked">
+      <bool>true</bool>
+     </property>
+    </widget>
+   </item>
+   <item row="3" column="0">
+    <layout class="QHBoxLayout" name="layout_netctl">
+     <item>
+      <widget class="QLabel" name="label_netctl">
+       <property name="minimumSize">
+        <size>
+         <width>80</width>
+         <height>23</height>
+        </size>
+       </property>
+       <property name="text">
+        <string>Path to netctl</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLineEdit" name="lineEdit_netctl"/>
+     </item>
+     <item>
+      <widget class="QPushButton" name="pushButton_netctl">
+       <property name="minimumSize">
+        <size>
+         <width>100</width>
+         <height>23</height>
+        </size>
+       </property>
+       <property name="text">
+        <string>Browse</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item row="4" column="0">
+    <layout class="QHBoxLayout" name="layout_sudo">
+     <item>
+      <widget class="QCheckBox" name="checkBox_sudo">
+       <property name="minimumSize">
+        <size>
+         <width>150</width>
+         <height>23</height>
+        </size>
+       </property>
+       <property name="text">
+        <string>Use sudo for netctl</string>
+       </property>
+       <property name="checked">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLineEdit" name="lineEdit_sudo"/>
+     </item>
+     <item>
+      <widget class="QPushButton" name="pushButton_sudo">
+       <property name="minimumSize">
+        <size>
+         <width>100</width>
+         <height>23</height>
+        </size>
+       </property>
+       <property name="text">
+        <string>Browse</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item row="10" column="0">
+    <spacer name="verticalSpacer_configuration">
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>20</width>
+       <height>40</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+  </layout>
+ </widget>
+ <tabstops>
+  <tabstop>spinBox_autoUpdate</tabstop>
+  <tabstop>lineEdit_gui</tabstop>
+  <tabstop>pushButton_gui</tabstop>
+  <tabstop>lineEdit_netctl</tabstop>
+  <tabstop>pushButton_netctl</tabstop>
+  <tabstop>checkBox_sudo</tabstop>
+  <tabstop>lineEdit_sudo</tabstop>
+  <tabstop>pushButton_sudo</tabstop>
+  <tabstop>checkBox_wifi</tabstop>
+  <tabstop>lineEdit_wifi</tabstop>
+  <tabstop>pushButton_wifi</tabstop>
+ </tabstops>
+ <resources/>
+ <connections/>
+</ui>
