@@ -20,6 +20,7 @@
 
 #include <QKeyEvent>
 #include <QMainWindow>
+#include <QTableWidgetItem>
 
 
 class Netctl;
@@ -42,17 +43,20 @@ public slots:
     void showWindow();
 
 private slots:
-    void appendActiveProfiles();
-    void appendAvailableProfiles();
-    void clear();
+    void netctlAutoAppendTable();
+    // table
+    void netctlAutoContextualMenu(const QPoint &pos);
+    void netctlAutoDisableAllProfiles();
+    void netctlAutoEnableProfile();
+    void netctlAutoEnableAllProfiles();
+    void netctlAutoStartProfile();
+    void netctlAutoRefreshButtons(QTableWidgetItem *current, QTableWidgetItem *previous);
 
 private:
     Netctl *netctlCommand;
     Ui::NetctlAutoWindow *ui;
     bool debug;
     void createActions();
-    // ESC pressed event
-    void keyPressEvent(QKeyEvent *pressedKey);
 };
 
 

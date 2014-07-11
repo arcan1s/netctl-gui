@@ -50,9 +50,11 @@ private slots:
     // buttons
     void selectIfaceDir();
     void selectNetctlPath();
+    void selectNetctlAutoPath();
     void selectProfileDir();
     void selectRfkillDir();
     void selectSudoPath();
+    void selectWpaActiondPath();
     void selectWpaCliPath();
     void selectWpaSupPath();
 

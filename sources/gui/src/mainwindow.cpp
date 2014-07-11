@@ -134,10 +134,14 @@ bool MainWindow::checkExternalApps(const QString apps = QString("all"))
     commandLine.append(configuration[QString("SUDO_PATH")]);
     if ((apps == QString("netctl")) || (apps == QString("all"))) {
         commandLine.append(configuration[QString("NETCTL_PATH")]);
+        commandLine.append(configuration[QString("NETCTLAUTO_PATH")]);
     }
     if ((apps == QString("wpasup")) || (apps == QString("all"))) {
         commandLine.append(configuration[QString("WPACLI_PATH")]);
         commandLine.append(configuration[QString("WPASUP_PATH")]);
+    }
+    if ((apps == QString("wpaact")) || (apps == QString("all"))) {
+        commandLine.append(configuration[QString("WPAACTIOND_PATH")]);
     }
     QProcess command;
     if (debug) qDebug() << "[MainWindow]" << "[checkExternalApps]" << ":" << "Run cmd" << commandLine.join(QString(" "));
@@ -171,6 +175,7 @@ void MainWindow::createActions()
 
     connect(ui->tabWidget, SIGNAL(currentChanged(int)), this, SLOT(updateTabs(int)));
     connect(ui->actionNetctlAuto, SIGNAL(triggered(bool)), netctlAutoWin, SLOT(showWindow()));
+    ui->actionNetctlAuto->setVisible(checkExternalApps(QString("all")));
     connect(ui->actionSettings, SIGNAL(triggered(bool)), settingsWin, SLOT(showWindow()));
     connect(ui->actionQuit, SIGNAL(triggered(bool)), this, SLOT(close()));
 
@@ -319,8 +324,8 @@ void MainWindow::updateMainTab()
     ui->tableWidget_main->setRowCount(profiles.count());
 
     // create header
-    ui->tableWidget_main->setHorizontalHeaderLabels(QApplication::translate("MainWindow", "Name Description Status")
-                                                    .split(QString(" ")));
+    ui->tableWidget_main->setHorizontalHeaderLabels(QApplication::translate("MainWindow", "Name==Description==Status")
+                                                    .split(QString("==")));
     // create items
     for (int i=0; i<profiles.count(); i++) {
         // name
@@ -433,8 +438,8 @@ void MainWindow::updateWifiTab()
     ui->tableWidget_wifi->setRowCount(scanResults.count());
 
     // create header
-    ui->tableWidget_wifi->setHorizontalHeaderLabels(QApplication::translate("MainWindow", "Name Status Signal Security")
-                                                    .split(QString(" ")));
+    ui->tableWidget_wifi->setHorizontalHeaderLabels(QApplication::translate("MainWindow", "Name==Status==Signal==Security")
+                                                    .split(QString("==")));
     // create items
     for (int i=0; i<scanResults.count(); i++) {
         // name

@@ -157,9 +157,9 @@ QMap<QString, QString> PppoeWidget::getSettings()
         pppoeSettings[QString("PPPoEService")] = QString("'") + ui->lineEdit_service->text() + QString("'");
     if (!ui->lineEdit_ac->text().isEmpty())
         pppoeSettings[QString("PPPoEAC")] = QString("'") + ui->lineEdit_ac->text() + QString("'");
-    if (!ui->lineEdit_session->text().split(QString(":")).join(QString("")).remove(QString(" ")).isEmpty())
+    if (!ui->lineEdit_session->text().split(QChar(':')).join(QString("")).remove(QString(" ")).isEmpty())
         pppoeSettings[QString("PPPoESession")] = QString("'") + ui->lineEdit_session->text().remove(QString(" ")) + QString("'");
-    if (!ui->lineEdit_mac->text().split(QString(":")).join(QString("")).remove(QString(" ")).isEmpty())
+    if (!ui->lineEdit_mac->text().split(QChar(':')).join(QString("")).remove(QString(" ")).isEmpty())
         pppoeSettings[QString("PPPoEMAC")] = QString("'") + ui->lineEdit_mac->text() + QString("'");
     if (ui->checkBox_ipv6->checkState() == Qt::Checked)
         pppoeSettings[QString("PPPoEIP6")] = QString("yes");
@@ -175,16 +175,16 @@ int PppoeWidget::isOk()
         if (!QFile(ui->lineEdit_options->text()).exists())
             return 1;
     // mac address
-    if (!ui->lineEdit_mac->text().split(QString(":")).join(QString("")).remove(QString(" ")).isEmpty())
+    if (!ui->lineEdit_mac->text().split(QChar(':')).join(QString("")).remove(QString(" ")).isEmpty())
         if (ui->lineEdit_mac->text().contains(QString(" ")))
             return 2;
     // session id is not set
-    if (!ui->lineEdit_session->text().split(QString(":")).join(QString("")).remove(QString(" ")).isEmpty())
-        if (ui->lineEdit_session->text().split(QString(":"))[0].remove(QString(" ")).isEmpty())
+    if (!ui->lineEdit_session->text().split(QChar(':')).join(QString("")).remove(QString(" ")).isEmpty())
+        if (ui->lineEdit_session->text().split(QChar(':'))[0].remove(QString(" ")).isEmpty())
             return 3;
     // session mac address
-    if (!ui->lineEdit_session->text().split(QString(":")).join(QString("")).remove(QString(" ")).isEmpty()) {
-        QStringList item = ui->lineEdit_session->text().split(QString(":"));
+    if (!ui->lineEdit_session->text().split(QChar(':')).join(QString("")).remove(QString(" ")).isEmpty()) {
+        QStringList item = ui->lineEdit_session->text().split(QChar(':'));
         for (int i=1; i<7; i++)
             if (item[i].contains(QString(" ")))
                 return 4;

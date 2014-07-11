@@ -60,9 +60,11 @@ void SettingsWindow::createActions()
     // buttons
     connect(ui->pushButton_interfaceDir, SIGNAL(clicked(bool)), SLOT(selectIfaceDir()));
     connect(ui->pushButton_netctlPath, SIGNAL(clicked(bool)), SLOT(selectNetctlPath()));
+    connect(ui->pushButton_netctlAutoPath, SIGNAL(clicked(bool)), SLOT(selectNetctlAutoPath()));
     connect(ui->pushButton_profilePath, SIGNAL(clicked(bool)), SLOT(selectProfileDir()));
     connect(ui->pushButton_rfkill, SIGNAL(clicked(bool)), SLOT(selectRfkillDir()));
     connect(ui->pushButton_sudo, SIGNAL(clicked(bool)), SLOT(selectSudoPath()));
+    connect(ui->pushButton_wpaActiondPath, SIGNAL(clicked(bool)), SLOT(selectWpaActiondPath()));
     connect(ui->pushButton_wpaCliPath, SIGNAL(clicked(bool)), SLOT(selectWpaCliPath()));
     connect(ui->pushButton_wpaSupPath, SIGNAL(clicked(bool)), SLOT(selectWpaSupPath()));
 }
@@ -139,6 +141,20 @@ void SettingsWindow::selectNetctlPath()
 }
 
 
+void SettingsWindow::selectNetctlAutoPath()
+{
+    if (debug) qDebug() << "[SettingsWindow]" << "[selectNetctlAutoPath]";
+
+    QString filename = QFileDialog::getOpenFileName(
+                this,
+                QApplication::translate("SettingsWindow", "Select netctl-auto command"),
+                QString("/usr/bin/"),
+                QApplication::translate("SettingsWindow", "All files (*)"));
+    if (!filename.isEmpty())
+        ui->lineEdit_netctlAutoPath->setText(filename);
+}
+
+
 void SettingsWindow::selectProfileDir()
 {
     if (debug) qDebug() << "[SettingsWindow]" << "[selectProfileDir]";
@@ -176,6 +192,20 @@ void SettingsWindow::selectSudoPath()
                 QApplication::translate("SettingsWindow", "All files (*)"));
     if (!filename.isEmpty())
         ui->lineEdit_sudo->setText(filename);
+}
+
+
+void SettingsWindow::selectWpaActiondPath()
+{
+    if (debug) qDebug() << "[SettingsWindow]" << "[selectWpaActiondPath]";
+
+    QString filename = QFileDialog::getOpenFileName(
+                this,
+                QApplication::translate("SettingsWindow", "Select wpa_actiond command"),
+                QString("/usr/bin/"),
+                QApplication::translate("SettingsWindow", "All files (*)"));
+    if (!filename.isEmpty())
+        ui->lineEdit_wpaActiondPath->setText(filename);
 }
 
 
@@ -228,11 +258,13 @@ QMap<QString, QString> SettingsWindow::readSettings()
     settings[QString("IFACE_DIR")] = ui->lineEdit_interfacesDir->text();
     settings[QString("LANGUAGE")] = ui->comboBox_language->currentText();
     settings[QString("NETCTL_PATH")] = ui->lineEdit_netctlPath->text();
+    settings[QString("NETCTLAUTO_PATH")] = ui->lineEdit_netctlAutoPath->text();
     settings[QString("PID_FILE")] = ui->lineEdit_pid->text();
     settings[QString("PREFERED_IFACE")] = ui->lineEdit_interface->text();
     settings[QString("PROFILE_DIR")] = ui->lineEdit_profilePath->text();
     settings[QString("RFKILL_DIR")] = ui->lineEdit_rfkill->text();
     settings[QString("SUDO_PATH")] = ui->lineEdit_sudo->text();
+    settings[QString("WPAACTIOND_PATH")] = ui->lineEdit_wpaActiondPath->text();
     settings[QString("WPACLI_PATH")] = ui->lineEdit_wpaCliPath->text();
     settings[QString("WPASUP_PATH")] = ui->lineEdit_wpaSupPath->text();
     settings[QString("WPA_DRIVERS")] = ui->lineEdit_wpaSupDrivers->text();
@@ -257,11 +289,13 @@ void SettingsWindow::setSettings(const QMap<QString, QString> settings)
         if (ui->comboBox_language->itemText(i) == settings[QString("LANGUAGE")])
             ui->comboBox_language->setCurrentIndex(i);
     ui->lineEdit_netctlPath->setText(settings[QString("NETCTL_PATH")]);
+    ui->lineEdit_netctlAutoPath->setText(settings[QString("NETCTLAUTO_PATH")]);
     ui->lineEdit_pid->setText(settings[QString("PID_FILE")]);
     ui->lineEdit_interface->setText(settings[QString("PREFERED_IFACE")]);
     ui->lineEdit_profilePath->setText(settings[QString("PROFILE_DIR")]);
     ui->lineEdit_rfkill->setText(settings[QString("RFKILL_DIR")]);
     ui->lineEdit_sudo->setText(settings[QString("SUDO_PATH")]);
+    ui->lineEdit_wpaActiondPath->setText(settings[QString("WPAACTIOND_PATH")]);
     ui->lineEdit_wpaCliPath->setText(settings[QString("WPACLI_PATH")]);
     ui->lineEdit_wpaSupPath->setText(settings[QString("WPASUP_PATH")]);
     ui->lineEdit_wpaSupDrivers->setText(settings[QString("WPA_DRIVERS")]);
@@ -283,11 +317,13 @@ QMap<QString, QString> SettingsWindow::getDefault()
     settings[QString("IFACE_DIR")] = QString("/sys/class/net/");
     settings[QString("LANGUAGE")] = QString("en");
     settings[QString("NETCTL_PATH")] = QString("/usr/bin/netctl");
+    settings[QString("NETCTLAUTO_PATH")] = QString("/usr/bin/netctl-auto");
     settings[QString("PID_FILE")] = QString("/run/wpa_supplicant_netctl-gui.pid");
     settings[QString("PREFERED_IFACE")] = QString("");
     settings[QString("PROFILE_DIR")] = QString("/etc/netctl/");
     settings[QString("RFKILL_DIR")] = QString("/sys/class/rfkill/");
     settings[QString("SUDO_PATH")] = QString("/usr/bin/kdesu");
+    settings[QString("WPAACTIOND_PATH")] = QString("/usr/bin/wpa_actiond");
     settings[QString("WPACLI_PATH")] = QString("/usr/bin/wpa_cli");
     settings[QString("WPASUP_PATH")] = QString("/usr/bin/wpa_supplicant");
     settings[QString("WPA_DRIVERS")] = QString("nl80211,wext");
@@ -304,18 +340,18 @@ QMap<QString, QString> SettingsWindow::getSettings()
 {
     if (debug) qDebug() << "[SettingsWindow]" << "[getSettings]";
 
-    QMap<QString, QString> settings;
+    QMap<QString, QString> settings = getDefault();
     QFile configFile(file);
     QString fileStr;
 
     if (!configFile.open(QIODevice::ReadOnly))
-        return getDefault();
+        return settings;
     while (true) {
         fileStr = QString(configFile.readLine());
         if (fileStr[0] != '#') {
             if (fileStr.contains(QString("=")))
-                settings[fileStr.split(QString("="))[0]] = fileStr.split(QString("="))[1]
-                        .remove(QString(" "))
+                settings[fileStr.split(QChar('='))[0]] = fileStr.split(QChar('='))[1]
+                        .remove(QChar(' '))
                         .trimmed();
         }
         if (configFile.atEnd())

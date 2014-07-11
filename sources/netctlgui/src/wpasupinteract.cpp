@@ -167,18 +167,18 @@ QList<QStringList> WpaSup::scanWifi()
         return scanResults;
     SleepThread::sleep(3);
 
-    QStringList rawOutput = getWpaCliOutput(QString("scan_results")).split(QString("\n"), QString::SkipEmptyParts);
+    QStringList rawOutput = getWpaCliOutput(QString("scan_results")).split(QChar('\n'), QString::SkipEmptyParts);
     // remove table header
     rawOutput.removeFirst();
     // remove duplicates
     QStringList rawList;
     for (int i=0; i<rawOutput.count(); i++) {
         bool exist = false;
-        if (rawOutput[i].split(QString("\t"), QString::SkipEmptyParts).count() > 4)
+        if (rawOutput[i].split(QChar('\t'), QString::SkipEmptyParts).count() > 4)
             for (int j=0; j<rawList.count(); j++)
-                if (rawList[j].split(QString("\t"), QString::SkipEmptyParts).count() > 4)
-                    if (rawOutput[i].split(QString("\t"), QString::SkipEmptyParts)[4] ==
-                            rawList[j].split(QString("\t"), QString::SkipEmptyParts)[4])
+                if (rawList[j].split(QChar('\t'), QString::SkipEmptyParts).count() > 4)
+                    if (rawOutput[i].split(QChar('\t'), QString::SkipEmptyParts)[4] ==
+                            rawList[j].split(QChar('\t'), QString::SkipEmptyParts)[4])
                         exist = true;
         if (!exist)
             rawList.append(rawOutput[i]);
@@ -188,8 +188,8 @@ QList<QStringList> WpaSup::scanWifi()
         QStringList wifiPoint;
 
         // point name
-        if (rawList[i].split(QString("\t"), QString::SkipEmptyParts).count() > 4)
-            wifiPoint.append(rawList[i].split(QString("\t"), QString::SkipEmptyParts)[4]);
+        if (rawList[i].split(QChar('\t'), QString::SkipEmptyParts).count() > 4)
+            wifiPoint.append(rawList[i].split(QChar('\t'), QString::SkipEmptyParts)[4]);
         else
             wifiPoint.append(QString("<hidden>"));
         // profile status
@@ -205,9 +205,9 @@ QList<QStringList> WpaSup::scanWifi()
             status = QString("new");
         wifiPoint.append(status);
         // point signal
-        wifiPoint.append(rawList[i].split(QString("\t"), QString::SkipEmptyParts)[2]);
+        wifiPoint.append(rawList[i].split(QChar('\t'), QString::SkipEmptyParts)[2]);
         // point security
-        QString security = rawList[i].split(QString("\t"), QString::SkipEmptyParts)[3];
+        QString security = rawList[i].split(QChar('\t'), QString::SkipEmptyParts)[3];
         if (security.contains(QString("WPA2")))
             security = QString("WPA2");
         else if (security.contains(QString("WPA")))

@@ -66,7 +66,7 @@ QMap<QString, QString> MacvlanWidget::getSettings()
         return macvlanSettings;
 
     macvlanSettings[QString("Mode")] = ui->comboBox_mode->currentText();
-    if (!ui->lineEdit_mac->text().split(QString(":")).join(QString("")).remove(QString(" ")).isEmpty())
+    if (!ui->lineEdit_mac->text().split(QChar(':')).join(QString("")).remove(QString(" ")).isEmpty())
         macvlanSettings[QString("MACAddress")] = ui->lineEdit_mac->text();
 
     return macvlanSettings;

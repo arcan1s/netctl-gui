@@ -327,7 +327,7 @@ void WirelessWidget::setSettings(const QMap<QString, QString> settings)
         if (wirelessSettings[QString("AdHoc")].remove(QString("'")) == QString("yes"))
             ui->checkBox_adhoc->setCheckState(Qt::Checked);
     if (wirelessSettings.contains(QString("ScanFrequencies")))
-        ui->listWidget_freq->addItems(wirelessSettings[QString("ScanFrequencies")].split(QString("\n")));
+        ui->listWidget_freq->addItems(wirelessSettings[QString("ScanFrequencies")].split(QChar('\n')));
     if (wirelessSettings.contains(QString("Frequency")))
         ui->spinBox_frequency->setValue(wirelessSettings[QString("Frequency")].toInt());
     if (wirelessSettings.contains(QString("Priority")))
@@ -337,7 +337,7 @@ void WirelessWidget::setSettings(const QMap<QString, QString> settings)
     if (wirelessSettings.contains(QString("WPAGroup")))
         ui->lineEdit_wpaGroup->setText(wirelessSettings[QString("WPAGroup")].remove(QString("'")));
     if (wirelessSettings.contains(QString("WPADriver")))
-        ui->listWidget_drivers->addItems(wirelessSettings[QString("WPADriver")].split(QString(",")));
+        ui->listWidget_drivers->addItems(wirelessSettings[QString("WPADriver")].split(QChar(',')));
     if (wirelessSettings.contains(QString("RFKill")))
         for (int i=0; i<ui->comboBox_rfkill->count(); i++)
             if (wirelessSettings[QString("RFKill")].remove(QString("'")) == ui->comboBox_rfkill->itemText(i))

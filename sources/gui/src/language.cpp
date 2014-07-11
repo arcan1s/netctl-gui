@@ -63,7 +63,7 @@ QString Language::defineLanguageFromFile(const QString configPath)
             fileStr = QString(configFile.readLine());
             if (fileStr[0] != '#') {
                 if (fileStr.contains(QString("LANGUAGE=")))
-                    language = fileStr.split(QString("="))[1]
+                    language = fileStr.split(QChar('='))[1]
                             .remove(QString(" "))
                             .trimmed();
             }

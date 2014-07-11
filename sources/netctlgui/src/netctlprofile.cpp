@@ -139,22 +139,22 @@ QMap<QString, QString> NetctlProfile::getSettingsFromProfile(const QString profi
     while (true) {
         fileStr = QString(profileFile.readLine());
         if (fileStr[0] != '#') {
-            if (fileStr.split(QString("="), QString::SkipEmptyParts).count() == 2) {
-                if ((fileStr.split(QString("="))[1][0] == QChar('(')) &&
-                        (fileStr.split(QString("="))[1][fileStr.split(QString("="))[1].size()-2] == QChar(')')))
-                    settings[fileStr.split(QString("="))[0]] = fileStr.split(QString("="))[1]
+            if (fileStr.split(QChar('='), QString::SkipEmptyParts).count() == 2) {
+                if ((fileStr.split(QChar('='))[1][0] == QChar('(')) &&
+                        (fileStr.split(QChar('='))[1][fileStr.split(QChar('='))[1].size()-2] == QChar(')')))
+                    settings[fileStr.split(QChar('='))[0]] = fileStr.split(QChar('='))[1]
                             .remove(QString("("))
                             .remove(QString(")"))
                             .trimmed();
-                else if (fileStr.split(QString("="))[1][0] == QChar('(')) {
-                    QString parameterName = fileStr.split(QString("="))[0];
+                else if (fileStr.split(QChar('='))[1][0] == QChar('(')) {
+                    QString parameterName = fileStr.split(QChar('='))[0];
                     QStringList parameter;
-                    if (!fileStr.split(QString("="))[1]
+                    if (!fileStr.split(QChar('='))[1]
                             .remove(QString("("))
                             .remove(QString(")"))
                             .trimmed()
                             .isEmpty())
-                        parameter.append(fileStr.split(QString("="))[1]
+                        parameter.append(fileStr.split(QChar('='))[1]
                                 .remove(QString("("))
                                 .remove(QString(")"))
                                 .trimmed());
@@ -175,7 +175,7 @@ QMap<QString, QString> NetctlProfile::getSettingsFromProfile(const QString profi
                     settings[parameterName] = parameter.join(QString("\n"));
                 }
                 else
-                    settings[fileStr.split(QString("="))[0]] = fileStr.split(QString("="))[1]
+                    settings[fileStr.split(QChar('='))[0]] = fileStr.split(QChar('='))[1]
                             .trimmed();
             }
 

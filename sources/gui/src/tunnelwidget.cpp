@@ -63,7 +63,7 @@ void TunnelWidget::createFilter()
 
 QString TunnelWidget::getIp(const QString rawIp)
 {
-    QStringList ip = rawIp.split(QString("."));
+    QStringList ip = rawIp.split(QChar('.'));
 
     // fix empty fields
     if (ip[0].isEmpty())
@@ -91,9 +91,9 @@ QMap<QString, QString> TunnelWidget::getSettings()
         return tunnelSettings;
 
     tunnelSettings[QString("Mode")] = QString("'") + ui->comboBox_mode->currentText() + QString("'");
-    if (!ui->lineEdit_local->text().split(QString(".")).join(QString("")).remove(QString(" ")).isEmpty())
+    if (!ui->lineEdit_local->text().split(QChar('.')).join(QString("")).remove(QString(" ")).isEmpty())
         tunnelSettings[QString("Local")] = QString("'") + getIp(ui->lineEdit_local->text().remove(QString(" "))) + QString("'");
-    if (!ui->lineEdit_remote->text().split(QString(".")).join(QString("")).remove(QString(" ")).isEmpty())
+    if (!ui->lineEdit_remote->text().split(QChar('.')).join(QString("")).remove(QString(" ")).isEmpty())
         tunnelSettings[QString("Remote")] = QString("'") + getIp(ui->lineEdit_remote->text().remove(QString(" "))) + QString("'");
 
     return tunnelSettings;

@@ -33,6 +33,8 @@ public:
     ~Netctl();
     // general information
     QList<QStringList> getProfileList();
+    QList<QStringList> getProfileListFromNetctlAuto();
+    QString getProfileDescription(const QString profile);
     QStringList getProfileDescriptions(const QStringList profileList);
     QStringList getProfileStatuses(const QStringList profileList);
     QString getSsidFromProfile(const QString profile);
@@ -48,6 +50,7 @@ public slots:
 private:
     bool debug;
     QString netctlCommand;
+    QString netctlAutoCommand;
     QDir *profileDirectory;
     QString sudoCommand;
     // functions

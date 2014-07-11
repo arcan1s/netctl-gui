@@ -189,9 +189,9 @@ void GeneralWidget::setSettings(const QMap<QString, QString> settings)
             if (generalSettings[QString("Interface")].remove(QString("'")) == ui->comboBox_interface->itemText(i))
                 ui->comboBox_interface->setCurrentIndex(i);
     if (generalSettings.contains(QString("BindsToInterfaces")))
-        ui->listWidget_bindto->addItems(generalSettings[QString("BindsToInterfaces")].split(QString(" ")));
+        ui->listWidget_bindto->addItems(generalSettings[QString("BindsToInterfaces")].split(QChar(' ')));
     if (generalSettings.contains(QString("After")))
-        ui->listWidget_after->addItems(generalSettings[QString("After")].split(QString(" ")));
+        ui->listWidget_after->addItems(generalSettings[QString("After")].split(QChar(' ')));
     if (generalSettings.contains(QString("ExecUpPost")))
         ui->lineEdit_execUpPost->setText(generalSettings[QString("ExecUpPost")].remove(QString("'")));
     if (generalSettings.contains(QString("ExecDownPre")))

@@ -26,6 +26,7 @@ Netctl::Netctl(const bool debugCmd, const QMap<QString, QString> settings)
     : debug(debugCmd)
 {
     netctlCommand = settings[QString("NETCTL_PATH")];
+    netctlAutoCommand = settings[QString("NETCTLAUTO_PATH")];
     profileDirectory = new QDir(settings[QString("PROFILE_DIR")]);
     sudoCommand = settings[QString("SUDO_PATH")];
 }
@@ -104,9 +105,62 @@ QList<QStringList> Netctl::getProfileList()
 }
 
 
-QStringList Netctl::getProfileDescriptions(const QStringList profileList)
+QList<QStringList> Netctl::getProfileListFromNetctlAuto()
+{
+    if (debug) qDebug() << "[Netctl]" << "[getProfileListFromNetctlAuto]";
+
+    QProcess command;
+    QString commandText = netctlAutoCommand + QString(" list");
+    if (debug) qDebug() << "[Netctl]" << "[getProfileListFromNetctlAuto]" << ":" << "Run cmd" << commandText;
+    command.start(commandText);
+    command.waitForFinished(-1);
+    QStringList output = QString(command.readAllStandardOutput()).split(QChar('\n'), QString::SkipEmptyParts);
+
+    QList<QStringList> fullProfilesInfo;
+    for (int i=0; i<output.count(); i++) {
+        QStringList profileInfo;
+        profileInfo.append(output[i].mid(2, -1));
+        profileInfo.append(getProfileDescription(profileInfo[0]));
+        profileInfo.append(output[i].left(1));
+        fullProfilesInfo.append(profileInfo);
+    }
+
+    return fullProfilesInfo;
+}
+
+
+QString Netctl::getProfileDescription(const QString profileName)
 {
     if (debug) qDebug() << "[Netctl]" << "[getProfileDescription]";
+    QString description;
+
+    QString profileUrl = profileDirectory->absolutePath() + QDir::separator() + profileName;
+    if (debug) qDebug() << "[Netctl]" << "[getProfileDescription]" << ":" << "Check" << profileUrl;
+    QFile profile(profileUrl);
+    QString fileStr;
+    if (profile.open(QIODevice::ReadOnly))
+        while (true) {
+            fileStr = QString(profile.readLine());
+            if (fileStr[0] != '#')
+                if (fileStr.split(QChar('='), QString::SkipEmptyParts).count() == 2)
+                    if (fileStr.split(QChar('='), QString::SkipEmptyParts)[0] == QString("Description"))
+                        description = fileStr.split(QChar('='), QString::SkipEmptyParts)[1].trimmed();
+            if (profile.atEnd())
+                break;
+        }
+    else
+        description = QString("<unknown>");
+
+    description.remove(QChar('\''));
+    description.remove(QChar('"'));
+
+    return description;
+}
+
+
+QStringList Netctl::getProfileDescriptions(const QStringList profileList)
+{
+    if (debug) qDebug() << "[Netctl]" << "[getProfileDescriptions]";
     QStringList descriptions;
 
     for (int i=0; i<profileList.count(); i++) {
@@ -118,9 +172,9 @@ QStringList Netctl::getProfileDescriptions(const QStringList profileList)
             while (true) {
                 fileStr = QString(profile.readLine());
                 if (fileStr[0] != '#')
-                    if (fileStr.split(QString("="), QString::SkipEmptyParts).count() == 2)
-                        if (fileStr.split(QString("="), QString::SkipEmptyParts)[0] == QString("Description"))
-                            descriptions.append(fileStr.split(QString("="), QString::SkipEmptyParts)[1].trimmed());
+                    if (fileStr.split(QChar('='), QString::SkipEmptyParts).count() == 2)
+                        if (fileStr.split(QChar('='), QString::SkipEmptyParts)[0] == QString("Description"))
+                            descriptions.append(fileStr.split(QChar('='), QString::SkipEmptyParts)[1].trimmed());
                 if (profile.atEnd())
                     break;
             }
@@ -175,9 +229,9 @@ QString Netctl::getSsidFromProfile(const QString profile)
     while (true) {
         fileStr = QString(profileFile.readLine());
         if (fileStr[0] != '#') {
-            if (fileStr.split(QString("="), QString::SkipEmptyParts).count() == 2)
-                if (fileStr.split(QString("="), QString::SkipEmptyParts)[0] == QString("ESSID"))
-                    ssidName = fileStr.split(QString("="), QString::SkipEmptyParts)[1].trimmed();
+            if (fileStr.split(QChar('='), QString::SkipEmptyParts).count() == 2)
+                if (fileStr.split(QChar('='), QString::SkipEmptyParts)[0] == QString("ESSID"))
+                    ssidName = fileStr.split(QChar('='), QString::SkipEmptyParts)[1].trimmed();
         }
         if (profileFile.atEnd())
             break;
