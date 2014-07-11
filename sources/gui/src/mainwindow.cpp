@@ -34,6 +34,7 @@
 #include "ipwidget.h"
 #include "macvlanwidget.h"
 #include "mobilewidget.h"
+#include "netctlautowindow.h"
 #include "passwdwidget.h"
 #include "pppoewidget.h"
 #include "settingswindow.h"
@@ -63,6 +64,7 @@ MainWindow::MainWindow(QWidget *parent, const bool defaultSettings, const bool d
     configuration = settingsWin->getSettings();
 
     // gui
+    netctlAutoWin = new NetctlAutoWindow(this, debug, configuration);
     generalWid = new GeneralWidget(this, configuration);
     ui->scrollAreaWidgetContents->layout()->addWidget(generalWid);
     ipWid = new IpWidget(this);
@@ -117,6 +119,7 @@ MainWindow::~MainWindow()
     delete vlanWid;
     delete wirelessWid;
 
+    delete netctlAutoWin;
     delete settingsWin;
     delete ui;
 }
@@ -167,6 +170,7 @@ void MainWindow::createActions()
     if (debug) qDebug() << "[MainWindow]" << "[createActions]";
 
     connect(ui->tabWidget, SIGNAL(currentChanged(int)), this, SLOT(updateTabs(int)));
+    connect(ui->actionNetctlAuto, SIGNAL(triggered(bool)), netctlAutoWin, SLOT(showWindow()));
     connect(ui->actionSettings, SIGNAL(triggered(bool)), settingsWin, SLOT(showWindow()));
     connect(ui->actionQuit, SIGNAL(triggered(bool)), this, SLOT(close()));
 
@@ -363,10 +367,14 @@ void MainWindow::updateMenuMain()
         ui->actionMainStart->setIcon(QIcon::fromTheme("dialog-apply"));
     }
     ui->actionMainStart->setVisible(true);
-    if (checkState(QString("enabled"), item))
+    if (checkState(QString("enabled"), item)) {
         ui->actionMainEnable->setText(QApplication::translate("MainWindow", "Disable profile"));
-    else
+        ui->actionMainEnable->setIcon(QIcon::fromTheme("edit-remove"));
+    }
+    else {
         ui->actionMainEnable->setText(QApplication::translate("MainWindow", "Enable profile"));
+        ui->actionMainEnable->setIcon(QIcon::fromTheme("edit-add"));
+    }
     ui->actionMainEnable->setVisible(true);
     ui->actionMainEdit->setVisible(true);
     ui->actionMainRemove->setVisible(true);
@@ -518,10 +526,14 @@ void MainWindow::mainTabContextualMenu(const QPoint &pos)
         startProfile->setText(QApplication::translate("MainWindow", "Start profile"));
         startProfile->setIcon(QIcon::fromTheme("dialog-apply"));
     }
-    if (checkState(QString("enabled"), item))
+    if (checkState(QString("enabled"), item)) {
         enableProfile->setText(QApplication::translate("MainWindow", "Disable profile"));
-    else
+        enableProfile->setIcon(QIcon::fromTheme("edit-remove"));
+    }
+    else {
         enableProfile->setText(QApplication::translate("MainWindow", "Enable profile"));
+        enableProfile->setIcon(QIcon::fromTheme("edit-add"));
+    }
 
     // actions
     QAction *action = menu.exec(ui->tableWidget_main->viewport()->mapToGlobal(pos));

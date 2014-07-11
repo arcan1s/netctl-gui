@@ -31,6 +31,7 @@ class IpWidget;
 class MacvlanWidget;
 class MobileWidget;
 class Netctl;
+class NetctlAutoWindow;
 class NetctlProfile;
 class PasswdWidget;
 class PppoeWidget;
@@ -96,6 +97,7 @@ private slots:
 private:
     // ui
     Ui::MainWindow *ui;
+    NetctlAutoWindow *netctlAutoWin;
     BridgeWidget *bridgeWid;
     EthernetWidget *ethernetWid;
     GeneralWidget *generalWid;

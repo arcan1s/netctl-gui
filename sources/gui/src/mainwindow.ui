@@ -349,6 +349,7 @@
     <property name="title">
      <string>Menu</string>
     </property>
+    <addaction name="actionNetctlAuto"/>
     <addaction name="actionSettings"/>
     <addaction name="actionQuit"/>
    </widget>
@@ -426,6 +427,9 @@
    </property>
   </action>
   <action name="actionMainEnable">
+   <property name="icon">
+    <iconset theme="edit-add"/>
+   </property>
    <property name="text">
     <string>Enable profile</string>
    </property>
@@ -492,6 +496,11 @@
    </property>
    <property name="text">
     <string>Remove profile</string>
+   </property>
+  </action>
+  <action name="actionNetctlAuto">
+   <property name="text">
+    <string>netctl-auto</string>
    </property>
   </action>
  </widget>

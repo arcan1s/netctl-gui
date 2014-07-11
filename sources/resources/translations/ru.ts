@@ -539,19 +539,19 @@
     </message>
     <message>
         <source>Disable</source>
-        <translation>Отключить</translation>
+        <translation type="vanished">Отключить</translation>
     </message>
     <message>
         <source>Enable</source>
-        <translation>Включить</translation>
+        <translation type="vanished">Включить</translation>
     </message>
     <message>
         <source>Save profile as...</source>
-        <translation>Сохранить профиль как...</translation>
+        <translation type="vanished">Сохранить профиль как...</translation>
     </message>
     <message>
         <source>Profile (*)</source>
-        <translation>Профиль (*)</translation>
+        <translation type="vanished">Профиль (*)</translation>
     </message>
     <message>
         <source>                                    Netctl GUI
@@ -589,7 +589,7 @@
         <source>netctl-gui [ --default ] [ -t NUM | --tab NUM ] [ -h | --help]
 
 </source>
-        <translation>netctl-gui [ --default ] [ -t NUM | --tab NUM ] [ -h | --help]
+        <translation type="vanished">netctl-gui [ --default ] [ -t NUM | --tab NUM ] [ -h | --help]
 
 </translation>
     </message>
@@ -671,7 +671,7 @@
     </message>
     <message>
         <source>Browse</source>
-        <translation>Обзор</translation>
+        <translation type="vanished">Обзор</translation>
     </message>
     <message>
         <source>Clear</source>
@@ -679,7 +679,7 @@
     </message>
     <message>
         <source>Load</source>
-        <translation>Загрузить</translation>
+        <translation type="vanished">Загрузить</translation>
     </message>
     <message>
         <source>Save</source>
@@ -719,7 +719,74 @@
     </message>
     <message>
         <source>Remove</source>
-        <translation>Удалить</translation>
+        <translation type="vanished">Удалить</translation>
+    </message>
+    <message>
+        <source>Stop profile</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Start profile</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Disable profile</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Enable profile</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Stop WiFi</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Start WiFi</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Restart profile</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Edit profile</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Remove profile</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>netctl-gui [ --default ] [ -d | --debug ] [ -t NUM | --tab NUM ] [ -h | --help]
+
+</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>  -d       --debug      - print debug information
+</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Load profile</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Save profile</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Start Wi-Fi</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>netctl-auto</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Actions</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -839,6 +906,37 @@
     <message>
         <source>Browse</source>
         <translation>Обзор</translation>
+    </message>
+</context>
+<context>
+    <name>NetctlAutoWindow</name>
+    <message>
+        <source>MainWindow</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Enable profile</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Switch to profile</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Close</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Available profiles</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Active profiles</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Menu</source>
+        <translation type="unfinished">Меню</translation>
     </message>
 </context>
 <context>
