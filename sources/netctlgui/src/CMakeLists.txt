@@ -25,7 +25,6 @@ if (USE_QT5)
 
     include_directories (${Qt5Core_INCLUDE_DIRS} ${Qt5Widgets_INCLUDE_DIRS})
     add_library (${SUBPROJECT} SHARED ${SOURCES} ${HEADERS} ${MOC_SOURCES})
-    set_target_properties (${SUBPROJECT} PROPERTIES SOVERSION ${PROJECT_VERSION})
     target_link_libraries (${SUBPROJECT} ${Qt5Widgets_LIBRARIES} ${Qt5Core_LIBRARIES})
 else ()
     find_package (Qt4 REQUIRED)
@@ -37,7 +36,6 @@ else ()
     source_group ("Generated Files" FILES ${MOC_SOURCES})
 
     add_library (${SUBPROJECT} SHARED ${SOURCES} ${HEADERS} ${MOC_SOURCES})
-    set_target_properties (${SUBPROJECT} PROPERTIES SOVERSION ${PROJECT_VERSION})
     target_link_libraries (${SUBPROJECT} ${QT_LIBRARIES} ${QT_QTMAIN_LIBRARY})
 endif()
 
