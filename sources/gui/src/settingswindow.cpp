@@ -73,8 +73,9 @@ void SettingsWindow::keyPressEvent(QKeyEvent *pressedKey)
 
 void SettingsWindow::addLanguages()
 {
-    ui->comboBox_language->addItem(QString("english"));
-    ui->comboBox_language->addItem(QString("russian"));
+    ui->comboBox_language->clear();
+    ui->comboBox_language->addItem(QString("en"));
+    ui->comboBox_language->addItem(QString("ru"));
 }
 
 

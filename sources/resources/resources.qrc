@@ -1,8 +1,8 @@
 <!DOCTYPE RCC><RCC version="1.0">
 <qresource>
 <!--     gui translations -->
-    <file>translations/english.qm</file>
-    <file>translations/russian.qm</file>
+    <file>translations/en.qm</file>
+    <file>translations/ru.qm</file>
 <!--     icons -->
     <file>icon.png</file>
     <file>wifi.png</file>

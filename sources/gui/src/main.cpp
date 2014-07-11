@@ -19,10 +19,10 @@
 #include <QApplication>
 
 #include <QDir>
-#include <QTextStream>
 #include <QTranslator>
 #include <iostream>
 
+#include "language.h"
 #include "mainwindow.h"
 #include "version.h"
 
@@ -37,22 +37,7 @@ int main(int argc, char *argv[])
     // translation
     QString configPath = QDir::homePath() + QDir::separator() + QString(".config") +
             QDir::separator() + QString("netctl-gui.conf");
-    QFile configFile(configPath);
-    QString fileStr;
-    QString language = QString("english");
-    if (configFile.open(QIODevice::ReadOnly))
-        while (true) {
-            fileStr = QString(configFile.readLine());
-            if (fileStr[0] != '#') {
-                if (fileStr.contains(QString("LANGUAGE=")))
-                    language = fileStr.split(QString("="))[1]
-                            .remove(QString(" "))
-                            .trimmed();
-            }
-            if (configFile.atEnd())
-                break;
-        }
-    configFile.close();
+    QString language = Language::defineLanguage(configPath);
     QTranslator translator;
     translator.load(QString(":/translations/") + language);
     a.installTranslator(&translator);
