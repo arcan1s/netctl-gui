@@ -15,7 +15,6 @@
  *   along with netctl-gui. If not, see http://www.gnu.org/licenses/       *
  ***************************************************************************/
 
-#include "netctlprofile.h"
 
 #include <QDebug>
 #include <QFile>
@@ -23,12 +22,11 @@
 #include <QProcess>
 #include <QTextStream>
 
-#include "mainwindow.h"
+#include <netctlgui/netctlprofile.h>
 
 
-NetctlProfile::NetctlProfile(MainWindow *wid, const bool debugCmd, const QMap<QString, QString> settings)
-    : parent(wid),
-      debug(debugCmd)
+NetctlProfile::NetctlProfile(const bool debugCmd, const QMap<QString, QString> settings)
+    : debug(debugCmd)
 {
     profileDirectory = new QDir(settings[QString("PROFILE_DIR")]);
     sudoCommand = settings[QString("SUDO_PATH")];
@@ -37,18 +35,23 @@ NetctlProfile::NetctlProfile(MainWindow *wid, const bool debugCmd, const QMap<QS
 
 NetctlProfile::~NetctlProfile()
 {
+    if (debug) qDebug() << "[NetctlProfile]" << "[~NetctlProfile]";
+
     delete profileDirectory;
 }
 
 
 bool NetctlProfile::copyProfile(const QString oldPath)
 {
+    if (debug) qDebug() << "[NetctlProfile]" << "[copyProfile]";
+
     QString newPath = profileDirectory->absolutePath() + QDir::separator() + QFileInfo(oldPath).fileName();
     QProcess command;
     QString commandText = sudoCommand + QString(" /usr/bin/mv ") + oldPath + QString(" ") + newPath;
     if (debug) qDebug() << "[NetctlProfile]" << "[copyProfile]" << ":" << "Run cmd" << commandText;
     command.start(commandText);
     command.waitForFinished(-1);
+
     if (command.exitCode() == 0)
         return true;
     else
@@ -58,12 +61,15 @@ bool NetctlProfile::copyProfile(const QString oldPath)
 
 bool NetctlProfile::removeProfile(const QString profile)
 {
-    QString profilePath = profileDirectory->absolutePath() + QDir::separator() + profile;
+    if (debug) qDebug() << "[NetctlProfile]" << "[removeProfile]";
+
+    QString profilePath = profileDirectory->absolutePath() + QDir::separator() + QFileInfo(profile).fileName();
     QProcess command;
     QString commandText = sudoCommand + QString(" /usr/bin/rm ") + profilePath;
     if (debug) qDebug() << "[NetctlProfile]" << "[removeProfile]" << ":" << "Run cmd" << commandText;
     command.start(commandText);
     command.waitForFinished(-1);
+
     if (command.exitCode() == 0)
         return true;
     else
@@ -74,6 +80,8 @@ bool NetctlProfile::removeProfile(const QString profile)
 
 QString NetctlProfile::createProfile(const QString profile, const QMap<QString, QString> settings)
 {
+    if (debug) qDebug() << "[NetctlProfile]" << "[createProfile]";
+    if (debug) qDebug() << "[NetctlProfile]" << "[createProfile]" << ":" << "Profile name" << profile;
 
     QString profileTempName = QDir::homePath() + QDir::separator() +
             QString(".cache") + QDir::separator() + QFileInfo(profile).fileName();
@@ -107,14 +115,22 @@ QString NetctlProfile::createProfile(const QString profile, const QMap<QString, 
 }
 
 
+QString NetctlProfile::getNameByString(const QString profile)
+{
+    if (debug) qDebug() << "[NetctlProfile]" << "[getNameByString]";
+    if (debug) qDebug() << "[NetctlProfile]" << "[getNameByString]" << ":" << "Raw string" << profile;
+
+    return QFileInfo(profile).fileName();
+}
+
+
 QMap<QString, QString> NetctlProfile::getSettingsFromProfile(const QString profile)
 {
+    if (debug) qDebug() << "[NetctlProfile]" << "[getSettingsFromProfile]";
+
     QMap<QString, QString> settings;
     QString fileStr, profileUrl;
-    if (profile[0] == QDir::separator())
-        profileUrl = profile;
-    else
-        profileUrl = profileDirectory->absolutePath() + QDir::separator() + profile;
+    profileUrl = profileDirectory->absolutePath() + QDir::separator() + QFileInfo(profile).fileName();
     QFile profileFile(profileUrl);
     if (debug) qDebug() << "[NetctlProfile]" << "[getSettingsFromProfile]" << ":" << "Read from" << profileUrl;
 

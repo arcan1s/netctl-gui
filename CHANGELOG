@@ -4,7 +4,10 @@ Ver.1.2.0:
 + [gui] added ability to remove profile
 + [gui] added support of hidden wifi network
 + [gui] added contextual menu to tables
++ [gui] added actions menu
++ [lib] detached backend from frontend
 * [all] small changes in the project architecture
+* [gui] more debug information
 * [plasmoid] edited configuration interface
 
 Ver.1.1.0 (netctl-1.7 update):

@@ -15,25 +15,45 @@
  *   along with netctl-gui. If not, see http://www.gnu.org/licenses/       *
  ***************************************************************************/
 
-#ifndef LANGUAGE_H
-#define LANGUAGE_H
+#ifndef NETCTLINTERACT_H
+#define NETCTLINTERACT_H
 
-#include <QStringList>
+#include <QDir>
+#include <QMap>
+#include <QObject>
 
 
-class Language : public QObject
+class Netctl : public QObject
 {
     Q_OBJECT
 
 public:
-    explicit Language(const QString configPath);
-    static QString checkLanguage(const QString language,
-                                 const QString defaultLanguage = QString("en"));
-    static QString defineLanguage(const QString configPath);
-    static QString defineLanguageFromFile(const QString configPath);
-    static QString defineLanguageFromLocale();
-    static QStringList getAvailableLanguages();
+    explicit Netctl(const bool debugCmd = false,
+                    const QMap<QString, QString> settings = QMap<QString, QString>());
+    ~Netctl();
+    // general information
+    QList<QStringList> getProfileList();
+    QStringList getProfileDescriptions(const QStringList profileList);
+    QStringList getProfileStatuses(const QStringList profileList);
+    QString getSsidFromProfile(const QString profile);
+    bool isProfileActive(const QString profile);
+    bool isProfileEnabled(const QString profile);
+
+public slots:
+    // functions
+    bool enableProfile(const QString profile);
+    bool restartProfile(const QString profile);
+    bool startProfile(const QString profile);
+
+private:
+    bool debug;
+    QString netctlCommand;
+    QDir *profileDirectory;
+    QString sudoCommand;
+    // functions
+    QString getNetctlOutput(const bool sudo, const QString commandLine, const QString profile);
+    bool netctlCall(const bool sudo, const QString commandLine, const QString profile);
 };
 
 
-#endif /* LANGUAGE_H */
+#endif /* NETCTLINTERACT_H */

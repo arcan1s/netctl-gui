@@ -26,18 +26,23 @@ ErrorWindow::ErrorWindow(QWidget *parent, const bool debugCmd, const int message
       debug(debugCmd),
       ui(new Ui::ErrorWindow)
 {
-    ui->setupUi(this);
     if (debug) qDebug() << "[ErrorWindow]" << "[ErrorWindow]" << ":" << "Initializate with error code" << messageNumber;
+
+    ui->setupUi(this);
     setMessage(messageNumber);
 }
 
 ErrorWindow::~ErrorWindow()
 {
+    if (debug) qDebug() << "[ErrorWindow]" << "[~ErrorWindow]";
+
     delete ui;
 }
 
 void ErrorWindow::setMessage(const int mess)
 {
+    if (debug) qDebug() << "[ErrorWindow]" << "[setMessage]";
+
     QString message;
     switch(mess) {
     case 1:

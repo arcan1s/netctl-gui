@@ -11,7 +11,12 @@ message (STATUS "${SUBPROJECT} Headers: ${HEADERS}")
 message (STATUS "${SUBPROJECT} Forms: ${FORMS}")
 
 # include_path
-include_directories (${CMAKE_SOURCE_DIR} ${CMAKE_BINARY_DIR} ${CMAKE_CURRENT_BINARY_DIR} ${CMAKE_CURRENT_BINARY_DIR}/../)
+include_directories (${CMAKE_CURRENT_SOURCE_DIR}/../../${PROJECT_LIBRARY}/include/
+                     ${CMAKE_CURRENT_BINARY_DIR}/../
+                     ${CMAKE_SOURCE_DIR}
+                     ${CMAKE_BINARY_DIR}
+                     ${CMAKE_CURRENT_BINARY_DIR})
+link_directories (${PROJECT_LIBRARY}/src/lib)
 
 if (USE_QT5)
     find_package(Qt5Core REQUIRED)
@@ -41,7 +46,7 @@ if (USE_QT5)
 
     include_directories (${Qt5Core_INCLUDE_DIRS} ${Qt5Widgets_INCLUDE_DIRS})
     add_executable (${SUBPROJECT} ${UI_HEADERS} ${HEADERS} ${SOURCES} ${MOC_SOURCES} ${QRC_SOURCES} ${TRANSLATIONS})
-    target_link_libraries (${SUBPROJECT} ${Qt5Widgets_LIBRARIES} ${Qt5Core_LIBRARIES})
+    target_link_libraries (${SUBPROJECT} ${PROJECT_LIBRARY} ${Qt5Widgets_LIBRARIES} ${Qt5Core_LIBRARIES})
 else ()
     find_package (Qt4 REQUIRED)
     include (${QT_USE_FILE})
@@ -65,7 +70,7 @@ else ()
     source_group ("Generated Files" FILES ${MOC_SOURCES})
 
     add_executable (${SUBPROJECT} ${UI_HEADERS} ${HEADERS} ${SOURCES} ${MOC_SOURCES} ${QRC_SOURCES} ${TRANSLATIONS})
-    target_link_libraries (${SUBPROJECT} ${QT_LIBRARIES} ${QT_QTMAIN_LIBRARY})
+    target_link_libraries (${SUBPROJECT} ${PROJECT_LIBRARY} ${QT_LIBRARIES} ${QT_QTMAIN_LIBRARY})
 endif()
 
 # install properties

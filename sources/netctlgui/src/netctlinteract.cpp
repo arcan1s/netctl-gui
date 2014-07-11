@@ -15,18 +15,15 @@
  *   along with netctl-gui. If not, see http://www.gnu.org/licenses/       *
  ***************************************************************************/
 
-#include "netctlinteract.h"
-
 #include <QDebug>
 #include <QFile>
 #include <QProcess>
 
-#include "mainwindow.h"
+#include <netctlgui/netctlinteract.h>
 
 
-Netctl::Netctl(MainWindow *wid, const bool debugCmd, const QMap<QString, QString> settings)
-    : parent(wid),
-      debug(debugCmd)
+Netctl::Netctl(const bool debugCmd, const QMap<QString, QString> settings)
+    : debug(debugCmd)
 {
     netctlCommand = settings[QString("NETCTL_PATH")];
     profileDirectory = new QDir(settings[QString("PROFILE_DIR")]);
@@ -36,6 +33,8 @@ Netctl::Netctl(MainWindow *wid, const bool debugCmd, const QMap<QString, QString
 
 Netctl::~Netctl()
 {
+    if (debug) qDebug() << "[Netctl]" << "[~Netctl]";
+
     delete profileDirectory;
 }
 
@@ -43,6 +42,8 @@ Netctl::~Netctl()
 // functions
 QString Netctl::getNetctlOutput(const bool sudo, const QString commandLine, const QString profile)
 {
+    if (debug) qDebug() << "[Netctl]" << "[getNetctlOutput]";
+
     QProcess command;
     QString commandText;
     if (sudo)
@@ -53,12 +54,15 @@ QString Netctl::getNetctlOutput(const bool sudo, const QString commandLine, cons
     if (debug) qDebug() << "[Netctl]" << "[getNetctlOutput]" << ":" << "Run cmd" << commandText;
     command.start(commandText);
     command.waitForFinished(-1);
+
     return command.readAllStandardOutput();
 }
 
 
 bool Netctl::netctlCall(const bool sudo, const QString commandLine, const QString profile)
 {
+    if (debug) qDebug() << "[Netctl]" << "[netctlCall]";
+
     QProcess command;
     QString commandText;
     if (sudo)
@@ -70,6 +74,7 @@ bool Netctl::netctlCall(const bool sudo, const QString commandLine, const QStrin
     command.start(commandText);
     command.waitForFinished(-1);
     if (debug) qDebug() << "[Netctl]" << "[netctlCall]" << ":" << "Cmd returns" << command.exitCode();
+
     if (command.exitCode() == 0)
         return true;
     else
@@ -80,6 +85,8 @@ bool Netctl::netctlCall(const bool sudo, const QString commandLine, const QStrin
 // general information
 QList<QStringList> Netctl::getProfileList()
 {
+    if (debug) qDebug() << "[Netctl]" << "[getProfileList]";
+
     QList<QStringList> fullProfilesInfo;
     QStringList profiles = profileDirectory->entryList(QDir::Files);
     QStringList descriptions = getProfileDescriptions(profiles);
@@ -92,12 +99,14 @@ QList<QStringList> Netctl::getProfileList()
         profileInfo.append(statuses[i]);
         fullProfilesInfo.append(profileInfo);
     }
+
     return fullProfilesInfo;
 }
 
 
 QStringList Netctl::getProfileDescriptions(const QStringList profileList)
 {
+    if (debug) qDebug() << "[Netctl]" << "[getProfileDescription]";
     QStringList descriptions;
 
     for (int i=0; i<profileList.count(); i++) {
@@ -130,6 +139,8 @@ QStringList Netctl::getProfileDescriptions(const QStringList profileList)
 
 QStringList Netctl::getProfileStatuses(const QStringList profileList)
 {
+    if (debug) qDebug() << "[Netctl]" << "[getProfileStatuses]";
+
     QStringList statuses;
 
     for (int i=0; i<profileList.count(); i++) {
@@ -151,6 +162,8 @@ QStringList Netctl::getProfileStatuses(const QStringList profileList)
 
 QString Netctl::getSsidFromProfile(const QString profile)
 {
+    if (debug) qDebug() << "[Netctl]" << "[getSsidFromProfile]";
+
     QString ssidName = QString("");
     QString profileUrl = profileDirectory->absolutePath() + QDir::separator() + profile;
     if (debug) qDebug() << "[Netctl]" << "[getSsidFromProfile]" << ":" << "Check" << profileUrl;
@@ -180,17 +193,22 @@ QString Netctl::getSsidFromProfile(const QString profile)
 
 bool Netctl::isProfileActive(const QString profile)
 {
+    if (debug) qDebug() << "[Netctl]" << "[isProfileActive]";
+
     bool status = false;
     QString cmdOutput = getNetctlOutput(false, QString("status"), profile);
     if (!cmdOutput.isEmpty())
         if (cmdOutput.contains(QString("Active: active")))
             status = true;
+
     return status;
 }
 
 
 bool Netctl::isProfileEnabled(const QString profile)
 {
+    if (debug) qDebug() << "[Netctl]" << "[isProfileEnabled]";
+
     return netctlCall(false, QString("is-enabled"), profile);
 }
 
@@ -198,6 +216,8 @@ bool Netctl::isProfileEnabled(const QString profile)
 // functions
 bool Netctl::enableProfile(const QString profile)
 {
+    if (debug) qDebug() << "[Netctl]" << "[enableProfile]";
+
     if (isProfileEnabled(profile))
         return netctlCall(true, QString("disable"), profile);
     else
@@ -207,12 +227,16 @@ bool Netctl::enableProfile(const QString profile)
 
 bool Netctl::restartProfile(const QString profile)
 {
+    if (debug) qDebug() << "[Netctl]" << "[restartProfile]";
+
     return netctlCall(true, QString("restart"), profile);
 }
 
 
 bool Netctl::startProfile(const QString profile)
 {
+    if (debug) qDebug() << "[Netctl]" << "[startProfile]";
+
     if (isProfileActive(profile))
         return netctlCall(true, QString("stop"), profile);
     else

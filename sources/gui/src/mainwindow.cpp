@@ -23,6 +23,10 @@
 #include <QFileInfo>
 #include <QProcess>
 
+#include <netctlgui/netctlinteract.h>
+#include <netctlgui/netctlprofile.h>
+#include <netctlgui/wpasupinteract.h>
+
 #include "bridgewidget.h"
 #include "errorwindow.h"
 #include "ethernetwidget.h"
@@ -30,15 +34,12 @@
 #include "ipwidget.h"
 #include "macvlanwidget.h"
 #include "mobilewidget.h"
-#include "netctlinteract.h"
-#include "netctlprofile.h"
 #include "passwdwidget.h"
 #include "pppoewidget.h"
 #include "settingswindow.h"
 #include "tunnelwidget.h"
 #include "tuntapwidget.h"
 #include "vlanwidget.h"
-#include "wpasupinteract.h"
 #include "wirelesswidget.h"
 
 
@@ -85,9 +86,9 @@ MainWindow::MainWindow(QWidget *parent, const bool defaultSettings, const bool d
     wirelessWid = new WirelessWidget(this, configuration);
     ui->scrollAreaWidgetContents->layout()->addWidget(wirelessWid);
     // backend
-    netctlCommand = new Netctl(this, debug, configuration);
-    netctlProfile = new NetctlProfile(this, debug, configuration);
-    wpaCommand = new WpaSup(this, debug, configuration);
+    netctlCommand = new Netctl(debug, configuration);
+    netctlProfile = new NetctlProfile(debug, configuration);
+    wpaCommand = new WpaSup(debug, configuration);
 
     createActions();
     setIconsToButtons();
@@ -98,6 +99,8 @@ MainWindow::MainWindow(QWidget *parent, const bool defaultSettings, const bool d
 
 MainWindow::~MainWindow()
 {
+    if (debug) qDebug() << "[MainWindow]" << "[~MainWindow]";
+
     delete netctlCommand;
     delete netctlProfile;
     delete wpaCommand;
@@ -121,6 +124,8 @@ MainWindow::~MainWindow()
 
 bool MainWindow::checkExternalApps(const QString apps = QString("all"))
 {
+    if (debug) qDebug() << "[MainWindow]" << "[checkExternalApps]";
+
     QStringList commandLine;
     commandLine.append("which");
     commandLine.append(configuration[QString("SUDO_PATH")]);
@@ -145,6 +150,10 @@ bool MainWindow::checkExternalApps(const QString apps = QString("all"))
 
 bool MainWindow::checkState(const QString state, const QString item)
 {
+    if (debug) qDebug() << "[MainWindow]" << "[checkState]";
+    if (debug) qDebug() << "[MainWindow]" << "[checkState]" << ":" << "Text" << item;
+    if (debug) qDebug() << "[MainWindow]" << "[checkState]" << ":" << "State" << state;
+
     if (item.contains(state))
         return true;
     else
@@ -155,14 +164,29 @@ bool MainWindow::checkState(const QString state, const QString item)
 // window signals
 void MainWindow::createActions()
 {
+    if (debug) qDebug() << "[MainWindow]" << "[createActions]";
+
     connect(ui->tabWidget, SIGNAL(currentChanged(int)), this, SLOT(updateTabs(int)));
     connect(ui->actionSettings, SIGNAL(triggered(bool)), settingsWin, SLOT(showWindow()));
     connect(ui->actionQuit, SIGNAL(triggered(bool)), this, SLOT(close()));
 
+    // actions menu
+    connect(ui->menuActions, SIGNAL(aboutToShow()), this, SLOT(updateMenu()));
+    connect(ui->actionMainEdit, SIGNAL(triggered(bool)), this, SLOT(mainTabEditProfile()));
+    connect(ui->actionMainEnable, SIGNAL(triggered(bool)), this, SLOT(mainTabEnableProfile()));
+    connect(ui->actionMainRefresh, SIGNAL(triggered(bool)), this, SLOT(updateMainTab()));
+    connect(ui->actionMainRemove, SIGNAL(triggered(bool)), this, SLOT(mainTabRemoveProfile()));
+    connect(ui->actionMainRestart, SIGNAL(triggered(bool)), this, SLOT(mainTabRestartProfile()));
+    connect(ui->actionMainStart, SIGNAL(triggered(bool)), this, SLOT(mainTabStartProfile()));
+    connect(ui->actionProfileClear, SIGNAL(triggered(bool)), this, SLOT(profileTabClear()));
+    connect(ui->actionProfileLoad, SIGNAL(triggered(bool)), this, SLOT(profileTabLoadProfile()));
+    connect(ui->actionProfileRemove, SIGNAL(triggered(bool)), this, SLOT(profileTabRemoveProfile()));
+    connect(ui->actionProfileSave, SIGNAL(triggered(bool)), this, SLOT(profileTabCreateProfile()));
+    connect(ui->actionWifiRefresh, SIGNAL(triggered(bool)), this, SLOT(updateWifiTab()));
+    connect(ui->actionWifiStart, SIGNAL(triggered(bool)), this, SLOT(wifiTabStart()));
+
     // main tab events
     connect(ui->pushButton_mainRefresh, SIGNAL(clicked(bool)), this, SLOT(updateMainTab()));
-    connect(ui->pushButton_mainRemove, SIGNAL(clicked(bool)), this, SLOT(mainTabRemoveProfile()));
-    connect(ui->pushButton_mainEnable, SIGNAL(clicked(bool)), this, SLOT(mainTabEnableProfile()));
     connect(ui->pushButton_mainRestart, SIGNAL(clicked(bool)), this, SLOT(mainTabRestartProfile()));
     connect(ui->pushButton_mainStart, SIGNAL(clicked(bool)), this, SLOT(mainTabStartProfile()));
     connect(ui->tableWidget_main, SIGNAL(itemActivated(QTableWidgetItem *)), this, SLOT(mainTabStartProfile()));
@@ -188,6 +212,8 @@ void MainWindow::createActions()
 
 void MainWindow::setIconsToButtons()
 {
+    if (debug) qDebug() << "[MainWindow]" << "[setIconsToButtons]";
+
     // tab widget
     ui->tabWidget->setTabIcon(0, QIcon(":icon"));
     ui->tabWidget->setTabIcon(1, QIcon::fromTheme("document-new"));
@@ -195,7 +221,6 @@ void MainWindow::setIconsToButtons()
 
     // main tab
     ui->pushButton_mainRefresh->setIcon(QIcon::fromTheme("stock-refresh"));
-    ui->pushButton_mainRemove->setIcon(QIcon::fromTheme("edit-delete"));
     ui->pushButton_mainRestart->setIcon(QIcon::fromTheme("stock-refresh"));
 
     // profile tab
@@ -206,13 +231,38 @@ void MainWindow::setIconsToButtons()
 
     // wifi tab
     ui->pushButton_wifiRefresh->setIcon(QIcon::fromTheme("stock-refresh"));
-//    ui->pushButton_wifiStart->setIcon(QIcon(""));
 }
 
 
 // window slots
+void MainWindow::setMenuActionsShown(const bool state)
+{
+    if (debug) qDebug() << "[MainWindow]" << "[setMenuActionsShown]";
+    if (debug) qDebug() << "[MainWindow]" << "[setMenuActionsShown]" << ":" << "State" << state;
+
+    // main
+    ui->actionMainEdit->setVisible(state);
+    ui->actionMainEnable->setVisible(state);
+    ui->actionMainRefresh->setVisible(state);
+    ui->actionMainRemove->setVisible(state);
+    ui->actionMainRestart->setVisible(state);
+    ui->actionMainStart->setVisible(state);
+    // profile
+    ui->actionProfileClear->setVisible(state);
+    ui->actionProfileLoad->setVisible(state);
+    ui->actionProfileRemove->setVisible(state);
+    ui->actionProfileSave->setVisible(state);
+    // wifi
+    ui->actionWifiRefresh->setVisible(state);
+    ui->actionWifiStart->setVisible(state);
+}
+
+
 void MainWindow::updateTabs(const int tab)
 {
+    if (debug) qDebug() << "[MainWindow]" << "[updateTabs]";
+    if (debug) qDebug() << "[MainWindow]" << "[updateTabs]" << ":" << "Update tab" << tab;
+
     if (tab == 0)
         updateMainTab();
     else if (tab == 1)
@@ -222,15 +272,32 @@ void MainWindow::updateTabs(const int tab)
 }
 
 
+void MainWindow::updateMenu()
+{
+    if (debug) qDebug() << "[MainWindow]" << "[updateMenu]";
+
+    setMenuActionsShown(false);
+    int tab = ui->tabWidget->currentIndex();
+    if (debug) qDebug() << "[MainWindow]" << "[updateMenu]" << ":" << "Current tab" << tab;
+    if (tab == 0)
+        updateMenuMain();
+    else if (tab == 1)
+        updateMenuProfile();
+    else if (tab == 2)
+        updateMenuWifi();
+}
+
+
 void MainWindow::updateMainTab()
 {
+    if (debug) qDebug() << "[MainWindow]" << "[updateMainTab]";
+
     if (!checkExternalApps(QString("netctl"))) {
         errorWin = new ErrorWindow(this, debug, 1);
         errorWin->show();
         return;
     }
 
-    if (debug) qDebug() << "[MainWindow]" << "[updateMainTab]";
     ui->tabWidget->setDisabled(true);
     QList<QStringList> profiles = netctlCommand->getProfileList();;
 
@@ -270,9 +337,39 @@ void MainWindow::updateMainTab()
 }
 
 
+void MainWindow::updateMenuMain()
+{
+    if (debug) qDebug() << "[MainWindow]" << "[updateMenuMain]";
+
+    ui->actionMainRefresh->setVisible(true);
+    if (ui->tableWidget_main->currentItem() == 0)
+        return;
+    QString item = ui->tableWidget_main->item(ui->tableWidget_main->currentItem()->row(), 2)->text();
+    if (!checkState(QString("inactive"), item)) {
+        ui->actionMainRestart->setVisible(true);
+        ui->actionMainStart->setText(QApplication::translate("MainWindow", "Stop profile"));
+        ui->actionMainStart->setIcon(QIcon::fromTheme("dialog-close"));
+    }
+    else {
+        ui->actionMainRestart->setVisible(false);
+        ui->actionMainStart->setText(QApplication::translate("MainWindow", "Start profile"));
+        ui->actionMainStart->setIcon(QIcon::fromTheme("dialog-apply"));
+    }
+    ui->actionMainStart->setVisible(true);
+    if (checkState(QString("enabled"), item))
+        ui->actionMainEnable->setText(QApplication::translate("MainWindow", "Disable profile"));
+    else
+        ui->actionMainEnable->setText(QApplication::translate("MainWindow", "Enable profile"));
+    ui->actionMainEnable->setVisible(true);
+    ui->actionMainEdit->setVisible(true);
+    ui->actionMainRemove->setVisible(true);
+}
+
+
 void MainWindow::updateProfileTab()
 {
     if (debug) qDebug() << "[MainWindow]" << "[updateProfileTab]";
+
     ui->tabWidget->setDisabled(true);
     profileTabClear();
     ui->tabWidget->setEnabled(true);
@@ -282,8 +379,28 @@ void MainWindow::updateProfileTab()
 }
 
 
+void MainWindow::updateMenuProfile()
+{
+    if (debug) qDebug() << "[MainWindow]" << "[updateMenuProfile]";
+
+    ui->actionProfileClear->setVisible(true);
+    if (ui->lineEdit_profile->text().isEmpty()) {
+        ui->actionProfileLoad->setVisible(false);
+        ui->actionProfileRemove->setVisible(false);
+        ui->actionProfileSave->setVisible(false);
+    }
+    else {
+        ui->actionProfileLoad->setVisible(true);
+        ui->actionProfileRemove->setVisible(true);
+        ui->actionProfileSave->setVisible(true);
+    }
+}
+
+
 void MainWindow::updateWifiTab()
 {
+    if (debug) qDebug() << "[MainWindow]" << "[updateWifiTab]";
+
     wifiTabSetEnabled(checkExternalApps(QString("wpasup")));
     if (!checkExternalApps(QString("wpasup"))) {
         errorWin = new ErrorWindow(this, debug, 1);
@@ -293,7 +410,6 @@ void MainWindow::updateWifiTab()
 
     QList<QStringList> scanResults = wpaCommand->scanWifi();
 
-    if (debug) qDebug() << "[MainWindow]" << "[updateWifiTab]";
     ui->tabWidget->setDisabled(true);
     ui->tableWidget_wifi->setSortingEnabled(false);
     ui->tableWidget_wifi->selectRow(-1);
@@ -334,10 +450,39 @@ void MainWindow::updateWifiTab()
 }
 
 
+void MainWindow::updateMenuWifi()
+{
+    if (debug) qDebug() << "[MainWindow]" << "[updateMenuWifi]";
+
+    ui->actionWifiRefresh->setVisible(true);
+    if (ui->tableWidget_wifi->currentItem() == 0)
+        return;
+    QString item = ui->tableWidget_wifi->item(ui->tableWidget_wifi->currentItem()->row(), 1)->text();
+    if (checkState(QString("exists"), item)) {
+        if (!checkState(QString("inactive"), item)) {
+            ui->actionWifiStart->setText(QApplication::translate("MainWindow", "Stop WiFi"));
+            ui->actionWifiStart->setIcon(QIcon::fromTheme("dialog-close"));
+        }
+        else {
+            ui->actionWifiStart->setText(QApplication::translate("MainWindow", "Start WiFi"));
+            ui->actionWifiStart->setIcon(QIcon::fromTheme("dialog-apply"));
+        }
+    }
+    else {
+        ui->actionWifiStart->setText(QApplication::translate("MainWindow", "Start WiFi"));
+        ui->actionWifiStart->setIcon(QIcon::fromTheme("dialog-apply"));
+    }
+    ui->actionWifiStart->setVisible(true);
+}
+
+
 // main tab slots
 void MainWindow::mainTabContextualMenu(const QPoint &pos)
 {
     if (debug) qDebug() << "[MainWindow]" << "[mainTabContextualMenu]";
+
+    if (ui->tableWidget_main->currentItem() == 0)
+        return;
 
     // create menu
     QMenu menu(this);
@@ -349,6 +494,8 @@ void MainWindow::mainTabContextualMenu(const QPoint &pos)
     restartProfile->setIcon(QIcon::fromTheme("stock-refresh"));
     QAction *enableProfile = menu.addAction(QApplication::translate("MainWindow", "Enable profile"));
     menu.addSeparator();
+    QAction *editProfile = menu.addAction(QApplication::translate("MainWindow", "Edit profile"));
+    editProfile->setIcon(QIcon::fromTheme("edit"));
     QAction *removeProfile = menu.addAction(QApplication::translate("MainWindow", "Remove profile"));
     removeProfile->setIcon(QIcon::fromTheme("edit-delete"));
 
@@ -387,6 +534,10 @@ void MainWindow::mainTabContextualMenu(const QPoint &pos)
         if (debug) qDebug() << "[MainWindow]" << "[mainTabContextualMenu]" << "Enable profile";
         mainTabEnableProfile();
     }
+    else if (action == editProfile) {
+        if (debug) qDebug() << "[MainWindow]" << "[mainTabContextualMenu]" << "Edit profile";
+        mainTabEditProfile();
+    }
     else if (action == removeProfile) {
         if (debug) qDebug() << "[MainWindow]" << "[mainTabContextualMenu]" << "Remove profile";
         mainTabRemoveProfile();
@@ -394,9 +545,23 @@ void MainWindow::mainTabContextualMenu(const QPoint &pos)
 }
 
 
+void MainWindow::mainTabEditProfile()
+{
+    if (debug) qDebug() << "[MainWindow]" << "[mainTabEditProfile]";
+
+    ui->tabWidget->setDisabled(true);
+    QString profile = ui->tableWidget_main->item(ui->tableWidget_main->currentItem()->row(), 0)->text();
+    ui->tabWidget->setCurrentIndex(1);
+    ui->lineEdit_profile->setText(profile);
+
+    profileTabLoadProfile();
+}
+
+
 void MainWindow::mainTabRemoveProfile()
 {
     if (debug) qDebug() << "[MainWindow]" << "[mainTabRemoveProfile]";
+
     ui->tabWidget->setDisabled(true);
     // call netctlprofile
     QString profile = ui->tableWidget_main->item(ui->tableWidget_main->currentItem()->row(), 0)->text();
@@ -411,6 +576,8 @@ void MainWindow::mainTabRemoveProfile()
 
 void MainWindow::mainTabEnableProfile()
 {
+    if (debug) qDebug() << "[MainWindow]" << "[mainTabEnableProfile]";
+
     if (!checkExternalApps(QString("netctl"))) {
         errorWin = new ErrorWindow(this, debug, 1);
         errorWin->show();
@@ -419,7 +586,6 @@ void MainWindow::mainTabEnableProfile()
     if (ui->tableWidget_main->currentItem() == 0)
         return;
 
-    if (debug) qDebug() << "[MainWindow]" << "[mainTabEnableProfile]";
     ui->tabWidget->setDisabled(true);
     QString profile = ui->tableWidget_main->item(ui->tableWidget_main->currentItem()->row(), 0)->text();
     netctlCommand->enableProfile(profile);
@@ -436,12 +602,15 @@ void MainWindow::mainTabEnableProfile()
         else
             ui->statusBar->showMessage(QApplication::translate("MainWindow", "Error"));
     }
+
     updateMainTab();
 }
 
 
 void MainWindow::mainTabRestartProfile()
 {
+    if (debug) qDebug() << "[MainWindow]" << "[mainTabRestartProfile]";
+
     if (!checkExternalApps(QString("netctl"))) {
         errorWin = new ErrorWindow(this, debug, 1);
         errorWin->show();
@@ -450,7 +619,6 @@ void MainWindow::mainTabRestartProfile()
     if (ui->tableWidget_main->currentItem() == 0)
         return;
 
-    if (debug) qDebug() << "[MainWindow]" << "[mainTabRestartProfile]";
     ui->tabWidget->setDisabled(true);
     QString profile = ui->tableWidget_main->item(ui->tableWidget_main->currentItem()->row(), 0)->text();
     netctlCommand->restartProfile(profile);
@@ -458,12 +626,15 @@ void MainWindow::mainTabRestartProfile()
         ui->statusBar->showMessage(QApplication::translate("MainWindow", "Done"));
     else
         ui->statusBar->showMessage(QApplication::translate("MainWindow", "Error"));
+
     updateMainTab();
 }
 
 
 void MainWindow::mainTabStartProfile()
 {
+    if (debug) qDebug() << "[MainWindow]" << "[mainTabStartProfile]";
+
     if (!checkExternalApps(QString("netctl"))) {
         errorWin = new ErrorWindow(this, debug, 1);
         errorWin->show();
@@ -472,7 +643,6 @@ void MainWindow::mainTabStartProfile()
     if (ui->tableWidget_main->currentItem() == 0)
         return;
 
-    if (debug) qDebug() << "[MainWindow]" << "[mainTabStartProfile]";
     ui->tabWidget->setDisabled(true);
     QString profile = ui->tableWidget_main->item(ui->tableWidget_main->currentItem()->row(), 0)->text();
     netctlCommand->startProfile(profile);
@@ -489,6 +659,7 @@ void MainWindow::mainTabStartProfile()
         else
             ui->statusBar->showMessage(QApplication::translate("MainWindow", "Error"));
     }
+
     updateMainTab();
 }
 
@@ -496,20 +667,19 @@ void MainWindow::mainTabStartProfile()
 void MainWindow::mainTabRefreshButtons(QTableWidgetItem *current, QTableWidgetItem *previous)
 {
     Q_UNUSED(previous);
+    if (debug) qDebug() << "[MainWindow]" << "[mainTabRefreshButtons]";
+
     if (!checkExternalApps(QString("netctl"))) {
         errorWin = new ErrorWindow(this, debug, 1);
         errorWin->show();
         return;
     }
     if (current == 0) {
-        ui->pushButton_mainEnable->setDisabled(true);
         ui->pushButton_mainRestart->setDisabled(true);
         ui->pushButton_mainStart->setDisabled(true);
         return;
     }
 
-    if (debug) qDebug() << "[MainWindow]" << "[mainTabRefreshButtons]";
-    ui->pushButton_mainEnable->setEnabled(true);
     ui->pushButton_mainStart->setEnabled(true);
 
     QString item = ui->tableWidget_main->item(current->row(), 2)->text();
@@ -523,10 +693,6 @@ void MainWindow::mainTabRefreshButtons(QTableWidgetItem *current, QTableWidgetIt
         ui->pushButton_mainStart->setText(QApplication::translate("MainWindow", "Start"));
         ui->pushButton_mainStart->setIcon(QIcon::fromTheme("dialog-apply"));
     }
-    if (checkState(QString("enabled"), item))
-        ui->pushButton_mainEnable->setText(QApplication::translate("MainWindow", "Disable"));
-    else
-        ui->pushButton_mainEnable->setText(QApplication::translate("MainWindow", "Enable"));
 }
 
 
@@ -534,6 +700,7 @@ void MainWindow::mainTabRefreshButtons(QTableWidgetItem *current, QTableWidgetIt
 void MainWindow::profileTabBrowseProfile()
 {
     if (debug) qDebug() << "[MainWindow]" << "[profileTabBrowseProfile]";
+
     QString filename = QFileDialog::getSaveFileName(
                 this,
                 QApplication::translate("MainWindow", "Save profile as..."),
@@ -547,6 +714,8 @@ void MainWindow::profileTabBrowseProfile()
 void MainWindow::profileTabChangeState(const QString current)
 {
     if (debug) qDebug() << "[MainWindow]" << "[profileTabChangeState]";
+    if (debug) qDebug() << "[MainWindow]" << "[profileTabChangeState]" << ":" << "Current type" << current;
+
     if (current == QString("ethernet")) {
         generalWid->setShown(true);
         ipWid->setShown(true);
@@ -684,6 +853,7 @@ void MainWindow::profileTabChangeState(const QString current)
 void MainWindow::profileTabClear()
 {
     if (debug) qDebug() << "[MainWindow]" << "[profileTabClear]";
+
     ui->lineEdit_profile->clear();
 
     generalWid->clear();
@@ -704,6 +874,8 @@ void MainWindow::profileTabClear()
 
 void MainWindow::profileTabCreateProfile()
 {
+    if (debug) qDebug() << "[MainWindow]" << "[profileTabCreateProfile]";
+
     // error checking
     if (ui->lineEdit_profile->text().isEmpty()) {
         errorWin = new ErrorWindow(this, debug, 3);
@@ -839,10 +1011,9 @@ void MainWindow::profileTabCreateProfile()
         }
     }
 
-    if (debug) qDebug() << "[MainWindow]" << "[profileTabCreateProfile]";
     ui->tabWidget->setDisabled(true);
     // read settings
-    QString profile = ui->lineEdit_profile->text();
+    QString profile = netctlProfile->getNameByString(ui->lineEdit_profile->text());
     QMap<QString, QString> settings;
     settings = generalWid->getSettings();
     if (generalWid->connectionType->currentText() == QString("ethernet")) {
@@ -938,7 +1109,8 @@ void MainWindow::profileTabCreateProfile()
 void MainWindow::profileTabLoadProfile()
 {
     if (debug) qDebug() << "[MainWindow]" << "[profileTabLoadProfile]";
-    QString profile = ui->lineEdit_profile->text();
+
+    QString profile = netctlProfile->getNameByString(ui->lineEdit_profile->text());
     QMap<QString, QString> settings = netctlProfile->getSettingsFromProfile(profile);
 
     generalWid->setSettings(settings);
@@ -985,10 +1157,29 @@ void MainWindow::profileTabLoadProfile()
 }
 
 
+void MainWindow::profileTabRemoveProfile()
+{
+    if (debug) qDebug() << "[MainWindow]" << "[profileTabRemoveProfile]";
+
+    ui->tabWidget->setDisabled(true);
+    // call netctlprofile
+    QString profile = netctlProfile->getNameByString(ui->lineEdit_profile->text());
+    if (netctlProfile->removeProfile(profile))
+        ui->statusBar->showMessage(QApplication::translate("MainWindow", "Done"));
+    else
+        ui->statusBar->showMessage(QApplication::translate("MainWindow", "Error"));
+
+    updateProfileTab();
+}
+
+
 // wifi tab slots
 void MainWindow::wifiTabContextualMenu(const QPoint &pos)
 {
     if (debug) qDebug() << "[MainWindow]" << "[wifiTabContextualMenu]";
+
+    if (ui->tableWidget_wifi->currentItem() == 0)
+        return;
 
     // create menu
     QMenu menu(this);
@@ -1029,6 +1220,9 @@ void MainWindow::wifiTabContextualMenu(const QPoint &pos)
 
 void MainWindow::wifiTabSetEnabled(const bool state)
 {
+    if (debug) qDebug() << "[MainWindow]" << "[wifiTabSetEnables]";
+    if (debug) qDebug() << "[MainWindow]" << "[wifiTabSetEnables]" << ":" << "State" << state;
+
     if (state) {
         ui->tableWidget_wifi->show();
         ui->pushButton_wifiRefresh->setEnabled(true);
@@ -1045,10 +1239,11 @@ void MainWindow::wifiTabSetEnabled(const bool state)
 
 void MainWindow::connectToUnknownEssid(const QString passwd)
 {
+    if (debug) qDebug() << "[MainWindow]" << "[connectToUnknownEssid]";
+
     if (!passwd.isEmpty())
         delete passwdWid;
 
-    if (debug) qDebug() << "[MainWindow]" << "[connectToUnknownEssid]";
     QMap<QString, QString> settings;
     settings[QString("Description")] = QString("'Automatically generated profile by Netctl GUI'");
     settings[QString("Interface")] = wpaCommand->getInterfaceList()[0];
@@ -1076,19 +1271,26 @@ void MainWindow::connectToUnknownEssid(const QString passwd)
         ui->statusBar->showMessage(QApplication::translate("MainWindow", "Done"));
     else
         ui->statusBar->showMessage(QApplication::translate("MainWindow", "Error"));
+
     updateWifiTab();
 }
 
 
 void MainWindow::setHiddenName(const QString name)
 {
+    if (debug) qDebug() << "[MainWindow]" << "[setHiddenName]";
+    if (debug) qDebug() << "[MainWindow]" << "[setHiddenName]" << ":" << "Set name" << name;
+
     ui->tableWidget_wifi->item(ui->tableWidget_wifi->currentItem()->row(), 0)->setText(name);
+
     wifiTabStart();
 }
 
 
 void MainWindow::wifiTabStart()
 {
+    if (debug) qDebug() << "[MainWindow]" << "[wifiTabStart]";
+
     if (!checkExternalApps(QString("wpasup"))) {
         errorWin = new ErrorWindow(this, debug, 1);
         errorWin->show();
@@ -1109,7 +1311,6 @@ void MainWindow::wifiTabStart()
         return;
     }
 
-    if (debug) qDebug() << "[MainWindow]" << "[wifiTabStart]";
     ui->tabWidget->setDisabled(true);
     QString profile = ui->tableWidget_wifi->item(ui->tableWidget_wifi->currentItem()->row(), 0)->text();
     QString item = ui->tableWidget_wifi->item(ui->tableWidget_wifi->currentItem()->row(), 1)->text();
@@ -1147,6 +1348,7 @@ void MainWindow::wifiTabStart()
             return;
         }
     }
+
     updateWifiTab();
 }
 
@@ -1154,6 +1356,8 @@ void MainWindow::wifiTabStart()
 void MainWindow::wifiTabRefreshButtons(QTableWidgetItem *current, QTableWidgetItem *previous)
 {
     Q_UNUSED(previous);
+    if (debug) qDebug() << "[MainWindow]" << "[wifiTabRefreshButtons]";
+
     if (!checkExternalApps(QString("wpasup"))) {
         errorWin = new ErrorWindow(this, debug, 1);
         errorWin->show();
@@ -1168,7 +1372,6 @@ void MainWindow::wifiTabRefreshButtons(QTableWidgetItem *current, QTableWidgetIt
         return;
     }
 
-    if (debug) qDebug() << "[MainWindow]" << "[wifiTabRefreshButtons]";
     ui->pushButton_wifiStart->setEnabled(true);
     QString item = ui->tableWidget_wifi->item(current->row(), 1)->text();
     if (checkState(QString("exists"), item)) {

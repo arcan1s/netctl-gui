@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>487</width>
-    <height>515</height>
+    <width>483</width>
+    <height>511</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -90,16 +90,6 @@
            </widget>
           </item>
           <item>
-           <widget class="QPushButton" name="pushButton_mainRemove">
-            <property name="text">
-             <string>Remove</string>
-            </property>
-            <property name="autoDefault">
-             <bool>true</bool>
-            </property>
-           </widget>
-          </item>
-          <item>
            <spacer name="spacer_mainButtons">
             <property name="orientation">
              <enum>Qt::Horizontal</enum>
@@ -111,19 +101,6 @@
              </size>
             </property>
            </spacer>
-          </item>
-          <item>
-           <widget class="QPushButton" name="pushButton_mainEnable">
-            <property name="enabled">
-             <bool>false</bool>
-            </property>
-            <property name="text">
-             <string>Enable</string>
-            </property>
-            <property name="autoDefault">
-             <bool>true</bool>
-            </property>
-           </widget>
           </item>
           <item>
            <widget class="QPushButton" name="pushButton_mainRestart">
@@ -203,8 +180,8 @@
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>96</width>
-             <height>26</height>
+             <width>451</width>
+             <height>353</height>
             </rect>
            </property>
            <property name="sizePolicy">
@@ -371,7 +348,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>487</width>
+     <width>483</width>
      <height>22</height>
     </rect>
    </property>
@@ -382,12 +359,34 @@
     <addaction name="actionSettings"/>
     <addaction name="actionQuit"/>
    </widget>
+   <widget class="QMenu" name="menuActions">
+    <property name="title">
+     <string>Actions</string>
+    </property>
+    <addaction name="actionMainRefresh"/>
+    <addaction name="actionWifiRefresh"/>
+    <addaction name="actionProfileClear"/>
+    <addaction name="separator"/>
+    <addaction name="actionMainStart"/>
+    <addaction name="actionMainRestart"/>
+    <addaction name="actionMainEnable"/>
+    <addaction name="actionProfileLoad"/>
+    <addaction name="actionProfileSave"/>
+    <addaction name="actionWifiStart"/>
+    <addaction name="separator"/>
+    <addaction name="actionMainEdit"/>
+    <addaction name="actionMainRemove"/>
+    <addaction name="actionProfileRemove"/>
+   </widget>
    <addaction name="menuMenu"/>
+   <addaction name="menuActions"/>
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
   <action name="actionSettings">
    <property name="icon">
-    <iconset theme="configure"/>
+    <iconset theme="configure">
+     <normaloff/>
+    </iconset>
    </property>
    <property name="text">
     <string>Settings</string>
@@ -398,7 +397,9 @@
   </action>
   <action name="actionQuit">
    <property name="icon">
-    <iconset theme="exit"/>
+    <iconset theme="exit">
+     <normaloff/>
+    </iconset>
    </property>
    <property name="text">
     <string>Quit</string>
@@ -407,13 +408,104 @@
     <string>Ctrl+Q</string>
    </property>
   </action>
+  <action name="actionMainRefresh">
+   <property name="icon">
+    <iconset theme="stock-refresh"/>
+   </property>
+   <property name="text">
+    <string>Refresh</string>
+   </property>
+  </action>
+  <action name="actionMainStart">
+   <property name="icon">
+    <iconset theme="dialog-apply"/>
+   </property>
+   <property name="text">
+    <string>Start profile</string>
+   </property>
+  </action>
+  <action name="actionMainRestart">
+   <property name="icon">
+    <iconset theme="stock-refresh"/>
+   </property>
+   <property name="text">
+    <string>Restart profile</string>
+   </property>
+  </action>
+  <action name="actionMainEnable">
+   <property name="text">
+    <string>Enable profile</string>
+   </property>
+  </action>
+  <action name="actionMainEdit">
+   <property name="icon">
+    <iconset theme="edit"/>
+   </property>
+   <property name="text">
+    <string>Edit profile</string>
+   </property>
+  </action>
+  <action name="actionMainRemove">
+   <property name="icon">
+    <iconset theme="edit-delete"/>
+   </property>
+   <property name="text">
+    <string>Remove profile</string>
+   </property>
+  </action>
+  <action name="actionProfileClear">
+   <property name="icon">
+    <iconset theme="edit-clear"/>
+   </property>
+   <property name="text">
+    <string>Clear</string>
+   </property>
+  </action>
+  <action name="actionWifiRefresh">
+   <property name="icon">
+    <iconset theme="stock-refresh"/>
+   </property>
+   <property name="text">
+    <string>Refresh</string>
+   </property>
+  </action>
+  <action name="actionProfileLoad">
+   <property name="icon">
+    <iconset theme="document-open"/>
+   </property>
+   <property name="text">
+    <string>Load profile</string>
+   </property>
+  </action>
+  <action name="actionProfileSave">
+   <property name="icon">
+    <iconset theme="document-save"/>
+   </property>
+   <property name="text">
+    <string>Save profile</string>
+   </property>
+  </action>
+  <action name="actionWifiStart">
+   <property name="icon">
+    <iconset theme="dialog-apply"/>
+   </property>
+   <property name="text">
+    <string>Start Wi-Fi</string>
+   </property>
+  </action>
+  <action name="actionProfileRemove">
+   <property name="icon">
+    <iconset theme="edit-delete"/>
+   </property>
+   <property name="text">
+    <string>Remove profile</string>
+   </property>
+  </action>
  </widget>
  <tabstops>
   <tabstop>tabWidget</tabstop>
   <tabstop>tableWidget_main</tabstop>
   <tabstop>pushButton_mainRefresh</tabstop>
-  <tabstop>pushButton_mainRemove</tabstop>
-  <tabstop>pushButton_mainEnable</tabstop>
   <tabstop>pushButton_mainRestart</tabstop>
   <tabstop>pushButton_mainStart</tabstop>
   <tabstop>lineEdit_profile</tabstop>

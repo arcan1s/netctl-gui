@@ -27,6 +27,19 @@ Language::Language(const QString configPath)
 }
 
 
+QString Language::checkLanguage(const QString language, const QString defaultLanguage)
+{
+    QStringList availableLanguages = getAvailableLanguages();
+    for (int i=0; i<availableLanguages.count(); i++)
+        if (language == availableLanguages[i])
+            return availableLanguages[i];
+    for (int i=0; i<availableLanguages.count(); i++)
+        if (language.contains(availableLanguages[i] + QChar('_')))
+            return availableLanguages[i];
+    return defaultLanguage;
+}
+
+
 QString Language::defineLanguage(const QString configPath)
 {
     QString language;
@@ -65,19 +78,6 @@ QString Language::defineLanguageFromFile(const QString configPath)
 QString Language::defineLanguageFromLocale()
 {
     return QLocale::system().name();
-}
-\
-
-QString Language::checkLanguage(const QString language, const QString defaultLanguage)
-{
-    QStringList availableLanguages = getAvailableLanguages();
-    for (int i=0; i<availableLanguages.count(); i++)
-        if (language == availableLanguages[i])
-            return availableLanguages[i];
-    for (int i=0; i<availableLanguages.count(); i++)
-        if (language.contains(availableLanguages[i] + QChar('_')))
-            return availableLanguages[i];
-    return defaultLanguage;
 }
 
 

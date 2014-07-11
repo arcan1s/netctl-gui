@@ -17,8 +17,12 @@ message (STATUS "Version: ${PROJECT_VERSION}")
 # install options
 option (USE_QT5 "Use Qt5 instead of Qt4" ON)
 option (BUILD_GUI "Build GUI" ON)
+option (BUILD_LIBRARY "Build library" ON)
 option (BUILD_DATAENGINE "Build data engine" ON)
 option (BUILD_PLASMOID "Build plasmoid" ON)
+if (BUILD_GUI)
+  set (BUILD_LIBRARY ON)
+endif ()
 if (BUILD_PLASMOID)
   set (BUILD_DATAENGINE ON)
 endif ()
@@ -34,10 +38,14 @@ else ()
 endif ()
 
 # resources
+set (PROJECT_LIBRARY netctlgui)
 set (PROJECT_RESOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/resources)
 add_subdirectory (${PROJECT_RESOURCE_DIR})
 
 # components
+if (BUILD_LIBRARY)
+    add_subdirectory (${PROJECT_LIBRARY})
+endif()
 if (BUILD_GUI)
   add_subdirectory (gui)
 endif ()

@@ -15,53 +15,33 @@
  *   along with netctl-gui. If not, see http://www.gnu.org/licenses/       *
  ***************************************************************************/
 
-#ifndef WPASUPINTERACT_H
-#define WPASUPINTERACT_H
+#ifndef NETCTLPROFILE_H
+#define NETCTLPROFILE_H
 
 #include <QDir>
 #include <QMap>
 #include <QObject>
 
 
-class MainWindow;
-
-class WpaSup : public QObject
+class NetctlProfile : public QObject
 {
     Q_OBJECT
 
 public:
-    explicit WpaSup(MainWindow *wid = 0,
-                    const bool debugCmd = false,
-                    const QMap<QString, QString> settings = QMap<QString, QString>());
-    ~WpaSup();
-    // general information
-    QString existentProfile(const QString profile);
-    QStringList getInterfaceList();
-    bool isProfileActive(const QString profile);
-    bool isProfileExists(const QString profile);
-
-public slots:
-    // functions
-    QList<QStringList> scanWifi();
-    bool startWpaSupplicant();
-    bool stopWpaSupplicant();
+    explicit NetctlProfile(const bool debugCmd = false,
+                           const QMap<QString, QString> settings = QMap<QString, QString>());
+    ~NetctlProfile();
+    bool copyProfile(const QString oldPath);
+    bool removeProfile(const QString profile);
+    QString createProfile(const QString profile, const QMap<QString, QString> settings);
+    QString getNameByString(const QString profile);
+    QMap<QString, QString> getSettingsFromProfile(const QString profile);
 
 private:
-    MainWindow *parent;
     bool debug;
-    QString ctrlDir;
-    QString ctrlGroup;
-    QDir *ifaceDirectory;
-    QString mainInterface;
-    QString pidFile;
+    QDir *profileDirectory;
     QString sudoCommand;
-    QString wpaCliPath;
-    QString wpaDrivers;
-    QString wpaSupPath;
-    // functions
-    bool wpaCliCall(const QString commandLine);
-    QString getWpaCliOutput(const QString commandLine);
 };
 
 
-#endif /* WPASUPINTERACT_H */
+#endif /* NETCTLPROFILE_H */

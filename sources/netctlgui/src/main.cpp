@@ -15,36 +15,14 @@
  *   along with netctl-gui. If not, see http://www.gnu.org/licenses/       *
  ***************************************************************************/
 
-#ifndef NETCTLPROFILE_H
-#define NETCTLPROFILE_H
 
-#include <QDir>
-#include <QMap>
-#include <QObject>
+#include <netctlgui/netctlinteract.h>
+#include <netctlgui/netctlprofile.h>
+#include <netctlgui/sleepthread.h>
+#include <netctlgui/wpasupinteract.h>
 
 
-class MainWindow;
-
-class NetctlProfile : public QObject
+int main(int argc, char *argv[])
 {
-    Q_OBJECT
-
-public:
-    explicit NetctlProfile(MainWindow *wid = 0,
-                           const bool debugCmd = false,
-                           const QMap<QString, QString> settings = QMap<QString, QString>());
-    ~NetctlProfile();
-    bool copyProfile(const QString oldPath);
-    bool removeProfile(const QString profile);
-    QString createProfile(const QString profile, const QMap<QString, QString> settings);
-    QMap<QString, QString> getSettingsFromProfile(const QString profile);
-
-private:
-    MainWindow *parent;
-    bool debug;
-    QDir *profileDirectory;
-    QString sudoCommand;
-};
-
-
-#endif /* NETCTLPROFILE_H */
+    return 0;
+}

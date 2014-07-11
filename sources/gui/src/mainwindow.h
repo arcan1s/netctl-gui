@@ -55,9 +55,6 @@ public:
                         const bool debugCmd = false,
                         const int tabNum = 1);
     ~MainWindow();
-    Netctl *netctlCommand;
-    NetctlProfile *netctlProfile;
-    WpaSup *wpaCommand;
 
 public slots:
     void updateTabs(const int tab);
@@ -66,11 +63,19 @@ public slots:
     void setHiddenName(const QString name);
 
 private slots:
+    // menu update slots
+    void setMenuActionsShown(const bool state = true);
+    void updateMenu();
+    void updateMenuMain();
+    void updateMenuProfile();
+    void updateMenuWifi();
+    // tab update slots
     void updateMainTab();
     void updateProfileTab();
     void updateWifiTab();
     // main tab slots
     void mainTabContextualMenu(const QPoint &pos);
+    void mainTabEditProfile();
     void mainTabRemoveProfile();
     void mainTabEnableProfile();
     void mainTabRestartProfile();
@@ -82,6 +87,7 @@ private slots:
     void profileTabClear();
     void profileTabCreateProfile();
     void profileTabLoadProfile();
+    void profileTabRemoveProfile();
     // wifi tab slots
     void wifiTabContextualMenu(const QPoint &pos);
     void wifiTabSetEnabled(const bool state);
@@ -103,6 +109,9 @@ private:
     VlanWidget *vlanWid;
     WirelessWidget *wirelessWid;
     // backend
+    Netctl *netctlCommand;
+    NetctlProfile *netctlProfile;
+    WpaSup *wpaCommand;
     ErrorWindow *errorWin;
     PasswdWidget *passwdWid;
     SettingsWindow *settingsWin;

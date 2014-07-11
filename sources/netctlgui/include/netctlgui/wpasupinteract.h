@@ -15,49 +15,52 @@
  *   along with netctl-gui. If not, see http://www.gnu.org/licenses/       *
  ***************************************************************************/
 
-#ifndef NETCTLINTERACT_H
-#define NETCTLINTERACT_H
+#ifndef WPASUPINTERACT_H
+#define WPASUPINTERACT_H
 
 #include <QDir>
 #include <QMap>
 #include <QObject>
 
 
-class MainWindow;
+class Netctl;
 
-class Netctl : public QObject
+class WpaSup : public QObject
 {
     Q_OBJECT
 
 public:
-    explicit Netctl(MainWindow *wid = 0,
-                    const bool debugCmd = false,
+    explicit WpaSup(const bool debugCmd = false,
                     const QMap<QString, QString> settings = QMap<QString, QString>());
-    ~Netctl();
+    ~WpaSup();
     // general information
-    QList<QStringList> getProfileList();
-    QStringList getProfileDescriptions(const QStringList profileList);
-    QStringList getProfileStatuses(const QStringList profileList);
-    QString getSsidFromProfile(const QString profile);
+    QString existentProfile(const QString profile);
+    QStringList getInterfaceList();
     bool isProfileActive(const QString profile);
-    bool isProfileEnabled(const QString profile);
+    bool isProfileExists(const QString profile);
 
 public slots:
     // functions
-    bool enableProfile(const QString profile);
-    bool restartProfile(const QString profile);
-    bool startProfile(const QString profile);
+    QList<QStringList> scanWifi();
+    bool startWpaSupplicant();
+    bool stopWpaSupplicant();
 
 private:
-    MainWindow *parent;
+    Netctl *netctlCommand;
     bool debug;
-    QString netctlCommand;
-    QDir *profileDirectory;
+    QString ctrlDir;
+    QString ctrlGroup;
+    QDir *ifaceDirectory;
+    QString mainInterface;
+    QString pidFile;
     QString sudoCommand;
+    QString wpaCliPath;
+    QString wpaDrivers;
+    QString wpaSupPath;
     // functions
-    QString getNetctlOutput(const bool sudo, const QString commandLine, const QString profile);
-    bool netctlCall(const bool sudo, const QString commandLine, const QString profile);
+    bool wpaCliCall(const QString commandLine);
+    QString getWpaCliOutput(const QString commandLine);
 };
 
 
-#endif /* NETCTLINTERACT_H */
+#endif /* WPASUPINTERACT_H */

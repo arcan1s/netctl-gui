@@ -23,6 +23,7 @@
 #include <QFileDialog>
 #include <QTextStream>
 
+#include "language.h"
 #include "mainwindow.h"
 
 
@@ -41,12 +42,16 @@ SettingsWindow::SettingsWindow(MainWindow *wid, const bool debugCmd, const QStri
 
 SettingsWindow::~SettingsWindow()
 {
+    if (debug) qDebug() << "[SettingsWindow]" << "[~SettingsWindow]";
+
     delete ui;
 }
 
 
 void SettingsWindow::createActions()
 {
+    if (debug) qDebug() << "[SettingsWindow]" << "[createActions]";
+
     connect(ui->comboBox_language, SIGNAL(currentIndexChanged(int)), ui->label_info, SLOT(show()));
     connect(ui->buttonBox->button(QDialogButtonBox::Cancel), SIGNAL(clicked(bool)), this, SLOT(close()));
     connect(ui->buttonBox->button(QDialogButtonBox::Reset), SIGNAL(clicked(bool)), this, SLOT(setDefault()));
@@ -66,6 +71,8 @@ void SettingsWindow::createActions()
 // ESC press event
 void SettingsWindow::keyPressEvent(QKeyEvent *pressedKey)
 {
+    if (debug) qDebug() << "[SettingsWindow]" << "[keyPressEvent]";
+
     if (pressedKey->key() == Qt::Key_Escape)
         close();
 }
@@ -73,14 +80,17 @@ void SettingsWindow::keyPressEvent(QKeyEvent *pressedKey)
 
 void SettingsWindow::addLanguages()
 {
+    if (debug) qDebug() << "[SettingsWindow]" << "[addLanguages]";
+
     ui->comboBox_language->clear();
-    ui->comboBox_language->addItem(QString("en"));
-    ui->comboBox_language->addItem(QString("ru"));
+    ui->comboBox_language->addItems(Language::getAvailableLanguages());
 }
 
 
 void SettingsWindow::saveSettings()
 {
+    if (debug) qDebug() << "[SettingsWindow]" << "[saveSettings]";
+
     QMap<QString, QString> settings = readSettings();
     QFile configFile(file);
 
@@ -95,6 +105,8 @@ void SettingsWindow::saveSettings()
 
 void SettingsWindow::setDefault()
 {
+    if (debug) qDebug() << "[SettingsWindow]" << "[setDefault]";
+
     setSettings(getDefault());
     saveSettings();
 }
@@ -102,6 +114,8 @@ void SettingsWindow::setDefault()
 
 void SettingsWindow::selectIfaceDir()
 {
+    if (debug) qDebug() << "[SettingsWindow]" << "[selectIfaceDir]";
+
     QString directory = QFileDialog::getExistingDirectory(
                 this,
                 QApplication::translate("SettingsWindow", "Select path to directory with interfaces"),
@@ -113,6 +127,8 @@ void SettingsWindow::selectIfaceDir()
 
 void SettingsWindow::selectNetctlPath()
 {
+    if (debug) qDebug() << "[SettingsWindow]" << "[selectNetctlPath]";
+
     QString filename = QFileDialog::getOpenFileName(
                 this,
                 QApplication::translate("SettingsWindow", "Select netctl command"),
@@ -125,6 +141,8 @@ void SettingsWindow::selectNetctlPath()
 
 void SettingsWindow::selectProfileDir()
 {
+    if (debug) qDebug() << "[SettingsWindow]" << "[selectProfileDir]";
+
     QString directory = QFileDialog::getExistingDirectory(
                 this,
                 QApplication::translate("SettingsWindow", "Select path to profile directory"),
@@ -136,6 +154,8 @@ void SettingsWindow::selectProfileDir()
 
 void SettingsWindow::selectRfkillDir()
 {
+    if (debug) qDebug() << "[SettingsWindow]" << "[selectRfkillDir]";
+
     QString directory = QFileDialog::getExistingDirectory(
                 this,
                 QApplication::translate("SettingsWindow", "Select path to directory with rfkill devices"),
@@ -147,6 +167,8 @@ void SettingsWindow::selectRfkillDir()
 
 void SettingsWindow::selectSudoPath()
 {
+    if (debug) qDebug() << "[SettingsWindow]" << "[selectSudoPath]";
+
     QString filename = QFileDialog::getOpenFileName(
                 this,
                 QApplication::translate("SettingsWindow", "Select sudo command"),
@@ -159,6 +181,8 @@ void SettingsWindow::selectSudoPath()
 
 void SettingsWindow::selectWpaCliPath()
 {
+    if (debug) qDebug() << "[SettingsWindow]" << "[selectWpaCliPath]";
+
     QString filename = QFileDialog::getOpenFileName(
                 this,
                 QApplication::translate("SettingsWindow", "Select wpa_cli command"),
@@ -171,6 +195,8 @@ void SettingsWindow::selectWpaCliPath()
 
 void SettingsWindow::selectWpaSupPath()
 {
+    if (debug) qDebug() << "[SettingsWindow]" << "[selectWpaSupPath]";
+
     QString filename = QFileDialog::getOpenFileName(
                 this,
                 QApplication::translate("SettingsWindow", "Select wpa_supplicant command"),
@@ -183,6 +209,8 @@ void SettingsWindow::selectWpaSupPath()
 
 void SettingsWindow::showWindow()
 {
+    if (debug) qDebug() << "[SettingsWindow]" << "[showWindow]";
+
     setSettings(getSettings());
     ui->label_info->hide();
     show();
@@ -191,6 +219,8 @@ void SettingsWindow::showWindow()
 
 QMap<QString, QString> SettingsWindow::readSettings()
 {
+    if (debug) qDebug() << "[SettingsWindow]" << "[readSettings]";
+
     QMap<QString, QString> settings;
 
     settings[QString("CTRL_DIR")] = ui->lineEdit_wpaDir->text();
@@ -217,6 +247,8 @@ QMap<QString, QString> SettingsWindow::readSettings()
 
 void SettingsWindow::setSettings(const QMap<QString, QString> settings)
 {
+    if (debug) qDebug() << "[SettingsWindow]" << "[setSettings]";
+
     ui->lineEdit_wpaDir->setText(settings[QString("CTRL_DIR")]);
     ui->lineEdit_wpaGroup->setText(settings[QString("CTRL_GROUP")]);
     ui->lineEdit_interfacesDir->setText(settings[QString("IFACE_DIR")]);
@@ -242,6 +274,8 @@ void SettingsWindow::setSettings(const QMap<QString, QString> settings)
 
 QMap<QString, QString> SettingsWindow::getDefault()
 {
+    if (debug) qDebug() << "[SettingsWindow]" << "[getDefault]";
+
     QMap<QString, QString> settings;
 
     settings[QString("CTRL_DIR")] = QString("/run/wpa_supplicant_netctl-gui");
@@ -268,6 +302,8 @@ QMap<QString, QString> SettingsWindow::getDefault()
 
 QMap<QString, QString> SettingsWindow::getSettings()
 {
+    if (debug) qDebug() << "[SettingsWindow]" << "[getSettings]";
+
     QMap<QString, QString> settings;
     QFile configFile(file);
     QString fileStr;
