@@ -196,6 +196,7 @@ int PppoeWidget::isOk()
 
 void PppoeWidget::setSettings(const QMap<QString, QString> settings)
 {
+    clear();
     QMap<QString, QString> pppoeSettings = settings;
 
     if (pppoeSettings.contains(QString("User")))

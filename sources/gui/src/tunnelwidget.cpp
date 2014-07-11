@@ -109,6 +109,7 @@ int TunnelWidget::isOk()
 
 void TunnelWidget::setSettings(const QMap<QString, QString> settings)
 {
+    clear();
     QMap<QString, QString> tunnelSettings = settings;
 
     if (tunnelSettings.contains(QString("Mode")))

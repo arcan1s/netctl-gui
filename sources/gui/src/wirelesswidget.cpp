@@ -298,6 +298,7 @@ int WirelessWidget::isOk()
 
 void WirelessWidget::setSettings(const QMap<QString, QString> settings)
 {
+    clear();
     QMap<QString, QString> wirelessSettings = settings;
 
     if (wirelessSettings.contains(QString("Security")))

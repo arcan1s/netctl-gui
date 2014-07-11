@@ -82,7 +82,6 @@ private slots:
     void mainTabStartProfile();
     void mainTabRefreshButtons(QTableWidgetItem *current, QTableWidgetItem *previous);
     // profile tab slots
-    void profileTabBrowseProfile();
     void profileTabChangeState(const QString current);
     void profileTabClear();
     void profileTabCreateProfile();
@@ -118,6 +117,7 @@ private:
     bool checkExternalApps(const QString apps);
     bool checkState(const QString state, const QString item);
     void createActions();
+    void keyPressEvent(QKeyEvent *pressedKey);
     void setIconsToButtons();
     bool debug;
     // configuration

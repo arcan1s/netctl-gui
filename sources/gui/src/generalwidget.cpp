@@ -175,6 +175,7 @@ int GeneralWidget::isOk()
 
 void GeneralWidget::setSettings(const QMap<QString, QString> settings)
 {
+    clear();
     QMap<QString, QString> generalSettings = settings;
 
     if (generalSettings.contains(QString("Description")))

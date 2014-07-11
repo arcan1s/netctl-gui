@@ -71,6 +71,7 @@ int VlanWidget::isOk()
 
 void VlanWidget::setSettings(const QMap<QString, QString> settings)
 {
+    clear();
     QMap<QString, QString> vlanSettings = settings;
 
     if (vlanSettings.contains(QString("VLANID")))

@@ -194,11 +194,9 @@ void MainWindow::createActions()
     connect(ui->tableWidget_main, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(mainTabContextualMenu(QPoint)));
 
     // profile tab events
-    connect(ui->lineEdit_profile, SIGNAL(returnPressed()), this, SLOT(profileTabLoadProfile()));
-    connect(ui->pushButton_profile, SIGNAL(clicked(bool)), this, SLOT(profileTabBrowseProfile()));
+    connect(ui->comboBox_profile, SIGNAL(currentIndexChanged(QString)), this, SLOT(profileTabLoadProfile()));
     connect(ui->pushButton_profileClear, SIGNAL(clicked(bool)), this, SLOT(profileTabClear()));
     connect(ui->pushButton_profileSave, SIGNAL(clicked(bool)), this, SLOT(profileTabCreateProfile()));
-    connect(ui->pushButton_profileLoad, SIGNAL(clicked(bool)), this, SLOT(profileTabLoadProfile()));
     connect(generalWid->connectionType, SIGNAL(currentIndexChanged(QString)), this, SLOT(profileTabChangeState(QString)));
 
     // wifi tab events
@@ -207,6 +205,16 @@ void MainWindow::createActions()
     connect(ui->tableWidget_wifi, SIGNAL(itemActivated(QTableWidgetItem *)), this, SLOT(wifiTabStart()));
     connect(ui->tableWidget_wifi, SIGNAL(currentItemChanged(QTableWidgetItem *, QTableWidgetItem *)), this, SLOT(wifiTabRefreshButtons(QTableWidgetItem *, QTableWidgetItem *)));
     connect(ui->tableWidget_wifi, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(wifiTabContextualMenu(QPoint)));
+}
+
+
+void MainWindow::keyPressEvent(QKeyEvent *pressedKey)
+{
+    if (debug) qDebug() << "[MainWindow]" << "[keyPressEvent]";
+
+    if (pressedKey->key() == Qt::Key_Return)
+        if (ui->comboBox_profile->hasFocus())
+            profileTabLoadProfile();
 }
 
 
@@ -226,7 +234,6 @@ void MainWindow::setIconsToButtons()
     // profile tab
     ui->pushButton_profileClear->setIcon(QIcon::fromTheme("edit-clear"));
     ui->pushButton_profileSave->setIcon(QIcon::fromTheme("document-save"));
-    ui->pushButton_profileLoad->setIcon(QIcon::fromTheme("document-open"));
 
 
     // wifi tab
@@ -384,7 +391,7 @@ void MainWindow::updateMenuProfile()
     if (debug) qDebug() << "[MainWindow]" << "[updateMenuProfile]";
 
     ui->actionProfileClear->setVisible(true);
-    if (ui->lineEdit_profile->text().isEmpty()) {
+    if (ui->comboBox_profile->currentText().isEmpty()) {
         ui->actionProfileLoad->setVisible(false);
         ui->actionProfileRemove->setVisible(false);
         ui->actionProfileSave->setVisible(false);
@@ -552,7 +559,7 @@ void MainWindow::mainTabEditProfile()
     ui->tabWidget->setDisabled(true);
     QString profile = ui->tableWidget_main->item(ui->tableWidget_main->currentItem()->row(), 0)->text();
     ui->tabWidget->setCurrentIndex(1);
-    ui->lineEdit_profile->setText(profile);
+    ui->comboBox_profile->setCurrentIndex(ui->comboBox_profile->findText(profile));
 
     profileTabLoadProfile();
 }
@@ -697,20 +704,6 @@ void MainWindow::mainTabRefreshButtons(QTableWidgetItem *current, QTableWidgetIt
 
 
 // profile tab slots
-void MainWindow::profileTabBrowseProfile()
-{
-    if (debug) qDebug() << "[MainWindow]" << "[profileTabBrowseProfile]";
-
-    QString filename = QFileDialog::getSaveFileName(
-                this,
-                QApplication::translate("MainWindow", "Save profile as..."),
-                QString("/etc/netctl/"),
-                QApplication::translate("MainWindow", "Profile (*)"));
-    if (!filename.isEmpty())
-        ui->lineEdit_profile->setText(filename);
-}
-
-
 void MainWindow::profileTabChangeState(const QString current)
 {
     if (debug) qDebug() << "[MainWindow]" << "[profileTabChangeState]";
@@ -854,7 +847,11 @@ void MainWindow::profileTabClear()
 {
     if (debug) qDebug() << "[MainWindow]" << "[profileTabClear]";
 
-    ui->lineEdit_profile->clear();
+    ui->comboBox_profile->clear();
+    QList<QStringList> profiles = netctlCommand->getProfileList();
+    for (int i=0; i<profiles.count(); i++)
+        ui->comboBox_profile->addItem(profiles[i][0]);
+    ui->comboBox_profile->setCurrentIndex(-1);
 
     generalWid->clear();
     ipWid->clear();
@@ -877,7 +874,7 @@ void MainWindow::profileTabCreateProfile()
     if (debug) qDebug() << "[MainWindow]" << "[profileTabCreateProfile]";
 
     // error checking
-    if (ui->lineEdit_profile->text().isEmpty()) {
+    if (ui->comboBox_profile->currentText().isEmpty()) {
         errorWin = new ErrorWindow(this, debug, 3);
         errorWin->show();
         return;
@@ -1013,7 +1010,7 @@ void MainWindow::profileTabCreateProfile()
 
     ui->tabWidget->setDisabled(true);
     // read settings
-    QString profile = netctlProfile->getNameByString(ui->lineEdit_profile->text());
+    QString profile = netctlProfile->getNameByString(ui->comboBox_profile->currentText());
     QMap<QString, QString> settings;
     settings = generalWid->getSettings();
     if (generalWid->connectionType->currentText() == QString("ethernet")) {
@@ -1110,7 +1107,7 @@ void MainWindow::profileTabLoadProfile()
 {
     if (debug) qDebug() << "[MainWindow]" << "[profileTabLoadProfile]";
 
-    QString profile = netctlProfile->getNameByString(ui->lineEdit_profile->text());
+    QString profile = netctlProfile->getNameByString(ui->comboBox_profile->currentText());
     QMap<QString, QString> settings = netctlProfile->getSettingsFromProfile(profile);
 
     generalWid->setSettings(settings);
@@ -1163,7 +1160,7 @@ void MainWindow::profileTabRemoveProfile()
 
     ui->tabWidget->setDisabled(true);
     // call netctlprofile
-    QString profile = netctlProfile->getNameByString(ui->lineEdit_profile->text());
+    QString profile = netctlProfile->getNameByString(ui->comboBox_profile->currentText());
     if (netctlProfile->removeProfile(profile))
         ui->statusBar->showMessage(QApplication::translate("MainWindow", "Done"));
     else

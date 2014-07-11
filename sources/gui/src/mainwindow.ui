@@ -159,12 +159,12 @@
            </widget>
           </item>
           <item>
-           <widget class="QLineEdit" name="lineEdit_profile"/>
-          </item>
-          <item>
-           <widget class="QPushButton" name="pushButton_profile">
-            <property name="text">
-             <string>Browse</string>
+           <widget class="QComboBox" name="comboBox_profile">
+            <property name="acceptDrops">
+             <bool>true</bool>
+            </property>
+            <property name="editable">
+             <bool>true</bool>
             </property>
            </widget>
           </item>
@@ -200,13 +200,6 @@
            <widget class="QPushButton" name="pushButton_profileClear">
             <property name="text">
              <string>Clear</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QPushButton" name="pushButton_profileLoad">
-            <property name="text">
-             <string>Load</string>
             </property>
            </widget>
           </item>
@@ -508,11 +501,8 @@
   <tabstop>pushButton_mainRefresh</tabstop>
   <tabstop>pushButton_mainRestart</tabstop>
   <tabstop>pushButton_mainStart</tabstop>
-  <tabstop>lineEdit_profile</tabstop>
-  <tabstop>pushButton_profile</tabstop>
   <tabstop>scrollArea</tabstop>
   <tabstop>pushButton_profileClear</tabstop>
-  <tabstop>pushButton_profileLoad</tabstop>
   <tabstop>pushButton_profileSave</tabstop>
   <tabstop>tableWidget_wifi</tabstop>
   <tabstop>pushButton_wifiRefresh</tabstop>

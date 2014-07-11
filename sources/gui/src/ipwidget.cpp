@@ -488,6 +488,7 @@ int IpWidget::isOk()
 
 void IpWidget::setSettings(const QMap<QString, QString> settings)
 {
+    clear();
     QMap<QString, QString> ipSettings = settings;
 
     if (ipSettings.contains(QString("IP"))) {

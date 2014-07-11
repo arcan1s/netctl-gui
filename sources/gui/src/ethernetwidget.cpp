@@ -141,6 +141,7 @@ int EthernetWidget::isOk()
 
 void EthernetWidget::setSettings(const QMap<QString, QString> settings)
 {
+    clear();
     QMap<QString, QString> ethernetSettings = settings;
 
     if (ethernetSettings.contains(QString("SkipNoCarrier")))

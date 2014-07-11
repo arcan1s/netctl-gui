@@ -81,6 +81,7 @@ int TuntapWidget::isOk()
 
 void TuntapWidget::setSettings(const QMap<QString, QString> settings)
 {
+    clear();
     QMap<QString, QString> tuntapSettings = settings;
 
     if (tuntapSettings.contains(QString("Mode")))

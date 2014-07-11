@@ -82,6 +82,7 @@ int MacvlanWidget::isOk()
 
 void MacvlanWidget::setSettings(const QMap<QString, QString> settings)
 {
+    clear();
     QMap<QString, QString> macvlanSettings = settings;
 
     if (macvlanSettings.contains(QString("Mode")))

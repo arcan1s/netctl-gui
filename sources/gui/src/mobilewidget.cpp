@@ -143,6 +143,7 @@ int MobileWidget::isOk()
 
 void MobileWidget::setSettings(const QMap<QString, QString> settings)
 {
+    clear();
     QMap<QString, QString> mobileSettings = settings;
 
     if (mobileSettings.contains(QString("User")))

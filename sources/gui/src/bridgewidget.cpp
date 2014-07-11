@@ -72,6 +72,7 @@ int BridgeWidget::isOk()
 
 void BridgeWidget::setSettings(const QMap<QString, QString> settings)
 {
+    clear();
     QMap<QString, QString> bridgeSettings = settings;
 
     if (bridgeSettings.contains(QString("SkipForwardingDelay")))
