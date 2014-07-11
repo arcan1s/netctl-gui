@@ -247,7 +247,7 @@ QMap<QString, QString> SettingsWindow::getDefault()
     settings[QString("CTRL_DIR")] = QString("/run/wpa_supplicant_netctl-gui");
     settings[QString("CTRL_GROUP")] = QString("users");
     settings[QString("IFACE_DIR")] = QString("/sys/class/net/");
-    settings[QString("LANGUAGE")] = QString("english");
+    settings[QString("LANGUAGE")] = QString("en");
     settings[QString("NETCTL_PATH")] = QString("/usr/bin/netctl");
     settings[QString("PID_FILE")] = QString("/run/wpa_supplicant_netctl-gui.pid");
     settings[QString("PREFERED_IFACE")] = QString("");
