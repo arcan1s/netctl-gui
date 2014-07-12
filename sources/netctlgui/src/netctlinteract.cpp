@@ -25,14 +25,22 @@
 Netctl::Netctl(const bool debugCmd, const QMap<QString, QString> settings)
     : debug(debugCmd)
 {
-    ifaceDirectory = new QDir(settings[QString("IFACE_DIR")]);
-    mainInterface = settings[QString("PREFERED_IFACE")];
-    netctlCommand = settings[QString("NETCTL_PATH")];
-    netctlAutoCommand = settings[QString("NETCTLAUTO_PATH")];
-    netctlAutoService = settings[QString("NETCTLAUTO_SERVICE")];
-    profileDirectory = new QDir(settings[QString("PROFILE_DIR")]);
-    sudoCommand = settings[QString("SUDO_PATH")];
-    systemctlCommand = settings[QString("SYSTEMCTL_PATH")];
+    if (settings.contains(QString("IFACE_DIR")))
+        ifaceDirectory = new QDir(settings[QString("IFACE_DIR")]);
+    if (settings.contains(QString("PREFERED_IFACE")))
+        mainInterface = settings[QString("PREFERED_IFACE")];
+    if (settings.contains(QString("NETCTL_PATH")))
+        netctlCommand = settings[QString("NETCTL_PATH")];
+    if (settings.contains(QString("NETCTLAUTO_PATH")))
+        netctlAutoCommand = settings[QString("NETCTLAUTO_PATH")];
+    if (settings.contains(QString("NETCTLAUTO_SERVICE")))
+        netctlAutoService = settings[QString("NETCTLAUTO_SERVICE")];
+    if (settings.contains(QString("PROFILE_DIR")))
+        profileDirectory = new QDir(settings[QString("PROFILE_DIR")]);
+    if (settings.contains(QString("SUDO_PATH")))
+        sudoCommand = settings[QString("SUDO_PATH")];
+    if (settings.contains(QString("SYSTEMCTL_PATH")))
+        systemctlCommand = settings[QString("SYSTEMCTL_PATH")];
 }
 
 
@@ -49,6 +57,14 @@ Netctl::~Netctl()
 QString Netctl::getNetctlOutput(const bool sudo, const QString commandLine, const QString profile)
 {
     if (debug) qDebug() << "[Netctl]" << "[getNetctlOutput]";
+    if (netctlCommand == 0) {
+        if (debug) qDebug() << "[Netctl]" << "[getNetctlOutput]" << "Could not find netctl";
+        return QString();
+    }
+    if ((sudo) && (sudoCommand == 0)) {
+        if (debug) qDebug() << "[Netctl]" << "[getNetctlOutput]" << "Could not find sudo";
+        return QString();
+    }
 
     QProcess command;
     QString commandText;
@@ -68,9 +84,12 @@ QString Netctl::getNetctlOutput(const bool sudo, const QString commandLine, cons
 QString Netctl::getWifiInterface()
 {
     if (debug) qDebug() << "[Netctl]" << "[getInterfaceList]";
+    if (ifaceDirectory == 0) {
+        if (debug) qDebug() << "[Netctl]" << "[getInterfaceList]" << "Could not find directory";
+        return QString();
+    }
 
     QStringList interfaces;
-
     if (!mainInterface.isEmpty())
         interfaces.append(mainInterface);
     QStringList allInterfaces = ifaceDirectory->entryList(QDir::Dirs | QDir::NoDotAndDotDot);
@@ -89,6 +108,14 @@ QString Netctl::getWifiInterface()
 bool Netctl::netctlCall(const bool sudo, const QString commandLine, const QString profile)
 {
     if (debug) qDebug() << "[Netctl]" << "[netctlCall]";
+    if (netctlCommand == 0) {
+        if (debug) qDebug() << "[Netctl]" << "[netctlCall]" << "Could not find netctl";
+        return false;
+    }
+    if ((sudo) && (sudoCommand == 0)) {
+        if (debug) qDebug() << "[Netctl]" << "[netctlCall]" << "Could not find sudo";
+        return false;
+    }
 
     QProcess command;
     QString commandText;
@@ -112,6 +139,14 @@ bool Netctl::netctlCall(const bool sudo, const QString commandLine, const QStrin
 bool Netctl::netctlAutoCall(const bool sudo, const QString commandLine, const QString profile)
 {
     if (debug) qDebug() << "[Netctl]" << "[netctlAutoCall]";
+    if (netctlAutoCommand == 0) {
+        if (debug) qDebug() << "[Netctl]" << "[netctlAutoCall]" << "Could not find netctl-auto";
+        return false;
+    }
+    if ((sudo) && (sudoCommand == 0)) {
+        if (debug) qDebug() << "[Netctl]" << "[netctlAutoCall]" << "Could not find sudo";
+        return false;
+    }
 
     QProcess command;
     QString commandText;
@@ -136,10 +171,22 @@ bool Netctl::netctlAutoCall(const bool sudo, const QString commandLine, const QS
 bool Netctl::systemctlCall(const bool sudo, const QString commandLine)
 {
     if (debug) qDebug() << "[Netctl]" << "[systemctlCall]";
+    if (netctlAutoService == 0) {
+        if (debug) qDebug() << "[Netctl]" << "[systemctlCall]" << "Could not find service";
+        return false;
+    }
+    if ((sudo) && (sudoCommand == 0)) {
+        if (debug) qDebug() << "[Netctl]" << "[systemctlCall]" << "Could not find sudo";
+        return false;
+    }
+    if (systemctlCommand == 0) {
+        if (debug) qDebug() << "[Netctl]" << "[systemctlCall]" << "Could not find systemctl";
+        return false;
+    }
 
-    QString interface = getWifiInterface();
     QProcess command;
     QString commandText;
+    QString interface = getWifiInterface();
     if (sudo)
         commandText = sudoCommand + QString(" ") + systemctlCommand + QString(" ") + commandLine +
                 QString(" ") + netctlAutoService + QString("@") + interface + QString(".service");
@@ -162,12 +209,15 @@ bool Netctl::systemctlCall(const bool sudo, const QString commandLine)
 QList<QStringList> Netctl::getProfileList()
 {
     if (debug) qDebug() << "[Netctl]" << "[getProfileList]";
+    if (profileDirectory == 0) {
+        if (debug) qDebug() << "[Netctl]" << "[getProfileList]" << "Could not find directory";
+        return QList<QStringList>();
+    }
 
     QList<QStringList> fullProfilesInfo;
     QStringList profiles = profileDirectory->entryList(QDir::Files);
     QStringList descriptions = getProfileDescriptions(profiles);
     QStringList statuses = getProfileStatuses(profiles);
-
     for (int i=0; i<profiles.count(); i++) {
         QStringList profileInfo;
         profileInfo.append(profiles[i]);
@@ -183,6 +233,10 @@ QList<QStringList> Netctl::getProfileList()
 QList<QStringList> Netctl::getProfileListFromNetctlAuto()
 {
     if (debug) qDebug() << "[Netctl]" << "[getProfileListFromNetctlAuto]";
+    if (netctlAutoCommand == 0) {
+        if (debug) qDebug() << "[Netctl]" << "[getProfileListFromNetctlAuto]" << "Could not find netctl-auto";
+        return QList<QStringList>();
+    }
 
     QProcess command;
     QString commandText = netctlAutoCommand + QString(" list");
@@ -190,7 +244,6 @@ QList<QStringList> Netctl::getProfileListFromNetctlAuto()
     command.start(commandText);
     command.waitForFinished(-1);
     QStringList output = QString(command.readAllStandardOutput()).split(QChar('\n'), QString::SkipEmptyParts);
-
     QList<QStringList> fullProfilesInfo;
     for (int i=0; i<output.count(); i++) {
         QStringList profileInfo;
@@ -207,25 +260,27 @@ QList<QStringList> Netctl::getProfileListFromNetctlAuto()
 QString Netctl::getProfileDescription(const QString profileName)
 {
     if (debug) qDebug() << "[Netctl]" << "[getProfileDescription]";
-    QString description;
+    if (profileDirectory == 0) {
+        if (debug) qDebug() << "[Netctl]" << "[getProfileDescription]" << "Could not find directory";
+        return QString();
+    }
 
+    QString description = QString("<unknown>");
     QString profileUrl = profileDirectory->absolutePath() + QDir::separator() + profileName;
     if (debug) qDebug() << "[Netctl]" << "[getProfileDescription]" << ":" << "Check" << profileUrl;
     QFile profile(profileUrl);
     QString fileStr;
-    if (profile.open(QIODevice::ReadOnly))
-        while (true) {
-            fileStr = QString(profile.readLine());
-            if (fileStr[0] != '#')
-                if (fileStr.split(QChar('='), QString::SkipEmptyParts).count() == 2)
-                    if (fileStr.split(QChar('='), QString::SkipEmptyParts)[0] == QString("Description"))
-                        description = fileStr.split(QChar('='), QString::SkipEmptyParts)[1].trimmed();
-            if (profile.atEnd())
-                break;
-        }
-    else
-        description = QString("<unknown>");
-
+    if (!profile.open(QIODevice::ReadOnly))
+        return description;
+    while (true) {
+        fileStr = QString(profile.readLine());
+        if (fileStr[0] == QChar('#')) continue;
+        if (fileStr.split(QChar('='), QString::SkipEmptyParts).count() == 2)
+            if (fileStr.split(QChar('='), QString::SkipEmptyParts)[0] == QString("Description"))
+                description = fileStr.split(QChar('='), QString::SkipEmptyParts)[1].trimmed();
+        if (profile.atEnd())
+            break;
+    }
     description.remove(QChar('\''));
     description.remove(QChar('"'));
 
@@ -236,30 +291,34 @@ QString Netctl::getProfileDescription(const QString profileName)
 QStringList Netctl::getProfileDescriptions(const QStringList profileList)
 {
     if (debug) qDebug() << "[Netctl]" << "[getProfileDescriptions]";
-    QStringList descriptions;
+    if (profileDirectory == 0) {
+        if (debug) qDebug() << "[Netctl]" << "[getProfileDescriptions]" << "Could not find directory";
+        return QStringList();
+    }
 
+    QStringList descriptions;
     for (int i=0; i<profileList.count(); i++) {
+        QString description = QString("<unknown>");
         QString profileUrl = profileDirectory->absolutePath() + QDir::separator() + profileList[i];
         if (debug) qDebug() << "[Netctl]" << "[getProfileDescriptions]" << ":" << "Check" << profileUrl;
         QFile profile(profileUrl);
         QString fileStr;
-        if (profile.open(QIODevice::ReadOnly))
-            while (true) {
-                fileStr = QString(profile.readLine());
-                if (fileStr[0] != '#')
-                    if (fileStr.split(QChar('='), QString::SkipEmptyParts).count() == 2)
-                        if (fileStr.split(QChar('='), QString::SkipEmptyParts)[0] == QString("Description"))
-                            descriptions.append(fileStr.split(QChar('='), QString::SkipEmptyParts)[1].trimmed());
-                if (profile.atEnd())
-                    break;
-            }
-        else
-            descriptions.append(QString("<unknown>"));
-    }
-
-    for (int i=0; i<profileList.count(); i++) {
-        descriptions[i].remove(QChar('\''));
-        descriptions[i].remove(QChar('"'));
+        if (!profile.open(QIODevice::ReadOnly)) {
+            descriptions.append(description);
+            continue;
+        }
+        while (true) {
+            fileStr = QString(profile.readLine());
+            if (fileStr[0] == QChar('#')) continue;
+            if (fileStr.split(QChar('='), QString::SkipEmptyParts).count() == 2)
+                if (fileStr.split(QChar('='), QString::SkipEmptyParts)[0] == QString("Description"))
+                    description = fileStr.split(QChar('='), QString::SkipEmptyParts)[1].trimmed();
+            if (profile.atEnd())
+                break;
+        }
+        description.remove(QChar('\''));
+        description.remove(QChar('"'));
+        descriptions.append(description);
     }
 
     return descriptions;
@@ -289,7 +348,6 @@ QStringList Netctl::getProfileStatuses(const QStringList profileList)
     if (debug) qDebug() << "[Netctl]" << "[getProfileStatuses]";
 
     QStringList statuses;
-
     for (int i=0; i<profileList.count(); i++) {
         QString status;
         if (isProfileActive(profileList[i]))
@@ -310,30 +368,31 @@ QStringList Netctl::getProfileStatuses(const QStringList profileList)
 QString Netctl::getSsidFromProfile(const QString profile)
 {
     if (debug) qDebug() << "[Netctl]" << "[getSsidFromProfile]";
+    if (profileDirectory == 0) {
+        if (debug) qDebug() << "[Netctl]" << "[getSsidFromProfile]" << "Could not find directory";
+        return QString();
+    }
 
-    QString ssidName = QString("");
+    QString ssidName;
     QString profileUrl = profileDirectory->absolutePath() + QDir::separator() + profile;
     if (debug) qDebug() << "[Netctl]" << "[getSsidFromProfile]" << ":" << "Check" << profileUrl;
     QFile profileFile(profileUrl);
     QString fileStr;
     if (!profileFile.open(QIODevice::ReadOnly))
         return ssidName;
-
     while (true) {
         fileStr = QString(profileFile.readLine());
-        if (fileStr[0] != '#') {
-            if (fileStr.split(QChar('='), QString::SkipEmptyParts).count() == 2)
-                if (fileStr.split(QChar('='), QString::SkipEmptyParts)[0] == QString("ESSID"))
-                    ssidName = fileStr.split(QChar('='), QString::SkipEmptyParts)[1].trimmed();
-        }
+        if (fileStr[0] == QChar('#')) continue;
+        if (fileStr.split(QChar('='), QString::SkipEmptyParts).count() == 2)
+            if (fileStr.split(QChar('='), QString::SkipEmptyParts)[0] == QString("ESSID"))
+                ssidName = fileStr.split(QChar('='), QString::SkipEmptyParts)[1].trimmed();
         if (profileFile.atEnd())
             break;
     }
-
     profileFile.close();
-
     ssidName.remove(QChar('\''));
     ssidName.remove(QChar('"'));
+
     return ssidName;
 }
 
@@ -395,9 +454,17 @@ bool Netctl::autoIsProfileEnabled(const QString profile)
 bool Netctl::isNetctlAutoEnabled()
 {
     if (debug) qDebug() << "[Netctl]" << "[isNetctlAutoEnabled]";
+    if (netctlAutoService == 0) {
+        if (debug) qDebug() << "[Netctl]" << "[isNetctlAutoEnabled]" << "Could not find service";
+        return false;
+    }
+    if (systemctlCommand == 0) {
+        if (debug) qDebug() << "[Netctl]" << "[isNetctlAutoEnabled]" << "Could not find systemctl";
+        return false;
+    }
 
-    QString interface = getWifiInterface();
     QProcess command;
+    QString interface = getWifiInterface();
     QString commandText = systemctlCommand + QString(" is-enabled ") + netctlAutoService + QString("@") +
             interface + QString(".service");
     if (debug) qDebug() << "[Netctl]" << "[isNetctlAutoEnabled]" << ":" << "Run cmd" << commandText;
@@ -405,6 +472,7 @@ bool Netctl::isNetctlAutoEnabled()
     command.waitForFinished(-1);
     if (debug) qDebug() << "[Netctl]" << "[isNetctlAutoEnabled]" << ":" << "Cmd returns" << command.exitCode();
     QString output = command.readAllStandardOutput().trimmed();
+
     if (output == QString("enabled"))
         return true;
     else
@@ -415,6 +483,14 @@ bool Netctl::isNetctlAutoEnabled()
 bool Netctl::isNetctlAutoRunning()
 {
     if (debug) qDebug() << "[Netctl]" << "[isNetctlAutoRunning]";
+    if (netctlAutoService == 0) {
+        if (debug) qDebug() << "[Netctl]" << "[isNetctlAutoRunning]" << "Could not find service";
+        return false;
+    }
+    if (systemctlCommand == 0) {
+        if (debug) qDebug() << "[Netctl]" << "[isNetctlAutoRunning]" << "Could not find systemctl";
+        return false;
+    }
 
     QString interface = getWifiInterface();
     QProcess command;
@@ -425,6 +501,7 @@ bool Netctl::isNetctlAutoRunning()
     command.waitForFinished(-1);
     if (debug) qDebug() << "[Netctl]" << "[isNetctlAutoRunning]" << ":" << "Cmd returns" << command.exitCode();
     QString output = command.readAllStandardOutput().trimmed();
+
     if (output == QString("active"))
         return true;
     else
@@ -494,7 +571,7 @@ bool Netctl::autoStartProfile(const QString profile)
 {
     if (debug) qDebug() << "[Netctl]" << "[autoStartProfile]";
 
-    if (!autoIsProfileActive(profile))
+    if (autoIsProfileActive(profile))
         return true;
     else
         return netctlAutoCall(false, QString("switch-to"), profile);
