@@ -10,9 +10,11 @@ Ver.1.2.0:
 + [gui] added support of netctl-auto
 + [lib] detached backend from frontend
 + [plasmoid] added support of netctl-auto
++ [plasmoid] added dataengine configuration
 * [all] small changes in the project architecture
 * [gui] more debug information
 * [gui] changed lineEdit_profile to comboBox
+* [gui] refactoring of configuration interface
 * [plasmoid] edited configuration interface
 
 Ver.1.1.0 (netctl-1.7 update):

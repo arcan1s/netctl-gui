@@ -54,7 +54,8 @@ public:
     explicit MainWindow(QWidget *parent = 0,
                         const bool defaultSettings = false,
                         const bool debugCmd = false,
-                        const bool netctlAuto = false,
+                        const bool showNetctlAuto = false,
+                        const bool showSettings = false,
                         const int tabNum = 1);
     ~MainWindow();
 
@@ -123,6 +124,7 @@ private:
     void keyPressEvent(QKeyEvent *pressedKey);
     void setIconsToButtons();
     bool debug;
+    bool hiddenNetwork;
     // configuration
     QMap<QString, QString> configuration;
 };

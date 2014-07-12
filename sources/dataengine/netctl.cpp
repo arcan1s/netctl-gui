@@ -17,9 +17,9 @@
 
 #include "netctl.h"
 
+#include <KGlobal>
+#include <KStandardDirs>
 #include <Plasma/DataContainer>
-#include <KDE/KGlobal>
-#include <KDE/KStandardDirs>
 #include <QDir>
 #include <QFile>
 #include <QProcess>
@@ -65,8 +65,7 @@ void Netctl::readConfiguration()
 
     QString fileName = KGlobal::dirs()->findResource("config", "netctl.conf");
     QFile confFile(fileName);
-    bool ok = confFile.open(QIODevice::ReadOnly);
-    if (!ok) {
+    if (!confFile.open(QIODevice::ReadOnly)) {
         configuration = updateConfiguration(rawConfig);
         return;
     }

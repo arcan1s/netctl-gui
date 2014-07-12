@@ -21,7 +21,9 @@
 
 #include <KConfigDialog>
 #include <KFileDialog>
+#include <KGlobal>
 #include <KNotification>
+#include <KStandardDirs>
 #include <KUrl>
 #include <plasma/theme.h>
 
@@ -86,6 +88,75 @@ void Netctl::init()
 
     // read variables
     configChanged();
+}
+
+
+QMap<QString, QString> Netctl::readDataEngineConfiguration()
+{
+    QMap<QString, QString> rawConfig;
+    rawConfig[QString("CMD")] = QString("/usr/bin/netctl");
+    rawConfig[QString("EXTIP")] = QString("false");
+    rawConfig[QString("EXTIPCMD")] = QString("wget -qO- http://ifconfig.me/ip");
+    rawConfig[QString("IPCMD")] = QString("/usr/bin/ip");
+    rawConfig[QString("NETDIR")] = QString("/sys/class/net/");
+    rawConfig[QString("NETCTLAUTOCMD")] = QString("/usr/bin/netctl-auto");
+
+    QString fileName = KGlobal::dirs()->findResource("config", "netctl.conf");
+    QFile confFile(fileName);
+    if (!confFile.open(QIODevice::ReadOnly))
+        return updateConfiguration(rawConfig);
+    QString fileStr;
+    QStringList value;
+    while (true) {
+        fileStr = QString(confFile.readLine()).trimmed();
+        if (fileStr[0] == QChar('#')) continue;
+        if (fileStr[0] == QChar(';')) continue;
+        if (fileStr.contains(QChar('='))) {
+            value.clear();
+            for (int i=1; i<fileStr.split(QChar('=')).count(); i++)
+                value.append(fileStr.split(QChar('='))[i]);
+            rawConfig[fileStr.split(QChar('='))[0]] = value.join(QChar('='));
+        }
+        if (confFile.atEnd())
+            break;
+    }
+    confFile.close();
+    return updateConfiguration(rawConfig);
+}
+
+
+void Netctl::writeDataEngineConfiguration(const QMap<QString, QString> settings)
+{
+    QMap<QString, QString> config = updateConfiguration(settings);
+    QString fileName = KGlobal::dirs()->locateLocal("config", "netctl.conf");
+    QFile confFile(fileName);
+    if (!confFile.open(QIODevice::WriteOnly))
+        return;
+    for (int i=0; i<config.keys().count(); i++) {
+        QByteArray string = (config.keys()[i] + QString("=") + config[config.keys()[i]] + QString("\n")).toUtf8();
+        confFile.write(string);
+    }
+    confFile.close();
+}
+
+
+QMap<QString, QString> Netctl::updateConfiguration(const QMap<QString, QString> rawConfig)
+{
+    QMap<QString, QString> config;
+    QString key, value;
+    // remove spaces and copy source map
+    for (int i=0; i<rawConfig.keys().count(); i++) {
+        key = rawConfig.keys()[i];
+        value = rawConfig[key];
+        key.remove(QChar(' '));
+        if ((key != QString("CMD")) &&
+            (key != QString("EXTIPCMD")) &&
+            (key != QString("IPCMD")) &&
+            (key != QString("NETCTLAUTOCMD")))
+            value.remove(QChar(' '));
+        config[key] = value;
+    }
+    return config;
 }
 
 
@@ -425,7 +496,7 @@ void Netctl::disconnectFromEngine()
 //  configuration interface
 void Netctl::selectActiveIcon()
 {
-    KUrl url = KFileDialog::getOpenUrl(KUrl(), "*");
+    KUrl url = KFileDialog::getOpenUrl(KUrl("/usr/bin"), "*");
     if (!url.isEmpty())
         uiAppConfig.lineEdit_activeIcon->setText(url.path());
 }
@@ -433,7 +504,7 @@ void Netctl::selectActiveIcon()
 
 void Netctl::selectGuiExe()
 {
-    KUrl url = KFileDialog::getOpenUrl(KUrl(), "*");
+    KUrl url = KFileDialog::getOpenUrl(KUrl("/usr/bin"), "*");
     if (!url.isEmpty())
         uiWidConfig.lineEdit_gui->setText(url.path());
 }
@@ -441,7 +512,7 @@ void Netctl::selectGuiExe()
 
 void Netctl::selectInactiveIcon()
 {
-    KUrl url = KFileDialog::getOpenUrl(KUrl(), "*");
+    KUrl url = KFileDialog::getOpenUrl(KUrl("/usr/bin"), "*");
     if (!url.isEmpty())
         uiAppConfig.lineEdit_inactiveIcon->setText(url.path());
 }
@@ -449,7 +520,7 @@ void Netctl::selectInactiveIcon()
 
 void Netctl::selectNetctlExe()
 {
-    KUrl url = KFileDialog::getOpenUrl(KUrl(), "*");
+    KUrl url = KFileDialog::getOpenUrl(KUrl("/usr/bin"), "*");
     if (!url.isEmpty())
         uiWidConfig.lineEdit_netctl->setText(url.path());
 }
@@ -457,7 +528,7 @@ void Netctl::selectNetctlExe()
 
 void Netctl::selectNetctlAutoExe()
 {
-    KUrl url = KFileDialog::getOpenUrl(KUrl(), "*");
+    KUrl url = KFileDialog::getOpenUrl(KUrl("/usr/bin"), "*");
     if (!url.isEmpty())
         uiWidConfig.lineEdit_netctlAuto->setText(url.path());
 }
@@ -465,7 +536,7 @@ void Netctl::selectNetctlAutoExe()
 
 void Netctl::selectSudoExe()
 {
-    KUrl url = KFileDialog::getOpenUrl(KUrl(), "*");
+    KUrl url = KFileDialog::getOpenUrl(KUrl("/usr/bin"), "*");
     if (!url.isEmpty())
         uiWidConfig.lineEdit_sudo->setText(url.path());
 }
@@ -473,9 +544,49 @@ void Netctl::selectSudoExe()
 
 void Netctl::selectWifiExe()
 {
-    KUrl url = KFileDialog::getOpenUrl(KUrl(), "*");
+    KUrl url = KFileDialog::getOpenUrl(KUrl("/usr/bin"), "*");
     if (!url.isEmpty())
         uiWidConfig.lineEdit_wifi->setText(url.path());
+}
+
+
+void Netctl::selectDataEngineExternalIpExe()
+{
+    KUrl url = KFileDialog::getOpenUrl(KUrl("/usr/bin"), "*");
+    if (!url.isEmpty())
+        uiDEConfig.lineEdit_extIp->setText(url.path());
+}
+
+
+void Netctl::selectDataEngineInterfacesDirectory()
+{
+    KUrl url = KFileDialog::getExistingDirectoryUrl(KUrl("/"));
+    if (!url.isEmpty())
+        uiDEConfig.lineEdit_interface->setText(url.path());
+}
+
+
+void Netctl::selectDataEngineIpExe()
+{
+    KUrl url = KFileDialog::getOpenUrl(KUrl("/usr/bin"), "*");
+    if (!url.isEmpty())
+        uiDEConfig.lineEdit_ip->setText(url.path());
+}
+
+
+void Netctl::selectDataEngineNetctlExe()
+{
+    KUrl url = KFileDialog::getOpenUrl(KUrl("/usr/bin"), "*");
+    if (!url.isEmpty())
+        uiDEConfig.lineEdit_netctl->setText(url.path());
+}
+
+
+void Netctl::selectDataEngineNetctlAutoExe()
+{
+    KUrl url = KFileDialog::getOpenUrl(KUrl("/usr/bin"), "*");
+    if (!url.isEmpty())
+        uiDEConfig.lineEdit_netctlAuto->setText(url.path());
 }
 
 
@@ -485,6 +596,9 @@ void Netctl::createConfigurationInterface(KConfigDialog *parent)
     uiWidConfig.setupUi(configWidget);
     QWidget *appWidget = new QWidget;
     uiAppConfig.setupUi(appWidget);
+    QWidget *deWidget = new QWidget;
+    uiDEConfig.setupUi(deWidget);
+
     QString text = QString(NAME) + " - " + QString(VERSION) + "\n" + "(c) " +
             QString(DATE) + " " + QString(AUTHOR);
     uiWidConfig.label_info->setText(text);
@@ -498,11 +612,13 @@ void Netctl::createConfigurationInterface(KConfigDialog *parent)
     else
         uiWidConfig.checkBox_sudo->setCheckState(Qt::Unchecked);
     uiWidConfig.lineEdit_sudo->setText(paths[QString("sudo")]);
+    setSudo();
     if (useWifi)
         uiWidConfig.checkBox_wifi->setCheckState(Qt::Checked);
     else
         uiWidConfig.checkBox_wifi->setCheckState(Qt::Unchecked);
     uiWidConfig.lineEdit_wifi->setText(paths[QString("wifi")]);
+    setWifi();
     if (bigInterface[QString("main")])
         uiWidConfig.checkBox_showBigInterface->setCheckState(Qt::Checked);
     else
@@ -539,13 +655,27 @@ void Netctl::createConfigurationInterface(KConfigDialog *parent)
     uiAppConfig.lineEdit_activeIcon->setText(paths[QString("active")]);
     uiAppConfig.lineEdit_inactiveIcon->setText(paths[QString("inactive")]);
 
+    QMap<QString, QString> deSettings = readDataEngineConfiguration();
+    uiDEConfig.lineEdit_netctl->setText(deSettings[QString("CMD")]);
+    uiDEConfig.lineEdit_netctlAuto->setText(deSettings[QString("NETCTLAUTOCMD")]);
+    uiDEConfig.lineEdit_ip->setText(deSettings[QString("IPCMD")]);
+    uiDEConfig.lineEdit_interface->setText(deSettings[QString("NETDIR")]);
+    if (deSettings[QString("EXTIP")] == QString("true"))
+        uiDEConfig.checkBox_extIp->setCheckState(Qt::Checked);
+    else
+        uiDEConfig.checkBox_extIp->setCheckState(Qt::Unchecked);
+    uiDEConfig.lineEdit_extIp->setText(deSettings[QString("EXTIPCMD")]);
+    setDataEngineExternalIp();
+
     parent->addPage(configWidget, i18n("Netctl plasmoid"), Applet::icon());
     parent->addPage(appWidget, i18n("Appearance"), QString("preferences-desktop-theme"));
+    parent->addPage(deWidget, i18n("DataEngine"), Applet::icon());
 
     connect(uiWidConfig.checkBox_showBigInterface, SIGNAL(stateChanged(int)), this,
             SLOT(setBigInterface()));
     connect(uiWidConfig.checkBox_sudo, SIGNAL(stateChanged(int)), this, SLOT(setSudo()));
     connect(uiWidConfig.checkBox_wifi, SIGNAL(stateChanged(int)), this, SLOT(setWifi()));
+    connect(uiDEConfig.checkBox_extIp, SIGNAL(stateChanged(int)), this, SLOT(setDataEngineExternalIp()));
 
     connect(uiWidConfig.pushButton_gui, SIGNAL(clicked()), this, SLOT(selectGuiExe()));
     connect(uiWidConfig.pushButton_netctl, SIGNAL(clicked()), this, SLOT(selectNetctlExe()));
@@ -554,6 +684,11 @@ void Netctl::createConfigurationInterface(KConfigDialog *parent)
     connect(uiWidConfig.pushButton_wifi, SIGNAL(clicked()), this, SLOT(selecWifiExe()));
     connect(uiAppConfig.pushButton_activeIcon, SIGNAL(clicked()), this, SLOT(selectActiveIcon()));
     connect(uiAppConfig.pushButton_inactiveIcon, SIGNAL(clicked()), this, SLOT(selectInactiveIcon()));
+    connect(uiDEConfig.pushButton_extIp, SIGNAL(clicked()), this, SLOT(selectDataEngineExternalIpExe()));
+    connect(uiDEConfig.pushButton_interface, SIGNAL(clicked()), this, SLOT(selectDataEngineInterfacesDirectory()));
+    connect(uiDEConfig.pushButton_ip, SIGNAL(clicked()), this, SLOT(selectDataEngineIpExe()));
+    connect(uiDEConfig.pushButton_netctl, SIGNAL(clicked()), this, SLOT(selectDataEngineNetctlExe()));
+    connect(uiDEConfig.pushButton_netctlAuto, SIGNAL(clicked()), this, SLOT(selectDataEngineNetctlAutoExe()));
 
     connect(parent, SIGNAL(okClicked()), this, SLOT(configAccepted()));
     connect(parent, SIGNAL(applyClicked()), this, SLOT(configAccepted()));
@@ -603,6 +738,18 @@ void Netctl::configAccepted()
     cg.writeEntry("fontStyle", uiAppConfig.comboBox_fontStyle->currentText());
     cg.writeEntry("activeIconPath", uiAppConfig.lineEdit_activeIcon->text());
     cg.writeEntry("inactiveIconPath", uiAppConfig.lineEdit_inactiveIcon->text());
+
+    QMap<QString, QString> deSettings;
+    deSettings[QString("CMD")] = uiDEConfig.lineEdit_netctl->text();
+    deSettings[QString("NETCTLAUTOCMD")] = uiDEConfig.lineEdit_netctlAuto->text();
+    deSettings[QString("IPCMD")] = uiDEConfig.lineEdit_ip->text();
+    deSettings[QString("NETDIR")] = uiDEConfig.lineEdit_interface->text();
+    if (uiDEConfig.checkBox_extIp->checkState() == 0)
+        deSettings[QString("EXTIP")] = QString("false");
+    else
+        deSettings[QString("EXTIP")] = QString("true");
+    deSettings[QString("EXTIPCMD")] = uiDEConfig.lineEdit_extIp->text();
+    writeDataEngineConfiguration(deSettings);
 }
 
 
@@ -661,19 +808,40 @@ void Netctl::setBigInterface()
 
 void Netctl::setSudo()
 {
-    if (uiWidConfig.checkBox_sudo->checkState() == 0)
+    if (uiWidConfig.checkBox_sudo->checkState() == 0) {
         uiWidConfig.lineEdit_sudo->setDisabled(true);
-    else if (uiWidConfig.checkBox_sudo->checkState() == 2)
+        uiWidConfig.pushButton_sudo->setDisabled(true);
+    }
+    else if (uiWidConfig.checkBox_sudo->checkState() == 2) {
         uiWidConfig.lineEdit_sudo->setEnabled(true);
+        uiWidConfig.pushButton_sudo->setEnabled(true);
+    }
 }
 
 
 void Netctl::setWifi()
 {
-    if (uiWidConfig.checkBox_wifi->checkState() == 0)
+    if (uiWidConfig.checkBox_wifi->checkState() == 0) {
         uiWidConfig.lineEdit_wifi->setDisabled(true);
-    else if (uiWidConfig.checkBox_wifi->checkState() == 2)
-        uiWidConfig.checkBox_wifi->setEnabled(true);
+        uiWidConfig.pushButton_wifi->setDisabled(true);
+    }
+    else if (uiWidConfig.checkBox_wifi->checkState() == 2) {
+        uiWidConfig.lineEdit_wifi->setEnabled(true);
+        uiWidConfig.pushButton_wifi->setEnabled(true);
+    }
+}
+
+
+void Netctl::setDataEngineExternalIp()
+{
+    if (uiDEConfig.checkBox_extIp->checkState() == 0) {
+        uiDEConfig.lineEdit_extIp->setDisabled(true);
+        uiDEConfig.pushButton_extIp->setDisabled(true);
+    }
+    else if (uiDEConfig.checkBox_extIp->checkState() == 2) {
+        uiDEConfig.lineEdit_extIp->setEnabled(true);
+        uiDEConfig.pushButton_extIp->setEnabled(true);
+    }
 }
 
 

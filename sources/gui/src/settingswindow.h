@@ -20,6 +20,7 @@
 
 #include <QKeyEvent>
 #include <QMainWindow>
+#include <QTreeWidgetItem>
 
 
 class MainWindow;
@@ -46,6 +47,7 @@ public slots:
 
 private slots:
     void addLanguages();
+    void changePage(QTreeWidgetItem *current, QTreeWidgetItem *previous);
     void saveSettings();
     // buttons
     void selectIfaceDir();

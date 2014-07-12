@@ -71,7 +71,6 @@ Additional information
 TODO (wish list)
 ----------------
 
-* split configuration interface
 * man pages
 * code review
 

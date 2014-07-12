@@ -52,6 +52,7 @@ void SettingsWindow::createActions()
 {
     if (debug) qDebug() << "[SettingsWindow]" << "[createActions]";
 
+    connect(ui->treeWidget, SIGNAL(currentItemChanged(QTreeWidgetItem *, QTreeWidgetItem *)), this, SLOT(changePage(QTreeWidgetItem *, QTreeWidgetItem *)));
     connect(ui->comboBox_language, SIGNAL(currentIndexChanged(int)), ui->label_info, SLOT(show()));
     connect(ui->buttonBox->button(QDialogButtonBox::Cancel), SIGNAL(clicked(bool)), this, SLOT(close()));
     connect(ui->buttonBox->button(QDialogButtonBox::Reset), SIGNAL(clicked(bool)), this, SLOT(setDefault()));
@@ -87,6 +88,19 @@ void SettingsWindow::addLanguages()
 
     ui->comboBox_language->clear();
     ui->comboBox_language->addItems(Language::getAvailableLanguages());
+}
+
+
+void SettingsWindow::changePage(QTreeWidgetItem *current, QTreeWidgetItem *previous)
+{
+    Q_UNUSED(previous)
+    if (debug) qDebug() << "[SettingsWindow]" << "[changePage]";
+
+    for (int i=0; i<ui->treeWidget->topLevelItemCount(); i++)
+        if (current == ui->treeWidget->topLevelItem(i)) {
+            ui->stackedWidget->setCurrentIndex(i);
+            break;
+        }
 }
 
 

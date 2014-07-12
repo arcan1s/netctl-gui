@@ -26,6 +26,7 @@
 #include <QProcess>
 
 #include <ui_appearance.h>
+#include <ui_dataengine.h>
 #include <ui_widget.h>
 
 
@@ -39,6 +40,9 @@ public:
     Netctl(QObject *parent, const QVariantList &args);
     ~Netctl();
     void init();
+    QMap<QString, QString> readDataEngineConfiguration();
+    void writeDataEngineConfiguration(const QMap<QString, QString> settings);
+    QMap<QString, QString> updateConfiguration(const QMap<QString, QString> rawConfig);
 
 public slots:
     // events
@@ -53,6 +57,7 @@ public slots:
     void setBigInterface();
     void setSudo();
     void setWifi();
+    void setDataEngineExternalIp();
 
 private slots:
     // ui
@@ -65,6 +70,12 @@ private slots:
     void selectNetctlAutoExe();
     void selectSudoExe();
     void selectWifiExe();
+    // dataengine
+    void selectDataEngineExternalIpExe();
+    void selectDataEngineInterfacesDirectory();
+    void selectDataEngineIpExe();
+    void selectDataEngineNetctlExe();
+    void selectDataEngineNetctlAutoExe();
     // context menu
     void enableProfileSlot();
     void startProfileSlot(QAction *profile);
@@ -98,6 +109,7 @@ private:
     void disconnectFromEngine();
     // configuration interface
     Ui::AppearanceWindow uiAppConfig;
+    Ui::DataEngineWindow uiDEConfig;
     Ui::ConfigWindow uiWidConfig;
     // configuration
     int autoUpdateInterval;

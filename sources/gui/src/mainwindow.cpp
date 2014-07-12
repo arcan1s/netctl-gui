@@ -44,7 +44,12 @@
 #include "wirelesswidget.h"
 
 
-MainWindow::MainWindow(QWidget *parent, const bool defaultSettings, const bool debugCmd, const bool netctlAuto, const int tabNum)
+MainWindow::MainWindow(QWidget *parent,
+                       const bool defaultSettings,
+                       const bool debugCmd,
+                       const bool showNetctlAuto,
+                       const bool showSettings,
+                       const int tabNum)
     : QMainWindow(parent),
       ui(new Ui::MainWindow),
       debug(debugCmd)
@@ -97,8 +102,10 @@ MainWindow::MainWindow(QWidget *parent, const bool defaultSettings, const bool d
     updateTabs(ui->tabWidget->currentIndex());
     ui->statusBar->showMessage(QApplication::translate("MainWindow", "Ready"));
 
-    if (netctlAuto)
+    if (showNetctlAuto)
         netctlAutoWin->showWindow();
+    if (showSettings)
+        settingsWin->showWindow();
 }
 
 
@@ -1287,6 +1294,8 @@ void MainWindow::connectToUnknownEssid(const QString passwd)
     if (!passwd.isEmpty())
         settings[QString("Key")] = QString("'") + passwd + QString("'");
     settings[QString("IP")] = QString("dhcp");
+    if (hiddenNetwork)
+        settings[QString("Hidden")] = QString("yes");
 
     QString profile = QString("netctl-gui-") + settings[QString("ESSID")];
     profile.remove(QString("'"));
@@ -1325,6 +1334,7 @@ void MainWindow::wifiTabStart()
     if (ui->tableWidget_wifi->currentItem() == 0)
         return;
     if (ui->tableWidget_wifi->item(ui->tableWidget_wifi->currentItem()->row(), 0)->text() == QString("<hidden>")) {
+        hiddenNetwork = true;
         passwdWid = new PasswdWidget(this);
         passwdWid->setPassword(false);
         int widgetWidth = 270;
@@ -1338,6 +1348,7 @@ void MainWindow::wifiTabStart()
     }
 
     ui->tabWidget->setDisabled(true);
+    hiddenNetwork = false;
     QString profile = ui->tableWidget_wifi->item(ui->tableWidget_wifi->currentItem()->row(), 0)->text();
     QString item = ui->tableWidget_wifi->item(ui->tableWidget_wifi->currentItem()->row(), 1)->text();
     if (checkState(QString("exists"), item)) {
