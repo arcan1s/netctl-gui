@@ -43,14 +43,19 @@ public slots:
     void showWindow();
 
 private slots:
-    void netctlAutoAppendTable();
     // table
+    void netctlAutoAppendTable();
     void netctlAutoContextualMenu(const QPoint &pos);
+    // netctl-auto
     void netctlAutoDisableAllProfiles();
     void netctlAutoEnableProfile();
     void netctlAutoEnableAllProfiles();
     void netctlAutoStartProfile();
     void netctlAutoRefreshButtons(QTableWidgetItem *current, QTableWidgetItem *previous);
+    // service
+    void netctlAutoEnableService();
+    void netctlAutoRestartService();
+    void netctlAutoStartService();
 
 private:
     Netctl *netctlCommand;

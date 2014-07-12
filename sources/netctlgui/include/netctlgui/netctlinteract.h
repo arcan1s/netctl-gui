@@ -36,26 +36,48 @@ public:
     QList<QStringList> getProfileListFromNetctlAuto();
     QString getProfileDescription(const QString profile);
     QStringList getProfileDescriptions(const QStringList profileList);
+    QString getProfileStatus(const QString profile);
     QStringList getProfileStatuses(const QStringList profileList);
     QString getSsidFromProfile(const QString profile);
     bool isProfileActive(const QString profile);
     bool isProfileEnabled(const QString profile);
+    bool autoIsProfileActive(const QString profile);
+    bool autoIsProfileEnabled(const QString profile);
+    bool isNetctlAutoEnabled();
+    bool isNetctlAutoRunning();
 
 public slots:
     // functions
+    // netctl
     bool enableProfile(const QString profile);
     bool restartProfile(const QString profile);
     bool startProfile(const QString profile);
+    // netctl-auto
+    bool autoDisableAllProfiles();
+    bool autoEnableProfile(const QString profile);
+    bool autoEnableAllProfiles();
+    bool autoStartProfile(const QString profile);
+    // netctl-auto service
+    bool autoEnableService();
+    bool autoRestartService();
+    bool autoStartService();
 
 private:
     bool debug;
+    QDir *ifaceDirectory;
+    QString mainInterface;
     QString netctlCommand;
     QString netctlAutoCommand;
+    QString netctlAutoService;
     QDir *profileDirectory;
     QString sudoCommand;
+    QString systemctlCommand;
     // functions
     QString getNetctlOutput(const bool sudo, const QString commandLine, const QString profile);
+    QString getWifiInterface();
     bool netctlCall(const bool sudo, const QString commandLine, const QString profile);
+    bool netctlAutoCall(const bool sudo, const QString commandLine, const QString profile = 0);
+    bool systemctlCall(const bool sudo, const QString commandLine);
 };
 
 

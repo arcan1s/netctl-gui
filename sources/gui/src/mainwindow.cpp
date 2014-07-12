@@ -44,7 +44,7 @@
 #include "wirelesswidget.h"
 
 
-MainWindow::MainWindow(QWidget *parent, const bool defaultSettings, const bool debugCmd, const int tabNum)
+MainWindow::MainWindow(QWidget *parent, const bool defaultSettings, const bool debugCmd, const bool netctlAuto, const int tabNum)
     : QMainWindow(parent),
       ui(new Ui::MainWindow),
       debug(debugCmd)
@@ -96,6 +96,9 @@ MainWindow::MainWindow(QWidget *parent, const bool defaultSettings, const bool d
     setIconsToButtons();
     updateTabs(ui->tabWidget->currentIndex());
     ui->statusBar->showMessage(QApplication::translate("MainWindow", "Ready"));
+
+    if (netctlAuto)
+        netctlAutoWin->showWindow();
 }
 
 
@@ -135,6 +138,9 @@ bool MainWindow::checkExternalApps(const QString apps = QString("all"))
     if ((apps == QString("netctl")) || (apps == QString("all"))) {
         commandLine.append(configuration[QString("NETCTL_PATH")]);
         commandLine.append(configuration[QString("NETCTLAUTO_PATH")]);
+    }
+    if ((apps == QString("systemctl")) || (apps == QString("all"))) {
+        commandLine.append(configuration[QString("SYSTEMCTL_PATH")]);
     }
     if ((apps == QString("wpasup")) || (apps == QString("all"))) {
         commandLine.append(configuration[QString("WPACLI_PATH")]);

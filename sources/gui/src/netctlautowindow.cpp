@@ -32,6 +32,7 @@ NetctlAutoWindow::NetctlAutoWindow(QWidget *parent, const bool debugCmd, const Q
     netctlCommand = new Netctl(debug, settings);
 
     createActions();
+    ui->statusBar->showMessage(QApplication::translate("NetctlAutoWindow", "Ready"));
 }
 
 
@@ -52,17 +53,23 @@ void NetctlAutoWindow::createActions()
     connect(ui->actionClose, SIGNAL(triggered(bool)), this, SLOT(close()));
     connect(ui->actionDisableAll, SIGNAL(triggered(bool)), this, SLOT(netctlAutoDisableAllProfiles()));
     connect(ui->actionEnable, SIGNAL(triggered(bool)), this, SLOT(netctlAutoEnableProfile()));
-    connect(ui->actionEnableAll, SIGNAL(triggered(bool)), this, SLOT(netctlAutoEnableAllProfiles()));
+    connect(ui->actionEnableAll, SIGNAL(triggered(bool)), this, SLOT(netctlAutoEnableAllProfiles()));\
+    connect(ui->actionRefresh, SIGNAL(triggered(bool)), this, SLOT(netctlAutoAppendTable()));
     connect(ui->actionSwitch, SIGNAL(triggered(bool)), this, SLOT(netctlAutoStartProfile()));
+    // service
+    connect(ui->actionEnableService, SIGNAL(triggered(bool)), this, SLOT(netctlAutoEnableService()));
+    connect(ui->actionRestartService, SIGNAL(triggered(bool)), this, SLOT(netctlAutoRestartService()));
+    connect(ui->actionStartService, SIGNAL(triggered(bool)), this, SLOT(netctlAutoStartService()));
 
     // table actions
-    connect(ui->tableWidget, SIGNAL(itemActivated(QTableWidgetItem *)), this, SLOT(startProfile()));
+    connect(ui->tableWidget, SIGNAL(itemActivated(QTableWidgetItem *)), this, SLOT(netctlAutoStartProfile()));
     connect(ui->tableWidget, SIGNAL(currentItemChanged(QTableWidgetItem *, QTableWidgetItem *)), this, SLOT(netctlAutoRefreshButtons(QTableWidgetItem *, QTableWidgetItem *)));
     connect(ui->tableWidget, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(netctlAutoContextualMenu(QPoint)));
 
     // buttons
-    connect(ui->pushButton_enable, SIGNAL(clicked(bool)), SLOT(netctlAutoEnableProfile()));
-    connect(ui->pushButton_switch, SIGNAL(clicked(bool)), SLOT(netctlAutoStartProfile()));
+    connect(ui->pushButton_enable, SIGNAL(clicked(bool)), this, SLOT(netctlAutoEnableProfile()));
+    connect(ui->pushButton_refresh, SIGNAL(clicked(bool)), this, SLOT(netctlAutoAppendTable()));
+    connect(ui->pushButton_switch, SIGNAL(clicked(bool)), this, SLOT(netctlAutoStartProfile()));
 }
 
 
@@ -77,9 +84,29 @@ void NetctlAutoWindow::showWindow()
 
 void NetctlAutoWindow::netctlAutoAppendTable()
 {
-    if (debug) qDebug() << "[NetctlAutoWindow]" << "[appendTable]";
+    if (debug) qDebug() << "[NetctlAutoWindow]" << "[netctlAutoAppendTable]";
 
+    ui->tableWidget->setDisabled(true);
     QList<QStringList> profiles = netctlCommand->getProfileListFromNetctlAuto();
+
+    // actions
+    if (netctlCommand->isNetctlAutoEnabled())
+        ui->actionEnableService->setText(QApplication::translate("NetctlAutoWindow", "Disable service"));
+    else
+        ui->actionEnableService->setText(QApplication::translate("NetctlAutoWindow", "Enable service"));
+    ui->actionEnableService->setVisible(true);
+    if (netctlCommand->isNetctlAutoRunning()) {
+        ui->label_info->setText(QApplication::translate("NetctlAutoWindow", "netctl-auto is running"));
+        ui->actionStartService->setText(QApplication::translate("NetctlAutoWindow", "Stop service"));
+        ui->actionRestartService->setVisible(true);
+    }
+    else {
+        ui->actionStartService->setText(QApplication::translate("NetctlAutoWindow", "Start service"));
+        ui->actionRestartService->setVisible(false);
+        ui->label_info->setText(QApplication::translate("NetctlAutoWindow", "netctl-auto is not running"));
+        netctlAutoRefreshButtons(0, 0);
+        return;
+    }
 
     ui->tableWidget->setSortingEnabled(false);
     ui->tableWidget->selectRow(-1);
@@ -88,24 +115,34 @@ void NetctlAutoWindow::netctlAutoAppendTable()
     ui->tableWidget->setRowCount(profiles.count());
 
     // create header
-    ui->tableWidget->setHorizontalHeaderLabels(QApplication::translate("NetctlAutoWindow", "Profile==Description==Active==Disabled")
+    ui->tableWidget->setHorizontalHeaderLabels(QApplication::translate("NetctlAutoWindow", "Name==Description==Active==Disabled")
                                                .split(QString("==")));
     // create items
     for (int i=0; i<profiles.count(); i++) {
         // name
         ui->tableWidget->setItem(i, 0, new QTableWidgetItem(profiles[i][0]));
         ui->tableWidget->item(i, 0)->setTextAlignment(Qt::AlignLeft | Qt::AlignVCenter);
+        if (profiles[i][2] == QString("*")) {
+            QFont font;
+            font.setBold(true);
+            ui->tableWidget->item(i, 0)->setFont(font);
+        }
+        else if (profiles[i][2] == QString("!")) {
+            QFont font;
+            font.setItalic(true);
+            ui->tableWidget->item(i, 0)->setFont(font);
+        }
         // description
         ui->tableWidget->setItem(i, 1, new QTableWidgetItem(profiles[i][1]));
         ui->tableWidget->item(i, 1)->setTextAlignment(Qt::AlignLeft | Qt::AlignVCenter);
-        if (profiles[i][2] == "*") {
+        if (profiles[i][2] == QString("*")) {
             // active
             ui->tableWidget->setItem(i, 2, new QTableWidgetItem(QApplication::translate("NetctlAutoWindow", "yes")));
             ui->tableWidget->item(i, 2)->setTextAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
         }
         else
             ui->tableWidget->setItem(i, 2, new QTableWidgetItem(QString("")));
-        if (profiles[i][2] == "!") {
+        if (profiles[i][2] == QString("!")) {
             // disabled
             ui->tableWidget->setItem(i, 3, new QTableWidgetItem(QApplication::translate("NetctlAutoWindow", "yes")));
             ui->tableWidget->item(i, 3)->setTextAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
@@ -121,14 +158,17 @@ void NetctlAutoWindow::netctlAutoAppendTable()
 #else
     ui->tableWidget->horizontalHeader()->setResizeMode(QHeaderView::Stretch);
 #endif
+    ui->tableWidget->setEnabled(true);
+    ui->statusBar->showMessage(QApplication::translate("NetctlAutoWindow", "Updated"));
 
+    netctlAutoRefreshButtons(0, 0);
     update();
 }
 
 
 void NetctlAutoWindow::netctlAutoContextualMenu(const QPoint &pos)
 {
-    if (debug) qDebug() << "[NetctlAutoWindow]" << "[contextualMenu]";
+    if (debug) qDebug() << "[NetctlAutoWindow]" << "[netctlAutoContextualMenu]";
 
     if (ui->tableWidget->currentItem() == 0)
         return;
@@ -153,32 +193,31 @@ void NetctlAutoWindow::netctlAutoContextualMenu(const QPoint &pos)
         enableProfile->setVisible(true);
         startProfile->setVisible(true);
         if (ui->tableWidget->item(ui->tableWidget->currentItem()->row(), 3)->text() == QString("yes")) {
-            enableProfile->setText(QApplication::translate("NetctlAutoWindow", "Disable"));
-            enableProfile->setIcon(QIcon::fromTheme("edit-delete"));
-        }
-        else {
-            // buttons
             enableProfile->setText(QApplication::translate("NetctlAutoWindow", "Enable"));
             enableProfile->setIcon(QIcon::fromTheme("edit-add"));
+        }
+        else {
+            enableProfile->setText(QApplication::translate("NetctlAutoWindow", "Disable"));
+            enableProfile->setIcon(QIcon::fromTheme("edit-delete"));
         }
     }
 
     // actions
     QAction *action = menu.exec(ui->tableWidget->viewport()->mapToGlobal(pos));
     if (action == startProfile) {
-        if (debug) qDebug() << "[NetctlAutoWindow]" << "[contextualMenu]" << "Switch to profile";
+        if (debug) qDebug() << "[NetctlAutoWindow]" << "[netctlAutoContextualMenu]" << "Switch to profile";
         netctlAutoStartProfile();
     }
     else if (action == enableProfile) {
-        if (debug) qDebug() << "[NetctlAutoWindow]" << "[contextualMenu]" << "Enable profile";
+        if (debug) qDebug() << "[NetctlAutoWindow]" << "[netctlAutoContextualMenu]" << "Enable profile";
         netctlAutoEnableProfile();
     }
     else if (action == enableAllProfiles) {
-        if (debug) qDebug() << "[NetctlAutoWindow]" << "[contextualMenu]" << "Enable all profiles";
+        if (debug) qDebug() << "[NetctlAutoWindow]" << "[netctlAutoContextualMenu]" << "Enable all profiles";
         netctlAutoEnableAllProfiles();
     }
     else if (action == disableAllProfiles) {
-        if (debug) qDebug() << "[NetctlAutoWindow]" << "[contextualMenu]" << "Disable all profiles";
+        if (debug) qDebug() << "[NetctlAutoWindow]" << "[netctlAutoContextualMenu]" << "Disable all profiles";
         netctlAutoDisableAllProfiles();
     }
 }
@@ -186,32 +225,111 @@ void NetctlAutoWindow::netctlAutoContextualMenu(const QPoint &pos)
 
 void NetctlAutoWindow::netctlAutoDisableAllProfiles()
 {
-    if (debug) qDebug() << "[NetctlAutoWindow]" << "[disableAllProfiles]";
+    if (debug) qDebug() << "[NetctlAutoWindow]" << "[netctlAutoDisableAllProfiles]";
+
+    ui->tableWidget->setDisabled(true);
+    if (netctlCommand->autoDisableAllProfiles())
+        ui->statusBar->showMessage(QApplication::translate("NetctlAutoWindow", "Done"));
+    else
+        ui->statusBar->showMessage(QApplication::translate("NetctlAutoWindow", "Error"));
+
+    netctlAutoAppendTable();
 }
 
 
 void NetctlAutoWindow::netctlAutoEnableProfile()
 {
-    if (debug) qDebug() << "[NetctlAutoWindow]" << "[enableProfile]";
+    if (debug) qDebug() << "[NetctlAutoWindow]" << "[netctlAutoEnableProfile]";
+
+    if (ui->tableWidget->currentItem() == 0)
+        return;
+
+    ui->tableWidget->setDisabled(true);
+    QString profile = ui->tableWidget->item(ui->tableWidget->currentItem()->row(), 0)->text();
+    if (netctlCommand->autoEnableProfile(profile))
+        ui->statusBar->showMessage(QApplication::translate("NetctlAutoWindow", "Done"));
+    else
+        ui->statusBar->showMessage(QApplication::translate("NetctlAutoWindow", "Error"));
+
+    netctlAutoAppendTable();
 }
 
 
 void NetctlAutoWindow::netctlAutoEnableAllProfiles()
 {
-    if (debug) qDebug() << "[NetctlAutoWindow]" << "[enableAllProfiles]";
+    if (debug) qDebug() << "[NetctlAutoWindow]" << "[netctlAutoEnableAllProfiles]";
+
+    ui->tableWidget->setDisabled(true);
+    if (netctlCommand->autoEnableAllProfiles())
+        ui->statusBar->showMessage(QApplication::translate("NetctlAutoWindow", "Done"));
+    else
+        ui->statusBar->showMessage(QApplication::translate("NetctlAutoWindow", "Error"));
+
+    netctlAutoAppendTable();
 }
 
 
 void NetctlAutoWindow::netctlAutoStartProfile()
 {
-    if (debug) qDebug() << "[NetctlAutoWindow]" << "[startProfile]";
+    if (debug) qDebug() << "[NetctlAutoWindow]" << "[netctlAutoStartProfile]";
+
+    if (ui->tableWidget->currentItem() == 0)
+        return;
+
+    ui->tableWidget->setDisabled(true);
+    QString profile = ui->tableWidget->item(ui->tableWidget->currentItem()->row(), 0)->text();
+    if (netctlCommand->autoStartProfile(profile))
+        ui->statusBar->showMessage(QApplication::translate("NetctlAutoWindow", "Done"));
+    else
+        ui->statusBar->showMessage(QApplication::translate("NetctlAutoWindow", "Error"));
+
+    netctlAutoAppendTable();
+}
+
+
+void NetctlAutoWindow::netctlAutoEnableService()
+{
+    if (debug) qDebug() << "[NetctlAutoWindow]" << "[netctlAutoEnableService]";
+
+    if (netctlCommand->autoEnableService())
+        ui->statusBar->showMessage(QApplication::translate("NetctlAutoWindow", "Done"));
+    else
+        ui->statusBar->showMessage(QApplication::translate("NetctlAutoWindow", "Error"));
+
+    netctlAutoAppendTable();
+}
+
+
+void NetctlAutoWindow::netctlAutoRestartService()
+{
+    if (debug) qDebug() << "[NetctlAutoWindow]" << "[netctlAutoRestartService]";
+
+    if (netctlCommand->autoRestartService())
+        ui->statusBar->showMessage(QApplication::translate("NetctlAutoWindow", "Done"));
+    else
+        ui->statusBar->showMessage(QApplication::translate("NetctlAutoWindow", "Error"));
+
+    netctlAutoAppendTable();
+}
+
+
+void NetctlAutoWindow::netctlAutoStartService()
+{
+    if (debug) qDebug() << "[NetctlAutoWindow]" << "[netctlAutoStartService]";
+
+    if (netctlCommand->autoStartService())
+        ui->statusBar->showMessage(QApplication::translate("NetctlAutoWindow", "Done"));
+    else
+        ui->statusBar->showMessage(QApplication::translate("NetctlAutoWindow", "Error"));
+
+    netctlAutoAppendTable();
 }
 
 
 void NetctlAutoWindow::netctlAutoRefreshButtons(QTableWidgetItem *current, QTableWidgetItem *previous)
 {
     Q_UNUSED(previous);
-    if (debug) qDebug() << "[NetctlAutoWindow]" << "[refreshButtons]" << current->row();
+    if (debug) qDebug() << "[NetctlAutoWindow]" << "[netctlAutoRefreshButtons]";
 
     if (current == 0) {
         // buttons
@@ -240,19 +358,19 @@ void NetctlAutoWindow::netctlAutoRefreshButtons(QTableWidgetItem *current, QTabl
         ui->actionSwitch->setVisible(true);
         if (ui->tableWidget->item(current->row(), 3)->text() == QString("yes")) {
             // buttons
-            ui->pushButton_enable->setText(QApplication::translate("NetctlAutoWindow", "Disable"));
-            ui->pushButton_enable->setIcon(QIcon::fromTheme("edit-delete"));
-            // menu
-            ui->actionEnable->setText(QApplication::translate("NetctlAutoWindow", "Disable profile"));
-            ui->actionEnable->setIcon(QIcon::fromTheme("edit-delete"));
-        }
-        else {
-            // buttons
             ui->pushButton_enable->setText(QApplication::translate("NetctlAutoWindow", "Enable"));
             ui->pushButton_enable->setIcon(QIcon::fromTheme("edit-add"));
             // menu
             ui->actionEnable->setText(QApplication::translate("NetctlAutoWindow", "Enable profile"));
             ui->actionEnable->setIcon(QIcon::fromTheme("edit-add"));
+        }
+        else {
+            // buttons
+            ui->pushButton_enable->setText(QApplication::translate("NetctlAutoWindow", "Disable"));
+            ui->pushButton_enable->setIcon(QIcon::fromTheme("edit-delete"));
+            // menu
+            ui->actionEnable->setText(QApplication::translate("NetctlAutoWindow", "Disable profile"));
+            ui->actionEnable->setIcon(QIcon::fromTheme("edit-delete"));
         }
     }
 }

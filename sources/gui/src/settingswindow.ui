@@ -74,6 +74,37 @@
        </attribute>
        <layout class="QVBoxLayout" name="verticalLayout">
         <item>
+         <layout class="QHBoxLayout" name="layout_systemctlPath">
+          <item>
+           <widget class="QLabel" name="label_systemctlPath">
+            <property name="minimumSize">
+             <size>
+              <width>150</width>
+              <height>0</height>
+             </size>
+            </property>
+            <property name="text">
+             <string>systemctl path</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLineEdit" name="lineEdit_systemctlPath">
+            <property name="toolTip">
+             <string>Path to systemctl</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="pushButton_systemctlPath">
+            <property name="text">
+             <string>Browse</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+        <item>
          <layout class="QHBoxLayout" name="layout_netctlPath">
           <item>
            <widget class="QLabel" name="label_netctlPath">
@@ -122,7 +153,7 @@
           <item>
            <widget class="QLineEdit" name="lineEdit_netctlAutoPath">
             <property name="toolTip">
-             <string>Path to netctl</string>
+             <string>Path to netctl-auto</string>
             </property>
            </widget>
           </item>
@@ -130,6 +161,30 @@
            <widget class="QPushButton" name="pushButton_netctlAutoPath">
             <property name="text">
              <string>Browse</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <layout class="QHBoxLayout" name="layout_netctlAutoService">
+          <item>
+           <widget class="QLabel" name="label_netctlAutoService">
+            <property name="minimumSize">
+             <size>
+              <width>150</width>
+              <height>0</height>
+             </size>
+            </property>
+            <property name="text">
+             <string>netctl-auto service</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLineEdit" name="lineEdit_netctlAutoService">
+            <property name="toolTip">
+             <string>Name of netctl-auto systemd service</string>
             </property>
            </widget>
           </item>
@@ -317,7 +372,7 @@
           <item>
            <widget class="QLineEdit" name="lineEdit_wpaActiondPath">
             <property name="toolTip">
-             <string>Path to wpa_cli</string>
+             <string>Path to wpa_actiond</string>
             </property>
            </widget>
           </item>

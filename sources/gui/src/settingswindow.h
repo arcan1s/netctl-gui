@@ -54,6 +54,7 @@ private slots:
     void selectProfileDir();
     void selectRfkillDir();
     void selectSudoPath();
+    void selectSystemctlPath();
     void selectWpaActiondPath();
     void selectWpaCliPath();
     void selectWpaSupPath();

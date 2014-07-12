@@ -49,14 +49,17 @@ int main(int argc, char *argv[])
     helpMessage += QApplication::translate("MainWindow", "                                                    Evgeniy Alekseev aka arcanis\n");
     helpMessage += QApplication::translate("MainWindow", "                                                    E-mail : esalexeev@gmail.com\n\n");
     helpMessage += QApplication::translate("MainWindow", "Usage:\n");
-    helpMessage += QApplication::translate("MainWindow", "netctl-gui [ --default ] [ -d | --debug ] [ -t NUM | --tab NUM ] [ -h | --help]\n\n");
+    helpMessage += QApplication::translate("MainWindow", "netctl-gui [ -d | --debug ] [ --default ] [ --netctl-auto ] [ -t NUM | --tab NUM ]\n");
+    helpMessage += QApplication::translate("MainWindow", "           [ -h | --help]\n\n");
     helpMessage += QApplication::translate("MainWindow", "Parametrs:\n");
-    helpMessage += QApplication::translate("MainWindow", "           --default    - start with default settings\n");
-    helpMessage += QApplication::translate("MainWindow", "  -d       --debug      - print debug information\n");
-    helpMessage += QApplication::translate("MainWindow", "  -t NUM   --tab NUM    - open a tab with number NUM\n");
-    helpMessage += QApplication::translate("MainWindow", "  -h       --help       - show this help and exit\n");
+    helpMessage += QApplication::translate("MainWindow", "  -d       --debug         - print debug information\n");
+    helpMessage += QApplication::translate("MainWindow", "           --default       - start with default settings\n");
+    helpMessage += QApplication::translate("MainWindow", "           --netctl-auto   - show netctl-auto window\n");
+    helpMessage += QApplication::translate("MainWindow", "  -t NUM   --tab NUM       - open a tab with number NUM\n");
+    helpMessage += QApplication::translate("MainWindow", "  -h       --help          - show this help and exit\n");
     bool defaultSettings = false;
     bool debug = false;
+    bool netctlAuto = false;
     int tabNumber = 1;
 
     for (int i=1; i<argc; i++) {
@@ -80,6 +83,13 @@ int main(int argc, char *argv[])
                   (argv[i][3] == 'g') && (argv[i][4] == '\0'))) {
             debug = true;
         }
+        // netctl-auto
+        else if ((argv[i][0] == '-') && (argv[i][1] == '-') && (argv[i][2] == 'n') && (argv[i][3] == 'e') &&
+                 (argv[i][4] == 't') && (argv[i][5] == 'c') && (argv[i][6] == 't') && (argv[i][7] == 'l') &&
+                 (argv[i][8] == '-') && (argv[i][9] == 'a') && (argv[i][10] == 'u') && (argv[i][11] == 't') &&
+                 (argv[i][12] == 'o') && (argv[i][13] == '\0')) {
+            netctlAuto = true;
+        }
         // tab number
         else if (((argv[i][0] == '-') && (argv[i][1] == 't') && (argv[i][2] == '\0')) ||
                  ((argv[i][0] == '-') && (argv[i][1] == '-') && (argv[i][2] == 't') &&
@@ -94,7 +104,7 @@ int main(int argc, char *argv[])
         }
     }
 
-    MainWindow w(0, defaultSettings, debug, tabNumber);
+    MainWindow w(0, defaultSettings, debug, netctlAuto, tabNumber);
     w.show();
     return a.exec();
 }

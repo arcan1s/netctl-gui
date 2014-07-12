@@ -54,6 +54,7 @@ public:
     explicit MainWindow(QWidget *parent = 0,
                         const bool defaultSettings = false,
                         const bool debugCmd = false,
+                        const bool netctlAuto = false,
                         const int tabNum = 1);
     ~MainWindow();
 

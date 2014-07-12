@@ -64,6 +64,7 @@ void SettingsWindow::createActions()
     connect(ui->pushButton_profilePath, SIGNAL(clicked(bool)), SLOT(selectProfileDir()));
     connect(ui->pushButton_rfkill, SIGNAL(clicked(bool)), SLOT(selectRfkillDir()));
     connect(ui->pushButton_sudo, SIGNAL(clicked(bool)), SLOT(selectSudoPath()));
+    connect(ui->pushButton_systemctlPath, SIGNAL(clicked(bool)), SLOT(selectSystemctlPath()));
     connect(ui->pushButton_wpaActiondPath, SIGNAL(clicked(bool)), SLOT(selectWpaActiondPath()));
     connect(ui->pushButton_wpaCliPath, SIGNAL(clicked(bool)), SLOT(selectWpaCliPath()));
     connect(ui->pushButton_wpaSupPath, SIGNAL(clicked(bool)), SLOT(selectWpaSupPath()));
@@ -195,6 +196,20 @@ void SettingsWindow::selectSudoPath()
 }
 
 
+void SettingsWindow::selectSystemctlPath()
+{
+    if (debug) qDebug() << "[SettingsWindow]" << "[selectSystemctlPath]";
+
+    QString filename = QFileDialog::getOpenFileName(
+                this,
+                QApplication::translate("SettingsWindow", "Select systemctl command"),
+                QString("/usr/bin/"),
+                QApplication::translate("SettingsWindow", "All files (*)"));
+    if (!filename.isEmpty())
+        ui->lineEdit_systemctlPath->setText(filename);
+}
+
+
 void SettingsWindow::selectWpaActiondPath()
 {
     if (debug) qDebug() << "[SettingsWindow]" << "[selectWpaActiondPath]";
@@ -259,11 +274,13 @@ QMap<QString, QString> SettingsWindow::readSettings()
     settings[QString("LANGUAGE")] = ui->comboBox_language->currentText();
     settings[QString("NETCTL_PATH")] = ui->lineEdit_netctlPath->text();
     settings[QString("NETCTLAUTO_PATH")] = ui->lineEdit_netctlAutoPath->text();
+    settings[QString("NETCTLAUTO_SERVICE")] = ui->lineEdit_netctlAutoService->text();
     settings[QString("PID_FILE")] = ui->lineEdit_pid->text();
     settings[QString("PREFERED_IFACE")] = ui->lineEdit_interface->text();
     settings[QString("PROFILE_DIR")] = ui->lineEdit_profilePath->text();
     settings[QString("RFKILL_DIR")] = ui->lineEdit_rfkill->text();
     settings[QString("SUDO_PATH")] = ui->lineEdit_sudo->text();
+    settings[QString("SYSTEMCTL_PATH")] = ui->lineEdit_systemctlPath->text();
     settings[QString("WPAACTIOND_PATH")] = ui->lineEdit_wpaActiondPath->text();
     settings[QString("WPACLI_PATH")] = ui->lineEdit_wpaCliPath->text();
     settings[QString("WPASUP_PATH")] = ui->lineEdit_wpaSupPath->text();
@@ -290,11 +307,13 @@ void SettingsWindow::setSettings(const QMap<QString, QString> settings)
             ui->comboBox_language->setCurrentIndex(i);
     ui->lineEdit_netctlPath->setText(settings[QString("NETCTL_PATH")]);
     ui->lineEdit_netctlAutoPath->setText(settings[QString("NETCTLAUTO_PATH")]);
+    ui->lineEdit_netctlAutoService->setText(settings[QString("NETCTLAUTO_SERVICE")]);
     ui->lineEdit_pid->setText(settings[QString("PID_FILE")]);
     ui->lineEdit_interface->setText(settings[QString("PREFERED_IFACE")]);
     ui->lineEdit_profilePath->setText(settings[QString("PROFILE_DIR")]);
     ui->lineEdit_rfkill->setText(settings[QString("RFKILL_DIR")]);
     ui->lineEdit_sudo->setText(settings[QString("SUDO_PATH")]);
+    ui->lineEdit_systemctlPath->setText(settings[QString("SYSTEMCTL_PATH")]);
     ui->lineEdit_wpaActiondPath->setText(settings[QString("WPAACTIOND_PATH")]);
     ui->lineEdit_wpaCliPath->setText(settings[QString("WPACLI_PATH")]);
     ui->lineEdit_wpaSupPath->setText(settings[QString("WPASUP_PATH")]);
@@ -318,11 +337,13 @@ QMap<QString, QString> SettingsWindow::getDefault()
     settings[QString("LANGUAGE")] = QString("en");
     settings[QString("NETCTL_PATH")] = QString("/usr/bin/netctl");
     settings[QString("NETCTLAUTO_PATH")] = QString("/usr/bin/netctl-auto");
+    settings[QString("NETCTLAUTO_SERVICE")] = QString("netctl-auto");
     settings[QString("PID_FILE")] = QString("/run/wpa_supplicant_netctl-gui.pid");
     settings[QString("PREFERED_IFACE")] = QString("");
     settings[QString("PROFILE_DIR")] = QString("/etc/netctl/");
     settings[QString("RFKILL_DIR")] = QString("/sys/class/rfkill/");
     settings[QString("SUDO_PATH")] = QString("/usr/bin/kdesu");
+    settings[QString("SYSTEMCTL_PATH")] = QString("/usr/bin/systemctl");
     settings[QString("WPAACTIOND_PATH")] = QString("/usr/bin/wpa_actiond");
     settings[QString("WPACLI_PATH")] = QString("/usr/bin/wpa_cli");
     settings[QString("WPASUP_PATH")] = QString("/usr/bin/wpa_supplicant");

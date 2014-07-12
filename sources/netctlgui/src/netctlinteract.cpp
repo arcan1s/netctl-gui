@@ -25,10 +25,14 @@
 Netctl::Netctl(const bool debugCmd, const QMap<QString, QString> settings)
     : debug(debugCmd)
 {
+    ifaceDirectory = new QDir(settings[QString("IFACE_DIR")]);
+    mainInterface = settings[QString("PREFERED_IFACE")];
     netctlCommand = settings[QString("NETCTL_PATH")];
     netctlAutoCommand = settings[QString("NETCTLAUTO_PATH")];
+    netctlAutoService = settings[QString("NETCTLAUTO_SERVICE")];
     profileDirectory = new QDir(settings[QString("PROFILE_DIR")]);
     sudoCommand = settings[QString("SUDO_PATH")];
+    systemctlCommand = settings[QString("SYSTEMCTL_PATH")];
 }
 
 
@@ -36,6 +40,7 @@ Netctl::~Netctl()
 {
     if (debug) qDebug() << "[Netctl]" << "[~Netctl]";
 
+    delete ifaceDirectory;
     delete profileDirectory;
 }
 
@@ -60,6 +65,27 @@ QString Netctl::getNetctlOutput(const bool sudo, const QString commandLine, cons
 }
 
 
+QString Netctl::getWifiInterface()
+{
+    if (debug) qDebug() << "[Netctl]" << "[getInterfaceList]";
+
+    QStringList interfaces;
+
+    if (!mainInterface.isEmpty())
+        interfaces.append(mainInterface);
+    QStringList allInterfaces = ifaceDirectory->entryList(QDir::Dirs | QDir::NoDotAndDotDot);
+    for (int i=0; i<allInterfaces.count(); i++) {
+        if (debug) qDebug() << "[Netctl]" << "[getInterfaceList]" << ":" << "Check directory"
+                 << ifaceDirectory->path() + QDir::separator() + allInterfaces[i] + QDir::separator() + QString("wireless");
+        if (QDir(ifaceDirectory->path() + QDir::separator() + allInterfaces[i] +
+                 QDir::separator() + QString("wireless")).exists())
+            interfaces.append(allInterfaces[i]);
+    }
+
+    return interfaces[0];
+}
+
+
 bool Netctl::netctlCall(const bool sudo, const QString commandLine, const QString profile)
 {
     if (debug) qDebug() << "[Netctl]" << "[netctlCall]";
@@ -75,6 +101,55 @@ bool Netctl::netctlCall(const bool sudo, const QString commandLine, const QStrin
     command.start(commandText);
     command.waitForFinished(-1);
     if (debug) qDebug() << "[Netctl]" << "[netctlCall]" << ":" << "Cmd returns" << command.exitCode();
+
+    if (command.exitCode() == 0)
+        return true;
+    else
+        return false;
+}
+
+
+bool Netctl::netctlAutoCall(const bool sudo, const QString commandLine, const QString profile)
+{
+    if (debug) qDebug() << "[Netctl]" << "[netctlAutoCall]";
+
+    QProcess command;
+    QString commandText;
+    if (sudo)
+        commandText = sudoCommand + QString(" ") + netctlAutoCommand + QString(" ") + commandLine;
+    else
+        commandText = netctlAutoCommand + QString(" ") + commandLine;
+    if (profile != 0)
+        commandText = commandText + QString(" ") + profile;
+    if (debug) qDebug() << "[Netctl]" << "[netctlAutoCall]" << ":" << "Run cmd" << commandText;
+    command.start(commandText);
+    command.waitForFinished(-1);
+    if (debug) qDebug() << "[Netctl]" << "[netctlAutoCall]" << ":" << "Cmd returns" << command.exitCode();
+
+    if (command.exitCode() == 0)
+        return true;
+    else
+        return false;
+}
+
+
+bool Netctl::systemctlCall(const bool sudo, const QString commandLine)
+{
+    if (debug) qDebug() << "[Netctl]" << "[systemctlCall]";
+
+    QString interface = getWifiInterface();
+    QProcess command;
+    QString commandText;
+    if (sudo)
+        commandText = sudoCommand + QString(" ") + systemctlCommand + QString(" ") + commandLine +
+                QString(" ") + netctlAutoService + QString("@") + interface + QString(".service");
+    else
+        commandText = systemctlCommand + QString(" ") + commandLine + QString(" ") + netctlAutoService +
+                QString("@") + interface + QString(".service");
+    if (debug) qDebug() << "[Netctl]" << "[systemctlCall]" << ":" << "Run cmd" << commandText;
+    command.start(commandText);
+    command.waitForFinished(-1);
+    if (debug) qDebug() << "[Netctl]" << "[systemctlCall]" << ":" << "Cmd returns" << command.exitCode();
 
     if (command.exitCode() == 0)
         return true;
@@ -191,6 +266,24 @@ QStringList Netctl::getProfileDescriptions(const QStringList profileList)
 }
 
 
+QString Netctl::getProfileStatus(const QString profile)
+{
+    if (debug) qDebug() << "[Netctl]" << "[getProfileStatus]";
+
+    QString status;
+    if (isProfileActive(profile))
+        status = QString("active");
+    else
+        status = QString("inactive");
+    if (isProfileEnabled(profile))
+        status = status + QString(" (enabled)");
+    else
+        status = status + QString(" (static)");
+
+    return status;
+}
+
+
 QStringList Netctl::getProfileStatuses(const QStringList profileList)
 {
     if (debug) qDebug() << "[Netctl]" << "[getProfileStatuses]";
@@ -267,6 +360,78 @@ bool Netctl::isProfileEnabled(const QString profile)
 }
 
 
+bool Netctl::autoIsProfileActive(const QString profile)
+{
+    if (debug) qDebug() << "[Netctl]" << "[autoIsProfileActive]";
+
+    bool status = false;
+    QList<QStringList> profiles = getProfileListFromNetctlAuto();
+    for (int i=0; i<profiles.count(); i++)
+        if ((profiles[i][0] == profile) && (profiles[i][2] == QString("*"))) {
+            status = true;
+            break;
+        }
+
+    return status;
+}
+
+
+bool Netctl::autoIsProfileEnabled(const QString profile)
+{
+    if (debug) qDebug() << "[Netctl]" << "[autoIsProfileEnabled]";
+
+    bool status = true;
+    QList<QStringList> profiles = getProfileListFromNetctlAuto();
+    for (int i=0; i<profiles.count(); i++)
+        if ((profiles[i][0] == profile) && (profiles[i][2] == QString("!"))) {
+            status = false;
+            break;
+        }
+
+    return status;
+}
+
+
+bool Netctl::isNetctlAutoEnabled()
+{
+    if (debug) qDebug() << "[Netctl]" << "[isNetctlAutoEnabled]";
+
+    QString interface = getWifiInterface();
+    QProcess command;
+    QString commandText = systemctlCommand + QString(" is-enabled ") + netctlAutoService + QString("@") +
+            interface + QString(".service");
+    if (debug) qDebug() << "[Netctl]" << "[isNetctlAutoEnabled]" << ":" << "Run cmd" << commandText;
+    command.start(commandText);
+    command.waitForFinished(-1);
+    if (debug) qDebug() << "[Netctl]" << "[isNetctlAutoEnabled]" << ":" << "Cmd returns" << command.exitCode();
+    QString output = command.readAllStandardOutput().trimmed();
+    if (output == QString("enabled"))
+        return true;
+    else
+        return false;
+}
+
+
+bool Netctl::isNetctlAutoRunning()
+{
+    if (debug) qDebug() << "[Netctl]" << "[isNetctlAutoRunning]";
+
+    QString interface = getWifiInterface();
+    QProcess command;
+    QString commandText = systemctlCommand + QString(" is-active ") + netctlAutoService + QString("@") +
+            interface + QString(".service");
+    if (debug) qDebug() << "[Netctl]" << "[isNetctlAutoRunning]" << ":" << "Run cmd" << commandText;
+    command.start(commandText);
+    command.waitForFinished(-1);
+    if (debug) qDebug() << "[Netctl]" << "[isNetctlAutoRunning]" << ":" << "Cmd returns" << command.exitCode();
+    QString output = command.readAllStandardOutput().trimmed();
+    if (output == QString("active"))
+        return true;
+    else
+        return false;
+}
+
+
 // functions
 bool Netctl::enableProfile(const QString profile)
 {
@@ -295,4 +460,75 @@ bool Netctl::startProfile(const QString profile)
         return netctlCall(true, QString("stop"), profile);
     else
         return netctlCall(true, QString("start"), profile);
+}
+
+
+bool Netctl::autoDisableAllProfiles()
+{
+    if (debug) qDebug() << "[Netctl]" << "[autoDisableAllProfiles]";
+
+    return netctlAutoCall(false, QString("disable-all"));
+}
+
+
+bool Netctl::autoEnableProfile(const QString profile)
+{
+    if (debug) qDebug() << "[Netctl]" << "[autoEnableProfile]";
+
+    if (autoIsProfileEnabled(profile))
+        return netctlAutoCall(false, QString("disable"), profile);
+    else
+        return netctlAutoCall(false, QString("enable"), profile);
+}
+
+
+bool Netctl::autoEnableAllProfiles()
+{
+    if (debug) qDebug() << "[Netctl]" << "[autoEnableAllProfiles]";
+
+    return netctlAutoCall(false, QString("enable-all"));
+}
+
+
+bool Netctl::autoStartProfile(const QString profile)
+{
+    if (debug) qDebug() << "[Netctl]" << "[autoStartProfile]";
+
+    if (!autoIsProfileActive(profile))
+        return true;
+    else
+        return netctlAutoCall(false, QString("switch-to"), profile);
+}
+
+
+bool Netctl::autoEnableService()
+{
+    if (debug) qDebug() << "[Netctl]" << "[autoEnableService]";
+
+    if (isNetctlAutoEnabled())
+        return systemctlCall(true, QString("disable"));
+    else
+        return systemctlCall(true, QString("enable"));
+}
+
+
+bool Netctl::autoRestartService()
+{
+    if (debug) qDebug() << "[Netctl]" << "[autoRestartService]";
+
+    if (isNetctlAutoRunning())
+        return systemctlCall(true, QString("restart"));
+    else
+        return true;
+}
+
+
+bool Netctl::autoStartService()
+{
+    if (debug) qDebug() << "[Netctl]" << "[autoStartService]";
+
+    if (isNetctlAutoRunning())
+        return systemctlCall(true, QString("stop"));
+    else
+        return systemctlCall(true, QString("start"));
 }
