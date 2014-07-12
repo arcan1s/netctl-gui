@@ -204,6 +204,7 @@ void MainWindow::createActions()
     connect(ui->pushButton_mainRefresh, SIGNAL(clicked(bool)), this, SLOT(updateMainTab()));
     connect(ui->pushButton_mainRestart, SIGNAL(clicked(bool)), this, SLOT(mainTabRestartProfile()));
     connect(ui->pushButton_mainStart, SIGNAL(clicked(bool)), this, SLOT(mainTabStartProfile()));
+    connect(ui->pushButton_netctlAuto, SIGNAL(clicked(bool)), netctlAutoWin, SLOT(showWindow()));
     connect(ui->tableWidget_main, SIGNAL(itemActivated(QTableWidgetItem *)), this, SLOT(mainTabStartProfile()));
     connect(ui->tableWidget_main, SIGNAL(currentItemChanged(QTableWidgetItem *, QTableWidgetItem *)), this, SLOT(mainTabRefreshButtons(QTableWidgetItem *, QTableWidgetItem *)));
     connect(ui->tableWidget_main, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(mainTabContextualMenu(QPoint)));
@@ -321,7 +322,12 @@ void MainWindow::updateMainTab()
     }
 
     ui->tabWidget->setDisabled(true);
-    QList<QStringList> profiles = netctlCommand->getProfileList();;
+    QList<QStringList> profiles = netctlCommand->getProfileList();
+
+    if (netctlCommand->isNetctlAutoRunning())
+        ui->widget_netctlAuto->setHidden(false);
+    else
+        ui->widget_netctlAuto->setHidden(true);
 
     ui->tableWidget_main->setSortingEnabled(false);
     ui->tableWidget_main->selectRow(-1);

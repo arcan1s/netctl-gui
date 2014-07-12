@@ -69,7 +69,6 @@ Additional information
 TODO (wish list)
 ----------------
 
-* netctl-auto support to profiles
 * netctl-auto support to dataengine
 * man pages
 * code review
