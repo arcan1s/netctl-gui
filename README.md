@@ -6,20 +6,12 @@ Information
 
 Qt4/Qt5 graphical interface for netctl. It may work with profiles and may create new profiles. Also it may create a connection to WiFi. Moreover, it provides a widget and DataEngine for KDE.
 
-**NOTE** LOOKING FOR TRANSLATORS!
+**NOTE** [LOOKING FOR TRANSLATORS!](https://github.com/arcan1s/netctl-gui/issues/3)
 
 Configuration
 -------------
 
-It is recommended to use graphical interface for widget configuration. DataEngine settings are stored in `/usr/share/config/netctl.conf`:
-
-* `CMD` - netctl command. Default value is `/usr/bin/netctl`.
-* `IPCMD` - ip command. `/usr/bin/ip` by default.
-* `NETDIR` - a directory, which contains subdirectories with names of network interfaces. Default is `/sys/class/net/`.
-* `EXTIPCMD` - a command, which returns external IP address. Default value is `wget -qO- http://ifconfig.me/ip`.
-* `EXTIP` - `true` will enable external IP definition. Default is `false`.
-
-All settings of GUI are stored in `$HOME/.config/netctl-gui.conf`. It is highly recommended to edit it from graphical interface.
+It is recommended to use graphical interface for widget and DataEngine configuration. All settings of GUI are stored in `$HOME/.config/netctl-gui.conf`. It is highly recommended to edit it from graphical interface.
 
 Instruction
 ===========
@@ -35,6 +27,7 @@ Optional dependencies
 
 * kdebase-workspace (widget)
 * sudo (sudo support)
+* wpa_actiond (netctl-auto support)
 * wpa_supplicant (WiFi support)
 
 Make dependencies

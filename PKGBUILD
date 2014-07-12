@@ -12,6 +12,7 @@ makedepends=('automoc4' 'cmake' 'kdelibs' 'qt5-base' 'qt5-tools')
 optdepends=('kdebase-runtime: sudo support'
             'kdeplasma-applets-netctl-gui: KDE widget'
             'sudo: sudo support'
+            'wpa_actiond: netctl-auto support'
             'wpa_supplicant: wifi support')
 source=("https://github.com/arcan1s/netctl-gui/releases/download/V.${pkgver}/${pkgbase}-${pkgver}-src.tar.xz")
 install="${pkgbase}.install"
@@ -27,6 +28,7 @@ build() {
   cmake -DCMAKE_INSTALL_PREFIX=/usr \
         -DCMAKE_BUILD_TYPE=Release \
         -DBUILD_GUI:BOOL=0 \
+        -DBUILD_LIBRARY:BOOL=0 \
         "../${pkgbase}"
   make
 
