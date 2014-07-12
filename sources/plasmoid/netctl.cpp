@@ -48,13 +48,8 @@ Netctl::~Netctl()
 {
 //    delete startProfileMenu;
 //    delete switchToProfileMenu;
-//    delete startProfile;
-//    delete stopProfile;
-//    delete restartProfile;
-//    delete enableProfile;
-
 //    delete iconWidget;
-
+//    delete textLabel;
 //    delete netctlEngine;
 }
 
@@ -203,11 +198,13 @@ void Netctl::startProfileSlot(QAction *profile)
     QProcess command;
     QString commandLine;
     commandLine = QString("");
-    sendNotification(QString("Info"), i18n("Start profile %1", profile->text().remove(QString("&"))));
+    sendNotification(QString("Info"), i18n("Start profile %1", profile->text().remove(QChar('&'))));
     if (status) {
-        commandLine = paths[QString("netctl")] + QString(" stop ") + info[QString("name")];
         if (useSudo)
-            commandLine = paths[QString("sudo")] + QString(" ") + commandLine;
+            commandLine = paths[QString("sudo")] + QString(" ") + paths[QString("netctl")] +
+                    QString(" stop ") + info[QString("name")];
+        else
+            commandLine = paths[QString("netctl")] + QString(" stop ") + info[QString("name")];
         command.start(commandLine);
         command.waitForFinished(-1);
         if (command.exitCode() != 0)
@@ -216,10 +213,10 @@ void Netctl::startProfileSlot(QAction *profile)
     if (ready) {
         if (useSudo)
             commandLine = paths[QString("sudo")] + QString(" ") + paths[QString("netctl")] +
-                    QString(" start ") + profile->text().remove(QString("&"));
+                    QString(" start ") + profile->text().remove(QChar('&'));
         else
             commandLine = paths[QString("netctl")] + QString(" start ") +
-                    profile->text().remove(QString("&"));
+                    profile->text().remove(QChar('&'));
         command.startDetached(commandLine);
     }
 }
@@ -244,9 +241,9 @@ void Netctl::switchToProfileSlot(QAction *profile)
     QProcess command;
     QString commandLine;
     commandLine = QString("");
-    sendNotification(QString("Info"), i18n("Switch to profile %1", profile->text().remove(QString("&"))));
+    sendNotification(QString("Info"), i18n("Switch to profile %1", profile->text().remove(QChar('&'))));
     commandLine = paths[QString("netctl-auto")] + QString(" switch-to ") +
-            profile->text().remove(QString("&"));
+            profile->text().remove(QChar('&'));
     command.startDetached(commandLine);
 }
 
@@ -317,6 +314,7 @@ QList<QAction*> Netctl::contextualActions()
             startProfileMenu->addAction(profile);
         }
     }
+
     if (useWifi)
         contextMenu[QString("wifi")]->setVisible(true);
     else
@@ -451,11 +449,11 @@ void Netctl::dataUpdated(const QString &sourceName, const Plasma::DataEngine::Da
         info[QString("interfaces")] = value;
     }
     else if (sourceName == QString("profiles")) {
-        profileList = value.split(QString(","));
+        profileList = value.split(QChar(','));
     }
     else if (sourceName == QString("statusBool")) {
         if (value == QString("true")) {
-            if (! status)
+            if (!status)
                 sendNotification(QString("Info"), i18n("Network is up"));
             status = true;
             iconWidget->setIcon(paths[QString("active")]);
@@ -806,6 +804,19 @@ void Netctl::setBigInterface()
 }
 
 
+void Netctl::setDataEngineExternalIp()
+{
+    if (uiDEConfig.checkBox_extIp->checkState() == 0) {
+        uiDEConfig.lineEdit_extIp->setDisabled(true);
+        uiDEConfig.pushButton_extIp->setDisabled(true);
+    }
+    else if (uiDEConfig.checkBox_extIp->checkState() == 2) {
+        uiDEConfig.lineEdit_extIp->setEnabled(true);
+        uiDEConfig.pushButton_extIp->setEnabled(true);
+    }
+}
+
+
 void Netctl::setSudo()
 {
     if (uiWidConfig.checkBox_sudo->checkState() == 0) {
@@ -828,19 +839,6 @@ void Netctl::setWifi()
     else if (uiWidConfig.checkBox_wifi->checkState() == 2) {
         uiWidConfig.lineEdit_wifi->setEnabled(true);
         uiWidConfig.pushButton_wifi->setEnabled(true);
-    }
-}
-
-
-void Netctl::setDataEngineExternalIp()
-{
-    if (uiDEConfig.checkBox_extIp->checkState() == 0) {
-        uiDEConfig.lineEdit_extIp->setDisabled(true);
-        uiDEConfig.pushButton_extIp->setDisabled(true);
-    }
-    else if (uiDEConfig.checkBox_extIp->checkState() == 2) {
-        uiDEConfig.lineEdit_extIp->setEnabled(true);
-        uiDEConfig.pushButton_extIp->setEnabled(true);
     }
 }
 

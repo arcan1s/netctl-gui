@@ -55,9 +55,9 @@ public slots:
     void configAccepted();
     void configChanged();
     void setBigInterface();
+    void setDataEngineExternalIp();
     void setSudo();
     void setWifi();
-    void setDataEngineExternalIp();
 
 private slots:
     // ui

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: http://kde-look.org/content/show.php?content=98925\n"
-"POT-Creation-Date: 2014-04-12 18:56+0400\n"
+"POT-Creation-Date: 2014-07-12 22:58+0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,271 +17,338 @@ msgstr ""
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: netctl.cpp:112
+#: netctl.cpp:180
 msgid "Set profile %1 disabled"
 msgstr ""
 
-#: netctl.cpp:116
+#: netctl.cpp:184
 msgid "Set profile %1 enabled"
 msgstr ""
 
-#: netctl.cpp:132
+#: netctl.cpp:201
 msgid "Start profile %1"
 msgstr ""
 
-#: netctl.cpp:151
+#: netctl.cpp:229
 msgid "Stop profile %1"
 msgstr ""
 
-#: netctl.cpp:165
+#: netctl.cpp:244
+msgid "Switch to profile %1"
+msgstr ""
+
+#: netctl.cpp:255
 msgid "Restart profile %1"
 msgstr ""
 
-#: netctl.cpp:178
+#: netctl.cpp:294
 msgid "Start another profile"
 msgstr ""
 
-#: netctl.cpp:180
-msgid "Stop "
+#: netctl.cpp:296
+msgid "Stop %1"
 msgstr ""
 
-#: netctl.cpp:182
-msgid "Restart "
+#: netctl.cpp:298
+msgid "Restart %1"
 msgstr ""
 
-#: netctl.cpp:185
-msgid "Disable "
+#: netctl.cpp:301
+msgid "Disable %1"
 msgstr ""
 
-#: netctl.cpp:187
-msgid "Enable "
+#: netctl.cpp:303
+msgid "Enable %1"
 msgstr ""
 
-#: netctl.cpp:190 netctl.cpp:214
+#: netctl.cpp:306 netctl.cpp:334
 msgid "Start profile"
 msgstr ""
 
-#: netctl.cpp:221
+#: netctl.cpp:342
 msgid "Stop profile"
 msgstr ""
 
-#: netctl.cpp:225
+#: netctl.cpp:347
+msgid "Switch to profile"
+msgstr ""
+
+#: netctl.cpp:355
 msgid "Restart profile"
 msgstr ""
 
-#: netctl.cpp:229
+#: netctl.cpp:360
 msgid "Enable profile"
 msgstr ""
 
-#: netctl.cpp:233
+#: netctl.cpp:364
 msgid "Show WiFi menu"
 msgstr ""
 
-#: netctl.cpp:253
+#: netctl.cpp:385
 msgid "Start GUI"
 msgstr ""
 
-#: netctl.cpp:261
+#: netctl.cpp:393
 msgid "Start WiFi menu"
 msgstr ""
 
-#: netctl.cpp:325
+#: netctl.cpp:457
 msgid "Network is up"
 msgstr ""
 
-#: netctl.cpp:331
+#: netctl.cpp:463
 msgid "Network is down"
 msgstr ""
 
-#: netctl.cpp:468
+#: netctl.cpp:668
 msgid "Netctl plasmoid"
 msgstr ""
 
-#. i18n: file: configwindow.ui:30
-#. i18n: ectx: attribute (title), widget (QWidget, tabConfiguration)
-#: po/rc.cpp:3 rc.cpp:3
-msgid "Configuration"
-msgstr ""
-
-#. i18n: file: configwindow.ui:54
-#. i18n: ectx: property (text), widget (QLabel, label_autoUpdate)
-#: po/rc.cpp:6 rc.cpp:6
-msgid "Auto update interval, msec"
-msgstr ""
-
-#. i18n: file: configwindow.ui:112
-#. i18n: ectx: property (text), widget (QLabel, label_gui)
-#: po/rc.cpp:9 rc.cpp:9
-msgid "Path to GUI"
-msgstr ""
-
-#. i18n: file: configwindow.ui:128
-#. i18n: ectx: property (text), widget (QPushButton, pushButton_gui)
-#. i18n: file: configwindow.ui:161
-#. i18n: ectx: property (text), widget (QPushButton, pushButton_netctl)
-#. i18n: file: configwindow.ui:197
-#. i18n: ectx: property (text), widget (QPushButton, pushButton_sudo)
-#. i18n: file: configwindow.ui:233
-#. i18n: ectx: property (text), widget (QPushButton, pushButton_wifi)
-#. i18n: file: configwindow.ui:621
-#. i18n: ectx: property (text), widget (QPushButton, pushButton_activeIcon)
-#. i18n: file: configwindow.ui:654
-#. i18n: ectx: property (text), widget (QPushButton, pushButton_inactiveIcon)
-#. i18n: file: configwindow.ui:128
-#. i18n: ectx: property (text), widget (QPushButton, pushButton_gui)
-#. i18n: file: configwindow.ui:161
-#. i18n: ectx: property (text), widget (QPushButton, pushButton_netctl)
-#. i18n: file: configwindow.ui:197
-#. i18n: ectx: property (text), widget (QPushButton, pushButton_sudo)
-#. i18n: file: configwindow.ui:233
-#. i18n: ectx: property (text), widget (QPushButton, pushButton_wifi)
-#. i18n: file: configwindow.ui:621
-#. i18n: ectx: property (text), widget (QPushButton, pushButton_activeIcon)
-#. i18n: file: configwindow.ui:654
-#. i18n: ectx: property (text), widget (QPushButton, pushButton_inactiveIcon)
-#: po/rc.cpp:12 po/rc.cpp:18 po/rc.cpp:24 po/rc.cpp:30 po/rc.cpp:87
-#: po/rc.cpp:93 rc.cpp:12 rc.cpp:18 rc.cpp:24 rc.cpp:30 rc.cpp:87 rc.cpp:93
-msgid "Browse"
-msgstr ""
-
-#. i18n: file: configwindow.ui:145
-#. i18n: ectx: property (text), widget (QLabel, label_netctl)
-#: po/rc.cpp:15 rc.cpp:15
-msgid "Path to netctl"
-msgstr ""
-
-#. i18n: file: configwindow.ui:178
-#. i18n: ectx: property (text), widget (QCheckBox, checkBox_sudo)
-#: po/rc.cpp:21 rc.cpp:21
-msgid "Use sudo for netctl"
-msgstr ""
-
-#. i18n: file: configwindow.ui:214
-#. i18n: ectx: property (text), widget (QCheckBox, checkBox_wifi)
-#: po/rc.cpp:27 rc.cpp:27
-msgid "Show 'Start WiFi menu'"
-msgstr ""
-
-#. i18n: file: configwindow.ui:242
-#. i18n: ectx: property (text), widget (QCheckBox, checkBox_showBigInterface)
-#: po/rc.cpp:33 rc.cpp:33
-msgid "Show more detailed interface"
-msgstr ""
-
-#. i18n: file: configwindow.ui:252
-#. i18n: ectx: property (text), widget (QCheckBox, checkBox_showNetDev)
-#: po/rc.cpp:36 rc.cpp:36
-msgid "Show network devices"
-msgstr ""
-
-#. i18n: file: configwindow.ui:262
-#. i18n: ectx: property (text), widget (QCheckBox, checkBox_showExtIp)
-#: po/rc.cpp:39 rc.cpp:39
-msgid "Show external IP"
-msgstr ""
-
-#. i18n: file: configwindow.ui:272
-#. i18n: ectx: property (text), widget (QCheckBox, checkBox_showIntIp)
-#: po/rc.cpp:42 rc.cpp:42
-msgid "Show internal IP"
-msgstr ""
-
-#. i18n: file: configwindow.ui:296
-#. i18n: ectx: attribute (title), widget (QWidget, tabAppearance)
-#: po/rc.cpp:45 rc.cpp:45
+#: netctl.cpp:669
 msgid "Appearance"
 msgstr ""
 
-#. i18n: file: configwindow.ui:310
-#. i18n: ectx: property (text), widget (QLabel, label_font)
-#: po/rc.cpp:48 rc.cpp:48
-msgid "Font"
+#: netctl.cpp:670
+msgid "DataEngine"
 msgstr ""
 
-#. i18n: file: configwindow.ui:342
-#. i18n: ectx: property (toolTip), widget (QFontComboBox, fontComboBox_font)
-#: po/rc.cpp:51 rc.cpp:51
-msgid "Set font family"
-msgstr ""
-
-#. i18n: file: configwindow.ui:359
-#. i18n: ectx: property (text), widget (QLabel, label_fontSize)
-#: po/rc.cpp:54 rc.cpp:54
-msgid "Font size"
-msgstr ""
-
-#. i18n: file: configwindow.ui:391
-#. i18n: ectx: property (toolTip), widget (QSpinBox, spinBox_fontSize)
-#: po/rc.cpp:57 rc.cpp:57
-msgid "Set font size"
-msgstr ""
-
-#. i18n: file: configwindow.ui:420
-#. i18n: ectx: property (text), widget (QLabel, label_fontColor)
-#: po/rc.cpp:60 rc.cpp:60
-msgid "Font color"
-msgstr ""
-
-#. i18n: file: configwindow.ui:452
-#. i18n: ectx: property (toolTip), widget (KColorCombo, kcolorcombo_fontColor)
-#: po/rc.cpp:63 rc.cpp:63
-msgid "Set font color"
-msgstr ""
-
-#. i18n: file: configwindow.ui:469
-#. i18n: ectx: property (text), widget (QLabel, label_fontWeight)
-#: po/rc.cpp:66 rc.cpp:66
-msgid "Font weight"
-msgstr ""
-
-#. i18n: file: configwindow.ui:501
-#. i18n: ectx: property (toolTip), widget (QSpinBox, spinBox_fontWeight)
-#: po/rc.cpp:69 rc.cpp:69
-msgid "Set font weight"
-msgstr ""
-
-#. i18n: file: configwindow.ui:533
-#. i18n: ectx: property (text), widget (QLabel, label_fontStyle)
-#: po/rc.cpp:72 rc.cpp:72
-msgid "Font style"
-msgstr ""
-
-#. i18n: file: configwindow.ui:565
-#. i18n: ectx: property (toolTip), widget (QComboBox, comboBox_fontStyle)
-#: po/rc.cpp:75 rc.cpp:75
-msgid "Set font style"
-msgstr ""
-
-#. i18n: file: configwindow.ui:569
-#. i18n: ectx: property (text), item, widget (QComboBox, comboBox_fontStyle)
-#: po/rc.cpp:78 rc.cpp:78
-msgid "normal"
-msgstr ""
-
-#. i18n: file: configwindow.ui:574
-#. i18n: ectx: property (text), item, widget (QComboBox, comboBox_fontStyle)
-#: po/rc.cpp:81 rc.cpp:81
-msgid "italic"
-msgstr ""
-
-#. i18n: file: configwindow.ui:605
-#. i18n: ectx: property (text), widget (QLabel, label_activeIcon)
-#: po/rc.cpp:84 rc.cpp:84
-msgid "Active icon"
-msgstr ""
-
-#. i18n: file: configwindow.ui:638
+#. i18n: file: appearance.ui:47
 #. i18n: ectx: property (text), widget (QLabel, label_inactiveIcon)
-#: po/rc.cpp:90 rc.cpp:90
+#: po/rc.cpp:3 rc.cpp:3
 msgid "Inactive icon"
 msgstr ""
 
-#: po/rc.cpp:94 rc.cpp:94
+#. i18n: file: appearance.ui:63
+#. i18n: ectx: property (text), widget (QPushButton, pushButton_inactiveIcon)
+#. i18n: file: appearance.ui:391
+#. i18n: ectx: property (text), widget (QPushButton, pushButton_activeIcon)
+#. i18n: file: dataengine.ui:50
+#. i18n: ectx: property (text), widget (QPushButton, pushButton_netctl)
+#. i18n: file: dataengine.ui:83
+#. i18n: ectx: property (text), widget (QPushButton, pushButton_netctlAuto)
+#. i18n: file: dataengine.ui:116
+#. i18n: ectx: property (text), widget (QPushButton, pushButton_ip)
+#. i18n: file: dataengine.ui:149
+#. i18n: ectx: property (text), widget (QPushButton, pushButton_interface)
+#. i18n: file: dataengine.ui:185
+#. i18n: ectx: property (text), widget (QPushButton, pushButton_extIp)
+#. i18n: file: widget.ui:118
+#. i18n: ectx: property (text), widget (QPushButton, pushButton_gui)
+#. i18n: file: widget.ui:151
+#. i18n: ectx: property (text), widget (QPushButton, pushButton_netctl)
+#. i18n: file: widget.ui:184
+#. i18n: ectx: property (text), widget (QPushButton, pushButton_netctlAuto)
+#. i18n: file: widget.ui:220
+#. i18n: ectx: property (text), widget (QPushButton, pushButton_sudo)
+#. i18n: file: widget.ui:256
+#. i18n: ectx: property (text), widget (QPushButton, pushButton_wifi)
+#. i18n: file: appearance.ui:63
+#. i18n: ectx: property (text), widget (QPushButton, pushButton_inactiveIcon)
+#. i18n: file: appearance.ui:391
+#. i18n: ectx: property (text), widget (QPushButton, pushButton_activeIcon)
+#. i18n: file: dataengine.ui:50
+#. i18n: ectx: property (text), widget (QPushButton, pushButton_netctl)
+#. i18n: file: dataengine.ui:83
+#. i18n: ectx: property (text), widget (QPushButton, pushButton_netctlAuto)
+#. i18n: file: dataengine.ui:116
+#. i18n: ectx: property (text), widget (QPushButton, pushButton_ip)
+#. i18n: file: dataengine.ui:149
+#. i18n: ectx: property (text), widget (QPushButton, pushButton_interface)
+#. i18n: file: dataengine.ui:185
+#. i18n: ectx: property (text), widget (QPushButton, pushButton_extIp)
+#. i18n: file: widget.ui:118
+#. i18n: ectx: property (text), widget (QPushButton, pushButton_gui)
+#. i18n: file: widget.ui:151
+#. i18n: ectx: property (text), widget (QPushButton, pushButton_netctl)
+#. i18n: file: widget.ui:184
+#. i18n: ectx: property (text), widget (QPushButton, pushButton_netctlAuto)
+#. i18n: file: widget.ui:220
+#. i18n: ectx: property (text), widget (QPushButton, pushButton_sudo)
+#. i18n: file: widget.ui:256
+#. i18n: ectx: property (text), widget (QPushButton, pushButton_wifi)
+#: po/rc.cpp:6 po/rc.cpp:48 po/rc.cpp:54 po/rc.cpp:60 po/rc.cpp:66
+#: po/rc.cpp:72 po/rc.cpp:78 po/rc.cpp:87 po/rc.cpp:93 po/rc.cpp:99
+#: po/rc.cpp:105 po/rc.cpp:111 rc.cpp:6 rc.cpp:48 rc.cpp:54 rc.cpp:60
+#: rc.cpp:66 rc.cpp:72 rc.cpp:78 rc.cpp:87 rc.cpp:93 rc.cpp:99 rc.cpp:105
+#: rc.cpp:111
+msgid "Browse"
+msgstr ""
+
+#. i18n: file: appearance.ui:80
+#. i18n: ectx: property (text), widget (QLabel, label_fontColor)
+#: po/rc.cpp:9 rc.cpp:9
+msgid "Font color"
+msgstr ""
+
+#. i18n: file: appearance.ui:112
+#. i18n: ectx: property (toolTip), widget (KColorCombo, kcolorcombo_fontColor)
+#: po/rc.cpp:12 rc.cpp:12
+msgid "Set font color"
+msgstr ""
+
+#. i18n: file: appearance.ui:142
+#. i18n: ectx: property (text), widget (QLabel, label_fontSize)
+#: po/rc.cpp:15 rc.cpp:15
+msgid "Font size"
+msgstr ""
+
+#. i18n: file: appearance.ui:174
+#. i18n: ectx: property (toolTip), widget (QSpinBox, spinBox_fontSize)
+#: po/rc.cpp:18 rc.cpp:18
+msgid "Set font size"
+msgstr ""
+
+#. i18n: file: appearance.ui:203
+#. i18n: ectx: property (text), widget (QLabel, label_fontWeight)
+#: po/rc.cpp:21 rc.cpp:21
+msgid "Font weight"
+msgstr ""
+
+#. i18n: file: appearance.ui:235
+#. i18n: ectx: property (toolTip), widget (QSpinBox, spinBox_fontWeight)
+#: po/rc.cpp:24 rc.cpp:24
+msgid "Set font weight"
+msgstr ""
+
+#. i18n: file: appearance.ui:267
+#. i18n: ectx: property (text), widget (QLabel, label_fontStyle)
+#: po/rc.cpp:27 rc.cpp:27
+msgid "Font style"
+msgstr ""
+
+#. i18n: file: appearance.ui:299
+#. i18n: ectx: property (toolTip), widget (QComboBox, comboBox_fontStyle)
+#: po/rc.cpp:30 rc.cpp:30
+msgid "Set font style"
+msgstr ""
+
+#. i18n: file: appearance.ui:303
+#. i18n: ectx: property (text), item, widget (QComboBox, comboBox_fontStyle)
+#: po/rc.cpp:33 rc.cpp:33
+msgid "normal"
+msgstr ""
+
+#. i18n: file: appearance.ui:308
+#. i18n: ectx: property (text), item, widget (QComboBox, comboBox_fontStyle)
+#: po/rc.cpp:36 rc.cpp:36
+msgid "italic"
+msgstr ""
+
+#. i18n: file: appearance.ui:326
+#. i18n: ectx: property (text), widget (QLabel, label_font)
+#: po/rc.cpp:39 rc.cpp:39
+msgid "Font"
+msgstr ""
+
+#. i18n: file: appearance.ui:358
+#. i18n: ectx: property (toolTip), widget (QFontComboBox, fontComboBox_font)
+#: po/rc.cpp:42 rc.cpp:42
+msgid "Set font family"
+msgstr ""
+
+#. i18n: file: appearance.ui:375
+#. i18n: ectx: property (text), widget (QLabel, label_activeIcon)
+#: po/rc.cpp:45 rc.cpp:45
+msgid "Active icon"
+msgstr ""
+
+#. i18n: file: dataengine.ui:34
+#. i18n: ectx: property (text), widget (QLabel, label_netctl)
+#. i18n: file: widget.ui:135
+#. i18n: ectx: property (text), widget (QLabel, label_netctl)
+#. i18n: file: dataengine.ui:34
+#. i18n: ectx: property (text), widget (QLabel, label_netctl)
+#. i18n: file: widget.ui:135
+#. i18n: ectx: property (text), widget (QLabel, label_netctl)
+#: po/rc.cpp:51 po/rc.cpp:90 rc.cpp:51 rc.cpp:90
+msgid "Path to netctl"
+msgstr ""
+
+#. i18n: file: dataengine.ui:67
+#. i18n: ectx: property (text), widget (QLabel, label_netctlAuto)
+#. i18n: file: widget.ui:168
+#. i18n: ectx: property (text), widget (QLabel, label_netctlAuto)
+#. i18n: file: dataengine.ui:67
+#. i18n: ectx: property (text), widget (QLabel, label_netctlAuto)
+#. i18n: file: widget.ui:168
+#. i18n: ectx: property (text), widget (QLabel, label_netctlAuto)
+#: po/rc.cpp:57 po/rc.cpp:96 rc.cpp:57 rc.cpp:96
+msgid "Path to netctl-auto"
+msgstr ""
+
+#. i18n: file: dataengine.ui:100
+#. i18n: ectx: property (text), widget (QLabel, label_ip)
+#: po/rc.cpp:63 rc.cpp:63
+msgid "Path to ip"
+msgstr ""
+
+#. i18n: file: dataengine.ui:133
+#. i18n: ectx: property (text), widget (QLabel, label_interface)
+#: po/rc.cpp:69 rc.cpp:69
+msgid "Path to interface list"
+msgstr ""
+
+#. i18n: file: dataengine.ui:166
+#. i18n: ectx: property (text), widget (QCheckBox, checkBox_extIp)
+#: po/rc.cpp:75 rc.cpp:75
+msgid "Check external IP"
+msgstr ""
+
+#. i18n: file: widget.ui:44
+#. i18n: ectx: property (text), widget (QLabel, label_autoUpdate)
+#: po/rc.cpp:81 rc.cpp:81
+msgid "Auto update interval, msec"
+msgstr ""
+
+#. i18n: file: widget.ui:102
+#. i18n: ectx: property (text), widget (QLabel, label_gui)
+#: po/rc.cpp:84 rc.cpp:84
+msgid "Path to GUI"
+msgstr ""
+
+#. i18n: file: widget.ui:201
+#. i18n: ectx: property (text), widget (QCheckBox, checkBox_sudo)
+#: po/rc.cpp:102 rc.cpp:102
+msgid "Use sudo for netctl"
+msgstr ""
+
+#. i18n: file: widget.ui:237
+#. i18n: ectx: property (text), widget (QCheckBox, checkBox_wifi)
+#: po/rc.cpp:108 rc.cpp:108
+msgid "Show 'Start WiFi menu'"
+msgstr ""
+
+#. i18n: file: widget.ui:265
+#. i18n: ectx: property (text), widget (QCheckBox, checkBox_showBigInterface)
+#: po/rc.cpp:114 rc.cpp:114
+msgid "Show more detailed interface"
+msgstr ""
+
+#. i18n: file: widget.ui:275
+#. i18n: ectx: property (text), widget (QCheckBox, checkBox_showNetDev)
+#: po/rc.cpp:117 rc.cpp:117
+msgid "Show network devices"
+msgstr ""
+
+#. i18n: file: widget.ui:285
+#. i18n: ectx: property (text), widget (QCheckBox, checkBox_showExtIp)
+#: po/rc.cpp:120 rc.cpp:120
+msgid "Show external IP"
+msgstr ""
+
+#. i18n: file: widget.ui:295
+#. i18n: ectx: property (text), widget (QCheckBox, checkBox_showIntIp)
+#: po/rc.cpp:123 rc.cpp:123
+msgid "Show internal IP"
+msgstr ""
+
+#: po/rc.cpp:124 rc.cpp:124
 msgctxt "NAME OF TRANSLATORS"
 msgid "Your names"
 msgstr ""
 
-#: po/rc.cpp:95 rc.cpp:95
+#: po/rc.cpp:125 rc.cpp:125
 msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
 msgstr ""
