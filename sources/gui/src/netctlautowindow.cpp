@@ -54,7 +54,7 @@ void NetctlAutoWindow::createActions()
     connect(ui->actionDisableAll, SIGNAL(triggered(bool)), this, SLOT(netctlAutoDisableAllProfiles()));
     connect(ui->actionEnable, SIGNAL(triggered(bool)), this, SLOT(netctlAutoEnableProfile()));
     connect(ui->actionEnableAll, SIGNAL(triggered(bool)), this, SLOT(netctlAutoEnableAllProfiles()));\
-    connect(ui->actionRefresh, SIGNAL(triggered(bool)), this, SLOT(netctlAutoAppendTable()));
+    connect(ui->actionRefresh, SIGNAL(triggered(bool)), this, SLOT(netctlAutoUpdateTable()));
     connect(ui->actionSwitch, SIGNAL(triggered(bool)), this, SLOT(netctlAutoStartProfile()));
     // service
     connect(ui->actionEnableService, SIGNAL(triggered(bool)), this, SLOT(netctlAutoEnableService()));
@@ -68,7 +68,7 @@ void NetctlAutoWindow::createActions()
 
     // buttons
     connect(ui->pushButton_enable, SIGNAL(clicked(bool)), this, SLOT(netctlAutoEnableProfile()));
-    connect(ui->pushButton_refresh, SIGNAL(clicked(bool)), this, SLOT(netctlAutoAppendTable()));
+    connect(ui->pushButton_refresh, SIGNAL(clicked(bool)), this, SLOT(netctlAutoUpdateTable()));
     connect(ui->pushButton_switch, SIGNAL(clicked(bool)), this, SLOT(netctlAutoStartProfile()));
 }
 
@@ -77,14 +77,14 @@ void NetctlAutoWindow::showWindow()
 {
     if (debug) qDebug() << "[NetctlAutoWindow]" << "[showWindow]";
 
-    netctlAutoAppendTable();
+    netctlAutoUpdateTable();
     show();
 }
 
 
-void NetctlAutoWindow::netctlAutoAppendTable()
+void NetctlAutoWindow::netctlAutoUpdateTable()
 {
-    if (debug) qDebug() << "[NetctlAutoWindow]" << "[netctlAutoAppendTable]";
+    if (debug) qDebug() << "[NetctlAutoWindow]" << "[netctlAutoUpdateTable]";
 
     ui->tableWidget->setDisabled(true);
     QList<QStringList> profiles = netctlCommand->getProfileListFromNetctlAuto();
@@ -233,7 +233,7 @@ void NetctlAutoWindow::netctlAutoDisableAllProfiles()
     else
         ui->statusBar->showMessage(QApplication::translate("NetctlAutoWindow", "Error"));
 
-    netctlAutoAppendTable();
+    netctlAutoUpdateTable();
 }
 
 
@@ -251,7 +251,7 @@ void NetctlAutoWindow::netctlAutoEnableProfile()
     else
         ui->statusBar->showMessage(QApplication::translate("NetctlAutoWindow", "Error"));
 
-    netctlAutoAppendTable();
+    netctlAutoUpdateTable();
 }
 
 
@@ -265,7 +265,7 @@ void NetctlAutoWindow::netctlAutoEnableAllProfiles()
     else
         ui->statusBar->showMessage(QApplication::translate("NetctlAutoWindow", "Error"));
 
-    netctlAutoAppendTable();
+    netctlAutoUpdateTable();
 }
 
 
@@ -283,7 +283,7 @@ void NetctlAutoWindow::netctlAutoStartProfile()
     else
         ui->statusBar->showMessage(QApplication::translate("NetctlAutoWindow", "Error"));
 
-    netctlAutoAppendTable();
+    netctlAutoUpdateTable();
 }
 
 
@@ -296,7 +296,7 @@ void NetctlAutoWindow::netctlAutoEnableService()
     else
         ui->statusBar->showMessage(QApplication::translate("NetctlAutoWindow", "Error"));
 
-    netctlAutoAppendTable();
+    netctlAutoUpdateTable();
 }
 
 
@@ -309,7 +309,7 @@ void NetctlAutoWindow::netctlAutoRestartService()
     else
         ui->statusBar->showMessage(QApplication::translate("NetctlAutoWindow", "Error"));
 
-    netctlAutoAppendTable();
+    netctlAutoUpdateTable();
 }
 
 
@@ -322,7 +322,7 @@ void NetctlAutoWindow::netctlAutoStartService()
     else
         ui->statusBar->showMessage(QApplication::translate("NetctlAutoWindow", "Error"));
 
-    netctlAutoAppendTable();
+    netctlAutoUpdateTable();
 }
 
 

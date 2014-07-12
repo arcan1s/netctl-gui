@@ -61,6 +61,7 @@ void Netctl::readConfiguration()
     rawConfig[QString("EXTIPCMD")] = QString("wget -qO- http://ifconfig.me/ip");
     rawConfig[QString("IPCMD")] = QString("/usr/bin/ip");
     rawConfig[QString("NETDIR")] = QString("/sys/class/net/");
+    rawConfig[QString("NETCTLAUTOCMD")] = QString("/usr/bin/netctl-auto");
 
     QString fileName = KGlobal::dirs()->findResource("config", "netctl.conf");
     QFile confFile(fileName);
@@ -101,7 +102,8 @@ QMap<QString, QString> Netctl::updateConfiguration(const QMap<QString, QString> 
         key.remove(QChar(' '));
         if ((key != QString("CMD")) &&
             (key != QString("EXTIPCMD")) &&
-            (key != QString("IPCMD")))
+            (key != QString("IPCMD")) &&
+            (key != QString("NETCTLAUTOCMD")))
             value.remove(QChar(' '));
         config[key] = value;
     }
@@ -196,15 +198,20 @@ bool Netctl::getProfileStatus(const QString cmd)
 }
 
 
-QString Netctl::getProfileStringStatus(const QString cmd)
+QString Netctl::getProfileStringStatus(const QString cmdNetctl, const QString cmdNetctlAuto)
 {
     QProcess command;
     QString status = QString("static");
-    QString profile = getCurrentProfile(cmd);
-    command.start(cmd + QString(" is-enabled ") + profile);
-    command.waitForFinished(-1);
-    if (command.exitCode() == 0)
-        status = QString("enabled");
+    // check netctl-auto
+    if (!getCurrentProfile(cmdNetctlAuto).isEmpty())
+        status = QString("netctl-auto");
+    else {
+        // check netctl
+        command.start(cmdNetctl + QString(" is-enabled ") + getCurrentProfile(cmdNetctl));
+        command.waitForFinished(-1);
+        if (command.exitCode() == 0)
+            status = QString("enabled");
+    }
     return status;
 }
 
@@ -214,7 +221,9 @@ bool Netctl::updateSourceEvent(const QString &source)
     QString key = QString("value");
     QString value = QString("");
     if (source == QString("currentProfile")) {
-        value = getCurrentProfile(configuration[QString("CMD")]);
+        value = getCurrentProfile(configuration[QString("NETCTLAUTOCMD")]);
+        if (value.isEmpty())
+            value = getCurrentProfile(configuration[QString("CMD")]);
     }
     else if (source == QString("extIp")) {
         if (configuration[QString("EXTIP")] == QString("true"))
@@ -227,16 +236,21 @@ bool Netctl::updateSourceEvent(const QString &source)
         value = getIntIp(configuration[QString("IPCMD")], configuration[QString("NETDIR")]);
     }
     else if (source == QString("profiles")) {
-        value = getProfileList(configuration[QString("CMD")]).join(QChar(','));
+        value = getProfileList(configuration[QString("NETCTLAUTOCMD")]).join(QChar(','));
+        if (value.isEmpty())
+            value = getProfileList(configuration[QString("CMD")]).join(QChar(','));
     }
     else if (source == QString("statusBool")) {
-        if (getProfileStatus(configuration[QString("CMD")]))
+        if (getProfileStatus(configuration[QString("NETCTLAUTOCMD")]))
+            value = QString("true");
+        else if (getProfileStatus(configuration[QString("CMD")]))
             value = QString("true");
         else
             value = QString("false");
     }
     else if (source == QString("statusString")) {
-        value = getProfileStringStatus(configuration[QString("CMD")]);
+        value = getProfileStringStatus(configuration[QString("CMD")],
+                configuration[QString("NETCTLAUTOCMD")]);
     }
     setData(source, key, value);
     return true;

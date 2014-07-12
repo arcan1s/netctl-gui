@@ -62,12 +62,14 @@ private slots:
     void selectGuiExe();
     void selectInactiveIcon();
     void selectNetctlExe();
+    void selectNetctlAutoExe();
     void selectSudoExe();
     void selectWifiExe();
     // context menu
     void enableProfileSlot();
     void startProfileSlot(QAction *profile);
     void stopProfileSlot();
+    void switchToProfileSlot(QAction *profile);
     void restartProfileSlot();
 
 protected:
@@ -88,6 +90,7 @@ private:
     void createActions();
     QList<QAction*> menuActions;
     QMenu *startProfileMenu;
+    QMenu *switchToProfileMenu;
     QMap<QString, QAction*> contextMenu;
     // data engine
     Plasma::DataEngine *netctlEngine;

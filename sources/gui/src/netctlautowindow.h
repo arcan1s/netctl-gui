@@ -44,8 +44,8 @@ public slots:
 
 private slots:
     // table
-    void netctlAutoAppendTable();
     void netctlAutoContextualMenu(const QPoint &pos);
+    void netctlAutoUpdateTable();
     // netctl-auto
     void netctlAutoDisableAllProfiles();
     void netctlAutoEnableProfile();

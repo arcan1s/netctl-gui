@@ -33,7 +33,7 @@ public:
     QString getIntIp(const QString cmd, const QString dir);
     QStringList getProfileList(const QString cmd);
     bool getProfileStatus(const QString cmd);
-    QString getProfileStringStatus(const QString cmd);
+    QString getProfileStringStatus(const QString cmdNetctl, const QString cmdNetctlAuto);
 
 protected:
     bool sourceRequestEvent(const QString &name);
@@ -41,6 +41,7 @@ protected:
     QStringList sources() const;
 
 private:
+    bool isNetctlAutoRunning();
     // configuration
     QMap<QString, QString> configuration;
     void readConfiguration();

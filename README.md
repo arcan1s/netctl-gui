@@ -59,7 +59,9 @@ Installation
   Available cmake flags:
 
   * `-DBUILD_DATAENGINE:BOOL=0` - do not build DataEngine
+  * `-DBUILD_DOCS:BOOL=0` - do not build developer documentation
   * `-DBUILD_GUI:BOOL=0` - do not build GUI
+  * `-DBUILD_LIBRARY:BOOL=0` - do not build library
   * `-DBUILD_PLASMOID:BOOL=0` - do not build Plasmoid
   * `-DUSE_QT5:BOOL=0` - use Qt4 instead of Qt5 for GUI
 
@@ -69,7 +71,7 @@ Additional information
 TODO (wish list)
 ----------------
 
-* netctl-auto support to dataengine
+* split configuration interface
 * man pages
 * code review
 

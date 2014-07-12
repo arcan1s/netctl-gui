@@ -1,5 +1,6 @@
 Ver.1.2.0:
 + [all] added icons
++ [dataengine] added support of netctl-auto
 + [gui] added suppoort of macvlan
 + [gui] added ability to remove profile
 + [gui] added support of hidden wifi network
@@ -8,6 +9,7 @@ Ver.1.2.0:
 + [gui] added clear() function to profileTab
 + [gui] added support of netctl-auto
 + [lib] detached backend from frontend
++ [plasmoid] added support of netctl-auto
 * [all] small changes in the project architecture
 * [gui] more debug information
 * [gui] changed lineEdit_profile to comboBox
