@@ -32,10 +32,9 @@ public:
                            const QMap<QString, QString> settings = QMap<QString, QString>());
     ~NetctlProfile();
     bool copyProfile(const QString oldPath);
-    bool removeProfile(const QString profile);
     QString createProfile(const QString profile, const QMap<QString, QString> settings);
-    QString getNameByString(const QString profile);
     QMap<QString, QString> getSettingsFromProfile(const QString profile);
+    bool removeProfile(const QString profile);
 
 private:
     bool debug;

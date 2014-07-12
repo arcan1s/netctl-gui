@@ -1046,7 +1046,7 @@ void MainWindow::profileTabCreateProfile()
 
     ui->tabWidget->setDisabled(true);
     // read settings
-    QString profile = netctlProfile->getNameByString(ui->comboBox_profile->currentText());
+    QString profile = QFileInfo(ui->comboBox_profile->currentText()).fileName();
     QMap<QString, QString> settings;
     settings = generalWid->getSettings();
     if (generalWid->connectionType->currentText() == QString("ethernet")) {
@@ -1143,7 +1143,7 @@ void MainWindow::profileTabLoadProfile()
 {
     if (debug) qDebug() << "[MainWindow]" << "[profileTabLoadProfile]";
 
-    QString profile = netctlProfile->getNameByString(ui->comboBox_profile->currentText());
+    QString profile = QFileInfo(ui->comboBox_profile->currentText()).fileName();
     QMap<QString, QString> settings = netctlProfile->getSettingsFromProfile(profile);
 
     generalWid->setSettings(settings);
@@ -1196,7 +1196,7 @@ void MainWindow::profileTabRemoveProfile()
 
     ui->tabWidget->setDisabled(true);
     // call netctlprofile
-    QString profile = netctlProfile->getNameByString(ui->comboBox_profile->currentText());
+    QString profile = QFileInfo(ui->comboBox_profile->currentText()).fileName();
     if (netctlProfile->removeProfile(profile))
         ui->statusBar->showMessage(QApplication::translate("MainWindow", "Done"));
     else
