@@ -140,7 +140,7 @@ int main(int argc, char *argv[])
         cout << versionMessage.toUtf8().data();
         return 0;
     }
-    MainWindow w(0, defaultSettings, debug, showNetctlAuto, showSettings, tabNumber);
+    MainWindow w(0, debug, defaultSettings, showNetctlAuto, showSettings, tabNumber);
     w.show();
     return a.exec();
 }

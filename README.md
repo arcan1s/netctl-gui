@@ -65,7 +65,6 @@ TODO (wish list)
 ----------------
 
 * man pages
-* code review
 
 Links
 -----

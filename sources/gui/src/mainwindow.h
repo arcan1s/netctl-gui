@@ -52,8 +52,8 @@ class MainWindow : public QMainWindow
 
 public:
     explicit MainWindow(QWidget *parent = 0,
-                        const bool defaultSettings = false,
                         const bool debugCmd = false,
+                        const bool defaultSettings = false,
                         const bool showNetctlAuto = false,
                         const bool showSettings = false,
                         const int tabNum = 1);
@@ -61,6 +61,7 @@ public:
 
 public slots:
     void updateTabs(const int tab);
+    void updateMenu(const int tab);
     // wifi tab slots
     void connectToUnknownEssid(const QString passwd);
     void setHiddenName(const QString name);
@@ -68,7 +69,6 @@ public slots:
 private slots:
     // menu update slots
     void setMenuActionsShown(const bool state = true);
-    void updateMenu();
     void updateMenuMain();
     void updateMenuProfile();
     void updateMenuWifi();

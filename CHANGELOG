@@ -9,12 +9,15 @@ Ver.1.2.0:
 + [gui] added clear() function to profileTab
 + [gui] added support of netctl-auto
 + [lib] detached backend from frontend
++ [lib] added error checking
 + [plasmoid] added support of netctl-auto
 + [plasmoid] added dataengine configuration
-* [all] small changes in the project architecture
+* [all] changes in the project architecture
+* [all] refactoring
 * [gui] more debug information
 * [gui] changed lineEdit_profile to comboBox
 * [gui] refactoring of configuration interface
+* [lib] more debug information
 * [plasmoid] edited configuration interface
 
 Ver.1.1.0 (netctl-1.7 update):
