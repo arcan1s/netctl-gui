@@ -48,7 +48,9 @@ Netctl::~Netctl()
 {
     if (debug) qDebug() << "[Netctl]" << "[~Netctl]";
 
-    delete ifaceDirectory;
+    if (ifaceDirectory != 0)
+        delete ifaceDirectory;
+    if (profileDirectory != 0)
     delete profileDirectory;
 }
 

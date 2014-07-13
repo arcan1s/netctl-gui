@@ -28,15 +28,24 @@ WpaSup::WpaSup(const bool debugCmd, const QMap<QString, QString> settings)
 {
     netctlCommand = new Netctl(debug, settings);
 
-    ctrlDir = settings[QString("CTRL_DIR")];
-    ctrlGroup = settings[QString("CTRL_GROUP")];
-    ifaceDirectory = new QDir(settings[QString("IFACE_DIR")]);
-    mainInterface = settings[QString("PREFERED_IFACE")];
-    pidFile = settings[QString("PID_FILE")];
-    sudoCommand = settings[QString("SUDO_PATH")];
-    wpaCliPath = settings[QString("WPACLI_PATH")];
-    wpaDrivers = settings[QString("WPA_DRIVERS")];
-    wpaSupPath = settings[QString("WPASUP_PATH")];
+    if (settings.contains(QString("CTRL_DIR")))
+        ctrlDir = settings[QString("CTRL_DIR")];
+    if (settings.contains(QString("CTRL_GROUP")))
+        ctrlGroup = settings[QString("CTRL_GROUP")];
+    if (settings.contains(QString("IFACE_DIR")))
+        ifaceDirectory = new QDir(settings[QString("IFACE_DIR")]);
+    if (settings.contains(QString("PREFERED_IFACE")))
+        mainInterface = settings[QString("PREFERED_IFACE")];
+    if (settings.contains(QString("PID_FILE")))
+        pidFile = settings[QString("PID_FILE")];
+    if (settings.contains(QString("SUDO_PATH")))
+        sudoCommand = settings[QString("SUDO_PATH")];
+    if (settings.contains(QString("WPACLI_PATH")))
+        wpaCliPath = settings[QString("WPACLI_PATH")];
+    if (settings.contains(QString("WPA_DRIVERS")))
+        wpaDrivers = settings[QString("WPA_DRIVERS")];
+    if (settings.contains(QString("WPASUP_PATH")))
+        wpaSupPath = settings[QString("WPASUP_PATH")];
 
     // terminate old loaded profile
     if (QFile(pidFile).exists() || QDir(ctrlDir).exists())
@@ -49,7 +58,8 @@ WpaSup::~WpaSup()
     if (debug) qDebug() << "[WpaSup]" << "[~WpaSup]";
 
     delete netctlCommand;
-    delete ifaceDirectory;
+    if (ifaceDirectory != 0)
+        delete ifaceDirectory;
 }
 
 
@@ -57,6 +67,7 @@ WpaSup::~WpaSup()
 QString WpaSup::existentProfile(const QString profile)
 {
     if (debug) qDebug() << "[WpaSup]" << "[existentProfile]";
+    if (debug) qDebug() << "[WpaSup]" << "[existentProfile]" << ":" << "Profile" << profile;
 
     QString profileFile = QString("");
     QList<QStringList> profileList = netctlCommand->getProfileList();
@@ -71,9 +82,12 @@ QString WpaSup::existentProfile(const QString profile)
 QStringList WpaSup::getInterfaceList()
 {
     if (debug) qDebug() << "[WpaSup]" << "[getInterfaceList]";
+    if (ifaceDirectory == 0) {
+        if (debug) qDebug() << "[WpaSup]" << "[getInterfaceList]" << ":" << "Could not find directory";
+        return QStringList();
+    }
 
     QStringList interfaces;
-
     if (!mainInterface.isEmpty())
         interfaces.append(mainInterface);
     QStringList allInterfaces = ifaceDirectory->entryList(QDir::Dirs | QDir::NoDotAndDotDot);
@@ -92,6 +106,7 @@ QStringList WpaSup::getInterfaceList()
 bool WpaSup::isProfileActive(const QString profile)
 {
     if (debug) qDebug() << "[WpaSup]" << "[isProfileActive]";
+    if (debug) qDebug() << "[WpaSup]" << "[isProfileActive]" << ":" << "Profile" << profile;
 
     QString profileFile;
     QList<QStringList> profileList = netctlCommand->getProfileList();
@@ -106,6 +121,7 @@ bool WpaSup::isProfileActive(const QString profile)
 bool WpaSup::isProfileExists(const QString profile)
 {
     if (debug) qDebug() << "[WpaSup]" << "[isProfileExists]";
+    if (debug) qDebug() << "[WpaSup]" << "[isProfileExists]" << ":" << "Profile" << profile;
 
     bool exists = false;
     QList<QStringList> profileList = netctlCommand->getProfileList();
@@ -114,43 +130,6 @@ bool WpaSup::isProfileExists(const QString profile)
             exists = true;
 
     return exists;
-}
-
-
-// functions
-bool WpaSup::wpaCliCall(const QString commandLine)
-{
-    if (debug) qDebug() << "[WpaSup]" << "[getInterfaceList]";
-
-    QString interface = getInterfaceList()[0];
-    QProcess command;
-    QString commandText = wpaCliPath + QString(" -i ") + interface + QString(" -p ") + ctrlDir +
-            QString(" -P ") + pidFile + QString(" ") + commandLine;
-    if (debug) qDebug() << "[WpaSup]" << "[wpaCliCall]" << ":" << "Run cmd" << commandText;
-    command.start(commandText);
-    command.waitForFinished(-1);
-    SleepThread::sleep(1);
-    if (debug) qDebug() << "[WpaSup]" << "[wpaCliCall]" << ":" << "Cmd returns" << command.exitCode();
-    if (command.exitCode() == 0)
-        return true;
-    else
-        return false;
-}
-
-
-QString WpaSup::getWpaCliOutput(const QString commandLine)
-{
-    if (debug) qDebug() << "[WpaSup]" << "[getWpaCliOutput]";
-
-    QString interface = getInterfaceList()[0];
-    QProcess command;
-    QString commandText = wpaCliPath + QString(" -i ") + interface + QString(" -p ") + ctrlDir +
-            QString(" -P ") + pidFile + QString(" ") + commandLine;
-    if (debug) qDebug() << "[WpaSup]" << "[getWpaCliOutput]" << ":" << "Run cmd" << commandText;
-    command.start(commandText);
-    command.waitForFinished(-1);
-
-    return command.readAllStandardOutput();
 }
 
 
@@ -186,7 +165,6 @@ QList<QStringList> WpaSup::scanWifi()
 
     for (int i=0; i<rawList.count(); i++) {
         QStringList wifiPoint;
-
         // point name
         if (rawList[i].split(QChar('\t'), QString::SkipEmptyParts).count() > 4)
             wifiPoint.append(rawList[i].split(QChar('\t'), QString::SkipEmptyParts)[4]);
@@ -217,11 +195,10 @@ QList<QStringList> WpaSup::scanWifi()
         else
             security = QString("none");
         wifiPoint.append(security);
-
         scanResults.append(wifiPoint);
     }
-
     stopWpaSupplicant();
+
     return scanResults;
 }
 
@@ -229,23 +206,48 @@ QList<QStringList> WpaSup::scanWifi()
 bool WpaSup::startWpaSupplicant()
 {
     if (debug) qDebug() << "[WpaSup]" << "[startWpaSupplicant]";
-
-    if (!QFile(pidFile).exists()) {
-        QString interface = getInterfaceList()[0];
-        QProcess command;
-        QString commandText = sudoCommand + QString(" ") + wpaSupPath + QString(" -B -P ") + pidFile +
-                QString(" -i ") + interface + QString(" -D ") + wpaDrivers +
-                QString(" -C \"DIR=") + ctrlDir + QString(" GROUP=") + ctrlGroup + QString("\"");
-        if (debug) qDebug() << "[WpaSup]" << "[startWpaSupplicant]" << ":" << "Run cmd" << commandText;
-        command.start(commandText);
-        command.waitForFinished(-1);
-        SleepThread::sleep(1);
-        if (debug) qDebug() << "[WpaSup]" << "[startWpaSupplicant]" << ":" << "Cmd returns" << command.exitCode();
-        if (command.exitCode() != 0)
-            return false;
+    if (ctrlDir == 0) {
+        if (debug) qDebug() << "[WpaSup]" << "[startWpaSupplicant]" << ":" << "Could not find directory";
+        return false;
+    }
+    if (ctrlGroup == 0) {
+        if (debug) qDebug() << "[WpaSup]" << "[startWpaSupplicant]" << ":" << "Could not find group";
+        return false;
+    }
+    if (pidFile == 0) {
+        if (debug) qDebug() << "[WpaSup]" << "[startWpaSupplicant]" << ":" << "Could not find PID file";
+        return false;
+    }
+    if (sudoCommand == 0) {
+        if (debug) qDebug() << "[WpaSup]" << "[startWpaSupplicant]" << ":" << "Could not find sudo";
+        return false;
+    }
+    if (wpaDrivers == 0) {
+        if (debug) qDebug() << "[WpaSup]" << "[startWpaSupplicant]" << ":" << "Could not find drivers";
+        return false;
+    }
+    if (wpaSupPath == 0) {
+        if (debug) qDebug() << "[WpaSup]" << "[startWpaSupplicant]" << ":" << "Could not find wpa_supplicant";
+        return false;
     }
 
-    return true;
+    if (QFile(pidFile).exists())
+        return true;
+    QProcess command;
+    QString interface = getInterfaceList()[0];
+    QString commandText = sudoCommand + QString(" ") + wpaSupPath + QString(" -B -P ") + pidFile +
+            QString(" -i ") + interface + QString(" -D ") + wpaDrivers +
+            QString(" -C \"DIR=") + ctrlDir + QString(" GROUP=") + ctrlGroup + QString("\"");
+    if (debug) qDebug() << "[WpaSup]" << "[startWpaSupplicant]" << ":" << "Run cmd" << commandText;
+    command.start(commandText);
+    command.waitForFinished(-1);
+    SleepThread::sleep(1);
+    if (debug) qDebug() << "[WpaSup]" << "[startWpaSupplicant]" << ":" << "Cmd returns" << command.exitCode();
+
+    if (command.exitCode() == 0)
+        return true;
+    else
+        return false;
 }
 
 
@@ -254,4 +256,68 @@ bool WpaSup::stopWpaSupplicant()
     if (debug) qDebug() << "[WpaSup]" << "[stopWpaSupplicant]";
 
     return wpaCliCall(QString("terminate"));
+}
+
+
+// functions
+bool WpaSup::wpaCliCall(const QString commandLine)
+{
+    if (debug) qDebug() << "[WpaSup]" << "[wpaCliCall]";
+    if (debug) qDebug() << "[WpaSup]" << "[wpaCliCall]" << ":" << "Command" << commandLine;
+    if (ctrlDir == 0) {
+        if (debug) qDebug() << "[WpaSup]" << "[wpaCliCall]" << ":" << "Could not find directory";
+        return false;
+    }
+    if (pidFile == 0) {
+        if (debug) qDebug() << "[WpaSup]" << "[wpaCliCall]" << ":" << "Could not find PID file";
+        return false;
+    }
+    if (wpaCliPath == 0) {
+        if (debug) qDebug() << "[WpaSup]" << "[wpaCliCall]" << ":" << "Could not find wpa_cli";
+        return false;
+    }
+
+    QProcess command;
+    QString interface = getInterfaceList()[0];
+    QString commandText = wpaCliPath + QString(" -i ") + interface + QString(" -p ") + ctrlDir +
+            QString(" -P ") + pidFile + QString(" ") + commandLine;
+    if (debug) qDebug() << "[WpaSup]" << "[wpaCliCall]" << ":" << "Run cmd" << commandText;
+    command.start(commandText);
+    command.waitForFinished(-1);
+    SleepThread::sleep(1);
+    if (debug) qDebug() << "[WpaSup]" << "[wpaCliCall]" << ":" << "Cmd returns" << command.exitCode();
+
+    if (command.exitCode() == 0)
+        return true;
+    else
+        return false;
+}
+
+
+QString WpaSup::getWpaCliOutput(const QString commandLine)
+{
+    if (debug) qDebug() << "[WpaSup]" << "[getWpaCliOutput]";
+    if (debug) qDebug() << "[WpaSup]" << "[getWpaCliOutput]" << ":" << "Command" << commandLine;
+    if (ctrlDir == 0) {
+        if (debug) qDebug() << "[WpaSup]" << "[getWpaCliOutput]" << ":" << "Could not find directory";
+        return QString();
+    }
+    if (pidFile == 0) {
+        if (debug) qDebug() << "[WpaSup]" << "[getWpaCliOutput]" << ":" << "Could not find PID file";
+        return QString();
+    }
+    if (wpaCliPath == 0) {
+        if (debug) qDebug() << "[WpaSup]" << "[getWpaCliOutput]" << ":" << "Could not find wpa_cli";
+        return QString();
+    }
+
+    QProcess command;
+    QString interface = getInterfaceList()[0];
+    QString commandText = wpaCliPath + QString(" -i ") + interface + QString(" -p ") + ctrlDir +
+            QString(" -P ") + pidFile + QString(" ") + commandLine;
+    if (debug) qDebug() << "[WpaSup]" << "[getWpaCliOutput]" << ":" << "Run cmd" << commandText;
+    command.start(commandText);
+    command.waitForFinished(-1);
+
+    return command.readAllStandardOutput();
 }

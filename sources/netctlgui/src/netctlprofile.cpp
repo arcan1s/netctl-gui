@@ -39,7 +39,8 @@ NetctlProfile::~NetctlProfile()
 {
     if (debug) qDebug() << "[NetctlProfile]" << "[~NetctlProfile]";
 
-    delete profileDirectory;
+    if (profileDirectory != 0)
+        delete profileDirectory;
 }
 
 
@@ -48,11 +49,11 @@ bool NetctlProfile::copyProfile(const QString oldPath)
     if (debug) qDebug() << "[NetctlProfile]" << "[copyProfile]";
     if (debug) qDebug() << "[NetctlProfile]" << "[copyProfile]" << ":" << "Path" << oldPath;
     if (profileDirectory == 0) {
-        if (debug) qDebug() << "[NetctlProfile]" << "[profileDirectory]" << "Could not find directory";
+        if (debug) qDebug() << "[NetctlProfile]" << "[profileDirectory]" << ":" << "Could not find directory";
         return false;
     }
     if (sudoCommand == 0) {
-        if (debug) qDebug() << "[NetctlProfile]" << "[profileDirectory]" << "Could not find sudo";
+        if (debug) qDebug() << "[NetctlProfile]" << "[profileDirectory]" << ":" << "Could not find sudo";
         return false;
     }
 
@@ -110,7 +111,7 @@ QMap<QString, QString> NetctlProfile::getSettingsFromProfile(const QString profi
     if (debug) qDebug() << "[NetctlProfile]" << "[getSettingsFromProfile]";
     if (debug) qDebug() << "[NetctlProfile]" << "[getSettingsFromProfile]" << ":" << "Profile" << profile;
     if (profileDirectory == 0) {
-        if (debug) qDebug() << "[NetctlProfile]" << "[getSettingsFromProfile]" << "Could not find directory";
+        if (debug) qDebug() << "[NetctlProfile]" << "[getSettingsFromProfile]" << ":" << "Could not find directory";
         return QMap<QString, QString>();
     }
 
@@ -176,11 +177,11 @@ bool NetctlProfile::removeProfile(const QString profile)
     if (debug) qDebug() << "[NetctlProfile]" << "[removeProfile]";
     if (debug) qDebug() << "[NetctlProfile]" << "[removeProfile]" << ":" << "Profile" << profile;
     if (profileDirectory == 0) {
-        if (debug) qDebug() << "[NetctlProfile]" << "[removeProfile]" << "Could not find directory";
+        if (debug) qDebug() << "[NetctlProfile]" << "[removeProfile]" << ":" << "Could not find directory";
         return false;
     }
     if (sudoCommand == 0) {
-        if (debug) qDebug() << "[NetctlProfile]" << "[removeProfile]" << "Could not find sudo";
+        if (debug) qDebug() << "[NetctlProfile]" << "[removeProfile]" << ":" << "Could not find sudo";
         return false;
     }
 
