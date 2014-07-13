@@ -79,7 +79,7 @@ QString TunnelWidget::getIp(const QString rawIp)
         if (ip[i].toInt() > 255)
             ip[i] = QString("255");
 
-    return ip.join(QString("."));
+    return ip.join(QChar('.'));
 }
 
 
@@ -91,10 +91,10 @@ QMap<QString, QString> TunnelWidget::getSettings()
         return tunnelSettings;
 
     tunnelSettings[QString("Mode")] = QString("'") + ui->comboBox_mode->currentText() + QString("'");
-    if (!ui->lineEdit_local->text().split(QChar('.')).join(QString("")).remove(QString(" ")).isEmpty())
-        tunnelSettings[QString("Local")] = QString("'") + getIp(ui->lineEdit_local->text().remove(QString(" "))) + QString("'");
-    if (!ui->lineEdit_remote->text().split(QChar('.')).join(QString("")).remove(QString(" ")).isEmpty())
-        tunnelSettings[QString("Remote")] = QString("'") + getIp(ui->lineEdit_remote->text().remove(QString(" "))) + QString("'");
+    if (!ui->lineEdit_local->text().remove(QChar('.')).remove(QChar(' ')).isEmpty())
+        tunnelSettings[QString("Local")] = QString("'") + getIp(ui->lineEdit_local->text().remove(QChar(' '))) + QString("'");
+    if (!ui->lineEdit_remote->text().remove(QChar('.')).remove(QChar(' ')).isEmpty())
+        tunnelSettings[QString("Remote")] = QString("'") + getIp(ui->lineEdit_remote->text().remove(QChar(' '))) + QString("'");
 
     return tunnelSettings;
 }
@@ -114,10 +114,13 @@ void TunnelWidget::setSettings(const QMap<QString, QString> settings)
 
     if (tunnelSettings.contains(QString("Mode")))
         for (int i=0; i<ui->comboBox_mode->count(); i++)
-            if (tunnelSettings[QString("Mode")].remove(QString("'")) == ui->comboBox_mode->itemText(i))
+            if (tunnelSettings[QString("Mode")]
+                    .remove(QChar('\'')).remove(QChar('"')) == ui->comboBox_mode->itemText(i))
                 ui->comboBox_mode->setCurrentIndex(i);
     if (tunnelSettings.contains(QString("Local")))
-        ui->lineEdit_local->setText(tunnelSettings[QString("Local")].remove(QString("'")));
+        ui->lineEdit_local->setText(tunnelSettings[QString("Local")]
+                .remove(QChar('\'')).remove(QChar('"')));
     if (tunnelSettings.contains(QString("Remote")))
-        ui->lineEdit_remote->setText(tunnelSettings[QString("Remote")].remove(QString("'")));
+        ui->lineEdit_remote->setText(tunnelSettings[QString("Remote")]
+                .remove(QChar('\'')).remove(QChar('"')));
 }

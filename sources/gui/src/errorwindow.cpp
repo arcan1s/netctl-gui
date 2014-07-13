@@ -42,6 +42,7 @@ ErrorWindow::~ErrorWindow()
 void ErrorWindow::setMessage(const int mess)
 {
     if (debug) qDebug() << "[ErrorWindow]" << "[setMessage]";
+    if (debug) qDebug() << "[ErrorWindow]" << "[setMessage]" << ":" << "Message" << mess;
 
     QString message;
     switch(mess) {

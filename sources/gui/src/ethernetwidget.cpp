@@ -145,16 +145,20 @@ void EthernetWidget::setSettings(const QMap<QString, QString> settings)
     QMap<QString, QString> ethernetSettings = settings;
 
     if (ethernetSettings.contains(QString("SkipNoCarrier")))
-        if (ethernetSettings[QString("SkipNoCarrier")].remove(QString("'")) == QString("yes"))
+        if (ethernetSettings[QString("SkipNoCarrier")]
+                .remove(QChar('\'')).remove(QChar('"')) == QString("yes"))
             ui->checkBox_skip->setCheckState(Qt::Checked);
     if (ethernetSettings.contains(QString("Auth8021X")))
-        if (ethernetSettings[QString("Auth8021X")].remove(QString("'")) == QString("yes"))
+        if (ethernetSettings[QString("Auth8021X")]
+                .remove(QChar('\'')).remove(QChar('"')) == QString("yes"))
             ui->checkBox_8021x->setCheckState(Qt::Checked);
     if (ethernetSettings.contains(QString("WPAConfigFile")))
-        ui->lineEdit_wpaConfig->setText(ethernetSettings[QString("WPAConfigFile")].remove(QString("'")));
+        ui->lineEdit_wpaConfig->setText(ethernetSettings[QString("WPAConfigFile")]
+                .remove(QChar('\'')).remove(QChar('"')));
     if (ethernetSettings.contains(QString("WPADriver")))
         for (int i=0; i<ui->comboBox_driver->count(); i++)
-            if (ethernetSettings[QString("WPADriver")].remove(QString("'")) == ui->comboBox_driver->itemText(i))
+            if (ethernetSettings[QString("WPADriver")]
+                    .remove(QChar('\'')).remove(QChar('"')) == ui->comboBox_driver->itemText(i))
                 ui->comboBox_driver->setCurrentIndex(i);
     if (ethernetSettings.contains(QString("TimeoutCarrier")))
         ui->spinBox_timeoutCarrier->setValue(ethernetSettings[QString("TimeoutCarrier")].toInt());

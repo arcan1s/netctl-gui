@@ -186,7 +186,7 @@ QString IpWidget::getIp(const QString rawIp)
         if (ip[i].toInt() > 255)
             ip[i] = QString("255");
 
-    return ip.join(QString("."));
+    return ip.join(QChar('.'));
 }
 
 
@@ -233,8 +233,8 @@ QString IpWidget::getPrefix6(const QString rawPrefix)
 
 void IpWidget::addIp()
 {
-    QString ip = getIp(ui->lineEdit_ipAddress->text().remove(" ").split(QChar('/'))[0]);
-    QString prefix = getPrefix(ui->lineEdit_ipAddress->text().remove(" ").split(QChar('/'))[1]);
+    QString ip = getIp(ui->lineEdit_ipAddress->text().remove(QChar(' ')).split(QChar('/'))[0]);
+    QString prefix = getPrefix(ui->lineEdit_ipAddress->text().remove(QChar(' ')).split(QChar('/'))[1]);
 
     ui->listWidget_ipAddress->addItem(ip + QString("/") + prefix);
     ui->lineEdit_ipAddress->clear();
@@ -243,9 +243,9 @@ void IpWidget::addIp()
 
 void IpWidget::addIpRoutes()
 {
-    QString ip = getIp(ui->lineEdit_ipRoutes->text().remove(" ").split(QChar('/'))[0]);
-    QString prefix = getPrefix(ui->lineEdit_ipRoutes->text().remove(" ").split(QChar('/'))[1]);
-    QString ipVia = getIp(ui->lineEdit_ipRoutes2->text().remove(" "));
+    QString ip = getIp(ui->lineEdit_ipRoutes->text().remove(QChar(' ')).split(QChar('/'))[0]);
+    QString prefix = getPrefix(ui->lineEdit_ipRoutes->text().remove(QChar(' ')).split(QChar('/'))[1]);
+    QString ipVia = getIp(ui->lineEdit_ipRoutes2->text().remove(QChar(' ')));
 
     ui->listWidget_ipRoutes->addItem(ip + QString("/") + prefix + QString(" via ") + ipVia);
     ui->lineEdit_ipRoutes->clear();
@@ -255,8 +255,8 @@ void IpWidget::addIpRoutes()
 
 void IpWidget::addIp6()
 {
-    QString ip = getIp6(ui->lineEdit_ipAddress6->text().remove(" ").split(QChar('/'))[0]);
-    QString prefix = getPrefix6(ui->lineEdit_ipAddress6->text().remove(" ").split(QChar('/'))[1]);
+    QString ip = getIp6(ui->lineEdit_ipAddress6->text().remove(QChar(' ')).split(QChar('/'))[0]);
+    QString prefix = getPrefix6(ui->lineEdit_ipAddress6->text().remove(QChar(' ')).split(QChar('/'))[1]);
 
     ui->listWidget_ipAddress6->addItem(ip + QString("/") + prefix);
     ui->lineEdit_ipAddress6->clear();
@@ -265,9 +265,9 @@ void IpWidget::addIp6()
 
 void IpWidget::addIpRoutes6()
 {
-    QString ip = getIp6(ui->lineEdit_ipRoutes6->text().remove(" ").split(QChar('/'))[0]);
-    QString prefix = getPrefix6(ui->lineEdit_ipRoutes6->text().remove(" ").split(QChar('/'))[1]);
-    QString ipVia = getIp6(ui->lineEdit_ipRoutes62->text().remove(" "));
+    QString ip = getIp6(ui->lineEdit_ipRoutes6->text().remove(QChar(' ')).split(QChar('/'))[0]);
+    QString prefix = getPrefix6(ui->lineEdit_ipRoutes6->text().remove(QChar(' ')).split(QChar('/'))[1]);
+    QString ipVia = getIp6(ui->lineEdit_ipRoutes62->text().remove(QChar(' ')));
 
     ui->listWidget_ipRoutes6->addItem(ip + QString("/") + prefix + QString(" via ") + ipVia);
     ui->lineEdit_ipRoutes6->clear();
@@ -285,7 +285,7 @@ void IpWidget::addCustom()
 
 void IpWidget::addDns()
 {
-    QString ip = getIp(ui->lineEdit_dns->text().remove(" "));
+    QString ip = getIp(ui->lineEdit_dns->text().remove(QChar(' ')));
 
     ui->listWidget_dns->addItem(ip);
     ui->lineEdit_dns->clear();
@@ -389,14 +389,14 @@ QMap<QString, QString> IpWidget::getSettings()
             QStringList addresses;
             for (int i=0; i<ui->listWidget_ipAddress->count(); i++)
                 addresses.append(QString("'") + ui->listWidget_ipAddress->item(i)->text() + QString("'"));
-            ipSettings[QString("Address")] = addresses.join(QString(" "));
+            ipSettings[QString("Address")] = addresses.join(QChar(' '));
             ipSettings[QString("Gateway")] = QString("'") + ui->lineEdit_gateway->text() + QString("'");
         }
         if (ui->listWidget_ipRoutes->count() > 0) {
             QStringList routes;
             for (int i=0; i<ui->listWidget_ipRoutes->count(); i++)
                 routes.append(QString("'") + ui->listWidget_ipRoutes->item(i)->text() + QString("'"));
-            ipSettings[QString("Routes")] = routes.join(QString(" "));
+            ipSettings[QString("Routes")] = routes.join(QChar(' '));
         }
     }
     else
@@ -408,14 +408,14 @@ QMap<QString, QString> IpWidget::getSettings()
             QStringList addresses;
             for (int i=0; i<ui->listWidget_ipAddress6->count(); i++)
                 addresses.append(QString("'") + ui->listWidget_ipAddress6->item(i)->text() + QString("'"));
-            ipSettings[QString("Address6")] = addresses.join(QString(" "));
+            ipSettings[QString("Address6")] = addresses.join(QChar(' '));
             ipSettings[QString("Gateway6")] = QString("'") + ui->lineEdit_gateway6->text() + QString("'");
         }
         if (ui->listWidget_ipRoutes6->count() > 0) {
             QStringList routes;
             for (int i=0; i<ui->listWidget_ipRoutes6->count(); i++)
                 routes.append(QString("'") + ui->listWidget_ipRoutes6->item(i)->text() + QString("'"));
-            ipSettings[QString("Routes6")] = routes.join(QString(" "));
+            ipSettings[QString("Routes6")] = routes.join(QChar(' '));
         }
     }
     else
@@ -424,7 +424,7 @@ QMap<QString, QString> IpWidget::getSettings()
         QStringList custom;
         for (int i=0; i<ui->listWidget_custom->count(); i++)
             custom.append(QString("'") + ui->listWidget_custom->item(i)->text() + QString("'"));
-        ipSettings[QString("IPCustom")] = custom.join(QString(" "));
+        ipSettings[QString("IPCustom")] = custom.join(QChar(' '));
     }
     if (!ui->lineEdit_hostname->text().isEmpty())
         ipSettings[QString("Hostname")] = QString("'") + ui->lineEdit_hostname->text() + QString("'");
@@ -449,7 +449,7 @@ QMap<QString, QString> IpWidget::getSettings()
         QStringList dns;
         for (int i=0; i<ui->listWidget_dns->count(); i++)
             dns.append(QString("'") + ui->listWidget_dns->item(i)->text() + QString("'"));
-        ipSettings[QString("DNS")] = dns.join(QString(" "));
+        ipSettings[QString("DNS")] = dns.join(QChar(' '));
     }
     if (!ui->lineEdit_dnsDomain->text().isEmpty())
         ipSettings[QString("DNSDomain")] = QString("'") + ui->lineEdit_dnsDomain->text() + QString("'");
@@ -459,7 +459,7 @@ QMap<QString, QString> IpWidget::getSettings()
         QStringList dnsOpt;
         for (int i=0; i<ui->listWidget_dnsOptions->count(); i++)
             dnsOpt.append(QString("'") + ui->listWidget_dnsOptions->item(i)->text() + QString("'"));
-        ipSettings[QString("DNSOptions")] = dnsOpt.join(QString(" "));
+        ipSettings[QString("DNSOptions")] = dnsOpt.join(QChar(' '));
     }
 
     return ipSettings;
@@ -492,37 +492,50 @@ void IpWidget::setSettings(const QMap<QString, QString> settings)
     QMap<QString, QString> ipSettings = settings;
 
     if (ipSettings.contains(QString("IP"))) {
-        if (ipSettings[QString("IP")].remove(QString("'")) == QString("no"))
+        if (ipSettings[QString("IP")].remove(QChar('\'')).remove(QChar('"')) == QString("no"))
             ui->checkBox_ip->setCheckState(Qt::Unchecked);
         else {
             ui->checkBox_ip->setCheckState(Qt::Checked);
             for (int i=0; i<ui->comboBox_ip->count(); i++)
-                if (ipSettings[QString("IP")].remove(QString("'")) == ui->comboBox_ip->itemText(i))
+                if (ipSettings[QString("IP")]
+                        .remove(QChar('\'')).remove(QChar('"')) == ui->comboBox_ip->itemText(i))
                     ui->comboBox_ip->setCurrentIndex(i);
         }
     }
     if (ipSettings.contains(QString("Address")))
-        ui->listWidget_ipAddress->addItems(ipSettings[QString("Address")].remove(QString("'")).split(QChar(' ')));
+        ui->listWidget_ipAddress->addItems(ipSettings[QString("Address")]
+                .remove(QChar('\'')).remove(QChar('"'))
+                .split(QChar(' ')));
     if (ipSettings.contains(QString("Gateway")))
-        ui->lineEdit_gateway->setText(ipSettings[QString("Gateway")].remove(QString("'")));
+        ui->lineEdit_gateway->setText(ipSettings[QString("Gateway")]
+                .remove(QChar('\'')).remove(QChar('"')));
     if (ipSettings.contains(QString("Routes")))
-        ui->listWidget_ipRoutes->addItems(ipSettings[QString("Routes")].remove(QString("'")).split(QChar(' ')));
+        ui->listWidget_ipRoutes->addItems(ipSettings[QString("Routes")]
+                .remove(QChar('\'')).remove(QChar('"'))
+                .split(QChar(' ')));
     if (ipSettings.contains(QString("IP6"))) {
-        if (ipSettings[QString("IP6")].remove(QString("'")) == QString("no"))
+        if (ipSettings[QString("IP6")].remove(QChar('\''))
+                .remove(QChar('\'')).remove(QChar('"')) == QString("no"))
             ui->checkBox_ip6->setCheckState(Qt::Unchecked);
         else {
             ui->checkBox_ip6->setCheckState(Qt::Checked);
             for (int i=0; i<ui->comboBox_ip6->count(); i++)
-                if (ipSettings[QString("IP6")].remove(QString("'")) == ui->comboBox_ip6->itemText(i))
+                if (ipSettings[QString("IP6")]
+                        .remove(QChar('\'')).remove(QChar('"')) == ui->comboBox_ip6->itemText(i))
                     ui->comboBox_ip6->setCurrentIndex(i);
         }
     }
     if (ipSettings.contains(QString("Address6")))
-        ui->listWidget_ipAddress6->addItems(ipSettings[QString("Address6")].remove(QString("'")).split(QChar(' ')));
+        ui->listWidget_ipAddress6->addItems(ipSettings[QString("Address6")]
+                .remove(QChar('\'')).remove(QChar('"'))
+                .split(QChar(' ')));
     if (ipSettings.contains(QString("Gateway6")))
-        ui->lineEdit_gateway6->setText(ipSettings[QString("Gateway6")].remove(QString("'")));
+        ui->lineEdit_gateway6->setText(ipSettings[QString("Gateway6")]
+                .remove(QChar('\'')).remove(QChar('"')));
     if (ipSettings.contains(QString("Routes6")))
-        ui->listWidget_ipRoutes6->addItems(ipSettings[QString("Routes6")].remove(QString("'")).split(QChar(' ')));
+        ui->listWidget_ipRoutes6->addItems(ipSettings[QString("Routes6")]
+                .remove(QChar('\'')).remove(QChar('"'))
+                .split(QChar(' ')));
     if (ipSettings.contains(QString("IPCustom"))) {
         QStringList custom;
         if (ipSettings[QString("IPCustom")].contains(QString("\n")))
@@ -530,35 +543,48 @@ void IpWidget::setSettings(const QMap<QString, QString> settings)
         else
             custom = ipSettings[QString("IPCustom")].split(QString("' '"));
         for (int i=0; i<custom.count(); i++)
-            ui->listWidget_custom->addItem(custom[i].remove(QString("'")));
+            ui->listWidget_custom->addItem(custom[i]
+                                           .remove(QChar('\'')).remove(QChar('"')));
     }
     if (ipSettings.contains(QString("Hostname")))
-        ui->lineEdit_hostname->setText(ipSettings[QString("Hostname")].remove(QString("'")));
+        ui->lineEdit_hostname->setText(ipSettings[QString("Hostname")]
+                .remove(QChar('\'')).remove(QChar('"')));
     if (ipSettings.contains(QString("TimeoutDAD")))
         ui->spinBox_timeoutDad->setValue(ipSettings[QString("TimeoutDAD")].toInt());
     if (ipSettings.contains(QString("DHCPClient")))
         for (int i=0; i<ui->comboBox_dhcp->count(); i++)
-            if (ipSettings[QString("DHCPClient")].remove(QString("'")) == ui->comboBox_dhcp->itemText(i))
+            if (ipSettings[QString("DHCPClient")]
+                    .remove(QChar('\'')).remove(QChar('"')) == ui->comboBox_dhcp->itemText(i))
                 ui->comboBox_dhcp->setCurrentIndex(i);
     if (ipSettings.contains(QString("DhcpcdOptions")))
-        ui->lineEdit_dhcpcdOpt->setText(ipSettings[QString("DhcpcdOptions")].remove(QString("'")));
+        ui->lineEdit_dhcpcdOpt->setText(ipSettings[QString("DhcpcdOptions")]
+                .remove(QChar('\'')).remove(QChar('"')));
     if (ipSettings.contains(QString("DhclientOptions")))
-        ui->lineEdit_dhclientOpt->setText(ipSettings[QString("DhclientOptions")].remove(QString("'")));
+        ui->lineEdit_dhclientOpt->setText(ipSettings[QString("DhclientOptions")]
+                .remove(QChar('\'')).remove(QChar('"')));
     if (ipSettings.contains(QString("DhclientOptions6")))
-        ui->lineEdit_dhclientOpt6->setText(ipSettings[QString("DhclientOptions6")].remove(QString("'")));
+        ui->lineEdit_dhclientOpt6->setText(ipSettings[QString("DhclientOptions6")]
+                .remove(QChar('\'')).remove(QChar('"')));
     if (ipSettings.contains(QString("TimeoutDHCP")))
         ui->spinBox_timeoutDhcp->setValue(ipSettings[QString("TimeoutDHCP")].toInt());
     if (ipSettings.contains(QString("DHCPReleaseOnStop")))
-        if (ipSettings[QString("DHCPReleaseOnStop")].remove(QString("'")) == QString("yes"))
+        if (ipSettings[QString("DHCPReleaseOnStop")]
+                .remove(QChar('\'')).remove(QChar('"')) == QString("yes"))
             ui->checkBox_dhcp->setCheckState(Qt::Checked);
     if (ipSettings.contains(QString("DNS")))
-        ui->listWidget_dns->addItems(ipSettings[QString("DNS")].remove(QString("'")).split(QChar(' ')));
+        ui->listWidget_dns->addItems(ipSettings[QString("DNS")]
+                .remove(QChar('\'')).remove(QChar('"'))
+                .split(QChar(' ')));
     if (ipSettings.contains(QString("DNSDomain")))
-        ui->lineEdit_dnsDomain->setText(ipSettings[QString("DNSDomain")].remove(QString("'")));
+        ui->lineEdit_dnsDomain->setText(ipSettings[QString("DNSDomain")]
+                .remove(QChar('\'')).remove(QChar('"')));
     if (ipSettings.contains(QString("DNSSearch")))
-        ui->lineEdit_dnsSearch->setText(ipSettings[QString("DNSSearch")].remove(QString("'")));
+        ui->lineEdit_dnsSearch->setText(ipSettings[QString("DNSSearch")]
+                .remove(QChar('\'')).remove(QChar('"')));
     if (ipSettings.contains(QString("DNSOptions")))
-        ui->listWidget_dnsOptions->addItems(ipSettings[QString("DNSOptions")].remove(QString("'")).split(QChar(' ')));
+        ui->listWidget_dnsOptions->addItems(ipSettings[QString("DNSOptions")]
+                .remove(QChar('\'')).remove(QChar('"'))
+                .split(QChar(' ')));
 
     ipEnable(ui->checkBox_ip->checkState());
     changeIpMode(ui->comboBox_ip->currentText());

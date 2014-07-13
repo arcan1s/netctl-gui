@@ -52,12 +52,13 @@ void SettingsWindow::createActions()
 {
     if (debug) qDebug() << "[SettingsWindow]" << "[createActions]";
 
-    connect(ui->treeWidget, SIGNAL(currentItemChanged(QTreeWidgetItem *, QTreeWidgetItem *)), this, SLOT(changePage(QTreeWidgetItem *, QTreeWidgetItem *)));
-    connect(ui->comboBox_language, SIGNAL(currentIndexChanged(int)), ui->label_info, SLOT(show()));
     connect(ui->buttonBox->button(QDialogButtonBox::Cancel), SIGNAL(clicked(bool)), this, SLOT(close()));
     connect(ui->buttonBox->button(QDialogButtonBox::Reset), SIGNAL(clicked(bool)), this, SLOT(setDefault()));
     connect(ui->buttonBox->button(QDialogButtonBox::Ok), SIGNAL(clicked(bool)), this, SLOT(saveSettings()));
     connect(ui->buttonBox->button(QDialogButtonBox::Ok), SIGNAL(clicked(bool)), this, SLOT(close()));
+    connect(ui->comboBox_language, SIGNAL(currentIndexChanged(int)), ui->label_info, SLOT(show()));
+    connect(ui->treeWidget, SIGNAL(currentItemChanged(QTreeWidgetItem *, QTreeWidgetItem *)),
+            this, SLOT(changePage(QTreeWidgetItem *, QTreeWidgetItem *)));
     // buttons
     connect(ui->pushButton_interfaceDir, SIGNAL(clicked(bool)), SLOT(selectIfaceDir()));
     connect(ui->pushButton_netctlPath, SIGNAL(clicked(bool)), SLOT(selectNetctlPath()));
@@ -110,12 +111,11 @@ void SettingsWindow::saveSettings()
 
     QMap<QString, QString> settings = readSettings();
     QFile configFile(file);
-
     if (!configFile.open(QIODevice::WriteOnly | QIODevice::Text))
         return;
     QTextStream out(&configFile);
     for (int i=0; i<settings.keys().count(); i++)
-        out << settings.keys()[i] << QString("=") << settings[settings.keys()[i]] << QString("\n");
+        out << settings.keys()[i] << QString("=") << settings[settings.keys()[i]] << endl;
     configFile.close();
 }
 
@@ -281,7 +281,6 @@ QMap<QString, QString> SettingsWindow::readSettings()
     if (debug) qDebug() << "[SettingsWindow]" << "[readSettings]";
 
     QMap<QString, QString> settings;
-
     settings[QString("CTRL_DIR")] = ui->lineEdit_wpaDir->text();
     settings[QString("CTRL_GROUP")] = ui->lineEdit_wpaGroup->text();
     settings[QString("IFACE_DIR")] = ui->lineEdit_interfacesDir->text();
@@ -299,7 +298,6 @@ QMap<QString, QString> SettingsWindow::readSettings()
     settings[QString("WPACLI_PATH")] = ui->lineEdit_wpaCliPath->text();
     settings[QString("WPASUP_PATH")] = ui->lineEdit_wpaSupPath->text();
     settings[QString("WPA_DRIVERS")] = ui->lineEdit_wpaSupDrivers->text();
-
     for (int i=0; i<settings.keys().count(); i++)
         if (debug) qDebug() << "[SettingsWindow]" << "[readSettings]" << ":" <<
                     settings.keys()[i] + QString("=") + settings[settings.keys()[i]];
@@ -332,7 +330,6 @@ void SettingsWindow::setSettings(const QMap<QString, QString> settings)
     ui->lineEdit_wpaCliPath->setText(settings[QString("WPACLI_PATH")]);
     ui->lineEdit_wpaSupPath->setText(settings[QString("WPASUP_PATH")]);
     ui->lineEdit_wpaSupDrivers->setText(settings[QString("WPA_DRIVERS")]);
-
     for (int i=0; i<settings.keys().count(); i++)
         if (debug) qDebug() << "[SettingsWindow]" << "[setSettings]" << ":" <<
                     settings.keys()[i] + QString("=") + settings[settings.keys()[i]];
@@ -344,7 +341,6 @@ QMap<QString, QString> SettingsWindow::getDefault()
     if (debug) qDebug() << "[SettingsWindow]" << "[getDefault]";
 
     QMap<QString, QString> settings;
-
     settings[QString("CTRL_DIR")] = QString("/run/wpa_supplicant_netctl-gui");
     settings[QString("CTRL_GROUP")] = QString("users");
     settings[QString("IFACE_DIR")] = QString("/sys/class/net/");
@@ -362,7 +358,6 @@ QMap<QString, QString> SettingsWindow::getDefault()
     settings[QString("WPACLI_PATH")] = QString("/usr/bin/wpa_cli");
     settings[QString("WPASUP_PATH")] = QString("/usr/bin/wpa_supplicant");
     settings[QString("WPA_DRIVERS")] = QString("nl80211,wext");
-
     for (int i=0; i<settings.keys().count(); i++)
         if (debug) qDebug() << "[SettingsWindow]" << "[getDefault]" << ":" <<
                     settings.keys()[i] + QString("=") + settings[settings.keys()[i]];
@@ -378,23 +373,18 @@ QMap<QString, QString> SettingsWindow::getSettings()
     QMap<QString, QString> settings = getDefault();
     QFile configFile(file);
     QString fileStr;
-
     if (!configFile.open(QIODevice::ReadOnly))
         return settings;
     while (true) {
-        fileStr = QString(configFile.readLine());
-        if (fileStr[0] != '#') {
-            if (fileStr.contains(QString("=")))
-                settings[fileStr.split(QChar('='))[0]] = fileStr.split(QChar('='))[1]
-                        .remove(QChar(' '))
-                        .trimmed();
-        }
+        fileStr = QString(configFile.readLine()).trimmed();
+        if (fileStr[0] == QChar('#')) continue;
+        if (fileStr[0] == QChar(';')) continue;
+        if (!fileStr.contains(QChar('='))) continue;
+        settings[fileStr.split(QChar('='))[0]] = fileStr.split(QChar('='))[1];
         if (configFile.atEnd())
             break;
     }
-
     configFile.close();
-
     for (int i=0; i<settings.keys().count(); i++)
         if (debug) qDebug() << "[SettingsWindow]" << "[getSettings]" << ":" <<
                     settings.keys()[i] + QString("=") + settings[settings.keys()[i]];

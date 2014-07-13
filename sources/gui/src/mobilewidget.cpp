@@ -147,25 +147,33 @@ void MobileWidget::setSettings(const QMap<QString, QString> settings)
     QMap<QString, QString> mobileSettings = settings;
 
     if (mobileSettings.contains(QString("User")))
-        ui->lineEdit_username->setText(mobileSettings[QString("User")].remove(QString("'")));
+        ui->lineEdit_username->setText(mobileSettings[QString("User")]
+                .remove(QChar('\'')).remove(QChar('"')));
     if (mobileSettings.contains(QString("Password")))
-        ui->lineEdit_password->setText(mobileSettings[QString("Password")].remove(QString("'")));
+        ui->lineEdit_password->setText(mobileSettings[QString("Password")]
+                .remove(QChar('\'')).remove(QChar('"')));
     if (mobileSettings.contains(QString("AccessPointName")))
-        ui->lineEdit_apn->setText(mobileSettings[QString("AccessPointName")].remove(QString("'")));
+        ui->lineEdit_apn->setText(mobileSettings[QString("AccessPointName")]
+                .remove(QChar('\'')).remove(QChar('"')));
     if (mobileSettings.contains(QString("PIN")))
-        ui->lineEdit_pin->setText(mobileSettings[QString("PIN")].remove(QString("'")));
+        ui->lineEdit_pin->setText(mobileSettings[QString("PIN")]
+                .remove(QChar('\'')).remove(QChar('"')));
     if (mobileSettings.contains(QString("Mode")))
         for (int i=0; i<ui->comboBox_mode->count(); i++)
-            if (mobileSettings[QString("Mode")].remove(QString("'")) == ui->comboBox_mode->itemText(i))
+            if (mobileSettings[QString("Mode")]
+                    .remove(QChar('\'')).remove(QChar('"')) == ui->comboBox_mode->itemText(i))
                 ui->comboBox_mode->setCurrentIndex(i);
     if (mobileSettings.contains(QString("MaxFail")))
         ui->spinBox_fail->setValue(mobileSettings[QString("MaxFail")].toInt());
     if (mobileSettings.contains(QString("DefaultRoute")))
-        if (mobileSettings[QString("DefaultRoute")].remove(QString("'")) == QString("false"))
+        if (mobileSettings[QString("DefaultRoute")]
+                .remove(QChar('\'')).remove(QChar('"')) == QString("false"))
             ui->checkBox_route->setCheckState(Qt::Unchecked);
     if (mobileSettings.contains(QString("UsePeerDNS")))
-        if (mobileSettings[QString("UsePeerDNS")].remove(QString("'")) == QString("false"))
+        if (mobileSettings[QString("UsePeerDNS")]
+                .remove(QChar('\'')).remove(QChar('"'))== QString("false"))
             ui->checkBox_dns->setCheckState(Qt::Unchecked);
     if (mobileSettings.contains(QString("OptionsFile")))
-        ui->lineEdit_options->setText(mobileSettings[QString("OptionsFile")].remove(QString("'")));
+        ui->lineEdit_options->setText(mobileSettings[QString("OptionsFile")]
+                .remove(QChar('\'')).remove(QChar('"')));
 }

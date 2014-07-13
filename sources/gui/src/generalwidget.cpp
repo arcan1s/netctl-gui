@@ -136,13 +136,13 @@ QMap<QString, QString> GeneralWidget::getSettings()
         QStringList interfaces;
         for (int i=0; i<ui->listWidget_bindto->count(); i++)
             interfaces.append(ui->listWidget_bindto->item(i)->text());
-        generalSettings[QString("BindsToInterfaces")] = interfaces.join(QString(" "));
+        generalSettings[QString("BindsToInterfaces")] = interfaces.join(QChar(' '));
     }
     if (ui->listWidget_after->count() != 0) {
         QStringList profiles;
         for (int i=0; i<ui->listWidget_after->count(); i++)
             profiles.append(ui->listWidget_after->item(i)->text());
-        generalSettings[QString("After")] = profiles.join(QString(" "));
+        generalSettings[QString("After")] = profiles.join(QChar(' '));
     }
     if (!ui->lineEdit_execUpPost->text().isEmpty())
         generalSettings[QString("ExecUpPost")] = QString("'") + ui->lineEdit_execUpPost->text() + QString("'");
@@ -179,27 +179,34 @@ void GeneralWidget::setSettings(const QMap<QString, QString> settings)
     QMap<QString, QString> generalSettings = settings;
 
     if (generalSettings.contains(QString("Description")))
-        ui->lineEdit_description->setText(generalSettings[QString("Description")].remove(QString("'")));
+        ui->lineEdit_description->setText(generalSettings[QString("Description")]
+                .remove(QChar('\'')).remove(QChar('"')));
     if (generalSettings.contains(QString("Connection")))
         for (int i=0; i<ui->comboBox_connection->count(); i++)
-            if (generalSettings[QString("Connection")].remove(QString("'")) == ui->comboBox_connection->itemText(i))
+            if (generalSettings[QString("Connection")]
+                    .remove(QChar('\'')).remove(QChar('"')) == ui->comboBox_connection->itemText(i))
                 ui->comboBox_connection->setCurrentIndex(i);
     if (generalSettings.contains(QString("Interface")))
         for (int i=0; i<ui->comboBox_interface->count(); i++)
-            if (generalSettings[QString("Interface")].remove(QString("'")) == ui->comboBox_interface->itemText(i))
+            if (generalSettings[QString("Interface")]
+                    .remove(QChar('\'')).remove(QChar('"')) == ui->comboBox_interface->itemText(i))
                 ui->comboBox_interface->setCurrentIndex(i);
     if (generalSettings.contains(QString("BindsToInterfaces")))
         ui->listWidget_bindto->addItems(generalSettings[QString("BindsToInterfaces")].split(QChar(' ')));
     if (generalSettings.contains(QString("After")))
         ui->listWidget_after->addItems(generalSettings[QString("After")].split(QChar(' ')));
     if (generalSettings.contains(QString("ExecUpPost")))
-        ui->lineEdit_execUpPost->setText(generalSettings[QString("ExecUpPost")].remove(QString("'")));
+        ui->lineEdit_execUpPost->setText(generalSettings[QString("ExecUpPost")]
+                .remove(QChar('\'')).remove(QChar('"')));
     if (generalSettings.contains(QString("ExecDownPre")))
-        ui->lineEdit_execDownPre->setText(generalSettings[QString("ExecDownPre")].remove(QString("'")));
+        ui->lineEdit_execDownPre->setText(generalSettings[QString("ExecDownPre")]
+                .remove(QChar('\'')).remove(QChar('"')));
     if (generalSettings.contains(QString("ForceConnect")))
-        if (generalSettings[QString("ForceConnect")].remove(QString("'")) == QString("yes"))
+        if (generalSettings[QString("ForceConnect")]
+                .remove(QChar('\'')).remove(QChar('"')) == QString("yes"))
             ui->checkBox_forceConnect->setCheckState(Qt::Checked);
     if (generalSettings.contains(QString("NETCTL_DEBUG")))
-        if (generalSettings[QString("NETCTL_DEBUG")].remove(QString("'")) == QString("yes"))
+        if (generalSettings[QString("NETCTL_DEBUG")]
+                .remove(QChar('\'')).remove(QChar('"')) == QString("yes"))
             ui->checkBox_debug->setCheckState(Qt::Checked);
 }

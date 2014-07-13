@@ -36,6 +36,7 @@ QString Language::checkLanguage(const QString language, const QString defaultLan
     for (int i=0; i<availableLanguages.count(); i++)
         if (language.contains(availableLanguages[i] + QChar('_')))
             return availableLanguages[i];
+
     return defaultLanguage;
 }
 
@@ -47,6 +48,7 @@ QString Language::defineLanguage(const QString configPath)
     if (language.isEmpty())
         language = defineLanguageFromLocale();
     language = checkLanguage(language, QString("en"));
+
     return language;
 }
 
@@ -58,19 +60,20 @@ QString Language::defineLanguageFromFile(const QString configPath)
         return language;
     QFile configFile(configPath);
     QString fileStr;
-    if (configFile.open(QIODevice::ReadOnly))
-        while (true) {
-            fileStr = QString(configFile.readLine());
-            if (fileStr[0] != '#') {
-                if (fileStr.contains(QString("LANGUAGE=")))
-                    language = fileStr.split(QChar('='))[1]
-                            .remove(QString(" "))
-                            .trimmed();
-            }
-            if (configFile.atEnd())
-                break;
-        }
+    if (!configFile.open(QIODevice::ReadOnly))
+        return language;
+    while (true) {
+        fileStr = QString(configFile.readLine());
+        if (fileStr[0] == QChar('#')) continue;
+        if (fileStr.contains(QString("LANGUAGE=")))
+            language = fileStr.split(QChar('='))[1]
+                    .remove(QChar(' '))
+                    .trimmed();
+        if (configFile.atEnd())
+            break;
+    }
     configFile.close();
+
     return language;
 }
 
@@ -86,5 +89,6 @@ QStringList Language::getAvailableLanguages()
     QStringList languages;
     languages.append(QString("en"));
     languages.append(QString("ru"));
+
     return languages;
 }

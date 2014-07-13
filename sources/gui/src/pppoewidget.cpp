@@ -157,9 +157,10 @@ QMap<QString, QString> PppoeWidget::getSettings()
         pppoeSettings[QString("PPPoEService")] = QString("'") + ui->lineEdit_service->text() + QString("'");
     if (!ui->lineEdit_ac->text().isEmpty())
         pppoeSettings[QString("PPPoEAC")] = QString("'") + ui->lineEdit_ac->text() + QString("'");
-    if (!ui->lineEdit_session->text().split(QChar(':')).join(QString("")).remove(QString(" ")).isEmpty())
-        pppoeSettings[QString("PPPoESession")] = QString("'") + ui->lineEdit_session->text().remove(QString(" ")) + QString("'");
-    if (!ui->lineEdit_mac->text().split(QChar(':')).join(QString("")).remove(QString(" ")).isEmpty())
+    if (!ui->lineEdit_session->text().remove(QChar(':')).remove(QChar(' ')).isEmpty())
+        pppoeSettings[QString("PPPoESession")] = QString("'") + ui->lineEdit_session->text()
+                .remove(QChar('\'')).remove(QChar('"')) + QString("'");
+    if (!ui->lineEdit_mac->text().remove(QChar(':')).remove(QChar(' ')).isEmpty())
         pppoeSettings[QString("PPPoEMAC")] = QString("'") + ui->lineEdit_mac->text() + QString("'");
     if (ui->checkBox_ipv6->checkState() == Qt::Checked)
         pppoeSettings[QString("PPPoEIP6")] = QString("yes");
@@ -175,18 +176,18 @@ int PppoeWidget::isOk()
         if (!QFile(ui->lineEdit_options->text()).exists())
             return 1;
     // mac address
-    if (!ui->lineEdit_mac->text().split(QChar(':')).join(QString("")).remove(QString(" ")).isEmpty())
-        if (ui->lineEdit_mac->text().contains(QString(" ")))
+    if (!ui->lineEdit_mac->text().remove(QChar(':')).remove(QChar(' ')).isEmpty())
+        if (ui->lineEdit_mac->text().contains(QChar(' ')))
             return 2;
     // session id is not set
-    if (!ui->lineEdit_session->text().split(QChar(':')).join(QString("")).remove(QString(" ")).isEmpty())
-        if (ui->lineEdit_session->text().split(QChar(':'))[0].remove(QString(" ")).isEmpty())
+    if (!ui->lineEdit_session->text().remove(QChar(':')).remove(QChar(' ')).isEmpty())
+        if (ui->lineEdit_session->text().split(QChar(':'))[0].remove(QChar(' ')).isEmpty())
             return 3;
     // session mac address
-    if (!ui->lineEdit_session->text().split(QChar(':')).join(QString("")).remove(QString(" ")).isEmpty()) {
+    if (!ui->lineEdit_session->text().remove(QChar(':')).remove(QChar(' ')).isEmpty()) {
         QStringList item = ui->lineEdit_session->text().split(QChar(':'));
         for (int i=1; i<7; i++)
-            if (item[i].contains(QString(" ")))
+            if (item[i].contains(QChar(' ')))
                 return 4;
     }
     // all fine
@@ -200,22 +201,27 @@ void PppoeWidget::setSettings(const QMap<QString, QString> settings)
     QMap<QString, QString> pppoeSettings = settings;
 
     if (pppoeSettings.contains(QString("User")))
-        ui->lineEdit_username->setText(pppoeSettings[QString("User")].remove(QString("'")));
+        ui->lineEdit_username->setText(pppoeSettings[QString("User")]
+                .remove(QChar('\'')).remove(QChar('"')));
     if (pppoeSettings.contains(QString("Password")))
-        ui->lineEdit_password->setText(pppoeSettings[QString("Password")].remove(QString("'")));
+        ui->lineEdit_password->setText(pppoeSettings[QString("Password")]
+                .remove(QChar('\'')).remove(QChar('"')));
     if (pppoeSettings.contains(QString("ConnectionMode")))
         for (int i=0; i<ui->comboBox_connection->count(); i++)
-            if (pppoeSettings[QString("ConnectionMode")].remove(QString("'")) == ui->comboBox_connection->itemText(i))
+            if (pppoeSettings[QString("ConnectionMode")]
+                    .remove(QChar('\'')).remove(QChar('"')) == ui->comboBox_connection->itemText(i))
                 ui->comboBox_connection->setCurrentIndex(i);
     if (pppoeSettings.contains(QString("IdleTimeout")))
         ui->spinBox_timeout->setValue(pppoeSettings[QString("IdleTimeout")].toInt());
     if (pppoeSettings.contains(QString("MaxFail")))
         ui->spinBox_fail->setValue(pppoeSettings[QString("MaxFail")].toInt());
     if (pppoeSettings.contains(QString("DefaultRoute")))
-        if (pppoeSettings[QString("DefaultRoute")].remove(QString("'")) == QString("false"))
+        if (pppoeSettings[QString("DefaultRoute")]
+                .remove(QChar('\'')).remove(QChar('"'))== QString("false"))
             ui->checkBox_route->setCheckState(Qt::Unchecked);
     if (pppoeSettings.contains(QString("UsePeerDNS")))
-        if (pppoeSettings[QString("UsePeerDNS")].remove(QString("'")) == QString("false"))
+        if (pppoeSettings[QString("UsePeerDNS")]
+                .remove(QChar('\'')).remove(QChar('"')) == QString("false"))
             ui->checkBox_dns->setCheckState(Qt::Unchecked);
     if (pppoeSettings.contains(QString("PPPUnit")))
         ui->lineEdit_unit->setText(pppoeSettings[QString("PPPUnit")]);
@@ -224,15 +230,20 @@ void PppoeWidget::setSettings(const QMap<QString, QString> settings)
     if (pppoeSettings.contains(QString("LCPEchoFailure")))
         ui->spinBox_lcpFailure->setValue(pppoeSettings[QString("LCPEchoFailure")].toInt());
     if (pppoeSettings.contains(QString("OptionsFile")))
-        ui->lineEdit_options->setText(pppoeSettings[QString("OptionsFile")].remove(QString("'")));
+        ui->lineEdit_options->setText(pppoeSettings[QString("OptionsFile")]
+                .remove(QChar('\'')).remove(QChar('"')));
     if (pppoeSettings.contains(QString("PPPoEService")))
-        ui->lineEdit_service->setText(pppoeSettings[QString("PPPoEService")].remove(QString("'")));
+        ui->lineEdit_service->setText(pppoeSettings[QString("PPPoEService")]
+                .remove(QChar('\'')).remove(QChar('"')));
     if (pppoeSettings.contains(QString("PPPoEAC")))
-        ui->lineEdit_ac->setText(pppoeSettings[QString("PPPoEAC")].remove(QString("'")));
+        ui->lineEdit_ac->setText(pppoeSettings[QString("PPPoEAC")]
+                .remove(QChar('\'')).remove(QChar('"')));
     if (pppoeSettings.contains(QString("PPPoESession")))
-        ui->lineEdit_session->setText(pppoeSettings[QString("PPPoESession")].remove(QString("'")));
+        ui->lineEdit_session->setText(pppoeSettings[QString("PPPoESession")]
+                .remove(QChar('\'')).remove(QChar('"')));
     if (pppoeSettings.contains(QString("PPPoEMAC")))
-        ui->lineEdit_mac->setText(pppoeSettings[QString("PPPoEMAC")].remove(QString("'")));
+        ui->lineEdit_mac->setText(pppoeSettings[QString("PPPoEMAC")]
+                .remove(QChar('\'')).remove(QChar('"')));
     if (pppoeSettings.contains(QString("PPPoEIP6")))
         if (pppoeSettings[QString("PPPoEIP6")] == QString("yes"))
             ui->checkBox_dns->setCheckState(Qt::Checked);

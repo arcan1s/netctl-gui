@@ -75,12 +75,11 @@ void Netctl::readConfiguration()
         fileStr = QString(confFile.readLine()).trimmed();
         if (fileStr[0] == QChar('#')) continue;
         if (fileStr[0] == QChar(';')) continue;
-        if (fileStr.contains(QChar('='))) {
-            value.clear();
-            for (int i=1; i<fileStr.split(QChar('=')).count(); i++)
-                value.append(fileStr.split(QChar('='))[i]);
-            rawConfig[fileStr.split(QChar('='))[0]] = value.join(QChar('='));
-        }
+        if (!fileStr.contains(QChar('='))) continue;
+        value.clear();
+        for (int i=1; i<fileStr.split(QChar('=')).count(); i++)
+            value.append(fileStr.split(QChar('='))[i]);
+        rawConfig[fileStr.split(QChar('='))[0]] = value.join(QChar('='));
         if (confFile.atEnd())
             break;
     }
