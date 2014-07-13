@@ -315,7 +315,7 @@ void WirelessWidget::setSettings(const QMap<QString, QString> settings)
     if (wirelessSettings.contains(QString("WPAConfigSection")))  {
         QStringList custom;
         if (wirelessSettings[QString("WPAConfigSection")].contains(QChar('\n')))
-            custom = wirelessSettings[QString("WPAConfigSection")].split(String("'\n'"));
+            custom = wirelessSettings[QString("WPAConfigSection")].split(QString("'\n'"));
         else
             custom = wirelessSettings[QString("WPAConfigSection")].split(QString("' '"));
         for (int i=0; i<custom.count(); i++)

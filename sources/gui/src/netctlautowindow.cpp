@@ -172,7 +172,6 @@ void NetctlAutoWindow::netctlAutoContextualMenu(const QPoint &pos)
 
     if (ui->tableWidget->currentItem() == 0)
         return;
-
     // create menu
     QMenu menu(this);
     QAction *startProfile = menu.addAction(QApplication::translate("NetctlAutoWindow", "Switch to profile"));
@@ -243,7 +242,6 @@ void NetctlAutoWindow::netctlAutoEnableProfile()
 
     if (ui->tableWidget->currentItem() == 0)
         return;
-
     ui->tableWidget->setDisabled(true);
     QString profile = ui->tableWidget->item(ui->tableWidget->currentItem()->row(), 0)->text();
     if (netctlCommand->autoEnableProfile(profile))
@@ -275,7 +273,6 @@ void NetctlAutoWindow::netctlAutoStartProfile()
 
     if (ui->tableWidget->currentItem() == 0)
         return;
-
     ui->tableWidget->setDisabled(true);
     QString profile = ui->tableWidget->item(ui->tableWidget->currentItem()->row(), 0)->text();
     if (netctlCommand->autoStartProfile(profile))
@@ -340,7 +337,6 @@ void NetctlAutoWindow::netctlAutoRefreshButtons(QTableWidgetItem *current, QTabl
         ui->actionSwitch->setVisible(false);
         return;
     }
-
     if (ui->tableWidget->item(current->row(), 2)->text() == QString("yes")) {
         // buttons
         ui->pushButton_enable->setDisabled(true);

@@ -30,6 +30,15 @@
 using namespace std;
 
 
+QChar isParametrEnable(const bool parametr)
+{
+    if (parametr)
+        return QChar('*');
+    else
+        return QChar(' ');
+}
+
+
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
@@ -42,66 +51,34 @@ int main(int argc, char *argv[])
     translator.load(QString(":/translations/") + language);
     a.installTranslator(&translator);
 
-    QString helpMessage = QString("");
-    helpMessage += QApplication::translate("MainWindow", "                                    Netctl GUI\n");
-    helpMessage += QApplication::translate("MainWindow", "Version : %1                                                  License : GPLv3\n")
-            .arg(QString(VERSION));
-    helpMessage += QApplication::translate("MainWindow", "                                                    Evgeniy Alekseev aka arcanis\n");
-    helpMessage += QApplication::translate("MainWindow", "                                                    E-mail : esalexeev@gmail.com\n\n");
-    helpMessage += QApplication::translate("MainWindow", "Usage:\n");
-    helpMessage += QApplication::translate("MainWindow", "netctl-gui [ -d | --debug ] [ --default ] [ --netctl-auto ] [ --settings ]\n");
-    helpMessage += QApplication::translate("MainWindow", "           [ -t NUM | --tab NUM ] [ -h | --help]\n\n");
-    helpMessage += QApplication::translate("MainWindow", "Parametrs:\n");
-    helpMessage += QApplication::translate("MainWindow", "  -d       --debug         - print debug information\n");
-    helpMessage += QApplication::translate("MainWindow", "           --default       - start with default settings\n");
-    helpMessage += QApplication::translate("MainWindow", "           --netctl-auto   - show netctl-auto window\n");
-    helpMessage += QApplication::translate("MainWindow", "           --settings      - show settings window\n");
-    helpMessage += QApplication::translate("MainWindow", "  -t NUM   --tab NUM       - open a tab with number NUM\n");
-    helpMessage += QApplication::translate("MainWindow", "  -h       --help          - show this help and exit\n");
-    bool defaultSettings = false;
+    // reading command line flags
     bool debug = false;
+    bool defaultSettings = false;
+    bool error = false;
+    bool showHelp = false;
     bool showNetctlAuto = false;
     bool showSettings = false;
+    bool showVersion = false;
     int tabNumber = 1;
-
     for (int i=1; i<argc; i++) {
-        // help message
-        if (((argv[i][0] == '-') && (argv[i][1] == 'h') && (argv[i][2] == '\0')) ||
-                ((argv[i][0] == '-') && (argv[i][1] == '-') && (argv[i][2] == 'h') && (argv[i][3] == 'e') &&
-                 (argv[i][4] == 'l') && (argv[i][5] == 'p') && (argv[i][6] == '\0'))) {
-            cout << helpMessage.toUtf8().data();
-            return 0;
-        }
-        // default settings
-        else if ((argv[i][0] == '-') && (argv[i][1] == '-') && (argv[i][2] == 'd') && (argv[i][3] == 'e') &&
-                 (argv[i][4] == 'f') && (argv[i][5] == 'a') && (argv[i][6] == 'u') && (argv[i][7] == 'l') &&
-                 (argv[i][8] == 't') && (argv[i][9] == '\0')) {
-            defaultSettings = true;
-        }
         // debug
-        else if (((argv[i][0] == '-') && (argv[i][1] == 'd') && (argv[i][2] == '\0')) ||
-                 ((argv[i][0] == '-') && (argv[i][1] == '-') && (argv[i][2] == 'd') &&
-                  (argv[i][3] == 'e') && (argv[i][4] == 'b') && (argv[i][5] == 'u') &&
-                  (argv[i][3] == 'g') && (argv[i][4] == '\0'))) {
+        if ((QString(argv[i]) == QString("-d")) || (QString(argv[i]) == QString("--debug"))) {
             debug = true;
         }
+        // default settings
+        else if (QString(argv[i]) == QString("--default")) {
+            defaultSettings = true;
+        }
         // netctl-auto
-        else if ((argv[i][0] == '-') && (argv[i][1] == '-') && (argv[i][2] == 'n') && (argv[i][3] == 'e') &&
-                 (argv[i][4] == 't') && (argv[i][5] == 'c') && (argv[i][6] == 't') && (argv[i][7] == 'l') &&
-                 (argv[i][8] == '-') && (argv[i][9] == 'a') && (argv[i][10] == 'u') && (argv[i][11] == 't') &&
-                 (argv[i][12] == 'o') && (argv[i][13] == '\0')) {
+        else if (QString(argv[i]) == QString("--netctl-auto")) {
             showNetctlAuto = true;
         }
         // settings
-        else if ((argv[i][0] == '-') && (argv[i][1] == '-') && (argv[i][2] == 's') && (argv[i][3] == 'e') &&
-                 (argv[i][4] == 't') && (argv[i][5] == 't') && (argv[i][6] == 'i') && (argv[i][7] == 'n') &&
-                 (argv[i][8] == 'g') && (argv[i][9] == 's') && (argv[i][10] == '\0')) {
+        else if (QString(argv[i]) == QString("--settings")) {
             showSettings = true;
         }
         // tab number
-        else if (((argv[i][0] == '-') && (argv[i][1] == 't') && (argv[i][2] == '\0')) ||
-                 ((argv[i][0] == '-') && (argv[i][1] == '-') && (argv[i][2] == 't') &&
-                  (argv[i][3] == 'a') && (argv[i][4] == 'b') && (argv[i][5] == '\0'))) {
+        else if ((QString(argv[i]) == QString("-t")) || (QString(argv[i]) == QString("--tab"))) {
             if (atoi(argv[i+1]) > 3)
                 tabNumber = 3;
             else if (atoi(argv[i+1]) < 1)
@@ -110,8 +87,59 @@ int main(int argc, char *argv[])
                 tabNumber = atoi(argv[i+1]);
             i++;
         }
+        // version message
+        else if ((QString(argv[i]) == QString("-v")) || (QString(argv[i]) == QString("--version"))) {
+            showVersion = true;
+        }
+        // help message
+        else if ((QString(argv[i]) == QString("-h")) || (QString(argv[i]) == QString("--help"))) {
+            showHelp = true;
+        }
+        else {
+            error = true;
+        }
     }
 
+    // messages
+    QString errorMessage = QApplication::translate("MainWindow", "Unknown flag\n");
+    QString helpMessage = QString("");
+    helpMessage += QApplication::translate("MainWindow", "Usage:\n");
+    helpMessage += QApplication::translate("MainWindow", "netctl-gui [ -d | --debug ] [ --default ] [ --netctl-auto ] [ --settings ]\n");
+    helpMessage += QApplication::translate("MainWindow", "           [ -t NUM | --tab NUM ] [ -v | --version ] [ -h | --help]\n\n");
+    helpMessage += QApplication::translate("MainWindow", "Parametrs:\n");
+    helpMessage += QApplication::translate("MainWindow", "%1  -d       --debug         - print debug information\n")
+            .arg(isParametrEnable(debug));
+    helpMessage += QApplication::translate("MainWindow", "%1           --default       - start with default settings\n")
+            .arg(isParametrEnable(defaultSettings));
+    helpMessage += QApplication::translate("MainWindow", "%1           --netctl-auto   - show netctl-auto window\n")
+            .arg(isParametrEnable(showNetctlAuto));
+    helpMessage += QApplication::translate("MainWindow", "%1           --settings      - show settings window\n")
+            .arg(isParametrEnable(showSettings));
+    helpMessage += QApplication::translate("MainWindow", "   -t %1     --tab %1         - open a tab with number %1\n")
+            .arg(QString::number(tabNumber));
+    helpMessage += QApplication::translate("MainWindow", "   -v       --version       - show version and exit\n");
+    helpMessage += QApplication::translate("MainWindow", "   -h       --help          - show this help and exit\n");
+    QString versionMessage = QString("");
+    versionMessage += QApplication::translate("MainWindow", "                                    Netctl GUI\n");
+    versionMessage += QApplication::translate("MainWindow", "Version : %1                                                  License : GPLv3\n")
+            .arg(QString(VERSION));
+    versionMessage += QApplication::translate("MainWindow", "                                                    Evgeniy Alekseev aka arcanis\n");
+    versionMessage += QApplication::translate("MainWindow", "                                                    E-mail : esalexeev@gmail.com\n");
+    // running
+    if (error) {
+        cout << errorMessage.toUtf8().data();
+        cout << helpMessage.toUtf8().data();
+        return 127;
+    }
+    if (showHelp) {
+        cout << versionMessage.toUtf8().data();
+        cout << helpMessage.toUtf8().data();
+        return 0;
+    }
+    if (showVersion) {
+        cout << versionMessage.toUtf8().data();
+        return 0;
+    }
     MainWindow w(0, defaultSettings, debug, showNetctlAuto, showSettings, tabNumber);
     w.show();
     return a.exec();
