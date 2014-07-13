@@ -74,7 +74,7 @@ void Netctl::init()
     // icon
     iconWidget = new Plasma::IconWidget(KIcon(""), QString(), this);
     iconWidget->setPreferredSize(30, 30);
-    connect(iconWidget, SIGNAL(doubleClicked()), this, SLOT(showGui()));
+    connect(iconWidget, SIGNAL(clicked()), this, SLOT(showGui()));
     fullSpaceLayout->addItem(iconWidget);
     // text
     textLabel = new Plasma::Label();

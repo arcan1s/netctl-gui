@@ -94,7 +94,7 @@ QString NetctlProfile::createProfile(const QString profile, const QMap<QString, 
                 (settings.keys()[i] == QString("IPCustom")) ||
                 (settings.keys()[i] == QString("DNS")) ||
                 (settings.keys()[i] == QString("DNSOptions")) ||
-                (settings.keys()[i] == QString("WPAConfigSection")) ||
+                (settings.keys()[i] == QString("ScanFrequencies")) ||
                 (settings.keys()[i] == QString("WPAConfigSection")))
             out << QString("(") + settings[settings.keys()[i]] << QString(")") << endl;
         else
@@ -115,58 +115,28 @@ QMap<QString, QString> NetctlProfile::getSettingsFromProfile(const QString profi
         return QMap<QString, QString>();
     }
 
+    // getting variables list
     QMap<QString, QString> settings;
-    QString fileStr, profileUrl;
-    profileUrl = profileDirectory->absolutePath() + QDir::separator() + QFileInfo(profile).fileName();
-    QFile profileFile(profileUrl);
-    if (debug) qDebug() << "[NetctlProfile]" << "[getSettingsFromProfile]" << ":" << "Read from" << profileUrl;
-    if (!profileFile.open(QIODevice::ReadOnly))
-        return settings;
-    while (true) {
-        fileStr = QString(profileFile.readLine());
-        if (fileStr[0] == QChar('#')) continue;
-        if (fileStr.split(QChar('='), QString::SkipEmptyParts).count() != 2) continue;
-        if ((fileStr.split(QChar('='))[1][0] == QChar('(')) &&
-                (fileStr.split(QChar('='))[1][fileStr.split(QChar('='))[1].size()-2] == QChar(')')))
-            settings[fileStr.split(QChar('='))[0]] = fileStr.split(QChar('='))[1]
-                    .remove(QChar('('))
-                    .remove(QChar(')'))
-                    .trimmed();
-        else if (fileStr.split(QChar('='))[1][0] == QChar('(')) {
-            QString parameterName = fileStr.split(QChar('='))[0];
-            QStringList parameter;
-            if (!fileStr.split(QChar('='))[1]
-                    .remove(QChar('('))
-                    .remove(QChar(')'))
-                    .trimmed()
-                    .isEmpty())
-                parameter.append(fileStr.split(QChar('='))[1]
-                        .remove(QChar('('))
-                        .remove(QChar(')'))
-                        .trimmed());
-            while(true) {
-                fileStr = QString(profileFile.readLine());
-                if (fileStr[fileStr.size()-2] == QChar(')'))
-                    break;
-                if (!fileStr.remove(QChar('('))
-                        .remove(QChar(')'))
-                        .trimmed()
-                        .isEmpty())
-                    parameter.append(fileStr.remove(QChar('('))
-                            .remove(QChar(')'))
-                            .trimmed());
-                if (profileFile.atEnd())
-                    break;
-            }
-            settings[parameterName] = parameter.join(QChar('\n'));
-        }
-        else
-            settings[fileStr.split(QChar('='))[0]] = fileStr.split(QChar('='))[1]
-                    .trimmed();
-        if (profileFile.atEnd())
-            break;
+    QProcess shell;
+    QString profileUrl = profileDirectory->absolutePath() + QDir::separator() + QFileInfo(profile).fileName();
+    QString cmd = QString("env -i bash -c \"source ") + profileUrl + QString("; set\"");
+    if (debug) qDebug() << "[NetctlProfile]" << "[getSettingsFromProfile]" << ":" << "Run cmd" << cmd;
+    shell.start(cmd);
+    shell.waitForFinished(-1);
+    if (debug) qDebug() << "[NetctlProfile]" << "[getSettingsFromProfile]" << ":" << "Cmd returns" << shell.exitCode();
+    QStringList output = QString(shell.readAllStandardOutput()).trimmed().split(QChar('\n'));
+
+    // gettings variables
+    QStringList keys;
+    for (int i=0; i<output.count(); i++)
+        keys.append(output[i].split(QChar('='))[0]);
+    for (int i=0; i<keys.count(); i++){
+        cmd = QString("env -i bash -c \"source ") + profileUrl +
+                QString(" && printf -- '%s\n' \"${") + keys[i] + ("[@]}\"");
+        shell.start(cmd);
+        shell.waitForFinished(-1);
+        settings[keys[i]] = shell.readAllStandardOutput().trimmed();
     }
-    profileFile.close();
 
     return settings;
 }

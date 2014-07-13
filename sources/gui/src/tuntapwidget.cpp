@@ -86,13 +86,10 @@ void TuntapWidget::setSettings(const QMap<QString, QString> settings)
 
     if (tuntapSettings.contains(QString("Mode")))
         for (int i=0; i<ui->comboBox_mode->count(); i++)
-            if (tuntapSettings[QString("Mode")]
-                    .remove(QChar('\'')).remove(QChar('"')) == ui->comboBox_mode->itemText(i))
+            if (tuntapSettings[QString("Mode")] == ui->comboBox_mode->itemText(i))
                 ui->comboBox_mode->setCurrentIndex(i);
     if (tuntapSettings.contains(QString("User")))
-        ui->lineEdit_user->setText(tuntapSettings[QString("User")]
-                .remove(QChar('\'')).remove(QChar('"')));
+        ui->lineEdit_user->setText(tuntapSettings[QString("User")]);
     if (tuntapSettings.contains(QString("Group")))
-        ui->lineEdit_group->setText(tuntapSettings[QString("Group")]
-                .remove(QChar('\'')).remove(QChar('"')));
+        ui->lineEdit_group->setText(tuntapSettings[QString("Group")]);
 }

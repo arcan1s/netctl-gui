@@ -201,27 +201,22 @@ void PppoeWidget::setSettings(const QMap<QString, QString> settings)
     QMap<QString, QString> pppoeSettings = settings;
 
     if (pppoeSettings.contains(QString("User")))
-        ui->lineEdit_username->setText(pppoeSettings[QString("User")]
-                .remove(QChar('\'')).remove(QChar('"')));
+        ui->lineEdit_username->setText(pppoeSettings[QString("User")]);
     if (pppoeSettings.contains(QString("Password")))
-        ui->lineEdit_password->setText(pppoeSettings[QString("Password")]
-                .remove(QChar('\'')).remove(QChar('"')));
+        ui->lineEdit_password->setText(pppoeSettings[QString("Password")]);
     if (pppoeSettings.contains(QString("ConnectionMode")))
         for (int i=0; i<ui->comboBox_connection->count(); i++)
-            if (pppoeSettings[QString("ConnectionMode")]
-                    .remove(QChar('\'')).remove(QChar('"')) == ui->comboBox_connection->itemText(i))
+            if (pppoeSettings[QString("ConnectionMode")] == ui->comboBox_connection->itemText(i))
                 ui->comboBox_connection->setCurrentIndex(i);
     if (pppoeSettings.contains(QString("IdleTimeout")))
         ui->spinBox_timeout->setValue(pppoeSettings[QString("IdleTimeout")].toInt());
     if (pppoeSettings.contains(QString("MaxFail")))
         ui->spinBox_fail->setValue(pppoeSettings[QString("MaxFail")].toInt());
     if (pppoeSettings.contains(QString("DefaultRoute")))
-        if (pppoeSettings[QString("DefaultRoute")]
-                .remove(QChar('\'')).remove(QChar('"'))== QString("false"))
+        if (pppoeSettings[QString("DefaultRoute")] == QString("false"))
             ui->checkBox_route->setCheckState(Qt::Unchecked);
     if (pppoeSettings.contains(QString("UsePeerDNS")))
-        if (pppoeSettings[QString("UsePeerDNS")]
-                .remove(QChar('\'')).remove(QChar('"')) == QString("false"))
+        if (pppoeSettings[QString("UsePeerDNS")] == QString("false"))
             ui->checkBox_dns->setCheckState(Qt::Unchecked);
     if (pppoeSettings.contains(QString("PPPUnit")))
         ui->lineEdit_unit->setText(pppoeSettings[QString("PPPUnit")]);
@@ -230,20 +225,15 @@ void PppoeWidget::setSettings(const QMap<QString, QString> settings)
     if (pppoeSettings.contains(QString("LCPEchoFailure")))
         ui->spinBox_lcpFailure->setValue(pppoeSettings[QString("LCPEchoFailure")].toInt());
     if (pppoeSettings.contains(QString("OptionsFile")))
-        ui->lineEdit_options->setText(pppoeSettings[QString("OptionsFile")]
-                .remove(QChar('\'')).remove(QChar('"')));
+        ui->lineEdit_options->setText(pppoeSettings[QString("OptionsFile")]);
     if (pppoeSettings.contains(QString("PPPoEService")))
-        ui->lineEdit_service->setText(pppoeSettings[QString("PPPoEService")]
-                .remove(QChar('\'')).remove(QChar('"')));
+        ui->lineEdit_service->setText(pppoeSettings[QString("PPPoEService")]);
     if (pppoeSettings.contains(QString("PPPoEAC")))
-        ui->lineEdit_ac->setText(pppoeSettings[QString("PPPoEAC")]
-                .remove(QChar('\'')).remove(QChar('"')));
+        ui->lineEdit_ac->setText(pppoeSettings[QString("PPPoEAC")]);
     if (pppoeSettings.contains(QString("PPPoESession")))
-        ui->lineEdit_session->setText(pppoeSettings[QString("PPPoESession")]
-                .remove(QChar('\'')).remove(QChar('"')));
+        ui->lineEdit_session->setText(pppoeSettings[QString("PPPoESession")]);
     if (pppoeSettings.contains(QString("PPPoEMAC")))
-        ui->lineEdit_mac->setText(pppoeSettings[QString("PPPoEMAC")]
-                .remove(QChar('\'')).remove(QChar('"')));
+        ui->lineEdit_mac->setText(pppoeSettings[QString("PPPoEMAC")]);
     if (pppoeSettings.contains(QString("PPPoEIP6")))
         if (pppoeSettings[QString("PPPoEIP6")] == QString("yes"))
             ui->checkBox_dns->setCheckState(Qt::Checked);

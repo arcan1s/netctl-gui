@@ -19,6 +19,7 @@ Ver.1.2.0:
 * [gui] refactoring of configuration interface
 * [lib] more debug information
 * [plasmoid] edited configuration interface
+* [plasmoid] changed double click event to click event
 
 Ver.1.1.0 (netctl-1.7 update):
 + [gui] added frequency

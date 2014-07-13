@@ -87,8 +87,7 @@ void MacvlanWidget::setSettings(const QMap<QString, QString> settings)
 
     if (macvlanSettings.contains(QString("Mode")))
         for (int i=0; i<ui->comboBox_mode->count(); i++)
-            if (macvlanSettings[QString("Mode")]
-                    .remove(QChar('\'')).remove(QChar('"')) == ui->comboBox_mode->itemText(i))
+            if (macvlanSettings[QString("Mode")] == ui->comboBox_mode->itemText(i))
                 ui->comboBox_mode->setCurrentIndex(i);
     if (macvlanSettings.contains(QString("MACAddress")))
         ui->lineEdit_mac->setText(macvlanSettings[QString("MACAddress")]);

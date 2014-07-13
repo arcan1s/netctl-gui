@@ -114,13 +114,10 @@ void TunnelWidget::setSettings(const QMap<QString, QString> settings)
 
     if (tunnelSettings.contains(QString("Mode")))
         for (int i=0; i<ui->comboBox_mode->count(); i++)
-            if (tunnelSettings[QString("Mode")]
-                    .remove(QChar('\'')).remove(QChar('"')) == ui->comboBox_mode->itemText(i))
+            if (tunnelSettings[QString("Mode")] == ui->comboBox_mode->itemText(i))
                 ui->comboBox_mode->setCurrentIndex(i);
     if (tunnelSettings.contains(QString("Local")))
-        ui->lineEdit_local->setText(tunnelSettings[QString("Local")]
-                .remove(QChar('\'')).remove(QChar('"')));
+        ui->lineEdit_local->setText(tunnelSettings[QString("Local")]);
     if (tunnelSettings.contains(QString("Remote")))
-        ui->lineEdit_remote->setText(tunnelSettings[QString("Remote")]
-                .remove(QChar('\'')).remove(QChar('"')));
+        ui->lineEdit_remote->setText(tunnelSettings[QString("Remote")]);
 }
