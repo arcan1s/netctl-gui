@@ -51,7 +51,8 @@ MainWindow::MainWindow(QWidget *parent,
                        const bool showAbout,
                        const bool showNetctlAuto,
                        const bool showSettings,
-                       const int tabNum)
+                       const int tabNum,
+                       const QString openProfile)
     : QMainWindow(parent),
       ui(new Ui::MainWindow),
       debug(debugCmd)
@@ -61,6 +62,7 @@ MainWindow::MainWindow(QWidget *parent,
     if (debug) qDebug() << "[MainWindow]" << "[MainWindow]" << ":" << "showNetctlAuto" << showNetctlAuto;
     if (debug) qDebug() << "[MainWindow]" << "[MainWindow]" << ":" << "showSettings" << showSettings;
     if (debug) qDebug() << "[MainWindow]" << "[MainWindow]" << ":" << "tabNum" << tabNum;
+    if (debug) qDebug() << "[MainWindow]" << "[MainWindow]" << ":" << "openProfile" << openProfile;
 
     ui->setupUi(this);
     ui->tabWidget->setCurrentIndex(tabNum-1);
@@ -106,6 +108,12 @@ MainWindow::MainWindow(QWidget *parent,
     setIconsToButtons();
     updateTabs(ui->tabWidget->currentIndex());
     ui->statusBar->showMessage(QApplication::translate("MainWindow", "Ready"));
+
+    if (openProfile != QString("PROFILE")) {
+        ui->comboBox_profile->addItem(openProfile);
+        ui->comboBox_profile->setCurrentIndex(ui->comboBox_profile->count()-1);
+        profileTabLoadProfile();
+    }
 
     if (showAbout)
         aboutWin->show();
@@ -599,7 +607,8 @@ void MainWindow::mainTabEditProfile()
     ui->tabWidget->setDisabled(true);
     QString profile = ui->tableWidget_main->item(ui->tableWidget_main->currentItem()->row(), 0)->text();
     ui->tabWidget->setCurrentIndex(1);
-    ui->comboBox_profile->setCurrentIndex(ui->comboBox_profile->findText(profile));
+    ui->comboBox_profile->addItem(profile);
+    ui->comboBox_profile->setCurrentIndex(ui->comboBox_profile->count()-1);
 
     profileTabLoadProfile();
 }

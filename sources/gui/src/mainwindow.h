@@ -58,7 +58,8 @@ public:
                         const bool showAbout = false,
                         const bool showNetctlAuto = false,
                         const bool showSettings = false,
-                        const int tabNum = 1);
+                        const int tabNum = 1,
+                        const QString openProfile = QString("PROFILE"));
     ~MainWindow();
 
 public slots:

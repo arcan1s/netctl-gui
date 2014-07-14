@@ -61,6 +61,7 @@ int main(int argc, char *argv[])
     bool showNetctlAuto = false;
     bool showSettings = false;
     bool showVersion = false;
+    QString openProfile = QString("PROFILE");
     int tabNumber = 1;
     for (int i=1; i<argc; i++) {
         // about
@@ -74,6 +75,11 @@ int main(int argc, char *argv[])
         // default settings
         else if (QString(argv[i]) == QString("--default")) {
             defaultSettings = true;
+        }
+        // default settings
+        else if ((QString(argv[i]) == QString("-o")) || (QString(argv[i]) == QString("--open"))) {
+            openProfile = QString(argv[i+1]);
+            i++;
         }
         // netctl-auto
         else if (QString(argv[i]) == QString("--netctl-auto")) {
@@ -109,39 +115,44 @@ int main(int argc, char *argv[])
             error = true;
         }
     }
+    if (openProfile != QString("PROFILE"))
+        tabNumber = 2;
 
     // messages
     QString errorMessage = QApplication::translate("MainWindow", "Unknown flag\n");
 
     QString helpMessage = QString("");
     helpMessage += QApplication::translate("MainWindow", "Usage:\n");
-    helpMessage += QString("netctl-gui [ --about ] [ -d | --debug ] [ --default ] [ --netctl-auto ]\n");
-    helpMessage += QString("           [ --settings ] [ -t NUM | --tab NUM ] [ -v | --version ]\n");
+    helpMessage += QString("netctl-gui [ --about ] [ -d | --debug ] [ --default ] [ -o PROFILE | --open PROFILE ]\n");
+    helpMessage += QString("           [ --netctl-auto ] [ --settings ] [ -t NUM | --tab NUM ] [ -v | --version ]\n");
     helpMessage += QString("           [ -i | --info ] [ -h | --help]\n\n");
     helpMessage += QApplication::translate("MainWindow", "Parametrs:\n");
-    helpMessage += QString("%1           --about         - %2\n")
+    helpMessage += QString("%1               --about          - %2\n")
             .arg(isParametrEnable(showAbout))
             .arg(QApplication::translate("MainWindow", "show about window"));
-    helpMessage += QString("%1  -d       --debug         - %2\n")
+    helpMessage += QString("%1  -d           --debug          - %2\n")
             .arg(isParametrEnable(debug))
             .arg(QApplication::translate("MainWindow", "print debug information"));
-    helpMessage += QString("%1           --default       - %2\n")
+    helpMessage += QString("%1               --default        - %2\n")
             .arg(isParametrEnable(defaultSettings))
             .arg(QApplication::translate("MainWindow", "start with default settings"));
-    helpMessage += QString("%1           --netctl-auto   - %2\n")
+    helpMessage += QString("   -o %1   --open %1   - %2\n")
+            .arg(openProfile)
+            .arg(QApplication::translate("MainWindow", "open profile %1").arg(openProfile));
+    helpMessage += QString("%1               --netctl-auto    - %2\n")
             .arg(isParametrEnable(showNetctlAuto))
             .arg(QApplication::translate("MainWindow", "show netctl-auto window"));
-    helpMessage += QString("%1           --settings      - %2\n")
+    helpMessage += QString("%1               --settings       - %2\n")
             .arg(isParametrEnable(showSettings))
             .arg(QApplication::translate("MainWindow", "show settings window"));
-    helpMessage += QString("   -t %1     --tab %1         - %2\n")
+    helpMessage += QString("   -t %1         --tab %1          - %2\n")
             .arg(QString::number(tabNumber))
             .arg(QApplication::translate("MainWindow", "open a tab with number %1").arg(QString::number(tabNumber)));
-    helpMessage += QString("   -v       --version       - %1\n")
+    helpMessage += QString("   -v           --version        - %1\n")
             .arg(QApplication::translate("MainWindow", "show version and exit"));
-    helpMessage += QString("   -i       --info          - %1\n")
+    helpMessage += QString("   -i           --info           - %1\n")
             .arg(QApplication::translate("MainWindow", "show build information and exit"));
-    helpMessage += QString("   -h       --help          - %1\n")
+    helpMessage += QString("   -h           --help           - %1\n")
             .arg(QApplication::translate("MainWindow", "show this help and exit"));
 
     QString infoMessage = QString("");
@@ -174,7 +185,6 @@ int main(int argc, char *argv[])
         return 0;
     }
     if (showHelp) {
-        cout << versionMessage.toUtf8().data() << endl;
         cout << helpMessage.toUtf8().data();
         return 0;
     }
@@ -182,7 +192,7 @@ int main(int argc, char *argv[])
         cout << versionMessage.toUtf8().data();
         return 0;
     }
-    MainWindow w(0, debug, defaultSettings, showAbout, showNetctlAuto, showSettings, tabNumber);
+    MainWindow w(0, debug, defaultSettings, showAbout, showNetctlAuto, showSettings, tabNumber, openProfile);
     w.show();
     return a.exec();
 }
