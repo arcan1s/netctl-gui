@@ -69,7 +69,7 @@ void AboutWindow::createUi()
 {
     if (debug) qDebug() << "[AboutWindow]" << "[createUi]";
 
-    QWidget *aboutWidget = new QWidget;
+    QWidget *aboutWidget = new QWidget();
     uiAbout = new Ui::About;
     uiAbout->setupUi(aboutWidget);
     ui->verticalLayout->addWidget(aboutWidget);

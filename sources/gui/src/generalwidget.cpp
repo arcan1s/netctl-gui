@@ -184,10 +184,10 @@ void GeneralWidget::setSettings(const QMap<QString, QString> settings)
         for (int i=0; i<ui->comboBox_connection->count(); i++)
             if (generalSettings[QString("Connection")] == ui->comboBox_connection->itemText(i))
                 ui->comboBox_connection->setCurrentIndex(i);
-    if (generalSettings.contains(QString("Interface")))
-        for (int i=0; i<ui->comboBox_interface->count(); i++)
-            if (generalSettings[QString("Interface")] == ui->comboBox_interface->itemText(i))
-                ui->comboBox_interface->setCurrentIndex(i);
+    if (generalSettings.contains(QString("Interface"))) {
+        ui->comboBox_interface->addItem(generalSettings[QString("Interface")]);
+        ui->comboBox_interface->setCurrentIndex(ui->comboBox_interface->count()-1);
+    }
     if (generalSettings.contains(QString("BindsToInterfaces")))
         ui->listWidget_bindto->addItems(generalSettings[QString("BindsToInterfaces")].split(QChar('\n')));
     if (generalSettings.contains(QString("After")))

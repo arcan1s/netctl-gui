@@ -307,8 +307,14 @@ void WirelessWidget::setSettings(const QMap<QString, QString> settings)
                 ui->comboBox_security->setCurrentIndex(i);
     if (wirelessSettings.contains(QString("ESSID")))
         ui->lineEdit_essid->setText(wirelessSettings[QString("ESSID")]);
-    if (wirelessSettings.contains(QString("Key")))
+    if (wirelessSettings.contains(QString("Key"))) {
+        // workaround for wireless-wep example
+        if (wirelessSettings.contains(QString("Security")))
+            if ((wirelessSettings[QString("Security")] == QString("wep")) &&
+                    (wirelessSettings[QString("Key")][0] == QChar('"')))
+              wirelessSettings[QString("Key")] = QChar('\\') + wirelessSettings[QString("Key")];
         ui->lineEdit_key->setText(wirelessSettings[QString("Key")]);
+    }
     if (wirelessSettings.contains(QString("WPAConfigSection")))
         ui->listWidget_wpaConfigSection->addItems(wirelessSettings[QString("WPAConfigSection")].split(QChar('\n')));
     if (wirelessSettings.contains(QString("WPAConfigFile")))
