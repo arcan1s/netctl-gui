@@ -116,20 +116,33 @@ QMap<QString, QString> NetctlProfile::getSettingsFromProfile(const QString profi
     }
 
     // getting variables list
-    QMap<QString, QString> settings;
+    // system variables
     QProcess shell;
-    QString profileUrl = profileDirectory->absolutePath() + QDir::separator() + QFileInfo(profile).fileName();
-    QString cmd = QString("env -i bash -c \"source ") + profileUrl + QString("; set\"");
+    QString cmd = QString("env -i bash -c \"set\"");
     if (debug) qDebug() << "[NetctlProfile]" << "[getSettingsFromProfile]" << ":" << "Run cmd" << cmd;
     shell.start(cmd);
     shell.waitForFinished(-1);
     if (debug) qDebug() << "[NetctlProfile]" << "[getSettingsFromProfile]" << ":" << "Cmd returns" << shell.exitCode();
     QStringList output = QString(shell.readAllStandardOutput()).trimmed().split(QChar('\n'));
+    QStringList systemVariables;
+    systemVariables.append(QString("PIPESTATUS"));
+    for (int i=0; i<output.count(); i++)
+        systemVariables.append(output[i].split(QChar('='))[0]);
+    // profile variables
+    QMap<QString, QString> settings;
+    QString profileUrl = profileDirectory->absolutePath() + QDir::separator() + QFileInfo(profile).fileName();
+    cmd = QString("env -i bash -c \"source ") + profileUrl + QString("; set\"");
+    if (debug) qDebug() << "[NetctlProfile]" << "[getSettingsFromProfile]" << ":" << "Run cmd" << cmd;
+    shell.start(cmd);
+    shell.waitForFinished(-1);
+    if (debug) qDebug() << "[NetctlProfile]" << "[getSettingsFromProfile]" << ":" << "Cmd returns" << shell.exitCode();
+    output = QString(shell.readAllStandardOutput()).trimmed().split(QChar('\n'));
 
     // gettings variables
     QStringList keys;
     for (int i=0; i<output.count(); i++)
-        keys.append(output[i].split(QChar('='))[0]);
+        if (!systemVariables.contains(output[i].split(QChar('='))[0]))
+            keys.append(output[i].split(QChar('='))[0]);
     for (int i=0; i<keys.count(); i++){
         cmd = QString("env -i bash -c \"source ") + profileUrl +
                 QString("; for i in ${!") + keys[i] + QString("[@]}; do echo ${") +

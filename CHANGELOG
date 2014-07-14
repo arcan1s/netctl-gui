@@ -20,6 +20,7 @@ Ver.1.2.0:
 * [gui] changed lineEdit_profile to comboBox
 * [gui] refactoring of configuration interface
 * [gui] changed setting of the interface to profile tab
+* [gui] rewrited ErrorWindow class
 * [lib] more debug information
 * [lib] rewrited getSettingsFromProfile() function
 * [plasmoid] edited configuration interface

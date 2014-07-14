@@ -46,27 +46,30 @@
 
 
 MainWindow::MainWindow(QWidget *parent,
-                       const bool debugCmd,
-                       const bool defaultSettings,
                        const bool showAbout,
                        const bool showNetctlAuto,
                        const bool showSettings,
-                       const int tabNum,
-                       const QString openProfile)
+                       const QString selectEssid,
+                       const QString openProfile,
+                       const QString selectProfile,
+                       const bool debugCmd,
+                       const bool defaultSettings,
+                       const int tabNum)
     : QMainWindow(parent),
       ui(new Ui::MainWindow),
       debug(debugCmd)
 {
-    if (debug) qDebug() << "[MainWindow]" << "[MainWindow]" << ":" << "debug" << debug;
-    if (debug) qDebug() << "[MainWindow]" << "[MainWindow]" << ":" << "defaultSettings" << defaultSettings;
+    if (debug) qDebug() << "[MainWindow]" << "[MainWindow]" << ":" << "showAbout" << showAbout;
     if (debug) qDebug() << "[MainWindow]" << "[MainWindow]" << ":" << "showNetctlAuto" << showNetctlAuto;
     if (debug) qDebug() << "[MainWindow]" << "[MainWindow]" << ":" << "showSettings" << showSettings;
-    if (debug) qDebug() << "[MainWindow]" << "[MainWindow]" << ":" << "tabNum" << tabNum;
+    if (debug) qDebug() << "[MainWindow]" << "[MainWindow]" << ":" << "selectEssid" << selectEssid;
     if (debug) qDebug() << "[MainWindow]" << "[MainWindow]" << ":" << "openProfile" << openProfile;
+    if (debug) qDebug() << "[MainWindow]" << "[MainWindow]" << ":" << "selectProfile" << selectProfile;
+    if (debug) qDebug() << "[MainWindow]" << "[MainWindow]" << ":" << "debug" << debug;
+    if (debug) qDebug() << "[MainWindow]" << "[MainWindow]" << ":" << "defaultSettings" << defaultSettings;
+    if (debug) qDebug() << "[MainWindow]" << "[MainWindow]" << ":" << "tabNum" << tabNum;
 
-    ui->setupUi(this);
-    ui->tabWidget->setCurrentIndex(tabNum-1);
-
+    // reading configuration
     QString configPath = QDir::homePath() + QDir::separator() + QString(".config") +
             QDir::separator() + QString("netctl-gui.conf");
     settingsWin = new SettingsWindow(this, debug, configPath);
@@ -74,8 +77,14 @@ MainWindow::MainWindow(QWidget *parent,
         settingsWin->setDefault();
     configuration = settingsWin->getSettings();
 
-    // gui
+    // backend
+    netctlCommand = new Netctl(debug, configuration);
+    netctlProfile = new NetctlProfile(debug, configuration);
+    wpaCommand = new WpaSup(debug, configuration);
+    // frontend
     // windows
+    ui->setupUi(this);
+    ui->tabWidget->setCurrentIndex(tabNum-1);
     aboutWin = new AboutWindow(this, debug);
     errorWin = new ErrorWindow(this, debug);
     netctlAutoWin = new NetctlAutoWindow(this, debug, configuration);
@@ -102,21 +111,10 @@ MainWindow::MainWindow(QWidget *parent,
     ui->scrollAreaWidgetContents->layout()->addWidget(vlanWid);
     wirelessWid = new WirelessWidget(this, configuration);
     ui->scrollAreaWidgetContents->layout()->addWidget(wirelessWid);
-    // backend
-    netctlCommand = new Netctl(debug, configuration);
-    netctlProfile = new NetctlProfile(debug, configuration);
-    wpaCommand = new WpaSup(debug, configuration);
 
     createActions();
     setIconsToButtons();
     updateTabs(ui->tabWidget->currentIndex());
-    ui->statusBar->showMessage(QApplication::translate("MainWindow", "Ready"));
-
-    if (openProfile != QString("PROFILE")) {
-        ui->comboBox_profile->addItem(openProfile);
-        ui->comboBox_profile->setCurrentIndex(ui->comboBox_profile->count()-1);
-        profileTabLoadProfile();
-    }
 
     if (showAbout)
         aboutWin->show();
@@ -124,6 +122,27 @@ MainWindow::MainWindow(QWidget *parent,
         netctlAutoWin->showWindow();
     if (showSettings)
         settingsWin->showWindow();
+
+    if (selectEssid != QString("ESSID")) {
+        for (int i=0; i<ui->tableWidget_wifi->rowCount(); i++)
+            if (ui->tableWidget_wifi->item(i, 0)->text() == selectEssid)
+                ui->tableWidget_wifi->setCurrentCell(i, 0);
+        if (ui->tableWidget_wifi->currentItem() == 0)
+            errorWin->showWindow(18, QString("[MainWindow] : [MainWindow]"));
+    }
+    else if (openProfile != QString("PROFILE")) {
+        ui->comboBox_profile->addItem(openProfile);
+        ui->comboBox_profile->setCurrentIndex(ui->comboBox_profile->count()-1);
+    }
+    else if (selectProfile != QString("PROFILE")) {
+        for (int i=0; i<ui->tableWidget_main->rowCount(); i++)
+            if (ui->tableWidget_main->item(i, 0)->text() == selectProfile)
+                ui->tableWidget_main->setCurrentCell(i, 0);
+        if (ui->tableWidget_main->currentItem() == 0)
+            errorWin->showWindow(17, QString("[MainWindow] : [MainWindow]"));
+    }
+
+    ui->statusBar->showMessage(QApplication::translate("MainWindow", "Ready"));
 }
 
 
@@ -608,8 +627,6 @@ void MainWindow::mainTabEditProfile()
     ui->tabWidget->setCurrentIndex(1);
     ui->comboBox_profile->addItem(profile);
     ui->comboBox_profile->setCurrentIndex(ui->comboBox_profile->count()-1);
-
-    profileTabLoadProfile();
 }
 
 
@@ -1077,7 +1094,11 @@ void MainWindow::profileTabLoadProfile()
     if (debug) qDebug() << "[MainWindow]" << "[profileTabLoadProfile]";
 
     QString profile = QFileInfo(ui->comboBox_profile->currentText()).fileName();
+    if (profile.isEmpty())
+        return;
     QMap<QString, QString> settings = netctlProfile->getSettingsFromProfile(profile);
+    if (settings.isEmpty())
+        return errorWin->showWindow(17, QString("[MainWindow] : [profileTabLoadProfile]"));
 
     generalWid->setSettings(settings);
     if (generalWid->connectionType->currentText() == QString("ethernet")) {

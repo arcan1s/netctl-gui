@@ -53,13 +53,15 @@ class MainWindow : public QMainWindow
 
 public:
     explicit MainWindow(QWidget *parent = 0,
-                        const bool debugCmd = false,
-                        const bool defaultSettings = false,
                         const bool showAbout = false,
                         const bool showNetctlAuto = false,
                         const bool showSettings = false,
-                        const int tabNum = 1,
-                        const QString openProfile = QString("PROFILE"));
+                        const QString selectEssid = QString("ESSID"),
+                        const QString openProfile = QString("PROFILE"),
+                        const QString selectProfile = QString("PROFILE"),
+                        const bool debugCmd = false,
+                        const bool defaultSettings = false,
+                        const int tabNum = 1);
     ~MainWindow();
 
 public slots:

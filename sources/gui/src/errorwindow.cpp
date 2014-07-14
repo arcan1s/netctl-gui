@@ -106,6 +106,14 @@ QStringList ErrorWindow::getMessage(const int mess)
         title = QApplication::translate("ErrorWindow", "Error!");
         message = QApplication::translate("ErrorWindow", "Empty user/group name");
         break;
+    case 17:
+        title = QApplication::translate("ErrorWindow", "Error!");
+        message = QApplication::translate("ErrorWindow", "Could not find profile");
+        break;
+    case 18:
+        title = QApplication::translate("ErrorWindow", "Error!");
+        message = QApplication::translate("ErrorWindow", "Could not find ESSID");
+        break;
     default:
         title = QApplication::translate("ErrorWindow", "Error!");
         message = QApplication::translate("ErrorWindow", "Unknown error");
@@ -172,6 +180,12 @@ QMessageBox::Icon ErrorWindow::getIcon(const int mess)
         icon = QMessageBox::Critical;
         break;
     case 16:
+        icon = QMessageBox::Critical;
+        break;
+    case 17:
+        icon = QMessageBox::Critical;
+        break;
+    case 18:
         icon = QMessageBox::Critical;
         break;
     default:
