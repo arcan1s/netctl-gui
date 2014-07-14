@@ -25,6 +25,7 @@
 #include <Plasma/Label>
 #include <QProcess>
 
+#include <ui_about.h>
 #include <ui_appearance.h>
 #include <ui_dataengine.h>
 #include <ui_widget.h>
@@ -111,6 +112,7 @@ private:
     Ui::AppearanceWindow uiAppConfig;
     Ui::DataEngineWindow uiDEConfig;
     Ui::ConfigWindow uiWidConfig;
+    Ui::About uiAboutConfig;
     // configuration
     int autoUpdateInterval;
     QMap<QString, bool> bigInterface;

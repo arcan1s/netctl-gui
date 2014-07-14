@@ -15,62 +15,37 @@
  *   along with netctl-gui. If not, see http://www.gnu.org/licenses/       *
  ***************************************************************************/
 
-#ifndef SETTINGSWINDOW_H
-#define SETTINGSWINDOW_H
+#ifndef ABOUTWINDOW_H
+#define ABOUTWINDOW_H
 
 #include <QKeyEvent>
 #include <QMainWindow>
-#include <QTreeWidgetItem>
 
+#include "ui_about.h"
 
-class MainWindow;
 
 namespace Ui {
-class SettingsWindow;
+class AboutWindow;
 }
 
-class SettingsWindow : public QMainWindow
+class AboutWindow : public QMainWindow
 {
     Q_OBJECT
 
 public:
-    explicit SettingsWindow(QWidget *parent = 0,
-                            const bool debugCmd = false,
-                            const QString configFile = QString(""));
-    ~SettingsWindow();
-    QMap<QString, QString> getDefault();
-    QMap<QString, QString> getSettings();
-
-public slots:
-    void setDefault();
-    void showWindow();
-
-private slots:
-    void addLanguages();
-    void changePage(QTreeWidgetItem *current, QTreeWidgetItem *previous);
-    void saveSettings();
-    // buttons
-    void selectIfaceDir();
-    void selectNetctlPath();
-    void selectNetctlAutoPath();
-    void selectProfileDir();
-    void selectRfkillDir();
-    void selectSudoPath();
-    void selectSystemctlPath();
-    void selectWpaActiondPath();
-    void selectWpaCliPath();
-    void selectWpaSupPath();
+    explicit AboutWindow(QWidget *parent = 0,
+                         const bool debugCmd = false);
+    ~AboutWindow();
 
 private:
+    Ui::AboutWindow *ui;
+    Ui::About *uiAbout;
     bool debug;
-    QString file;
-    Ui::SettingsWindow *ui;
-    void createActions();
+    void createText();
+    void createUi();
     // ESC pressed event
     void keyPressEvent(QKeyEvent *pressedKey);
-    QMap<QString, QString> readSettings();
-    void setSettings(const QMap<QString, QString> settings);
 };
 
 
-#endif /* SETTINGSWINDOW_H */
+#endif /* ABOUTWINDOW_H */

@@ -24,12 +24,10 @@
 #include <QTextStream>
 
 #include "language.h"
-#include "mainwindow.h"
 
 
-SettingsWindow::SettingsWindow(MainWindow *wid, const bool debugCmd, const QString configFile)
-    : QMainWindow(wid),
-      parent(wid),
+SettingsWindow::SettingsWindow(QWidget *parent, const bool debugCmd, const QString configFile)
+    : QMainWindow(parent),
       debug(debugCmd),
       file(configFile),
       ui(new Ui::SettingsWindow)

@@ -595,10 +595,8 @@ void Netctl::createConfigurationInterface(KConfigDialog *parent)
     uiAppConfig.setupUi(appWidget);
     QWidget *deWidget = new QWidget;
     uiDEConfig.setupUi(deWidget);
-
-    QString text = QString(NAME) + " - " + QString(VERSION) + "\n" + "(c) " +
-            QString(DATE) + " " + QString(AUTHOR);
-    uiWidConfig.label_info->setText(text);
+    QWidget *aboutWidget = new QWidget;
+    uiAboutConfig.setupUi(aboutWidget);
 
     uiWidConfig.spinBox_autoUpdate->setValue(autoUpdateInterval);
     uiWidConfig.lineEdit_gui->setText(paths[QString("gui")]);
@@ -664,9 +662,23 @@ void Netctl::createConfigurationInterface(KConfigDialog *parent)
     uiDEConfig.lineEdit_extIp->setText(deSettings[QString("EXTIPCMD")]);
     setDataEngineExternalIp();
 
+    uiAboutConfig.label_name->setText(QString(NAME));
+    uiAboutConfig.label_version->setText(i18n("Version %1\n(build date %2)", QString(VERSION), QString(BUILD_DATE)));
+    uiAboutConfig.label_description->setText(i18n("KDE widget which interacts with netctl."));
+    uiAboutConfig.label_links->setText(i18n("Links:") + QString("<br>") +
+                                       QString("<a href=\"%1\">%2</a><br>").arg(QString(HOMEPAGE)).arg(i18n("Homepage")) +
+                                       QString("<a href=\"%1\">%2</a><br>").arg(QString(REPOSITORY)).arg(i18n("Repository")) +
+                                       QString("<a href=\"%1\">%2</a><br>").arg(QString(BUGTRACKER)).arg(i18n("Bugtracker")) +
+                                       QString("<a href=\"%1\">%2</a><br>").arg(QString(TRANSLATION)).arg(i18n("Translation issue")) +
+                                       QString("<a href=\"%1\">%2</a>").arg(QString(AUR_PACKAGES)).arg(i18n("AUR packages")));
+    uiAboutConfig.label_license->setText(QString("<small>&copy; %1 %2<br>").arg(QString(DATE)).arg(QString(AUTHOR)) +
+                                         i18n("This software is licensed under %1", QString(LICENSE)) +
+                                         QString("</small>"));
+
     parent->addPage(configWidget, i18n("Netctl plasmoid"), Applet::icon());
     parent->addPage(appWidget, i18n("Appearance"), QString("preferences-desktop-theme"));
     parent->addPage(deWidget, i18n("DataEngine"), Applet::icon());
+    parent->addPage(aboutWidget, i18n("About"), QString("help-about"));
 
     connect(uiWidConfig.checkBox_showBigInterface, SIGNAL(stateChanged(int)), this,
             SLOT(setBigInterface()));
@@ -678,7 +690,7 @@ void Netctl::createConfigurationInterface(KConfigDialog *parent)
     connect(uiWidConfig.pushButton_netctl, SIGNAL(clicked()), this, SLOT(selectNetctlExe()));
     connect(uiWidConfig.pushButton_netctlAuto, SIGNAL(clicked()), this, SLOT(selectNetctlAutoExe()));
     connect(uiWidConfig.pushButton_sudo, SIGNAL(clicked()), this, SLOT(selectSudoExe()));
-    connect(uiWidConfig.pushButton_wifi, SIGNAL(clicked()), this, SLOT(selecWifiExe()));
+    connect(uiWidConfig.pushButton_wifi, SIGNAL(clicked()), this, SLOT(selectWifiExe()));
     connect(uiAppConfig.pushButton_activeIcon, SIGNAL(clicked()), this, SLOT(selectActiveIcon()));
     connect(uiAppConfig.pushButton_inactiveIcon, SIGNAL(clicked()), this, SLOT(selectInactiveIcon()));
     connect(uiDEConfig.pushButton_extIp, SIGNAL(clicked()), this, SLOT(selectDataEngineExternalIpExe()));

@@ -12,7 +12,6 @@ set (PROJECT_VERSION_PATCH 0)
 set (PROJECT_VERSION ${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}.${PROJECT_VERSION_PATCH})
 string (TIMESTAMP CURRENT_DATE UTC)
 string (TIMESTAMP CURRENT_YEAR "%Y")
-configure_file (${CMAKE_SOURCE_DIR}/version.h.in ${CMAKE_CURRENT_BINARY_DIR}/version.h)
 
 message (STATUS "Project: ${PROJECT_NAME}")
 message (STATUS "Version: ${PROJECT_VERSION}")
@@ -40,6 +39,8 @@ if (CMAKE_COMPILER_IS_GNUCXX)
 else ()
   message (STATUS "Unknown compiler")
 endif ()
+
+configure_file (${CMAKE_SOURCE_DIR}/version.h.in ${CMAKE_CURRENT_BINARY_DIR}/version.h)
 
 # resources
 set (PROJECT_LIBRARY netctlgui)

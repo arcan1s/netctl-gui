@@ -27,6 +27,7 @@
 #include <netctlgui/netctlprofile.h>
 #include <netctlgui/wpasupinteract.h>
 
+#include "aboutwindow.h"
 #include "bridgewidget.h"
 #include "errorwindow.h"
 #include "ethernetwidget.h"
@@ -47,6 +48,7 @@
 MainWindow::MainWindow(QWidget *parent,
                        const bool debugCmd,
                        const bool defaultSettings,
+                       const bool showAbout,
                        const bool showNetctlAuto,
                        const bool showSettings,
                        const int tabNum)
@@ -71,6 +73,7 @@ MainWindow::MainWindow(QWidget *parent,
     configuration = settingsWin->getSettings();
 
     // gui
+    aboutWin = new AboutWindow(this, debug);
     netctlAutoWin = new NetctlAutoWindow(this, debug, configuration);
     generalWid = new GeneralWidget(this, configuration);
     ui->scrollAreaWidgetContents->layout()->addWidget(generalWid);
@@ -104,6 +107,8 @@ MainWindow::MainWindow(QWidget *parent,
     updateTabs(ui->tabWidget->currentIndex());
     ui->statusBar->showMessage(QApplication::translate("MainWindow", "Ready"));
 
+    if (showAbout)
+        aboutWin->show();
     if (showNetctlAuto)
         netctlAutoWin->showWindow();
     if (showSettings)
@@ -131,6 +136,7 @@ MainWindow::~MainWindow()
     delete vlanWid;
     delete wirelessWid;
 
+    delete aboutWin;
     delete netctlAutoWin;
     delete settingsWin;
     delete ui;
@@ -191,6 +197,7 @@ void MainWindow::createActions()
 
     connect(ui->tabWidget, SIGNAL(currentChanged(int)), this, SLOT(updateTabs(int)));
     connect(ui->tabWidget, SIGNAL(currentChanged(int)), this, SLOT(updateMenu(int)));
+    connect(ui->actionAbout, SIGNAL(triggered(bool)), aboutWin, SLOT(show()));
     connect(ui->actionNetctlAuto, SIGNAL(triggered(bool)), netctlAutoWin, SLOT(showWindow()));
     ui->actionNetctlAuto->setVisible(checkExternalApps(QString("all")));
     connect(ui->actionSettings, SIGNAL(triggered(bool)), settingsWin, SLOT(showWindow()));

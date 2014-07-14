@@ -1,10 +1,26 @@
 #ifndef VERSION_H
 #define VERSION_H
 
-#define AUTHOR "Evgeniy Alekseev"
-#define BUILD_DATE "@CURRENT_DATE@"
-#define DATE "2014-@CURRENT_YEAR@"
 #define NAME "Netctl Graphical Interface"
 #define VERSION "@PROJECT_VERSION@"
+#define AUTHOR "Evgeniy Alekseev"
+#define LICENSE "GPLv3"
+
+#define HOMEPAGE "http://arcanis.name/projects/netctl-gui/"
+#define REPOSITORY "https://github.com/arcan1s/netctl-gui"
+#define BUGTRACKER "https://github.com/arcan1s/netctl-gui/issues"
+#define TRANSLATION "https://github.com/arcan1s/netctl-gui/issues/3"
+#define AUR_PACKAGES "https://aur.archlinux.org/pkgbase/netctl-gui/"
+
+#define BUILD_DATE "@CURRENT_DATE@"
+#define DATE "2014-@CURRENT_YEAR@"
+
+#define CMAKE_BUILD_TYPE "@CMAKE_BUILD_TYPE@"
+#define CMAKE_INSTALL_PREFIX "@CMAKE_INSTALL_PREFIX@"
+#define PROJECT_BUILD_DATAENGINE "@BUILD_DATAENGINE@"
+#define PROJECT_BUILD_GUI "@BUILD_GUI@"
+#define PROJECT_BUILD_LIBRARY "@BUILD_LIBRARY@"
+#define PROJECT_BUILD_PLASMOID "@BUILD_PLASMOID@"
+#define PROJECT_USE_QT5 "@USE_QT5@"
 
 #endif /* VERSION_H */

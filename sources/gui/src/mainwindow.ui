@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>481</width>
-    <height>509</height>
+    <width>479</width>
+    <height>507</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -206,8 +206,8 @@
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>449</width>
-             <height>353</height>
+             <width>96</width>
+             <height>26</height>
             </rect>
            </property>
            <property name="sizePolicy">
@@ -367,7 +367,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>481</width>
+     <width>479</width>
      <height>22</height>
     </rect>
    </property>
@@ -398,8 +398,15 @@
     <addaction name="actionMainRemove"/>
     <addaction name="actionProfileRemove"/>
    </widget>
+   <widget class="QMenu" name="menuHelp">
+    <property name="title">
+     <string>Help</string>
+    </property>
+    <addaction name="actionAbout"/>
+   </widget>
    <addaction name="menuMenu"/>
    <addaction name="menuActions"/>
+   <addaction name="menuHelp"/>
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
   <action name="actionSettings">
@@ -551,6 +558,14 @@
   <action name="actionNetctlAuto">
    <property name="text">
     <string>netctl-auto</string>
+   </property>
+  </action>
+  <action name="actionAbout">
+   <property name="icon">
+    <iconset theme="help-about"/>
+   </property>
+   <property name="text">
+    <string>About</string>
    </property>
   </action>
  </widget>

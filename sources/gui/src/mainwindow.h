@@ -23,6 +23,7 @@
 #include <QTableWidgetItem>
 
 
+class AboutWindow;
 class BridgeWidget;
 class ErrorWindow;
 class EthernetWidget;
@@ -54,6 +55,7 @@ public:
     explicit MainWindow(QWidget *parent = 0,
                         const bool debugCmd = false,
                         const bool defaultSettings = false,
+                        const bool showAbout = false,
                         const bool showNetctlAuto = false,
                         const bool showSettings = false,
                         const int tabNum = 1);
@@ -99,7 +101,11 @@ private slots:
 private:
     // ui
     Ui::MainWindow *ui;
+    AboutWindow *aboutWin;
+    ErrorWindow *errorWin;
     NetctlAutoWindow *netctlAutoWin;
+    PasswdWidget *passwdWid;
+    SettingsWindow *settingsWin;
     BridgeWidget *bridgeWid;
     EthernetWidget *ethernetWid;
     GeneralWidget *generalWid;
@@ -115,9 +121,6 @@ private:
     Netctl *netctlCommand;
     NetctlProfile *netctlProfile;
     WpaSup *wpaCommand;
-    ErrorWindow *errorWin;
-    PasswdWidget *passwdWid;
-    SettingsWindow *settingsWin;
     bool checkExternalApps(const QString apps);
     bool checkState(const QString state, const QString item);
     void createActions();
