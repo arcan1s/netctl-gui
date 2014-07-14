@@ -64,7 +64,6 @@ Additional information
 TODO (wish list)
 ----------------
 
-* test profile reading
 * man pages
 
 Links

@@ -132,10 +132,12 @@ QMap<QString, QString> NetctlProfile::getSettingsFromProfile(const QString profi
         keys.append(output[i].split(QChar('='))[0]);
     for (int i=0; i<keys.count(); i++){
         cmd = QString("env -i bash -c \"source ") + profileUrl +
-                QString(" && printf -- '%s\n' \"${") + keys[i] + ("[@]}\"");
+                QString("; for i in ${!") + keys[i] + QString("[@]}; do echo ${") +
+                keys[i] + QString("[$i]}; done\"");
         shell.start(cmd);
         shell.waitForFinished(-1);
         settings[keys[i]] = shell.readAllStandardOutput().trimmed();
+        if (debug) qDebug() << "[NetctlProfile]" << "[getSettingsFromProfile]" << ":" << keys[i] << "=" << settings[keys[i]];
     }
 
     return settings;
