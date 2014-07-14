@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: http://kde-look.org/content/show.php?content=98925\n"
-"POT-Creation-Date: 2014-07-12 22:58+0400\n"
-"PO-Revision-Date: 2014-07-12 23:00+0400\n"
+"POT-Creation-Date: 2014-07-14 18:33+0400\n"
+"PO-Revision-Date: 2014-07-14 18:35+0400\n"
 "Last-Translator: Evgeniy Alekseev <esalexeev@gmail.com>\n"
 "Language-Team: Russian <kde-russian@lists.kde.ru>\n"
 "Language: ru\n"
@@ -18,101 +18,145 @@ msgstr ""
 "%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 "X-Generator: Lokalize 1.5\n"
 
-#: netctl.cpp:180
+#: netctl.cpp:179
 msgid "Set profile %1 disabled"
 msgstr "Выключение автозагрузки профиля %1"
 
-#: netctl.cpp:184
+#: netctl.cpp:183
 msgid "Set profile %1 enabled"
 msgstr "Включение автозагрузки профиля %1"
 
-#: netctl.cpp:201
+#: netctl.cpp:200
 msgid "Start profile %1"
 msgstr "Запуск профиля %1"
 
-#: netctl.cpp:229
+#: netctl.cpp:228
 msgid "Stop profile %1"
 msgstr "Остановка профиля %1"
 
-#: netctl.cpp:244
+#: netctl.cpp:243
 msgid "Switch to profile %1"
 msgstr "Переключиться на профиль %1"
 
-#: netctl.cpp:255
+#: netctl.cpp:254
 msgid "Restart profile %1"
 msgstr "Перезапуск профиля %1"
 
-#: netctl.cpp:294
+#: netctl.cpp:293
 msgid "Start another profile"
 msgstr "Запустить другой профиль"
 
-#: netctl.cpp:296
+#: netctl.cpp:295
 msgid "Stop %1"
 msgstr "Остановить %1"
 
-#: netctl.cpp:298
+#: netctl.cpp:297
 msgid "Restart %1"
 msgstr "Перезапустить %1"
 
-#: netctl.cpp:301
+#: netctl.cpp:300
 msgid "Disable %1"
 msgstr "Отключить %1"
 
-#: netctl.cpp:303
+#: netctl.cpp:302
 msgid "Enable %1"
 msgstr "Включить %1"
 
-#: netctl.cpp:306 netctl.cpp:334
+#: netctl.cpp:305 netctl.cpp:333
 msgid "Start profile"
 msgstr "Запустить профиль"
 
-#: netctl.cpp:342
+#: netctl.cpp:341
 msgid "Stop profile"
 msgstr "Остановить профиль"
 
-#: netctl.cpp:347
+#: netctl.cpp:346
 msgid "Switch to profile"
 msgstr "Переключить профиль"
 
-#: netctl.cpp:355
+#: netctl.cpp:354
 msgid "Restart profile"
 msgstr "Перезапустить профиль"
 
-#: netctl.cpp:360
+#: netctl.cpp:359
 msgid "Enable profile"
 msgstr "Включить профиль"
 
-#: netctl.cpp:364
+#: netctl.cpp:363
 msgid "Show WiFi menu"
 msgstr "Запустить WiFi-menu"
 
-#: netctl.cpp:385
+#: netctl.cpp:384
 msgid "Start GUI"
 msgstr "Запуск GUI"
 
-#: netctl.cpp:393
+#: netctl.cpp:392
 msgid "Start WiFi menu"
 msgstr "Запуск WiFi-menu"
 
-#: netctl.cpp:457
+#: netctl.cpp:456
 msgid "Network is up"
 msgstr "Сеть работает"
 
-#: netctl.cpp:463
+#: netctl.cpp:462
 msgid "Network is down"
 msgstr "Сеть не работает"
 
+#: netctl.cpp:666
+msgid ""
+"Version %1\n"
+"(build date %2)"
+msgstr ""
+"Версия %1\n"
+"(дата сборки %2)"
+
+#: netctl.cpp:667
+msgid "KDE widget which interacts with netctl."
+msgstr "Виджет KDE, который взаимодействует с netctl."
+
 #: netctl.cpp:668
+msgid "Links:"
+msgstr "Ссылки:"
+
+#: netctl.cpp:669
+msgid "Homepage"
+msgstr "Домашняя страница"
+
+#: netctl.cpp:670
+msgid "Repository"
+msgstr "Репозиторий"
+
+#: netctl.cpp:671
+msgid "Bugtracker"
+msgstr "Багтрекер"
+
+#: netctl.cpp:672
+msgid "Translation issue"
+msgstr "Тикет перевода"
+
+#: netctl.cpp:673
+msgid "AUR packages"
+msgstr "Пакеты в AUR"
+
+#: netctl.cpp:675
+msgid "This software is licensed under %1"
+msgstr "Данное программное обеспечение лицензировано под %1"
+
+#: netctl.cpp:678
 msgid "Netctl plasmoid"
 msgstr "Netctl plasmoid"
 
-#: netctl.cpp:669
+#: netctl.cpp:679
 msgid "Appearance"
 msgstr "Внешний вид"
 
-#: netctl.cpp:670
+#: netctl.cpp:680
 msgid "DataEngine"
 msgstr "DataEngine"
+
+#: netctl.cpp:681
+msgid "About"
+msgstr "О программе"
 
 #. i18n: file: appearance.ui:47
 #. i18n: ectx: property (text), widget (QLabel, label_inactiveIcon)
