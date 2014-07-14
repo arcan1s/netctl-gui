@@ -59,7 +59,7 @@ void AboutWindow::createText()
                                   QString("<a href=\"%1\">%2</a><br>").arg(QString(BUGTRACKER)).arg(QApplication::translate("AboutWindow", "Bugtracker")) +
                                   QString("<a href=\"%1\">%2</a><br>").arg(QString(TRANSLATION)).arg(QApplication::translate("AboutWindow", "Translation issue")) +\
                                   QString("<a href=\"%1\">%2</a>").arg(QString(AUR_PACKAGES)).arg(QApplication::translate("AboutWindow", "AUR packages")));
-    uiAbout->label_license->setText(QString("<small>&copy; %1 %2<br>").arg(QString(DATE)).arg(QString(AUTHOR)) +
+    uiAbout->label_license->setText(QString("<small>&copy; %1 <a href=\"mailto:%2\">%3</a><br>").arg(QString(DATE)).arg(QString(EMAIL)).arg(QString(AUTHOR)) +
                                     QApplication::translate("AboutWindow", "This software is licensed under %1").arg(QString(LICENSE)) +
                                     QString("</small>"));
 }

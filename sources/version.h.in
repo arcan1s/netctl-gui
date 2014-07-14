@@ -3,8 +3,9 @@
 
 #define NAME "Netctl Graphical Interface"
 #define VERSION "@PROJECT_VERSION@"
-#define AUTHOR "Evgeniy Alekseev"
-#define LICENSE "GPLv3"
+#define AUTHOR "@PROJECT_AUTHOR@"
+#define EMAIL "@PROJECT_CONTACT@"
+#define LICENSE "@PROJECT_LICENSE@"
 
 #define HOMEPAGE "http://arcanis.name/projects/netctl-gui/"
 #define REPOSITORY "https://github.com/arcan1s/netctl-gui"
