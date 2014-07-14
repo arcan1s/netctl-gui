@@ -18,27 +18,28 @@
 #ifndef ERRORWINDOW_H
 #define ERRORWINDOW_H
 
-#include <QMainWindow>
+#include <QMessageBox>
+#include <QObject>
 
 
-namespace Ui {
-class ErrorWindow;
-}
-
-class ErrorWindow : public QMainWindow
+class ErrorWindow : public QObject
 {
     Q_OBJECT
 
 public:
     explicit ErrorWindow(QWidget *parent = 0,
-                         const bool debugCmd = false,
-                         const int messageNumber = 0);
+                         const bool debugCmd = false);
     ~ErrorWindow();
+
+public slots:
+    void showWindow(const int mess = 0,
+                    const QString sender = QString());
 
 private:
     bool debug;
-    Ui::ErrorWindow *ui;
-    void setMessage(const int mess);
+    QStringList getMessage(const int mess);
+    QMessageBox::Icon getIcon(const int mess);
 };
+
 
 #endif /* ERRORWINDOW_H */
