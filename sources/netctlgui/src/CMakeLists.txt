@@ -2,9 +2,6 @@
 file (GLOB SOURCES *.cpp)
 file (GLOB HEADERS ${SUBPROJECT_INCLUDE_DIR}/${SUBPROJECT}/*.h)
 
-message (STATUS "${SUBPROJECT} Sources: ${SOURCES}")
-message (STATUS "${SUBPROJECT} Headers: ${HEADERS}")
-
 # include_path
 include_directories (${SUBPROJECT_INCLUDE_DIR}
                      ${CMAKE_CURRENT_BINARY_DIR}/../

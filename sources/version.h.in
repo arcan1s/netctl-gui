@@ -2,8 +2,9 @@
 #define VERSION_H
 
 #define AUTHOR "Evgeniy Alekseev"
-#define DATE "2014-2014"
-#define NAME "Netctl plasmoid"
+#define BUILD_DATE "@CURRENT_DATE@"
+#define DATE "2014-@CURRENT_YEAR@"
+#define NAME "Netctl Graphical Interface"
 #define VERSION "@PROJECT_VERSION@"
 
 #endif /* VERSION_H */

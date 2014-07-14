@@ -6,10 +6,6 @@ file (GLOB FORMS *.ui)
 file (GLOB LANGUAGES ${SUBPROJECT_TRANSLATION_DIR}/*.ts)
 set (RESOURCES ${SUBPROJECT_RESOURCE_DIR}/resources.qrc)
 
-message (STATUS "${SUBPROJECT} Sources: ${SOURCES}")
-message (STATUS "${SUBPROJECT} Headers: ${HEADERS}")
-message (STATUS "${SUBPROJECT} Forms: ${FORMS}")
-
 # include_path
 include_directories (${CMAKE_CURRENT_SOURCE_DIR}/../../${PROJECT_LIBRARY}/include/
                      ${CMAKE_CURRENT_BINARY_DIR}/../
@@ -38,7 +34,6 @@ if (USE_QT5)
     endforeach ()
     add_custom_target (translations COMMAND ${Qt5_LUPDATE_EXECUTABLE} ${HEADERS} ${SOURCES} ${UI_HEADERS} -ts ${TRANSLATIONS})
     add_custom_command (TARGET translations COMMAND ${Qt5_LRELEASE_EXECUTABLE} ${TRANSLATIONS})
-    message (STATUS "${SUBPROJECT} Translations: ${TRANSLATIONS_BINARY}")
 
     source_group ("Header Files" FILES ${HEADERS})
     source_group ("Source Files" FILES ${SOURCES})
@@ -63,7 +58,6 @@ else ()
     endforeach ()
     add_custom_target (translations COMMAND ${QT_LUPDATE_EXECUTABLE} ${HEADERS} ${SOURCES} ${UI_HEADERS} -ts ${TRANSLATIONS})
     add_custom_command (TARGET translations COMMAND ${QT_LRELEASE_EXECUTABLE} ${TRANSLATIONS})
-    message (STATUS "${SUBPROJECT} Translations: ${TRANSLATIONS_BINARY}")
 
     source_group ("Header Files" FILES ${HEADERS})
     source_group ("Source Files" FILES ${SOURCES})

@@ -1,4 +1,4 @@
-cmake_minimum_required (VERSION 2.8)
+cmake_minimum_required (VERSION 3.0)
 
 cmake_policy (SET CMP0003 OLD)
 cmake_policy (SET CMP0002 OLD)
@@ -10,9 +10,13 @@ set (PROJECT_VERSION_MAJOR 1)
 set (PROJECT_VERSION_MINOR 2)
 set (PROJECT_VERSION_PATCH 0)
 set (PROJECT_VERSION ${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}.${PROJECT_VERSION_PATCH})
+string (TIMESTAMP CURRENT_DATE UTC)
+string (TIMESTAMP CURRENT_YEAR "%Y")
 configure_file (${CMAKE_SOURCE_DIR}/version.h.in ${CMAKE_CURRENT_BINARY_DIR}/version.h)
 
+message (STATUS "Project: ${PROJECT_NAME}")
 message (STATUS "Version: ${PROJECT_VERSION}")
+message (STATUS "Build date: ${CURRENT_DATE}")
 
 # install options
 option (USE_QT5 "Use Qt5 instead of Qt4" ON)

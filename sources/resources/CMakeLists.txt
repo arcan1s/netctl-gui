@@ -1,5 +1,5 @@
 # set project name
-set (SUBPROJECT netctl-gui-icons)
+set (SUBPROJECT netctl-gui-resources)
 message (STATUS "Subproject ${SUBPROJECT}")
 
 if (BUILD_GUI)
