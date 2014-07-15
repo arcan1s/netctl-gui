@@ -53,30 +53,30 @@ public:
       */
     ~NetctlProfile();
     /**
-     * @brief function which copies temporary profile to PROFILE_DIR
+     * @brief method which copies temporary profile to PROFILE_DIR
      * @param oldPath        path to temprorary profile
      * @return false if components are not found or command exit code is not equal to 0
-     * @return true if the function was completed without errors
+     * @return true if the method was completed without errors
      */
     bool copyProfile(const QString oldPath);
     /**
-     * @brief function which creates temporary profile
+     * @brief method which creates temporary profile
      * @param profile        profile name
      * @param settings       profile configuration. All available keys will be printed to the profile
      * @return temporary profile name
      */
     QString createProfile(const QString profile, const QMap<QString, QString> settings);
     /**
-     * @brief function which reads settings from profile
+     * @brief method which reads settings from profile
      * @param profile        profile name
      * @return settings from profile
      */
     QMap<QString, QString> getSettingsFromProfile(const QString profile);
     /**
-     * @brief function which removes profile
+     * @brief method which removes profile
      * @param profile        profile name
      * @return false if components are not found or command exit code is not equal to 0
-     * @return true if the function was completed without errors
+     * @return true if the method was completed without errors
      */
     bool removeProfile(const QString profile);
 
@@ -86,11 +86,11 @@ private:
      */
     bool debug;
     /**
-     * @brief path to directory which contains profiles. Defaults is /etc/netctl
+     * @brief path to directory which contains profiles. Default is "/etc/netctl"
      */
     QDir *profileDirectory;
     /**
-     * @brief path to sudo command. Defaults is /usr/bin/kdesu
+     * @brief path to sudo command. Default is "/usr/bin/kdesu"
      */
     QString sudoCommand;
 };
