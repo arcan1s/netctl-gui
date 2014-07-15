@@ -133,15 +133,15 @@
     </message>
     <message>
         <source>Error</source>
-        <translation type="vanished">Ошибка</translation>
+        <translation type="obsolete">Ошибка</translation>
     </message>
     <message>
         <source>Error text</source>
-        <translation type="vanished">Error text</translation>
+        <translation type="obsolete">Error text</translation>
     </message>
     <message>
         <source>Ok</source>
-        <translation type="vanished">Ok</translation>
+        <translation type="obsolete">Ok</translation>
     </message>
     <message>
         <source>Error!</source>
@@ -600,82 +600,82 @@
     </message>
     <message>
         <source>Disable</source>
-        <translation type="vanished">Отключить</translation>
+        <translation type="obsolete">Отключить</translation>
     </message>
     <message>
         <source>Enable</source>
-        <translation type="vanished">Включить</translation>
+        <translation type="obsolete">Включить</translation>
     </message>
     <message>
         <source>Save profile as...</source>
-        <translation type="vanished">Сохранить профиль как...</translation>
+        <translation type="obsolete">Сохранить профиль как...</translation>
     </message>
     <message>
         <source>Profile (*)</source>
-        <translation type="vanished">Профиль (*)</translation>
+        <translation type="obsolete">Профиль (*)</translation>
     </message>
     <message>
         <source>                                    Netctl GUI
 </source>
-        <translation type="vanished">                                    Netctl GUI
+        <translation type="obsolete">                                    Netctl GUI
 </translation>
     </message>
     <message>
         <source>Version : %1                                                  License : GPLv3
 </source>
-        <translation type="vanished">Версия : %1                                                  Лицензия : GPLv3
+        <translation type="obsolete">Версия : %1                                                  Лицензия : GPLv3
 </translation>
     </message>
     <message>
         <source>                                                    Evgeniy Alekseev aka arcanis
 </source>
-        <translation type="vanished">                                                    Евгений Алексеев aka arcanis
+        <translation type="obsolete">                                                    Евгений Алексеев aka arcanis
 </translation>
     </message>
     <message>
         <source>                                                    E-mail : esalexeev@gmail.com
 
 </source>
-        <translation type="vanished">                                                    E-mail : esalexeev@gmail.com
+        <translation type="obsolete">                                                    E-mail : esalexeev@gmail.com
 
 </translation>
     </message>
     <message>
         <source>Usage:
 </source>
-        <translation type="vanished">Использование:
+        <translation type="obsolete">Использование:
 </translation>
     </message>
     <message>
         <source>netctl-gui [ --default ] [ -t NUM | --tab NUM ] [ -h | --help]
 
 </source>
-        <translation type="vanished">netctl-gui [ --default ] [ -t NUM | --tab NUM ] [ -h | --help]
+        <translation type="obsolete">netctl-gui [ --default ] [ -t NUM | --tab NUM ] [ -h | --help]
 
 </translation>
     </message>
     <message>
         <source>Parametrs:
 </source>
-        <translation type="vanished">Параметры:
+        <translation type="obsolete">Параметры:
 </translation>
     </message>
     <message>
         <source>           --default    - start with default settings
 </source>
-        <translation type="vanished">           --default    - запустить со стандартными настройками
+        <translation type="obsolete">           --default    - запустить со стандартными настройками
 </translation>
     </message>
     <message>
         <source>  -t NUM   --tab NUM    - open a tab with number NUM
 </source>
-        <translation type="vanished">  -t NUM   --tab NUM    - открыть вкладку с номером NUM
+        <translation type="obsolete">  -t NUM   --tab NUM    - открыть вкладку с номером NUM
 </translation>
     </message>
     <message>
         <source>  -h       --help       - show this help and exit
 </source>
-        <translation type="vanished">  -h       --help       - показать эту справку и выход
+        <translation type="obsolete">  -h       --help       - показать эту справку и выход
 </translation>
     </message>
     <message>
@@ -732,7 +732,7 @@
     </message>
     <message>
         <source>Browse</source>
-        <translation type="vanished">Обзор</translation>
+        <translation type="obsolete">Обзор</translation>
     </message>
     <message>
         <source>Clear</source>
@@ -740,7 +740,7 @@
     </message>
     <message>
         <source>Load</source>
-        <translation type="vanished">Загрузить</translation>
+        <translation type="obsolete">Загрузить</translation>
     </message>
     <message>
         <source>Save</source>
@@ -772,15 +772,15 @@
     </message>
     <message>
         <source>Name Status Signal Security</source>
-        <translation type="vanished">Имя Статус Сигнал Безопасность</translation>
+        <translation type="obsolete">Имя Статус Сигнал Безопасность</translation>
     </message>
     <message>
         <source>Name Description Status</source>
-        <translation type="vanished">Имя Описание Статус</translation>
+        <translation type="obsolete">Имя Описание Статус</translation>
     </message>
     <message>
         <source>Remove</source>
-        <translation type="vanished">Удалить</translation>
+        <translation type="obsolete">Удалить</translation>
     </message>
     <message>
         <source>Stop profile</source>
@@ -840,11 +840,11 @@
     </message>
     <message>
         <source>Name==Description==Status</source>
-        <translation type="vanished">Имя==Описание==Статус</translation>
+        <translation type="obsolete">Имя==Описание==Статус</translation>
     </message>
     <message>
         <source>Name==Status==Signal==Security</source>
-        <translation type="vanished">Имя==Статус==Сигнал==Безопасность</translation>
+        <translation type="obsolete">Имя==Статус==Сигнал==Безопасность</translation>
     </message>
     <message>
         <source>Unknown flag
@@ -938,19 +938,19 @@
     <message>
         <source>Version : %1
 </source>
-        <translation type="vanished">Версия : %1
+        <translation type="obsolete">Версия : %1
 </translation>
     </message>
     <message>
         <source>Author : %1
 </source>
-        <translation type="vanished">Автор : %1
+        <translation type="obsolete">Автор : %1
 </translation>
     </message>
     <message>
         <source>License : %1
 </source>
-        <translation type="vanished">Лицензия : %1
+        <translation type="obsolete">Лицензия : %1
 </translation>
     </message>
     <message>
@@ -971,7 +971,7 @@
     </message>
     <message>
         <source>read configuration from file %1</source>
-        <translation type="vanished">прочитать настройки из файла %1</translation>
+        <translation type="obsolete">прочитать настройки из файла %1</translation>
     </message>
     <message>
         <source>Version</source>
@@ -987,7 +987,7 @@
     </message>
     <message>
         <source>read configuration from this file</source>
-        <translation>read configuration from this file</translation>
+        <translation>прочитать настройки из данного файла</translation>
     </message>
 </context>
 <context>
@@ -1113,7 +1113,7 @@
     <name>NetctlAutoWindow</name>
     <message>
         <source>MainWindow</source>
-        <translation type="vanished">MainWindow</translation>
+        <translation type="obsolete">MainWindow</translation>
     </message>
     <message>
         <source>Enable profile</source>
@@ -1161,7 +1161,7 @@
     </message>
     <message>
         <source>Name==Description==Active==Disabled</source>
-        <translation type="vanished">Имя==Описание==Активен==Отключен</translation>
+        <translation type="obsolete">Имя==Описание==Активен==Отключен</translation>
     </message>
     <message>
         <source>yes</source>

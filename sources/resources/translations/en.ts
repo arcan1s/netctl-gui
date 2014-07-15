@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.1" language="en">
+<TS version="2.0" language="en">
 <context>
     <name>AboutWindow</name>
     <message>
@@ -133,15 +133,15 @@
     </message>
     <message>
         <source>Error</source>
-        <translation type="vanished">Error</translation>
+        <translation type="obsolete">Error</translation>
     </message>
     <message>
         <source>Error text</source>
-        <translation type="vanished">Error text</translation>
+        <translation type="obsolete">Error text</translation>
     </message>
     <message>
         <source>Ok</source>
-        <translation type="vanished">Ok</translation>
+        <translation type="obsolete">Ok</translation>
     </message>
     <message>
         <source>Error!</source>
@@ -194,7 +194,7 @@
         <source>Skip no carrier</source>
         <translation>Skip no carrier</translation>
     </message>
-    <message>
+    <message utf8="true">
         <source>Set to ‘yes’ to use 802.1x authentication</source>
         <translation>Set to ‘yes’ to use 802.1x authentication</translation>
     </message>
@@ -329,7 +329,7 @@
         <source>A command that is executed before a connection is brought down</source>
         <translation>A command that is executed before a connection is brought down</translation>
     </message>
-    <message>
+    <message utf8="true">
         <source>Set to ‘yes’ to force connecting even if the interface is up</source>
         <translation>Set to ‘yes’ to force connecting even if the interface is up</translation>
     </message>
@@ -380,7 +380,7 @@
         <source>Add</source>
         <translation>Add</translation>
     </message>
-    <message>
+    <message utf8="true">
         <source>An array of IP addresses suffixed with ‘/&lt;netmask&gt;’</source>
         <translation>An array of IP addresses suffixed with ‘/&lt;netmask&gt;’</translation>
     </message>
@@ -460,7 +460,7 @@
         <source>Timeout DAD</source>
         <translation>Timeout DAD</translation>
     </message>
-    <message>
+    <message utf8="true">
         <source>Set to ‘yes’ to release the DHCP lease when the profile is stopped</source>
         <translation>Set to ‘yes’ to release the DHCP lease when the profile is stopped</translation>
     </message>
@@ -520,7 +520,7 @@
         <source>DNS domain</source>
         <translation>DNS domain</translation>
     </message>
-    <message>
+    <message utf8="true">
         <source>A ‘domain’ line for /etc/resolv.conf</source>
         <translation>A ‘domain’ line for /etc/resolv.conf</translation>
     </message>
@@ -528,7 +528,7 @@
         <source>DNS search</source>
         <translation>DNS search</translation>
     </message>
-    <message>
+    <message utf8="true">
         <source>A ‘search’ line for /etc/resolv.conf</source>
         <translation>A ‘search’ line for /etc/resolv.conf</translation>
     </message>
@@ -536,11 +536,11 @@
         <source>DNS options</source>
         <translation>DNS options</translation>
     </message>
-    <message>
+    <message utf8="true">
         <source>An array of ‘options’ lines for /etc/resolv.conf</source>
         <translation>An array of ‘options’ lines for /etc/resolv.conf</translation>
     </message>
-    <message>
+    <message utf8="true">
         <source>Maximum time, in seconds, to wait for IPv6’s Duplicate Address Detection to succeed</source>
         <translation>Maximum time, in seconds, to wait for IPv6’s Duplicate Address Detection to succeed</translation>
     </message>
@@ -600,82 +600,82 @@
     </message>
     <message>
         <source>Disable</source>
-        <translation type="vanished">Disable</translation>
+        <translation type="obsolete">Disable</translation>
     </message>
     <message>
         <source>Enable</source>
-        <translation type="vanished">Enable</translation>
+        <translation type="obsolete">Enable</translation>
     </message>
     <message>
         <source>Save profile as...</source>
-        <translation type="vanished">Save profile as...</translation>
+        <translation type="obsolete">Save profile as...</translation>
     </message>
     <message>
         <source>Profile (*)</source>
-        <translation type="vanished">Profile (*)</translation>
+        <translation type="obsolete">Profile (*)</translation>
     </message>
     <message>
         <source>                                    Netctl GUI
 </source>
-        <translation type="vanished">                                    Netctl GUI
+        <translation type="obsolete">                                    Netctl GUI
 </translation>
     </message>
     <message>
         <source>Version : %1                                                  License : GPLv3
 </source>
-        <translation type="vanished">Version : %1                                                  License : GPLv3
+        <translation type="obsolete">Version : %1                                                  License : GPLv3
 </translation>
     </message>
     <message>
         <source>                                                    Evgeniy Alekseev aka arcanis
 </source>
-        <translation type="vanished">                                                    Evgeniy Alekseev aka arcanis
+        <translation type="obsolete">                                                    Evgeniy Alekseev aka arcanis
 </translation>
     </message>
     <message>
         <source>                                                    E-mail : esalexeev@gmail.com
 
 </source>
-        <translation type="vanished">                                                    E-mail : esalexeev@gmail.com
+        <translation type="obsolete">                                                    E-mail : esalexeev@gmail.com
 
 </translation>
     </message>
     <message>
         <source>Usage:
 </source>
-        <translation type="vanished">Usage:
+        <translation type="obsolete">Usage:
 </translation>
     </message>
     <message>
         <source>netctl-gui [ --default ] [ -t NUM | --tab NUM ] [ -h | --help]
 
 </source>
-        <translation type="vanished">netctl-gui [ --default ] [ -t NUM | --tab NUM ] [ -h | --help]
+        <translation type="obsolete">netctl-gui [ --default ] [ -t NUM | --tab NUM ] [ -h | --help]
 
 </translation>
     </message>
     <message>
         <source>Parametrs:
 </source>
-        <translation type="vanished">Parametrs:
+        <translation type="obsolete">Parametrs:
 </translation>
     </message>
     <message>
         <source>           --default    - start with default settings
 </source>
-        <translation type="vanished">           --default    - start with default settings
+        <translation type="obsolete">           --default    - start with default settings
 </translation>
     </message>
     <message>
         <source>  -t NUM   --tab NUM    - open a tab with number NUM
 </source>
-        <translation type="vanished">  -t NUM   --tab NUM    - open a tab with number NUM
+        <translation type="obsolete">  -t NUM   --tab NUM    - open a tab with number NUM
 </translation>
     </message>
     <message>
         <source>  -h       --help       - show this help and exit
 </source>
-        <translation type="vanished">  -h       --help       - show this help and exit
+        <translation type="obsolete">  -h       --help       - show this help and exit
 </translation>
     </message>
     <message>
@@ -732,7 +732,7 @@
     </message>
     <message>
         <source>Browse</source>
-        <translation type="vanished">Browse</translation>
+        <translation type="obsolete">Browse</translation>
     </message>
     <message>
         <source>Clear</source>
@@ -740,7 +740,7 @@
     </message>
     <message>
         <source>Load</source>
-        <translation type="vanished">Load</translation>
+        <translation type="obsolete">Load</translation>
     </message>
     <message>
         <source>Save</source>
@@ -772,15 +772,15 @@
     </message>
     <message>
         <source>Name Status Signal Security</source>
-        <translation type="vanished">Name Status Signal Security</translation>
+        <translation type="obsolete">Name Status Signal Security</translation>
     </message>
     <message>
         <source>Name Description Status</source>
-        <translation type="vanished">Name Description Status</translation>
+        <translation type="obsolete">Name Description Status</translation>
     </message>
     <message>
         <source>Remove</source>
-        <translation type="vanished">Remove</translation>
+        <translation type="obsolete">Remove</translation>
     </message>
     <message>
         <source>Stop profile</source>
@@ -840,11 +840,11 @@
     </message>
     <message>
         <source>Name==Description==Status</source>
-        <translation type="vanished">Name==Description==Status</translation>
+        <translation type="obsolete">Name==Description==Status</translation>
     </message>
     <message>
         <source>Name==Status==Signal==Security</source>
-        <translation type="vanished">Name==Status==Signal==Security</translation>
+        <translation type="obsolete">Name==Status==Signal==Security</translation>
     </message>
     <message>
         <source>Unknown flag
@@ -939,19 +939,19 @@
     <message>
         <source>Version : %1
 </source>
-        <translation type="vanished">Version : %1
+        <translation type="obsolete">Version : %1
 </translation>
     </message>
     <message>
         <source>Author : %1
 </source>
-        <translation type="vanished">Author : %1
+        <translation type="obsolete">Author : %1
 </translation>
     </message>
     <message>
         <source>License : %1
 </source>
-        <translation type="vanished">License : %1
+        <translation type="obsolete">License : %1
 </translation>
     </message>
     <message>
@@ -972,7 +972,7 @@
     </message>
     <message>
         <source>read configuration from file %1</source>
-        <translation type="vanished">read configuration from file %1</translation>
+        <translation type="obsolete">read configuration from file %1</translation>
     </message>
     <message>
         <source>Version</source>
@@ -1114,7 +1114,7 @@
     <name>NetctlAutoWindow</name>
     <message>
         <source>MainWindow</source>
-        <translation type="vanished">MainWindow</translation>
+        <translation type="obsolete">MainWindow</translation>
     </message>
     <message>
         <source>Enable profile</source>
@@ -1162,7 +1162,7 @@
     </message>
     <message>
         <source>Name==Description==Active==Disabled</source>
-        <translation type="vanished">Name==Description==Active==Disabled</translation>
+        <translation type="obsolete">Name==Description==Active==Disabled</translation>
     </message>
     <message>
         <source>yes</source>
@@ -1310,7 +1310,7 @@
         <source>Idle timeout</source>
         <translation>Idle timeout</translation>
     </message>
-    <message>
+    <message utf8="true">
         <source>This option specifies the idle time (in seconds) after which ‘pppd’ should disconnect</source>
         <translation>This option specifies the idle time (in seconds) after which ‘pppd’ should disconnect</translation>
     </message>
@@ -1350,7 +1350,7 @@
         <source>LCP echo interval</source>
         <translation>LCP echo interval</translation>
     </message>
-    <message>
+    <message utf8="true">
         <source>These options override default LCP parameters from ‘/etc/ppp/options’</source>
         <translation>These options override default LCP parameters from ‘/etc/ppp/options’</translation>
     </message>
@@ -1711,7 +1711,7 @@
         <source>tap</source>
         <translation>tap</translation>
     </message>
-    <message>
+    <message utf8="true">
         <source>Either ‘tun’, or ‘tap’</source>
         <translation>Either ‘tun’, or ‘tap’</translation>
     </message>

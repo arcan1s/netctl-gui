@@ -16,7 +16,7 @@ optdepends=('kdebase-runtime: sudo support'
             'wpa_supplicant: wifi support')
 source=("https://github.com/arcan1s/netctl-gui/releases/download/V.${pkgver}/${pkgbase}-${pkgver}-src.tar.xz")
 install="${pkgbase}.install"
-md5sums=('0bea2c2676247c0939cca50109f2a505')
+md5sums=('5b3105a64bc162d30a41a2b3bcb06f0a')
 
 prepare() {
   rm -rf "${srcdir}/"{build-plasmoid,build-qt4,build-qt5}
@@ -46,7 +46,7 @@ build() {
   cd "${srcdir}/build-qt5"
   cmake -DCMAKE_INSTALL_PREFIX=/usr \
         -DCMAKE_BUILD_TYPE=Release \
-        -DBUILD_DOCS:BOOL=1 \
+        -DBUILD_DOCS:BOOL=0 \
         -DBUILD_DATAENGINE:BOOL=0 \
         -DBUILD_PLASMOID:BOOL=0 \
         "../${pkgbase}"
