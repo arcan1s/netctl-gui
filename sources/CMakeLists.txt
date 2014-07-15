@@ -23,7 +23,7 @@ message (STATUS "Build date: ${CURRENT_DATE}")
 
 # install options
 option (USE_QT5 "Use Qt5 instead of Qt4" ON)
-option (BUILD_DOCS "Build documentation" OFF)
+option (BUILD_DOCS "Build documentation and install headers" ON)
 option (BUILD_GUI "Build GUI" ON)
 option (BUILD_LIBRARY "Build library" ON)
 option (BUILD_DATAENGINE "Build data engine" ON)

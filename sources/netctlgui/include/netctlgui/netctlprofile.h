@@ -86,7 +86,7 @@ private:
      */
     bool debug;
     /**
-     * @brief path to directory which contains profiles. Default is "/etc/netctl"
+     * @brief directory which contains profiles. Default is "/etc/netctl"
      */
     QDir *profileDirectory;
     /**

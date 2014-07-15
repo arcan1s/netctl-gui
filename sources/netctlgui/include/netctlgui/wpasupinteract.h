@@ -92,7 +92,7 @@ public slots:
     // functions
     /**
      * @brief method which scans WiFi networks
-     * @return list of profiles. Available information is [NAME, NETCTL_STATUS, SIGNAL, SECUITY]:
+     * @return list of essids. Available information is [NAME, NETCTL_STATUS, SIGNAL, SECUITY]:
      *         NAME is WiFi point name or "<hidden>",
      *         NETCTL_STATUS may be "new", "exist (active)", "exist (inactive)",
      *         SIGNAL is Wifi point signal,
@@ -121,15 +121,6 @@ private:
      * @brief show debug messages
      */
     bool debug;
-    CTRL_DIR (path to ctrl_directory),
-         *                       CTRL_GROUP (group which is owner of CTRL_DIR),
-         *                       IFACE_DIR (path to directory with interfaces),
-         *                       PREFERED_IFACE (prefered interface for WiFi),
-         *                       PID_FILE (wpa_supplicant PID file),
-         *                       SUDO_PATH (path to sudo command),
-         *                       WPACLI_PATH (path to wpa_cli command),
-         *                       WPA_DRIVERS (wpa_supplicant drivers comma separated),
-         *                       WPASUP_PATH (path to wpa_supplicant command)
     /**
      * @brief path to ctrl_directory. Defaults is "/run/wpa_supplicant_netctl-gui"
      */
@@ -139,7 +130,7 @@ private:
      */
     QString ctrlGroup;
     /**
-     * @brief path to directory with interfaces. Default is "/sys/class/net/"
+     * @brief directory with interfaces. Default is "/sys/class/net/"
      */
     QDir *ifaceDirectory;
     /**
@@ -168,18 +159,18 @@ private:
     QString wpaSupPath;
     // functions
     /**
+     * @brief method which calls wpa_cli and returns its output
+     * @param commandLine    command which will be passed to wpa_cli
+     * @return wpa_cli output
+     */
+    QString getWpaCliOutput(const QString commandLine);
+    /**
      * @brief method which calls wpa_cli
-     * @param commandLine    command which will be send to wpa_cli
+     * @param commandLine    command which will be passed to wpa_cli
      * @return false if components are not found or command exit code is not equal to 0
      * @return true if the method was completed without errors
      */
     bool wpaCliCall(const QString commandLine);
-    /**
-     * @brief method which calls wpa_cli and returns its output
-     * @param commandLine    command which will be send to wpa_cli
-     * @return wpa_cli output
-     */
-    QString getWpaCliOutput(const QString commandLine);
 };
 
 
