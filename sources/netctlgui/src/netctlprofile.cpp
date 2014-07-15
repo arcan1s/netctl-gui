@@ -14,6 +14,13 @@
  *   You should have received a copy of the GNU General Public License     *
  *   along with netctl-gui. If not, see http://www.gnu.org/licenses/       *
  ***************************************************************************/
+/**
+ * @file netctlprofile.cpp
+ * Source code of netctlgui library
+ * @author Evgeniy Alekseev
+ * @copyright GPLv3
+ * @bug https://github.com/arcan1s/netctl-gui/issues
+ */
 
 
 #include <QDebug>
@@ -25,16 +32,29 @@
 #include <netctlgui/netctlprofile.h>
 
 
+/**
+ * @class NetctlProfile
+ */
+/**
+ * @fn NetctlProfile
+ */
 NetctlProfile::NetctlProfile(const bool debugCmd, const QMap<QString, QString> settings)
     : debug(debugCmd)
 {
     if (settings.contains(QString("PROFILE_DIR")))
         profileDirectory = new QDir(settings[QString("PROFILE_DIR")]);
+    else
+        profileDirectory = new QDir(QString("/etc/netctl/"));
     if (settings.contains(QString("SUDO_PATH")))
         sudoCommand = settings[QString("SUDO_PATH")];
+    else
+        sudoCommand = QString("/usr/bin/kdesu");
 }
 
 
+/**
+ * @fn ~NetctlProfile
+ */
 NetctlProfile::~NetctlProfile()
 {
     if (debug) qDebug() << "[NetctlProfile]" << "[~NetctlProfile]";
@@ -44,6 +64,9 @@ NetctlProfile::~NetctlProfile()
 }
 
 
+/**
+ * @fn copyProfile
+ */
 bool NetctlProfile::copyProfile(const QString oldPath)
 {
     if (debug) qDebug() << "[NetctlProfile]" << "[copyProfile]";
@@ -71,6 +94,9 @@ bool NetctlProfile::copyProfile(const QString oldPath)
 }
 
 
+/**
+ * @fn createProfile
+ */
 QString NetctlProfile::createProfile(const QString profile, const QMap<QString, QString> settings)
 {
     if (debug) qDebug() << "[NetctlProfile]" << "[createProfile]";
@@ -106,6 +132,9 @@ QString NetctlProfile::createProfile(const QString profile, const QMap<QString, 
 }
 
 
+/**
+ * @fn getSettingsFromProfile
+ */
 QMap<QString, QString> NetctlProfile::getSettingsFromProfile(const QString profile)
 {
     if (debug) qDebug() << "[NetctlProfile]" << "[getSettingsFromProfile]";
@@ -157,6 +186,9 @@ QMap<QString, QString> NetctlProfile::getSettingsFromProfile(const QString profi
 }
 
 
+/**
+ * @fn removeProfile
+ */
 bool NetctlProfile::removeProfile(const QString profile)
 {
     if (debug) qDebug() << "[NetctlProfile]" << "[removeProfile]";

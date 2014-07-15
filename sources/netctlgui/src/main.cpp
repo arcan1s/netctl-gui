@@ -14,6 +14,13 @@
  *   You should have received a copy of the GNU General Public License     *
  *   along with netctl-gui. If not, see http://www.gnu.org/licenses/       *
  ***************************************************************************/
+/**
+ * @file main.cpp
+ * Source code of netctlgui library
+ * @author Evgeniy Alekseev
+ * @copyright GPLv3
+ * @bug https://github.com/arcan1s/netctl-gui/issues
+ */
 
 
 #include <netctlgui/netctlinteract.h>
@@ -22,7 +29,13 @@
 #include <netctlgui/wpasupinteract.h>
 
 
+/**
+ * @fn main
+ */
 int main(int argc, char *argv[])
+/**
+ * @return 0              - exit without errors
+ */
 {
     return 0;
 }
