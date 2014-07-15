@@ -12,6 +12,7 @@ Ver.1.2.0:
 + [gui] added workaround for wireless-wep example
 + [lib] detached backend from frontend
 + [lib] added error checking
++ [lib] added doxygen documentation
 + [plasmoid] added dataengine configuration
 + [plasmoid] added about window
 * [all] changes in the project architecture

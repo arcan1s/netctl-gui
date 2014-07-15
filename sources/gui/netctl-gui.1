@@ -6,8 +6,8 @@ netctl-gui is a graphical interface for netctl
 [ --about ] [ --netctl-auto ] [ --settings ]
            [ -e ESSID | --essid ESSID ] [ -o PROFILE | --open PROFILE ]
            [ -s PROFILE | --select PROFILE ]
-           [ -d | --debug ] [ --default ] [ --set-opts OPTIONS ]
-           [ -t NUM | --tab NUM ]
+           [ --config FILE ] [ -d | --debug ] [ --default ]
+           [ --set-opts OPTIONS ] [ -t NUM | --tab NUM ]
            [ -v | --version ] [ -i | --info ] [ -h | --help]
 .SH DESCRIPTION
 Graphical user interface for netctl written on C++ using Qt toolkit. Provides shared library for interaction with netctl and Plasmoid and DataEngine for KDE.
@@ -30,6 +30,9 @@ open profile PROFILE. This option will set tab to 2 automatically
 .TP
 -s, --select PROFILE
 select profile PROFILE. This option will set tab to 1 automatically
+.TP
+--config FILE
+read configuration from file FILE
 .TP
 -d, --debug
 print debug information

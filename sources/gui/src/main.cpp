@@ -102,6 +102,11 @@ int main(int argc, char *argv[])
             i++;
         }
         // additional functions
+        // config path
+        else if (QString(argv[i]) == QString("--config")) {
+            configPath = QString(argv[i+1]);
+            i++;
+        }
         // debug
         else if ((QString(argv[i]) == QString("-d")) || (QString(argv[i]) == QString("--debug"))) {
             debug = true;
@@ -157,8 +162,8 @@ int main(int argc, char *argv[])
     helpMessage += QString("netctl-gui [ --about ] [ --netctl-auto ] [ --settings ]\n");
     helpMessage += QString("           [ -e ESSID | --essid ESSID ] [ -o PROFILE | --open PROFILE ]\n");
     helpMessage += QString("           [ -s PROFILE | --select PROFILE ]\n");
-    helpMessage += QString("           [ -d | --debug ] [ --default ] [ --set-opts OPTIONS ]\n");
-    helpMessage += QString("           [ -t NUM | --tab NUM ]\n");
+    helpMessage += QString("           [ --config FILE ] [ -d | --debug ] [ --default ]\n");
+    helpMessage += QString("           [ --set-opts OPTIONS ] [ -t NUM | --tab NUM ]\n");
     helpMessage += QString("           [ -v | --version ] [ -i | --info ] [ -h | --help]\n\n");
     helpMessage += QString("%1\n").arg(QApplication::translate("MainWindow", "Parametrs:"));
     // windows
@@ -254,7 +259,7 @@ int main(int argc, char *argv[])
     MainWindow w(0,
                  showAbout, showNetctlAuto, showSettings,
                  selectEssid, openProfile, selectProfile,
-                 debug, defaultSettings, options, tabNumber);
+                 configPath, debug, defaultSettings, options, tabNumber);
     w.show();
     return a.exec();
 }

@@ -59,6 +59,7 @@ public:
                         const QString selectEssid = QString("ESSID"),
                         const QString openProfile = QString("PROFILE"),
                         const QString selectProfile = QString("PROFILE"),
+                        const QString configPath = QString(""),
                         const bool debugCmd = false,
                         const bool defaultSettings = false,
                         const QString options = QString("OPTIONS"),

@@ -2,6 +2,51 @@
 <!DOCTYPE TS>
 <TS version="2.1" language="ru">
 <context>
+    <name>AboutWindow</name>
+    <message>
+        <source>Version %1
+(build date %2)</source>
+        <translation>Версия: %1
+(дата сборки %2)</translation>
+    </message>
+    <message>
+        <source>Qt-based graphical interface for netctl.</source>
+        <translation>Графический интерфейс для netctl, использующий Qt.</translation>
+    </message>
+    <message>
+        <source>Links:</source>
+        <translation>Ссылки:</translation>
+    </message>
+    <message>
+        <source>Homepage</source>
+        <translation>Домашняя страница</translation>
+    </message>
+    <message>
+        <source>Repository</source>
+        <translation>Репозиторий</translation>
+    </message>
+    <message>
+        <source>Bugtracker</source>
+        <translation>Багтрекер</translation>
+    </message>
+    <message>
+        <source>Translation issue</source>
+        <translation>Тикет перевода</translation>
+    </message>
+    <message>
+        <source>AUR packages</source>
+        <translation>Пакеты в AUR</translation>
+    </message>
+    <message>
+        <source>This software is licensed under %1</source>
+        <translation>Данной программное обеспечение лицензировано под %1</translation>
+    </message>
+    <message>
+        <source>About</source>
+        <translation>О программе</translation>
+    </message>
+</context>
+<context>
     <name>BridgeWidget</name>
     <message>
         <source>Form</source>
@@ -88,15 +133,31 @@
     </message>
     <message>
         <source>Error</source>
-        <translation>Ошибка</translation>
+        <translation type="vanished">Ошибка</translation>
     </message>
     <message>
         <source>Error text</source>
-        <translation>Error text</translation>
+        <translation type="vanished">Error text</translation>
     </message>
     <message>
         <source>Ok</source>
-        <translation>Ok</translation>
+        <translation type="vanished">Ok</translation>
+    </message>
+    <message>
+        <source>Error!</source>
+        <translation>Ошибка!</translation>
+    </message>
+    <message>
+        <source>Could not find profile</source>
+        <translation>Не могу найти профиль</translation>
+    </message>
+    <message>
+        <source>Could not find ESSID</source>
+        <translation>Не могу найти ESSID</translation>
+    </message>
+    <message>
+        <source>Sender : %1</source>
+        <translation>Отправитель : %1</translation>
     </message>
 </context>
 <context>
@@ -556,33 +617,33 @@
     <message>
         <source>                                    Netctl GUI
 </source>
-        <translation>                                    Netctl GUI
+        <translation type="vanished">                                    Netctl GUI
 </translation>
     </message>
     <message>
         <source>Version : %1                                                  License : GPLv3
 </source>
-        <translation>Версия : %1                                                  Лицензия : GPLv3
+        <translation type="vanished">Версия : %1                                                  Лицензия : GPLv3
 </translation>
     </message>
     <message>
         <source>                                                    Evgeniy Alekseev aka arcanis
 </source>
-        <translation>                                                    Евгений Алексеев aka arcanis
+        <translation type="vanished">                                                    Евгений Алексеев aka arcanis
 </translation>
     </message>
     <message>
         <source>                                                    E-mail : esalexeev@gmail.com
 
 </source>
-        <translation>                                                    E-mail : esalexeev@gmail.com
+        <translation type="vanished">                                                    E-mail : esalexeev@gmail.com
 
 </translation>
     </message>
     <message>
         <source>Usage:
 </source>
-        <translation>Использование:
+        <translation type="vanished">Использование:
 </translation>
     </message>
     <message>
@@ -596,25 +657,25 @@
     <message>
         <source>Parametrs:
 </source>
-        <translation>Параметры:
+        <translation type="vanished">Параметры:
 </translation>
     </message>
     <message>
         <source>           --default    - start with default settings
 </source>
-        <translation>           --default    - запустить со стандартными настройками
+        <translation type="vanished">           --default    - запустить со стандартными настройками
 </translation>
     </message>
     <message>
         <source>  -t NUM   --tab NUM    - open a tab with number NUM
 </source>
-        <translation>  -t NUM   --tab NUM    - открыть вкладку с номером NUM
+        <translation type="vanished">  -t NUM   --tab NUM    - открыть вкладку с номером NUM
 </translation>
     </message>
     <message>
         <source>  -h       --help       - show this help and exit
 </source>
-        <translation>  -h       --help       - показать эту справку и выход
+        <translation type="vanished">  -h       --help       - показать эту справку и выход
 </translation>
     </message>
     <message>
@@ -711,11 +772,11 @@
     </message>
     <message>
         <source>Name Status Signal Security</source>
-        <translation>Имя Статус Сигнал Безопасность</translation>
+        <translation type="vanished">Имя Статус Сигнал Безопасность</translation>
     </message>
     <message>
         <source>Name Description Status</source>
-        <translation>Имя Описание Статус</translation>
+        <translation type="vanished">Имя Описание Статус</translation>
     </message>
     <message>
         <source>Remove</source>
@@ -723,70 +784,190 @@
     </message>
     <message>
         <source>Stop profile</source>
-        <translation type="unfinished"></translation>
+        <translation>Остановить профиль</translation>
     </message>
     <message>
         <source>Start profile</source>
-        <translation type="unfinished"></translation>
+        <translation>Запустить профиль</translation>
     </message>
     <message>
         <source>Disable profile</source>
-        <translation type="unfinished"></translation>
+        <translation>Отключить профиль</translation>
     </message>
     <message>
         <source>Enable profile</source>
-        <translation type="unfinished"></translation>
+        <translation>Включить профиль</translation>
     </message>
     <message>
         <source>Stop WiFi</source>
-        <translation type="unfinished"></translation>
+        <translation>Остановить WiFi</translation>
     </message>
     <message>
         <source>Start WiFi</source>
-        <translation type="unfinished"></translation>
+        <translation>Подключить WiFi</translation>
     </message>
     <message>
         <source>Restart profile</source>
-        <translation type="unfinished"></translation>
+        <translation>Перезапустить профиль</translation>
     </message>
     <message>
         <source>Edit profile</source>
-        <translation type="unfinished"></translation>
+        <translation>Отредактировать профиль</translation>
     </message>
     <message>
         <source>Remove profile</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>netctl-gui [ --default ] [ -d | --debug ] [ -t NUM | --tab NUM ] [ -h | --help]
-
-</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>  -d       --debug      - print debug information
-</source>
-        <translation type="unfinished"></translation>
+        <translation>Удалить профиль</translation>
     </message>
     <message>
         <source>Load profile</source>
-        <translation type="unfinished"></translation>
+        <translation>Загрузить профиль</translation>
     </message>
     <message>
         <source>Save profile</source>
-        <translation type="unfinished"></translation>
+        <translation>Сохранить профиль</translation>
     </message>
     <message>
         <source>Start Wi-Fi</source>
-        <translation type="unfinished"></translation>
+        <translation>Подключить WiFi</translation>
     </message>
     <message>
         <source>netctl-auto</source>
-        <translation type="unfinished"></translation>
+        <translation>netctl-auto</translation>
     </message>
     <message>
         <source>Actions</source>
-        <translation type="unfinished"></translation>
+        <translation>Действия</translation>
+    </message>
+    <message>
+        <source>Name==Description==Status</source>
+        <translation type="vanished">Имя==Описание==Статус</translation>
+    </message>
+    <message>
+        <source>Name==Status==Signal==Security</source>
+        <translation type="vanished">Имя==Статус==Сигнал==Безопасность</translation>
+    </message>
+    <message>
+        <source>Unknown flag
+</source>
+        <translation>Неизвестный флаг</translation>
+    </message>
+    <message>
+        <source>Usage:</source>
+        <translation>Использование:</translation>
+    </message>
+    <message>
+        <source>Parametrs:</source>
+        <translation>Параметры:</translation>
+    </message>
+    <message>
+        <source>Open window:</source>
+        <translation>Открыть окно:</translation>
+    </message>
+    <message>
+        <source>show about window</source>
+        <translation>показать окно &quot;О программе&quot;</translation>
+    </message>
+    <message>
+        <source>show netctl-auto window</source>
+        <translation>показать окно netctl-auto</translation>
+    </message>
+    <message>
+        <source>show settings window</source>
+        <translation>показать окно настроек</translation>
+    </message>
+    <message>
+        <source>Functions:</source>
+        <translation>Функции:</translation>
+    </message>
+    <message>
+        <source>select ESSID %1</source>
+        <translation>выбрать ESSID %1</translation>
+    </message>
+    <message>
+        <source>open profile %1</source>
+        <translation>открыть профиль %1</translation>
+    </message>
+    <message>
+        <source>select profile %1</source>
+        <translation>выбрать профиль %1</translation>
+    </message>
+    <message>
+        <source>Additional flags:</source>
+        <translation>Дополнительные флаги:</translation>
+    </message>
+    <message>
+        <source>print debug information</source>
+        <translation>показать отладочную информацию</translation>
+    </message>
+    <message>
+        <source>start with default settings</source>
+        <translation>запустить со стандартными настройками</translation>
+    </message>
+    <message>
+        <source>set options for this run, comma separated</source>
+        <translation>установить опции для данного запуска, разделенные запятыми</translation>
+    </message>
+    <message>
+        <source>open a tab with number %1</source>
+        <translation>открыть вкладку с номером %1</translation>
+    </message>
+    <message>
+        <source>Show messages:</source>
+        <translation>Показать сообщения:</translation>
+    </message>
+    <message>
+        <source>show version and exit</source>
+        <translation>показать версию и выход</translation>
+    </message>
+    <message>
+        <source>show build information and exit</source>
+        <translation>показать информацию о сборке и выход</translation>
+    </message>
+    <message>
+        <source>show this help and exit</source>
+        <translation>показать справку и выход</translation>
+    </message>
+    <message>
+        <source>Build date: %1</source>
+        <translation>Дата сборки: %1</translation>
+    </message>
+    <message>
+        <source>cmake flags:</source>
+        <translation>Флаги cmake:</translation>
+    </message>
+    <message>
+        <source>Version : %1
+</source>
+        <translation>Версия : %1
+</translation>
+    </message>
+    <message>
+        <source>Author : %1
+</source>
+        <translation>Автор : %1
+</translation>
+    </message>
+    <message>
+        <source>License : %1
+</source>
+        <translation>Лицензия : %1
+</translation>
+    </message>
+    <message>
+        <source>About</source>
+        <translation>О программе</translation>
+    </message>
+    <message>
+        <source>netctl-auto is running</source>
+        <translation>netctl-auto запущен</translation>
+    </message>
+    <message>
+        <source>Show</source>
+        <translation>Показать</translation>
+    </message>
+    <message>
+        <source>Help</source>
+        <translation>Справка</translation>
     </message>
 </context>
 <context>
@@ -912,31 +1093,127 @@
     <name>NetctlAutoWindow</name>
     <message>
         <source>MainWindow</source>
-        <translation type="unfinished"></translation>
+        <translation type="vanished">MainWindow</translation>
     </message>
     <message>
         <source>Enable profile</source>
-        <translation type="unfinished"></translation>
+        <translation>Включить профиль</translation>
     </message>
     <message>
         <source>Switch to profile</source>
-        <translation type="unfinished"></translation>
+        <translation>Переключиться на профиль</translation>
     </message>
     <message>
         <source>Close</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Available profiles</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Active profiles</source>
-        <translation type="unfinished"></translation>
+        <translation>Закрыть</translation>
     </message>
     <message>
         <source>Menu</source>
-        <translation type="unfinished">Меню</translation>
+        <translation>Меню</translation>
+    </message>
+    <message>
+        <source>Ready</source>
+        <translation>Готов</translation>
+    </message>
+    <message>
+        <source>Disable service</source>
+        <translation>Отключить сервис</translation>
+    </message>
+    <message>
+        <source>Enable service</source>
+        <translation>Включить сервис</translation>
+    </message>
+    <message>
+        <source>netctl-auto is running</source>
+        <translation>netctl-auto запущен</translation>
+    </message>
+    <message>
+        <source>Stop service</source>
+        <translation>Остановить сервис</translation>
+    </message>
+    <message>
+        <source>Start service</source>
+        <translation>Запустить сервис</translation>
+    </message>
+    <message>
+        <source>netctl-auto is not running</source>
+        <translation>netctl-auto не запущен</translation>
+    </message>
+    <message>
+        <source>Name==Description==Active==Disabled</source>
+        <translation type="vanished">Имя==Описание==Активен==Отключен</translation>
+    </message>
+    <message>
+        <source>yes</source>
+        <translation>да</translation>
+    </message>
+    <message>
+        <source>Updated</source>
+        <translation>Обновлено</translation>
+    </message>
+    <message>
+        <source>Enable all profiles</source>
+        <translation>Включить все профили</translation>
+    </message>
+    <message>
+        <source>Disable all profiles</source>
+        <translation>Отключить все профили</translation>
+    </message>
+    <message>
+        <source>Enable</source>
+        <translation>Включить</translation>
+    </message>
+    <message>
+        <source>Disable</source>
+        <translation>Отключить</translation>
+    </message>
+    <message>
+        <source>Done</source>
+        <translation>Выполнено</translation>
+    </message>
+    <message>
+        <source>Error</source>
+        <translation>Ошибка</translation>
+    </message>
+    <message>
+        <source>Disable profile</source>
+        <translation>Отключить профиль</translation>
+    </message>
+    <message>
+        <source>Esc</source>
+        <translation>Esc</translation>
+    </message>
+    <message>
+        <source>Restart service</source>
+        <translation>Перезапустить сервис</translation>
+    </message>
+    <message>
+        <source>Refresh</source>
+        <translation>Обновить</translation>
+    </message>
+    <message>
+        <source>Name</source>
+        <translation>Имя</translation>
+    </message>
+    <message>
+        <source>Description</source>
+        <translation>Описание</translation>
+    </message>
+    <message>
+        <source>Active</source>
+        <translation>Активен</translation>
+    </message>
+    <message>
+        <source>Disabled</source>
+        <translation>Отключен</translation>
+    </message>
+    <message>
+        <source>Switch</source>
+        <translation>Переключить</translation>
+    </message>
+    <message>
+        <source>netctl-auto</source>
+        <translation>netctl-auto</translation>
     </message>
 </context>
 <context>
@@ -1278,6 +1555,50 @@
     <message>
         <source>Other</source>
         <translation>Прочее</translation>
+    </message>
+    <message>
+        <source>Select netctl-auto command</source>
+        <translation>Путь к команде netctl-auto</translation>
+    </message>
+    <message>
+        <source>Select systemctl command</source>
+        <translation>Путь к команде systemctl</translation>
+    </message>
+    <message>
+        <source>Select wpa_actiond command</source>
+        <translation>Путь к команде wpa_actiond</translation>
+    </message>
+    <message>
+        <source>systemctl path</source>
+        <translation>Путь к systemctl</translation>
+    </message>
+    <message>
+        <source>Path to systemctl</source>
+        <translation>Путь к systemctl</translation>
+    </message>
+    <message>
+        <source>netctl-auto path</source>
+        <translation>Путь к netctl-auto</translation>
+    </message>
+    <message>
+        <source>Path to netctl-auto</source>
+        <translation>Путь к netctl-auto</translation>
+    </message>
+    <message>
+        <source>netctl-auto service</source>
+        <translation>Имя сервиса netctl-auto</translation>
+    </message>
+    <message>
+        <source>Name of netctl-auto systemd service</source>
+        <translation>Имя сервиса systemd для netctl-auto</translation>
+    </message>
+    <message>
+        <source>wpa_actiond path</source>
+        <translation>Путь к wpa_actiond</translation>
+    </message>
+    <message>
+        <source>Path to wpa_actiond</source>
+        <translation>Путь к wpa_actiond</translation>
     </message>
 </context>
 <context>

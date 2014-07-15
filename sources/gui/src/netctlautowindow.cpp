@@ -116,8 +116,12 @@ void NetctlAutoWindow::netctlAutoUpdateTable()
     ui->tableWidget->setRowCount(profiles.count());
 
     // create header
-    ui->tableWidget->setHorizontalHeaderLabels(QApplication::translate("NetctlAutoWindow", "Name==Description==Active==Disabled")
-                                               .split(QString("==")));
+    QStringList headerList;
+    headerList.append(QApplication::translate("NetctlAutoWindow", "Name"));
+    headerList.append(QApplication::translate("NetctlAutoWindow", "Description"));
+    headerList.append(QApplication::translate("NetctlAutoWindow", "Active"));
+    headerList.append(QApplication::translate("NetctlAutoWindow", "Disabled"));
+    ui->tableWidget->setHorizontalHeaderLabels(headerList);
     // create items
     for (int i=0; i<profiles.count(); i++) {
         // name

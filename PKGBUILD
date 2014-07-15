@@ -2,7 +2,7 @@
 
 pkgbase=netctl-gui
 pkgname=('netctl-gui' 'netctl-gui-qt4' 'kdeplasma-applets-netctl-gui')
-pkgver=1.1.0
+pkgver=1.2.0
 pkgrel=1
 pkgdesc="Qt4/Qt5 GUI for netctl. Also provides a widget for KDE"
 arch=('i686' 'x86_64')
@@ -16,7 +16,7 @@ optdepends=('kdebase-runtime: sudo support'
             'wpa_supplicant: wifi support')
 source=("https://github.com/arcan1s/netctl-gui/releases/download/V.${pkgver}/${pkgbase}-${pkgver}-src.tar.xz")
 install="${pkgbase}.install"
-md5sums=('229e11efda0a94bed44ea79b3deabf7c')
+md5sums=('4d52513623e2501d8dd9a531327c01a7')
 
 prepare() {
   rm -rf "${srcdir}/"{build-plasmoid,build-qt4,build-qt5}

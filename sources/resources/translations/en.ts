@@ -2,6 +2,51 @@
 <!DOCTYPE TS>
 <TS version="2.1" language="en">
 <context>
+    <name>AboutWindow</name>
+    <message>
+        <source>Version %1
+(build date %2)</source>
+        <translation>Version %1
+(build date %2)</translation>
+    </message>
+    <message>
+        <source>Qt-based graphical interface for netctl.</source>
+        <translation>Qt-based graphical interface for netctl.</translation>
+    </message>
+    <message>
+        <source>Links:</source>
+        <translation>Links:</translation>
+    </message>
+    <message>
+        <source>Homepage</source>
+        <translation>Homepage</translation>
+    </message>
+    <message>
+        <source>Repository</source>
+        <translation>Repository</translation>
+    </message>
+    <message>
+        <source>Bugtracker</source>
+        <translation>Bugtracker</translation>
+    </message>
+    <message>
+        <source>Translation issue</source>
+        <translation>Translation issue</translation>
+    </message>
+    <message>
+        <source>AUR packages</source>
+        <translation>AUR packages</translation>
+    </message>
+    <message>
+        <source>This software is licensed under %1</source>
+        <translation>This software is licensed under %1</translation>
+    </message>
+    <message>
+        <source>About</source>
+        <translation>About</translation>
+    </message>
+</context>
+<context>
     <name>BridgeWidget</name>
     <message>
         <source>Form</source>
@@ -88,15 +133,31 @@
     </message>
     <message>
         <source>Error</source>
-        <translation>Error</translation>
+        <translation type="vanished">Error</translation>
     </message>
     <message>
         <source>Error text</source>
-        <translation>Error text</translation>
+        <translation type="vanished">Error text</translation>
     </message>
     <message>
         <source>Ok</source>
-        <translation>Ok</translation>
+        <translation type="vanished">Ok</translation>
+    </message>
+    <message>
+        <source>Error!</source>
+        <translation>Error!</translation>
+    </message>
+    <message>
+        <source>Could not find profile</source>
+        <translation>Could not find profile</translation>
+    </message>
+    <message>
+        <source>Could not find ESSID</source>
+        <translation>Could not find ESSID</translation>
+    </message>
+    <message>
+        <source>Sender : %1</source>
+        <translation>Sender : %1</translation>
     </message>
 </context>
 <context>
@@ -556,33 +617,33 @@
     <message>
         <source>                                    Netctl GUI
 </source>
-        <translation>                                    Netctl GUI
+        <translation type="vanished">                                    Netctl GUI
 </translation>
     </message>
     <message>
         <source>Version : %1                                                  License : GPLv3
 </source>
-        <translation>Version : %1                                                  License : GPLv3
+        <translation type="vanished">Version : %1                                                  License : GPLv3
 </translation>
     </message>
     <message>
         <source>                                                    Evgeniy Alekseev aka arcanis
 </source>
-        <translation>                                                    Evgeniy Alekseev aka arcanis
+        <translation type="vanished">                                                    Evgeniy Alekseev aka arcanis
 </translation>
     </message>
     <message>
         <source>                                                    E-mail : esalexeev@gmail.com
 
 </source>
-        <translation>                                                    E-mail : esalexeev@gmail.com
+        <translation type="vanished">                                                    E-mail : esalexeev@gmail.com
 
 </translation>
     </message>
     <message>
         <source>Usage:
 </source>
-        <translation>Usage:
+        <translation type="vanished">Usage:
 </translation>
     </message>
     <message>
@@ -596,25 +657,25 @@
     <message>
         <source>Parametrs:
 </source>
-        <translation>Parametrs:
+        <translation type="vanished">Parametrs:
 </translation>
     </message>
     <message>
         <source>           --default    - start with default settings
 </source>
-        <translation>           --default    - start with default settings
+        <translation type="vanished">           --default    - start with default settings
 </translation>
     </message>
     <message>
         <source>  -t NUM   --tab NUM    - open a tab with number NUM
 </source>
-        <translation>  -t NUM   --tab NUM    - open a tab with number NUM
+        <translation type="vanished">  -t NUM   --tab NUM    - open a tab with number NUM
 </translation>
     </message>
     <message>
         <source>  -h       --help       - show this help and exit
 </source>
-        <translation>  -h       --help       - show this help and exit
+        <translation type="vanished">  -h       --help       - show this help and exit
 </translation>
     </message>
     <message>
@@ -711,11 +772,11 @@
     </message>
     <message>
         <source>Name Status Signal Security</source>
-        <translation>Name Status Signal Security</translation>
+        <translation type="vanished">Name Status Signal Security</translation>
     </message>
     <message>
         <source>Name Description Status</source>
-        <translation>Name Description Status</translation>
+        <translation type="vanished">Name Description Status</translation>
     </message>
     <message>
         <source>Remove</source>
@@ -723,70 +784,191 @@
     </message>
     <message>
         <source>Stop profile</source>
-        <translation type="unfinished"></translation>
+        <translation>Stop profile</translation>
     </message>
     <message>
         <source>Start profile</source>
-        <translation type="unfinished"></translation>
+        <translation>Start profile</translation>
     </message>
     <message>
         <source>Disable profile</source>
-        <translation type="unfinished"></translation>
+        <translation>Disable profile</translation>
     </message>
     <message>
         <source>Enable profile</source>
-        <translation type="unfinished"></translation>
+        <translation>Enable profile</translation>
     </message>
     <message>
         <source>Stop WiFi</source>
-        <translation type="unfinished"></translation>
+        <translation>Stop WiFi</translation>
     </message>
     <message>
         <source>Start WiFi</source>
-        <translation type="unfinished"></translation>
+        <translation>Start WiFi</translation>
     </message>
     <message>
         <source>Restart profile</source>
-        <translation type="unfinished"></translation>
+        <translation>Restart profile</translation>
     </message>
     <message>
         <source>Edit profile</source>
-        <translation type="unfinished"></translation>
+        <translation>Edit profile</translation>
     </message>
     <message>
         <source>Remove profile</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>netctl-gui [ --default ] [ -d | --debug ] [ -t NUM | --tab NUM ] [ -h | --help]
-
-</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>  -d       --debug      - print debug information
-</source>
-        <translation type="unfinished"></translation>
+        <translation>Remove profile</translation>
     </message>
     <message>
         <source>Load profile</source>
-        <translation type="unfinished"></translation>
+        <translation>Load profile</translation>
     </message>
     <message>
         <source>Save profile</source>
-        <translation type="unfinished"></translation>
+        <translation>Save profile</translation>
     </message>
     <message>
         <source>Start Wi-Fi</source>
-        <translation type="unfinished"></translation>
+        <translation>Start Wi-Fi</translation>
     </message>
     <message>
         <source>netctl-auto</source>
-        <translation type="unfinished"></translation>
+        <translation>netctl-auto</translation>
     </message>
     <message>
         <source>Actions</source>
-        <translation type="unfinished"></translation>
+        <translation>Actions</translation>
+    </message>
+    <message>
+        <source>Name==Description==Status</source>
+        <translation type="vanished">Name==Description==Status</translation>
+    </message>
+    <message>
+        <source>Name==Status==Signal==Security</source>
+        <translation type="vanished">Name==Status==Signal==Security</translation>
+    </message>
+    <message>
+        <source>Unknown flag
+</source>
+        <translation>Unknown flag
+</translation>
+    </message>
+    <message>
+        <source>Usage:</source>
+        <translation>Usage:</translation>
+    </message>
+    <message>
+        <source>Parametrs:</source>
+        <translation>Parametrs:</translation>
+    </message>
+    <message>
+        <source>Open window:</source>
+        <translation>Open window:</translation>
+    </message>
+    <message>
+        <source>show about window</source>
+        <translation>show about window</translation>
+    </message>
+    <message>
+        <source>show netctl-auto window</source>
+        <translation>show netctl-auto window</translation>
+    </message>
+    <message>
+        <source>show settings window</source>
+        <translation>show settings window</translation>
+    </message>
+    <message>
+        <source>Functions:</source>
+        <translation>Functions:</translation>
+    </message>
+    <message>
+        <source>select ESSID %1</source>
+        <translation>select ESSID %1</translation>
+    </message>
+    <message>
+        <source>open profile %1</source>
+        <translation>open profile %1</translation>
+    </message>
+    <message>
+        <source>select profile %1</source>
+        <translation>select profile %1</translation>
+    </message>
+    <message>
+        <source>Additional flags:</source>
+        <translation>Additional flags:</translation>
+    </message>
+    <message>
+        <source>print debug information</source>
+        <translation>print debug information</translation>
+    </message>
+    <message>
+        <source>start with default settings</source>
+        <translation>start with default settings</translation>
+    </message>
+    <message>
+        <source>set options for this run, comma separated</source>
+        <translation>set options for this run, comma separated</translation>
+    </message>
+    <message>
+        <source>open a tab with number %1</source>
+        <translation>open a tab with number %1</translation>
+    </message>
+    <message>
+        <source>Show messages:</source>
+        <translation>Show messages:</translation>
+    </message>
+    <message>
+        <source>show version and exit</source>
+        <translation>show version and exit</translation>
+    </message>
+    <message>
+        <source>show build information and exit</source>
+        <translation>show build information and exit</translation>
+    </message>
+    <message>
+        <source>show this help and exit</source>
+        <translation>show this help and exit</translation>
+    </message>
+    <message>
+        <source>Build date: %1</source>
+        <translation>Build date: %1</translation>
+    </message>
+    <message>
+        <source>cmake flags:</source>
+        <translation>cmake flags:</translation>
+    </message>
+    <message>
+        <source>Version : %1
+</source>
+        <translation>Version : %1
+</translation>
+    </message>
+    <message>
+        <source>Author : %1
+</source>
+        <translation>Author : %1
+</translation>
+    </message>
+    <message>
+        <source>License : %1
+</source>
+        <translation>License : %1
+</translation>
+    </message>
+    <message>
+        <source>About</source>
+        <translation>About</translation>
+    </message>
+    <message>
+        <source>netctl-auto is running</source>
+        <translation>netctl-auto is running</translation>
+    </message>
+    <message>
+        <source>Show</source>
+        <translation>Show</translation>
+    </message>
+    <message>
+        <source>Help</source>
+        <translation>Help</translation>
     </message>
 </context>
 <context>
@@ -912,31 +1094,127 @@
     <name>NetctlAutoWindow</name>
     <message>
         <source>MainWindow</source>
-        <translation type="unfinished"></translation>
+        <translation type="vanished">MainWindow</translation>
     </message>
     <message>
         <source>Enable profile</source>
-        <translation type="unfinished"></translation>
+        <translation>Enable profile</translation>
     </message>
     <message>
         <source>Switch to profile</source>
-        <translation type="unfinished"></translation>
+        <translation>Switch to profile</translation>
     </message>
     <message>
         <source>Close</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Available profiles</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Active profiles</source>
-        <translation type="unfinished"></translation>
+        <translation>Close</translation>
     </message>
     <message>
         <source>Menu</source>
-        <translation type="unfinished">Menu</translation>
+        <translation>Menu</translation>
+    </message>
+    <message>
+        <source>Ready</source>
+        <translation>Ready</translation>
+    </message>
+    <message>
+        <source>Disable service</source>
+        <translation>Disable service</translation>
+    </message>
+    <message>
+        <source>Enable service</source>
+        <translation>Enable service</translation>
+    </message>
+    <message>
+        <source>netctl-auto is running</source>
+        <translation>netctl-auto is running</translation>
+    </message>
+    <message>
+        <source>Stop service</source>
+        <translation>Stop service</translation>
+    </message>
+    <message>
+        <source>Start service</source>
+        <translation>Start service</translation>
+    </message>
+    <message>
+        <source>netctl-auto is not running</source>
+        <translation>netctl-auto is not running</translation>
+    </message>
+    <message>
+        <source>Name==Description==Active==Disabled</source>
+        <translation type="vanished">Name==Description==Active==Disabled</translation>
+    </message>
+    <message>
+        <source>yes</source>
+        <translation>yes</translation>
+    </message>
+    <message>
+        <source>Updated</source>
+        <translation>Updated</translation>
+    </message>
+    <message>
+        <source>Enable all profiles</source>
+        <translation>Enable all profiles</translation>
+    </message>
+    <message>
+        <source>Disable all profiles</source>
+        <translation>Disable all profiles</translation>
+    </message>
+    <message>
+        <source>Enable</source>
+        <translation>Enable</translation>
+    </message>
+    <message>
+        <source>Disable</source>
+        <translation>Disable</translation>
+    </message>
+    <message>
+        <source>Done</source>
+        <translation>Done</translation>
+    </message>
+    <message>
+        <source>Error</source>
+        <translation>Error</translation>
+    </message>
+    <message>
+        <source>Disable profile</source>
+        <translation>Disable profile</translation>
+    </message>
+    <message>
+        <source>Esc</source>
+        <translation>Esc</translation>
+    </message>
+    <message>
+        <source>Restart service</source>
+        <translation>Restart service</translation>
+    </message>
+    <message>
+        <source>Refresh</source>
+        <translation>Refresh</translation>
+    </message>
+    <message>
+        <source>Name</source>
+        <translation>Name</translation>
+    </message>
+    <message>
+        <source>Description</source>
+        <translation>Description</translation>
+    </message>
+    <message>
+        <source>Active</source>
+        <translation>Active</translation>
+    </message>
+    <message>
+        <source>Disabled</source>
+        <translation>Disabled</translation>
+    </message>
+    <message>
+        <source>Switch</source>
+        <translation>Switch</translation>
+    </message>
+    <message>
+        <source>netctl-auto</source>
+        <translation>netctl-auto</translation>
     </message>
 </context>
 <context>
@@ -1278,6 +1556,50 @@
     <message>
         <source>Other</source>
         <translation>Other</translation>
+    </message>
+    <message>
+        <source>Select netctl-auto command</source>
+        <translation>Select netctl-auto command</translation>
+    </message>
+    <message>
+        <source>Select systemctl command</source>
+        <translation>Select systemctl command</translation>
+    </message>
+    <message>
+        <source>Select wpa_actiond command</source>
+        <translation>Select wpa_actiond command</translation>
+    </message>
+    <message>
+        <source>systemctl path</source>
+        <translation>systemctl path</translation>
+    </message>
+    <message>
+        <source>Path to systemctl</source>
+        <translation>Path to systemctl</translation>
+    </message>
+    <message>
+        <source>netctl-auto path</source>
+        <translation>netctl-auto path</translation>
+    </message>
+    <message>
+        <source>Path to netctl-auto</source>
+        <translation>Path to netctl-auto</translation>
+    </message>
+    <message>
+        <source>netctl-auto service</source>
+        <translation>netctl-auto service</translation>
+    </message>
+    <message>
+        <source>Name of netctl-auto systemd service</source>
+        <translation>Name of netctl-auto systemd service</translation>
+    </message>
+    <message>
+        <source>wpa_actiond path</source>
+        <translation>wpa_actiond path</translation>
+    </message>
+    <message>
+        <source>Path to wpa_actiond</source>
+        <translation>Path to wpa_actiond</translation>
     </message>
 </context>
 <context>

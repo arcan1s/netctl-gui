@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>MainWindow</string>
+   <string>netctl-auto</string>
   </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QVBoxLayout" name="verticalLayout">
@@ -78,7 +78,9 @@
          <string>Refresh</string>
         </property>
         <property name="icon">
-         <iconset theme="stock-refresh"/>
+         <iconset theme="stock-refresh">
+          <normaloff/>
+         </iconset>
         </property>
        </widget>
       </item>
@@ -114,7 +116,9 @@
          <string>Switch</string>
         </property>
         <property name="icon">
-         <iconset theme="dialog-apply"/>
+         <iconset theme="dialog-apply">
+          <normaloff/>
+         </iconset>
         </property>
        </widget>
       </item>
@@ -187,7 +191,9 @@
   </action>
   <action name="actionEnableAll">
    <property name="icon">
-    <iconset theme="edit-add"/>
+    <iconset theme="edit-add">
+     <normaloff/>
+    </iconset>
    </property>
    <property name="text">
     <string>Enable all profiles</string>
@@ -195,7 +201,9 @@
   </action>
   <action name="actionDisableAll">
    <property name="icon">
-    <iconset theme="edit-delete"/>
+    <iconset theme="edit-delete">
+     <normaloff/>
+    </iconset>
    </property>
    <property name="text">
     <string>Disable all profiles</string>
@@ -218,7 +226,9 @@
   </action>
   <action name="actionRefresh">
    <property name="icon">
-    <iconset theme="stock-refresh"/>
+    <iconset theme="stock-refresh">
+     <normaloff/>
+    </iconset>
    </property>
    <property name="text">
     <string>Refresh</string>

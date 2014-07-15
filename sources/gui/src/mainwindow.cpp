@@ -52,6 +52,7 @@ MainWindow::MainWindow(QWidget *parent,
                        const QString selectEssid,
                        const QString openProfile,
                        const QString selectProfile,
+                       const QString configPath,
                        const bool debugCmd,
                        const bool defaultSettings,
                        const QString options,
@@ -72,8 +73,6 @@ MainWindow::MainWindow(QWidget *parent,
     if (debug) qDebug() << "[MainWindow]" << "[MainWindow]" << ":" << "tabNum" << tabNum;
 
     // reading configuration
-    QString configPath = QDir::homePath() + QDir::separator() + QString(".config") +
-            QDir::separator() + QString("netctl-gui.conf");
     settingsWin = new SettingsWindow(this, debug, configPath);
     if (defaultSettings)
         settingsWin->setDefault();
@@ -403,8 +402,11 @@ void MainWindow::updateMainTab()
     ui->tableWidget_main->setRowCount(profiles.count());
 
     // create header
-    ui->tableWidget_main->setHorizontalHeaderLabels(QApplication::translate("MainWindow", "Name==Description==Status")
-                                                    .split(QString("==")));
+    QStringList headerList;
+    headerList.append(QApplication::translate("MainWindow", "Name"));
+    headerList.append(QApplication::translate("MainWindow", "Description"));
+    headerList.append(QApplication::translate("MainWindow", "Status"));
+    ui->tableWidget_main->setHorizontalHeaderLabels(headerList);
     // create items
     for (int i=0; i<profiles.count(); i++) {
         // name
@@ -513,8 +515,12 @@ void MainWindow::updateWifiTab()
     ui->tableWidget_wifi->setRowCount(scanResults.count());
 
     // create header
-    ui->tableWidget_wifi->setHorizontalHeaderLabels(QApplication::translate("MainWindow", "Name==Status==Signal==Security")
-                                                    .split(QString("==")));
+    QStringList headerList;
+    headerList.append(QApplication::translate("MainWindow", "Name"));
+    headerList.append(QApplication::translate("MainWindow", "Status"));
+    headerList.append(QApplication::translate("MainWindow", "Signal"));
+    headerList.append(QApplication::translate("MainWindow", "Security"));
+    ui->tableWidget_wifi->setHorizontalHeaderLabels(headerList);
     // create items
     for (int i=0; i<scanResults.count(); i++) {
         // name
