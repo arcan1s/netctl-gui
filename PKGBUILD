@@ -27,6 +27,7 @@ build() {
   cd "${srcdir}/build-plasmoid"
   cmake -DCMAKE_INSTALL_PREFIX=/usr \
         -DCMAKE_BUILD_TYPE=Release \
+        -DBUILD_DOCS:BOOL=0 \
         -DBUILD_GUI:BOOL=0 \
         -DBUILD_LIBRARY:BOOL=0 \
         "../${pkgbase}"
@@ -35,6 +36,7 @@ build() {
   cd "${srcdir}/build-qt4"
   cmake -DCMAKE_INSTALL_PREFIX=/usr \
         -DCMAKE_BUILD_TYPE=Release \
+        -DBUILD_DOCS:BOOL=0 \
         -DBUILD_DATAENGINE:BOOL=0 \
         -DBUILD_PLASMOID:BOOL=0 \
         -DUSE_QT5:BOOL=0 \
@@ -44,6 +46,7 @@ build() {
   cd "${srcdir}/build-qt5"
   cmake -DCMAKE_INSTALL_PREFIX=/usr \
         -DCMAKE_BUILD_TYPE=Release \
+        -DBUILD_DOCS:BOOL=0 \
         -DBUILD_DATAENGINE:BOOL=0 \
         -DBUILD_PLASMOID:BOOL=0 \
         "../${pkgbase}"

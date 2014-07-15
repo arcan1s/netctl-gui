@@ -38,4 +38,3 @@ endif()
 
 # install properties
 install (TARGETS ${SUBPROJECT} DESTINATION lib)
-install (DIRECTORY ${SUBPROJECT_INCLUDE_DIR}/ DESTINATION include/)

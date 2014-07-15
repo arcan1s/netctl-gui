@@ -11,3 +11,9 @@ set (TARGETS "")
 set (HEADERS "")
 
 add_subdirectory (${SUBPROJECT_SOURCE_DIR})
+# headers
+install (DIRECTORY ${SUBPROJECT_INCLUDE_DIR}/ DESTINATION include/)
+# documentation
+if (BUILD_DOCS)
+    include (docs.cmake)
+endif ()

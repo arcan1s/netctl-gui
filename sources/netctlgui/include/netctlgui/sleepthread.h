@@ -14,6 +14,14 @@
  *   You should have received a copy of the GNU General Public License     *
  *   along with netctl-gui. If not, see http://www.gnu.org/licenses/       *
  ***************************************************************************/
+/**
+ * @file sleepthread.h
+ * Header of netctlgui library
+ * @author Evgeniy Alekseev
+ * @copyright GPLv3
+ * @bug https://github.com/arcan1s/netctl-gui/issues
+ */
+
 
 #ifndef SLEEPTHREAD_H
 #define SLEEPTHREAD_H
@@ -21,21 +29,34 @@
 #include <QThread>
 
 
+/**
+ * @brief The SleepThread class is used for sleep current thread in WpaSup class
+ */
 class SleepThread : public QThread
 {
     Q_OBJECT
 
 public:
+    /**
+     * @brief method which forces the current thread to sleep for usecs microseconds
+     * @param iSleepTime     time in microseconds
+     */
     static void usleep(long iSleepTime)
     {
         QThread::usleep(iSleepTime);
     }
-
+    /**
+     * @brief method which forces the current thread to sleep for usecs seconds
+     * @param iSleepTime     time in seconds
+     */
     static void sleep(long iSleepTime)
     {
         QThread::sleep(iSleepTime);
     }
-
+    /**
+     * @brief method which forces the current thread to sleep for usecs milliseconds
+     * @param iSleepTime     time in milliseconds
+     */
     static void msleep(long iSleepTime)
     {
         QThread::msleep(iSleepTime);

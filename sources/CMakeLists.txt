@@ -23,19 +23,21 @@ message (STATUS "Build date: ${CURRENT_DATE}")
 
 # install options
 option (USE_QT5 "Use Qt5 instead of Qt4" ON)
-option (BUILD_DOCS "Build documentation and install headers" ON)
+# components
 option (BUILD_GUI "Build GUI" ON)
 option (BUILD_LIBRARY "Build library" ON)
 option (BUILD_DATAENGINE "Build data engine" ON)
 option (BUILD_PLASMOID "Build plasmoid" ON)
-if (BUILD_DOCS)
-    set (BUILD_LIBRARY ON)
-endif ()
 if (BUILD_GUI)
     set (BUILD_LIBRARY ON)
 endif ()
 if (BUILD_PLASMOID)
     set (BUILD_DATAENGINE ON)
+endif ()
+# documentation
+option (BUILD_DOCS "Build documentation and install headers" ON)
+if (BUILD_DOCS)
+    set (BUILD_LIBRARY ON)
 endif ()
 
 # flags
