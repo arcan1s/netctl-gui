@@ -78,6 +78,7 @@ void NetctlAutoWindow::showWindow()
     if (debug) qDebug() << "[NetctlAutoWindow]" << "[showWindow]";
 
     netctlAutoUpdateTable();
+
     show();
 }
 

@@ -61,6 +61,7 @@ public:
                         const QString selectProfile = QString("PROFILE"),
                         const bool debugCmd = false,
                         const bool defaultSettings = false,
+                        const QString options = QString("OPTIONS"),
                         const int tabNum = 1);
     ~MainWindow();
 
@@ -133,6 +134,7 @@ private:
     bool hiddenNetwork;
     // configuration
     QMap<QString, QString> configuration;
+    QMap<QString, QString> parseOptions(const QString options);
 };
 
 

@@ -54,6 +54,7 @@ MainWindow::MainWindow(QWidget *parent,
                        const QString selectProfile,
                        const bool debugCmd,
                        const bool defaultSettings,
+                       const QString options,
                        const int tabNum)
     : QMainWindow(parent),
       ui(new Ui::MainWindow),
@@ -67,6 +68,7 @@ MainWindow::MainWindow(QWidget *parent,
     if (debug) qDebug() << "[MainWindow]" << "[MainWindow]" << ":" << "selectProfile" << selectProfile;
     if (debug) qDebug() << "[MainWindow]" << "[MainWindow]" << ":" << "debug" << debug;
     if (debug) qDebug() << "[MainWindow]" << "[MainWindow]" << ":" << "defaultSettings" << defaultSettings;
+    if (debug) qDebug() << "[MainWindow]" << "[MainWindow]" << ":" << "options" << options;
     if (debug) qDebug() << "[MainWindow]" << "[MainWindow]" << ":" << "tabNum" << tabNum;
 
     // reading configuration
@@ -76,6 +78,9 @@ MainWindow::MainWindow(QWidget *parent,
     if (defaultSettings)
         settingsWin->setDefault();
     configuration = settingsWin->getSettings();
+    QMap<QString, QString> optionsDict = parseOptions(options);
+    for (int i=0; i<optionsDict.keys().count(); i++)
+        configuration[optionsDict.keys()[i]] = optionsDict[optionsDict.keys()[i]];
 
     // backend
     netctlCommand = new Netctl(debug, configuration);
@@ -300,6 +305,26 @@ void MainWindow::setIconsToButtons()
     // wifi tab
     ui->pushButton_wifiRefresh->setIcon(QIcon::fromTheme("stock-refresh"));
 }
+
+
+QMap<QString, QString> MainWindow::parseOptions(const QString options)
+{
+    if (debug) qDebug() << "[MainWindow]" << "[parseOptions]";
+
+    QMap<QString, QString> settings;
+    for (int i=0; i<options.split(QChar(',')).count(); i++) {
+        if (options.split(QChar(','))[i].split(QChar('=')).count() < 2)
+            continue;
+        settings[options.split(QChar(','))[i].split(QChar('='))[0]] =
+                options.split(QChar(','))[i].split(QChar('='))[1];
+    }
+    for (int i=0; i<settings.keys().count(); i++)
+        if (debug) qDebug() << "[MainWindow]" << "[parseOptions]" << ":" <<
+                    settings.keys()[i] + QString("=") + settings[settings.keys()[i]];
+
+    return settings;
+}
+
 
 
 // window slots

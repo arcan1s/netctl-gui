@@ -64,6 +64,7 @@ int main(int argc, char *argv[])
     // additional functions
     bool debug = false;
     bool defaultSettings = false;
+    QString options = QString("OPTIONS");
     int tabNumber = 1;
     // messages
     bool showVersion = false;
@@ -109,6 +110,11 @@ int main(int argc, char *argv[])
         else if (QString(argv[i]) == QString("--default")) {
             defaultSettings = true;
         }
+        // options
+        else if (QString(argv[i]) == QString("--set-opts")) {
+            options = QString(argv[i+1]);
+            i++;
+        }
         // tab number
         else if ((QString(argv[i]) == QString("-t")) || (QString(argv[i]) == QString("--tab"))) {
             if (atoi(argv[i+1]) > 3)
@@ -151,7 +157,8 @@ int main(int argc, char *argv[])
     helpMessage += QString("netctl-gui [ --about ] [ --netctl-auto ] [ --settings ]\n");
     helpMessage += QString("           [ -e ESSID | --essid ESSID ] [ -o PROFILE | --open PROFILE ]\n");
     helpMessage += QString("           [ -s PROFILE | --select PROFILE ]\n");
-    helpMessage += QString("           [ -d | --debug ] [ --default ] [ -t NUM | --tab NUM ]\n");
+    helpMessage += QString("           [ -d | --debug ] [ --default ] [ --set-opts OPTIONS ]\n");
+    helpMessage += QString("           [ -t NUM | --tab NUM ]\n");
     helpMessage += QString("           [ -v | --version ] [ -i | --info ] [ -h | --help]\n\n");
     helpMessage += QString("%1\n").arg(QApplication::translate("MainWindow", "Parametrs:"));
     // windows
@@ -184,6 +191,10 @@ int main(int argc, char *argv[])
     helpMessage += QString("%1                  --default             - %2\n")
             .arg(isParametrEnable(defaultSettings))
             .arg(QApplication::translate("MainWindow", "start with default settings"));
+    helpMessage += QString("                   --set-opts %1\n")
+            .arg(options, -10);
+    helpMessage += QString("                                         - %1\n")
+            .arg(QApplication::translate("MainWindow", "set options for this run, comma separated"));
     helpMessage += QString("   -t %1          --tab %1             - %2\n")
             .arg(QString::number(tabNumber), -3)
             .arg(QApplication::translate("MainWindow", "open a tab with number %1").arg(QString::number(tabNumber)));
@@ -202,6 +213,7 @@ int main(int argc, char *argv[])
     infoMessage += QString("\n%1\n").arg(QApplication::translate("MainWindow", "cmake flags:"));
     infoMessage += QString("\t-DCMAKE_BUILD_TYPE=%1 \\\n").arg(QString(CMAKE_BUILD_TYPE));
     infoMessage += QString("\t-DCMAKE_INSTALL_PREFIX=%1 \\\n").arg(QString(CMAKE_INSTALL_PREFIX));
+    infoMessage += QString("\t-DBUILD_DOCS=%1 \\\n").arg(QString(PROJECT_BUILD_DOCS));
     infoMessage += QString("\t-DBUILD_LIBRARY=%1 \\\n").arg(QString(PROJECT_BUILD_LIBRARY));
     infoMessage += QString("\t-DBUILD_GUI=%1 \\\n").arg(QString(PROJECT_BUILD_GUI));
     infoMessage += QString("\t-DUSE_QT5=%1 \\\n").arg(QString(PROJECT_USE_QT5));
@@ -213,6 +225,12 @@ int main(int argc, char *argv[])
     versionMessage += QApplication::translate("MainWindow", "Version : %1\n").arg(QString(VERSION));
     versionMessage += QApplication::translate("MainWindow", "Author : %1\n").arg(QString(AUTHOR));
     versionMessage += QApplication::translate("MainWindow", "License : %1\n").arg(QString(LICENSE));
+
+    // reread translations
+    a.removeTranslator(&translator);
+    language = Language::defineLanguage(configPath, options);
+    translator.load(QString(":/translations/") + language);
+    a.installTranslator(&translator);
 
     // running
     if (error) {
@@ -236,7 +254,7 @@ int main(int argc, char *argv[])
     MainWindow w(0,
                  showAbout, showNetctlAuto, showSettings,
                  selectEssid, openProfile, selectProfile,
-                 debug, defaultSettings, tabNumber);
+                 debug, defaultSettings, options, tabNumber);
     w.show();
     return a.exec();
 }

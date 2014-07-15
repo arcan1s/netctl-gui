@@ -270,6 +270,7 @@ void SettingsWindow::showWindow()
 
     setSettings(getSettings());
     ui->label_info->hide();
+
     show();
 }
 

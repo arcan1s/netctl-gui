@@ -22,7 +22,7 @@
 #include <QLocale>
 
 
-Language::Language(const QString configPath)
+Language::Language()
 {
 }
 
@@ -41,8 +41,13 @@ QString Language::checkLanguage(const QString language, const QString defaultLan
 }
 
 
-QString Language::defineLanguage(const QString configPath)
+QString Language::defineLanguage(const QString configPath, const QString options)
 {
+    QMap<QString, QString> optionsDict = parseOptions(options);
+    if (optionsDict.contains(QString("LANGUAGE")))
+        if (getAvailableLanguages().contains(optionsDict[QString("LANGUAGE")]))
+            return optionsDict[QString("LANGUAGE")];
+
     QString language;
     language = defineLanguageFromFile(configPath);
     if (language.isEmpty())
@@ -91,4 +96,18 @@ QStringList Language::getAvailableLanguages()
     languages.append(QString("ru"));
 
     return languages;
+}
+
+
+QMap<QString, QString> Language::parseOptions(const QString options)
+{
+    QMap<QString, QString> optionsDict;
+    for (int i=0; i<options.split(QChar(',')).count(); i++) {
+        if (options.split(QChar(','))[i].split(QChar('=')).count() < 2)
+            continue;
+        optionsDict[options.split(QChar(','))[i].split(QChar('='))[0]] =
+                options.split(QChar(','))[i].split(QChar('='))[1];
+    }
+
+    return optionsDict;
 }
