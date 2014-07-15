@@ -64,8 +64,6 @@ Additional information
 TODO (wish list)
 ----------------
 
-* man pages
-
 Links
 -----
 

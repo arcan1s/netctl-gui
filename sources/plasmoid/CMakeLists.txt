@@ -2,7 +2,7 @@
 set (SUBPROJECT plasma_applet_netctl)
 message (STATUS "Subproject ${SUBPROJECT}")
 # find resources
-set (RESOURCES ${PROJECT_RESOURCE_DIR}/resources.qrc)
+set (RESOURCES ${PROJECT_RESOURCE_DIR}/resources-plasmoid.qrc)
 
 # find required libaries
 find_package (KDE4 REQUIRED)

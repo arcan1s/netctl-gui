@@ -190,9 +190,10 @@ int main(int argc, char *argv[])
             .arg(QApplication::translate("MainWindow", "select profile %1").arg(selectProfile));
     // additional functions
     helpMessage += QString("%1\n").arg(QApplication::translate("MainWindow", "Additional flags:"));
-    helpMessage += QString("                   --config %1   - %2\n")
-            .arg(configPath)
-            .arg(QApplication::translate("MainWindow", "read configuration from file %1").arg(configPath));
+    helpMessage += QString("                   --config %1\n")
+            .arg(configPath, -10);
+    helpMessage += QString("                                         - %1\n")
+            .arg(QApplication::translate("MainWindow", "read configuration from this file"));
     helpMessage += QString("%1  -d              --debug               - %2\n")
             .arg(isParametrEnable(debug))
             .arg(QApplication::translate("MainWindow", "print debug information"));

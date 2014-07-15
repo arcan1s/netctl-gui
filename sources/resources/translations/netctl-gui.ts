@@ -1069,72 +1069,72 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../gui/src/main.cpp" line="195"/>
-        <source>read configuration from file %1</source>
+        <location filename="../../gui/src/main.cpp" line="196"/>
+        <source>read configuration from this file</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../gui/src/main.cpp" line="198"/>
+        <location filename="../../gui/src/main.cpp" line="199"/>
         <source>print debug information</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../gui/src/main.cpp" line="201"/>
+        <location filename="../../gui/src/main.cpp" line="202"/>
         <source>start with default settings</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../gui/src/main.cpp" line="205"/>
+        <location filename="../../gui/src/main.cpp" line="206"/>
         <source>set options for this run, comma separated</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../gui/src/main.cpp" line="208"/>
+        <location filename="../../gui/src/main.cpp" line="209"/>
         <source>open a tab with number %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../gui/src/main.cpp" line="210"/>
+        <location filename="../../gui/src/main.cpp" line="211"/>
         <source>Show messages:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../gui/src/main.cpp" line="212"/>
+        <location filename="../../gui/src/main.cpp" line="213"/>
         <source>show version and exit</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../gui/src/main.cpp" line="214"/>
+        <location filename="../../gui/src/main.cpp" line="215"/>
         <source>show build information and exit</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../gui/src/main.cpp" line="216"/>
+        <location filename="../../gui/src/main.cpp" line="217"/>
         <source>show this help and exit</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../gui/src/main.cpp" line="219"/>
+        <location filename="../../gui/src/main.cpp" line="220"/>
         <source>Build date: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../gui/src/main.cpp" line="221"/>
+        <location filename="../../gui/src/main.cpp" line="222"/>
         <source>cmake flags:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../gui/src/main.cpp" line="234"/>
+        <location filename="../../gui/src/main.cpp" line="235"/>
         <source>Version</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../gui/src/main.cpp" line="237"/>
+        <location filename="../../gui/src/main.cpp" line="238"/>
         <source>Author</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../gui/src/main.cpp" line="240"/>
+        <location filename="../../gui/src/main.cpp" line="241"/>
         <source>License</source>
         <translation type="unfinished"></translation>
     </message>

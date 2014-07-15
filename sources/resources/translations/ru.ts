@@ -971,7 +971,7 @@
     </message>
     <message>
         <source>read configuration from file %1</source>
-        <translation>прочитать настройки из файла %1</translation>
+        <translation type="vanished">прочитать настройки из файла %1</translation>
     </message>
     <message>
         <source>Version</source>
@@ -984,6 +984,10 @@
     <message>
         <source>License</source>
         <translation>Лицензия</translation>
+    </message>
+    <message>
+        <source>read configuration from this file</source>
+        <translation>read configuration from this file</translation>
     </message>
 </context>
 <context>

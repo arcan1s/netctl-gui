@@ -972,7 +972,7 @@
     </message>
     <message>
         <source>read configuration from file %1</source>
-        <translation>read configuration from file %1</translation>
+        <translation type="vanished">read configuration from file %1</translation>
     </message>
     <message>
         <source>Version</source>
@@ -985,6 +985,10 @@
     <message>
         <source>License</source>
         <translation>License</translation>
+    </message>
+    <message>
+        <source>read configuration from this file</source>
+        <translation>read configuration from this file</translation>
     </message>
 </context>
 <context>

@@ -1,0 +1,7 @@
+<!DOCTYPE RCC><RCC version="1.0">
+<qresource>
+<!--     icons -->
+    <file>icon.png</file>
+    <file>wifi.png</file>
+</qresource>
+</RCC>
