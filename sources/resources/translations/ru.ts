@@ -938,19 +938,19 @@
     <message>
         <source>Version : %1
 </source>
-        <translation>Версия : %1
+        <translation type="vanished">Версия : %1
 </translation>
     </message>
     <message>
         <source>Author : %1
 </source>
-        <translation>Автор : %1
+        <translation type="vanished">Автор : %1
 </translation>
     </message>
     <message>
         <source>License : %1
 </source>
-        <translation>Лицензия : %1
+        <translation type="vanished">Лицензия : %1
 </translation>
     </message>
     <message>
@@ -968,6 +968,22 @@
     <message>
         <source>Help</source>
         <translation>Справка</translation>
+    </message>
+    <message>
+        <source>read configuration from file %1</source>
+        <translation>прочитать настройки из файла %1</translation>
+    </message>
+    <message>
+        <source>Version</source>
+        <translation>Версия</translation>
+    </message>
+    <message>
+        <source>Author</source>
+        <translation>Автор</translation>
+    </message>
+    <message>
+        <source>License</source>
+        <translation>Лицензия</translation>
     </message>
 </context>
 <context>

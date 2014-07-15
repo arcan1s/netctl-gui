@@ -15,11 +15,12 @@
 # Source archive
 *.tar.xz
 *.tar.gz
+*.sig
 
 # Build directory
 build/
-sources/build/
 tmp/
+usr/
 
 # translations
 *.qm

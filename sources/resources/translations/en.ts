@@ -939,19 +939,19 @@
     <message>
         <source>Version : %1
 </source>
-        <translation>Version : %1
+        <translation type="vanished">Version : %1
 </translation>
     </message>
     <message>
         <source>Author : %1
 </source>
-        <translation>Author : %1
+        <translation type="vanished">Author : %1
 </translation>
     </message>
     <message>
         <source>License : %1
 </source>
-        <translation>License : %1
+        <translation type="vanished">License : %1
 </translation>
     </message>
     <message>
@@ -969,6 +969,22 @@
     <message>
         <source>Help</source>
         <translation>Help</translation>
+    </message>
+    <message>
+        <source>read configuration from file %1</source>
+        <translation>read configuration from file %1</translation>
+    </message>
+    <message>
+        <source>Version</source>
+        <translation>Version</translation>
+    </message>
+    <message>
+        <source>Author</source>
+        <translation>Author</translation>
+    </message>
+    <message>
+        <source>License</source>
+        <translation>License</translation>
     </message>
 </context>
 <context>

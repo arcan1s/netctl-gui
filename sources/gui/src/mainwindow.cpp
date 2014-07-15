@@ -67,6 +67,7 @@ MainWindow::MainWindow(QWidget *parent,
     if (debug) qDebug() << "[MainWindow]" << "[MainWindow]" << ":" << "selectEssid" << selectEssid;
     if (debug) qDebug() << "[MainWindow]" << "[MainWindow]" << ":" << "openProfile" << openProfile;
     if (debug) qDebug() << "[MainWindow]" << "[MainWindow]" << ":" << "selectProfile" << selectProfile;
+    if (debug) qDebug() << "[MainWindow]" << "[MainWindow]" << ":" << "configPath" << configPath;
     if (debug) qDebug() << "[MainWindow]" << "[MainWindow]" << ":" << "debug" << debug;
     if (debug) qDebug() << "[MainWindow]" << "[MainWindow]" << ":" << "defaultSettings" << defaultSettings;
     if (debug) qDebug() << "[MainWindow]" << "[MainWindow]" << ":" << "options" << options;

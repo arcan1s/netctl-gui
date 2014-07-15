@@ -190,6 +190,9 @@ int main(int argc, char *argv[])
             .arg(QApplication::translate("MainWindow", "select profile %1").arg(selectProfile));
     // additional functions
     helpMessage += QString("%1\n").arg(QApplication::translate("MainWindow", "Additional flags:"));
+    helpMessage += QString("                   --config %1   - %2\n")
+            .arg(configPath)
+            .arg(QApplication::translate("MainWindow", "read configuration from file %1").arg(configPath));
     helpMessage += QString("%1  -d              --debug               - %2\n")
             .arg(isParametrEnable(debug))
             .arg(QApplication::translate("MainWindow", "print debug information"));
@@ -227,9 +230,15 @@ int main(int argc, char *argv[])
 
     QString versionMessage = QString("");
     versionMessage += QString("%1\n").arg(QString(NAME));
-    versionMessage += QApplication::translate("MainWindow", "Version : %1\n").arg(QString(VERSION));
-    versionMessage += QApplication::translate("MainWindow", "Author : %1\n").arg(QString(AUTHOR));
-    versionMessage += QApplication::translate("MainWindow", "License : %1\n").arg(QString(LICENSE));
+    versionMessage += QString("%1 : %2\n")
+            .arg(QApplication::translate("MainWindow", "Version"))
+            .arg(QString(VERSION));
+    versionMessage += QString("%1 : %2\n")
+            .arg(QApplication::translate("MainWindow", "Author"))
+            .arg(QString(AUTHOR));
+    versionMessage += QString("%1 : %2\n")
+            .arg(QApplication::translate("MainWindow", "License"))
+            .arg(QString(LICENSE));
 
     // reread translations
     a.removeTranslator(&translator);
