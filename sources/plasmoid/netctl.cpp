@@ -493,7 +493,7 @@ void Netctl::disconnectFromEngine()
 //  configuration interface
 void Netctl::selectActiveIcon()
 {
-    KUrl url = KFileDialog::getOpenUrl(KUrl("/usr/bin"), "*");
+    KUrl url = KFileDialog::getOpenUrl(KUrl("/usr/share/icons"), "*");
     if (!url.isEmpty())
         uiAppConfig.lineEdit_activeIcon->setText(url.path());
 }
@@ -509,7 +509,7 @@ void Netctl::selectGuiExe()
 
 void Netctl::selectInactiveIcon()
 {
-    KUrl url = KFileDialog::getOpenUrl(KUrl("/usr/bin"), "*");
+    KUrl url = KFileDialog::getOpenUrl(KUrl("/usr/share/icons"), "*");
     if (!url.isEmpty())
         uiAppConfig.lineEdit_inactiveIcon->setText(url.path());
 }
@@ -557,7 +557,7 @@ void Netctl::selectDataEngineExternalIpExe()
 
 void Netctl::selectDataEngineInterfacesDirectory()
 {
-    KUrl url = KFileDialog::getExistingDirectoryUrl(KUrl("/"));
+    KUrl url = KFileDialog::getExistingDirectoryUrl(KUrl("/sys"));
     if (!url.isEmpty())
         uiDEConfig.lineEdit_interface->setText(url.path());
 }

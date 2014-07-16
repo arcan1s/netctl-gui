@@ -68,7 +68,7 @@ public:
 
 public slots:
     void updateTabs(const int tab);
-    void updateMenu(const int tab);
+    void updateMenu();
     // wifi tab slots
     void connectToUnknownEssid(const QString passwd);
     void setHiddenName(const QString name);

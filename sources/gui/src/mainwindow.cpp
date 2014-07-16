@@ -232,7 +232,6 @@ void MainWindow::createActions()
     if (debug) qDebug() << "[MainWindow]" << "[createActions]";
 
     connect(ui->tabWidget, SIGNAL(currentChanged(int)), this, SLOT(updateTabs(int)));
-    connect(ui->tabWidget, SIGNAL(currentChanged(int)), this, SLOT(updateMenu(int)));
     connect(ui->actionAbout, SIGNAL(triggered(bool)), aboutWin, SLOT(show()));
     connect(ui->actionNetctlAuto, SIGNAL(triggered(bool)), netctlAutoWin, SLOT(showWindow()));
     ui->actionNetctlAuto->setVisible(checkExternalApps(QString("all")));
@@ -240,7 +239,7 @@ void MainWindow::createActions()
     connect(ui->actionQuit, SIGNAL(triggered(bool)), this, SLOT(close()));
 
     // actions menu
-    //connect(ui->menuActions, SIGNAL(aboutToShow()), this, SLOT(updateMenu()));
+    connect(ui->menuActions, SIGNAL(aboutToShow()), this, SLOT(updateMenu()));
     connect(ui->actionMainEdit, SIGNAL(triggered(bool)), this, SLOT(mainTabEditProfile()));
     connect(ui->actionMainEnable, SIGNAL(triggered(bool)), this, SLOT(mainTabEnableProfile()));
     connect(ui->actionMainRefresh, SIGNAL(triggered(bool)), this, SLOT(updateMainTab()));
@@ -362,15 +361,15 @@ void MainWindow::updateTabs(const int tab)
         updateProfileTab();
     else if (tab == 2)
         updateWifiTab();
-    updateMenu(tab);
+    updateMenu();
 }
 
 
-void MainWindow::updateMenu(const int tab)
+void MainWindow::updateMenu()
 {
     if (debug) qDebug() << "[MainWindow]" << "[updateMenu]";
-    if (debug) qDebug() << "[MainWindow]" << "[updateMenu]" << ":" << "Update tab" << tab;
 
+    int tab = ui->tabWidget->currentIndex();
     setMenuActionsShown(false);
 
     if (tab == 0)
