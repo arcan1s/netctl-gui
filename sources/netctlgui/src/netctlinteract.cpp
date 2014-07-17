@@ -323,31 +323,32 @@ QList<QStringList> Netctl::getProfileListFromNetctlAuto()
 /**
  * @fn getProfileDescription
  */
-QString Netctl::getProfileDescription(const QString profileName)
+QString Netctl::getProfileDescription(const QString profile)
 {
     if (debug) qDebug() << "[Netctl]" << "[getProfileDescription]";
-    if (debug) qDebug() << "[Netctl]" << "[getProfileDescription]" << ":" << "Profile" << profileName;
+    if (debug) qDebug() << "[Netctl]" << "[getProfileDescription]" << ":" << "Profile" << profile;
     if (profileDirectory == 0) {
         if (debug) qDebug() << "[Netctl]" << "[getProfileDescription]" << ":" << "Could not find directory";
         return QString();
     }
 
     QString description = QString("<unknown>");
-    QString profileUrl = profileDirectory->absolutePath() + QDir::separator() + profileName;
+    QString profileUrl = profileDirectory->absolutePath() + QDir::separator() + profile;
     if (debug) qDebug() << "[Netctl]" << "[getProfileDescription]" << ":" << "Check" << profileUrl;
-    QFile profile(profileUrl);
+    QFile profileFile(profileUrl);
     QString fileStr;
-    if (!profile.open(QIODevice::ReadOnly))
+    if (!profileFile.open(QIODevice::ReadOnly))
         return description;
     while (true) {
-        fileStr = QString(profile.readLine());
+        fileStr = QString(profileFile.readLine());
         if (fileStr[0] == QChar('#')) continue;
         if (fileStr.split(QChar('='), QString::SkipEmptyParts).count() == 2)
             if (fileStr.split(QChar('='), QString::SkipEmptyParts)[0] == QString("Description"))
                 description = fileStr.split(QChar('='), QString::SkipEmptyParts)[1].trimmed();
-        if (profile.atEnd())
+        if (profileFile.atEnd())
             break;
     }
+    profileFile.close();
     description.remove(QChar('\'')).remove(QChar('"'));
 
     return description;
@@ -371,21 +372,22 @@ QStringList Netctl::getProfileDescriptions(const QStringList profileList)
         QString description = QString("<unknown>");
         QString profileUrl = profileDirectory->absolutePath() + QDir::separator() + profileList[i];
         if (debug) qDebug() << "[Netctl]" << "[getProfileDescriptions]" << ":" << "Check" << profileUrl;
-        QFile profile(profileUrl);
+        QFile profileFile(profileUrl);
         QString fileStr;
-        if (!profile.open(QIODevice::ReadOnly)) {
+        if (!profileFile.open(QIODevice::ReadOnly)) {
             descriptions.append(description);
             continue;
         }
         while (true) {
-            fileStr = QString(profile.readLine());
+            fileStr = QString(profileFile.readLine());
             if (fileStr[0] == QChar('#')) continue;
             if (fileStr.split(QChar('='), QString::SkipEmptyParts).count() == 2)
                 if (fileStr.split(QChar('='), QString::SkipEmptyParts)[0] == QString("Description"))
                     description = fileStr.split(QChar('='), QString::SkipEmptyParts)[1].trimmed();
-            if (profile.atEnd())
+            if (profileFile.atEnd())
                 break;
         }
+        profileFile.close();
         description.remove(QChar('\'')).remove(QChar('"'));
         descriptions.append(description);
     }

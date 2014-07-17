@@ -63,6 +63,7 @@ void WirelessWidget::clear()
     ui->comboBox_drivers->setCurrentIndex(0);
     ui->listWidget_drivers->setCurrentRow(-1);
     ui->listWidget_drivers->clear();
+    ui->comboBox_rfkill->clear();
     ui->comboBox_rfkill->addItem(QString("auto"));
     if (rfkillDirectory->exists()) {
         QStringList rfkillDevices = rfkillDirectory->entryList(QDir::Dirs | QDir::NoDotAndDotDot);
