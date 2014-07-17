@@ -68,7 +68,9 @@ _netctl_gui_tabs=(
     '3'
 )
 
-_netctl_profiles=($(find /etc/netctl -maxdepth 1 -type f -printf "%f\n"))
+_netctl_profiles() {
+    echo $(find /etc/netctl -maxdepth 1 -type f -printf "%f\n")
+}
 
 
 # work block
@@ -79,12 +81,12 @@ _netctl_gui() {
     wantsettings='-@(-set-opts)'
     wantstring='-@(e|-essid)'
     wanttabs='-@(t|-tab)'
-    _get_comp_words_by_ref cur prev
+    _get_comp_words_by_ref cur prev words cword
 
     if [[ $prev = $wantfiles ]]; then
         _filedir
     elif [[ $prev = $wantprofiles ]]; then
-        COMPREPLY=($(compgen -W '${_netctl_profiles[@]}' -- "$cur"))
+        COMPREPLY=($(compgen -W '$(_netctl_profiles)' -- "$cur"))
     elif [[ $prev = $wantsettings ]]; then
         COMPREPLY=($(compgen -S ',' -W '${_netctl_gui_settings[@]}' -- "$cur"))
     elif [[ $prev = $wantstring ]]; then
