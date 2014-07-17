@@ -733,30 +733,30 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../gui/src/mainwindow.cpp" line="407"/>
-        <location filename="../../gui/src/mainwindow.cpp" line="520"/>
+        <location filename="../../gui/src/mainwindow.cpp" line="403"/>
+        <location filename="../../gui/src/mainwindow.cpp" line="516"/>
         <location filename="../../../build/gui/src/ui_mainwindow.h" line="500"/>
         <location filename="../../../build/gui/src/ui_mainwindow.h" line="516"/>
         <source>Name</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../gui/src/mainwindow.cpp" line="408"/>
+        <location filename="../../gui/src/mainwindow.cpp" line="404"/>
         <location filename="../../../build/gui/src/ui_mainwindow.h" line="502"/>
         <source>Description</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../gui/src/mainwindow.cpp" line="409"/>
-        <location filename="../../gui/src/mainwindow.cpp" line="521"/>
+        <location filename="../../gui/src/mainwindow.cpp" line="405"/>
+        <location filename="../../gui/src/mainwindow.cpp" line="517"/>
         <location filename="../../../build/gui/src/ui_mainwindow.h" line="504"/>
         <location filename="../../../build/gui/src/ui_mainwindow.h" line="518"/>
         <source>Status</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../gui/src/mainwindow.cpp" line="590"/>
-        <location filename="../../gui/src/mainwindow.cpp" line="1204"/>
+        <location filename="../../gui/src/mainwindow.cpp" line="586"/>
+        <location filename="../../gui/src/mainwindow.cpp" line="1200"/>
         <location filename="../../../build/gui/src/ui_mainwindow.h" line="483"/>
         <location filename="../../../build/gui/src/ui_mainwindow.h" line="490"/>
         <location filename="../../../build/gui/src/ui_mainwindow.h" line="505"/>
@@ -776,9 +776,9 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../gui/src/mainwindow.cpp" line="781"/>
-        <location filename="../../gui/src/mainwindow.cpp" line="1400"/>
-        <location filename="../../gui/src/mainwindow.cpp" line="1405"/>
+        <location filename="../../gui/src/mainwindow.cpp" line="777"/>
+        <location filename="../../gui/src/mainwindow.cpp" line="1396"/>
+        <location filename="../../gui/src/mainwindow.cpp" line="1401"/>
         <location filename="../../../build/gui/src/ui_mainwindow.h" line="508"/>
         <location filename="../../../build/gui/src/ui_mainwindow.h" line="525"/>
         <source>Start</source>
@@ -831,13 +831,13 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../gui/src/mainwindow.cpp" line="522"/>
+        <location filename="../../gui/src/mainwindow.cpp" line="518"/>
         <location filename="../../../build/gui/src/ui_mainwindow.h" line="520"/>
         <source>Signal</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../gui/src/mainwindow.cpp" line="523"/>
+        <location filename="../../gui/src/mainwindow.cpp" line="519"/>
         <location filename="../../../build/gui/src/ui_mainwindow.h" line="522"/>
         <source>Security</source>
         <translation type="unfinished"></translation>
@@ -878,35 +878,35 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../gui/src/mainwindow.cpp" line="453"/>
-        <location filename="../../gui/src/mainwindow.cpp" line="593"/>
-        <location filename="../../gui/src/mainwindow.cpp" line="612"/>
+        <location filename="../../gui/src/mainwindow.cpp" line="449"/>
+        <location filename="../../gui/src/mainwindow.cpp" line="589"/>
+        <location filename="../../gui/src/mainwindow.cpp" line="608"/>
         <location filename="../../../build/gui/src/ui_mainwindow.h" line="484"/>
         <source>Start profile</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../gui/src/mainwindow.cpp" line="594"/>
+        <location filename="../../gui/src/mainwindow.cpp" line="590"/>
         <location filename="../../../build/gui/src/ui_mainwindow.h" line="485"/>
         <source>Restart profile</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../gui/src/mainwindow.cpp" line="462"/>
-        <location filename="../../gui/src/mainwindow.cpp" line="596"/>
-        <location filename="../../gui/src/mainwindow.cpp" line="620"/>
+        <location filename="../../gui/src/mainwindow.cpp" line="458"/>
+        <location filename="../../gui/src/mainwindow.cpp" line="592"/>
+        <location filename="../../gui/src/mainwindow.cpp" line="616"/>
         <location filename="../../../build/gui/src/ui_mainwindow.h" line="486"/>
         <source>Enable profile</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../gui/src/mainwindow.cpp" line="598"/>
+        <location filename="../../gui/src/mainwindow.cpp" line="594"/>
         <location filename="../../../build/gui/src/ui_mainwindow.h" line="487"/>
         <source>Edit profile</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../gui/src/mainwindow.cpp" line="600"/>
+        <location filename="../../gui/src/mainwindow.cpp" line="596"/>
         <location filename="../../../build/gui/src/ui_mainwindow.h" line="488"/>
         <location filename="../../../build/gui/src/ui_mainwindow.h" line="494"/>
         <source>Remove profile</source>
@@ -938,72 +938,72 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../gui/src/mainwindow.cpp" line="432"/>
-        <location filename="../../gui/src/mainwindow.cpp" line="478"/>
-        <location filename="../../gui/src/mainwindow.cpp" line="549"/>
+        <location filename="../../gui/src/mainwindow.cpp" line="428"/>
+        <location filename="../../gui/src/mainwindow.cpp" line="474"/>
+        <location filename="../../gui/src/mainwindow.cpp" line="545"/>
         <source>Updated</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../gui/src/mainwindow.cpp" line="448"/>
-        <location filename="../../gui/src/mainwindow.cpp" line="607"/>
+        <location filename="../../gui/src/mainwindow.cpp" line="444"/>
+        <location filename="../../gui/src/mainwindow.cpp" line="603"/>
         <source>Stop profile</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../gui/src/mainwindow.cpp" line="458"/>
-        <location filename="../../gui/src/mainwindow.cpp" line="616"/>
+        <location filename="../../gui/src/mainwindow.cpp" line="454"/>
+        <location filename="../../gui/src/mainwindow.cpp" line="612"/>
         <source>Disable profile</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../gui/src/mainwindow.cpp" line="565"/>
-        <location filename="../../gui/src/mainwindow.cpp" line="1213"/>
+        <location filename="../../gui/src/mainwindow.cpp" line="561"/>
+        <location filename="../../gui/src/mainwindow.cpp" line="1209"/>
         <source>Stop WiFi</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../gui/src/mainwindow.cpp" line="569"/>
-        <location filename="../../gui/src/mainwindow.cpp" line="574"/>
-        <location filename="../../gui/src/mainwindow.cpp" line="1207"/>
-        <location filename="../../gui/src/mainwindow.cpp" line="1217"/>
-        <location filename="../../gui/src/mainwindow.cpp" line="1222"/>
+        <location filename="../../gui/src/mainwindow.cpp" line="565"/>
+        <location filename="../../gui/src/mainwindow.cpp" line="570"/>
+        <location filename="../../gui/src/mainwindow.cpp" line="1203"/>
+        <location filename="../../gui/src/mainwindow.cpp" line="1213"/>
+        <location filename="../../gui/src/mainwindow.cpp" line="1218"/>
         <source>Start WiFi</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../gui/src/mainwindow.cpp" line="673"/>
+        <location filename="../../gui/src/mainwindow.cpp" line="669"/>
+        <location filename="../../gui/src/mainwindow.cpp" line="693"/>
         <location filename="../../gui/src/mainwindow.cpp" line="697"/>
-        <location filename="../../gui/src/mainwindow.cpp" line="701"/>
-        <location filename="../../gui/src/mainwindow.cpp" line="722"/>
+        <location filename="../../gui/src/mainwindow.cpp" line="718"/>
+        <location filename="../../gui/src/mainwindow.cpp" line="742"/>
         <location filename="../../gui/src/mainwindow.cpp" line="746"/>
-        <location filename="../../gui/src/mainwindow.cpp" line="750"/>
-        <location filename="../../gui/src/mainwindow.cpp" line="1116"/>
-        <location filename="../../gui/src/mainwindow.cpp" line="1187"/>
-        <location filename="../../gui/src/mainwindow.cpp" line="1291"/>
+        <location filename="../../gui/src/mainwindow.cpp" line="1112"/>
+        <location filename="../../gui/src/mainwindow.cpp" line="1183"/>
+        <location filename="../../gui/src/mainwindow.cpp" line="1287"/>
+        <location filename="../../gui/src/mainwindow.cpp" line="1342"/>
         <location filename="../../gui/src/mainwindow.cpp" line="1346"/>
-        <location filename="../../gui/src/mainwindow.cpp" line="1350"/>
         <source>Done</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../gui/src/mainwindow.cpp" line="675"/>
-        <location filename="../../gui/src/mainwindow.cpp" line="695"/>
-        <location filename="../../gui/src/mainwindow.cpp" line="703"/>
-        <location filename="../../gui/src/mainwindow.cpp" line="724"/>
-        <location filename="../../gui/src/mainwindow.cpp" line="744"/>
-        <location filename="../../gui/src/mainwindow.cpp" line="752"/>
-        <location filename="../../gui/src/mainwindow.cpp" line="1118"/>
-        <location filename="../../gui/src/mainwindow.cpp" line="1189"/>
-        <location filename="../../gui/src/mainwindow.cpp" line="1293"/>
-        <location filename="../../gui/src/mainwindow.cpp" line="1344"/>
-        <location filename="../../gui/src/mainwindow.cpp" line="1352"/>
+        <location filename="../../gui/src/mainwindow.cpp" line="671"/>
+        <location filename="../../gui/src/mainwindow.cpp" line="691"/>
+        <location filename="../../gui/src/mainwindow.cpp" line="699"/>
+        <location filename="../../gui/src/mainwindow.cpp" line="720"/>
+        <location filename="../../gui/src/mainwindow.cpp" line="740"/>
+        <location filename="../../gui/src/mainwindow.cpp" line="748"/>
+        <location filename="../../gui/src/mainwindow.cpp" line="1114"/>
+        <location filename="../../gui/src/mainwindow.cpp" line="1185"/>
+        <location filename="../../gui/src/mainwindow.cpp" line="1289"/>
+        <location filename="../../gui/src/mainwindow.cpp" line="1340"/>
+        <location filename="../../gui/src/mainwindow.cpp" line="1348"/>
         <source>Error</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../gui/src/mainwindow.cpp" line="776"/>
-        <location filename="../../gui/src/mainwindow.cpp" line="1396"/>
+        <location filename="../../gui/src/mainwindow.cpp" line="772"/>
+        <location filename="../../gui/src/mainwindow.cpp" line="1392"/>
         <source>Stop</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1919,7 +1919,6 @@
         <location filename="../../gui/src/settingswindow.cpp" line="219"/>
         <location filename="../../gui/src/settingswindow.cpp" line="233"/>
         <location filename="../../gui/src/settingswindow.cpp" line="247"/>
-        <location filename="../../gui/src/settingswindow.cpp" line="261"/>
         <source>All files (*)</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1950,16 +1949,11 @@
     </message>
     <message>
         <location filename="../../gui/src/settingswindow.cpp" line="231"/>
-        <source>Select wpa_actiond command</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../gui/src/settingswindow.cpp" line="245"/>
         <source>Select wpa_cli command</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../gui/src/settingswindow.cpp" line="259"/>
+        <location filename="../../gui/src/settingswindow.cpp" line="245"/>
         <source>Select wpa_supplicant command</source>
         <translation type="unfinished"></translation>
     </message>

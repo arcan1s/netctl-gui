@@ -43,9 +43,9 @@ int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
 
+    // config path
+    QString configPath = QString(QDir::homePath() + QString("/.config/netctl-gui.conf"));
     // translation
-    QString configPath = QDir::homePath() + QDir::separator() + QString(".config") +
-            QDir::separator() + QString("netctl-gui.conf");
     QString language = Language::defineLanguage(configPath);
     QTranslator translator;
     translator.load(QString(":/translations/") + language);
@@ -103,8 +103,8 @@ int main(int argc, char *argv[])
         }
         // additional functions
         // config path
-        else if (QString(argv[i]) == QString("--config")) {
-            configPath = QString(argv[i+1]);
+        else if ((QString(argv[i]) == QString("-c")) || (QString(argv[i]) == QString("--config"))) {
+            configPath = QDir().absoluteFilePath(argv[i+1]);
             i++;
         }
         // debug
@@ -162,7 +162,7 @@ int main(int argc, char *argv[])
     helpMessage += QString("netctl-gui [ --about ] [ --netctl-auto ] [ --settings ]\n");
     helpMessage += QString("           [ -e ESSID | --essid ESSID ] [ -o PROFILE | --open PROFILE ]\n");
     helpMessage += QString("           [ -s PROFILE | --select PROFILE ]\n");
-    helpMessage += QString("           [ --config FILE ] [ -d | --debug ] [ --default ]\n");
+    helpMessage += QString("           [ -c FILE | --config FILE ] [ -d | --debug ] [ --default ]\n");
     helpMessage += QString("           [ --set-opts OPTIONS ] [ -t NUM | --tab NUM ]\n");
     helpMessage += QString("           [ -v | --version ] [ -i | --info ] [ -h | --help]\n\n");
     helpMessage += QString("%1\n").arg(QApplication::translate("MainWindow", "Parametrs:"));
@@ -190,7 +190,7 @@ int main(int argc, char *argv[])
             .arg(QApplication::translate("MainWindow", "select profile %1").arg(selectProfile));
     // additional functions
     helpMessage += QString("%1\n").arg(QApplication::translate("MainWindow", "Additional flags:"));
-    helpMessage += QString("                   --config %1\n")
+    helpMessage += QString("   -c %1   --config %1\n")
             .arg(configPath, -10);
     helpMessage += QString("                                         - %1\n")
             .arg(QApplication::translate("MainWindow", "read configuration from this file"));

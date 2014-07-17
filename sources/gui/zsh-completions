@@ -1,0 +1,93 @@
+#compdef netctl-gui
+###########################################################################
+#   This file is part of netctl-gui                                       #
+#                                                                         #
+#   netctl-gui is free software: you can redistribute it and/or           #
+#   modify it under the terms of the GNU General Public License as        #
+#   published by the Free Software Foundation, either version 3 of the    #
+#   License, or (at your option) any later version.                       #
+#                                                                         #
+#   netctl-gui is distributed in the hope that it will be useful,         #
+#   but WITHOUT ANY WARRANTY; without even the implied warranty of        #
+#   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         #
+#   GNU General Public License for more details.                          #
+#                                                                         #
+#   You should have received a copy of the GNU General Public License     #
+#   along with netctl-gui. If not, see http://www.gnu.org/licenses/       #
+###########################################################################
+
+
+# variables
+_netctl_gui_arglist=(
+    {'--about','--about'}'[show about window]'
+    {'--netctl-auto','--netctl-auto'}'[show netctl-auto window]'
+    {'--settings','--settings'}'[show settings window]'
+    {'(--essid)-e','(-e)--essid'}'[select ESSID]:essid:->essid'
+    {'(--open)-o','(-o)--open'}'[open profile]:filename:->profiles'
+    {'(--select)-s','(-s)--select'}'[select profile]:filename:->profiles'
+    {'(--config)-c','(-c)--config'}'[read configuration from this file]:filename:->files'
+    {'(--debug)-d','(-d)--debug'}'[print debug information]'
+    {'--default','--default'}'[start with default settings]'
+    {'--set-opts','--set-opts'}'[set options for this run, comma separated]:settings:->settings'
+    {'(--tab)-t','(-t)--tab'}'[open a tab with specified number]:tab:->tab'
+    {'(--version)-v','(-v)--version'}'[show version and exit]'
+    {'(--info)-i','(-i)--info'}'[show build information and exit]'
+    {'(--help)-h','(-h)--help'}'[show help and exit]'
+)
+
+_netctl_gui_settings=(
+    'CTRL_DIR='
+    'CTRL_GROUP='
+    'IFACE_DIR='
+    'LANGUAGE='
+    'NETCTLAUTO_PATH='
+    'NETCTLAUTO_SERVICE='
+    'NETCTL_PATH='
+    'PID_FILE='
+    'PREFERED_IFACE='
+    'PROFILE_DIR='
+    'RFKILL_DIR='
+    'SUDO_PATH='
+    'SYSTEMCTL_PATH='
+    'WPAACTIOND_PATH='
+    'WPACLI_PATH='
+    'WPASUP_PATH='
+    'WPA_DRIVERS='
+)
+
+_netctl_gui_tabs=(
+    '1'
+    '2'
+    '3'
+)
+
+_netctl_profiles=($(find /etc/netctl -maxdepth 1 -type f -printf "%f\n"))
+
+
+# work block
+_netctl-gui() {
+    _arguments $_netctl_gui_arglist
+    case "$state" in
+        essid)
+            _message "netctl"
+            ;;
+        files)
+            _files
+            ;;
+        profiles)
+            _values 'profiles' $_netctl_profiles
+            ;;
+        settings)
+            _values -s , 'settings' $_netctl_gui_settings
+            ;;
+        tab)
+            _values 'tab' $_netctl_gui_tabs
+            ;;
+    esac
+}
+
+case "$service" in
+    netctl-gui)
+        _netctl-gui "$@" && return 0
+        ;;
+esac

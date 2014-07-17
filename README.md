@@ -27,7 +27,6 @@ Optional dependencies
 
 * kdebase-workspace (widget)
 * sudo (sudo support)
-* wpa_actiond (netctl-auto support)
 * wpa_supplicant (WiFi support)
 
 Make dependencies

@@ -65,7 +65,6 @@ void SettingsWindow::createActions()
     connect(ui->pushButton_rfkill, SIGNAL(clicked(bool)), SLOT(selectRfkillDir()));
     connect(ui->pushButton_sudo, SIGNAL(clicked(bool)), SLOT(selectSudoPath()));
     connect(ui->pushButton_systemctlPath, SIGNAL(clicked(bool)), SLOT(selectSystemctlPath()));
-    connect(ui->pushButton_wpaActiondPath, SIGNAL(clicked(bool)), SLOT(selectWpaActiondPath()));
     connect(ui->pushButton_wpaCliPath, SIGNAL(clicked(bool)), SLOT(selectWpaCliPath()));
     connect(ui->pushButton_wpaSupPath, SIGNAL(clicked(bool)), SLOT(selectWpaSupPath()));
 }
@@ -222,20 +221,6 @@ void SettingsWindow::selectSystemctlPath()
 }
 
 
-void SettingsWindow::selectWpaActiondPath()
-{
-    if (debug) qDebug() << "[SettingsWindow]" << "[selectWpaActiondPath]";
-
-    QString filename = QFileDialog::getOpenFileName(
-                this,
-                QApplication::translate("SettingsWindow", "Select wpa_actiond command"),
-                QString("/usr/bin/"),
-                QApplication::translate("SettingsWindow", "All files (*)"));
-    if (!filename.isEmpty())
-        ui->lineEdit_wpaActiondPath->setText(filename);
-}
-
-
 void SettingsWindow::selectWpaCliPath()
 {
     if (debug) qDebug() << "[SettingsWindow]" << "[selectWpaCliPath]";
@@ -293,7 +278,6 @@ QMap<QString, QString> SettingsWindow::readSettings()
     settings[QString("RFKILL_DIR")] = ui->lineEdit_rfkill->text();
     settings[QString("SUDO_PATH")] = ui->lineEdit_sudo->text();
     settings[QString("SYSTEMCTL_PATH")] = ui->lineEdit_systemctlPath->text();
-    settings[QString("WPAACTIOND_PATH")] = ui->lineEdit_wpaActiondPath->text();
     settings[QString("WPACLI_PATH")] = ui->lineEdit_wpaCliPath->text();
     settings[QString("WPASUP_PATH")] = ui->lineEdit_wpaSupPath->text();
     settings[QString("WPA_DRIVERS")] = ui->lineEdit_wpaSupDrivers->text();
@@ -325,7 +309,6 @@ void SettingsWindow::setSettings(const QMap<QString, QString> settings)
     ui->lineEdit_rfkill->setText(settings[QString("RFKILL_DIR")]);
     ui->lineEdit_sudo->setText(settings[QString("SUDO_PATH")]);
     ui->lineEdit_systemctlPath->setText(settings[QString("SYSTEMCTL_PATH")]);
-    ui->lineEdit_wpaActiondPath->setText(settings[QString("WPAACTIOND_PATH")]);
     ui->lineEdit_wpaCliPath->setText(settings[QString("WPACLI_PATH")]);
     ui->lineEdit_wpaSupPath->setText(settings[QString("WPASUP_PATH")]);
     ui->lineEdit_wpaSupDrivers->setText(settings[QString("WPA_DRIVERS")]);
@@ -353,7 +336,6 @@ QMap<QString, QString> SettingsWindow::getDefault()
     settings[QString("RFKILL_DIR")] = QString("/sys/class/rfkill/");
     settings[QString("SUDO_PATH")] = QString("/usr/bin/kdesu");
     settings[QString("SYSTEMCTL_PATH")] = QString("/usr/bin/systemctl");
-    settings[QString("WPAACTIOND_PATH")] = QString("/usr/bin/wpa_actiond");
     settings[QString("WPACLI_PATH")] = QString("/usr/bin/wpa_cli");
     settings[QString("WPASUP_PATH")] = QString("/usr/bin/wpa_supplicant");
     settings[QString("WPA_DRIVERS")] = QString("nl80211,wext");

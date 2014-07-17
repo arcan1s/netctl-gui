@@ -22,3 +22,5 @@ configure_file (${SUBPROJECT_MAN_IN} ${CMAKE_CURRENT_BINARY_DIR}/${SUBPROJECT_MA
 
 install (FILES ${SUBPROJECT}.desktop DESTINATION share/applications/)
 install (FILES ${CMAKE_CURRENT_BINARY_DIR}/${SUBPROJECT_MAN} DESTINATION share/man/man1/)
+install (FILES bash-completions DESTINATION share/bash-completion/completions/ RENAME _${SUBPROJECT})
+install (FILES zsh-completions DESTINATION share/zsh/site-functions/ RENAME _${SUBPROJECT})

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.1" language="ru">
+<TS version="2.0" language="ru">
 <context>
     <name>AboutWindow</name>
     <message>
@@ -194,7 +194,7 @@
         <source>Skip no carrier</source>
         <translation>Пропустить отсутствие оператора</translation>
     </message>
-    <message>
+    <message utf8="true">
         <source>Set to ‘yes’ to use 802.1x authentication</source>
         <translation>Установить &quot;да&quot;, чтобы использовать 802.1x авторизацию</translation>
     </message>
@@ -329,7 +329,7 @@
         <source>A command that is executed before a connection is brought down</source>
         <translation>Команда, которая будет запущена перед отключением</translation>
     </message>
-    <message>
+    <message utf8="true">
         <source>Set to ‘yes’ to force connecting even if the interface is up</source>
         <translation>Установить &quot;да&quot;, чтобы запустить соединение, даже если интерфейс уже поднят</translation>
     </message>
@@ -380,7 +380,7 @@
         <source>Add</source>
         <translation>Добавить</translation>
     </message>
-    <message>
+    <message utf8="true">
         <source>An array of IP addresses suffixed with ‘/&lt;netmask&gt;’</source>
         <translation>Массив IP адресов с суффиксом ‘/&lt;netmask&gt;’</translation>
     </message>
@@ -460,7 +460,7 @@
         <source>Timeout DAD</source>
         <translation>Таймаут DAD</translation>
     </message>
-    <message>
+    <message utf8="true">
         <source>Set to ‘yes’ to release the DHCP lease when the profile is stopped</source>
         <translation>Установить &quot;да&quot;, чтобы оставить выделенный DHCP, когда профиль отключен</translation>
     </message>
@@ -520,7 +520,7 @@
         <source>DNS domain</source>
         <translation>DNS домен</translation>
     </message>
-    <message>
+    <message utf8="true">
         <source>A ‘domain’ line for /etc/resolv.conf</source>
         <translation>Строка ‘domain’ в /etc/resolv.conf</translation>
     </message>
@@ -528,7 +528,7 @@
         <source>DNS search</source>
         <translation>Поиск DNS</translation>
     </message>
-    <message>
+    <message utf8="true">
         <source>A ‘search’ line for /etc/resolv.conf</source>
         <translation>Строка ‘search’ в /etc/resolv.conf</translation>
     </message>
@@ -536,11 +536,11 @@
         <source>DNS options</source>
         <translation>Опции DNS</translation>
     </message>
-    <message>
+    <message utf8="true">
         <source>An array of ‘options’ lines for /etc/resolv.conf</source>
         <translation>Массив строк ‘options’ в /etc/resolv.conf</translation>
     </message>
-    <message>
+    <message utf8="true">
         <source>Maximum time, in seconds, to wait for IPv6’s Duplicate Address Detection to succeed</source>
         <translation>Максимальное время в секундах для ожидания выполнения детектирования дубликации IPv6 адресов</translation>
     </message>
@@ -1309,7 +1309,7 @@
         <source>Idle timeout</source>
         <translation>Таймаут простоя</translation>
     </message>
-    <message>
+    <message utf8="true">
         <source>This option specifies the idle time (in seconds) after which ‘pppd’ should disconnect</source>
         <translation>Указывает таймаут простоя в секундах, после чего &apos;pppd&apos; будет отключен</translation>
     </message>
@@ -1349,7 +1349,7 @@
         <source>LCP echo interval</source>
         <translation>LCP echo интервал</translation>
     </message>
-    <message>
+    <message utf8="true">
         <source>These options override default LCP parameters from ‘/etc/ppp/options’</source>
         <translation>Эти опции заместят стандартные опции LCP из ‘/etc/ppp/options’</translation>
     </message>
@@ -1586,7 +1586,7 @@
     </message>
     <message>
         <source>Select wpa_actiond command</source>
-        <translation>Путь к команде wpa_actiond</translation>
+        <translation type="obsolete">Путь к команде wpa_actiond</translation>
     </message>
     <message>
         <source>systemctl path</source>
@@ -1710,7 +1710,7 @@
         <source>tap</source>
         <translation>tap</translation>
     </message>
-    <message>
+    <message utf8="true">
         <source>Either ‘tun’, or ‘tap’</source>
         <translation>‘tun’ или ‘tap’</translation>
     </message>

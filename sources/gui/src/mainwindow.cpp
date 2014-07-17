@@ -197,9 +197,6 @@ bool MainWindow::checkExternalApps(const QString apps = QString("all"))
         commandLine.append(configuration[QString("WPACLI_PATH")]);
         commandLine.append(configuration[QString("WPASUP_PATH")]);
     }
-    if ((apps == QString("wpaact")) || (apps == QString("all"))) {
-        commandLine.append(configuration[QString("WPAACTIOND_PATH")]);
-    }
     QProcess command;
     if (debug) qDebug() << "[MainWindow]" << "[checkExternalApps]" << ":" << "Run cmd" << commandLine.join(QChar(' '));
     command.start(commandLine.join(QChar(' ')));

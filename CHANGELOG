@@ -10,6 +10,7 @@ Ver.1.2.0:
 + [gui] added about window
 + [gui] more command line options
 + [gui] added workaround for wireless-wep example
++ [gui] added shell completions
 + [lib] detached backend from frontend
 + [lib] added error checking
 + [lib] added doxygen documentation

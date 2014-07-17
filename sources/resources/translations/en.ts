@@ -1587,7 +1587,7 @@
     </message>
     <message>
         <source>Select wpa_actiond command</source>
-        <translation>Select wpa_actiond command</translation>
+        <translation type="obsolete">Select wpa_actiond command</translation>
     </message>
     <message>
         <source>systemctl path</source>

@@ -1,0 +1,99 @@
+###########################################################################
+#   This file is part of netctl-gui                                       #
+#                                                                         #
+#   netctl-gui is free software: you can redistribute it and/or           #
+#   modify it under the terms of the GNU General Public License as        #
+#   published by the Free Software Foundation, either version 3 of the    #
+#   License, or (at your option) any later version.                       #
+#                                                                         #
+#   netctl-gui is distributed in the hope that it will be useful,         #
+#   but WITHOUT ANY WARRANTY; without even the implied warranty of        #
+#   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         #
+#   GNU General Public License for more details.                          #
+#                                                                         #
+#   You should have received a copy of the GNU General Public License     #
+#   along with netctl-gui. If not, see http://www.gnu.org/licenses/       #
+###########################################################################
+
+
+# variables
+_netctl_gui_arglist=(
+    '--about'
+    '--netctl-auto'
+    '--settings'
+    '-e'
+    '--essid'
+    '-o'
+    '--open'
+    '-s'
+    '--select'
+    '-c'
+    '--config'
+    '-d'
+    '--debug'
+    '--default'
+    '--set-opts'
+    '-t'
+    '--tab'
+    '-v'
+    '--version'
+    '-i'
+    '--info'
+    '-h'
+    '--help'
+)
+
+_netctl_gui_settings=(
+    'CTRL_DIR='
+    'CTRL_GROUP='
+    'IFACE_DIR='
+    'LANGUAGE='
+    'NETCTLAUTO_PATH='
+    'NETCTLAUTO_SERVICE='
+    'NETCTL_PATH='
+    'PID_FILE='
+    'PREFERED_IFACE='
+    'PROFILE_DIR='
+    'RFKILL_DIR='
+    'SUDO_PATH='
+    'SYSTEMCTL_PATH='
+    'WPAACTIOND_PATH='
+    'WPACLI_PATH='
+    'WPASUP_PATH='
+    'WPA_DRIVERS='
+)
+
+_netctl_gui_tabs=(
+    '1'
+    '2'
+    '3'
+)
+
+_netctl_profiles=($(find /etc/netctl -maxdepth 1 -type f -printf "%f\n"))
+
+
+# work block
+_netctl_gui() {
+    COMPREPLY=()
+    wantfiles='-@(c|-config)'
+    wantprofiles='-@(o|-open|s|-select)'
+    wantsettings='-@(-set-opts)'
+    wanttabs='-@(t|-tab)'
+    _get_comp_words_by_ref cur prev
+
+    if [[ $prev = $wantfiles ]]; then
+        _filedir
+    elif [[ $prev = $wantprofiles ]]; then
+        COMPREPLY=($(compgen -W '${_netctl_profiles[@]}' -- "$cur"))
+    elif [[ $prev = $wantsettings ]]; then
+        COMPREPLY=($(compgen -S ',' -W '${_netctl_gui_settings[@]}' -- "$cur"))
+    elif [[ $prev = $wanttabs ]]; then
+        COMPREPLY=($(compgen -W '${_netctl_gui_tabs[@]}' -- "$cur"))
+    else
+        COMPREPLY=($(compgen -W '${_netctl_gui_arglist[@]}' -- "$cur"))
+    fi
+
+    true
+}
+
+complete -F _netctl_gui netctl-gui
