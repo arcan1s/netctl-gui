@@ -44,23 +44,22 @@ _netctl_gui_arglist=(
 )
 
 _netctl_gui_settings=(
-    'CTRL_DIR='
-    'CTRL_GROUP='
-    'IFACE_DIR='
-    'LANGUAGE='
-    'NETCTLAUTO_PATH='
-    'NETCTLAUTO_SERVICE='
-    'NETCTL_PATH='
-    'PID_FILE='
-    'PREFERED_IFACE='
-    'PROFILE_DIR='
-    'RFKILL_DIR='
-    'SUDO_PATH='
-    'SYSTEMCTL_PATH='
-    'WPAACTIOND_PATH='
-    'WPACLI_PATH='
-    'WPASUP_PATH='
-    'WPA_DRIVERS='
+    'CTRL_DIR'
+    'CTRL_GROUP'
+    'IFACE_DIR'
+    'LANGUAGE'
+    'NETCTLAUTO_PATH'
+    'NETCTLAUTO_SERVICE'
+    'NETCTL_PATH'
+    'PID_FILE'
+    'PREFERED_IFACE'
+    'PROFILE_DIR'
+    'RFKILL_DIR'
+    'SUDO_PATH'
+    'SYSTEMCTL_PATH'
+    'WPACLI_PATH'
+    'WPASUP_PATH'
+    'WPA_DRIVERS'
 )
 
 _netctl_gui_tabs=(
@@ -78,6 +77,7 @@ _netctl_gui() {
     wantfiles='-@(c|-config)'
     wantprofiles='-@(o|-open|s|-select)'
     wantsettings='-@(-set-opts)'
+    wantstring='-@(e|-essid)'
     wanttabs='-@(t|-tab)'
     _get_comp_words_by_ref cur prev
 
@@ -87,6 +87,8 @@ _netctl_gui() {
         COMPREPLY=($(compgen -W '${_netctl_profiles[@]}' -- "$cur"))
     elif [[ $prev = $wantsettings ]]; then
         COMPREPLY=($(compgen -S ',' -W '${_netctl_gui_settings[@]}' -- "$cur"))
+    elif [[ $prev = $wantstring ]]; then
+        COMPREPLY=()
     elif [[ $prev = $wanttabs ]]; then
         COMPREPLY=($(compgen -W '${_netctl_gui_tabs[@]}' -- "$cur"))
     else

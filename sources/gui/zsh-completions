@@ -22,37 +22,36 @@ _netctl_gui_arglist=(
     {'--about','--about'}'[show about window]'
     {'--netctl-auto','--netctl-auto'}'[show netctl-auto window]'
     {'--settings','--settings'}'[show settings window]'
-    {'(--essid)-e','(-e)--essid'}'[select ESSID]:essid:->essid'
-    {'(--open)-o','(-o)--open'}'[open profile]:filename:->profiles'
-    {'(--select)-s','(-s)--select'}'[select profile]:filename:->profiles'
-    {'(--config)-c','(-c)--config'}'[read configuration from this file]:filename:->files'
+    {'(--essid)-e','(-e)--essid'}'[select ESSID]:type ESSID:->essid'
+    {'(--open)-o','(-o)--open'}'[open profile]:select profile:->profiles'
+    {'(--select)-s','(-s)--select'}'[select profile]:select profile:->profiles'
+    {'(--config)-c','(-c)--config'}'[read configuration from this file]:select file:->files'
     {'(--debug)-d','(-d)--debug'}'[print debug information]'
     {'--default','--default'}'[start with default settings]'
-    {'--set-opts','--set-opts'}'[set options for this run, comma separated]:settings:->settings'
-    {'(--tab)-t','(-t)--tab'}'[open a tab with specified number]:tab:->tab'
+    {'--set-opts','--set-opts'}'[set options for this run, comma separated]:comma separated:->settings'
+    {'(--tab)-t','(-t)--tab'}'[open a tab with specified number]:select tab:->tab'
     {'(--version)-v','(-v)--version'}'[show version and exit]'
     {'(--info)-i','(-i)--info'}'[show build information and exit]'
     {'(--help)-h','(-h)--help'}'[show help and exit]'
 )
 
 _netctl_gui_settings=(
-    'CTRL_DIR='
-    'CTRL_GROUP='
-    'IFACE_DIR='
-    'LANGUAGE='
-    'NETCTLAUTO_PATH='
-    'NETCTLAUTO_SERVICE='
-    'NETCTL_PATH='
-    'PID_FILE='
-    'PREFERED_IFACE='
-    'PROFILE_DIR='
-    'RFKILL_DIR='
-    'SUDO_PATH='
-    'SYSTEMCTL_PATH='
-    'WPAACTIOND_PATH='
-    'WPACLI_PATH='
-    'WPASUP_PATH='
-    'WPA_DRIVERS='
+    'CTRL_DIR'
+    'CTRL_GROUP'
+    'IFACE_DIR'
+    'LANGUAGE'
+    'NETCTLAUTO_PATH'
+    'NETCTLAUTO_SERVICE'
+    'NETCTL_PATH'
+    'PID_FILE'
+    'PREFERED_IFACE'
+    'PROFILE_DIR'
+    'RFKILL_DIR'
+    'SUDO_PATH'
+    'SYSTEMCTL_PATH'
+    'WPACLI_PATH'
+    'WPASUP_PATH'
+    'WPA_DRIVERS'
 )
 
 _netctl_gui_tabs=(
@@ -61,7 +60,9 @@ _netctl_gui_tabs=(
     '3'
 )
 
-_netctl_profiles=($(find /etc/netctl -maxdepth 1 -type f -printf "%f\n"))
+_netctl_profiles() {
+    print $(find /etc/netctl -maxdepth 1 -type f -printf "%f\n")
+}
 
 
 # work block
@@ -69,16 +70,15 @@ _netctl-gui() {
     _arguments $_netctl_gui_arglist
     case "$state" in
         essid)
-            _message "netctl"
             ;;
         files)
             _files
             ;;
         profiles)
-            _values 'profiles' $_netctl_profiles
+            _values 'profiles' $(_netctl_profiles)
             ;;
         settings)
-            _values -s , 'settings' $_netctl_gui_settings
+            _values -s ',' 'settings' $_netctl_gui_settings
             ;;
         tab)
             _values 'tab' $_netctl_gui_tabs
