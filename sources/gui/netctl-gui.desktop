@@ -1,7 +1,7 @@
 #!/usr/bin/env xdg-open
 [Desktop Entry]
 Name=Netctl GUI
-Comment=GUI written on Qt4 for netctl
+Comment=Qt graphical user interface for netctl
 Exec=netctl-gui
 Icon=netctl-gui.png
 Terminal=false
