@@ -15,7 +15,7 @@ optdepends=('kdebase-runtime: sudo support'
             'wpa_supplicant: wifi support')
 source=("https://github.com/arcan1s/netctl-gui/releases/download/V.${pkgver}/${pkgbase}-${pkgver}-src.tar.xz")
 install="${pkgbase}.install"
-md5sums=('e6ad580c9f7fcd593480f14cd93c471c')
+md5sums=('1d6797070defe45ec7009cb8e4f768c9')
 
 prepare() {
   rm -rf "${srcdir}/"{build-plasmoid,build-qt4,build-qt5}

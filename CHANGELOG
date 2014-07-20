@@ -1,7 +1,7 @@
 Ver.1.2.0:
 + [all] added icons
 + [all] added support of netctl-auto
-+ [gui] added suppoort of macvlan
++ [gui] added support of macvlan
 + [gui] added ability to remove profile
 + [gui] added support of hidden wifi network
 + [gui] added contextual menu to tables
@@ -16,6 +16,7 @@ Ver.1.2.0:
 + [lib] added doxygen documentation
 + [plasmoid] added dataengine configuration
 + [plasmoid] added about window
+- [gui] fix possible segfaults with null arrays (#5)
 * [all] changes in the project architecture
 * [all] refactoring
 * [gui] more debug information
@@ -27,7 +28,6 @@ Ver.1.2.0:
 * [lib] rewrited getSettingsFromProfile() function
 * [plasmoid] edited configuration interface
 * [plasmoid] changed double click event to click event
-- [gui] fix possible segfaults with null arrays (#5)
 
 Ver.1.1.0 (netctl-1.7 update):
 + [gui] added frequency

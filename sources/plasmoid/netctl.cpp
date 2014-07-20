@@ -417,7 +417,7 @@ void Netctl::connectToEngine()
 
 void Netctl::dataUpdated(const QString &sourceName, const Plasma::DataEngine::Data &data)
 {
-    if (data.keys().count() == 0)
+    if (data.isEmpty())
         return;
     QString value = data[QString("value")].toString();
     if (value.isEmpty())

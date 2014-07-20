@@ -287,7 +287,7 @@ bool WpaSup::startWpaSupplicant()
         if (debug) qDebug() << "[WpaSup]" << "[startWpaSupplicant]" << ":" << "Could not find wpa_supplicant";
         return false;
     }
-    if (getInterfaceList().count() == 0) {
+    if (getInterfaceList().isEmpty()) {
         if (debug) qDebug() << "[WpaSup]" << "[startWpaSupplicant]" << ":" << "Could not find interfaces";
         return false;
     }
@@ -343,7 +343,7 @@ QString WpaSup::getWpaCliOutput(const QString commandLine)
         if (debug) qDebug() << "[WpaSup]" << "[getWpaCliOutput]" << ":" << "Could not find wpa_cli";
         return QString();
     }
-    if (getInterfaceList().count() == 0) {
+    if (getInterfaceList().isEmpty()) {
         if (debug) qDebug() << "[WpaSup]" << "[getWpaCliOutput]" << ":" << "Could not find interfaces";
         return QString();
     }
@@ -379,9 +379,9 @@ bool WpaSup::wpaCliCall(const QString commandLine)
         if (debug) qDebug() << "[WpaSup]" << "[wpaCliCall]" << ":" << "Could not find wpa_cli";
         return false;
     }
-    if (getInterfaceList().count() == 0) {
+    if (getInterfaceList().isEmpty()) {
         if (debug) qDebug() << "[WpaSup]" << "[wpaCliCall]" << ":" << "Could not find interfaces";
-        return QString();
+        return false;
     }
 
     QProcess command;

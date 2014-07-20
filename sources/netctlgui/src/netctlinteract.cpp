@@ -144,7 +144,7 @@ QString Netctl::getWifiInterface()
             interfaces.append(allInterfaces[i]);
     }
 
-    if (interfaces.count() == 0)
+    if (interfaces.isEmpty())
         return QString("");
     else
         return interfaces[0];
