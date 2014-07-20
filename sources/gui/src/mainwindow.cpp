@@ -231,7 +231,6 @@ void MainWindow::createActions()
     connect(ui->tabWidget, SIGNAL(currentChanged(int)), this, SLOT(updateTabs(int)));
     connect(ui->actionAbout, SIGNAL(triggered(bool)), aboutWin, SLOT(show()));
     connect(ui->actionNetctlAuto, SIGNAL(triggered(bool)), netctlAutoWin, SLOT(showWindow()));
-    ui->actionNetctlAuto->setVisible(checkExternalApps(QString("all")));
     connect(ui->actionSettings, SIGNAL(triggered(bool)), settingsWin, SLOT(showWindow()));
     connect(ui->actionQuit, SIGNAL(triggered(bool)), this, SLOT(close()));
 

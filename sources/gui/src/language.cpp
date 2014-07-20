@@ -69,7 +69,9 @@ QString Language::defineLanguageFromFile(const QString configPath)
         return language;
     while (true) {
         fileStr = QString(configFile.readLine());
+        if (fileStr.isEmpty()) continue;
         if (fileStr[0] == QChar('#')) continue;
+        if (fileStr[0] == QChar(';')) continue;
         if (fileStr.contains(QString("LANGUAGE=")))
             language = fileStr.split(QChar('='))[1]
                     .remove(QChar(' '))

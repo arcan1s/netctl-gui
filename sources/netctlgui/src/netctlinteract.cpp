@@ -126,9 +126,9 @@ QString Netctl::getNetctlOutput(const bool sudo, const QString commandLine, cons
  */
 QString Netctl::getWifiInterface()
 {
-    if (debug) qDebug() << "[Netctl]" << "[getInterfaceList]";
+    if (debug) qDebug() << "[Netctl]" << "[getWifiInterface]";
     if (ifaceDirectory == 0) {
-        if (debug) qDebug() << "[Netctl]" << "[getInterfaceList]" << ":" << "Could not find directory";
+        if (debug) qDebug() << "[Netctl]" << "[getWifiInterface]" << ":" << "Could not find directory";
         return QString();
     }
 
@@ -137,14 +137,17 @@ QString Netctl::getWifiInterface()
         interfaces.append(mainInterface);
     QStringList allInterfaces = ifaceDirectory->entryList(QDir::Dirs | QDir::NoDotAndDotDot);
     for (int i=0; i<allInterfaces.count(); i++) {
-        if (debug) qDebug() << "[Netctl]" << "[getInterfaceList]" << ":" << "Check directory"
+        if (debug) qDebug() << "[Netctl]" << "[getWifiInterface]" << ":" << "Check directory"
                  << ifaceDirectory->path() + QDir::separator() + allInterfaces[i] + QDir::separator() + QString("wireless");
         if (QDir(ifaceDirectory->path() + QDir::separator() + allInterfaces[i] +
                  QDir::separator() + QString("wireless")).exists())
             interfaces.append(allInterfaces[i]);
     }
 
-    return interfaces[0];
+    if (interfaces.count() == 0)
+        return QString("");
+    else
+        return interfaces[0];
 }
 
 
@@ -244,6 +247,8 @@ bool Netctl::systemctlCall(const bool sudo, const QString commandLine)
     QProcess command;
     QString commandText;
     QString interface = getWifiInterface();
+    if (interface.isEmpty())
+        return false;
     if (sudo)
         commandText = sudoCommand + QString(" ") + systemctlCommand + QString(" ") + commandLine +
                 QString(" ") + netctlAutoService + QString("@") + interface + QString(".service");
@@ -341,6 +346,7 @@ QString Netctl::getProfileDescription(const QString profile)
         return description;
     while (true) {
         fileStr = QString(profileFile.readLine());
+        if (fileStr.isEmpty()) continue;
         if (fileStr[0] == QChar('#')) continue;
         if (fileStr.split(QChar('='), QString::SkipEmptyParts).count() == 2)
             if (fileStr.split(QChar('='), QString::SkipEmptyParts)[0] == QString("Description"))
@@ -465,6 +471,7 @@ QString Netctl::getSsidFromProfile(const QString profile)
         return ssidName;
     while (true) {
         fileStr = QString(profileFile.readLine());
+        if (fileStr.isEmpty()) continue;
         if (fileStr[0] == QChar('#')) continue;
         if (fileStr.split(QChar('='), QString::SkipEmptyParts).count() == 2)
             if (fileStr.split(QChar('='), QString::SkipEmptyParts)[0] == QString("ESSID"))

@@ -358,6 +358,7 @@ QMap<QString, QString> SettingsWindow::getSettings()
         return settings;
     while (true) {
         fileStr = QString(configFile.readLine()).trimmed();
+        if (fileStr.isEmpty()) continue;
         if (fileStr[0] == QChar('#')) continue;
         if (fileStr[0] == QChar(';')) continue;
         if (!fileStr.contains(QChar('='))) continue;

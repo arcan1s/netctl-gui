@@ -27,6 +27,7 @@ Ver.1.2.0:
 * [lib] rewrited getSettingsFromProfile() function
 * [plasmoid] edited configuration interface
 * [plasmoid] changed double click event to click event
+- [gui] fix possible segfaults with null arrays (#5)
 
 Ver.1.1.0 (netctl-1.7 update):
 + [gui] added frequency
