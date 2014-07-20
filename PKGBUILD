@@ -1,7 +1,7 @@
 # Maintainer: Evgeniy "arcanis" Alexeev <arcanis.arch at gmail dot com>
 
 pkgbase=netctl-gui
-pkgname=('netctl-gui' 'netctl-gui-qt4' 'kdeplasma-applets-netctl-gui')
+pkgname=('libnetctlgui' 'netctl-gui' 'netctl-gui-qt4' 'kdeplasma-applets-netctl-gui')
 pkgver=1.2.0
 pkgrel=1
 pkgdesc="Qt4/Qt5 GUI for netctl. Also provides a widget for KDE"
@@ -15,12 +15,14 @@ optdepends=('kdebase-runtime: sudo support'
             'wpa_supplicant: wifi support')
 source=("https://github.com/arcan1s/netctl-gui/releases/download/V.${pkgver}/${pkgbase}-${pkgver}-src.tar.xz")
 install="${pkgbase}.install"
-md5sums=('1d6797070defe45ec7009cb8e4f768c9')
+md5sums=('29542e7bd1978e5bae0a3523e59e533a')
+
 
 prepare() {
-  rm -rf "${srcdir}/"{build-plasmoid,build-qt4,build-qt5}
-  mkdir "${srcdir}/"{build-plasmoid,build-qt4,build-qt5}
+  rm -rf "${srcdir}/build-"{plasmoid,qt4,qt5}
+  mkdir "${srcdir}/build-"{plasmoid,qt4,qt5}
 }
+
 
 build() {
   cd "${srcdir}/build-plasmoid"
@@ -52,6 +54,16 @@ build() {
   make
 }
 
+
+package_libnetctlgui() {
+  pkgdesc="Qt library interacts with netctl. A part of netctl-gui"
+  depends=('netctl' 'qt5-base')
+
+  cd "${srcdir}/build-qt5/netctlgui"
+  make DESTDIR="${pkgdir}" install
+}
+
+
 package_kdeplasma-applets-netctl-gui() {
   pkgdesc="A plasmoid, which interacts with netctl. A part of netctl-gui"
   depends=('netctl' 'kdebase-workspace')
@@ -59,26 +71,31 @@ package_kdeplasma-applets-netctl-gui() {
               'netctl-gui: graphical front-end'
               'netctl-gui-qt4: graphical front-end'
               'sudo: sudo support')
+  install="${pkgbase}.install"
 
   cd "${srcdir}/build-plasmoid"
   make DESTDIR="${pkgdir}" install
 }
 
+
 package_netctl-gui() {
   pkgdesc="Qt5 graphical front-end for netctl. A part of netctl-gui"
-  depends=('netctl' 'qt5-base' 'xdg-utils')
+  depends=('libnetctlgui')
   provides=('netctl-gui-qt4')
   conflicts=('netctl-gui-qt4')
+  install="${pkgbase}.install"
 
-  cd "${srcdir}/build-qt5"
+  cd "${srcdir}/build-qt5/gui"
   make DESTDIR="${pkgdir}" install
 }
+
 
 package_netctl-gui-qt4() {
   pkgdesc="Qt4 graphical front-end for netctl. A part of netctl-gui"
   depends=('netctl' 'qt4')
-  provides=('netctl-gui')
-  conflicts=('netctl-gui')
+  provides=('libnetctlgui' 'netctl-gui')
+  conflicts=('libnetctlgui' 'netctl-gui')
+  install="${pkgbase}.install"
 
   cd "${srcdir}/build-qt4"
   make DESTDIR="${pkgdir}" install
