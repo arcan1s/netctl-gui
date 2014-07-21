@@ -114,24 +114,25 @@ QMap<QString, QString> Netctl::readDataEngineConfiguration()
 
     QString fileName = KGlobal::dirs()->findResource("config", "netctl.conf");
     if (debug) qDebug() << "[PLASMOID]" << "[readDataEngineConfiguration]" << ":" << "Configuration file" << fileName;
-    QFile confFile(fileName);
-    if (!confFile.open(QIODevice::ReadOnly))
+    QFile configFile(fileName);
+    if (!configFile.open(QIODevice::ReadOnly))
         return updateDataEngineConfiguration(rawConfig);
     QString fileStr;
     QStringList value;
     while (true) {
-        fileStr = QString(confFile.readLine()).trimmed();
-        if ((fileStr.isEmpty()) && (!confFile.atEnd())) continue;
-        if ((fileStr[0] == QChar('#')) && (!confFile.atEnd())) continue;
-        if ((fileStr[0] == QChar(';')) && (!confFile.atEnd())) continue;
-        if ((!fileStr.contains(QChar('='))) && (!confFile.atEnd())) continue;
-        value.clear();
-        for (int i=1; i<fileStr.split(QChar('=')).count(); i++)
-            value.append(fileStr.split(QChar('='))[i]);
-        rawConfig[fileStr.split(QChar('='))[0]] = value.join(QChar('='));
-        if (confFile.atEnd()) break;
+        fileStr = QString(configFile.readLine()).trimmed();
+        if ((fileStr.isEmpty()) && (!configFile.atEnd())) continue;
+        if ((fileStr[0] == QChar('#')) && (!configFile.atEnd())) continue;
+        if ((fileStr[0] == QChar(';')) && (!configFile.atEnd())) continue;
+        if (fileStr.contains(QChar('='))) {
+            value.clear();
+            for (int i=1; i<fileStr.split(QChar('=')).count(); i++)
+                value.append(fileStr.split(QChar('='))[i]);
+            rawConfig[fileStr.split(QChar('='))[0]] = value.join(QChar('='));
+        }
+        if (configFile.atEnd()) break;
     }
-    confFile.close();
+    configFile.close();
 
     return updateDataEngineConfiguration(rawConfig);
 }
@@ -144,14 +145,14 @@ void Netctl::writeDataEngineConfiguration(const QMap<QString, QString> settings)
     QMap<QString, QString> config = updateDataEngineConfiguration(settings);
     QString fileName = KGlobal::dirs()->locateLocal("config", "netctl.conf");
     if (debug) qDebug() << "[PLASMOID]" << "[writeDataEngineConfiguration]" << ":" << "Configuration file" << fileName;
-    QFile confFile(fileName);
-    if (!confFile.open(QIODevice::WriteOnly))
+    QFile configFile(fileName);
+    if (!configFile.open(QIODevice::WriteOnly))
         return;
     for (int i=0; i<config.keys().count(); i++) {
         QByteArray string = (config.keys()[i] + QString("=") + config[config.keys()[i]] + QString("\n")).toUtf8();
-        confFile.write(string);
+        configFile.write(string);
     }
-    confFile.close();
+    configFile.close();
 }
 
 

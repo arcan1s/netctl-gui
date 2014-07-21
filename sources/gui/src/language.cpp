@@ -72,8 +72,8 @@ QString Language::defineLanguageFromFile(const QString configPath)
         if ((fileStr.isEmpty()) && (!configFile.atEnd())) continue;
         if ((fileStr[0] == QChar('#')) && (!configFile.atEnd())) continue;
         if ((fileStr[0] == QChar(';')) && (!configFile.atEnd())) continue;
-        if ((!fileStr.contains(QChar('='))) && (!configFile.atEnd())) continue;
-        settings[fileStr.split(QChar('='))[0]] = fileStr.split(QChar('='))[1];
+        if (fileStr.contains(QChar('=')))
+            settings[fileStr.split(QChar('='))[0]] = fileStr.split(QChar('='))[1];
         if (configFile.atEnd()) break;
     }
     configFile.close();

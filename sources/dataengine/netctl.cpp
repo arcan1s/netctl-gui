@@ -78,26 +78,27 @@ void Netctl::readConfiguration()
 
     QString fileName = KGlobal::dirs()->findResource("config", "netctl.conf");
     if (debug) qDebug() << "[DE]" << "[readConfiguration]" << ":" << "Configuration file" << fileName;
-    QFile confFile(fileName);
-    if (!confFile.open(QIODevice::ReadOnly)) {
+    QFile configFile(fileName);
+    if (!configFile.open(QIODevice::ReadOnly)) {
         configuration = updateConfiguration(rawConfig);
         return;
     }
     QString fileStr;
     QStringList value;
     while (true) {
-        fileStr = QString(confFile.readLine()).trimmed();
-        if ((fileStr.isEmpty()) && (!confFile.atEnd())) continue;
-        if ((fileStr[0] == QChar('#')) && (!confFile.atEnd())) continue;
-        if ((fileStr[0] == QChar(';')) && (!confFile.atEnd())) continue;
-        if ((!fileStr.contains(QChar('='))) && (!confFile.atEnd())) continue;
-        value.clear();
-        for (int i=1; i<fileStr.split(QChar('=')).count(); i++)
-            value.append(fileStr.split(QChar('='))[i]);
-        rawConfig[fileStr.split(QChar('='))[0]] = value.join(QChar('='));
-        if (confFile.atEnd()) break;
+        fileStr = QString(configFile.readLine()).trimmed();
+        if ((fileStr.isEmpty()) && (!configFile.atEnd())) continue;
+        if ((fileStr[0] == QChar('#')) && (!configFile.atEnd())) continue;
+        if ((fileStr[0] == QChar(';')) && (!configFile.atEnd())) continue;
+        if (fileStr.contains(QChar('='))) {
+            value.clear();
+            for (int i=1; i<fileStr.split(QChar('=')).count(); i++)
+                value.append(fileStr.split(QChar('='))[i]);
+            rawConfig[fileStr.split(QChar('='))[0]] = value.join(QChar('='));
+        }
+        if (configFile.atEnd()) break;
     }
-    confFile.close();
+    configFile.close();
     configuration = updateConfiguration(rawConfig);
 
     return;
