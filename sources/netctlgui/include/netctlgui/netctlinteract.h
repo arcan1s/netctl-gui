@@ -31,7 +31,7 @@
 #include <QObject>
 
 
-class WpaSup;
+class NetctlProfile;
 
 /**
  * @brief The Netctl class interacts with netctl
@@ -85,13 +85,13 @@ public:
     /**
      * @brief method which gets description from profile
      * @param profile        profile name
-     * @return profile description or "<unknown>"
+     * @return profile description or ""
      */
     QString getProfileDescription(const QString profile);
     /**
      * @brief method which gets descriptions from profile list
      * @param profileList    profile names
-     * @return list of profile descriptions (if description is not available return "<unknown>")
+     * @return list of profile descriptions (if description is not available returns "")
      */
     QStringList getProfileDescriptions(const QStringList profileList);
     /**
@@ -221,6 +221,10 @@ public slots:
     bool autoStartService();
 
 private:
+    /**
+     * @brief NetctlProfile class
+     */
+    NetctlProfile *netctlProfile;
     /**
      * @brief show debug messages
      */

@@ -98,6 +98,14 @@ QString WpaSup::existentProfile(const QString essid)
 {
     if (debug) qDebug() << "[WpaSup]" << "[existentProfile]";
     if (debug) qDebug() << "[WpaSup]" << "[existentProfile]" << ":" << "ESSID" << essid;
+    if (netctlCommand == 0) {
+        if (debug) qDebug() << "[WpaSup]" << "[existentProfile]" << ":" << "Could not find library";
+        return QString();
+    }
+    if (netctlProfile == 0) {
+        if (debug) qDebug() << "[WpaSup]" << "[existentProfile]" << ":" << "Could not find library";
+        return QString();
+    }
 
     QString profileFile = QString("");
     QList<QStringList> profileList = netctlCommand->getProfileList();
@@ -116,6 +124,14 @@ bool WpaSup::isProfileActive(const QString essid)
 {
     if (debug) qDebug() << "[WpaSup]" << "[isProfileActive]";
     if (debug) qDebug() << "[WpaSup]" << "[isProfileActive]" << ":" << "ESSID" << essid;
+    if (netctlCommand == 0) {
+        if (debug) qDebug() << "[WpaSup]" << "[isProfileActive]" << ":" << "Could not find library";
+        return false;
+    }
+    if (netctlProfile == 0) {
+        if (debug) qDebug() << "[WpaSup]" << "[isProfileActive]" << ":" << "Could not find library";
+        return false;
+    }
 
     QString profileFile;
     QList<QStringList> profileList = netctlCommand->getProfileList();
@@ -136,6 +152,14 @@ bool WpaSup::isProfileExists(const QString essid)
 {
     if (debug) qDebug() << "[WpaSup]" << "[isProfileExists]";
     if (debug) qDebug() << "[WpaSup]" << "[isProfileExists]" << ":" << "ESSID" << essid;
+    if (netctlCommand == 0) {
+        if (debug) qDebug() << "[WpaSup]" << "[isProfileExists]" << ":" << "Could not find library";
+        return false;
+    }
+    if (netctlProfile == 0) {
+        if (debug) qDebug() << "[WpaSup]" << "[isProfileExists]" << ":" << "Could not find library";
+        return false;
+    }
 
     bool exists = false;
     QList<QStringList> profileList = netctlCommand->getProfileList();
@@ -252,6 +276,10 @@ bool WpaSup::startWpaSupplicant()
         if (debug) qDebug() << "[WpaSup]" << "[startWpaSupplicant]" << ":" << "Could not find wpa_supplicant";
         return false;
     }
+    if (netctlCommand == 0) {
+        if (debug) qDebug() << "[WpaSup]" << "[startWpaSupplicant]" << ":" << "Could not find library";
+        return false;
+    }
     if (netctlCommand->getInterfaceList().isEmpty()) {
         if (debug) qDebug() << "[WpaSup]" << "[startWpaSupplicant]" << ":" << "Could not find interfaces";
         return false;
@@ -308,6 +336,10 @@ QString WpaSup::getWpaCliOutput(const QString commandLine)
         if (debug) qDebug() << "[WpaSup]" << "[getWpaCliOutput]" << ":" << "Could not find wpa_cli";
         return QString();
     }
+    if (netctlCommand == 0) {
+        if (debug) qDebug() << "[WpaSup]" << "[getWpaCliOutput]" << ":" << "Could not find library";
+        return QString();
+    }
     if (netctlCommand->getInterfaceList().isEmpty()) {
         if (debug) qDebug() << "[WpaSup]" << "[getWpaCliOutput]" << ":" << "Could not find interfaces";
         return QString();
@@ -342,6 +374,10 @@ bool WpaSup::wpaCliCall(const QString commandLine)
     }
     if (wpaCliPath == 0) {
         if (debug) qDebug() << "[WpaSup]" << "[wpaCliCall]" << ":" << "Could not find wpa_cli";
+        return false;
+    }
+    if (netctlCommand == 0) {
+        if (debug) qDebug() << "[WpaSup]" << "[wpaCliCall]" << ":" << "Could not find library";
         return false;
     }
     if (netctlCommand->getInterfaceList().isEmpty()) {

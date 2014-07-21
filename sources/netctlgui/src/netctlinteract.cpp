@@ -39,6 +39,8 @@
 Netctl::Netctl(const bool debugCmd, const QMap<QString, QString> settings)
     : debug(debugCmd)
 {
+    netctlProfile = new NetctlProfile(debug, settings);
+
     if (settings.contains(QString("IFACE_DIR")))
         ifaceDirectory = new QDir(settings[QString("IFACE_DIR")]);
     else
@@ -81,6 +83,8 @@ Netctl::~Netctl()
 {
     if (debug) qDebug() << "[Netctl]" << "[~Netctl]";
 
+    if (netctlProfile != 0)
+        delete netctlProfile;
     if (ifaceDirectory != 0)
         delete ifaceDirectory;
     if (profileDirectory != 0)
@@ -333,32 +337,12 @@ QString Netctl::getProfileDescription(const QString profile)
 {
     if (debug) qDebug() << "[Netctl]" << "[getProfileDescription]";
     if (debug) qDebug() << "[Netctl]" << "[getProfileDescription]" << ":" << "Profile" << profile;
-    if (profileDirectory == 0) {
-        if (debug) qDebug() << "[Netctl]" << "[getProfileDescription]" << ":" << "Could not find directory";
+    if (netctlProfile == 0) {
+        if (debug) qDebug() << "[Netctl]" << "[getProfileDescription]" << ":" << "Could not find library";
         return QString();
     }
 
-    QString description = QString("<unknown>");
-    QString profileUrl = profileDirectory->absolutePath() + QDir::separator() + profile;
-    if (debug) qDebug() << "[Netctl]" << "[getProfileDescription]" << ":" << "Check" << profileUrl;
-    QFile profileFile(profileUrl);
-    QString fileStr;
-    if (!profileFile.open(QIODevice::ReadOnly))
-        return description;
-    while (true) {
-        fileStr = QString(profileFile.readLine());
-        if (fileStr.isEmpty()) continue;
-        if (fileStr[0] == QChar('#')) continue;
-        if (fileStr.split(QChar('='), QString::SkipEmptyParts).count() == 2)
-            if (fileStr.split(QChar('='), QString::SkipEmptyParts)[0] == QString("Description"))
-                description = fileStr.split(QChar('='), QString::SkipEmptyParts)[1].trimmed();
-        if (profileFile.atEnd())
-            break;
-    }
-    profileFile.close();
-    description.remove(QChar('\'')).remove(QChar('"'));
-
-    return description;
+    return netctlProfile->getValueFromProfile(profile, QString("Description"));
 }
 
 
@@ -369,35 +353,14 @@ QStringList Netctl::getProfileDescriptions(const QStringList profileList)
 {
     if (debug) qDebug() << "[Netctl]" << "[getProfileDescriptions]";
     if (debug) qDebug() << "[Netctl]" << "[getProfileDescriptions]" << ":" << "Profile list" << profileList;
-    if (profileDirectory == 0) {
-        if (debug) qDebug() << "[Netctl]" << "[getProfileDescriptions]" << ":" << "Could not find directory";
+    if (netctlProfile == 0) {
+        if (debug) qDebug() << "[Netctl]" << "[getProfileDescription]" << ":" << "Could not find library";
         return QStringList();
     }
 
     QStringList descriptions;
-    for (int i=0; i<profileList.count(); i++) {
-        QString description = QString("<unknown>");
-        QString profileUrl = profileDirectory->absolutePath() + QDir::separator() + profileList[i];
-        if (debug) qDebug() << "[Netctl]" << "[getProfileDescriptions]" << ":" << "Check" << profileUrl;
-        QFile profileFile(profileUrl);
-        QString fileStr;
-        if (!profileFile.open(QIODevice::ReadOnly)) {
-            descriptions.append(description);
-            continue;
-        }
-        while (true) {
-            fileStr = QString(profileFile.readLine());
-            if (fileStr[0] == QChar('#')) continue;
-            if (fileStr.split(QChar('='), QString::SkipEmptyParts).count() == 2)
-                if (fileStr.split(QChar('='), QString::SkipEmptyParts)[0] == QString("Description"))
-                    description = fileStr.split(QChar('='), QString::SkipEmptyParts)[1].trimmed();
-            if (profileFile.atEnd())
-                break;
-        }
-        profileFile.close();
-        description.remove(QChar('\'')).remove(QChar('"'));
-        descriptions.append(description);
-    }
+    for (int i=0; i<profileList.count(); i++)
+        descriptions.append(netctlProfile->getValueFromProfile(profileList[i], QString("Description")));
 
     return descriptions;
 }
