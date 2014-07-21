@@ -23,9 +23,7 @@
 #include <QFileInfo>
 #include <QProcess>
 
-#include <netctlgui/netctlinteract.h>
-#include <netctlgui/netctlprofile.h>
-#include <netctlgui/wpasupinteract.h>
+#include <netctlgui/netctlgui.h>
 
 #include "aboutwindow.h"
 #include "bridgewidget.h"
@@ -1256,10 +1254,12 @@ void MainWindow::connectToUnknownEssid(const QString passwd)
 
     if (passwdWid != 0)
         delete passwdWid;
+    if (netctlCommand->getInterfaceList().isEmpty())
+        return;
 
     QMap<QString, QString> settings;
     settings[QString("Description")] = QString("'Automatically generated profile by Netctl GUI'");
-    settings[QString("Interface")] = wpaCommand->getInterfaceList()[0];
+    settings[QString("Interface")] = netctlCommand->getInterfaceList()[0];
     settings[QString("Connection")] = QString("wireless");
     QString security = ui->tableWidget_wifi->item(ui->tableWidget_wifi->currentItem()->row(), 3)->text();
     if (checkState(QString("WPA"), security))

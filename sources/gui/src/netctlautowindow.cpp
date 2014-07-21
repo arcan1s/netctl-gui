@@ -20,7 +20,7 @@
 
 #include <QDebug>
 
-#include <netctlgui/netctlinteract.h>
+#include <netctlgui/netctlgui.h>
 
 
 NetctlAutoWindow::NetctlAutoWindow(QWidget *parent, const bool debugCmd, const QMap<QString, QString> settings)

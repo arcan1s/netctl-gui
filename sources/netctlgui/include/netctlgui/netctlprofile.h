@@ -73,6 +73,13 @@ public:
      */
     QMap<QString, QString> getSettingsFromProfile(const QString profile);
     /**
+     * @brief method which return value from profile by key
+     * @param profile        profile name
+     * @param key            required key
+     * @return value by key
+     */
+    QString getValueFromProfile(const QString profile, const QString key);
+    /**
      * @brief method which removes profile
      * @param profile        profile name
      * @return false if components are not found or command exit code is not equal to 0

@@ -31,6 +31,8 @@
 #include <QObject>
 
 
+class WpaSup;
+
 /**
  * @brief The Netctl class interacts with netctl
  */
@@ -59,6 +61,11 @@ public:
      */
     ~Netctl();
     // general information
+    /**
+     * @brief method which gets interface list from PREFERED_IFACE and IFACE_DIR
+     * @return interface list. If PREFERED_IFACE is not empty it will be first element
+     */
+    QStringList getInterfaceList();
     /**
      * @brief method which returns profile informations from netctl
      * @return list of profiles. Available information is [NAME, DESCRIPTION, STATUS]:
@@ -101,12 +108,6 @@ public:
      *         "inactive (enabled)", "inactive (static)"
      */
     QStringList getProfileStatuses(const QStringList profileList);
-    /**
-     * @brief method which gets ESSID from profile
-     * @param profile        profile name
-     * @return ESSID name or null string
-     */
-    QString getSsidFromProfile(const QString profile);
     /**
      * @brief method which checks if profile is active
      * @param profile        profile name
@@ -265,11 +266,6 @@ private:
      * @return netctl output
      */
     QString getNetctlOutput(const bool sudo, const QString commandLine, const QString profile = 0);
-    /**
-     * @brief method which gets interface list from PREFERED_IFACE and IFACE_DIR
-     * @return first element from interface list. If PREFERED_IFACE is not empty it will be first element
-     */
-    QString getWifiInterface();
     /**
      * @brief method which calls netctl
      * @param sudo           set true if sudo is needed

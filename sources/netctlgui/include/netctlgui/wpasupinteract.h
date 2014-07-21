@@ -32,6 +32,7 @@
 
 
 class Netctl;
+class NetctlProfile;
 
 /**
  * @brief The WpaSup class interacts with wpa_supplicant
@@ -47,8 +48,6 @@ public:
      * @param settings       default settings. Needed keys are
      *                       CTRL_DIR (path to ctrl_directory),
      *                       CTRL_GROUP (group which is owner of CTRL_DIR),
-     *                       IFACE_DIR (path to directory with interfaces),
-     *                       PREFERED_IFACE (prefered interface for WiFi),
      *                       PID_FILE (wpa_supplicant PID file),
      *                       SUDO_PATH (path to sudo command),
      *                       WPACLI_PATH (path to wpa_cli command),
@@ -68,11 +67,6 @@ public:
      * @return profile name
      */
     QString existentProfile(const QString essid);
-    /**
-     * @brief method which gets interface list from PREFERED_IFACE and IFACE_DIR
-     * @return interface list. If PREFERED_IFACE is not empty it will be first element
-     */
-    QStringList getInterfaceList();
     /**
      * @brief method which checks profile status by ESSID
      * @param essid          ESSID name
@@ -118,6 +112,10 @@ private:
      */
     Netctl *netctlCommand;
     /**
+     * @brief NetctlProfile class
+     */
+    NetctlProfile *netctlProfile;
+    /**
      * @brief show debug messages
      */
     bool debug;
@@ -129,14 +127,6 @@ private:
      * @brief group which is owner of CTRL_DIR. Default is "users"
      */
     QString ctrlGroup;
-    /**
-     * @brief directory with interfaces. Default is "/sys/class/net/"
-     */
-    QDir *ifaceDirectory;
-    /**
-     * @brief prefered interface for WiFi. Default is ""
-     */
-    QString mainInterface;
     /**
      * @brief wpa_supplicant PID file. Default is "/run/wpa_supplicant_netctl-gui.pid"
      */

@@ -15,7 +15,7 @@ optdepends=('kdebase-runtime: sudo support'
             'wpa_supplicant: wifi support')
 source=("https://github.com/arcan1s/netctl-gui/releases/download/V.${pkgver}/${pkgbase}-${pkgver}-src.tar.xz")
 install="${pkgbase}.install"
-md5sums=('29542e7bd1978e5bae0a3523e59e533a')
+md5sums=('45eebb959b9a760240e5b7db5bdfbf48')
 
 
 prepare() {
@@ -56,7 +56,7 @@ build() {
 
 
 package_libnetctlgui() {
-  pkgdesc="Qt library interacts with netctl. A part of netctl-gui"
+  pkgdesc="Qt5 library which interacts with netctl. A part of netctl-gui"
   depends=('netctl' 'qt5-base')
 
   cd "${srcdir}/build-qt5/netctlgui"

@@ -27,7 +27,7 @@
 #include <QFile>
 #include <QProcess>
 
-#include <netctlgui/netctlinteract.h>
+#include <netctlgui/netctlgui.h>
 
 
 /**
@@ -118,36 +118,6 @@ QString Netctl::getNetctlOutput(const bool sudo, const QString commandLine, cons
     command.waitForFinished(-1);
 
     return command.readAllStandardOutput();
-}
-
-
-/**
- * @fn getWifiInterface
- */
-QString Netctl::getWifiInterface()
-{
-    if (debug) qDebug() << "[Netctl]" << "[getWifiInterface]";
-    if (ifaceDirectory == 0) {
-        if (debug) qDebug() << "[Netctl]" << "[getWifiInterface]" << ":" << "Could not find directory";
-        return QString();
-    }
-
-    QStringList interfaces;
-    if (!mainInterface.isEmpty())
-        interfaces.append(mainInterface);
-    QStringList allInterfaces = ifaceDirectory->entryList(QDir::Dirs | QDir::NoDotAndDotDot);
-    for (int i=0; i<allInterfaces.count(); i++) {
-        if (debug) qDebug() << "[Netctl]" << "[getWifiInterface]" << ":" << "Check directory"
-                 << ifaceDirectory->path() + QDir::separator() + allInterfaces[i] + QDir::separator() + QString("wireless");
-        if (QDir(ifaceDirectory->path() + QDir::separator() + allInterfaces[i] +
-                 QDir::separator() + QString("wireless")).exists())
-            interfaces.append(allInterfaces[i]);
-    }
-
-    if (interfaces.isEmpty())
-        return QString("");
-    else
-        return interfaces[0];
 }
 
 
@@ -243,10 +213,14 @@ bool Netctl::systemctlCall(const bool sudo, const QString commandLine)
         if (debug) qDebug() << "[Netctl]" << "[systemctlCall]" << ":" << "Could not find systemctl";
         return false;
     }
+    if (getInterfaceList().isEmpty()) {
+        if (debug) qDebug() << "[Netctl]" << "[systemctlCall]" << ":" << "Could not interface";
+        return false;
+    }
 
     QProcess command;
     QString commandText;
-    QString interface = getWifiInterface();
+    QString interface = getInterfaceList()[0];
     if (interface.isEmpty())
         return false;
     if (sudo)
@@ -268,6 +242,33 @@ bool Netctl::systemctlCall(const bool sudo, const QString commandLine)
 
 
 // general information
+/**
+ * @fn getInterfaceList
+ */
+QStringList Netctl::getInterfaceList()
+{
+    if (debug) qDebug() << "[Netctl]" << "[getInterfaceList]";
+    if (ifaceDirectory == 0) {
+        if (debug) qDebug() << "[Netctl]" << "[getInterfaceList]" << ":" << "Could not find directory";
+        return QStringList();
+    }
+
+    QStringList interfaces;
+    if (!mainInterface.isEmpty())
+        interfaces.append(mainInterface);
+    QStringList allInterfaces = ifaceDirectory->entryList(QDir::Dirs | QDir::NoDotAndDotDot);
+    for (int i=0; i<allInterfaces.count(); i++) {
+        if (debug) qDebug() << "[Netctl]" << "[getInterfaceList]" << ":" << "Check directory"
+                 << ifaceDirectory->path() + QDir::separator() + allInterfaces[i] + QDir::separator() + QString("wireless");
+        if (QDir(ifaceDirectory->path() + QDir::separator() + allInterfaces[i] +
+                 QDir::separator() + QString("wireless")).exists())
+            interfaces.append(allInterfaces[i]);
+    }
+
+    return interfaces;
+}
+
+
 /**
  * @fn getProfileList
  */
@@ -451,42 +452,6 @@ QStringList Netctl::getProfileStatuses(const QStringList profileList)
 
 
 /**
- * @fn getSsidFromProfile
- */
-QString Netctl::getSsidFromProfile(const QString profile)
-{
-    if (debug) qDebug() << "[Netctl]" << "[getSsidFromProfile]";
-    if (debug) qDebug() << "[Netctl]" << "[getSsidFromProfile]" << ":" << "Profile" << profile;
-    if (profileDirectory == 0) {
-        if (debug) qDebug() << "[Netctl]" << "[getSsidFromProfile]" << ":" << "Could not find directory";
-        return QString();
-    }
-
-    QString ssidName;
-    QString profileUrl = profileDirectory->absolutePath() + QDir::separator() + profile;
-    if (debug) qDebug() << "[Netctl]" << "[getSsidFromProfile]" << ":" << "Check" << profileUrl;
-    QFile profileFile(profileUrl);
-    QString fileStr;
-    if (!profileFile.open(QIODevice::ReadOnly))
-        return ssidName;
-    while (true) {
-        fileStr = QString(profileFile.readLine());
-        if (fileStr.isEmpty()) continue;
-        if (fileStr[0] == QChar('#')) continue;
-        if (fileStr.split(QChar('='), QString::SkipEmptyParts).count() == 2)
-            if (fileStr.split(QChar('='), QString::SkipEmptyParts)[0] == QString("ESSID"))
-                ssidName = fileStr.split(QChar('='), QString::SkipEmptyParts)[1].trimmed();
-        if (profileFile.atEnd())
-            break;
-    }
-    profileFile.close();
-    ssidName.remove(QChar('\'')).remove(QChar('"'));
-
-    return ssidName;
-}
-
-
-/**
  * @fn isProfileActive
  */
 bool Netctl::isProfileActive(const QString profile)
@@ -569,9 +534,13 @@ bool Netctl::isNetctlAutoEnabled()
         if (debug) qDebug() << "[Netctl]" << "[isNetctlAutoEnabled]" << ":" << "Could not find systemctl";
         return false;
     }
+    if (getInterfaceList().isEmpty()) {
+        if (debug) qDebug() << "[Netctl]" << "[isNetctlAutoEnabled]" << ":" << "Could not interface";
+        return false;
+    }
 
     QProcess command;
-    QString interface = getWifiInterface();
+    QString interface = getInterfaceList()[0];
     QString commandText = systemctlCommand + QString(" is-enabled ") + netctlAutoService + QString("@") +
             interface + QString(".service");
     if (debug) qDebug() << "[Netctl]" << "[isNetctlAutoEnabled]" << ":" << "Run cmd" << commandText;
@@ -601,8 +570,12 @@ bool Netctl::isNetctlAutoRunning()
         if (debug) qDebug() << "[Netctl]" << "[isNetctlAutoRunning]" << ":" << "Could not find systemctl";
         return false;
     }
+    if (getInterfaceList().isEmpty()) {
+        if (debug) qDebug() << "[Netctl]" << "[isNetctlAutoRunning]" << ":" << "Could not interface";
+        return false;
+    }
 
-    QString interface = getWifiInterface();
+    QString interface = getInterfaceList()[0];
     QProcess command;
     QString commandText = systemctlCommand + QString(" is-active ") + netctlAutoService + QString("@") +
             interface + QString(".service");

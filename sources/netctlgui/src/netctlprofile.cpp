@@ -29,7 +29,7 @@
 #include <QProcess>
 #include <QTextStream>
 
-#include <netctlgui/netctlprofile.h>
+#include <netctlgui/netctlgui.h>
 
 
 /**
@@ -183,6 +183,24 @@ QMap<QString, QString> NetctlProfile::getSettingsFromProfile(const QString profi
     }
 
     return settings;
+}
+
+
+/**
+ * @fn ValueFromProfile
+ */
+QString NetctlProfile::getValueFromProfile(const QString profile, const QString key)
+{
+    if (debug) qDebug() << "[NetctlProfile]" << "[getValueFromProfile]";
+    if (debug) qDebug() << "[NetctlProfile]" << "[getValueFromProfile]" << ":" << "Profile" << profile;
+    if (debug) qDebug() << "[NetctlProfile]" << "[getValueFromProfile]" << ":" << "Key" << key;
+
+    QMap<QString, QString> settings = getSettingsFromProfile(profile);
+
+    if (settings.contains(key))
+        return settings[key];
+    else
+        return QString("");
 }
 
 
