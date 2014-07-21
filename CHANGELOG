@@ -1,6 +1,7 @@
 Ver.1.2.0:
 + [all] added icons
 + [all] added support of netctl-auto
++ [dataengine] added debug information (NETCTLGUI_DEBUG=yes)
 + [gui] added support of macvlan
 + [gui] added ability to remove profile
 + [gui] added support of hidden wifi network
@@ -16,6 +17,7 @@ Ver.1.2.0:
 + [lib] added doxygen documentation
 + [plasmoid] added dataengine configuration
 + [plasmoid] added about window
++ [plasmoid] added debug information (NETCTLGUI_DEBUG=yes)
 - [gui] fix possible segfaults with null arrays (#5)
 * [all] changes in the project architecture
 * [all] refactoring

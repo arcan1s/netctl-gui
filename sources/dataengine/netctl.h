@@ -43,6 +43,7 @@ protected:
 private:
     bool isNetctlAutoRunning();
     // configuration
+    bool debug;
     QMap<QString, QString> configuration;
     void readConfiguration();
     QMap<QString, QString> updateConfiguration(const QMap<QString, QString> rawConfig);

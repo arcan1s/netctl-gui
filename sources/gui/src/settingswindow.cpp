@@ -358,13 +358,12 @@ QMap<QString, QString> SettingsWindow::getSettings()
         return settings;
     while (true) {
         fileStr = QString(configFile.readLine()).trimmed();
-        if (fileStr.isEmpty()) continue;
-        if (fileStr[0] == QChar('#')) continue;
-        if (fileStr[0] == QChar(';')) continue;
-        if (!fileStr.contains(QChar('='))) continue;
+        if ((fileStr.isEmpty()) && (!configFile.atEnd())) continue;
+        if ((fileStr[0] == QChar('#')) && (!configFile.atEnd())) continue;
+        if ((fileStr[0] == QChar(';')) && (!configFile.atEnd())) continue;
+        if ((!fileStr.contains(QChar('='))) && (!configFile.atEnd())) continue;
         settings[fileStr.split(QChar('='))[0]] = fileStr.split(QChar('='))[1];
-        if (configFile.atEnd())
-            break;
+        if (configFile.atEnd()) break;
     }
     configFile.close();
     for (int i=0; i<settings.keys().count(); i++)

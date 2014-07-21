@@ -60,28 +60,28 @@ QString Language::defineLanguage(const QString configPath, const QString options
 
 QString Language::defineLanguageFromFile(const QString configPath)
 {
-    QString language;
+    QMap<QString, QString> settings;
     if (configPath.isEmpty())
-        return language;
+        return QString("");
     QFile configFile(configPath);
     QString fileStr;
     if (!configFile.open(QIODevice::ReadOnly))
-        return language;
+        return QString("");
     while (true) {
-        fileStr = QString(configFile.readLine());
-        if (fileStr.isEmpty()) continue;
-        if (fileStr[0] == QChar('#')) continue;
-        if (fileStr[0] == QChar(';')) continue;
-        if (fileStr.contains(QString("LANGUAGE=")))
-            language = fileStr.split(QChar('='))[1]
-                    .remove(QChar(' '))
-                    .trimmed();
-        if (configFile.atEnd())
-            break;
+        fileStr = QString(configFile.readLine()).trimmed();
+        if ((fileStr.isEmpty()) && (!configFile.atEnd())) continue;
+        if ((fileStr[0] == QChar('#')) && (!configFile.atEnd())) continue;
+        if ((fileStr[0] == QChar(';')) && (!configFile.atEnd())) continue;
+        if ((!fileStr.contains(QChar('='))) && (!configFile.atEnd())) continue;
+        settings[fileStr.split(QChar('='))[0]] = fileStr.split(QChar('='))[1];
+        if (configFile.atEnd()) break;
     }
     configFile.close();
 
-    return language;
+    if (settings.contains(QString("LANGUAGE")))
+        return settings[QString("LANGUAGE")];
+    else
+        return QString("");
 }
 
 

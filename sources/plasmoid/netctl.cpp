@@ -27,8 +27,10 @@
 #include <KUrl>
 #include <plasma/theme.h>
 
+#include <QDebug>
 #include <QGraphicsLinearLayout>
 #include <QMenu>
+#include <QProcessEnvironment>
 
 #include <version.h>
 
@@ -36,6 +38,14 @@
 Netctl::Netctl(QObject *parent, const QVariantList &args)
     : Plasma::Applet(parent, args)
 {
+    // debug
+    QProcessEnvironment environment = QProcessEnvironment::systemEnvironment();
+    QString debugEnv = environment.value(QString("NETCTLGUI_DEBUG"), QString("no"));
+    if (debugEnv == QString("yes"))
+        debug = true;
+    else
+        debug = false;
+
     setBackgroundHints(DefaultBackground);
     setHasConfigurationInterface(true);
     // text format init
@@ -46,6 +56,8 @@ Netctl::Netctl(QObject *parent, const QVariantList &args)
 
 Netctl::~Netctl()
 {
+    if (debug) qDebug() << "[PLASMOID]" << "[~Netctl]";
+
 //    delete startProfileMenu;
 //    delete switchToProfileMenu;
 //    delete iconWidget;
@@ -56,6 +68,8 @@ Netctl::~Netctl()
 
 void Netctl::init()
 {
+    if (debug) qDebug() << "[PLASMOID]" << "[init]";
+
     info[QString("name")] = QString("N\\A");
     info[QString("status")] = QString("N\\A");
     info[QString("intIp")] = QString("N\\A");
@@ -88,6 +102,8 @@ void Netctl::init()
 
 QMap<QString, QString> Netctl::readDataEngineConfiguration()
 {
+    if (debug) qDebug() << "[PLASMOID]" << "[readDataEngineConfiguration]";
+
     QMap<QString, QString> rawConfig;
     rawConfig[QString("CMD")] = QString("/usr/bin/netctl");
     rawConfig[QString("EXTIP")] = QString("false");
@@ -97,32 +113,37 @@ QMap<QString, QString> Netctl::readDataEngineConfiguration()
     rawConfig[QString("NETCTLAUTOCMD")] = QString("/usr/bin/netctl-auto");
 
     QString fileName = KGlobal::dirs()->findResource("config", "netctl.conf");
+    if (debug) qDebug() << "[PLASMOID]" << "[readDataEngineConfiguration]" << ":" << "Configuration file" << fileName;
     QFile confFile(fileName);
     if (!confFile.open(QIODevice::ReadOnly))
-        return updateConfiguration(rawConfig);
+        return updateDataEngineConfiguration(rawConfig);
     QString fileStr;
     QStringList value;
     while (true) {
         fileStr = QString(confFile.readLine()).trimmed();
-        if (fileStr[0] == QChar('#')) continue;
-        if (fileStr[0] == QChar(';')) continue;
-        if (!fileStr.contains(QChar('='))) continue;
+        if ((fileStr.isEmpty()) && (!confFile.atEnd())) continue;
+        if ((fileStr[0] == QChar('#')) && (!confFile.atEnd())) continue;
+        if ((fileStr[0] == QChar(';')) && (!confFile.atEnd())) continue;
+        if ((!fileStr.contains(QChar('='))) && (!confFile.atEnd())) continue;
         value.clear();
         for (int i=1; i<fileStr.split(QChar('=')).count(); i++)
             value.append(fileStr.split(QChar('='))[i]);
         rawConfig[fileStr.split(QChar('='))[0]] = value.join(QChar('='));
-        if (confFile.atEnd())
-            break;
+        if (confFile.atEnd()) break;
     }
     confFile.close();
-    return updateConfiguration(rawConfig);
+
+    return updateDataEngineConfiguration(rawConfig);
 }
 
 
 void Netctl::writeDataEngineConfiguration(const QMap<QString, QString> settings)
 {
-    QMap<QString, QString> config = updateConfiguration(settings);
+    if (debug) qDebug() << "[PLASMOID]" << "[writeDataEngineConfiguration]";
+
+    QMap<QString, QString> config = updateDataEngineConfiguration(settings);
     QString fileName = KGlobal::dirs()->locateLocal("config", "netctl.conf");
+    if (debug) qDebug() << "[PLASMOID]" << "[writeDataEngineConfiguration]" << ":" << "Configuration file" << fileName;
     QFile confFile(fileName);
     if (!confFile.open(QIODevice::WriteOnly))
         return;
@@ -134,8 +155,10 @@ void Netctl::writeDataEngineConfiguration(const QMap<QString, QString> settings)
 }
 
 
-QMap<QString, QString> Netctl::updateConfiguration(const QMap<QString, QString> rawConfig)
+QMap<QString, QString> Netctl::updateDataEngineConfiguration(const QMap<QString, QString> rawConfig)
 {
+    if (debug) qDebug() << "[PLASMOID]" << "[updateDataEngineConfiguration]";
+
     QMap<QString, QString> config;
     QString key, value;
     // remove spaces and copy source map
@@ -150,12 +173,20 @@ QMap<QString, QString> Netctl::updateConfiguration(const QMap<QString, QString> 
             value.remove(QChar(' '));
         config[key] = value;
     }
+
+    for (int i=0; i<config.keys().count(); i++)
+        if (debug) qDebug() << "[PLASMOID]" << "[updateDataEngineConfiguration]" << ":" <<
+            config.keys()[i] + QString("=") + config[config.keys()[i]];
+
     return config;
 }
 
 
 void Netctl::updateInterface(bool setShown)
 {
+    if (debug) qDebug() << "[PLASMOID]" << "[updateInterface]";
+    if (debug) qDebug() << "[PLASMOID]" << "[updateInterface]" << ":" << "State" << setShown;
+
     if (setShown) {
         textLabel->show();
         fullSpaceLayout->updateGeometry();
@@ -172,6 +203,8 @@ void Netctl::updateInterface(bool setShown)
 // context menu
 void Netctl::enableProfileSlot()
 {
+    if (debug) qDebug() << "[PLASMOID]" << "[enableProfileSlot]";
+
     QProcess command;
     QString commandLine, enableStatus;
     if (info[QString("status")].contains(QString("enabled"))) {
@@ -187,12 +220,16 @@ void Netctl::enableProfileSlot()
                 enableStatus + info[QString("name")];
     else
         commandLine = paths[QString("netctl")] + enableStatus + info[QString("name")];
+
     command.startDetached(commandLine);
 }
 
 
 void Netctl::startProfileSlot(QAction *profile)
 {
+    if (debug) qDebug() << "[PLASMOID]" << "[startProfileSlot]";
+    if (debug) qDebug() << "[PLASMOID]" << "[startProfileSlot]" << ":" << "Profile" << profile->text().remove(QChar('&'));
+
     bool ready = true;
     QProcess command;
     QString commandLine;
@@ -223,6 +260,8 @@ void Netctl::startProfileSlot(QAction *profile)
 
 void Netctl::stopProfileSlot()
 {
+    if (debug) qDebug() << "[PLASMOID]" << "[stopProfileSlot]";
+
     QProcess command;
     QString commandLine;
     sendNotification(QString("Info"), i18n("Stop profile %1", info[QString("name")]));
@@ -231,24 +270,31 @@ void Netctl::stopProfileSlot()
                 QString(" stop ") + info[QString("name")];
     else
         commandLine = paths[QString("netctl")] + QString(" stop ") + info[QString("name")];
+
     command.startDetached(commandLine);
 }
 
 
 void Netctl::switchToProfileSlot(QAction *profile)
 {
+    if (debug) qDebug() << "[PLASMOID]" << "[switchToProfileSlot]";
+    if (debug) qDebug() << "[PLASMOID]" << "[switchToProfileSlot]" << ":" << "Profile" << profile->text().remove(QChar('&'));
+
     QProcess command;
     QString commandLine;
     commandLine = QString("");
     sendNotification(QString("Info"), i18n("Switch to profile %1", profile->text().remove(QChar('&'))));
     commandLine = paths[QString("netctl-auto")] + QString(" switch-to ") +
             profile->text().remove(QChar('&'));
+
     command.startDetached(commandLine);
 }
 
 
 void Netctl::restartProfileSlot()
 {
+    if (debug) qDebug() << "[PLASMOID]" << "[restartProfileSlot]";
+
     QProcess command;
     QString commandLine;
     sendNotification(QString("Info"), i18n("Restart profile %1", info[QString("name")]));
@@ -257,12 +303,15 @@ void Netctl::restartProfileSlot()
                 QString(" restart ") + info[QString("name")];
     else
         commandLine = paths[QString("netctl")] + QString(" restart ") + info[QString("name")];
+
     command.startDetached(commandLine);
 }
 
 
 QList<QAction*> Netctl::contextualActions()
 {
+    if (debug) qDebug() << "[PLASMOID]" << "[contextualActions]";
+
     if (status)
         contextMenu[QString("title")]->setIcon(QIcon(paths[QString("active")]));
     else
@@ -325,6 +374,8 @@ QList<QAction*> Netctl::contextualActions()
 
 void Netctl::createActions()
 {
+    if (debug) qDebug() << "[PLASMOID]" << "[createActions]";
+
     menuActions.clear();
 
     contextMenu[QString("title")] = new QAction(QString("netctl-gui"), this);
@@ -370,6 +421,10 @@ void Netctl::createActions()
 // events
 void Netctl::sendNotification(const QString eventId, const QString message)
 {
+    if (debug) qDebug() << "[PLASMOID]" << "[sendNotification]";
+    if (debug) qDebug() << "[PLASMOID]" << "[sendNotification]" << ":" << "Event" << eventId;
+    if (debug) qDebug() << "[PLASMOID]" << "[sendNotification]" << ":" << "Message" << message;
+
     KNotification *notification = new KNotification(eventId);
     notification->setComponentData(KComponentData("plasma_applet_netctl"));
     notification->setTitle(QString("Netctl ::: ") + eventId);
@@ -381,16 +436,22 @@ void Netctl::sendNotification(const QString eventId, const QString message)
 
 void Netctl::showGui()
 {
+    if (debug) qDebug() << "[PLASMOID]" << "[showGui]";
+
     sendNotification(QString("Info"), i18n("Start GUI"));
     QProcess command;
+
     command.startDetached(paths[QString("gui")]);
 }
 
 
 void Netctl::showWifi()
 {
+    if (debug) qDebug() << "[PLASMOID]" << "[showWifi]";
+
     sendNotification(QString("Info"), i18n("Start WiFi menu"));
     QProcess command;
+
     command.startDetached(paths[QString("wifi")]);
 }
 
@@ -398,6 +459,8 @@ void Netctl::showWifi()
 // data engine interaction
 void Netctl::connectToEngine()
 {
+    if (debug) qDebug() << "[PLASMOID]" << "[connectToEngine]";
+
     netctlEngine->connectSource(QString("profiles"), this, autoUpdateInterval);
     netctlEngine->connectSource(QString("statusBool"), this, autoUpdateInterval);
     netctlEngine->connectSource(QString("currentProfile"), this, autoUpdateInterval);
@@ -417,6 +480,9 @@ void Netctl::connectToEngine()
 
 void Netctl::dataUpdated(const QString &sourceName, const Plasma::DataEngine::Data &data)
 {
+    if (debug) qDebug() << "[PLASMOID]" << "[dataUpdated]";
+    if (debug) qDebug() << "[PLASMOID]" << "[dataUpdated]" << ":" << "Source" << sourceName;
+
     if (data.isEmpty())
         return;
     QString value = data[QString("value")].toString();
@@ -474,6 +540,8 @@ void Netctl::dataUpdated(const QString &sourceName, const Plasma::DataEngine::Da
 
 void Netctl::disconnectFromEngine()
 {
+    if (debug) qDebug() << "[PLASMOID]" << "[disconnectFromEngine]";
+
     netctlEngine->disconnectSource(QString("profiles"), this);
     netctlEngine->disconnectSource(QString("statusBool"), this);
     netctlEngine->disconnectSource(QString("currentProfile"), this);
@@ -493,6 +561,8 @@ void Netctl::disconnectFromEngine()
 //  configuration interface
 void Netctl::selectActiveIcon()
 {
+    if (debug) qDebug() << "[PLASMOID]" << "[selectActiveIcon]";
+
     KUrl url = KFileDialog::getOpenUrl(KUrl("/usr/share/icons"), "*");
     if (!url.isEmpty())
         uiAppConfig.lineEdit_activeIcon->setText(url.path());
@@ -501,6 +571,8 @@ void Netctl::selectActiveIcon()
 
 void Netctl::selectGuiExe()
 {
+    if (debug) qDebug() << "[PLASMOID]" << "[selectGuiExe]";
+
     KUrl url = KFileDialog::getOpenUrl(KUrl("/usr/bin"), "*");
     if (!url.isEmpty())
         uiWidConfig.lineEdit_gui->setText(url.path());
@@ -509,6 +581,8 @@ void Netctl::selectGuiExe()
 
 void Netctl::selectInactiveIcon()
 {
+    if (debug) qDebug() << "[PLASMOID]" << "[selectInactiveIcon]";
+
     KUrl url = KFileDialog::getOpenUrl(KUrl("/usr/share/icons"), "*");
     if (!url.isEmpty())
         uiAppConfig.lineEdit_inactiveIcon->setText(url.path());
@@ -517,6 +591,8 @@ void Netctl::selectInactiveIcon()
 
 void Netctl::selectNetctlExe()
 {
+    if (debug) qDebug() << "[PLASMOID]" << "[selectNetctlExe]";
+
     KUrl url = KFileDialog::getOpenUrl(KUrl("/usr/bin"), "*");
     if (!url.isEmpty())
         uiWidConfig.lineEdit_netctl->setText(url.path());
@@ -525,6 +601,8 @@ void Netctl::selectNetctlExe()
 
 void Netctl::selectNetctlAutoExe()
 {
+    if (debug) qDebug() << "[PLASMOID]" << "[selectNetctlAutoExe]";
+
     KUrl url = KFileDialog::getOpenUrl(KUrl("/usr/bin"), "*");
     if (!url.isEmpty())
         uiWidConfig.lineEdit_netctlAuto->setText(url.path());
@@ -533,6 +611,8 @@ void Netctl::selectNetctlAutoExe()
 
 void Netctl::selectSudoExe()
 {
+    if (debug) qDebug() << "[PLASMOID]" << "[selectSudoExe]";
+
     KUrl url = KFileDialog::getOpenUrl(KUrl("/usr/bin"), "*");
     if (!url.isEmpty())
         uiWidConfig.lineEdit_sudo->setText(url.path());
@@ -541,6 +621,8 @@ void Netctl::selectSudoExe()
 
 void Netctl::selectWifiExe()
 {
+    if (debug) qDebug() << "[PLASMOID]" << "[selectWifiExe]";
+
     KUrl url = KFileDialog::getOpenUrl(KUrl("/usr/bin"), "*");
     if (!url.isEmpty())
         uiWidConfig.lineEdit_wifi->setText(url.path());
@@ -549,6 +631,8 @@ void Netctl::selectWifiExe()
 
 void Netctl::selectDataEngineExternalIpExe()
 {
+    if (debug) qDebug() << "[PLASMOID]" << "[selectDataEngineExternalIpExe]";
+
     KUrl url = KFileDialog::getOpenUrl(KUrl("/usr/bin"), "*");
     if (!url.isEmpty())
         uiDEConfig.lineEdit_extIp->setText(url.path());
@@ -557,6 +641,8 @@ void Netctl::selectDataEngineExternalIpExe()
 
 void Netctl::selectDataEngineInterfacesDirectory()
 {
+    if (debug) qDebug() << "[PLASMOID]" << "[selectDataEngineInterfacesDirectory]";
+
     KUrl url = KFileDialog::getExistingDirectoryUrl(KUrl("/sys"));
     if (!url.isEmpty())
         uiDEConfig.lineEdit_interface->setText(url.path());
@@ -565,6 +651,8 @@ void Netctl::selectDataEngineInterfacesDirectory()
 
 void Netctl::selectDataEngineIpExe()
 {
+    if (debug) qDebug() << "[PLASMOID]" << "[selectDataEngineIpExe]";
+
     KUrl url = KFileDialog::getOpenUrl(KUrl("/usr/bin"), "*");
     if (!url.isEmpty())
         uiDEConfig.lineEdit_ip->setText(url.path());
@@ -573,6 +661,8 @@ void Netctl::selectDataEngineIpExe()
 
 void Netctl::selectDataEngineNetctlExe()
 {
+    if (debug) qDebug() << "[PLASMOID]" << "[selectDataEngineNetctlExe]";
+
     KUrl url = KFileDialog::getOpenUrl(KUrl("/usr/bin"), "*");
     if (!url.isEmpty())
         uiDEConfig.lineEdit_netctl->setText(url.path());
@@ -581,6 +671,8 @@ void Netctl::selectDataEngineNetctlExe()
 
 void Netctl::selectDataEngineNetctlAutoExe()
 {
+    if (debug) qDebug() << "[PLASMOID]" << "[selectDataEngineNetctlAutoExe]";
+
     KUrl url = KFileDialog::getOpenUrl(KUrl("/usr/bin"), "*");
     if (!url.isEmpty())
         uiDEConfig.lineEdit_netctlAuto->setText(url.path());
@@ -589,6 +681,8 @@ void Netctl::selectDataEngineNetctlAutoExe()
 
 void Netctl::createConfigurationInterface(KConfigDialog *parent)
 {
+    if (debug) qDebug() << "[PLASMOID]" << "[createConfigurationInterface]";
+
     QWidget *configWidget = new QWidget;
     uiWidConfig.setupUi(configWidget);
     QWidget *appWidget = new QWidget;
@@ -706,6 +800,8 @@ void Netctl::createConfigurationInterface(KConfigDialog *parent)
 
 void Netctl::configAccepted()
 {
+    if (debug) qDebug() << "[PLASMOID]" << "[configAccepted]";
+
     disconnectFromEngine();
     KConfigGroup cg = config();
 
@@ -764,6 +860,8 @@ void Netctl::configAccepted()
 
 void Netctl::configChanged()
 {
+    if (debug) qDebug() << "[PLASMOID]" << "[configChanged]";
+
     KConfigGroup cg = config();
 
     autoUpdateInterval = cg.readEntry("autoUpdateInterval", 1000);
@@ -773,7 +871,7 @@ void Netctl::configChanged()
     paths[QString("sudo")] = cg.readEntry("sudoPath", "/usr/bin/kdesu");
     paths[QString("wifi")] = cg.readEntry("wifiPath", "/usr/bin/netctl-gui -t 3");
     useSudo = cg.readEntry("useSudo", true);
-    useWifi = cg.readEntry("useWifi", true);
+    useWifi = cg.readEntry("useWifi", false);
     bigInterface[QString("main")] = cg.readEntry("showBigInterface", true);
     bigInterface[QString("extIp")] = cg.readEntry("showExtIp", false);
     bigInterface[QString("netDev")] = cg.readEntry("showNetDev", true);
@@ -802,6 +900,8 @@ void Netctl::configChanged()
 
 void Netctl::setBigInterface()
 {
+    if (debug) qDebug() << "[PLASMOID]" << "[setBigInterface]";
+
     if (uiWidConfig.checkBox_showBigInterface->checkState() == 0) {
         uiWidConfig.checkBox_showNetDev->setDisabled(true);
         uiWidConfig.checkBox_showExtIp->setDisabled(true);
@@ -817,6 +917,8 @@ void Netctl::setBigInterface()
 
 void Netctl::setDataEngineExternalIp()
 {
+    if (debug) qDebug() << "[PLASMOID]" << "[setDataEngineExternalIp]";
+
     if (uiDEConfig.checkBox_extIp->checkState() == 0) {
         uiDEConfig.lineEdit_extIp->setDisabled(true);
         uiDEConfig.pushButton_extIp->setDisabled(true);
@@ -830,6 +932,8 @@ void Netctl::setDataEngineExternalIp()
 
 void Netctl::setSudo()
 {
+    if (debug) qDebug() << "[PLASMOID]" << "[setSudo]";
+
     if (uiWidConfig.checkBox_sudo->checkState() == 0) {
         uiWidConfig.lineEdit_sudo->setDisabled(true);
         uiWidConfig.pushButton_sudo->setDisabled(true);
@@ -843,6 +947,8 @@ void Netctl::setSudo()
 
 void Netctl::setWifi()
 {
+    if (debug) qDebug() << "[PLASMOID]" << "[setWifi]";
+
     if (uiWidConfig.checkBox_wifi->checkState() == 0) {
         uiWidConfig.lineEdit_wifi->setDisabled(true);
         uiWidConfig.pushButton_wifi->setDisabled(true);

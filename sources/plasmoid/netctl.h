@@ -43,7 +43,7 @@ public:
     void init();
     QMap<QString, QString> readDataEngineConfiguration();
     void writeDataEngineConfiguration(const QMap<QString, QString> settings);
-    QMap<QString, QString> updateConfiguration(const QMap<QString, QString> rawConfig);
+    QMap<QString, QString> updateDataEngineConfiguration(const QMap<QString, QString> rawConfig);
 
 public slots:
     // events
@@ -114,6 +114,7 @@ private:
     Ui::ConfigWindow uiWidConfig;
     Ui::About uiAboutConfig;
     // configuration
+    bool debug;
     int autoUpdateInterval;
     QMap<QString, bool> bigInterface;
     QStringList formatLine;
