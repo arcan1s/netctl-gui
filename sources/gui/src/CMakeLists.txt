@@ -64,7 +64,7 @@ else ()
     source_group ("Generated Files" FILES ${MOC_SOURCES})
 
     add_executable (${SUBPROJECT} ${UI_HEADERS} ${HEADERS} ${SOURCES} ${MOC_SOURCES} ${QRC_SOURCES} ${TRANSLATIONS})
-    target_link_libraries (${SUBPROJECT} ${PROJECT_LIBRARY} ${QT_LIBRARIES} ${QT_QTMAIN_LIBRARY})
+    target_link_libraries (${SUBPROJECT} ${PROJECT_LIBRARY} ${QT_QTCORE_LIBRARY} ${QT_QTGUI_LIBRARY})
 endif()
 
 # install properties
