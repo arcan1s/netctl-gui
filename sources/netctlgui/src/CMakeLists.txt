@@ -14,10 +14,6 @@ if (USE_QT5)
     add_definitions(${Qt5Core_DEFINITIONS})
     qt5_wrap_cpp (MOC_SOURCES ${HEADERS})
 
-    source_group ("Header Files" FILES ${HEADERS})
-    source_group ("Source Files" FILES ${SOURCES})
-    source_group ("Generated Files" FILES ${MOC_SOURCES})
-
     include_directories (${Qt5Core_INCLUDE_DIRS})
     add_library (${SUBPROJECT} SHARED ${SOURCES} ${HEADERS} ${MOC_SOURCES})
     target_link_libraries (${SUBPROJECT} ${Qt5Core_LIBRARIES})
@@ -25,10 +21,6 @@ else ()
     find_package (Qt4 REQUIRED)
     include (${QT_USE_FILE})
     qt4_wrap_cpp (MOC_SOURCES ${HEADERS})
-
-    source_group ("Header Files" FILES ${HEADERS})
-    source_group ("Source Files" FILES ${SOURCES})
-    source_group ("Generated Files" FILES ${MOC_SOURCES})
 
     add_library (${SUBPROJECT} SHARED ${SOURCES} ${HEADERS} ${MOC_SOURCES})
     target_link_libraries (${SUBPROJECT} ${QT_QTCORE_LIBRARY})

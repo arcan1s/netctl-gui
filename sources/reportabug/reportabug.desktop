@@ -1,0 +1,10 @@
+#!/usr/bin/env xdg-open
+[Desktop Entry]
+Name=Report a bug
+Comment=A simple Qt application which allows users to create an issue for GitHub projects
+Exec=reportabug
+Icon=tools-report-bug
+Terminal=false
+Encoding=UTF-8
+Type=Application
+Categories=system

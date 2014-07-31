@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>479</width>
-    <height>507</height>
+    <width>477</width>
+    <height>505</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -367,7 +367,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>479</width>
+     <width>477</width>
      <height>22</height>
     </rect>
    </property>
@@ -402,6 +402,7 @@
     <property name="title">
      <string>Help</string>
     </property>
+    <addaction name="actionReport"/>
     <addaction name="actionAbout"/>
    </widget>
    <addaction name="menuMenu"/>
@@ -562,10 +563,20 @@
   </action>
   <action name="actionAbout">
    <property name="icon">
-    <iconset theme="help-about"/>
+    <iconset theme="help-about">
+     <normaloff/>
+    </iconset>
    </property>
    <property name="text">
     <string>About</string>
+   </property>
+  </action>
+  <action name="actionReport">
+   <property name="icon">
+    <iconset theme="tools-report-bug"/>
+   </property>
+   <property name="text">
+    <string>Report a bug</string>
    </property>
   </action>
  </widget>
