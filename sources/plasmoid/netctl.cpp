@@ -28,11 +28,34 @@
 #include <plasma/theme.h>
 
 #include <QDebug>
-#include <QGraphicsLinearLayout>
+#include <QGraphicsSceneMouseEvent>
 #include <QMenu>
 #include <QProcessEnvironment>
 
 #include <version.h>
+
+
+IconLabel::IconLabel(Netctl *wid, const bool debugCmd)
+    : QLabel(),
+      debug(debugCmd),
+      widget(wid)
+{
+}
+
+
+IconLabel::~IconLabel()
+{
+    if (debug) qDebug() << "[PLASMOID]" << "[IconLabel]";
+}
+
+
+void IconLabel::mousePressEvent(QMouseEvent *event)
+{
+    if (debug) qDebug() << "[PLASMOID]" << "[mousePressEvent]";
+
+    if (event->button() == Qt::LeftButton)
+        widget->showGui();
+}
 
 
 Netctl::Netctl(QObject *parent, const QVariantList &args)
@@ -48,6 +71,7 @@ Netctl::Netctl(QObject *parent, const QVariantList &args)
 
     this->setBackgroundHints(DefaultBackground);
     this->setHasConfigurationInterface(true);
+    connect(this, SIGNAL(activate()), this, SLOT(showGui()));
     // text format init
     formatLine.append(QString(""));
     formatLine.append(QString(""));
@@ -81,23 +105,15 @@ void Netctl::init()
     netctlEngine = dataEngine(QString("netctl"));
     createActions();
     // generate ui
-    graphicsWidget = new QGraphicsWidget();
-    this->setGraphicsWidget(graphicsWidget);
-    // main layout
-    fullSpaceLayout = new QGraphicsLinearLayout(graphicsWidget);
-    fullSpaceLayout->setContentsMargins(1, 1, 1, 1);
-    graphicsWidget->setLayout(fullSpaceLayout);
-
-    // frames
-    // icon
-    iconWidget = new Plasma::IconWidget(KIcon(""), QString(), this);
-    iconWidget->setPreferredSize(30, 30);
-    connect(iconWidget, SIGNAL(clicked()), this, SLOT(showGui()));
-    fullSpaceLayout->addItem(iconWidget);
-    // text
-    textLabel = new Plasma::Label();
-    textLabel->setPreferredHeight(30);
-    fullSpaceLayout->addItem(textLabel);
+    graphicsWidget = new QWidget();
+    graphicsWidget->setAttribute(Qt::WA_TranslucentBackground, true);
+    this->setWidget(graphicsWidget);
+    // layouts
+    layout = new QHBoxLayout(graphicsWidget);
+    layout->setContentsMargins(1, 1, 1, 1);
+    iconLabel = new IconLabel(this, debug);
+    layout->addWidget(iconLabel);
+    layout->addWidget(&textLabel);
 
     // read variables
     configChanged();
@@ -198,8 +214,10 @@ void Netctl::updateIcon()
     else
         icon = paths[QString("inactive")];
 
-    iconWidget->setIcon(icon);
     this->setPopupIcon(KIcon(icon));
+    QPixmap iconPixmap;
+    iconPixmap.load(icon);
+    iconLabel->setPixmap(iconPixmap);
 }
 
 
@@ -208,16 +226,9 @@ void Netctl::updateInterface(bool setShown)
     if (debug) qDebug() << "[PLASMOID]" << "[updateInterface]";
     if (debug) qDebug() << "[PLASMOID]" << "[updateInterface]" << ":" << "State" << setShown;
 
-    if (setShown) {
-        textLabel->show();
-        fullSpaceLayout->updateGeometry();
-        updateGeometry();
-    }
-    else {
-        textLabel->hide();
-        fullSpaceLayout->updateGeometry();
-        updateGeometry();
-    }
+    textLabel.setHidden(!setShown);
+    layout->setSizeConstraint(QLayout::SetMinimumSize);
+    graphicsWidget->resize(1, 1);
 }
 
 
@@ -523,7 +534,7 @@ void Netctl::dataUpdated(const QString &sourceName, const Plasma::DataEngine::Da
         if (bigInterface[QString("netDev")])
             text.append(info[QString("interfaces")]);
         if (bigInterface[QString("main")])
-            textLabel->setText(formatLine[0] + text.join(QString("<br>")) + formatLine[1]);
+            textLabel.setText(formatLine[0] + text.join(QString("<br>")) + formatLine[1]);
     }
     else if (sourceName == QString("extIp")) {
         info[QString("extIp")] = value;

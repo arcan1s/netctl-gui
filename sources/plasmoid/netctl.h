@@ -18,11 +18,7 @@
 #ifndef NETCTL_PLASMOID_H
 #define NETCTL_PLASMOID_H
 
-#include <Plasma/Applet>
 #include <Plasma/DataEngine>
-#include <Plasma/Frame>
-#include <Plasma/IconWidget>
-#include <Plasma/Label>
 #include <Plasma/PopupApplet>
 #include <QProcess>
 
@@ -33,6 +29,23 @@
 
 
 class QGraphicsLinearLayout;
+class Netctl;
+
+class IconLabel : public QLabel
+{
+    Q_OBJECT
+
+public:
+    IconLabel(Netctl *wid, const bool debugCmd);
+    ~IconLabel();
+
+protected:
+    void mousePressEvent(QMouseEvent *event);
+
+private:
+    bool debug;
+    Netctl *widget;
+};
 
 class Netctl : public Plasma::PopupApplet
 {
@@ -92,12 +105,11 @@ protected:
 
 private:
     // ui
-    QGraphicsWidget *graphicsWidget;
-    QGraphicsLinearLayout *fullSpaceLayout;
-    // icon
-    Plasma::IconWidget *iconWidget;
-    // text
-    Plasma::Label *textLabel;
+    QWidget *graphicsWidget;
+    QHBoxLayout *layout;
+    IconLabel *iconLabel;
+    QLabel textLabel;
+    // information
     bool status;
     QMap<QString, QString> info;
     QStringList profileList;
