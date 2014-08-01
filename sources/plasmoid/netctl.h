@@ -79,19 +79,7 @@ private slots:
     void updateIcon();
     void updateInterface(bool setHidden);
     // configuration interface
-    void selectActiveIcon();
-    void selectGuiExe();
-    void selectInactiveIcon();
-    void selectNetctlExe();
-    void selectNetctlAutoExe();
-    void selectSudoExe();
-    void selectWifiExe();
-    // dataengine
-    void selectDataEngineExternalIpExe();
-    void selectDataEngineInterfacesDirectory();
-    void selectDataEngineIpExe();
-    void selectDataEngineNetctlExe();
-    void selectDataEngineNetctlAutoExe();
+    void selectAbstractSomething();
     // context menu
     void enableProfileSlot();
     void startProfileSlot(QAction *profile);
@@ -105,7 +93,7 @@ protected:
 
 private:
     // ui
-    QWidget *graphicsWidget;
+    QWidget graphicsWidget;
     QHBoxLayout *layout;
     IconLabel *iconLabel;
     QLabel textLabel;

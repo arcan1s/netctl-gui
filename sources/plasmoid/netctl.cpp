@@ -105,11 +105,10 @@ void Netctl::init()
     netctlEngine = dataEngine(QString("netctl"));
     createActions();
     // generate ui
-    graphicsWidget = new QWidget();
-    graphicsWidget->setAttribute(Qt::WA_TranslucentBackground, true);
-    this->setWidget(graphicsWidget);
+    graphicsWidget.setAttribute(Qt::WA_TranslucentBackground, true);
+    this->setWidget(&graphicsWidget);
     // layouts
-    layout = new QHBoxLayout(graphicsWidget);
+    layout = new QHBoxLayout(&graphicsWidget);
     layout->setContentsMargins(1, 1, 1, 1);
     iconLabel = new IconLabel(this, debug);
     layout->addWidget(iconLabel);
@@ -226,13 +225,12 @@ void Netctl::updateInterface(bool setShown)
     if (debug) qDebug() << "[PLASMOID]" << "[updateInterface]";
     if (debug) qDebug() << "[PLASMOID]" << "[updateInterface]" << ":" << "State" << setShown;
 
-    textLabel.setHidden(!setShown);
     if (setShown)
         layout->addWidget(&textLabel);
     else
         layout->removeWidget(&textLabel);
-    graphicsWidget->adjustSize();
-    resize(1, 1);
+    graphicsWidget.adjustSize();
+    this->resize(1, 1);
 }
 
 
@@ -594,123 +592,51 @@ void Netctl::disconnectFromEngine()
 
 
 //  configuration interface
-void Netctl::selectActiveIcon()
+void Netctl::selectAbstractSomething()
 {
-    if (debug) qDebug() << "[PLASMOID]" << "[selectActiveIcon]";
+    if (debug) qDebug() << "[PLASMOID]" << "[selectAbstractSomething]";
 
-    KUrl url = KFileDialog::getOpenUrl(KUrl("/usr/share/icons"), "*");
-    if (!url.isEmpty())
-        uiAppConfig.lineEdit_activeIcon->setText(url.path());
-}
+    bool isDir = false;
+    QString path = QString("/usr/bin");
+    QLineEdit *lineEdit = uiWidConfig.lineEdit_gui;
+    KUrl url;
+    if (sender() == uiAppConfig.pushButton_activeIcon) {
+        path = QString("/usr/share/icons");
+        lineEdit = uiAppConfig.lineEdit_activeIcon;
+    }
+    else if (sender() == uiAppConfig.pushButton_inactiveIcon) {
+        path = QString("/usr/share/icons");
+        lineEdit = uiAppConfig.lineEdit_inactiveIcon;
+    }
+    else if (sender() == uiWidConfig.pushButton_gui)
+        lineEdit = uiWidConfig.lineEdit_gui;
+    else if (sender() == uiWidConfig.pushButton_netctl)
+        lineEdit = uiWidConfig.lineEdit_netctl;
+    else if (sender() == uiWidConfig.pushButton_netctlAuto)
+        lineEdit = uiWidConfig.lineEdit_netctlAuto;
+    else if (sender() == uiWidConfig.pushButton_sudo)
+        lineEdit = uiWidConfig.lineEdit_sudo;
+    else if (sender() == uiWidConfig.pushButton_wifi)
+        lineEdit = uiWidConfig.lineEdit_wifi;
+    else if (sender() == uiDEConfig.pushButton_extIp)
+        lineEdit = uiDEConfig.lineEdit_extIp;
+    else if (sender() == uiDEConfig.pushButton_interface) {
+        path = QString("/sys");
+        lineEdit = uiDEConfig.lineEdit_interface;
+        isDir = true;
+    }
+    else if (sender() == uiDEConfig.pushButton_ip)
+        lineEdit = uiDEConfig.lineEdit_ip;
+    else if (sender() == uiDEConfig.pushButton_netctl)
+        lineEdit = uiDEConfig.lineEdit_netctl;
+    else if (sender() == uiDEConfig.pushButton_netctlAuto)
+        lineEdit = uiDEConfig.lineEdit_netctlAuto;
 
-
-void Netctl::selectGuiExe()
-{
-    if (debug) qDebug() << "[PLASMOID]" << "[selectGuiExe]";
-
-    KUrl url = KFileDialog::getOpenUrl(KUrl("/usr/bin"), "*");
-    if (!url.isEmpty())
-        uiWidConfig.lineEdit_gui->setText(url.path());
-}
-
-
-void Netctl::selectInactiveIcon()
-{
-    if (debug) qDebug() << "[PLASMOID]" << "[selectInactiveIcon]";
-
-    KUrl url = KFileDialog::getOpenUrl(KUrl("/usr/share/icons"), "*");
-    if (!url.isEmpty())
-        uiAppConfig.lineEdit_inactiveIcon->setText(url.path());
-}
-
-
-void Netctl::selectNetctlExe()
-{
-    if (debug) qDebug() << "[PLASMOID]" << "[selectNetctlExe]";
-
-    KUrl url = KFileDialog::getOpenUrl(KUrl("/usr/bin"), "*");
-    if (!url.isEmpty())
-        uiWidConfig.lineEdit_netctl->setText(url.path());
-}
-
-
-void Netctl::selectNetctlAutoExe()
-{
-    if (debug) qDebug() << "[PLASMOID]" << "[selectNetctlAutoExe]";
-
-    KUrl url = KFileDialog::getOpenUrl(KUrl("/usr/bin"), "*");
-    if (!url.isEmpty())
-        uiWidConfig.lineEdit_netctlAuto->setText(url.path());
-}
-
-
-void Netctl::selectSudoExe()
-{
-    if (debug) qDebug() << "[PLASMOID]" << "[selectSudoExe]";
-
-    KUrl url = KFileDialog::getOpenUrl(KUrl("/usr/bin"), "*");
-    if (!url.isEmpty())
-        uiWidConfig.lineEdit_sudo->setText(url.path());
-}
-
-
-void Netctl::selectWifiExe()
-{
-    if (debug) qDebug() << "[PLASMOID]" << "[selectWifiExe]";
-
-    KUrl url = KFileDialog::getOpenUrl(KUrl("/usr/bin"), "*");
-    if (!url.isEmpty())
-        uiWidConfig.lineEdit_wifi->setText(url.path());
-}
-
-
-void Netctl::selectDataEngineExternalIpExe()
-{
-    if (debug) qDebug() << "[PLASMOID]" << "[selectDataEngineExternalIpExe]";
-
-    KUrl url = KFileDialog::getOpenUrl(KUrl("/usr/bin"), "*");
-    if (!url.isEmpty())
-        uiDEConfig.lineEdit_extIp->setText(url.path());
-}
-
-
-void Netctl::selectDataEngineInterfacesDirectory()
-{
-    if (debug) qDebug() << "[PLASMOID]" << "[selectDataEngineInterfacesDirectory]";
-
-    KUrl url = KFileDialog::getExistingDirectoryUrl(KUrl("/sys"));
-    if (!url.isEmpty())
-        uiDEConfig.lineEdit_interface->setText(url.path());
-}
-
-
-void Netctl::selectDataEngineIpExe()
-{
-    if (debug) qDebug() << "[PLASMOID]" << "[selectDataEngineIpExe]";
-
-    KUrl url = KFileDialog::getOpenUrl(KUrl("/usr/bin"), "*");
-    if (!url.isEmpty())
-        uiDEConfig.lineEdit_ip->setText(url.path());
-}
-
-
-void Netctl::selectDataEngineNetctlExe()
-{
-    if (debug) qDebug() << "[PLASMOID]" << "[selectDataEngineNetctlExe]";
-
-    KUrl url = KFileDialog::getOpenUrl(KUrl("/usr/bin"), "*");
-    if (!url.isEmpty())
-        uiDEConfig.lineEdit_netctl->setText(url.path());
-}
-
-
-void Netctl::selectDataEngineNetctlAutoExe()
-{
-    if (debug) qDebug() << "[PLASMOID]" << "[selectDataEngineNetctlAutoExe]";
-
-    KUrl url = KFileDialog::getOpenUrl(KUrl("/usr/bin"), "*");
-    if (!url.isEmpty())
-        uiDEConfig.lineEdit_netctlAuto->setText(url.path());
+    if (isDir)
+        url = KFileDialog::getExistingDirectoryUrl(path);
+    else
+        url = KFileDialog::getOpenUrl(KUrl(path), "*");
+    lineEdit->setText(url.path());
 }
 
 
@@ -816,18 +742,18 @@ void Netctl::createConfigurationInterface(KConfigDialog *parent)
     connect(uiWidConfig.checkBox_wifi, SIGNAL(stateChanged(int)), this, SLOT(setWifi()));
     connect(uiDEConfig.checkBox_extIp, SIGNAL(stateChanged(int)), this, SLOT(setDataEngineExternalIp()));
 
-    connect(uiWidConfig.pushButton_gui, SIGNAL(clicked()), this, SLOT(selectGuiExe()));
-    connect(uiWidConfig.pushButton_netctl, SIGNAL(clicked()), this, SLOT(selectNetctlExe()));
-    connect(uiWidConfig.pushButton_netctlAuto, SIGNAL(clicked()), this, SLOT(selectNetctlAutoExe()));
-    connect(uiWidConfig.pushButton_sudo, SIGNAL(clicked()), this, SLOT(selectSudoExe()));
-    connect(uiWidConfig.pushButton_wifi, SIGNAL(clicked()), this, SLOT(selectWifiExe()));
-    connect(uiAppConfig.pushButton_activeIcon, SIGNAL(clicked()), this, SLOT(selectActiveIcon()));
-    connect(uiAppConfig.pushButton_inactiveIcon, SIGNAL(clicked()), this, SLOT(selectInactiveIcon()));
-    connect(uiDEConfig.pushButton_extIp, SIGNAL(clicked()), this, SLOT(selectDataEngineExternalIpExe()));
-    connect(uiDEConfig.pushButton_interface, SIGNAL(clicked()), this, SLOT(selectDataEngineInterfacesDirectory()));
-    connect(uiDEConfig.pushButton_ip, SIGNAL(clicked()), this, SLOT(selectDataEngineIpExe()));
-    connect(uiDEConfig.pushButton_netctl, SIGNAL(clicked()), this, SLOT(selectDataEngineNetctlExe()));
-    connect(uiDEConfig.pushButton_netctlAuto, SIGNAL(clicked()), this, SLOT(selectDataEngineNetctlAutoExe()));
+    connect(uiWidConfig.pushButton_gui, SIGNAL(clicked()), this, SLOT(selectAbstractSomething()));
+    connect(uiWidConfig.pushButton_netctl, SIGNAL(clicked()), this, SLOT(selectAbstractSomething()));
+    connect(uiWidConfig.pushButton_netctlAuto, SIGNAL(clicked()), this, SLOT(selectAbstractSomething()));
+    connect(uiWidConfig.pushButton_sudo, SIGNAL(clicked()), this, SLOT(selectAbstractSomething()));
+    connect(uiWidConfig.pushButton_wifi, SIGNAL(clicked()), this, SLOT(selectAbstractSomething()));
+    connect(uiAppConfig.pushButton_activeIcon, SIGNAL(clicked()), this, SLOT(selectAbstractSomething()));
+    connect(uiAppConfig.pushButton_inactiveIcon, SIGNAL(clicked()), this, SLOT(selectAbstractSomething()));
+    connect(uiDEConfig.pushButton_extIp, SIGNAL(clicked()), this, SLOT(selectAbstractSomething()));
+    connect(uiDEConfig.pushButton_interface, SIGNAL(clicked()), this, SLOT(selectAbstractSomething()));
+    connect(uiDEConfig.pushButton_ip, SIGNAL(clicked()), this, SLOT(selectAbstractSomething()));
+    connect(uiDEConfig.pushButton_netctl, SIGNAL(clicked()), this, SLOT(selectAbstractSomething()));
+    connect(uiDEConfig.pushButton_netctlAuto, SIGNAL(clicked()), this, SLOT(selectAbstractSomething()));
 
     connect(parent, SIGNAL(okClicked()), this, SLOT(configAccepted()));
     connect(parent, SIGNAL(applyClicked()), this, SLOT(configAccepted()));
