@@ -37,7 +37,6 @@ class NetctlProfile;
 class PasswdWidget;
 class PppoeWidget;
 class SettingsWindow;
-class Reportabug;
 class TunnelWidget;
 class TuntapWidget;
 class VlanWidget;
@@ -110,7 +109,6 @@ private:
     AboutWindow *aboutWin;
     ErrorWindow *errorWin;
     NetctlAutoWindow *netctlAutoWin;
-    Reportabug *reportWin;
     PasswdWidget *passwdWid;
     SettingsWindow *settingsWin;
     BridgeWidget *bridgeWid;

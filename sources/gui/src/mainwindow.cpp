@@ -24,7 +24,6 @@
 #include <QProcess>
 
 #include <netctlgui/netctlgui.h>
-#include <reportabug/reportabug.h>
 
 #include "aboutwindow.h"
 #include "bridgewidget.h"
@@ -92,7 +91,6 @@ MainWindow::MainWindow(QWidget *parent,
     aboutWin = new AboutWindow(this, debug);
     errorWin = new ErrorWindow(this, debug);
     netctlAutoWin = new NetctlAutoWindow(this, debug, configuration);
-    reportWin = new Reportabug(this, debug);
     // profile widgets
     generalWid = new GeneralWidget(this, configuration);
     ui->scrollAreaWidgetContents->layout()->addWidget(generalWid);
@@ -175,7 +173,6 @@ MainWindow::~MainWindow()
     delete errorWin;
     delete netctlAutoWin;
     delete settingsWin;
-    delete reportWin;
     delete ui;
 }
 
@@ -234,7 +231,6 @@ void MainWindow::createActions()
     connect(ui->actionNetctlAuto, SIGNAL(triggered(bool)), netctlAutoWin, SLOT(showWindow()));
     connect(ui->actionSettings, SIGNAL(triggered(bool)), settingsWin, SLOT(showWindow()));
     connect(ui->actionQuit, SIGNAL(triggered(bool)), this, SLOT(close()));
-    connect(ui->actionReport, SIGNAL(triggered(bool)), reportWin, SLOT(showWindow()));
 
     // actions menu
     connect(ui->menuActions, SIGNAL(aboutToShow()), this, SLOT(updateMenu()));

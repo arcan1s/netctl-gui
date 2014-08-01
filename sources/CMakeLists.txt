@@ -4,7 +4,6 @@ cmake_policy (SET CMP0003 OLD)
 cmake_policy (SET CMP0002 OLD)
 cmake_policy (SET CMP0011 NEW)
 cmake_policy (SET CMP0015 NEW)
-cmake_policy (SET CMP0028 OLD)
 
 project (netctl-gui)
 set (PROJECT_AUTHOR "Evgeniy Alekseev")
@@ -51,23 +50,17 @@ else ()
 endif ()
 
 configure_file (${CMAKE_SOURCE_DIR}/version.h.in ${CMAKE_CURRENT_BINARY_DIR}/version.h)
-configure_file (${CMAKE_SOURCE_DIR}/reportabug.h ${CMAKE_SOURCE_DIR}/reportabug/src/config.h)
 
 # resources
 set (PROJECT_LIBRARY netctlgui)
 set (PROJECT_RESOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/resources)
 add_subdirectory (${PROJECT_RESOURCE_DIR})
-# 3rd party
-set (GUI_3RDPARTY reportabug)
 
 # components
 if (BUILD_LIBRARY)
     add_subdirectory (${PROJECT_LIBRARY})
 endif()
 if (BUILD_GUI)
-    foreach (3RDPARTY ${GUI_3RDPARTY})
-        add_subdirectory (${3RDPARTY})
-    endforeach ()
     add_subdirectory (gui)
 endif ()
 if (BUILD_DATAENGINE)

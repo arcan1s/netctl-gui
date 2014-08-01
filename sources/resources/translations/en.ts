@@ -990,10 +990,6 @@
         <source>read configuration from this file</source>
         <translation>read configuration from this file</translation>
     </message>
-    <message>
-        <source>Report a bug</source>
-        <translation>Report a bug</translation>
-    </message>
 </context>
 <context>
     <name>MobileWidget</name>

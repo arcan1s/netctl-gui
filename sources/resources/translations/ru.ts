@@ -989,10 +989,6 @@
         <source>read configuration from this file</source>
         <translation>прочитать настройки из данного файла</translation>
     </message>
-    <message>
-        <source>Report a bug</source>
-        <translation>Сообщить о баге</translation>
-    </message>
 </context>
 <context>
     <name>MobileWidget</name>

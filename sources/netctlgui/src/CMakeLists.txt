@@ -12,19 +12,17 @@ include_directories (${SUBPROJECT_INCLUDE_DIR}
 if (USE_QT5)
     find_package(Qt5Core REQUIRED)
     add_definitions(${Qt5Core_DEFINITIONS})
-    qt5_wrap_cpp (MOC_SOURCES ${HEADERS})
-
     include_directories (${Qt5Core_INCLUDE_DIRS})
-    add_library (${SUBPROJECT} SHARED ${SOURCES} ${HEADERS} ${MOC_SOURCES})
-    target_link_libraries (${SUBPROJECT} ${Qt5Core_LIBRARIES})
+    set (QT_NEEDED_LIBS ${Qt5Core_LIBRARIES})
+    qt5_wrap_cpp (MOC_SOURCES ${HEADERS})
 else ()
     find_package (Qt4 REQUIRED)
     include (${QT_USE_FILE})
+    set (QT_NEEDED_LIBS ${QT_QTCORE_LIBRARY})
     qt4_wrap_cpp (MOC_SOURCES ${HEADERS})
-
-    add_library (${SUBPROJECT} SHARED ${SOURCES} ${HEADERS} ${MOC_SOURCES})
-    target_link_libraries (${SUBPROJECT} ${QT_QTCORE_LIBRARY})
 endif()
 
+add_library (${SUBPROJECT} SHARED ${SOURCES} ${HEADERS} ${MOC_SOURCES})
+target_link_libraries (${SUBPROJECT} ${QT_NEEDED_LIBS})
 # install properties
 install (TARGETS ${SUBPROJECT} DESTINATION lib)
