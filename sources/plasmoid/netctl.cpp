@@ -227,8 +227,12 @@ void Netctl::updateInterface(bool setShown)
     if (debug) qDebug() << "[PLASMOID]" << "[updateInterface]" << ":" << "State" << setShown;
 
     textLabel.setHidden(!setShown);
-    layout->setSizeConstraint(QLayout::SetMinimumSize);
-    graphicsWidget->resize(1, 1);
+    if (setShown)
+        layout->addWidget(&textLabel);
+    else
+        layout->removeWidget(&textLabel);
+    graphicsWidget->adjustSize();
+    resize(1, 1);
 }
 
 
