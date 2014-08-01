@@ -53,6 +53,7 @@ void AboutWindow::createText()
     uiAbout->label_version->setText(QApplication::translate("AboutWindow", "Version %1\n(build date %2)")
                                     .arg(QString(VERSION)).arg(QString(BUILD_DATE)));
     uiAbout->label_description->setText(QApplication::translate("AboutWindow", "Qt-based graphical interface for netctl."));
+    uiAbout->label_translators->setText(QApplication::translate("AboutWindow", "Translators: %1").arg(QString(TRANSLATORS)));
     uiAbout->label_links->setText(QApplication::translate("AboutWindow", "Links:") + QString("<br>") +
                                   QString("<a href=\"%1\">%2</a><br>").arg(QString(HOMEPAGE)).arg(QApplication::translate("AboutWindow", "Homepage")) +
                                   QString("<a href=\"%1\">%2</a><br>").arg(QString(REPOSITORY)).arg(QApplication::translate("AboutWindow", "Repository")) +

@@ -19,6 +19,7 @@
 #include "ui_mainwindow.h"
 
 #include <QDebug>
+#include <QDesktopServices>
 #include <QFileDialog>
 #include <QFileInfo>
 #include <QProcess>
@@ -39,6 +40,7 @@
 #include "settingswindow.h"
 #include "tunnelwidget.h"
 #include "tuntapwidget.h"
+#include "version.h"
 #include "vlanwidget.h"
 #include "wirelesswidget.h"
 
@@ -230,6 +232,7 @@ void MainWindow::createActions()
     connect(ui->actionAbout, SIGNAL(triggered(bool)), aboutWin, SLOT(show()));
     connect(ui->actionNetctlAuto, SIGNAL(triggered(bool)), netctlAutoWin, SLOT(showWindow()));
     connect(ui->actionSettings, SIGNAL(triggered(bool)), settingsWin, SLOT(showWindow()));
+    connect(ui->actionReport, SIGNAL(triggered(bool)), this, SLOT(reportABug()));
     connect(ui->actionQuit, SIGNAL(triggered(bool)), this, SLOT(close()));
 
     // actions menu
@@ -318,6 +321,16 @@ QMap<QString, QString> MainWindow::parseOptions(const QString options)
     return settings;
 }
 
+
+void MainWindow::reportABug()
+{
+    if (debug) qDebug() << "[MainWindow]" << "[reportABug]";
+
+    if (QDesktopServices::openUrl(QUrl(QString(BUGTRACKER))))
+        ui->statusBar->showMessage(QApplication::translate("MainWindow", "Done"));
+    else
+        ui->statusBar->showMessage(QApplication::translate("MainWindow", "Error"));
+}
 
 
 // window slots

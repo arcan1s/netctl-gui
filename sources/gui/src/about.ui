@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>390</width>
-    <height>290</height>
+    <width>388</width>
+    <height>288</height>
    </rect>
   </property>
   <layout class="QGridLayout" name="gridLayout">
@@ -50,7 +50,7 @@
      </property>
     </widget>
    </item>
-   <item row="5" column="0">
+   <item row="6" column="0">
     <spacer name="spacer_about">
      <property name="orientation">
       <enum>Qt::Vertical</enum>
@@ -63,7 +63,7 @@
      </property>
     </spacer>
    </item>
-   <item row="3" column="0">
+   <item row="4" column="0">
     <widget class="QLabel" name="label_links">
      <property name="text">
       <string/>
@@ -79,7 +79,7 @@
      </property>
     </widget>
    </item>
-   <item row="6" column="0">
+   <item row="7" column="0">
     <widget class="QLabel" name="label_license">
      <property name="text">
       <string/>
@@ -95,6 +95,13 @@
      </property>
      <property name="textInteractionFlags">
       <set>Qt::TextBrowserInteraction</set>
+     </property>
+    </widget>
+   </item>
+   <item row="3" column="0">
+    <widget class="QLabel" name="label_translators">
+     <property name="text">
+      <string/>
      </property>
     </widget>
    </item>

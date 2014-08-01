@@ -74,6 +74,7 @@ public slots:
     void setHiddenName(const QString name);
 
 private slots:
+    void reportABug();
     // menu update slots
     void setMenuActionsShown(const bool state = true);
     void updateMenuMain();

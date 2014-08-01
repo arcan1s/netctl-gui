@@ -760,6 +760,7 @@ void Netctl::createConfigurationInterface(KConfigDialog *parent)
     uiAboutConfig.label_name->setText(QString(NAME));
     uiAboutConfig.label_version->setText(i18n("Version %1\n(build date %2)", QString(VERSION), QString(BUILD_DATE)));
     uiAboutConfig.label_description->setText(i18n("KDE widget which interacts with netctl."));
+    uiAboutConfig.label_translators->setText(i18n("Translators: %1", QString(TRANSLATORS)));
     uiAboutConfig.label_links->setText(i18n("Links:") + QString("<br>") +
                                        QString("<a href=\"%1\">%2</a><br>").arg(QString(HOMEPAGE)).arg(i18n("Homepage")) +
                                        QString("<a href=\"%1\">%2</a><br>").arg(QString(REPOSITORY)).arg(i18n("Repository")) +

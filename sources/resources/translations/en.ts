@@ -45,6 +45,10 @@
         <source>About</source>
         <translation>About</translation>
     </message>
+    <message>
+        <source>Translators: %1</source>
+        <translation>Translators: %1</translation>
+    </message>
 </context>
 <context>
     <name>BridgeWidget</name>
@@ -989,6 +993,10 @@
     <message>
         <source>read configuration from this file</source>
         <translation>read configuration from this file</translation>
+    </message>
+    <message>
+        <source>Report a bug</source>
+        <translation>Report a bug</translation>
     </message>
 </context>
 <context>

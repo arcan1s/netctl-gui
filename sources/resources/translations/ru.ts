@@ -45,6 +45,10 @@
         <source>About</source>
         <translation>О программе</translation>
     </message>
+    <message>
+        <source>Translators: %1</source>
+        <translation>Переводчики: %1</translation>
+    </message>
 </context>
 <context>
     <name>BridgeWidget</name>
@@ -988,6 +992,10 @@
     <message>
         <source>read configuration from this file</source>
         <translation>прочитать настройки из данного файла</translation>
+    </message>
+    <message>
+        <source>Report a bug</source>
+        <translation>Сообщить о баге</translation>
     </message>
 </context>
 <context>

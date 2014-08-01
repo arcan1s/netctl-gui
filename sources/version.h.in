@@ -4,6 +4,7 @@
 #define NAME "Netctl Graphical Interface"
 #define VERSION "@PROJECT_VERSION@"
 #define AUTHOR "@PROJECT_AUTHOR@"
+#define TRANSLATORS ""
 #define EMAIL "@PROJECT_CONTACT@"
 #define LICENSE "@PROJECT_LICENSE@"
 
