@@ -23,6 +23,7 @@
 #include <Plasma/Frame>
 #include <Plasma/IconWidget>
 #include <Plasma/Label>
+#include <Plasma/PopupApplet>
 #include <QProcess>
 
 #include <ui_about.h>
@@ -33,7 +34,7 @@
 
 class QGraphicsLinearLayout;
 
-class Netctl : public Plasma::Applet
+class Netctl : public Plasma::PopupApplet
 {
     Q_OBJECT
 
@@ -62,6 +63,7 @@ public slots:
 
 private slots:
     // ui
+    void updateIcon();
     void updateInterface(bool setHidden);
     // configuration interface
     void selectActiveIcon();
@@ -90,6 +92,7 @@ protected:
 
 private:
     // ui
+    QGraphicsWidget *graphicsWidget;
     QGraphicsLinearLayout *fullSpaceLayout;
     // icon
     Plasma::IconWidget *iconWidget;

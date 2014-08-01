@@ -36,7 +36,7 @@
 
 
 Netctl::Netctl(QObject *parent, const QVariantList &args)
-    : Plasma::Applet(parent, args)
+    : Plasma::PopupApplet(parent, args)
 {
     // debug
     QProcessEnvironment environment = QProcessEnvironment::systemEnvironment();
@@ -46,8 +46,8 @@ Netctl::Netctl(QObject *parent, const QVariantList &args)
     else
         debug = false;
 
-    setBackgroundHints(DefaultBackground);
-    setHasConfigurationInterface(true);
+    this->setBackgroundHints(DefaultBackground);
+    this->setHasConfigurationInterface(true);
     // text format init
     formatLine.append(QString(""));
     formatLine.append(QString(""));
@@ -62,6 +62,8 @@ Netctl::~Netctl()
 //    delete switchToProfileMenu;
 //    delete iconWidget;
 //    delete textLabel;
+//    delete fullSpaceLayout;
+//    delete graphicsWidget;
 //    delete netctlEngine;
 }
 
@@ -79,10 +81,12 @@ void Netctl::init()
     netctlEngine = dataEngine(QString("netctl"));
     createActions();
     // generate ui
+    graphicsWidget = new QGraphicsWidget();
+    this->setGraphicsWidget(graphicsWidget);
     // main layout
-    fullSpaceLayout = new QGraphicsLinearLayout();
+    fullSpaceLayout = new QGraphicsLinearLayout(graphicsWidget);
     fullSpaceLayout->setContentsMargins(1, 1, 1, 1);
-    setLayout(fullSpaceLayout);
+    graphicsWidget->setLayout(fullSpaceLayout);
 
     // frames
     // icon
@@ -180,6 +184,22 @@ QMap<QString, QString> Netctl::updateDataEngineConfiguration(const QMap<QString,
             config.keys()[i] + QString("=") + config[config.keys()[i]];
 
     return config;
+}
+
+
+void Netctl::updateIcon()
+{
+    if (debug) qDebug() << "[PLASMOID]" << "[updateIcon]";
+    if (debug) qDebug() << "[PLASMOID]" << "[updateIcon]" << ":" << "Status" << status;
+
+    QString icon;
+    if (status)
+        icon = paths[QString("active")];
+    else
+        icon = paths[QString("inactive")];
+
+    iconWidget->setIcon(icon);
+    this->setPopupIcon(KIcon(icon));
 }
 
 
@@ -522,20 +542,19 @@ void Netctl::dataUpdated(const QString &sourceName, const Plasma::DataEngine::Da
             if (!status)
                 sendNotification(QString("Info"), i18n("Network is up"));
             status = true;
-            iconWidget->setIcon(paths[QString("active")]);
         }
         else {
             if (status)
                 sendNotification(QString("Info"), i18n("Network is down"));
             status = false;
-            iconWidget->setIcon(paths[QString("inactive")]);
         }
+        updateIcon();
     }
     else if (sourceName == QString("statusString")) {
         info[QString("status")] = QString("(") + value + QString(")");
     }
 
-    update();
+    this->update();
 }
 
 

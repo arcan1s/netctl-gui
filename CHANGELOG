@@ -12,6 +12,7 @@ Ver.1.2.0:
 + [gui] more command line options
 + [gui] added workaround for wireless-wep example
 + [gui] added shell completions
++ [gui] added "Report a bug" action
 + [lib] detached backend from frontend
 + [lib] added error checking
 + [lib] added doxygen documentation
@@ -30,6 +31,7 @@ Ver.1.2.0:
 * [lib] rewrited getSettingsFromProfile() function
 * [plasmoid] edited configuration interface
 * [plasmoid] changed double click event to click event
+* [plasmoid] change class from Applet to PopupApplet
 
 Ver.1.1.0 (netctl-1.7 update):
 + [gui] added frequency
