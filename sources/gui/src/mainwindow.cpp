@@ -23,6 +23,7 @@
 #include <QFileDialog>
 #include <QFileInfo>
 #include <QProcess>
+#include <QUrl>
 
 #include <netctlgui/netctlgui.h>
 
