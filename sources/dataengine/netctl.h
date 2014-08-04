@@ -19,6 +19,7 @@
 #define NETCTL_DE_H
 
 #include <Plasma/DataEngine>
+#include <QProcess>
 
 
 class Netctl : public Plasma::DataEngine
@@ -27,13 +28,15 @@ class Netctl : public Plasma::DataEngine
 
 public:
     Netctl(QObject *parent, const QVariantList &args);
-    void getCurrentProfile(const QString cmd);
+    ~Netctl();
+    void getCurrentProfile(const QString cmdNetctl, const QString cmdNetctlAuto);
     void getExtIp(const QString cmd);
-    QStringList getInterfaceList(const QString dir);
-    void getIntIp(const QString cmd, const QString dir);
-    void getNetctlAutoStatus();
-    void getProfileList(const QString cmd);
-    void getProfileStatus(const QString cmd);
+    void getExtIp6(const QString cmd);
+    QStringList getInterfaceList();
+    QString getIntIp();
+    QString getIntIp6();
+    void getNetctlAutoStatus(const QString cmdNetctlAuto);
+    void getProfileList(const QString cmdNetctl, const QString cmdNetctlAuto);
     void getProfileStringStatus(const QString cmdNetctl, const QString cmdNetctlAuto);
 
 protected:
@@ -44,18 +47,18 @@ protected:
 private slots:
     void setCurrentProfile(int exitCode, QProcess::ExitStatus exitStatus);
     void setExtIp(int exitCode, QProcess::ExitStatus exitStatus);
-    void setIntIp(int exitCode, QProcess::ExitStatus exitStatus);
+    void setExtIp6(int exitCode, QProcess::ExitStatus exitStatus);
     void setNetctlAutoStatus(int exitCode, QProcess::ExitStatus exitStatus);
     void setProfileList(int exitCode, QProcess::ExitStatus exitStatus);
-    void setProfileStatus(int exitCode, QProcess::ExitStatus exitStatus);
     void setProfileStringStatus(int exitCode, QProcess::ExitStatus exitStatus);
 
 private:
+    bool netctlAutoStatus;
+    QString currentProfile;
     // processes
     QMap<QString, QProcess *> processes;
     // configuration
     bool debug;
-    bool netctlAutoStatus;
     QMap<QString, QString> configuration;
     void initValues();
     void setKeys();
