@@ -43,6 +43,8 @@ Netctl::Netctl(QObject *parent, const QVariantList &args)
 
     setMinimumPollingInterval(333);
     readConfiguration();
+    setProcesses();
+    setKeys();
 }
 
 
@@ -60,6 +62,54 @@ QStringList Netctl::sources() const
     sources.append(QString("statusString"));
 
     return sources;
+}
+
+
+void Netctl::initValues()
+{
+    if (debug) qDebug() << "[DE]" << "[initValues]";
+
+    netctlAutoStatus = false;
+    QStringList sourcesList = sources();
+    for (int i=0; i<sourcesList.count(); i++)
+        sourceRequestEvent(sourcesList[i]);
+}
+
+
+void Netctl::setKeys()
+{
+    if (debug) qDebug() << "[DE]" << "[setKeys]";
+
+    QStringList sourcesList = sources();
+    for (int i=0; i<sourcesList.count(); i++)
+        setData(sourcesList[i], QString("value"), QString(""));
+
+    initValues();
+}
+
+
+void Netctl::setProcesses()
+{
+    if (debug) qDebug() << "[DE]" << "[setProcesses]";
+
+    processes[QString("currentProfile")] = new QProcess();
+    connect(processes[QString("currentProfile")], SIGNAL(finished(int, QProcess::ExitStatus)),
+            this, SLOT(setCurrentProfile(int, QProcess::ExitStatus)));
+    processes[QString("extIp")] = new QProcess();
+    connect(processes[QString("extIp")], SIGNAL(finished(int, QProcess::ExitStatus)),
+            this, SLOT(setExtIp(int, QProcess::ExitStatus)));
+    processes[QString("intIp")] = new QProcess();
+    connect(processes[QString("intIp")], SIGNAL(finished(int, QProcess::ExitStatus)),
+            this, SLOT(setIntIp(int, QProcess::ExitStatus)));
+    processes[QString("profiles")] = new QProcess();
+    connect(processes[QString("profiles")], SIGNAL(finished(int, QProcess::ExitStatus)),
+            this, SLOT(setProfileList(int, QProcess::ExitStatus)));
+    processes[QString("statusBool")] = new QProcess();
+    connect(processes[QString("statusBool")], SIGNAL(finished(int, QProcess::ExitStatus)),
+            this, SLOT(setProfileStatus(int, QProcess::ExitStatus)));
+    processes[QString("statusString")] = new QProcess();
+    connect(processes[QString("statusString")], SIGNAL(finished(int, QProcess::ExitStatus)),
+            this, SLOT(setProfileStringStatus(int, QProcess::ExitStatus)));
 }
 
 
