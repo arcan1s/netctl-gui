@@ -93,10 +93,10 @@ protected:
 
 private:
     // ui
-    QWidget graphicsWidget;
+    QWidget *graphicsWidget;
     QHBoxLayout *layout;
     IconLabel *iconLabel;
-    QLabel textLabel;
+    QLabel *textLabel;
     // information
     bool status;
     QMap<QString, QString> info;

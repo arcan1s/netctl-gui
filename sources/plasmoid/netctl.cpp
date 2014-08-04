@@ -79,15 +79,19 @@ Netctl::Netctl(QObject *parent, const QVariantList &args)
 
 Netctl::~Netctl()
 {
-//    if (debug) qDebug() << "[PLASMOID]" << "[~Netctl]";
+    if (debug) qDebug() << "[PLASMOID]" << "[~Netctl]";
 
+//    // actions
 //    delete startProfileMenu;
 //    delete switchToProfileMenu;
+//    // dataengine
+//    disconnectFromEngine();
+//    delete netctlEngine;
+//    // ui
 //    delete iconWidget;
 //    delete textLabel;
-//    delete fullSpaceLayout;
+//    delete layout;
 //    delete graphicsWidget;
-//    delete netctlEngine;
 }
 
 
@@ -104,14 +108,16 @@ void Netctl::init()
     netctlEngine = dataEngine(QString("netctl"));
     createActions();
     // generate ui
-    graphicsWidget.setAttribute(Qt::WA_TranslucentBackground, true);
-    this->setWidget(&graphicsWidget);
+    graphicsWidget = new QWidget();
+    graphicsWidget->setAttribute(Qt::WA_TranslucentBackground, true);
+    this->setWidget(graphicsWidget);
     // layouts
-    layout = new QHBoxLayout(&graphicsWidget);
+    layout = new QHBoxLayout(graphicsWidget);
     layout->setContentsMargins(1, 1, 1, 1);
     iconLabel = new IconLabel(this, debug);
     layout->addWidget(iconLabel);
-    layout->addWidget(&textLabel);
+    textLabel = new QLabel(graphicsWidget);
+    layout->addWidget(textLabel);
 
     // read variables
     configChanged();
@@ -225,10 +231,10 @@ void Netctl::updateInterface(bool setShown)
     if (debug) qDebug() << "[PLASMOID]" << "[updateInterface]" << ":" << "State" << setShown;
 
     if (setShown)
-        layout->addWidget(&textLabel);
+        layout->addWidget(textLabel);
     else
-        layout->removeWidget(&textLabel);
-    graphicsWidget.adjustSize();
+        layout->removeWidget(textLabel);
+    graphicsWidget->adjustSize();
     this->resize(1, 1);
 }
 
@@ -506,7 +512,7 @@ void Netctl::dataUpdated(const QString &sourceName, const Plasma::DataEngine::Da
         if (bigInterface[QString("netDev")])
             text.append(info[QString("interfaces")]);
         if (bigInterface[QString("main")])
-            textLabel.setText(formatLine[0] + text.join(QString("<br>")) + formatLine[1]);
+            textLabel->setText(formatLine[0] + text.join(QString("<br>")) + formatLine[1]);
     }
     else if (sourceName == QString("extIp")) {
         info[QString("extIp")] = value;
