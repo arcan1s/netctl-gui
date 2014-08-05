@@ -26,10 +26,10 @@
 #include <QDebug>
 #include <QFile>
 #include <QFileInfo>
-#include <QProcess>
 #include <QTextStream>
 
 #include "netctlgui.h"
+#include "taskadds.h"
 
 
 /**
@@ -72,22 +72,21 @@ bool NetctlProfile::copyProfile(const QString oldPath)
     if (debug) qDebug() << "[NetctlProfile]" << "[copyProfile]";
     if (debug) qDebug() << "[NetctlProfile]" << "[copyProfile]" << ":" << "Path" << oldPath;
     if (profileDirectory == 0) {
-        if (debug) qDebug() << "[NetctlProfile]" << "[profileDirectory]" << ":" << "Could not find directory";
+        if (debug) qDebug() << "[NetctlProfile]" << "[copyProfile]" << ":" << "Could not find directory";
         return false;
     }
     if (sudoCommand == 0) {
-        if (debug) qDebug() << "[NetctlProfile]" << "[profileDirectory]" << ":" << "Could not find sudo";
+        if (debug) qDebug() << "[NetctlProfile]" << "[copyProfile]" << ":" << "Could not find sudo";
         return false;
     }
 
-    QProcess command;
     QString newPath = profileDirectory->absolutePath() + QDir::separator() + QFileInfo(oldPath).fileName();
-    QString commandText = sudoCommand + QString(" /usr/bin/mv ") + oldPath + QString(" ") + newPath;
-    if (debug) qDebug() << "[NetctlProfile]" << "[copyProfile]" << ":" << "Run cmd" << commandText;
-    command.start(commandText);
-    command.waitForFinished(-1);
+    QString cmd = sudoCommand + QString(" /usr/bin/mv ") + oldPath + QString(" ") + newPath;
+    if (debug) qDebug() << "[NetctlProfile]" << "[copyProfile]" << ":" << "Run cmd" << cmd;
+    TaskResult process = runTask(cmd);
+    if (debug) qDebug() << "[NetctlProfile]" << "[copyProfile]" << ":" << "Cmd returns" << process.exitCode;
 
-    if (command.exitCode() == 0)
+    if (process.exitCode == 0)
         return true;
     else
         return false;
@@ -220,14 +219,13 @@ bool NetctlProfile::removeProfile(const QString profile)
         return false;
     }
 
-    QProcess command;
     QString profilePath = profileDirectory->absolutePath() + QDir::separator() + QFileInfo(profile).fileName();
-    QString commandText = sudoCommand + QString(" /usr/bin/rm ") + profilePath;
-    if (debug) qDebug() << "[NetctlProfile]" << "[removeProfile]" << ":" << "Run cmd" << commandText;
-    command.start(commandText);
-    command.waitForFinished(-1);
+    QString cmd = sudoCommand + QString(" /usr/bin/rm ") + profilePath;
+    if (debug) qDebug() << "[NetctlProfile]" << "[removeProfile]" << ":" << "Run cmd" << cmd;
+    TaskResult process = runTask(cmd);
+    if (debug) qDebug() << "[NetctlProfile]" << "[removeProfile]" << ":" << "Cmd returns" << process.exitCode;
 
-    if (command.exitCode() == 0)
+    if (process.exitCode == 0)
         return true;
     else
         return false;

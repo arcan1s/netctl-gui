@@ -14,20 +14,21 @@
  *   You should have received a copy of the GNU General Public License     *
  *   along with netctl-gui. If not, see http://www.gnu.org/licenses/       *
  ***************************************************************************/
-/**
- * @file netctlgui.h
- * Header of netctlgui library
- * @author Evgeniy Alekseev
- * @copyright GPLv3
- * @bug https://github.com/arcan1s/netctl-gui/issues
- */
 
 
-#ifndef NETCTLGUI_H
-#define NETCTLGUI_H
+#include "taskadds.h"
 
-#include "netctlinteract.h"
-#include "netctlprofile.h"
-#include "wpasupinteract.h"
 
-#endif /* NETCTLGUI_H */
+TaskResult runTask(const QString cmd)
+{
+    return Task::await<TaskResult>( [ & ]() {
+        QProcess command;
+        command.start(cmd);
+        command.waitForFinished(-1);
+        TaskResult r;
+        r.exitCode = command.exitCode();
+        r.output = command.readAllStandardOutput();
+
+        return r;
+    });
+}

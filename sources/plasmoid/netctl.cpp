@@ -15,10 +15,6 @@
  *   along with netctl-gui. If not, see http://www.gnu.org/licenses/       *
  ***************************************************************************/
 
-#include "netctl.h"
-#include <ui_appearance.h>
-#include <ui_widget.h>
-
 #include <KConfigDialog>
 #include <KFileDialog>
 #include <KGlobal>
@@ -32,7 +28,12 @@
 #include <QMenu>
 #include <QProcessEnvironment>
 
-#include <version.h>
+#include "netctl.h"
+#include "ui_about.h"
+#include "ui_appearance.h"
+#include "ui_dataengine.h"
+#include "ui_widget.h"
+#include "version.h"
 
 
 IconLabel::IconLabel(Netctl *wid, const bool debugCmd)
@@ -68,8 +69,8 @@ Netctl::Netctl(QObject *parent, const QVariantList &args)
     else
         debug = false;
 
-    this->setBackgroundHints(DefaultBackground);
-    this->setHasConfigurationInterface(true);
+    setBackgroundHints(DefaultBackground);
+    setHasConfigurationInterface(true);
     connect(this, SIGNAL(activate()), this, SLOT(showGui()));
     // text format init
     formatLine.append(QString(""));
@@ -112,7 +113,7 @@ void Netctl::init()
     // generate ui
     graphicsWidget = new QWidget();
     graphicsWidget->setAttribute(Qt::WA_TranslucentBackground, true);
-    this->setWidget(graphicsWidget);
+    setWidget(graphicsWidget);
     // layouts
     layout = new QHBoxLayout(graphicsWidget);
     layout->setContentsMargins(1, 1, 1, 1);
@@ -262,7 +263,7 @@ void Netctl::updateIcon()
     else
         icon = paths[QString("inactive")];
 
-    this->setPopupIcon(KIcon(icon));
+    setPopupIcon(KIcon(icon));
     QPixmap iconPixmap;
     iconPixmap.load(icon);
     iconLabel->setPixmap(iconPixmap);
@@ -279,7 +280,7 @@ void Netctl::updateInterface(bool setShown)
     else
         layout->removeWidget(textLabel);
     graphicsWidget->adjustSize();
-    this->resize(1, 1);
+    resize(1, 1);
 }
 
 
@@ -580,7 +581,7 @@ void Netctl::dataUpdated(const QString &sourceName, const Plasma::DataEngine::Da
         info[QString("status")] = QString("(") + value + QString(")");
     }
 
-    this->update();
+    update();
 }
 
 

@@ -1,7 +1,6 @@
 # set files
 file (GLOB SOURCES *.cpp)
 file (GLOB HEADERS *.h)
-# set (HEADERS ${HEADERS} ${CMAKE_CURRENT_SOURCE_DIR}/task.h)
 
 # include_path
 include_directories (${SUBPROJECT_INCLUDE_DIR}

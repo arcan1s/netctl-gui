@@ -35,6 +35,26 @@ class Netctl;
 class NetctlProfile;
 
 /**
+ * @struct netctlWifiInfo
+ * @brief WiFi information structure
+ * @var netctlWifiInfo::name
+ * ESSID
+ * @var netctlWifiInfo::security
+ * may be "WPA2", "WEP", "WEP", "none"
+ * @var netctlWifiInfo::signal
+ * Wifi point signal
+ * @var netctlWifiInfo::status
+ * netctl status, may be "new", "exist (active)", "exist (inactive)"
+ */
+typedef struct
+{
+    QString name;
+    QString security;
+    QString signal;
+    QString status;
+} netctlWifiInfo;
+
+/**
  * @brief The WpaSup class interacts with wpa_supplicant
  */
 class WpaSup : public QObject
@@ -86,13 +106,9 @@ public slots:
     // functions
     /**
      * @brief method which scans WiFi networks
-     * @return list of essids. Available information is [NAME, NETCTL_STATUS, SIGNAL, SECUITY]:
-     *         NAME is WiFi point name or "<hidden>",
-     *         NETCTL_STATUS may be "new", "exist (active)", "exist (inactive)",
-     *         SIGNAL is Wifi point signal,
-     *         SECURITY may be "WPA2", "WEP", "WEP", "none"
+     * @return list of essids
      */
-    QList<QStringList> scanWifi();
+    QList<netctlWifiInfo> scanWifi();
     /**
      * @brief method which calls wpa_supplicant
      * @return false if components are not found or command exit code is not equal to 0
@@ -154,6 +170,11 @@ private:
      * @return wpa_cli output
      */
     QString getWpaCliOutput(const QString commandLine);
+    /**
+     * @brief method which will be called to sleep thread
+     * @param sec            time interval, seconds
+     */
+    bool waitForProcess(const int sec);
     /**
      * @brief method which calls wpa_cli
      * @param commandLine    command which will be passed to wpa_cli

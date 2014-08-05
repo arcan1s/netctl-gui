@@ -34,6 +34,23 @@
 class NetctlProfile;
 
 /**
+ * @struct netctlProfileInfo
+ * @brief netctl profile information structure
+ * @var netctlProfileInfo::name
+ * profile name
+ * @var netctlProfileInfo::description
+ * profile description
+ * @var netctlProfileInfo::status
+ * profile status
+ */
+typedef struct
+{
+    QString name;
+    QString description;
+    QString status;
+} netctlProfileInfo;
+
+/**
  * @brief The Netctl class interacts with netctl
  */
 class Netctl : public QObject
@@ -62,26 +79,15 @@ public:
     ~Netctl();
     // general information
     /**
-     * @brief method which gets interface list from PREFERED_IFACE and IFACE_DIR
-     * @return interface list. If PREFERED_IFACE is not empty it will be first element
-     */
-    QStringList getInterfaceList();
-    /**
      * @brief method which returns profile informations from netctl
-     * @return list of profiles. Available information is [NAME, DESCRIPTION, STATUS]:
-     *         NAME is a profile name,
-     *         DESCRIPTION is a profile description (see more details below),
-     *         STATUS is a profile status (see more details below)
+     * @return list of profiles
      */
-    QList<QStringList> getProfileList();
+    QList<netctlProfileInfo> getProfileList();
     /**
      * @brief method which returns profile informations from netctl-auto
-     * @return list of profiles. Available information is [NAME, DESCRIPTION, STATUS]:
-     *         NAME is a profile name,
-     *         DESCRIPTION is a profile description (see more details below),
-     *         STATUS is a profile status (see more details below)
+     * @return list of profiles from netctl-auto
      */
-    QList<QStringList> getProfileListFromNetctlAuto();
+    QList<netctlProfileInfo> getProfileListFromNetctlAuto();
     /**
      * @brief method which gets description from profile
      * @param profile        profile name
@@ -89,31 +95,18 @@ public:
      */
     QString getProfileDescription(const QString profile);
     /**
-     * @brief method which gets descriptions from profile list
-     * @param profileList    profile names
-     * @return list of profile descriptions (if description is not available returns "")
-     */
-    QStringList getProfileDescriptions(const QStringList profileList);
-    /**
      * @brief method which gets profile status
-     * @param profile        profile name
+     * @param profile profile name
      * @return profile status. It may be "active (enabled)", "active (static)",
-     *         "inactive (enabled)", "inactive (static)"
+     * "inactive (enabled)", "inactive (static)"
      */
     QString getProfileStatus(const QString profile);
     /**
-     * @brief method which gets statuses of profile list
-     * @param profileList    profile names
-     * @return list of profile statuses. It may be "active (enabled)", "active (static)",
-     *         "inactive (enabled)", "inactive (static)"
-     */
-    QStringList getProfileStatuses(const QStringList profileList);
-    /**
-     * @brief method which checks if profile is active
-     * @param profile        profile name
-     * @return false if profile is inactive
-     * @return true if profile is active
-     */
+    * @brief method which checks if profile is active
+    * @param profile profile name
+    * @return false if profile is inactive
+    * @return true if profile is active
+    */
     bool isProfileActive(const QString profile);
     /**
      * @brief method which checks if profile is enabled
@@ -148,6 +141,11 @@ public:
      * @return true if netctl-auto is active
      */
     bool isNetctlAutoRunning();
+    /**
+     * @brief method which gets wireless interface list from PREFERED_IFACE and IFACE_DIR
+     * @return interface list. If PREFERED_IFACE is not empty it will be first element
+     */
+    QStringList getWirelessInterfaceList();
 
 public slots:
     // functions
@@ -250,10 +248,6 @@ private:
      */
     QString netctlAutoService;
     /**
-     * @brief directory which contains profiles. Default is "/etc/netctl"
-     */
-    QDir *profileDirectory;
-    /**
      * @brief path to sudo command. Default is "/usr/bin/kdesu"
      */
     QString sudoCommand;
@@ -263,39 +257,26 @@ private:
     QString systemctlCommand;
     // functions
     /**
-     * @brief method which calls netctl and returns its output
+     * @brief method which calls command
      * @param sudo           set true if sudo is needed
-     * @param commandLine    command which will be passed to netctl
-     * @param profile        profile name
-     * @return netctl output
-     */
-    QString getNetctlOutput(const bool sudo, const QString commandLine, const QString profile = 0);
-    /**
-     * @brief method which calls netctl
-     * @param sudo           set true if sudo is needed
-     * @param commandLine    command which will be passed to netctl
-     * @param profile        profile name
+     * @param command        command which will be called
+     * @param commandLine    command which will be passed to command
+     * @param argument       argument which will be passed to commandLine
      * @return false if components are not found or command exit code is not equal to 0
      * @return true if the method was completed without errors
      */
-    bool netctlCall(const bool sudo, const QString commandLine, const QString profile = 0);
+    bool cmdCall(const bool sudo, const QString command,
+                 const QString commandLine, const QString argument = 0);
     /**
-     * @brief method which calls netctl-auto
+     * @brief method which calls command and returns its output
      * @param sudo           set true if sudo is needed
-     * @param commandLine    command which will be passed to netctl-auto
-     * @param profile        profile name
-     * @return false if components are not found or command exit code is not equal to 0
-     * @return true if the method was completed without errors
+     * @param command        command which will be called
+     * @param commandLine    command which will be passed to command
+     * @param argument       argument which will be passed to commandLine
+     * @return command output
      */
-    bool netctlAutoCall(const bool sudo, const QString commandLine, const QString profile = 0);
-    /**
-     * @brief method which calls systemctl associated with netctl-auto
-     * @param sudo           set true if sudo is needed
-     * @param commandLine    command which will be passed to systemctl
-     * @return false if components are not found or command exit code is not equal to 0
-     * @return true if the method was completed without errors
-     */
-    bool systemctlCall(const bool sudo, const QString commandLine);
+    QString getCmdOutput(const bool sudo, const QString command,
+                         const QString commandLine, const QString argument = 0);
 };
 
 

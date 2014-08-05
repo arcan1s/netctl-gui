@@ -63,7 +63,6 @@ Additional information
 TODO (wish list)
 ----------------
 
-* refactoring of library (using QtNetwork module instead of some system calls)
 * refactoring of GUI according to library changes
 * rewrite changelog to more comfortable format
 

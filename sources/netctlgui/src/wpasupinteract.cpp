@@ -24,9 +24,9 @@
 
 
 #include <QDebug>
-#include <QProcess>
 
 #include "netctlgui.h"
+#include "taskadds.h"
 
 
 /**
@@ -69,10 +69,6 @@ WpaSup::WpaSup(const bool debugCmd, const QMap<QString, QString> settings)
         wpaSupPath = settings[QString("WPASUP_PATH")];
     else
         wpaSupPath = QString("/usr/bin/wpa_supplicant");
-
-    // terminate old loaded profile
-    if (QFile(pidFile).exists() || QDir(ctrlDir).exists())
-        stopWpaSupplicant();
 }
 
 
@@ -108,10 +104,10 @@ QString WpaSup::existentProfile(const QString essid)
     }
 
     QString profileFile = QString("");
-    QList<QStringList> profileList = netctlCommand->getProfileList();
+    QList<netctlProfileInfo> profileList = netctlCommand->getProfileList();
     for (int i=0; i<profileList.count(); i++)
-        if (essid == netctlProfile->getValueFromProfile(profileList[i][0], QString("ESSID")))
-            profileFile = profileList[i][0];
+        if (essid == netctlProfile->getValueFromProfile(profileList[i].name, QString("ESSID")))
+            profileFile = profileList[i].name;
 
     return profileFile;
 }
@@ -134,10 +130,10 @@ bool WpaSup::isProfileActive(const QString essid)
     }
 
     QString profileFile;
-    QList<QStringList> profileList = netctlCommand->getProfileList();
+    QList<netctlProfileInfo> profileList = netctlCommand->getProfileList();
     for (int i=0; i<profileList.count(); i++)
-        if (essid == netctlProfile->getValueFromProfile(profileList[i][0], QString("ESSID"))) {
-            profileFile = profileList[i][0];
+        if (essid == netctlProfile->getValueFromProfile(profileList[i].name, QString("ESSID"))) {
+            profileFile = profileList[i].name;
             break;
         }
 
@@ -162,9 +158,9 @@ bool WpaSup::isProfileExists(const QString essid)
     }
 
     bool exists = false;
-    QList<QStringList> profileList = netctlCommand->getProfileList();
+    QList<netctlProfileInfo> profileList = netctlCommand->getProfileList();
     for (int i=0; i<profileList.count(); i++)
-        if (essid == netctlProfile->getValueFromProfile(profileList[i][0], QString("ESSID"))) {
+        if (essid == netctlProfile->getValueFromProfile(profileList[i].name, QString("ESSID"))) {
             exists = true;
             break;
         }
@@ -176,18 +172,18 @@ bool WpaSup::isProfileExists(const QString essid)
 /**
  * @fn scanWifi
  */
-QList<QStringList> WpaSup::scanWifi()
+QList<netctlWifiInfo> WpaSup::scanWifi()
 {
     if (debug) qDebug() << "[WpaSup]" << "[scanWifi]";
 
-    QList<QStringList> scanResults;
+    QList<netctlWifiInfo> scanResults;
     if (!startWpaSupplicant()) {
         stopWpaSupplicant();
         return scanResults;
     }
     if (!wpaCliCall(QString("scan")))
         return scanResults;
-    SleepThread::sleep(3);
+    waitForProcess(3);
 
     QStringList rawOutput = getWpaCliOutput(QString("scan_results")).split(QChar('\n'), QString::SkipEmptyParts);
     // remove table header
@@ -207,26 +203,26 @@ QList<QStringList> WpaSup::scanWifi()
     }
 
     for (int i=0; i<rawList.count(); i++) {
-        QStringList wifiPoint;
+        netctlWifiInfo wifiPoint;
         // point name
         if (rawList[i].split(QChar('\t'), QString::SkipEmptyParts).count() > 4)
-            wifiPoint.append(rawList[i].split(QChar('\t'), QString::SkipEmptyParts)[4]);
+            wifiPoint.name = rawList[i].split(QChar('\t'), QString::SkipEmptyParts)[4];
         else
-            wifiPoint.append(QString("<hidden>"));
+            wifiPoint.name = QString("<hidden>");
         // profile status
         QString status;
-        if (isProfileExists(wifiPoint[0])) {
+        if (isProfileExists(wifiPoint.name)) {
             status = QString("exists");
-            if (isProfileActive(wifiPoint[0]))
+            if (isProfileActive(wifiPoint.name))
                 status = status + QString(" (active)");
             else
                 status = status + QString(" (inactive)");
         }
         else
             status = QString("new");
-        wifiPoint.append(status);
+        wifiPoint.status = status;
         // point signal
-        wifiPoint.append(rawList[i].split(QChar('\t'), QString::SkipEmptyParts)[2]);
+        wifiPoint.signal = rawList[i].split(QChar('\t'), QString::SkipEmptyParts)[2];
         // point security
         QString security = rawList[i].split(QChar('\t'), QString::SkipEmptyParts)[3];
         if (security.contains(QString("WPA2")))
@@ -237,7 +233,7 @@ QList<QStringList> WpaSup::scanWifi()
             security = QString("WEP");
         else
             security = QString("none");
-        wifiPoint.append(security);
+        wifiPoint.security = security;
         scanResults.append(wifiPoint);
     }
     stopWpaSupplicant();
@@ -280,25 +276,23 @@ bool WpaSup::startWpaSupplicant()
         if (debug) qDebug() << "[WpaSup]" << "[startWpaSupplicant]" << ":" << "Could not find library";
         return false;
     }
-    if (netctlCommand->getInterfaceList().isEmpty()) {
+    if (netctlCommand->getWirelessInterfaceList().isEmpty()) {
         if (debug) qDebug() << "[WpaSup]" << "[startWpaSupplicant]" << ":" << "Could not find interfaces";
         return false;
     }
 
     if (QFile(pidFile).exists())
         return true;
-    QProcess command;
-    QString interface = netctlCommand->getInterfaceList()[0];
-    QString commandText = sudoCommand + QString(" ") + wpaSupPath + QString(" -B -P ") + pidFile +
+    QString interface = netctlCommand->getWirelessInterfaceList()[0];
+    QString cmd = sudoCommand + QString(" ") + wpaSupPath + QString(" -B -P ") + pidFile +
             QString(" -i ") + interface + QString(" -D ") + wpaDrivers +
             QString(" -C \"DIR=") + ctrlDir + QString(" GROUP=") + ctrlGroup + QString("\"");
-    if (debug) qDebug() << "[WpaSup]" << "[startWpaSupplicant]" << ":" << "Run cmd" << commandText;
-    command.start(commandText);
-    command.waitForFinished(-1);
-    SleepThread::sleep(1);
-    if (debug) qDebug() << "[WpaSup]" << "[startWpaSupplicant]" << ":" << "Cmd returns" << command.exitCode();
+    if (debug) qDebug() << "[WpaSup]" << "[startWpaSupplicant]" << ":" << "Run cmd" << cmd;
+    TaskResult process = runTask(cmd);
+    waitForProcess(1);
+    if (debug) qDebug() << "[WpaSup]" << "[startWpaSupplicant]" << ":" << "Cmd returns" << process.exitCode;
 
-    if (command.exitCode() == 0)
+    if (process.exitCode == 0)
         return true;
     else
         return false;
@@ -340,20 +334,34 @@ QString WpaSup::getWpaCliOutput(const QString commandLine)
         if (debug) qDebug() << "[WpaSup]" << "[getWpaCliOutput]" << ":" << "Could not find library";
         return QString();
     }
-    if (netctlCommand->getInterfaceList().isEmpty()) {
+    if (netctlCommand->getWirelessInterfaceList().isEmpty()) {
         if (debug) qDebug() << "[WpaSup]" << "[getWpaCliOutput]" << ":" << "Could not find interfaces";
         return QString();
     }
 
-    QProcess command;
-    QString interface = netctlCommand->getInterfaceList()[0];
-    QString commandText = wpaCliPath + QString(" -i ") + interface + QString(" -p ") + ctrlDir +
+    QString interface = netctlCommand->getWirelessInterfaceList()[0];
+    QString cmd = wpaCliPath + QString(" -i ") + interface + QString(" -p ") + ctrlDir +
             QString(" -P ") + pidFile + QString(" ") + commandLine;
-    if (debug) qDebug() << "[WpaSup]" << "[getWpaCliOutput]" << ":" << "Run cmd" << commandText;
-    command.start(commandText);
-    command.waitForFinished(-1);
+    if (debug) qDebug() << "[WpaSup]" << "[getWpaCliOutput]" << ":" << "Run cmd" << cmd;
+    TaskResult process = runTask(cmd);
+    if (debug) qDebug() << "[WpaSup]" << "[getWpaCliOutput]" << ":" << "Cmd returns" << process.exitCode;
 
-    return command.readAllStandardOutput();
+    return process.output;
+}
+
+
+/**
+ * @fn waitForProcess
+ */
+bool WpaSup::waitForProcess(const int sec)
+{
+    if (debug) qDebug() << "[WpaSup]" << "[waitForProcess]";
+    if (debug) qDebug() << "[WpaSup]" << "[waitForProcess]" << ":" << "Interval" << sec;
+
+    QString cmd = QString("sleep %1").arg(QString::number(sec));
+    runTask(cmd);
+
+    return true;
 }
 
 
@@ -380,22 +388,20 @@ bool WpaSup::wpaCliCall(const QString commandLine)
         if (debug) qDebug() << "[WpaSup]" << "[wpaCliCall]" << ":" << "Could not find library";
         return false;
     }
-    if (netctlCommand->getInterfaceList().isEmpty()) {
+    if (netctlCommand->getWirelessInterfaceList().isEmpty()) {
         if (debug) qDebug() << "[WpaSup]" << "[wpaCliCall]" << ":" << "Could not find interfaces";
         return false;
     }
 
-    QProcess command;
-    QString interface = netctlCommand->getInterfaceList()[0];
-    QString commandText = wpaCliPath + QString(" -i ") + interface + QString(" -p ") + ctrlDir +
+    QString interface = netctlCommand->getWirelessInterfaceList()[0];
+    QString cmd = wpaCliPath + QString(" -i ") + interface + QString(" -p ") + ctrlDir +
             QString(" -P ") + pidFile + QString(" ") + commandLine;
-    if (debug) qDebug() << "[WpaSup]" << "[wpaCliCall]" << ":" << "Run cmd" << commandText;
-    command.start(commandText);
-    command.waitForFinished(-1);
-    SleepThread::sleep(1);
-    if (debug) qDebug() << "[WpaSup]" << "[wpaCliCall]" << ":" << "Cmd returns" << command.exitCode();
+    if (debug) qDebug() << "[WpaSup]" << "[getWpaCliOutput]" << ":" << "Run cmd" << cmd;
+    TaskResult process = runTask(cmd);
+    waitForProcess(1);
+    if (debug) qDebug() << "[WpaSup]" << "[getWpaCliOutput]" << ":" << "Cmd returns" << process.exitCode;
 
-    if (command.exitCode() == 0)
+    if (process.exitCode == 0)
         return true;
     else
         return false;

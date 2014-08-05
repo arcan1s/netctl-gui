@@ -15,9 +15,6 @@
  *   along with netctl-gui. If not, see http://www.gnu.org/licenses/       *
  ***************************************************************************/
 
-#include "netctl.h"
-#include "task.h"
-
 #include <KGlobal>
 #include <KStandardDirs>
 #include <Plasma/DataContainer>
@@ -28,28 +25,8 @@
 #include <QProcessEnvironment>
 #include <QTextCodec>
 
-
-struct TaskResult
-{
-    int exitCode;
-    QByteArray output;
-};
-
-
-TaskResult runTask(const QString cmd)
-{
-    return Task::await<TaskResult>( [ & ]() {
-        QProcess command;
-        command.start(cmd);
-        command.waitForFinished(-1);
-
-        TaskResult r;
-        r.exitCode = command.exitCode();
-        r.output = command.readAllStandardOutput();
-
-        return r;
-    });
-}
+#include "netctl.h"
+#include "taskadds.h"
 
 
 Netctl::Netctl(QObject *parent, const QVariantList &args)
