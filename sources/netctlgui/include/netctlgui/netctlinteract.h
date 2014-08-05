@@ -96,9 +96,9 @@ public:
     QString getProfileDescription(const QString profile);
     /**
      * @brief method which gets profile status
-     * @param profile profile name
+     * @param profile        profile name
      * @return profile status. It may be "active (enabled)", "active (static)",
-     * "inactive (enabled)", "inactive (static)"
+     *         "inactive (enabled)", "inactive (static)"
      */
     QString getProfileStatus(const QString profile);
     /**
