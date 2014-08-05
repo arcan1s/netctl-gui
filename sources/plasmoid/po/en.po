@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: http://kde-look.org/content/show.php?content=98925\n"
-"POT-Creation-Date: 2014-08-01 21:27+0400\n"
-"PO-Revision-Date: 2014-08-01 09:53+0400\n"
+"POT-Creation-Date: 2014-08-05 20:32+0400\n"
+"PO-Revision-Date: 2014-08-05 20:33+0400\n"
 "Last-Translator: Evgeniy Alekseev <esalexeev@gmail.com>\n"
 "Language-Team: Russian <kde-russian@lists.kde.ru>\n"
 "Language: ru\n"
@@ -18,91 +18,91 @@ msgstr ""
 "%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 "X-Generator: Lokalize 1.5\n"
 
-#: netctl.cpp:246
+#: netctl.cpp:296
 msgid "Set profile %1 disabled"
 msgstr "Set profile %1 disabled"
 
-#: netctl.cpp:250
+#: netctl.cpp:300
 msgid "Set profile %1 enabled"
 msgstr "Set profile %1 enabled"
 
-#: netctl.cpp:271
+#: netctl.cpp:317
 msgid "Start profile %1"
 msgstr "Start profile %1"
 
-#: netctl.cpp:301
+#: netctl.cpp:335
 msgid "Stop profile %1"
 msgstr "Stop profile %1"
 
-#: netctl.cpp:320
+#: netctl.cpp:352
 msgid "Switch to profile %1"
 msgstr "Switch to profile %1"
 
-#: netctl.cpp:334
+#: netctl.cpp:366
 msgid "Restart profile %1"
 msgstr "Restart profile %1"
 
-#: netctl.cpp:376
+#: netctl.cpp:405
 msgid "Start another profile"
 msgstr "Start another profile"
 
-#: netctl.cpp:378
+#: netctl.cpp:406
 msgid "Stop %1"
 msgstr "Stop %1"
 
-#: netctl.cpp:380
+#: netctl.cpp:407
 msgid "Restart %1"
 msgstr "Restart %1"
 
-#: netctl.cpp:383
+#: netctl.cpp:409
 msgid "Disable %1"
 msgstr "Disable %1"
 
-#: netctl.cpp:385
+#: netctl.cpp:411
 msgid "Enable %1"
 msgstr "Enable %1"
 
-#: netctl.cpp:388 netctl.cpp:418
+#: netctl.cpp:414 netctl.cpp:437
 msgid "Start profile"
 msgstr "Start profile"
 
-#: netctl.cpp:426
+#: netctl.cpp:445
 msgid "Stop profile"
 msgstr "Stop profile"
 
-#: netctl.cpp:431
+#: netctl.cpp:450
 msgid "Switch to profile"
 msgstr "Switch to profile"
 
-#: netctl.cpp:439
+#: netctl.cpp:458
 msgid "Restart profile"
 msgstr "Restart profile"
 
-#: netctl.cpp:444
+#: netctl.cpp:463
 msgid "Enable profile"
 msgstr "Enable profile"
 
-#: netctl.cpp:448
+#: netctl.cpp:467
 msgid "Show WiFi menu"
 msgstr "Show WiFi menu"
 
-#: netctl.cpp:475
+#: netctl.cpp:494
 msgid "Start GUI"
 msgstr "Start GUI"
 
-#: netctl.cpp:486
+#: netctl.cpp:505
 msgid "Start WiFi menu"
 msgstr "Start WiFi menu"
 
-#: netctl.cpp:556
+#: netctl.cpp:569
 msgid "Network is up"
 msgstr "Network is up"
 
-#: netctl.cpp:561
+#: netctl.cpp:574
 msgid "Network is down"
 msgstr "Network is down"
 
-#: netctl.cpp:721
+#: netctl.cpp:714
 msgid ""
 "Version %1\n"
 "(build date %2)"
@@ -110,55 +110,55 @@ msgstr ""
 "Version %1\n"
 "(build date %2)"
 
-#: netctl.cpp:722
+#: netctl.cpp:715
 msgid "KDE widget which interacts with netctl."
 msgstr "KDE widget which interacts with netctl."
 
-#: netctl.cpp:723
+#: netctl.cpp:716
 msgid "Translators: %1"
 msgstr "Translators: %1"
 
-#: netctl.cpp:724
+#: netctl.cpp:717
 msgid "Links:"
 msgstr "Links:"
 
-#: netctl.cpp:725
+#: netctl.cpp:718
 msgid "Homepage"
 msgstr "Homepage"
 
-#: netctl.cpp:726
+#: netctl.cpp:719
 msgid "Repository"
 msgstr "Repository"
 
-#: netctl.cpp:727
+#: netctl.cpp:720
 msgid "Bugtracker"
 msgstr "Bugtracker"
 
-#: netctl.cpp:728
+#: netctl.cpp:721
 msgid "Translation issue"
 msgstr "Translation issue"
 
-#: netctl.cpp:729
+#: netctl.cpp:722
 msgid "AUR packages"
 msgstr "AUR packages"
 
-#: netctl.cpp:731
+#: netctl.cpp:724
 msgid "This software is licensed under %1"
 msgstr "This software is licensed under %1"
 
-#: netctl.cpp:734
+#: netctl.cpp:727
 msgid "Netctl plasmoid"
 msgstr "Netctl plasmoid"
 
-#: netctl.cpp:735
+#: netctl.cpp:728
 msgid "Appearance"
 msgstr "Appearance"
 
-#: netctl.cpp:736
+#: netctl.cpp:729
 msgid "DataEngine"
 msgstr "DataEngine"
 
-#: netctl.cpp:737
+#: netctl.cpp:730
 msgid "About"
 msgstr "About"
 
@@ -176,12 +176,10 @@ msgstr "Inactive icon"
 #. i18n: ectx: property (text), widget (QPushButton, pushButton_netctl)
 #. i18n: file: dataengine.ui:83
 #. i18n: ectx: property (text), widget (QPushButton, pushButton_netctlAuto)
-#. i18n: file: dataengine.ui:116
-#. i18n: ectx: property (text), widget (QPushButton, pushButton_ip)
-#. i18n: file: dataengine.ui:149
-#. i18n: ectx: property (text), widget (QPushButton, pushButton_interface)
-#. i18n: file: dataengine.ui:185
+#. i18n: file: dataengine.ui:119
 #. i18n: ectx: property (text), widget (QPushButton, pushButton_extIp)
+#. i18n: file: dataengine.ui:155
+#. i18n: ectx: property (text), widget (QPushButton, pushButton_extIp6)
 #. i18n: file: widget.ui:108
 #. i18n: ectx: property (text), widget (QPushButton, pushButton_gui)
 #. i18n: file: widget.ui:141
@@ -200,12 +198,10 @@ msgstr "Inactive icon"
 #. i18n: ectx: property (text), widget (QPushButton, pushButton_netctl)
 #. i18n: file: dataengine.ui:83
 #. i18n: ectx: property (text), widget (QPushButton, pushButton_netctlAuto)
-#. i18n: file: dataengine.ui:116
-#. i18n: ectx: property (text), widget (QPushButton, pushButton_ip)
-#. i18n: file: dataengine.ui:149
-#. i18n: ectx: property (text), widget (QPushButton, pushButton_interface)
-#. i18n: file: dataengine.ui:185
+#. i18n: file: dataengine.ui:119
 #. i18n: ectx: property (text), widget (QPushButton, pushButton_extIp)
+#. i18n: file: dataengine.ui:155
+#. i18n: ectx: property (text), widget (QPushButton, pushButton_extIp6)
 #. i18n: file: widget.ui:108
 #. i18n: ectx: property (text), widget (QPushButton, pushButton_gui)
 #. i18n: file: widget.ui:141
@@ -216,11 +212,10 @@ msgstr "Inactive icon"
 #. i18n: ectx: property (text), widget (QPushButton, pushButton_sudo)
 #. i18n: file: widget.ui:246
 #. i18n: ectx: property (text), widget (QPushButton, pushButton_wifi)
-#: po/rc.cpp:6 po/rc.cpp:48 po/rc.cpp:54 po/rc.cpp:60 po/rc.cpp:66
-#: po/rc.cpp:72 po/rc.cpp:78 po/rc.cpp:87 po/rc.cpp:93 po/rc.cpp:99
-#: po/rc.cpp:105 po/rc.cpp:111 rc.cpp:6 rc.cpp:48 rc.cpp:54 rc.cpp:60
-#: rc.cpp:66 rc.cpp:72 rc.cpp:78 rc.cpp:87 rc.cpp:93 rc.cpp:99 rc.cpp:105
-#: rc.cpp:111
+#: po/rc.cpp:6 po/rc.cpp:42 po/rc.cpp:54 po/rc.cpp:60 po/rc.cpp:66
+#: po/rc.cpp:72 po/rc.cpp:81 po/rc.cpp:87 po/rc.cpp:93 po/rc.cpp:99
+#: po/rc.cpp:105 rc.cpp:6 rc.cpp:42 rc.cpp:54 rc.cpp:60 rc.cpp:66 rc.cpp:72
+#: rc.cpp:81 rc.cpp:87 rc.cpp:93 rc.cpp:99 rc.cpp:105
 msgid "Browse"
 msgstr "Browse"
 
@@ -272,35 +267,35 @@ msgstr "Font style"
 msgid "Set font style"
 msgstr "Set font style"
 
-#. i18n: file: appearance.ui:303
-#. i18n: ectx: property (text), item, widget (QComboBox, comboBox_fontStyle)
-#: po/rc.cpp:33 rc.cpp:33
-msgid "normal"
-msgstr "normal"
-
-#. i18n: file: appearance.ui:308
-#. i18n: ectx: property (text), item, widget (QComboBox, comboBox_fontStyle)
-#: po/rc.cpp:36 rc.cpp:36
-msgid "italic"
-msgstr "italic"
-
 #. i18n: file: appearance.ui:326
 #. i18n: ectx: property (text), widget (QLabel, label_font)
-#: po/rc.cpp:39 rc.cpp:39
+#: po/rc.cpp:33 rc.cpp:33
 msgid "Font"
 msgstr "Font"
 
 #. i18n: file: appearance.ui:358
 #. i18n: ectx: property (toolTip), widget (QFontComboBox, fontComboBox_font)
-#: po/rc.cpp:42 rc.cpp:42
+#: po/rc.cpp:36 rc.cpp:36
 msgid "Set font family"
 msgstr "Set font family"
 
 #. i18n: file: appearance.ui:375
 #. i18n: ectx: property (text), widget (QLabel, label_activeIcon)
-#: po/rc.cpp:45 rc.cpp:45
+#: po/rc.cpp:39 rc.cpp:39
 msgid "Active icon"
 msgstr "Active icon"
+
+#. i18n: file: appearance.ui:408
+#. i18n: ectx: property (text), widget (QLabel, label_textAlign)
+#: po/rc.cpp:45 rc.cpp:45
+msgid "Text align"
+msgstr "Text align"
+
+#. i18n: file: appearance.ui:440
+#. i18n: ectx: property (toolTip), widget (QComboBox, comboBox_textAlign)
+#: po/rc.cpp:48 rc.cpp:48
+msgid "Set text align"
+msgstr "Set text align"
 
 #. i18n: file: dataengine.ui:34
 #. i18n: ectx: property (text), widget (QLabel, label_netctl)
@@ -310,7 +305,7 @@ msgstr "Active icon"
 #. i18n: ectx: property (text), widget (QLabel, label_netctl)
 #. i18n: file: widget.ui:125
 #. i18n: ectx: property (text), widget (QLabel, label_netctl)
-#: po/rc.cpp:51 po/rc.cpp:90 rc.cpp:51 rc.cpp:90
+#: po/rc.cpp:51 po/rc.cpp:84 rc.cpp:51 rc.cpp:84
 msgid "Path to netctl"
 msgstr "Path to netctl"
 
@@ -322,85 +317,104 @@ msgstr "Path to netctl"
 #. i18n: ectx: property (text), widget (QLabel, label_netctlAuto)
 #. i18n: file: widget.ui:158
 #. i18n: ectx: property (text), widget (QLabel, label_netctlAuto)
-#: po/rc.cpp:57 po/rc.cpp:96 rc.cpp:57 rc.cpp:96
+#: po/rc.cpp:57 po/rc.cpp:90 rc.cpp:57 rc.cpp:90
 msgid "Path to netctl-auto"
 msgstr "Path to netctl-auto"
 
 #. i18n: file: dataengine.ui:100
-#. i18n: ectx: property (text), widget (QLabel, label_ip)
-#: po/rc.cpp:63 rc.cpp:63
-msgid "Path to ip"
-msgstr "Path to ip"
-
-#. i18n: file: dataengine.ui:133
-#. i18n: ectx: property (text), widget (QLabel, label_interface)
-#: po/rc.cpp:69 rc.cpp:69
-msgid "Path to interface list"
-msgstr "Path to interface list"
-
-#. i18n: file: dataengine.ui:166
 #. i18n: ectx: property (text), widget (QCheckBox, checkBox_extIp)
-#: po/rc.cpp:75 rc.cpp:75
-msgid "Check external IP"
-msgstr "Check external IP"
+#: po/rc.cpp:63 rc.cpp:63
+msgid "Check external IPv4"
+msgstr "Check external IPv4"
+
+#. i18n: file: dataengine.ui:136
+#. i18n: ectx: property (text), widget (QCheckBox, checkBox_extIp6)
+#: po/rc.cpp:69 rc.cpp:69
+msgid "Check external IPv6"
+msgstr "Check external IPv6"
 
 #. i18n: file: widget.ui:34
 #. i18n: ectx: property (text), widget (QLabel, label_autoUpdate)
-#: po/rc.cpp:81 rc.cpp:81
+#: po/rc.cpp:75 rc.cpp:75
 msgid "Auto update interval, msec"
 msgstr "Auto update interval, msec"
 
 #. i18n: file: widget.ui:92
 #. i18n: ectx: property (text), widget (QLabel, label_gui)
-#: po/rc.cpp:84 rc.cpp:84
+#: po/rc.cpp:78 rc.cpp:78
 msgid "Path to GUI"
 msgstr "Path to GUI"
 
 #. i18n: file: widget.ui:191
 #. i18n: ectx: property (text), widget (QCheckBox, checkBox_sudo)
-#: po/rc.cpp:102 rc.cpp:102
+#: po/rc.cpp:96 rc.cpp:96
 msgid "Use sudo for netctl"
 msgstr "Use sudo for netctl"
 
 #. i18n: file: widget.ui:227
 #. i18n: ectx: property (text), widget (QCheckBox, checkBox_wifi)
-#: po/rc.cpp:108 rc.cpp:108
+#: po/rc.cpp:102 rc.cpp:102
 msgid "Show 'Start WiFi menu'"
 msgstr "Show 'Start WiFi menu'"
 
 #. i18n: file: widget.ui:255
 #. i18n: ectx: property (text), widget (QCheckBox, checkBox_showBigInterface)
-#: po/rc.cpp:114 rc.cpp:114
+#: po/rc.cpp:108 rc.cpp:108
 msgid "Show more detailed interface"
 msgstr "Show more detailed interface"
 
-#. i18n: file: widget.ui:265
-#. i18n: ectx: property (text), widget (QCheckBox, checkBox_showNetDev)
-#: po/rc.cpp:117 rc.cpp:117
-msgid "Show network devices"
-msgstr "Show network devices"
+#. i18n: file: widget.ui:272
+#. i18n: ectx: property (toolTip), widget (QPlainTextEdit, textEdit)
+#: po/rc.cpp:111 rc.cpp:111
+msgid ""
+"$current - current profile name\n"
+"$extip - external IPv4\n"
+"$extip6 - external IPv6\n"
+"$interfaces - list of the network interfaces\n"
+"$intip - internal IPv4\n"
+"$intip6 - internal IPv6\n"
+"$profiles - list of the netctl profiles\n"
+"$status - current profile status (static/enabled)"
+msgstr ""
+"$current - current profile name\n"
+"$extip - external IPv4\n"
+"$extip6 - external IPv6\n"
+"$interfaces - list of the network interfaces\n"
+"$intip - internal IPv4\n"
+"$intip6 - internal IPv6\n"
+"$profiles - list of the netctl profiles\n"
+"$status - current profile status (static/enabled)"
 
-#. i18n: file: widget.ui:275
-#. i18n: ectx: property (text), widget (QCheckBox, checkBox_showExtIp)
-#: po/rc.cpp:120 rc.cpp:120
-msgid "Show external IP"
-msgstr "Show external IP"
-
-#. i18n: file: widget.ui:285
-#. i18n: ectx: property (text), widget (QCheckBox, checkBox_showIntIp)
-#: po/rc.cpp:123 rc.cpp:123
-msgid "Show internal IP"
-msgstr "Show internal IP"
-
-#: po/rc.cpp:124 rc.cpp:124
+#: po/rc.cpp:119 rc.cpp:119
 msgctxt "NAME OF TRANSLATORS"
 msgid "Your names"
 msgstr "Evgeniy Alekseev"
 
-#: po/rc.cpp:125 rc.cpp:125
+#: po/rc.cpp:120 rc.cpp:120
 msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
 msgstr "esalexeev@gmail.com"
+
+#~ msgid "normal"
+#~ msgstr "normal"
+
+#~ msgid "italic"
+#~ msgstr "italic"
+
+#~ msgid "Path to ip"
+#~ msgstr "Path to ip"
+
+#~ msgid "Path to interface list"
+#~ msgstr "Path to interface list"
+
+#~ msgid "Show network devices"
+#~ msgstr "Show network devices"
+
+#~ msgid "Show external IP"
+#~ msgstr "Show external IP"
+
+#~ msgid "Show internal IP"
+#~ msgstr "Show internal IP"
 
 #~ msgid "Configuration"
 #~ msgstr "Configuration"

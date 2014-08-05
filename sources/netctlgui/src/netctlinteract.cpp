@@ -28,6 +28,30 @@
 #include <QProcess>
 
 #include <netctlgui/netctlgui.h>
+#include "task.h"
+
+
+struct TaskResult
+{
+    int exitCode;
+    QByteArray output;
+};
+
+
+TaskResult runTask(const QString cmd)
+{
+    return Task::await<TaskResult>( [ & ]() {
+        QProcess command;
+        command.start(cmd);
+        command.waitForFinished(-1);
+
+        TaskResult r;
+        r.exitCode = command.exitCode();
+        r.output = command.readAllStandardOutput();
+
+        return r;
+    });
+}
 
 
 /**

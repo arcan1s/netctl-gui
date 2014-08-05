@@ -390,11 +390,11 @@ bool Netctl::updateSourceEvent(const QString &source)
                 .join(QChar(','));
     }
     else if (source == QString("statusBool")) {
-        value = getCurrentProfile(configuration[QString("CMD")],
+        value = getStatus(configuration[QString("CMD")],
                 configuration[QString("NETCTLAUTOCMD")]);
     }
     else if (source == QString("statusString")) {
-        value = getStatus(configuration[QString("CMD")],
+        value = getProfileStringStatus(configuration[QString("CMD")],
                 configuration[QString("NETCTLAUTOCMD")]);
     }
     setData(source, QString("value"), value);

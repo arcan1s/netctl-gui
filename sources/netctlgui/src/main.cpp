@@ -23,10 +23,7 @@
  */
 
 
-#include <netctlgui/netctlinteract.h>
-#include <netctlgui/netctlprofile.h>
-#include <netctlgui/sleepthread.h>
-#include <netctlgui/wpasupinteract.h>
+#include <netctlgui/netctlgui.h>
 
 
 /**
