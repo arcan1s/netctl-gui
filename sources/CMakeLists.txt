@@ -41,8 +41,7 @@ endif ()
 
 # flags
 if (CMAKE_COMPILER_IS_GNUCXX)
-    set (ADD_CXX_FLAGS  "-Wall")
-    set (CMAKE_CXX_FLAGS "-O0 ${ADD_CXX_FLAGS}")
+    set (CMAKE_CXX_FLAGS "-Wall -std=c++11")
     set (CMAKE_CXX_FLAGS_DEBUG "-g -O0")
     set (CMAKE_CXX_FLAGS_RELEASE "-O2 -DNDEBUG")
 else ()

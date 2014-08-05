@@ -19,7 +19,7 @@
 #define NETCTL_DE_H
 
 #include <Plasma/DataEngine>
-#include <QProcess>
+#include <QAbstractSocket>
 
 
 class Netctl : public Plasma::DataEngine
@@ -29,40 +29,28 @@ class Netctl : public Plasma::DataEngine
 public:
     Netctl(QObject *parent, const QVariantList &args);
     ~Netctl();
-    void getCurrentProfile(const QString cmdNetctl, const QString cmdNetctlAuto);
-    void getExtIp(const QString cmd);
-    void getExtIp6(const QString cmd);
+    QString getCurrentProfile(const QString cmdNetctl, const QString cmdNetctlAuto);
+    QString getExtIp(const QString cmd);
     QStringList getInterfaceList();
-    QString getIntIp();
-    QString getIntIp6();
-    void getNetctlAutoStatus(const QString cmdNetctlAuto);
-    void getProfileList(const QString cmdNetctl, const QString cmdNetctlAuto);
-    void getProfileStringStatus(const QString cmdNetctl, const QString cmdNetctlAuto);
+    QString getIntIp(const QAbstractSocket::NetworkLayerProtocol protocol);
+    QString getNetctlAutoStatus(const QString cmdNetctlAuto);
+    QStringList getProfileList(const QString cmdNetctl, const QString cmdNetctlAuto);
+    QString getProfileStringStatus(const QString cmdNetctl, const QString cmdNetctlAuto);
+    QString getStatus(const QString cmdNetctl, const QString cmdNetctlAuto);
 
 protected:
     bool sourceRequestEvent(const QString &name);
     bool updateSourceEvent(const QString &source);
     QStringList sources() const;
 
-private slots:
-    void setCurrentProfile(int exitCode, QProcess::ExitStatus exitStatus);
-    void setExtIp(int exitCode, QProcess::ExitStatus exitStatus);
-    void setExtIp6(int exitCode, QProcess::ExitStatus exitStatus);
-    void setNetctlAutoStatus(int exitCode, QProcess::ExitStatus exitStatus);
-    void setProfileList(int exitCode, QProcess::ExitStatus exitStatus);
-    void setProfileStringStatus(int exitCode, QProcess::ExitStatus exitStatus);
-
 private:
     bool netctlAutoStatus;
     QString currentProfile;
-    // processes
-    QMap<QString, QProcess *> processes;
     // configuration
     bool debug;
     QMap<QString, QString> configuration;
     void initValues();
     void setKeys();
-    void setProcesses();
     void readConfiguration();
     QMap<QString, QString> updateConfiguration(const QMap<QString, QString> rawConfig);
 };
