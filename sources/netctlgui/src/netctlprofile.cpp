@@ -29,7 +29,7 @@
 #include <QProcess>
 #include <QTextStream>
 
-#include <netctlgui/netctlgui.h>
+#include "netctlgui.h"
 
 
 /**

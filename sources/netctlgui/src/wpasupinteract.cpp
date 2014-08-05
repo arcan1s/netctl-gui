@@ -26,7 +26,7 @@
 #include <QDebug>
 #include <QProcess>
 
-#include <netctlgui/netctlgui.h>
+#include "netctlgui.h"
 
 
 /**
