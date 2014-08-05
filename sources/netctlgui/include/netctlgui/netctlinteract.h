@@ -40,14 +40,17 @@ class NetctlProfile;
  * profile name
  * @var netctlProfileInfo::description
  * profile description
- * @var netctlProfileInfo::status
+ * @var netctlProfileInfo::active
+ * profile status
+ * @var netctlProfileInfo::enabled
  * profile status
  */
 typedef struct
 {
     QString name;
     QString description;
-    QString status;
+    bool active;
+    bool enabled;
 } netctlProfileInfo;
 
 /**

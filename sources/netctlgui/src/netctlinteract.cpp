@@ -164,7 +164,8 @@ QList<netctlProfileInfo> Netctl::getProfileList()
         netctlProfileInfo profileInfo;
         profileInfo.name = output[i].mid(2, -1);
         profileInfo.description = getProfileDescription(profileInfo.name);
-        profileInfo.status = getProfileStatus(profileInfo.name);
+        profileInfo.active = isProfileActive(profileInfo.name);
+        profileInfo.enabled = isProfileEnabled(profileInfo.name);
         fullProfilesInfo.append(profileInfo);
     }
 
@@ -186,7 +187,8 @@ QList<netctlProfileInfo> Netctl::getProfileListFromNetctlAuto()
         netctlProfileInfo profileInfo;
         profileInfo.name = output[i].mid(2, -1);
         profileInfo.description = getProfileDescription(profileInfo.name);
-        profileInfo.status = output[i].left(1);
+        profileInfo.active = autoIsProfileActive(profileInfo.name);
+        profileInfo.enabled = autoIsProfileEnabled(profileInfo.name);
         fullProfilesInfo.append(profileInfo);
     }
 
@@ -272,7 +274,7 @@ bool Netctl::autoIsProfileActive(const QString profile)
     bool status = false;
     QList<netctlProfileInfo> profiles = getProfileListFromNetctlAuto();
     for (int i=0; i<profiles.count(); i++)
-        if ((profiles[i].name == profile) && (profiles[i].status == QString("*"))) {
+        if ((profiles[i].name == profile) && (profiles[i].active)) {
             status = true;
             break;
         }
@@ -292,7 +294,7 @@ bool Netctl::autoIsProfileEnabled(const QString profile)
     bool status = true;
     QList<netctlProfileInfo> profiles = getProfileListFromNetctlAuto();
     for (int i=0; i<profiles.count(); i++)
-        if ((profiles[i].name == profile) && (profiles[i].status == QString("!"))) {
+        if ((profiles[i].name == profile) && (!profiles[i].enabled)) {
             status = false;
             break;
         }

@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>477</width>
-    <height>505</height>
+    <width>475</width>
+    <height>503</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -92,7 +92,15 @@
           </column>
           <column>
            <property name="text">
-            <string>Status</string>
+            <string>Active</string>
+           </property>
+           <property name="textAlignment">
+            <set>AlignHCenter|AlignVCenter|AlignCenter</set>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>Enabled</string>
            </property>
            <property name="textAlignment">
             <set>AlignHCenter|AlignVCenter|AlignCenter</set>
@@ -206,8 +214,8 @@
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>445</width>
-             <height>349</height>
+             <width>443</width>
+             <height>347</height>
             </rect>
            </property>
            <property name="sizePolicy">
@@ -367,7 +375,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>477</width>
+     <width>475</width>
      <height>22</height>
     </rect>
    </property>
@@ -573,7 +581,9 @@
   </action>
   <action name="actionReport">
    <property name="icon">
-    <iconset theme="tools-report-bug"/>
+    <iconset theme="tools-report-bug">
+     <normaloff/>
+    </iconset>
    </property>
    <property name="text">
     <string>Report a bug</string>

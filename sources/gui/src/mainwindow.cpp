@@ -413,7 +413,8 @@ void MainWindow::updateMainTab()
     QStringList headerList;
     headerList.append(QApplication::translate("MainWindow", "Name"));
     headerList.append(QApplication::translate("MainWindow", "Description"));
-    headerList.append(QApplication::translate("MainWindow", "Status"));
+    headerList.append(QApplication::translate("MainWindow", "Active"));
+    headerList.append(QApplication::translate("MainWindow", "Enabled"));
     ui->tableWidget_main->setHorizontalHeaderLabels(headerList);
     // create items
     for (int i=0; i<profiles.count(); i++) {
@@ -424,8 +425,27 @@ void MainWindow::updateMainTab()
         ui->tableWidget_main->setItem(i, 1, new QTableWidgetItem(profiles[i].description));
         ui->tableWidget_main->item(i, 1)->setTextAlignment(Qt::AlignLeft | Qt::AlignVCenter);
         // status
-        ui->tableWidget_main->setItem(i, 2, new QTableWidgetItem(profiles[i].status));
-        ui->tableWidget_main->item(i, 2)->setTextAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
+        if (profiles[i].active) {
+            // active
+            QFont font;
+            font.setBold(true);
+            ui->tableWidget_main->item(i, 0)->setFont(font);
+            ui->tableWidget_main->setItem(i, 2, new QTableWidgetItem(QApplication::translate("MainWindow", "yes")));
+            ui->tableWidget_main->item(i, 2)->setTextAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
+        }
+        else
+            ui->tableWidget_main->setItem(i, 2, new QTableWidgetItem(QString("")));
+        if (profiles[i].enabled) {
+            // enabled
+            ui->tableWidget_main->setItem(i, 3, new QTableWidgetItem(QApplication::translate("MainWindow", "yes")));
+            ui->tableWidget_main->item(i, 3)->setTextAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
+        }
+        else {
+            QFont font;
+            font.setItalic(true);
+            ui->tableWidget_main->item(i, 0)->setFont(font);
+            ui->tableWidget_main->setItem(i, 3, new QTableWidgetItem(QString("")));
+        }
     }
 
     ui->tableWidget_main->setSortingEnabled(true);

@@ -134,7 +134,8 @@ void NetctlAutoWindow::netctlAutoUpdateTable()
         // description
         ui->tableWidget->setItem(i, 1, new QTableWidgetItem(profiles[i].description));
         ui->tableWidget->item(i, 1)->setTextAlignment(Qt::AlignLeft | Qt::AlignVCenter);
-        if (profiles[i].status == QString("*")) {
+        // status
+        if (profiles[i].active) {
             // active
             QFont font;
             font.setBold(true);
@@ -144,7 +145,7 @@ void NetctlAutoWindow::netctlAutoUpdateTable()
         }
         else
             ui->tableWidget->setItem(i, 2, new QTableWidgetItem(QString("")));
-        if (profiles[i].status == QString("!")) {
+        if (profiles[i].enabled) {
             // disabled
             QFont font;
             font.setItalic(true);
