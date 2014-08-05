@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>480</width>
-    <height>337</height>
+    <height>335</height>
    </rect>
   </property>
   <property name="minimumSize">
@@ -87,72 +87,6 @@
     </layout>
    </item>
    <item>
-    <layout class="QHBoxLayout" name="layout_ip">
-     <item>
-      <widget class="QLabel" name="label_ip">
-       <property name="minimumSize">
-        <size>
-         <width>150</width>
-         <height>23</height>
-        </size>
-       </property>
-       <property name="text">
-        <string>Path to ip</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QLineEdit" name="lineEdit_ip"/>
-     </item>
-     <item>
-      <widget class="QPushButton" name="pushButton_ip">
-       <property name="minimumSize">
-        <size>
-         <width>100</width>
-         <height>23</height>
-        </size>
-       </property>
-       <property name="text">
-        <string>Browse</string>
-       </property>
-      </widget>
-     </item>
-    </layout>
-   </item>
-   <item>
-    <layout class="QHBoxLayout" name="layout_interface">
-     <item>
-      <widget class="QLabel" name="label_interface">
-       <property name="minimumSize">
-        <size>
-         <width>150</width>
-         <height>23</height>
-        </size>
-       </property>
-       <property name="text">
-        <string>Path to interface list</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QLineEdit" name="lineEdit_interface"/>
-     </item>
-     <item>
-      <widget class="QPushButton" name="pushButton_interface">
-       <property name="minimumSize">
-        <size>
-         <width>100</width>
-         <height>23</height>
-        </size>
-       </property>
-       <property name="text">
-        <string>Browse</string>
-       </property>
-      </widget>
-     </item>
-    </layout>
-   </item>
-   <item>
     <layout class="QHBoxLayout" name="layout_extIp">
      <item>
       <widget class="QCheckBox" name="checkBox_extIp">
@@ -163,7 +97,7 @@
         </size>
        </property>
        <property name="text">
-        <string>Check external IP</string>
+        <string>Check external IPv4</string>
        </property>
        <property name="checked">
         <bool>true</bool>
@@ -175,6 +109,42 @@
      </item>
      <item>
       <widget class="QPushButton" name="pushButton_extIp">
+       <property name="minimumSize">
+        <size>
+         <width>100</width>
+         <height>23</height>
+        </size>
+       </property>
+       <property name="text">
+        <string>Browse</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <layout class="QHBoxLayout" name="layout_extIp6">
+     <item>
+      <widget class="QCheckBox" name="checkBox_extIp6">
+       <property name="minimumSize">
+        <size>
+         <width>150</width>
+         <height>23</height>
+        </size>
+       </property>
+       <property name="text">
+        <string>Check external IPv6</string>
+       </property>
+       <property name="checked">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLineEdit" name="lineEdit_extIp6"/>
+     </item>
+     <item>
+      <widget class="QPushButton" name="pushButton_extIp6">
        <property name="minimumSize">
         <size>
          <width>100</width>
@@ -204,7 +174,6 @@
   </layout>
  </widget>
  <tabstops>
-  <tabstop>lineEdit_ip</tabstop>
   <tabstop>lineEdit_netctl</tabstop>
   <tabstop>pushButton_netctl</tabstop>
   <tabstop>checkBox_extIp</tabstop>

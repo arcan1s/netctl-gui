@@ -55,6 +55,7 @@ public:
     Netctl(QObject *parent, const QVariantList &args);
     ~Netctl();
     void init();
+    QString parsePattern(const QString rawLine);
     QMap<QString, QString> readDataEngineConfiguration();
     void writeDataEngineConfiguration(const QMap<QString, QString> settings);
     QMap<QString, QString> updateDataEngineConfiguration(const QMap<QString, QString> rawConfig);
@@ -71,6 +72,7 @@ public slots:
     void configChanged();
     void setBigInterface();
     void setDataEngineExternalIp();
+    void setDataEngineExternalIp6();
     void setSudo();
     void setWifi();
 
@@ -117,9 +119,10 @@ private:
     Ui::ConfigWindow uiWidConfig;
     Ui::About uiAboutConfig;
     // configuration
-    bool debug;
     int autoUpdateInterval;
-    QMap<QString, bool> bigInterface;
+    bool bigInterface;
+    bool debug;
+    QString textPattern;
     QStringList formatLine;
     QMap<QString, QString> paths;
     bool useSudo, useWifi;

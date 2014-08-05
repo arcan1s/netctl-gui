@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>480</width>
-    <height>337</height>
+    <height>335</height>
    </rect>
   </property>
   <property name="minimumSize">
@@ -260,32 +260,16 @@
     </widget>
    </item>
    <item>
-    <widget class="QCheckBox" name="checkBox_showNetDev">
-     <property name="text">
-      <string>Show network devices</string>
-     </property>
-     <property name="checked">
-      <bool>true</bool>
-     </property>
-    </widget>
-   </item>
-   <item>
-    <widget class="QCheckBox" name="checkBox_showExtIp">
-     <property name="text">
-      <string>Show external IP</string>
-     </property>
-     <property name="checked">
-      <bool>true</bool>
-     </property>
-    </widget>
-   </item>
-   <item>
-    <widget class="QCheckBox" name="checkBox_showIntIp">
-     <property name="text">
-      <string>Show internal IP</string>
-     </property>
-     <property name="checked">
-      <bool>true</bool>
+    <widget class="QPlainTextEdit" name="textEdit">
+     <property name="toolTip">
+      <string>$current - current profile name
+$extip - external IPv4
+$extip6 - external IPv6
+$interfaces - list of the network interfaces
+$intip - internal IPv4
+$intip6 - internal IPv6
+$profiles - list of the netctl profiles
+$status - current profile status (static/enabled)</string>
      </property>
     </widget>
    </item>

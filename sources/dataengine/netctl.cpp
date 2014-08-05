@@ -411,7 +411,6 @@ void Netctl::setProfileList(int exitCode, QProcess::ExitStatus exitStatus)
         profileList[i].remove(0, 2);
 
     setData(QString("profiles"), QString("value"), profileList.join(QChar(',')));
-    qDebug() << profileList;
 }
 
 
