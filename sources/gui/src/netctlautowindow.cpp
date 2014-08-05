@@ -88,7 +88,7 @@ void NetctlAutoWindow::netctlAutoUpdateTable()
     if (debug) qDebug() << "[NetctlAutoWindow]" << "[netctlAutoUpdateTable]";
 
     ui->tableWidget->setDisabled(true);
-    QList<QStringList> profiles = netctlCommand->getProfileListFromNetctlAuto();
+    QList<netctlProfileInfo> profiles = netctlCommand->getProfileListFromNetctlAuto();
 
     // actions
     if (netctlCommand->isNetctlAutoEnabled())
@@ -99,12 +99,16 @@ void NetctlAutoWindow::netctlAutoUpdateTable()
     if (netctlCommand->isNetctlAutoRunning()) {
         ui->label_info->setText(QApplication::translate("NetctlAutoWindow", "netctl-auto is running"));
         ui->actionStartService->setText(QApplication::translate("NetctlAutoWindow", "Stop service"));
+        ui->actionDisableAll->setVisible(true);
+        ui->actionEnableAll->setVisible(true);
         ui->actionRestartService->setVisible(true);
     }
     else {
-        ui->actionStartService->setText(QApplication::translate("NetctlAutoWindow", "Start service"));
-        ui->actionRestartService->setVisible(false);
         ui->label_info->setText(QApplication::translate("NetctlAutoWindow", "netctl-auto is not running"));
+        ui->actionStartService->setText(QApplication::translate("NetctlAutoWindow", "Start service"));
+        ui->actionDisableAll->setVisible(false);
+        ui->actionEnableAll->setVisible(false);
+        ui->actionRestartService->setVisible(false);
         netctlAutoRefreshButtons(0, 0);
         return;
     }
@@ -125,30 +129,26 @@ void NetctlAutoWindow::netctlAutoUpdateTable()
     // create items
     for (int i=0; i<profiles.count(); i++) {
         // name
-        ui->tableWidget->setItem(i, 0, new QTableWidgetItem(profiles[i][0]));
+        ui->tableWidget->setItem(i, 0, new QTableWidgetItem(profiles[i].name));
         ui->tableWidget->item(i, 0)->setTextAlignment(Qt::AlignLeft | Qt::AlignVCenter);
-        if (profiles[i][2] == QString("*")) {
+        // description
+        ui->tableWidget->setItem(i, 1, new QTableWidgetItem(profiles[i].description));
+        ui->tableWidget->item(i, 1)->setTextAlignment(Qt::AlignLeft | Qt::AlignVCenter);
+        if (profiles[i].status == QString("*")) {
+            // active
             QFont font;
             font.setBold(true);
             ui->tableWidget->item(i, 0)->setFont(font);
-        }
-        else if (profiles[i][2] == QString("!")) {
-            QFont font;
-            font.setItalic(true);
-            ui->tableWidget->item(i, 0)->setFont(font);
-        }
-        // description
-        ui->tableWidget->setItem(i, 1, new QTableWidgetItem(profiles[i][1]));
-        ui->tableWidget->item(i, 1)->setTextAlignment(Qt::AlignLeft | Qt::AlignVCenter);
-        if (profiles[i][2] == QString("*")) {
-            // active
             ui->tableWidget->setItem(i, 2, new QTableWidgetItem(QApplication::translate("NetctlAutoWindow", "yes")));
             ui->tableWidget->item(i, 2)->setTextAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
         }
         else
             ui->tableWidget->setItem(i, 2, new QTableWidgetItem(QString("")));
-        if (profiles[i][2] == QString("!")) {
+        if (profiles[i].status == QString("!")) {
             // disabled
+            QFont font;
+            font.setItalic(true);
+            ui->tableWidget->item(i, 0)->setFont(font);
             ui->tableWidget->setItem(i, 3, new QTableWidgetItem(QApplication::translate("NetctlAutoWindow", "yes")));
             ui->tableWidget->item(i, 3)->setTextAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
         }

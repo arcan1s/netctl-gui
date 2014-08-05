@@ -49,6 +49,10 @@
         <source>Translators: %1</source>
         <translation>Translators: %1</translation>
     </message>
+    <message>
+        <source>This software uses: %1</source>
+        <translation>This software uses: %1</translation>
+    </message>
 </context>
 <context>
     <name>BridgeWidget</name>

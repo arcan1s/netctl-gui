@@ -63,7 +63,6 @@ Additional information
 TODO (wish list)
 ----------------
 
-* refactoring of GUI according to library changes
 * rewrite changelog to more comfortable format
 
 Links

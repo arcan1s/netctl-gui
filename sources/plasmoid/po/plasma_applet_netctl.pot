@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: http://kde-look.org/content/show.php?content=98925\n"
-"POT-Creation-Date: 2014-08-05 20:32+0400\n"
+"POT-Creation-Date: 2014-08-06 00:06+0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,145 +17,149 @@ msgstr ""
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: netctl.cpp:296
+#: netctl.cpp:297
 msgid "Set profile %1 disabled"
 msgstr ""
 
-#: netctl.cpp:300
+#: netctl.cpp:301
 msgid "Set profile %1 enabled"
 msgstr ""
 
-#: netctl.cpp:317
+#: netctl.cpp:318
 msgid "Start profile %1"
 msgstr ""
 
-#: netctl.cpp:335
+#: netctl.cpp:336
 msgid "Stop profile %1"
 msgstr ""
 
-#: netctl.cpp:352
+#: netctl.cpp:353
 msgid "Switch to profile %1"
 msgstr ""
 
-#: netctl.cpp:366
+#: netctl.cpp:367
 msgid "Restart profile %1"
 msgstr ""
 
-#: netctl.cpp:405
+#: netctl.cpp:406
 msgid "Start another profile"
 msgstr ""
 
-#: netctl.cpp:406
+#: netctl.cpp:407
 msgid "Stop %1"
 msgstr ""
 
-#: netctl.cpp:407
+#: netctl.cpp:408
 msgid "Restart %1"
 msgstr ""
 
-#: netctl.cpp:409
+#: netctl.cpp:410
 msgid "Disable %1"
 msgstr ""
 
-#: netctl.cpp:411
+#: netctl.cpp:412
 msgid "Enable %1"
 msgstr ""
 
-#: netctl.cpp:414 netctl.cpp:437
+#: netctl.cpp:415 netctl.cpp:438
 msgid "Start profile"
 msgstr ""
 
-#: netctl.cpp:445
+#: netctl.cpp:446
 msgid "Stop profile"
 msgstr ""
 
-#: netctl.cpp:450
+#: netctl.cpp:451
 msgid "Switch to profile"
 msgstr ""
 
-#: netctl.cpp:458
+#: netctl.cpp:459
 msgid "Restart profile"
 msgstr ""
 
-#: netctl.cpp:463
+#: netctl.cpp:464
 msgid "Enable profile"
 msgstr ""
 
-#: netctl.cpp:467
+#: netctl.cpp:468
 msgid "Show WiFi menu"
 msgstr ""
 
-#: netctl.cpp:494
+#: netctl.cpp:495
 msgid "Start GUI"
 msgstr ""
 
-#: netctl.cpp:505
+#: netctl.cpp:506
 msgid "Start WiFi menu"
 msgstr ""
 
-#: netctl.cpp:569
+#: netctl.cpp:570
 msgid "Network is up"
 msgstr ""
 
-#: netctl.cpp:574
+#: netctl.cpp:575
 msgid "Network is down"
 msgstr ""
 
-#: netctl.cpp:714
+#: netctl.cpp:721
 msgid ""
 "Version %1\n"
 "(build date %2)"
 msgstr ""
 
-#: netctl.cpp:715
+#: netctl.cpp:722
 msgid "KDE widget which interacts with netctl."
 msgstr ""
 
-#: netctl.cpp:716
+#: netctl.cpp:723
 msgid "Translators: %1"
 msgstr ""
 
-#: netctl.cpp:717
+#: netctl.cpp:724
 msgid "Links:"
 msgstr ""
 
-#: netctl.cpp:718
+#: netctl.cpp:725
 msgid "Homepage"
 msgstr ""
 
-#: netctl.cpp:719
+#: netctl.cpp:726
 msgid "Repository"
 msgstr ""
 
-#: netctl.cpp:720
+#: netctl.cpp:727
 msgid "Bugtracker"
 msgstr ""
 
-#: netctl.cpp:721
+#: netctl.cpp:728
 msgid "Translation issue"
 msgstr ""
 
-#: netctl.cpp:722
+#: netctl.cpp:729
 msgid "AUR packages"
 msgstr ""
 
-#: netctl.cpp:724
+#: netctl.cpp:731
 msgid "This software is licensed under %1"
 msgstr ""
 
-#: netctl.cpp:727
+#: netctl.cpp:732
+msgid "This software uses: %1"
+msgstr ""
+
+#: netctl.cpp:734
 msgid "Netctl plasmoid"
 msgstr ""
 
-#: netctl.cpp:728
+#: netctl.cpp:735
 msgid "Appearance"
 msgstr ""
 
-#: netctl.cpp:729
+#: netctl.cpp:736
 msgid "DataEngine"
 msgstr ""
 
-#: netctl.cpp:730
+#: netctl.cpp:737
 msgid "About"
 msgstr ""
 

@@ -49,6 +49,12 @@ void AboutWindow::createText()
 {
     if (debug) qDebug() << "[AboutWindow]" << "[createText]";
 
+    QStringList trdPartyList = QString(TRDPARTY_LICENSE).split(QChar(';'), QString::SkipEmptyParts);
+    for (int i=0; i<trdPartyList.count(); i++)
+        trdPartyList[i] = QString("<a href=\"%3\">%1</a> (%2 license)")
+                .arg(trdPartyList[i].split(QChar(','))[0])
+                .arg(trdPartyList[i].split(QChar(','))[1])
+                .arg(trdPartyList[i].split(QChar(','))[2]);
     uiAbout->label_name->setText(QString(NAME));
     uiAbout->label_version->setText(QApplication::translate("AboutWindow", "Version %1\n(build date %2)")
                                     .arg(QString(VERSION)).arg(QString(BUILD_DATE)));
@@ -61,8 +67,8 @@ void AboutWindow::createText()
                                   QString("<a href=\"%1\">%2</a><br>").arg(QString(TRANSLATION)).arg(QApplication::translate("AboutWindow", "Translation issue")) +\
                                   QString("<a href=\"%1\">%2</a>").arg(QString(AUR_PACKAGES)).arg(QApplication::translate("AboutWindow", "AUR packages")));
     uiAbout->label_license->setText(QString("<small>&copy; %1 <a href=\"mailto:%2\">%3</a><br>").arg(QString(DATE)).arg(QString(EMAIL)).arg(QString(AUTHOR)) +
-                                    QApplication::translate("AboutWindow", "This software is licensed under %1").arg(QString(LICENSE)) +
-                                    QString("</small>"));
+                                    QApplication::translate("AboutWindow", "This software is licensed under %1").arg(QString(LICENSE)) + QString("<br>") +
+                                    QApplication::translate("AboutWindow", "This software uses: %1").arg(trdPartyList.join(QString(", "))) + QString("</small>"));
 }
 
 

@@ -396,7 +396,7 @@ void MainWindow::updateMainTab()
         return errorWin->showWindow(1, QString("[MainWindow] : [updateMainTab]"));
 
     ui->tabWidget->setDisabled(true);
-    QList<QStringList> profiles = netctlCommand->getProfileList();
+    QList<netctlProfileInfo> profiles = netctlCommand->getProfileList();
 
     if (netctlCommand->isNetctlAutoRunning())
         ui->widget_netctlAuto->setHidden(false);
@@ -418,13 +418,13 @@ void MainWindow::updateMainTab()
     // create items
     for (int i=0; i<profiles.count(); i++) {
         // name
-        ui->tableWidget_main->setItem(i, 0, new QTableWidgetItem(profiles[i][0]));
+        ui->tableWidget_main->setItem(i, 0, new QTableWidgetItem(profiles[i].name));
         ui->tableWidget_main->item(i, 0)->setTextAlignment(Qt::AlignLeft | Qt::AlignVCenter);
         // description
-        ui->tableWidget_main->setItem(i, 1, new QTableWidgetItem(profiles[i][1]));
+        ui->tableWidget_main->setItem(i, 1, new QTableWidgetItem(profiles[i].description));
         ui->tableWidget_main->item(i, 1)->setTextAlignment(Qt::AlignLeft | Qt::AlignVCenter);
         // status
-        ui->tableWidget_main->setItem(i, 2, new QTableWidgetItem(profiles[i][2]));
+        ui->tableWidget_main->setItem(i, 2, new QTableWidgetItem(profiles[i].status));
         ui->tableWidget_main->item(i, 2)->setTextAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
     }
 
@@ -513,9 +513,9 @@ void MainWindow::updateWifiTab()
     if (!checkExternalApps(QString("wpasup")))
         return errorWin->showWindow(1, QString("[MainWindow] : [updateWifiTab]"));
 
-    QList<QStringList> scanResults = wpaCommand->scanWifi();
-
     ui->tabWidget->setDisabled(true);
+    QList<netctlWifiInfo> scanResults = wpaCommand->scanWifi();
+
     ui->tableWidget_wifi->setSortingEnabled(false);
     ui->tableWidget_wifi->selectRow(-1);
     ui->tableWidget_wifi->sortByColumn(0, Qt::AscendingOrder);
@@ -532,16 +532,16 @@ void MainWindow::updateWifiTab()
     // create items
     for (int i=0; i<scanResults.count(); i++) {
         // name
-        ui->tableWidget_wifi->setItem(i, 0, new QTableWidgetItem(scanResults[i][0]));
+        ui->tableWidget_wifi->setItem(i, 0, new QTableWidgetItem(scanResults[i].name));
         ui->tableWidget_wifi->item(i, 0)->setTextAlignment(Qt::AlignLeft | Qt::AlignVCenter);
         // status
-        ui->tableWidget_wifi->setItem(i, 1, new QTableWidgetItem(scanResults[i][1]));
+        ui->tableWidget_wifi->setItem(i, 1, new QTableWidgetItem(scanResults[i].status));
         ui->tableWidget_wifi->item(i, 1)->setTextAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
         // signal
-        ui->tableWidget_wifi->setItem(i, 2, new QTableWidgetItem(scanResults[i][2]));
+        ui->tableWidget_wifi->setItem(i, 2, new QTableWidgetItem(scanResults[i].signal));
         ui->tableWidget_wifi->item(i, 2)->setTextAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
         // security
-        ui->tableWidget_wifi->setItem(i, 3, new QTableWidgetItem(scanResults[i][3]));
+        ui->tableWidget_wifi->setItem(i, 3, new QTableWidgetItem(scanResults[i].security));
         ui->tableWidget_wifi->item(i, 3)->setTextAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
     }
 
@@ -936,9 +936,9 @@ void MainWindow::profileTabClear()
     if (debug) qDebug() << "[MainWindow]" << "[profileTabClear]";
 
     ui->comboBox_profile->clear();
-    QList<QStringList> profiles = netctlCommand->getProfileList();
+    QList<netctlProfileInfo> profiles = netctlCommand->getProfileList();
     for (int i=0; i<profiles.count(); i++)
-        ui->comboBox_profile->addItem(profiles[i][0]);
+        ui->comboBox_profile->addItem(profiles[i].name);
     ui->comboBox_profile->setCurrentIndex(-1);
 
     generalWid->clear();
@@ -1268,12 +1268,12 @@ void MainWindow::connectToUnknownEssid(const QString passwd)
 
     if (passwdWid != 0)
         delete passwdWid;
-    if (netctlCommand->getInterfaceList().isEmpty())
+    if (netctlCommand->getWirelessInterfaceList().isEmpty())
         return;
 
     QMap<QString, QString> settings;
     settings[QString("Description")] = QString("'Automatically generated profile by Netctl GUI'");
-    settings[QString("Interface")] = netctlCommand->getInterfaceList()[0];
+    settings[QString("Interface")] = netctlCommand->getWirelessInterfaceList()[0];
     settings[QString("Connection")] = QString("wireless");
     QString security = ui->tableWidget_wifi->item(ui->tableWidget_wifi->currentItem()->row(), 3)->text();
     if (checkState(QString("WPA"), security))

@@ -39,7 +39,7 @@
     </message>
     <message>
         <source>This software is licensed under %1</source>
-        <translation>Данной программное обеспечение лицензировано под %1</translation>
+        <translation>Данное приложение лицензировано под %1</translation>
     </message>
     <message>
         <source>About</source>
@@ -48,6 +48,10 @@
     <message>
         <source>Translators: %1</source>
         <translation>Переводчики: %1</translation>
+    </message>
+    <message>
+        <source>This software uses: %1</source>
+        <translation>Данное приложение использует: %1</translation>
     </message>
 </context>
 <context>
