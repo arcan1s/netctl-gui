@@ -63,8 +63,6 @@ Additional information
 TODO (wish list)
 ----------------
 
-* rewrite changelog to more comfortable format
-
 Links
 -----
 
