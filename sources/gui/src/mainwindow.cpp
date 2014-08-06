@@ -30,6 +30,7 @@
 
 #include "aboutwindow.h"
 #include "bridgewidget.h"
+#include "controladaptor.h"
 #include "errorwindow.h"
 #include "ethernetwidget.h"
 #include "generalwidget.h"
@@ -370,6 +371,10 @@ void MainWindow::createDBusSession()
                             new NetctlAdaptor(this, configuration),
                             QDBusConnection::ExportAllContents))
         if (debug) qDebug() << "[MainWindow]" << "[createDBusSession]" << ":" << "Could not register library object";
+    if (!bus.registerObject(QString(DBUS_CONTROL_PATH),
+                            new ControlAdaptor(this, configuration),
+                            QDBusConnection::ExportAllContents))
+        if (debug) qDebug() << "[MainWindow]" << "[createDBusSession]" << ":" << "Could not register control object";
 }
 
 
