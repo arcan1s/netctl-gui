@@ -15,31 +15,34 @@
  *   along with netctl-gui. If not, see http://www.gnu.org/licenses/       *
  ***************************************************************************/
 
-#ifndef NETCTLGUIADAPTOR_H
-#define NETCTLGUIADAPTOR_H
 
-#include <QDBusAbstractAdaptor>
+#include <QDebug>
+
+#include <netctlgui/netctlgui.h>
+#include "netctladaptor.h"
 
 
-class MainWindow;
-
-class NetctlGuiAdaptor : public QDBusAbstractAdaptor
+NetctlAdaptor::NetctlAdaptor(QObject *parent, const bool debugCmd, const QMap<QString, QString> configuration)
+    : QDBusAbstractAdaptor(parent),
+      debug(debugCmd)
 {
-    Q_OBJECT
-    Q_CLASSINFO("D-Bus Interface", "org.netctlgui.netctlgui")
-
-public:
-    explicit NetctlGuiAdaptor(MainWindow *parent = 0,
-                              const bool debugCmd = false);
-    ~NetctlGuiAdaptor();
-
-public slots:
-    bool RestoreWindow();
-
-private:
-    bool debug;
-    MainWindow *mainWindow;
-};
+    netctlCommand = new Netctl(debug, configuration);
+    netctlProfile = new NetctlProfile(debug, configuration);
+    wpaCommand = new WpaSup(debug, configuration);
+}
 
 
-#endif /* NETCTLGUIADAPTOR_H */
+NetctlAdaptor::~NetctlAdaptor()
+{
+    if (debug) qDebug() << "[NetctlAdaptor]" << "[~NetctlAdaptor]";
+
+    delete netctlCommand;
+    delete netctlProfile;
+    delete wpaCommand;
+}
+
+
+QString NetctlAdaptor::Information()
+{
+    if (debug) qDebug() << "[NetctlAdaptor]" << "[Information]";
+}

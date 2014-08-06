@@ -35,13 +35,13 @@ using namespace std;
 bool restoreExistSession()
 {
     QDBusConnection bus = QDBusConnection::sessionBus();
-    QDBusMessage request = QDBusMessage::createMethodCall(DBUS_SERVICE,
-                                                          DBUS_OBJECT_PATH,
-                                                          DBUS_INTERFACE,
+    QDBusMessage request = QDBusMessage::createMethodCall(QString(DBUS_SERVICE),
+                                                          QString(DBUS_OBJECT_PATH),
+                                                          QString(DBUS_INTERFACE),
                                                           QString("RestoreWindow"));
     QDBusMessage response = bus.call(request);
     QList<QVariant> arguments = response.arguments();
-    return ((arguments.size()==1) && arguments[0].toBool());
+    return ((arguments.size() == 1) && arguments[0].toBool());
 }
 
 
@@ -56,10 +56,12 @@ QChar isParametrEnable(const bool parametr)
 
 int main(int argc, char *argv[])
 {
+    QApplication a(argc, argv);
+    QApplication::setQuitOnLastWindowClosed(false);
+
+    // check if exists
     if (restoreExistSession())
         return 0;
-
-    QApplication a(argc, argv);
 
     // config path
     QString configPath = QString(QDir::homePath() + QString("/.config/netctl-gui.conf"));

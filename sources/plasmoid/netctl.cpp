@@ -465,6 +465,11 @@ void Netctl::createActions()
     connect(contextMenu[QString("enable")], SIGNAL(triggered(bool)), this, SLOT(enableProfileSlot()));
     menuActions.append(contextMenu[QString("enable")]);
 
+    contextMenu[QString("gui")] = new QAction(i18n("Show netctl-gui"), this);
+    contextMenu[QString("gui")]->setIcon(QIcon(":icon"));
+    connect(contextMenu[QString("gui")], SIGNAL(triggered(bool)), this, SLOT(showGui()));
+    menuActions.append(contextMenu[QString("gui")]);
+
     contextMenu[QString("wifi")] = new QAction(i18n("Show WiFi menu"), this);
     contextMenu[QString("wifi")]->setIcon(QIcon(":wifi"));
     connect(contextMenu[QString("wifi")], SIGNAL(triggered(bool)), this, SLOT(showWifi()));

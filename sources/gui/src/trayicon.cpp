@@ -46,17 +46,29 @@ TrayIcon::~TrayIcon()
 }
 
 
-void TrayIcon::showInformation()
+int TrayIcon::showInformation()
 {
     if (debug) qDebug() << "[TrayIcon]" << "[showInformation]";
+
+    if (supportsMessages()) {
+        QString title = QApplication::translate("TrayIcon", "netctl status");
+        QString message = mainWindow->getInformation();
+        showMessage(title, message, QSystemTrayIcon::Information);
+    }
+    else
+        return showInformationInWindow();
+    return 0;
+}
+
+
+int TrayIcon::showInformationInWindow()
+{
+    if (debug) qDebug() << "[TrayIcon]" << "[showInformationInWindow]";
 
     QString title = QApplication::translate("TrayIcon", "netctl status");
     QString message = mainWindow->getInformation();
 
-    if (supportsMessages())
-        showMessage(title, message, QSystemTrayIcon::Information);
-    else
-        QMessageBox::information(0, title, message);
+    return QMessageBox::information(0, title, message);
 }
 
 
@@ -85,6 +97,7 @@ void TrayIcon::init()
     menu->addAction(exit);
     setContextMenu(menu);
 
+    connect(this, SIGNAL(messageClicked()), this, SLOT(showInformationInWindow()));
     connect(this, SIGNAL(activated(QSystemTrayIcon::ActivationReason)),
             this, SLOT(itemActivated(QSystemTrayIcon::ActivationReason)));
 }

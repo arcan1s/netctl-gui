@@ -15,31 +15,36 @@
  *   along with netctl-gui. If not, see http://www.gnu.org/licenses/       *
  ***************************************************************************/
 
-#ifndef NETCTLGUIADAPTOR_H
-#define NETCTLGUIADAPTOR_H
+#ifndef NETCTLADAPTOR_H
+#define NETCTLADAPTOR_H
 
 #include <QDBusAbstractAdaptor>
 
 
-class MainWindow;
+class Netctl;
+class NetctlProfile;
+class WpaSup;
 
-class NetctlGuiAdaptor : public QDBusAbstractAdaptor
+class NetctlAdaptor : public QDBusAbstractAdaptor
 {
     Q_OBJECT
     Q_CLASSINFO("D-Bus Interface", "org.netctlgui.netctlgui")
 
 public:
-    explicit NetctlGuiAdaptor(MainWindow *parent = 0,
-                              const bool debugCmd = false);
-    ~NetctlGuiAdaptor();
+    explicit NetctlAdaptor(QObject *parent = 0,
+                           const bool debugCmd = false,
+                           const QMap<QString, QString> configuration = QMap<QString, QString>());
+    ~NetctlAdaptor();
 
 public slots:
-    bool RestoreWindow();
+    QString Information();
 
 private:
     bool debug;
-    MainWindow *mainWindow;
+    Netctl *netctlCommand;
+    NetctlProfile *netctlProfile;
+    WpaSup *wpaCommand;
 };
 
 
-#endif /* NETCTLGUIADAPTOR_H */
+#endif /* NETCTLADAPTOR_H */

@@ -35,7 +35,8 @@ public:
     ~TrayIcon();
 
 public slots:
-    void showInformation();
+    int showInformation();
+    int showInformationInWindow();
 
 private slots:
     void itemActivated(const QSystemTrayIcon::ActivationReason reason);

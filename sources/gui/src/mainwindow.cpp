@@ -36,6 +36,7 @@
 #include "ipwidget.h"
 #include "macvlanwidget.h"
 #include "mobilewidget.h"
+#include "netctladaptor.h"
 #include "netctlautowindow.h"
 #include "netctlguiadaptor.h"
 #include "passwdwidget.h"
@@ -186,6 +187,7 @@ MainWindow::~MainWindow()
 {
     if (debug) qDebug() << "[MainWindow]" << "[~MainWindow]";
 
+    QDBusConnection::sessionBus().unregisterService(QString(DBUS_SERVICE));
     delete netctlCommand;
     delete netctlProfile;
     delete wpaCommand;
@@ -206,8 +208,8 @@ MainWindow::~MainWindow()
     delete errorWin;
     delete netctlAutoWin;
     delete settingsWin;
-    delete ui;
     delete trayIcon;
+    delete ui;
 }
 
 
@@ -226,7 +228,7 @@ QString MainWindow::getInformation()
         status = netctlCommand->getProfileStatus(profile);
     }
     QString output = QString("%1: %2\n").arg(QApplication::translate("MainWindow", "Profile")).arg(profile);
-    output += QString("%1: %2\n").arg(QApplication::translate("MainWindow", "Status")).arg(status);
+    output += QString("%1: %2").arg(QApplication::translate("MainWindow", "Status")).arg(status);
 
     return output;
 }
@@ -353,12 +355,17 @@ void MainWindow::createDBusSession()
 {
     if (debug) qDebug() << "[MainWindow]" << "[createDBusSession]";
 
-    new NetctlGuiAdaptor(this, debug);
     QDBusConnection bus = QDBusConnection::sessionBus();
     if (!bus.registerService(QString(DBUS_SERVICE)))
         if (debug) qDebug() << "[MainWindow]" << "[createDBusSession]" << ":" << "Could not register service";
-    if (!bus.registerObject(QString(DBUS_OBJECT_PATH), this))
-        if (debug) qDebug() << "[MainWindow]" << "[createDBusSession]" << ":" << "Could not register object";
+    if (!bus.registerObject(QString(DBUS_OBJECT_PATH),
+                            new NetctlGuiAdaptor(this, debug),
+                            QDBusConnection::ExportAllContents))
+        if (debug) qDebug() << "[MainWindow]" << "[createDBusSession]" << ":" << "Could not register GUI object";
+    if (!bus.registerObject(QString(DBUS_LIB_PATH),
+                            new NetctlAdaptor(this, debug, configuration),
+                            QDBusConnection::ExportAllContents))
+        if (debug) qDebug() << "[MainWindow]" << "[createDBusSession]" << ":" << "Could not register library object";
 }
 
 

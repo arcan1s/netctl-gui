@@ -36,14 +36,6 @@ NetctlGuiAdaptor::~NetctlGuiAdaptor()
 }
 
 
-QString NetctlGuiAdaptor::Information()
-{
-    if (debug) qDebug() << "[NetctlGuiAdaptor]" << "[RestoreWindow]";
-
-    return mainWindow->getInformation();
-}
-
-
 bool NetctlGuiAdaptor::RestoreWindow()
 {
     if (debug) qDebug() << "[NetctlGuiAdaptor]" << "[RestoreWindow]";
