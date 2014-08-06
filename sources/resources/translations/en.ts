@@ -1002,6 +1002,38 @@
         <source>Report a bug</source>
         <translation>Report a bug</translation>
     </message>
+    <message>
+        <source>yes</source>
+        <translation>yes</translation>
+    </message>
+    <message>
+        <source>no</source>
+        <translation>no</translation>
+    </message>
+    <message>
+        <source>Active</source>
+        <translation>Active</translation>
+    </message>
+    <message>
+        <source>Enabled</source>
+        <translation>Enabled</translation>
+    </message>
+    <message>
+        <source>Exists</source>
+        <translation>Exists</translation>
+    </message>
+    <message>
+        <source>ESSID</source>
+        <translation>ESSID</translation>
+    </message>
+    <message>
+        <source>start maximized</source>
+        <translation>start maximized</translation>
+    </message>
+    <message>
+        <source>start minimized</source>
+        <translation>start minimized</translation>
+    </message>
 </context>
 <context>
     <name>MobileWidget</name>
@@ -1247,6 +1279,14 @@
     <message>
         <source>netctl-auto</source>
         <translation>netctl-auto</translation>
+    </message>
+    <message>
+        <source>no</source>
+        <translation>no</translation>
+    </message>
+    <message>
+        <source>Profile</source>
+        <translation>Profile</translation>
     </message>
 </context>
 <context>
@@ -1632,6 +1672,49 @@
     <message>
         <source>Path to wpa_actiond</source>
         <translation type="vanished">Path to wpa_actiond</translation>
+    </message>
+    <message>
+        <source>Enable system tray</source>
+        <translation>Enable system tray</translation>
+    </message>
+    <message>
+        <source>Minimize to tray instead of closing</source>
+        <translation>Minimize to tray instead of closing</translation>
+    </message>
+    <message>
+        <source>Start minimized to tray</source>
+        <translation>Start minimized to tray</translation>
+    </message>
+</context>
+<context>
+    <name>TrayIcon</name>
+    <message>
+        <source>netctl status</source>
+        <translation>netctl status</translation>
+    </message>
+    <message>
+        <source>Quit</source>
+        <translation>Quit</translation>
+    </message>
+    <message>
+        <source>Show</source>
+        <translation>Show</translation>
+    </message>
+    <message>
+        <source>Show netctl-auto</source>
+        <translation>Show netctl-auto</translation>
+    </message>
+    <message>
+        <source>Status</source>
+        <translation>Status</translation>
+    </message>
+    <message>
+        <source>Hide</source>
+        <translation>Hide</translation>
+    </message>
+    <message>
+        <source>Hide netctl-auto</source>
+        <translation>Hide netctl-auto</translation>
     </message>
 </context>
 <context>

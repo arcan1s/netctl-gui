@@ -1001,6 +1001,38 @@
         <source>Report a bug</source>
         <translation>Сообщить о баге</translation>
     </message>
+    <message>
+        <source>yes</source>
+        <translation>да</translation>
+    </message>
+    <message>
+        <source>no</source>
+        <translation>нет</translation>
+    </message>
+    <message>
+        <source>Active</source>
+        <translation>Активен</translation>
+    </message>
+    <message>
+        <source>Enabled</source>
+        <translation>Включен</translation>
+    </message>
+    <message>
+        <source>Exists</source>
+        <translation>Существует</translation>
+    </message>
+    <message>
+        <source>ESSID</source>
+        <translation>ESSID</translation>
+    </message>
+    <message>
+        <source>start maximized</source>
+        <translation>запустить развернутым</translation>
+    </message>
+    <message>
+        <source>start minimized</source>
+        <translation>запустить свернутым</translation>
+    </message>
 </context>
 <context>
     <name>MobileWidget</name>
@@ -1246,6 +1278,14 @@
     <message>
         <source>netctl-auto</source>
         <translation>netctl-auto</translation>
+    </message>
+    <message>
+        <source>no</source>
+        <translation>нет</translation>
+    </message>
+    <message>
+        <source>Profile</source>
+        <translation>Профиль</translation>
     </message>
 </context>
 <context>
@@ -1631,6 +1671,49 @@
     <message>
         <source>Path to wpa_actiond</source>
         <translation type="vanished">Путь к wpa_actiond</translation>
+    </message>
+    <message>
+        <source>Enable system tray</source>
+        <translation>Включить иконку в трее</translation>
+    </message>
+    <message>
+        <source>Minimize to tray instead of closing</source>
+        <translation>Сворачивать в трей вместо закрытия</translation>
+    </message>
+    <message>
+        <source>Start minimized to tray</source>
+        <translation>Запускать свернутым в трей</translation>
+    </message>
+</context>
+<context>
+    <name>TrayIcon</name>
+    <message>
+        <source>netctl status</source>
+        <translation>Статус netctl</translation>
+    </message>
+    <message>
+        <source>Quit</source>
+        <translation>Выход</translation>
+    </message>
+    <message>
+        <source>Show</source>
+        <translation>Показать</translation>
+    </message>
+    <message>
+        <source>Show netctl-auto</source>
+        <translation>Показать netctl-auto</translation>
+    </message>
+    <message>
+        <source>Status</source>
+        <translation>Статус</translation>
+    </message>
+    <message>
+        <source>Hide</source>
+        <translation>Свернуть</translation>
+    </message>
+    <message>
+        <source>Hide netctl-auto</source>
+        <translation>Свернуть netctl-auto</translation>
     </message>
 </context>
 <context>
