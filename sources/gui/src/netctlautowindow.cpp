@@ -29,6 +29,8 @@ NetctlAutoWindow::NetctlAutoWindow(QWidget *parent, const bool debugCmd, const Q
       debug(debugCmd)
 {
     ui->setupUi(this);
+    ui->tableWidget->setColumnHidden(2, true);
+    ui->tableWidget->setColumnHidden(3, true);
     netctlCommand = new Netctl(debug, settings);
 
     createActions();
@@ -141,8 +143,6 @@ void NetctlAutoWindow::netctlAutoUpdateTable()
     headerList.append(QApplication::translate("NetctlAutoWindow", "Active"));
     headerList.append(QApplication::translate("NetctlAutoWindow", "Disabled"));
     ui->tableWidget->setHorizontalHeaderLabels(headerList);
-    ui->tableWidget->setColumnHidden(2, true);
-    ui->tableWidget->setColumnHidden(3, true);
     // create items
     for (int i=0; i<profiles.count(); i++) {
         // font
@@ -172,8 +172,16 @@ void NetctlAutoWindow::netctlAutoUpdateTable()
     }
 
     ui->tableWidget->setSortingEnabled(true);
+
+    ui->tableWidget->resizeRowsToContents();
     ui->tableWidget->resizeColumnsToContents();
     ui->tableWidget->resizeRowsToContents();
+#if QT_VERSION >= 0x050000
+    ui->tableWidget->horizontalHeader()->setSectionResizeMode(QHeaderView::ResizeToContents);
+#else
+    ui->tableWidget->horizontalHeader()->setResizeMode(QHeaderView::ResizeToContents);
+#endif
+
     ui->tableWidget->setEnabled(true);
     ui->statusBar->showMessage(QApplication::translate("NetctlAutoWindow", "Updated"));
 

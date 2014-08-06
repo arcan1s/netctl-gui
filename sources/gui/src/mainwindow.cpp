@@ -90,6 +90,10 @@ MainWindow::MainWindow(QWidget *parent,
     // frontend
     // windows
     ui->setupUi(this);
+    ui->tableWidget_main->setColumnHidden(2, true);
+    ui->tableWidget_main->setColumnHidden(3, true);
+    ui->tableWidget_wifi->setColumnHidden(3, true);
+    ui->tableWidget_wifi->setColumnHidden(4, true);
     ui->tabWidget->setCurrentIndex(tabNum-1);
     aboutWin = new AboutWindow(this, debug);
     errorWin = new ErrorWindow(this, debug);
@@ -410,8 +414,6 @@ void MainWindow::updateMainTab()
     headerList.append(QApplication::translate("MainWindow", "Active"));
     headerList.append(QApplication::translate("MainWindow", "Enabled"));
     ui->tableWidget_main->setHorizontalHeaderLabels(headerList);
-    ui->tableWidget_main->setColumnHidden(2, true);
-    ui->tableWidget_main->setColumnHidden(3, true);
     // create items
     for (int i=0; i<profiles.count(); i++) {
         // font
@@ -441,13 +443,16 @@ void MainWindow::updateMainTab()
     }
 
     ui->tableWidget_main->setSortingEnabled(true);
-#if QT_VERSION >= 0x050000
-    ui->tableWidget_main->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
-#else
-    ui->tableWidget_main->horizontalHeader()->setResizeMode(QHeaderView::Stretch);
-#endif
+
     ui->tableWidget_main->resizeRowsToContents();
-    ui->tableWidget_main->resizeColumnToContents(0);
+    ui->tableWidget_main->resizeColumnsToContents();
+    ui->tableWidget_main->resizeRowsToContents();
+#if QT_VERSION >= 0x050000
+    ui->tableWidget_main->horizontalHeader()->setSectionResizeMode(QHeaderView::ResizeToContents);
+#else
+    ui->tableWidget_main->horizontalHeader()->setResizeMode(QHeaderView::ResizeToContents);
+#endif
+
     ui->tabWidget->setEnabled(true);
     ui->statusBar->showMessage(QApplication::translate("MainWindow", "Updated"));
 
@@ -542,8 +547,6 @@ void MainWindow::updateWifiTab()
     headerList.append(QApplication::translate("MainWindow", "Active"));
     headerList.append(QApplication::translate("MainWindow", "Exists"));
     ui->tableWidget_wifi->setHorizontalHeaderLabels(headerList);
-    ui->tableWidget_wifi->setColumnHidden(3, true);
-    ui->tableWidget_wifi->setColumnHidden(4, true);
     // create items
     for (int i=0; i<scanResults.count(); i++) {
         // font
@@ -577,8 +580,16 @@ void MainWindow::updateWifiTab()
     }
 
     ui->tableWidget_wifi->setSortingEnabled(true);
+
+    ui->tableWidget_wifi->resizeRowsToContents();
     ui->tableWidget_wifi->resizeColumnsToContents();
     ui->tableWidget_wifi->resizeRowsToContents();
+#if QT_VERSION >= 0x050000
+    ui->tableWidget_wifi->horizontalHeader()->setSectionResizeMode(QHeaderView::ResizeToContents);
+#else
+    ui->tableWidget_wifi->horizontalHeader()->setResizeMode(QHeaderView::ResizeToContents);
+#endif
+
     ui->tabWidget->setEnabled(true);
     ui->statusBar->showMessage(QApplication::translate("MainWindow", "Updated"));
 
