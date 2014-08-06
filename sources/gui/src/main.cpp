@@ -17,12 +17,12 @@
 
 
 #include <QApplication>
-
 #include <QDBusConnection>
 #include <QDBusMessage>
 #include <QDir>
 #include <QTranslator>
 #include <iostream>
+#include <unistd.h>
 
 #include "language.h"
 #include "mainwindow.h"
@@ -56,9 +56,14 @@ QChar isParametrEnable(const bool parametr)
 
 int main(int argc, char *argv[])
 {
+    // detach from console
+    for (int i=0; i<argc; i++)
+        if (QString(argv[i]) == QString("--daemonized")) {
+            daemon(0, 0);
+            break;
+        }
     QApplication a(argc, argv);
     QApplication::setQuitOnLastWindowClosed(false);
-
     // check if exists
     if (restoreExistSession())
         return 0;
@@ -94,13 +99,17 @@ int main(int argc, char *argv[])
     // reading
     for (int i=1; i<argc; i++) {
         // windows
-        // maximized
-        if (QString(argv[i]) == QString("--maximized")) {
+        // daemonized
+        if (QString(argv[i]) == QString("--daemonized")) {
             startMinimized = 1;
+        }
+        // maximized
+        else if (QString(argv[i]) == QString("--maximized")) {
+            startMinimized = 2;
         }
         // minimized
         else if (QString(argv[i]) == QString("--minimized")) {
-            startMinimized = 2;
+            startMinimized = 3;
         }
         // about
         else if (QString(argv[i]) == QString("--about")) {
@@ -188,7 +197,7 @@ int main(int argc, char *argv[])
 
     QString helpMessage = QString("");
     helpMessage += QString("%1\n").arg(QApplication::translate("MainWindow", "Usage:"));
-    helpMessage += QString("netctl-gui [ --maximized ] [ --minimized ]\n");
+    helpMessage += QString("netctl-gui [ --daemonized ] [ --maximized ] [ --minimized ]\n");
     helpMessage += QString("           [ --about ] [ --netctl-auto ] [ --settings ]\n");
     helpMessage += QString("           [ -e ESSID | --essid ESSID ] [ -o PROFILE | --open PROFILE ]\n");
     helpMessage += QString("           [ -s PROFILE | --select PROFILE ]\n");
@@ -198,12 +207,15 @@ int main(int argc, char *argv[])
     helpMessage += QString("%1\n").arg(QApplication::translate("MainWindow", "Parametrs:"));
     // windows
     helpMessage += QString("%1\n").arg(QApplication::translate("MainWindow", "Open window:"));
+    helpMessage += QString("%1                  --daemonized          - %2\n")
+            .arg(isParametrEnable(startMinimized))
+            .arg(QApplication::translate("MainWindow", "start daemonized"));
     helpMessage += QString("%1                  --maximized           - %2\n")
             .arg(isParametrEnable(startMinimized))
             .arg(QApplication::translate("MainWindow", "start maximized"));
     helpMessage += QString("%1                  --minimized           - %2\n")
             .arg(isParametrEnable(startMinimized))
-            .arg(QApplication::translate("MainWindow", "start minimized"));
+            .arg(QApplication::translate("MainWindow", "start minimized to tray"));
     helpMessage += QString("%1                  --about               - %2\n")
             .arg(isParametrEnable(showAbout))
             .arg(QApplication::translate("MainWindow", "show about window"));

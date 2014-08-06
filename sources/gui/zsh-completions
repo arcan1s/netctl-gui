@@ -19,8 +19,9 @@
 
 # variables
 _netctl_gui_arglist=(
+    {'--daemonized','--daemonized'}'[start daemonized]'
     {'--maximized','--maximized'}'[start maximized]'
-    {'--minimized','--minimized'}'[start minimized]'
+    {'--minimized','--minimized'}'[start minimized to tray]'
     {'--about','--about'}'[show about window]'
     {'--netctl-auto','--netctl-auto'}'[show netctl-auto window]'
     {'--settings','--settings'}'[show settings window]'

@@ -18,6 +18,7 @@
 
 # variables
 _netctl_gui_arglist=(
+    '--daemonized'
     '--maximized'
     '--minimized'
     '--about'

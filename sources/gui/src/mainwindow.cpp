@@ -163,6 +163,8 @@ MainWindow::MainWindow(QWidget *parent,
 
     // tray
     trayIcon = new TrayIcon(this, debug);
+    if (startMinimized == 1)
+        return;
     if ((QSystemTrayIcon::isSystemTrayAvailable()) &&
             (configuration[QString("SYSTRAY")] == QString("true")))
         trayIcon->setVisible(true);
@@ -173,9 +175,9 @@ MainWindow::MainWindow(QWidget *parent,
             hide();
         else
             show();
-        if (startMinimized == 1)
+        if (startMinimized == 2)
             show();
-        else if (startMinimized == 2)
+        else if (startMinimized == 3)
             hide();
     }
     else
@@ -473,8 +475,10 @@ void MainWindow::showMainWindow()
 {
     if (debug) qDebug() << "[MainWindow]" << "[showMainWindow]";
 
-    if (isHidden())
+    if (isHidden()) {
+        updateTabs(ui->tabWidget->currentIndex());
         show();
+    }
     else
         hide();
 }
