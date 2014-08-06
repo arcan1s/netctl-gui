@@ -151,6 +151,44 @@ QString Netctl::getCmdOutput(const bool sudo, const QString command, const QStri
 
 // general information
 /**
+ * @fn getActiveProfile
+ */
+QString Netctl::getActiveProfile()
+{
+    if (debug) qDebug() << "[Netctl]" << "[getActiveProfile]";
+
+    QString profile = QString("");
+    QList<netctlProfileInfo> fullProfilesInfo = getProfileList();
+    for (int i=0; i<fullProfilesInfo.count(); i++)
+        if (fullProfilesInfo[i].active) {
+            profile = fullProfilesInfo[i].name;
+            break;
+        }
+
+    return profile;
+}
+
+
+/**
+ * @fn autoGetActiveProfile
+ */
+QString Netctl::autoGetActiveProfile()
+{
+    if (debug) qDebug() << "[Netctl]" << "[autoGetActiveProfile]";
+
+    QString profile = QString("");
+    QList<netctlProfileInfo> fullProfilesInfo = getProfileListFromNetctlAuto();
+    for (int i=0; i<fullProfilesInfo.count(); i++)
+        if (fullProfilesInfo[i].active) {
+            profile = fullProfilesInfo[i].name;
+            break;
+        }
+
+    return profile;
+}
+
+
+/**
  * @fn getProfileList
  */
 QList<netctlProfileInfo> Netctl::getProfileList()
@@ -164,7 +202,10 @@ QList<netctlProfileInfo> Netctl::getProfileList()
         netctlProfileInfo profileInfo;
         profileInfo.name = output[i].mid(2, -1);
         profileInfo.description = getProfileDescription(profileInfo.name);
-        profileInfo.active = isProfileActive(profileInfo.name);
+        if (output[i][0] == QChar('*'))
+            profileInfo.active = true;
+        else
+            profileInfo.active = false;
         profileInfo.enabled = isProfileEnabled(profileInfo.name);
         fullProfilesInfo.append(profileInfo);
     }
@@ -187,8 +228,12 @@ QList<netctlProfileInfo> Netctl::getProfileListFromNetctlAuto()
         netctlProfileInfo profileInfo;
         profileInfo.name = output[i].mid(2, -1);
         profileInfo.description = getProfileDescription(profileInfo.name);
-        profileInfo.active = autoIsProfileActive(profileInfo.name);
-        profileInfo.enabled = autoIsProfileEnabled(profileInfo.name);
+        profileInfo.active = false;
+        profileInfo.enabled = true;
+        if (output[i][0] == QChar('*'))
+            profileInfo.active = true;
+        else if (output[i][0] == QChar('!'))
+            profileInfo.enabled = false;
         fullProfilesInfo.append(profileInfo);
     }
 
@@ -320,12 +365,8 @@ bool Netctl::isNetctlAutoEnabled()
 
     QString interface = getWirelessInterfaceList()[0];
     QString argument = netctlAutoService + QString("@") + interface + QString(".service");
-    QString output = getCmdOutput(false, systemctlCommand, QString("is-enabled"), argument).trimmed();
 
-    if (output == QString("enabled"))
-        return true;
-    else
-        return false;
+    return cmdCall(false, systemctlCommand, QString("is-enabled"), argument);
 }
 
 
@@ -346,12 +387,8 @@ bool Netctl::isNetctlAutoRunning()
 
     QString interface = getWirelessInterfaceList()[0];
     QString argument = netctlAutoService + QString("@") + interface + QString(".service");
-    QString output = getCmdOutput(false, systemctlCommand, QString("is-active"), argument).trimmed();
 
-    if (output == QString("active"))
-        return true;
-    else
-        return false;
+    return cmdCall(false, systemctlCommand, QString("is-active"), argument);
 }
 
 
@@ -422,6 +459,21 @@ bool Netctl::startProfile(const QString profile)
         return cmdCall(true, netctlCommand, QString("stop"), profile);
     else
         return cmdCall(true, netctlCommand, QString("start"), profile);
+}
+
+
+/**
+ * @fn switchToProfile
+ */
+bool Netctl::switchToProfile(const QString profile)
+{
+    if (debug) qDebug() << "[Netctl]" << "[switchToProfile]";
+    if (debug) qDebug() << "[Netctl]" << "[switchToProfile]" << ":" << "Profile" << profile;
+
+    if (isProfileActive(profile))
+        return true;
+    else
+        return cmdCall(true, netctlCommand, QString("switch-to"), profile);
 }
 
 

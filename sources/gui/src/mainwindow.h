@@ -128,10 +128,10 @@ private:
     NetctlProfile *netctlProfile;
     WpaSup *wpaCommand;
     bool checkExternalApps(const QString apps);
-    bool checkState(const QString state, const QString item);
+    QString checkStatus(const bool statusBool, const bool nullFalse = false);
     void createActions();
     void keyPressEvent(QKeyEvent *pressedKey);
-    void setIconsToButtons();
+    void setIconsToTabs();
     bool debug;
     bool hiddenNetwork;
     // configuration

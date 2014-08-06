@@ -210,17 +210,8 @@ QList<netctlWifiInfo> WpaSup::scanWifi()
         else
             wifiPoint.name = QString("<hidden>");
         // profile status
-        QString status;
-        if (isProfileExists(wifiPoint.name)) {
-            status = QString("exists");
-            if (isProfileActive(wifiPoint.name))
-                status = status + QString(" (active)");
-            else
-                status = status + QString(" (inactive)");
-        }
-        else
-            status = QString("new");
-        wifiPoint.status = status;
+        wifiPoint.active = isProfileActive(wifiPoint.name);
+        wifiPoint.exists = isProfileExists(wifiPoint.name);
         // point signal
         wifiPoint.signal = rawList[i].split(QChar('\t'), QString::SkipEmptyParts)[2];
         // point security

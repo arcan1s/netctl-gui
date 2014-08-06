@@ -119,7 +119,7 @@ MainWindow::MainWindow(QWidget *parent,
     ui->scrollAreaWidgetContents->layout()->addWidget(wirelessWid);
 
     createActions();
-    setIconsToButtons();
+    setIconsToTabs();
     updateTabs(ui->tabWidget->currentIndex());
 
     if (showAbout)
@@ -211,16 +211,18 @@ bool MainWindow::checkExternalApps(const QString apps = QString("all"))
 }
 
 
-bool MainWindow::checkState(const QString state, const QString item)
+QString MainWindow::checkStatus(const bool statusBool, const bool nullFalse)
 {
-    if (debug) qDebug() << "[MainWindow]" << "[checkState]";
-    if (debug) qDebug() << "[MainWindow]" << "[checkState]" << ":" << "Text" << item;
-    if (debug) qDebug() << "[MainWindow]" << "[checkState]" << ":" << "State" << state;
+    if (debug) qDebug() << "[MainWindow]" << "[checkStatus]";
+    if (debug) qDebug() << "[MainWindow]" << "[checkStatus]" << ":" << "Status" << statusBool;
+    if (debug) qDebug() << "[MainWindow]" << "[checkStatus]" << ":" << "Return null false" << nullFalse;
 
-    if (item.contains(state))
-        return true;
+    if (statusBool)
+        return QApplication::translate("MainWindow", "yes");
+    if (nullFalse)
+        return QString("");
     else
-        return false;
+        return QApplication::translate("MainWindow", "no");
 }
 
 
@@ -285,22 +287,14 @@ void MainWindow::keyPressEvent(QKeyEvent *pressedKey)
 }
 
 
-void MainWindow::setIconsToButtons()
+void MainWindow::setIconsToTabs()
 {
-    if (debug) qDebug() << "[MainWindow]" << "[setIconsToButtons]";
+    if (debug) qDebug() << "[MainWindow]" << "[setIconsToTabs]";
 
     // tab widget
     ui->tabWidget->setTabIcon(0, QIcon(":icon"));
     ui->tabWidget->setTabIcon(1, QIcon::fromTheme("document-new"));
     ui->tabWidget->setTabIcon(2, QIcon(":wifi"));
-    // main tab
-    ui->pushButton_mainRefresh->setIcon(QIcon::fromTheme("stock-refresh"));
-    ui->pushButton_mainRestart->setIcon(QIcon::fromTheme("stock-refresh"));
-    // profile tab
-    ui->pushButton_profileClear->setIcon(QIcon::fromTheme("edit-clear"));
-    ui->pushButton_profileSave->setIcon(QIcon::fromTheme("document-save"));
-    // wifi tab
-    ui->pushButton_wifiRefresh->setIcon(QIcon::fromTheme("stock-refresh"));
 }
 
 
@@ -416,45 +410,44 @@ void MainWindow::updateMainTab()
     headerList.append(QApplication::translate("MainWindow", "Active"));
     headerList.append(QApplication::translate("MainWindow", "Enabled"));
     ui->tableWidget_main->setHorizontalHeaderLabels(headerList);
+    ui->tableWidget_main->setColumnHidden(2, true);
+    ui->tableWidget_main->setColumnHidden(3, true);
     // create items
     for (int i=0; i<profiles.count(); i++) {
+        // font
+        QFont font;
+        font.setBold(profiles[i].active);
+        font.setItalic(profiles[i].enabled);
+        // tooltip
+        QString toolTip = QString("");
+        toolTip += QString("%1: %2\n").arg(QApplication::translate("MainWindow", "Profile")).arg(profiles[i].name);
+        toolTip += QString("%1: %2\n").arg(QApplication::translate("MainWindow", "Active")).arg(checkStatus(profiles[i].active));
+        toolTip += QString("%1: %2").arg(QApplication::translate("MainWindow", "Enabled")).arg(checkStatus(profiles[i].enabled));
         // name
         ui->tableWidget_main->setItem(i, 0, new QTableWidgetItem(profiles[i].name));
         ui->tableWidget_main->item(i, 0)->setTextAlignment(Qt::AlignLeft | Qt::AlignVCenter);
+        ui->tableWidget_main->item(i, 0)->setToolTip(toolTip);
+        ui->tableWidget_main->item(i, 0)->setFont(font);
         // description
         ui->tableWidget_main->setItem(i, 1, new QTableWidgetItem(profiles[i].description));
-        ui->tableWidget_main->item(i, 1)->setTextAlignment(Qt::AlignLeft | Qt::AlignVCenter);
-        // status
-        if (profiles[i].active) {
-            // active
-            QFont font;
-            font.setBold(true);
-            ui->tableWidget_main->item(i, 0)->setFont(font);
-            ui->tableWidget_main->setItem(i, 2, new QTableWidgetItem(QApplication::translate("MainWindow", "yes")));
-            ui->tableWidget_main->item(i, 2)->setTextAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
-        }
-        else
-            ui->tableWidget_main->setItem(i, 2, new QTableWidgetItem(QString("")));
-        if (profiles[i].enabled) {
-            // enabled
-            ui->tableWidget_main->setItem(i, 3, new QTableWidgetItem(QApplication::translate("MainWindow", "yes")));
-            ui->tableWidget_main->item(i, 3)->setTextAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
-        }
-        else {
-            QFont font;
-            font.setItalic(true);
-            ui->tableWidget_main->item(i, 0)->setFont(font);
-            ui->tableWidget_main->setItem(i, 3, new QTableWidgetItem(QString("")));
-        }
+        ui->tableWidget_main->item(i, 1)->setTextAlignment(Qt::AlignJustify | Qt::AlignVCenter);
+        ui->tableWidget_main->item(i, 1)->setToolTip(toolTip);
+        // active
+        ui->tableWidget_main->setItem(i, 2, new QTableWidgetItem(checkStatus(profiles[i].active, true)));
+        ui->tableWidget_main->item(i, 2)->setTextAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
+        // enabled
+        ui->tableWidget_main->setItem(i, 3, new QTableWidgetItem(checkStatus(profiles[i].enabled, true)));
+        ui->tableWidget_main->item(i, 3)->setTextAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
     }
 
     ui->tableWidget_main->setSortingEnabled(true);
-    ui->tableWidget_main->resizeRowsToContents();
 #if QT_VERSION >= 0x050000
     ui->tableWidget_main->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
 #else
     ui->tableWidget_main->horizontalHeader()->setResizeMode(QHeaderView::Stretch);
 #endif
+    ui->tableWidget_main->resizeRowsToContents();
+    ui->tableWidget_main->resizeColumnToContents(0);
     ui->tabWidget->setEnabled(true);
     ui->statusBar->showMessage(QApplication::translate("MainWindow", "Updated"));
 
@@ -469,19 +462,18 @@ void MainWindow::updateMenuMain()
     ui->actionMainRefresh->setVisible(true);
     if (ui->tableWidget_main->currentItem() == 0)
         return;
-    QString item = ui->tableWidget_main->item(ui->tableWidget_main->currentItem()->row(), 2)->text();
-    if (!checkState(QString("inactive"), item)) {
+    if (!ui->tableWidget_main->item(ui->tableWidget_main->currentItem()->row(), 2)->text().isEmpty()) {
         ui->actionMainRestart->setVisible(true);
         ui->actionMainStart->setText(QApplication::translate("MainWindow", "Stop profile"));
-        ui->actionMainStart->setIcon(QIcon::fromTheme("dialog-close"));
+        ui->actionMainStart->setIcon(QIcon::fromTheme("process-stop"));
     }
     else {
         ui->actionMainRestart->setVisible(false);
         ui->actionMainStart->setText(QApplication::translate("MainWindow", "Start profile"));
-        ui->actionMainStart->setIcon(QIcon::fromTheme("dialog-apply"));
+        ui->actionMainStart->setIcon(QIcon::fromTheme("system-run"));
     }
     ui->actionMainStart->setVisible(true);
-    if (checkState(QString("enabled"), item)) {
+    if (!ui->tableWidget_main->item(ui->tableWidget_main->currentItem()->row(), 3)->text().isEmpty()) {
         ui->actionMainEnable->setText(QApplication::translate("MainWindow", "Disable profile"));
         ui->actionMainEnable->setIcon(QIcon::fromTheme("edit-remove"));
     }
@@ -545,33 +537,48 @@ void MainWindow::updateWifiTab()
     // create header
     QStringList headerList;
     headerList.append(QApplication::translate("MainWindow", "Name"));
-    headerList.append(QApplication::translate("MainWindow", "Status"));
     headerList.append(QApplication::translate("MainWindow", "Signal"));
     headerList.append(QApplication::translate("MainWindow", "Security"));
+    headerList.append(QApplication::translate("MainWindow", "Active"));
+    headerList.append(QApplication::translate("MainWindow", "Exists"));
     ui->tableWidget_wifi->setHorizontalHeaderLabels(headerList);
+    ui->tableWidget_wifi->setColumnHidden(3, true);
+    ui->tableWidget_wifi->setColumnHidden(4, true);
     // create items
     for (int i=0; i<scanResults.count(); i++) {
+        // font
+        QFont font;
+        font.setBold(scanResults[i].active);
+        font.setItalic(scanResults[i].exists);
+        // tooltip
+        QString toolTip = QString("");
+        toolTip += QString("%1: %2\n").arg(QApplication::translate("MainWindow", "ESSID")).arg(scanResults[i].name);
+        toolTip += QString("%1: %2\n").arg(QApplication::translate("MainWindow", "Active")).arg(checkStatus(scanResults[i].active));
+        toolTip += QString("%1: %2").arg(QApplication::translate("MainWindow", "Exists")).arg(checkStatus(scanResults[i].exists));
         // name
         ui->tableWidget_wifi->setItem(i, 0, new QTableWidgetItem(scanResults[i].name));
         ui->tableWidget_wifi->item(i, 0)->setTextAlignment(Qt::AlignLeft | Qt::AlignVCenter);
-        // status
-        ui->tableWidget_wifi->setItem(i, 1, new QTableWidgetItem(scanResults[i].status));
-        ui->tableWidget_wifi->item(i, 1)->setTextAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
+        ui->tableWidget_wifi->item(i, 0)->setToolTip(toolTip);
+        ui->tableWidget_wifi->item(i, 0)->setFont(font);
         // signal
-        ui->tableWidget_wifi->setItem(i, 2, new QTableWidgetItem(scanResults[i].signal));
-        ui->tableWidget_wifi->item(i, 2)->setTextAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
+        ui->tableWidget_wifi->setItem(i, 1, new QTableWidgetItem(scanResults[i].signal));
+        ui->tableWidget_wifi->item(i, 1)->setTextAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
+        ui->tableWidget_wifi->item(i, 1)->setToolTip(toolTip);
         // security
-        ui->tableWidget_wifi->setItem(i, 3, new QTableWidgetItem(scanResults[i].security));
+        ui->tableWidget_wifi->setItem(i, 2, new QTableWidgetItem(scanResults[i].security));
+        ui->tableWidget_wifi->item(i, 2)->setTextAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
+        ui->tableWidget_wifi->item(i, 2)->setToolTip(toolTip);
+        // active
+        ui->tableWidget_wifi->setItem(i, 3, new QTableWidgetItem(checkStatus(scanResults[i].active, true)));
         ui->tableWidget_wifi->item(i, 3)->setTextAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
+        // exists
+        ui->tableWidget_wifi->setItem(i, 4, new QTableWidgetItem(checkStatus(scanResults[i].exists, true)));
+        ui->tableWidget_wifi->item(i, 4)->setTextAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
     }
 
     ui->tableWidget_wifi->setSortingEnabled(true);
+    ui->tableWidget_wifi->resizeColumnsToContents();
     ui->tableWidget_wifi->resizeRowsToContents();
-#if QT_VERSION >= 0x050000
-    ui->tableWidget_wifi->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
-#else
-    ui->tableWidget_wifi->horizontalHeader()->setResizeMode(QHeaderView::Stretch);
-#endif
     ui->tabWidget->setEnabled(true);
     ui->statusBar->showMessage(QApplication::translate("MainWindow", "Updated"));
 
@@ -586,20 +593,19 @@ void MainWindow::updateMenuWifi()
     ui->actionWifiRefresh->setVisible(true);
     if (ui->tableWidget_wifi->currentItem() == 0)
         return;
-    QString item = ui->tableWidget_wifi->item(ui->tableWidget_wifi->currentItem()->row(), 1)->text();
-    if (checkState(QString("exists"), item)) {
-        if (!checkState(QString("inactive"), item)) {
+    if (!ui->tableWidget_wifi->item(ui->tableWidget_wifi->currentItem()->row(), 4)->text().isEmpty()) {
+        if (!ui->tableWidget_wifi->item(ui->tableWidget_wifi->currentItem()->row(), 3)->text().isEmpty()) {
             ui->actionWifiStart->setText(QApplication::translate("MainWindow", "Stop WiFi"));
-            ui->actionWifiStart->setIcon(QIcon::fromTheme("dialog-close"));
+            ui->actionWifiStart->setIcon(QIcon::fromTheme("process-stop"));
         }
         else {
             ui->actionWifiStart->setText(QApplication::translate("MainWindow", "Start WiFi"));
-            ui->actionWifiStart->setIcon(QIcon::fromTheme("dialog-apply"));
+            ui->actionWifiStart->setIcon(QIcon::fromTheme("system-run"));
         }
     }
     else {
         ui->actionWifiStart->setText(QApplication::translate("MainWindow", "Start WiFi"));
-        ui->actionWifiStart->setIcon(QIcon::fromTheme("dialog-apply"));
+        ui->actionWifiStart->setIcon(QIcon::fromTheme("system-run"));
     }
     ui->actionWifiStart->setVisible(true);
 }
@@ -628,18 +634,17 @@ void MainWindow::mainTabContextualMenu(const QPoint &pos)
     removeProfile->setIcon(QIcon::fromTheme("edit-delete"));
 
     // set text
-    QString item = ui->tableWidget_main->item(ui->tableWidget_main->currentItem()->row(), 2)->text();
-    if (!checkState(QString("inactive"), item)) {
+    if (!ui->tableWidget_main->item(ui->tableWidget_main->currentItem()->row(), 2)->text().isEmpty()) {
         restartProfile->setVisible(true);
         startProfile->setText(QApplication::translate("MainWindow", "Stop profile"));
-        startProfile->setIcon(QIcon::fromTheme("dialog-close"));
+        startProfile->setIcon(QIcon::fromTheme("process-stop"));
     }
     else {
         restartProfile->setVisible(false);
         startProfile->setText(QApplication::translate("MainWindow", "Start profile"));
-        startProfile->setIcon(QIcon::fromTheme("dialog-apply"));
+        startProfile->setIcon(QIcon::fromTheme("system-run"));
     }
-    if (checkState(QString("enabled"), item)) {
+    if (!ui->tableWidget_main->item(ui->tableWidget_main->currentItem()->row(), 3)->text().isEmpty()) {
         enableProfile->setText(QApplication::translate("MainWindow", "Disable profile"));
         enableProfile->setIcon(QIcon::fromTheme("edit-remove"));
     }
@@ -716,8 +721,7 @@ void MainWindow::mainTabEnableProfile()
     ui->tabWidget->setDisabled(true);
     QString profile = ui->tableWidget_main->item(ui->tableWidget_main->currentItem()->row(), 0)->text();
     netctlCommand->enableProfile(profile);
-    QString item = ui->tableWidget_main->item(ui->tableWidget_main->currentItem()->row(), 2)->text();
-    if (checkState(QString("enabled"), item)) {
+    if (!ui->tableWidget_main->item(ui->tableWidget_main->currentItem()->row(), 3)->text().isEmpty()) {
         if (netctlCommand->isProfileEnabled(profile))
             ui->statusBar->showMessage(QApplication::translate("MainWindow", "Error"));
         else
@@ -764,15 +768,18 @@ void MainWindow::mainTabStartProfile()
 
     ui->tabWidget->setDisabled(true);
     QString profile = ui->tableWidget_main->item(ui->tableWidget_main->currentItem()->row(), 0)->text();
-    netctlCommand->startProfile(profile);
-    QString item = ui->tableWidget_main->item(ui->tableWidget_main->currentItem()->row(), 2)->text();
-    if (checkState(QString("inactive"), item)) {
+    if (!ui->tableWidget_main->item(ui->tableWidget_main->currentItem()->row(), 2)->text().isEmpty()) {
+        netctlCommand->startProfile(profile);
         if (netctlCommand->isProfileActive(profile))
             ui->statusBar->showMessage(QApplication::translate("MainWindow", "Error"));
         else
             ui->statusBar->showMessage(QApplication::translate("MainWindow", "Done"));
     }
     else {
+        if (netctlCommand->getActiveProfile().isEmpty())
+            netctlCommand->startProfile(profile);
+        else
+            netctlCommand->switchToProfile(profile);
         if (netctlCommand->isProfileActive(profile))
             ui->statusBar->showMessage(QApplication::translate("MainWindow", "Done"));
         else
@@ -797,16 +804,15 @@ void MainWindow::mainTabRefreshButtons(QTableWidgetItem *current, QTableWidgetIt
 
     ui->pushButton_mainStart->setEnabled(true);
 
-    QString item = ui->tableWidget_main->item(current->row(), 2)->text();
-    if (!checkState(QString("inactive"), item)) {
+    if (!ui->tableWidget_main->item(current->row(), 2)->text().isEmpty()) {
         ui->pushButton_mainRestart->setEnabled(true);
         ui->pushButton_mainStart->setText(QApplication::translate("MainWindow", "Stop"));
-        ui->pushButton_mainStart->setIcon(QIcon::fromTheme("dialog-close"));
+        ui->pushButton_mainStart->setIcon(QIcon::fromTheme("process-stop"));
     }
     else {
         ui->pushButton_mainRestart->setDisabled(true);
         ui->pushButton_mainStart->setText(QApplication::translate("MainWindow", "Start"));
-        ui->pushButton_mainStart->setIcon(QIcon::fromTheme("dialog-apply"));
+        ui->pushButton_mainStart->setIcon(QIcon::fromTheme("system-run"));
     }
 }
 
@@ -1234,20 +1240,19 @@ void MainWindow::wifiTabContextualMenu(const QPoint &pos)
     QAction *startWifi = menu.addAction(QApplication::translate("MainWindow", "Start WiFi"));
 
     // set text
-    QString item = ui->tableWidget_wifi->item(ui->tableWidget_wifi->currentItem()->row(), 1)->text();
-    if (checkState(QString("exists"), item)) {
-        if (!checkState(QString("inactive"), item)) {
+    if (!ui->tableWidget_wifi->item(ui->tableWidget_wifi->currentItem()->row(), 4)->text().isEmpty()) {
+        if (!ui->tableWidget_wifi->item(ui->tableWidget_wifi->currentItem()->row(), 3)->text().isEmpty()) {
             startWifi->setText(QApplication::translate("MainWindow", "Stop WiFi"));
-            startWifi->setIcon(QIcon::fromTheme("dialog-close"));
+            startWifi->setIcon(QIcon::fromTheme("process-stop"));
         }
         else {
             startWifi->setText(QApplication::translate("MainWindow", "Start WiFi"));
-            startWifi->setIcon(QIcon::fromTheme("dialog-apply"));
+            startWifi->setIcon(QIcon::fromTheme("system-run"));
         }
     }
     else {
         startWifi->setText(QApplication::translate("MainWindow", "Start WiFi"));
-        startWifi->setIcon(QIcon::fromTheme("dialog-apply"));
+        startWifi->setIcon(QIcon::fromTheme("system-run"));
     }
 
     // actions
@@ -1295,10 +1300,10 @@ void MainWindow::connectToUnknownEssid(const QString passwd)
     settings[QString("Description")] = QString("'Automatically generated profile by Netctl GUI'");
     settings[QString("Interface")] = netctlCommand->getWirelessInterfaceList()[0];
     settings[QString("Connection")] = QString("wireless");
-    QString security = ui->tableWidget_wifi->item(ui->tableWidget_wifi->currentItem()->row(), 3)->text();
-    if (checkState(QString("WPA"), security))
+    QString security = ui->tableWidget_wifi->item(ui->tableWidget_wifi->currentItem()->row(), 2)->text();
+    if (security.contains(QString("WPA")))
         settings[QString("Security")] = QString("wpa");
-    else if (checkState(QString("wep"), security))
+    else if (security.contains(QString("WEP")))
         settings[QString("Security")] = QString("wep");
     else
         settings[QString("Security")] = QString("none");
@@ -1363,12 +1368,10 @@ void MainWindow::wifiTabStart()
     ui->tabWidget->setDisabled(true);
     hiddenNetwork = false;
     QString profile = ui->tableWidget_wifi->item(ui->tableWidget_wifi->currentItem()->row(), 0)->text();
-    QString item = ui->tableWidget_wifi->item(ui->tableWidget_wifi->currentItem()->row(), 1)->text();
-    if (checkState(QString("exists"), item)) {
+    if (!ui->tableWidget_wifi->item(ui->tableWidget_wifi->currentItem()->row(), 4)->text().isEmpty()) {
         QString profileName = wpaCommand->existentProfile(profile);
         netctlCommand->startProfile(profileName);
-        item = ui->tableWidget_wifi->item(ui->tableWidget_wifi->currentItem()->row(), 1)->text();
-        if (checkState(QString("inactive"), item)) {
+        if (!ui->tableWidget_wifi->item(ui->tableWidget_wifi->currentItem()->row(), 3)->text().isEmpty()) {
             if (netctlCommand->isProfileActive(profileName))
                 ui->statusBar->showMessage(QApplication::translate("MainWindow", "Error"));
             else
@@ -1382,8 +1385,8 @@ void MainWindow::wifiTabStart()
         }
     }
     else {
-        QString security = ui->tableWidget_wifi->item(ui->tableWidget_wifi->currentItem()->row(), 3)->text();
-        if (checkState(QString("none"), security))
+        QString security = ui->tableWidget_wifi->item(ui->tableWidget_wifi->currentItem()->row(), 1)->text();
+        if (security.contains(QString("none")))
             return connectToUnknownEssid(QString(""));
         else {
             passwdWid = new PasswdWidget(this);
@@ -1419,19 +1422,18 @@ void MainWindow::wifiTabRefreshButtons(QTableWidgetItem *current, QTableWidgetIt
     }
 
     ui->pushButton_wifiStart->setEnabled(true);
-    QString item = ui->tableWidget_wifi->item(current->row(), 1)->text();
-    if (checkState(QString("exists"), item)) {
-        if (!checkState(QString("inactive"), item)) {
+    if (!ui->tableWidget_wifi->item(current->row(), 4)->text().isEmpty()) {
+        if (!ui->tableWidget_wifi->item(current->row(), 3)->text().isEmpty()) {
             ui->pushButton_wifiStart->setText(QApplication::translate("MainWindow", "Stop"));
-            ui->pushButton_wifiStart->setIcon(QIcon::fromTheme("dialog-close"));
+            ui->pushButton_wifiStart->setIcon(QIcon::fromTheme("process-stop"));
         }
         else {
             ui->pushButton_wifiStart->setText(QApplication::translate("MainWindow", "Start"));
-            ui->pushButton_wifiStart->setIcon(QIcon::fromTheme("dialog-apply"));
+            ui->pushButton_wifiStart->setIcon(QIcon::fromTheme("system-run"));
         }
     }
     else {
         ui->pushButton_wifiStart->setText(QApplication::translate("MainWindow", "Start"));
-        ui->pushButton_wifiStart->setIcon(QIcon::fromTheme("dialog-apply"));
+        ui->pushButton_wifiStart->setIcon(QIcon::fromTheme("system-run"));
     }
 }

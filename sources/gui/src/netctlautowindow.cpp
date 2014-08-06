@@ -45,6 +45,21 @@ NetctlAutoWindow::~NetctlAutoWindow()
 }
 
 
+QString NetctlAutoWindow::checkStatus(const bool statusBool, const bool nullFalse)
+{
+    if (debug) qDebug() << "[NetctlAutoWindow]" << "[checkStatus]";
+    if (debug) qDebug() << "[NetctlAutoWindow]" << "[checkStatus]" << ":" << "Status" << statusBool;
+    if (debug) qDebug() << "[NetctlAutoWindow]" << "[checkStatus]" << ":" << "Return null false" << nullFalse;
+
+    if (statusBool)
+        return QApplication::translate("NetctlAutoWindow", "yes");
+    if (nullFalse)
+        return QString("");
+    else
+        return QApplication::translate("NetctlAutoWindow", "no");
+}
+
+
 void NetctlAutoWindow::createActions()
 {
     if (debug) qDebug() << "[NetctlAutoWindow]" << "[createActions]";
@@ -126,44 +141,39 @@ void NetctlAutoWindow::netctlAutoUpdateTable()
     headerList.append(QApplication::translate("NetctlAutoWindow", "Active"));
     headerList.append(QApplication::translate("NetctlAutoWindow", "Disabled"));
     ui->tableWidget->setHorizontalHeaderLabels(headerList);
+    ui->tableWidget->setColumnHidden(2, true);
+    ui->tableWidget->setColumnHidden(3, true);
     // create items
     for (int i=0; i<profiles.count(); i++) {
+        // font
+        QFont font;
+        font.setBold(profiles[i].active);
+        font.setItalic(profiles[i].enabled);
+        // tooltip
+        QString toolTip = QString("");
+        toolTip += QString("%1: %2\n").arg(QApplication::translate("NetctlAutoWindow", "Profile")).arg(profiles[i].name);
+        toolTip += QString("%1: %2\n").arg(QApplication::translate("NetctlAutoWindow", "Active")).arg(checkStatus(profiles[i].active));
+        toolTip += QString("%1: %2").arg(QApplication::translate("NetctlAutoWindow", "Disabled")).arg(checkStatus(!profiles[i].enabled));
         // name
         ui->tableWidget->setItem(i, 0, new QTableWidgetItem(profiles[i].name));
         ui->tableWidget->item(i, 0)->setTextAlignment(Qt::AlignLeft | Qt::AlignVCenter);
+        ui->tableWidget->item(i, 0)->setToolTip(toolTip);
+        ui->tableWidget->item(i, 0)->setFont(font);
         // description
         ui->tableWidget->setItem(i, 1, new QTableWidgetItem(profiles[i].description));
-        ui->tableWidget->item(i, 1)->setTextAlignment(Qt::AlignLeft | Qt::AlignVCenter);
-        // status
-        if (profiles[i].active) {
-            // active
-            QFont font;
-            font.setBold(true);
-            ui->tableWidget->item(i, 0)->setFont(font);
-            ui->tableWidget->setItem(i, 2, new QTableWidgetItem(QApplication::translate("NetctlAutoWindow", "yes")));
-            ui->tableWidget->item(i, 2)->setTextAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
-        }
-        else
-            ui->tableWidget->setItem(i, 2, new QTableWidgetItem(QString("")));
-        if (profiles[i].enabled) {
-            // disabled
-            QFont font;
-            font.setItalic(true);
-            ui->tableWidget->item(i, 0)->setFont(font);
-            ui->tableWidget->setItem(i, 3, new QTableWidgetItem(QApplication::translate("NetctlAutoWindow", "yes")));
-            ui->tableWidget->item(i, 3)->setTextAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
-        }
-        else
-            ui->tableWidget->setItem(i, 3, new QTableWidgetItem(QString("")));
+        ui->tableWidget->item(i, 1)->setTextAlignment(Qt::AlignJustify | Qt::AlignVCenter);
+        ui->tableWidget->item(i, 1)->setToolTip(toolTip);
+        // active
+        ui->tableWidget->setItem(i, 2, new QTableWidgetItem(checkStatus(profiles[i].active, true)));
+        ui->tableWidget->item(i, 2)->setTextAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
+        // enabled
+        ui->tableWidget->setItem(i, 3, new QTableWidgetItem(checkStatus(!profiles[i].enabled, true)));
+        ui->tableWidget->item(i, 3)->setTextAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
     }
 
     ui->tableWidget->setSortingEnabled(true);
+    ui->tableWidget->resizeColumnsToContents();
     ui->tableWidget->resizeRowsToContents();
-#if QT_VERSION >= 0x050000
-    ui->tableWidget->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
-#else
-    ui->tableWidget->horizontalHeader()->setResizeMode(QHeaderView::Stretch);
-#endif
     ui->tableWidget->setEnabled(true);
     ui->statusBar->showMessage(QApplication::translate("NetctlAutoWindow", "Updated"));
 
@@ -181,7 +191,7 @@ void NetctlAutoWindow::netctlAutoContextualMenu(const QPoint &pos)
     // create menu
     QMenu menu(this);
     QAction *startProfile = menu.addAction(QApplication::translate("NetctlAutoWindow", "Switch to profile"));
-    startProfile->setIcon(QIcon::fromTheme("dialog-apply"));
+    startProfile->setIcon(QIcon::fromTheme("system-run"));
     QAction *enableProfile = menu.addAction(QApplication::translate("NetctlAutoWindow", "Enable profile"));
     menu.addSeparator();
     QAction *enableAllProfiles = menu.addAction(QApplication::translate("NetctlAutoWindow", "Enable all profiles"));
@@ -190,14 +200,14 @@ void NetctlAutoWindow::netctlAutoContextualMenu(const QPoint &pos)
     disableAllProfiles->setIcon(QIcon::fromTheme("edit-delete"));
 
     // set text
-    if (ui->tableWidget->item(ui->tableWidget->currentItem()->row(), 2)->text() == QString("yes")) {
+    if (!ui->tableWidget->item(ui->tableWidget->currentItem()->row(), 2)->text().isEmpty()) {
         enableProfile->setVisible(false);
         startProfile->setVisible(false);
     }
     else {
         enableProfile->setVisible(true);
         startProfile->setVisible(true);
-        if (ui->tableWidget->item(ui->tableWidget->currentItem()->row(), 3)->text() == QString("yes")) {
+        if (!ui->tableWidget->item(ui->tableWidget->currentItem()->row(), 3)->text().isEmpty()) {
             enableProfile->setText(QApplication::translate("NetctlAutoWindow", "Enable"));
             enableProfile->setIcon(QIcon::fromTheme("edit-add"));
         }
@@ -343,7 +353,7 @@ void NetctlAutoWindow::netctlAutoRefreshButtons(QTableWidgetItem *current, QTabl
         ui->actionSwitch->setVisible(false);
         return;
     }
-    if (ui->tableWidget->item(current->row(), 2)->text() == QString("yes")) {
+    if (!ui->tableWidget->item(current->row(), 2)->text().isEmpty()) {
         // buttons
         ui->pushButton_enable->setDisabled(true);
         ui->pushButton_switch->setDisabled(true);
@@ -358,7 +368,7 @@ void NetctlAutoWindow::netctlAutoRefreshButtons(QTableWidgetItem *current, QTabl
         // menu
         ui->actionEnable->setVisible(true);
         ui->actionSwitch->setVisible(true);
-        if (ui->tableWidget->item(current->row(), 3)->text() == QString("yes")) {
+        if (!ui->tableWidget->item(current->row(), 3)->text().isEmpty()) {
             // buttons
             ui->pushButton_enable->setText(QApplication::translate("NetctlAutoWindow", "Enable"));
             ui->pushButton_enable->setIcon(QIcon::fromTheme("edit-add"));

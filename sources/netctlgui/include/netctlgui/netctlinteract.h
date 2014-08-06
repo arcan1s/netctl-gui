@@ -41,9 +41,9 @@ class NetctlProfile;
  * @var netctlProfileInfo::description
  * profile description
  * @var netctlProfileInfo::active
- * profile status
+ * whether profile is active
  * @var netctlProfileInfo::enabled
- * profile status
+ * whether profile is enabled
  */
 typedef struct
 {
@@ -81,6 +81,16 @@ public:
      */
     ~Netctl();
     // general information
+    /**
+     * @brief method which returns active profile name
+     * @return profile name or ""
+     */
+    QString getActiveProfile();
+    /**
+     * @brief method which returns active profile name from netctl-auto
+     * @return profile name or ""
+     */
+    QString autoGetActiveProfile();
     /**
      * @brief method which returns profile informations from netctl
      * @return list of profiles
@@ -174,6 +184,13 @@ public slots:
      * @return true if the method was completed without errors
      */
     bool startProfile(const QString profile);
+    /**
+     * @brief method which starts another profile
+     * @param profile        profile name
+     * @return false if components are not found or command exit code is not equal to 0
+     * @return true if the method was completed without errors
+     */
+    bool switchToProfile(const QString profile);
     // netctl-auto
     /**
      * @brief method which sets all profiles disabled (netctl-auto)

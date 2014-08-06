@@ -61,6 +61,7 @@ private:
     Netctl *netctlCommand;
     Ui::NetctlAutoWindow *ui;
     bool debug;
+    QString checkStatus(const bool statusBool, const bool nullFalse = false);
     void createActions();
 };
 
