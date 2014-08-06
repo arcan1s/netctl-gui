@@ -101,7 +101,6 @@ MainWindow::MainWindow(QWidget *parent,
     ui->tableWidget_main->setColumnHidden(3, true);
     ui->tableWidget_wifi->setColumnHidden(3, true);
     ui->tableWidget_wifi->setColumnHidden(4, true);
-    ui->tabWidget->setCurrentIndex(tabNum-1);
     aboutWin = new AboutWindow(this, debug);
     errorWin = new ErrorWindow(this, debug);
     netctlAutoWin = new NetctlAutoWindow(this, debug, configuration);
@@ -129,16 +128,16 @@ MainWindow::MainWindow(QWidget *parent,
     wirelessWid = new WirelessWidget(this, configuration);
     ui->scrollAreaWidgetContents->layout()->addWidget(wirelessWid);
 
+    setTab(tabNum-1);
     createActions();
     setIconsToTabs();
-    updateTabs(ui->tabWidget->currentIndex());
 
     if (showAbout)
-        aboutWin->show();
+        showAboutWindow();
     if (showNetctlAuto)
-        netctlAutoWin->showWindow();
+        showNetctlAutoWindow();
     if (showSettings)
-        settingsWin->showWindow();
+        showSettingsWindow();
 
     if (selectEssid != QString("ESSID")) {
         for (int i=0; i<ui->tableWidget_wifi->rowCount(); i++)
@@ -234,11 +233,16 @@ QString MainWindow::getInformation()
 }
 
 
-bool MainWindow::isNetctlAutoWindowHidden()
+QStringList MainWindow::getSettings()
 {
-    if (debug) qDebug() << "[MainWindow]" << "[isNetctlAutoWindowHidden]";
+    if (debug) qDebug() << "[MainWindow]" << "[getSettings]";
 
-    return netctlAutoWin->isHidden();
+    QStringList settingsList;
+    for (int i=0; i<configuration.keys().count(); i++)
+        settingsList.append(configuration.keys()[i] + QString("=") +
+                            configuration[configuration.keys()[i]]);
+
+    return settingsList;
 }
 
 
@@ -452,14 +456,11 @@ void MainWindow::closeMainWindow()
 }
 
 
-void MainWindow::showNetctlAutoWindow()
+void MainWindow::showAboutWindow()
 {
-    if (debug) qDebug() << "[MainWindow]" << "[showNetctlAutoWindow]";
+    if (debug) qDebug() << "[MainWindow]" << "[showAboutWindow]";
 
-    if (netctlAutoWin->isHidden())
-        netctlAutoWin->showWindow();
-    else
-        netctlAutoWin->hide();
+    aboutWin->show();
 }
 
 
@@ -471,6 +472,32 @@ void MainWindow::showMainWindow()
         show();
     else
         hide();
+}
+
+
+void MainWindow::showNetctlAutoWindow()
+{
+    if (debug) qDebug() << "[MainWindow]" << "[showNetctlAutoWindow]";
+
+    netctlAutoWin->showWindow();
+}
+
+
+void MainWindow::showSettingsWindow()
+{
+    if (debug) qDebug() << "[MainWindow]" << "[showSettingsWindow]";
+
+    settingsWin->showWindow();
+}
+
+
+void MainWindow::setTab(const int tab)
+{
+    if (debug) qDebug() << "[MainWindow]" << "[setTab]";
+    if (debug) qDebug() << "[MainWindow]" << "[setTab]" << ":" << "Update tab" << tab;
+
+    ui->tabWidget->setCurrentIndex(tab);
+    updateTabs(tab);
 }
 
 

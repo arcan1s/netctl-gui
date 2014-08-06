@@ -36,10 +36,71 @@ NetctlGuiAdaptor::~NetctlGuiAdaptor()
 }
 
 
+bool NetctlGuiAdaptor::Close()
+{
+    if (debug) qDebug() << "[NetctlGuiAdaptor]" << "[Close]";
+
+    mainWindow->closeMainWindow();
+    return true;
+}
+
+
+QString NetctlGuiAdaptor::Information()
+{
+    if (debug) qDebug() << "[NetctlGuiAdaptor]" << "[Information]";
+
+    return mainWindow->getInformation();
+}
+
+
 bool NetctlGuiAdaptor::RestoreWindow()
 {
     if (debug) qDebug() << "[NetctlGuiAdaptor]" << "[RestoreWindow]";
 
     mainWindow->show();
+    return true;
+}
+
+
+QStringList NetctlGuiAdaptor::Settings()
+{
+    if (debug) qDebug() << "[NetctlGuiAdaptor]" << "[Settings]";
+
+    return mainWindow->getSettings();
+}
+
+
+bool NetctlGuiAdaptor::ShowAbout()
+{
+    if (debug) qDebug() << "[NetctlGuiAdaptor]" << "[ShowAbout]";
+
+    mainWindow->showAboutWindow();
+    return true;
+}
+
+
+bool NetctlGuiAdaptor::ShowMain()
+{
+    if (debug) qDebug() << "[NetctlGuiAdaptor]" << "[ShowMain]";
+
+    mainWindow->showMainWindow();
+    return true;
+}
+
+
+bool NetctlGuiAdaptor::ShowNetctlAuto()
+{
+    if (debug) qDebug() << "[NetctlGuiAdaptor]" << "[ShowNetctlAuto]";
+
+    mainWindow->showNetctlAutoWindow();
+    return true;
+}
+
+
+bool NetctlGuiAdaptor::ShowSettings()
+{
+    if (debug) qDebug() << "[NetctlGuiAdaptor]" << "[ShowSettings]";
+
+    mainWindow->showSettingsWindow();
     return true;
 }

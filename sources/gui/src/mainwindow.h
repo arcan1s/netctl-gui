@@ -68,12 +68,13 @@ public:
                         const int tabNum = 1);
     ~MainWindow();
     QString getInformation();
-    bool isNetctlAutoWindowHidden();
+    QStringList getSettings();
 
 protected:
     void closeEvent(QCloseEvent *event);
 
 public slots:
+    void setTab(const int tab);
     void updateTabs(const int tab);
     void updateMenu();
     // wifi tab slots
@@ -81,8 +82,10 @@ public slots:
     void setHiddenName(const QString name);
     // actions from trayicon
     void closeMainWindow();
-    void showNetctlAutoWindow();
+    void showAboutWindow();
     void showMainWindow();
+    void showNetctlAutoWindow();
+    void showSettingsWindow();
 
 private slots:
     void reportABug();

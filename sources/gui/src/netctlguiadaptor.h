@@ -19,6 +19,7 @@
 #define NETCTLGUIADAPTOR_H
 
 #include <QDBusAbstractAdaptor>
+#include <QStringList>
 
 
 class MainWindow;
@@ -34,7 +35,14 @@ public:
     ~NetctlGuiAdaptor();
 
 public slots:
+    bool Close();
+    QString Information();
     bool RestoreWindow();
+    QStringList Settings();
+    bool ShowAbout();
+    bool ShowMain();
+    bool ShowNetctlAuto();
+    bool ShowSettings();
 
 private:
     bool debug;

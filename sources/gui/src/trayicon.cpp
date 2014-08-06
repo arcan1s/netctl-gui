@@ -120,10 +120,6 @@ void TrayIcon::itemActivated(const QSystemTrayIcon::ActivationReason reason)
             showMainWindow->setText(QApplication::translate("TrayIcon", "Show"));
         else
             showMainWindow->setText(QApplication::translate("TrayIcon", "Hide"));
-        if (mainWindow->isNetctlAutoWindowHidden())
-            showNetctlAutoWindow->setText(QApplication::translate("TrayIcon", "Show netctl-auto"));
-        else
-            showNetctlAutoWindow->setText(QApplication::translate("TrayIcon", "Hide netctl-auto"));
         break;
     default:
         break;
