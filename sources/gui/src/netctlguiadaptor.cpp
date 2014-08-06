@@ -15,42 +15,39 @@
  *   along with netctl-gui. If not, see http://www.gnu.org/licenses/       *
  ***************************************************************************/
 
-#ifndef TRAYICON_H
-#define TRAYICON_H
 
-#include <QAction>
-#include <QObject>
-#include <QSystemTrayIcon>
+#include <QDebug>
+
+#include "mainwindow.h"
+#include "netctlguiadaptor.h"
 
 
-class MainWindow;
-
-class TrayIcon : public QSystemTrayIcon
+NetctlGuiAdaptor::NetctlGuiAdaptor(MainWindow *parent, const bool debugCmd)
+    : QDBusAbstractAdaptor(parent),
+      debug(debugCmd),
+      mainWindow(parent)
 {
-    Q_OBJECT
-
-public:
-    explicit TrayIcon(QObject *parent = 0,
-                      const bool debugCmd = false);
-    ~TrayIcon();
-
-public slots:
-    void showInformation();
-
-private slots:
-    void itemActivated(const QSystemTrayIcon::ActivationReason reason);
-
-private:
-    bool debug;
-    MainWindow *mainWindow;
-    // contextual actions
-    QMenu *menu;
-    QAction *exit;
-    QAction *showMainWindow;
-    QAction *showNetctlAutoWindow;
-    QAction *showStatus;
-    void init();
-};
+}
 
 
-#endif /* TRAYICON_H */
+NetctlGuiAdaptor::~NetctlGuiAdaptor()
+{
+    if (debug) qDebug() << "[NetctlGuiAdaptor]" << "[~NetctlGuiAdaptor]";
+}
+
+
+QString NetctlGuiAdaptor::Information()
+{
+    if (debug) qDebug() << "[NetctlGuiAdaptor]" << "[RestoreWindow]";
+
+    return mainWindow->getInformation();
+}
+
+
+bool NetctlGuiAdaptor::RestoreWindow()
+{
+    if (debug) qDebug() << "[NetctlGuiAdaptor]" << "[RestoreWindow]";
+
+    mainWindow->show();
+    return true;
+}

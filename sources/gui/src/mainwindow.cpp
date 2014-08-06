@@ -18,6 +18,7 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 
+#include <QDBusConnection>
 #include <QDebug>
 #include <QDesktopServices>
 #include <QFileDialog>
@@ -36,6 +37,7 @@
 #include "macvlanwidget.h"
 #include "mobilewidget.h"
 #include "netctlautowindow.h"
+#include "netctlguiadaptor.h"
 #include "passwdwidget.h"
 #include "pppoewidget.h"
 #include "settingswindow.h"
@@ -87,6 +89,7 @@ MainWindow::MainWindow(QWidget *parent,
         configuration[optionsDict.keys()[i]] = optionsDict[optionsDict.keys()[i]];
 
     // backend
+    createDBusSession();
     netctlCommand = new Netctl(debug, configuration);
     netctlProfile = new NetctlProfile(debug, configuration);
     wpaCommand = new WpaSup(debug, configuration);
@@ -343,6 +346,19 @@ void MainWindow::createActions()
     connect(ui->tableWidget_wifi, SIGNAL(itemActivated(QTableWidgetItem *)), this, SLOT(wifiTabStart()));
     connect(ui->tableWidget_wifi, SIGNAL(currentItemChanged(QTableWidgetItem *, QTableWidgetItem *)), this, SLOT(wifiTabRefreshButtons(QTableWidgetItem *, QTableWidgetItem *)));
     connect(ui->tableWidget_wifi, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(wifiTabContextualMenu(QPoint)));
+}
+
+
+void MainWindow::createDBusSession()
+{
+    if (debug) qDebug() << "[MainWindow]" << "[createDBusSession]";
+
+    new NetctlGuiAdaptor(this, debug);
+    QDBusConnection bus = QDBusConnection::sessionBus();
+    if (!bus.registerService(QString(DBUS_SERVICE)))
+        if (debug) qDebug() << "[MainWindow]" << "[createDBusSession]" << ":" << "Could not register service";
+    if (!bus.registerObject(QString(DBUS_OBJECT_PATH), this))
+        if (debug) qDebug() << "[MainWindow]" << "[createDBusSession]" << ":" << "Could not register object";
 }
 
 

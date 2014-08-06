@@ -142,6 +142,7 @@ private:
     bool checkExternalApps(const QString apps);
     QString checkStatus(const bool statusBool, const bool nullFalse = false);
     void createActions();
+    void createDBusSession();
     void keyPressEvent(QKeyEvent *pressedKey);
     void setIconsToTabs();
     bool debug;

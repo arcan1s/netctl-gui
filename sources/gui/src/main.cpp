@@ -18,6 +18,8 @@
 
 #include <QApplication>
 
+#include <QDBusConnection>
+#include <QDBusMessage>
 #include <QDir>
 #include <QTranslator>
 #include <iostream>
@@ -28,6 +30,19 @@
 
 
 using namespace std;
+
+
+bool restoreExistSession()
+{
+    QDBusConnection bus = QDBusConnection::sessionBus();
+    QDBusMessage request = QDBusMessage::createMethodCall(DBUS_SERVICE,
+                                                          DBUS_OBJECT_PATH,
+                                                          DBUS_INTERFACE,
+                                                          QString("RestoreWindow"));
+    QDBusMessage response = bus.call(request);
+    QList<QVariant> arguments = response.arguments();
+    return ((arguments.size()==1) && arguments[0].toBool());
+}
 
 
 QChar isParametrEnable(const bool parametr)
@@ -41,6 +56,9 @@ QChar isParametrEnable(const bool parametr)
 
 int main(int argc, char *argv[])
 {
+    if (restoreExistSession())
+        return 0;
+
     QApplication a(argc, argv);
 
     // config path

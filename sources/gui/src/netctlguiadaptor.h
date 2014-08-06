@@ -15,42 +15,32 @@
  *   along with netctl-gui. If not, see http://www.gnu.org/licenses/       *
  ***************************************************************************/
 
-#ifndef TRAYICON_H
-#define TRAYICON_H
+#ifndef NETCTLGUIADAPTOR_H
+#define NETCTLGUIADAPTOR_H
 
-#include <QAction>
-#include <QObject>
-#include <QSystemTrayIcon>
+#include <QDBusAbstractAdaptor>
 
 
 class MainWindow;
 
-class TrayIcon : public QSystemTrayIcon
+class NetctlGuiAdaptor : public QDBusAbstractAdaptor
 {
     Q_OBJECT
+    Q_CLASSINFO("D-Bus Interface", "org.netctlgui.netctlgui")
 
 public:
-    explicit TrayIcon(QObject *parent = 0,
-                      const bool debugCmd = false);
-    ~TrayIcon();
+    explicit NetctlGuiAdaptor(MainWindow *parent = 0,
+                              const bool debugCmd = false);
+    ~NetctlGuiAdaptor();
 
 public slots:
-    void showInformation();
-
-private slots:
-    void itemActivated(const QSystemTrayIcon::ActivationReason reason);
+    QString Information();
+    bool RestoreWindow();
 
 private:
     bool debug;
     MainWindow *mainWindow;
-    // contextual actions
-    QMenu *menu;
-    QAction *exit;
-    QAction *showMainWindow;
-    QAction *showNetctlAutoWindow;
-    QAction *showStatus;
-    void init();
 };
 
 
-#endif /* TRAYICON_H */
+#endif /* NETCTLGUIADAPTOR_H */
