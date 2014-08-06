@@ -39,6 +39,7 @@
 #include "passwdwidget.h"
 #include "pppoewidget.h"
 #include "settingswindow.h"
+#include "trayicon.h"
 #include "tunnelwidget.h"
 #include "tuntapwidget.h"
 #include "version.h"
@@ -47,6 +48,7 @@
 
 
 MainWindow::MainWindow(QWidget *parent,
+                       const int startMinimized,
                        const bool showAbout,
                        const bool showNetctlAuto,
                        const bool showSettings,
@@ -62,6 +64,7 @@ MainWindow::MainWindow(QWidget *parent,
       ui(new Ui::MainWindow),
       debug(debugCmd)
 {
+    if (debug) qDebug() << "[MainWindow]" << "[MainWindow]" << ":" << "startMinimized" << startMinimized;
     if (debug) qDebug() << "[MainWindow]" << "[MainWindow]" << ":" << "showAbout" << showAbout;
     if (debug) qDebug() << "[MainWindow]" << "[MainWindow]" << ":" << "showNetctlAuto" << showNetctlAuto;
     if (debug) qDebug() << "[MainWindow]" << "[MainWindow]" << ":" << "showSettings" << showSettings;
@@ -153,6 +156,26 @@ MainWindow::MainWindow(QWidget *parent,
     }
 
     ui->statusBar->showMessage(QApplication::translate("MainWindow", "Ready"));
+
+    // tray
+    trayIcon = new TrayIcon(this, debug);
+    if ((QSystemTrayIcon::isSystemTrayAvailable()) &&
+            (configuration[QString("SYSTRAY")] == QString("true")))
+        trayIcon->setVisible(true);
+    else
+        trayIcon->setVisible(false);
+    if (trayIcon->isVisible()) {
+        if (configuration[QString("STARTTOTRAY")] == QString("true"))
+            hide();
+        else
+            show();
+        if (startMinimized == 1)
+            show();
+        else if (startMinimized == 2)
+            hide();
+    }
+    else
+        show();
 }
 
 
@@ -181,6 +204,48 @@ MainWindow::~MainWindow()
     delete netctlAutoWin;
     delete settingsWin;
     delete ui;
+    delete trayIcon;
+}
+
+
+QString MainWindow::getInformation()
+{
+    if (debug) qDebug() << "[MainWindow]" << "[getInformation]";
+
+    QString profile;
+    QString status;
+    if (netctlCommand->isNetctlAutoRunning()) {
+        profile = netctlCommand->autoGetActiveProfile();
+        status = QString("netctl-auto");
+    }
+    else {
+        profile = netctlCommand->getActiveProfile();
+        status = netctlCommand->getProfileStatus(profile);
+    }
+    QString output = QString("%1: %2\n").arg(QApplication::translate("MainWindow", "Profile")).arg(profile);
+    output += QString("%1: %2\n").arg(QApplication::translate("MainWindow", "Status")).arg(status);
+
+    return output;
+}
+
+
+bool MainWindow::isNetctlAutoWindowHidden()
+{
+    if (debug) qDebug() << "[MainWindow]" << "[isNetctlAutoWindowHidden]";
+
+    return netctlAutoWin->isHidden();
+}
+
+
+void MainWindow::closeEvent(QCloseEvent *event)
+{
+    if (debug) qDebug() << "[MainWindow]" << "[closeEvent]";
+
+    if (configuration[QString("CLOSETOTRAY")] == QString("true"))
+        if (trayIcon->isVisible()) {
+            hide();
+            event->ignore();
+        }
 }
 
 
@@ -240,7 +305,7 @@ void MainWindow::createActions()
     connect(ui->actionNetctlAuto, SIGNAL(triggered(bool)), netctlAutoWin, SLOT(showWindow()));
     connect(ui->actionSettings, SIGNAL(triggered(bool)), settingsWin, SLOT(showWindow()));
     connect(ui->actionReport, SIGNAL(triggered(bool)), this, SLOT(reportABug()));
-    connect(ui->actionQuit, SIGNAL(triggered(bool)), this, SLOT(close()));
+    connect(ui->actionQuit, SIGNAL(triggered(bool)), this, SLOT(closeMainWindow()));
 
     // actions menu
     connect(ui->menuActions, SIGNAL(aboutToShow()), this, SLOT(updateMenu()));
@@ -353,6 +418,36 @@ void MainWindow::setMenuActionsShown(const bool state)
     // wifi
     ui->actionWifiRefresh->setVisible(state);
     ui->actionWifiStart->setVisible(state);
+}
+
+
+void MainWindow::closeMainWindow()
+{
+    if (debug) qDebug() << "[MainWindow]" << "[closeMainWindow]";
+
+    qApp->quit();
+}
+
+
+void MainWindow::showNetctlAutoWindow()
+{
+    if (debug) qDebug() << "[MainWindow]" << "[showNetctlAutoWindow]";
+
+    if (netctlAutoWin->isHidden())
+        netctlAutoWin->showWindow();
+    else
+        netctlAutoWin->hide();
+}
+
+
+void MainWindow::showMainWindow()
+{
+    if (debug) qDebug() << "[MainWindow]" << "[showMainWindow]";
+
+    if (isHidden())
+        show();
+    else
+        hide();
 }
 
 

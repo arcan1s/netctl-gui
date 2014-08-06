@@ -37,6 +37,7 @@ class NetctlProfile;
 class PasswdWidget;
 class PppoeWidget;
 class SettingsWindow;
+class TrayIcon;
 class TunnelWidget;
 class TuntapWidget;
 class VlanWidget;
@@ -53,6 +54,7 @@ class MainWindow : public QMainWindow
 
 public:
     explicit MainWindow(QWidget *parent = 0,
+                        const int startMinimized = false,
                         const bool showAbout = false,
                         const bool showNetctlAuto = false,
                         const bool showSettings = false,
@@ -65,6 +67,11 @@ public:
                         const QString options = QString("OPTIONS"),
                         const int tabNum = 1);
     ~MainWindow();
+    QString getInformation();
+    bool isNetctlAutoWindowHidden();
+
+protected:
+    void closeEvent(QCloseEvent *event);
 
 public slots:
     void updateTabs(const int tab);
@@ -72,6 +79,10 @@ public slots:
     // wifi tab slots
     void connectToUnknownEssid(const QString passwd);
     void setHiddenName(const QString name);
+    // actions from trayicon
+    void closeMainWindow();
+    void showNetctlAutoWindow();
+    void showMainWindow();
 
 private slots:
     void reportABug();
@@ -123,6 +134,7 @@ private:
     TuntapWidget *tuntapWid;
     VlanWidget *vlanWid;
     WirelessWidget *wirelessWid;
+    TrayIcon *trayIcon;
     // backend
     Netctl *netctlCommand;
     NetctlProfile *netctlProfile;

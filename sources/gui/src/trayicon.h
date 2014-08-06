@@ -15,62 +15,41 @@
  *   along with netctl-gui. If not, see http://www.gnu.org/licenses/       *
  ***************************************************************************/
 
-#ifndef SETTINGSWINDOW_H
-#define SETTINGSWINDOW_H
+#ifndef TRAYICON_H
+#define TRAYICON_H
 
-#include <QKeyEvent>
-#include <QMainWindow>
-#include <QTreeWidgetItem>
+#include <QAction>
+#include <QObject>
+#include <QSystemTrayIcon>
 
 
 class MainWindow;
 
-namespace Ui {
-class SettingsWindow;
-}
-
-class SettingsWindow : public QMainWindow
+class TrayIcon : public QSystemTrayIcon
 {
     Q_OBJECT
-
 public:
-    explicit SettingsWindow(QWidget *parent = 0,
-                            const bool debugCmd = false,
-                            const QString configFile = QString(""));
-    ~SettingsWindow();
-    QMap<QString, QString> getDefault();
-    QMap<QString, QString> getSettings();
+    explicit TrayIcon(QObject *parent = 0,
+                      const bool debugCmd = false);
+    ~TrayIcon();
 
 public slots:
-    void setDefault();
-    void showWindow();
+    void showInformation();
 
 private slots:
-    void addLanguages();
-    void changePage(QTreeWidgetItem *current, QTreeWidgetItem *previous);
-    void saveSettings();
-    void setTray();
-    // buttons
-    void selectIfaceDir();
-    void selectNetctlPath();
-    void selectNetctlAutoPath();
-    void selectProfileDir();
-    void selectRfkillDir();
-    void selectSudoPath();
-    void selectSystemctlPath();
-    void selectWpaCliPath();
-    void selectWpaSupPath();
+    void itemActivated(const QSystemTrayIcon::ActivationReason reason);
 
 private:
     bool debug;
-    QString file;
-    Ui::SettingsWindow *ui;
-    void createActions();
-    // ESC pressed event
-    void keyPressEvent(QKeyEvent *pressedKey);
-    QMap<QString, QString> readSettings();
-    void setSettings(const QMap<QString, QString> settings);
+    MainWindow *mainWindow;
+    // contextual actions
+    QMenu *menu;
+    QAction *exit;
+    QAction *showMainWindow;
+    QAction *showNetctlAutoWindow;
+    QAction *showStatus;
+    void init();
 };
 
 
-#endif /* SETTINGSWINDOW_H */
+#endif /* TRAYICON_H */

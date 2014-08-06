@@ -54,6 +54,7 @@ void SettingsWindow::createActions()
     connect(ui->buttonBox->button(QDialogButtonBox::Reset), SIGNAL(clicked(bool)), this, SLOT(setDefault()));
     connect(ui->buttonBox->button(QDialogButtonBox::Ok), SIGNAL(clicked(bool)), this, SLOT(saveSettings()));
     connect(ui->buttonBox->button(QDialogButtonBox::Ok), SIGNAL(clicked(bool)), this, SLOT(close()));
+    connect(ui->checkBox_enableTray, SIGNAL(stateChanged(int)), this, SLOT(setTray()));
     connect(ui->comboBox_language, SIGNAL(currentIndexChanged(int)), ui->label_info, SLOT(show()));
     connect(ui->treeWidget, SIGNAL(currentItemChanged(QTreeWidgetItem *, QTreeWidgetItem *)),
             this, SLOT(changePage(QTreeWidgetItem *, QTreeWidgetItem *)));
@@ -114,6 +115,25 @@ void SettingsWindow::saveSettings()
     for (int i=0; i<settings.keys().count(); i++)
         out << settings.keys()[i] << QString("=") << settings[settings.keys()[i]] << endl;
     configFile.close();
+}
+
+
+void SettingsWindow::setTray()
+{
+    if (debug) qDebug() << "[SettingsWindow]" << "[setTray]";
+
+    if (ui->checkBox_enableTray->checkState() == 0) {
+        ui->checkBox_closeToTray->setCheckState(Qt::Unchecked);
+        ui->checkBox_closeToTray->setDisabled(true);
+        ui->checkBox_startToTray->setCheckState(Qt::Unchecked);
+        ui->checkBox_startToTray->setDisabled(true);
+    }
+    else if (ui->checkBox_enableTray->checkState() == 2) {
+        ui->checkBox_closeToTray->setCheckState(Qt::Checked);
+        ui->checkBox_closeToTray->setEnabled(true);
+        ui->checkBox_startToTray->setCheckState(Qt::Unchecked);
+        ui->checkBox_startToTray->setEnabled(true);
+    }
 }
 
 
@@ -265,6 +285,10 @@ QMap<QString, QString> SettingsWindow::readSettings()
     if (debug) qDebug() << "[SettingsWindow]" << "[readSettings]";
 
     QMap<QString, QString> settings;
+    if (ui->checkBox_closeToTray->checkState() == 0)
+        settings[QString("CLOSETOTRAY")] = QString("false");
+    else
+        settings[QString("CLOSETOTRAY")] = QString("true");
     settings[QString("CTRL_DIR")] = ui->lineEdit_wpaDir->text();
     settings[QString("CTRL_GROUP")] = ui->lineEdit_wpaGroup->text();
     settings[QString("IFACE_DIR")] = ui->lineEdit_interfacesDir->text();
@@ -276,8 +300,16 @@ QMap<QString, QString> SettingsWindow::readSettings()
     settings[QString("PREFERED_IFACE")] = ui->lineEdit_interface->text();
     settings[QString("PROFILE_DIR")] = ui->lineEdit_profilePath->text();
     settings[QString("RFKILL_DIR")] = ui->lineEdit_rfkill->text();
+    if (ui->checkBox_startToTray->checkState() == 0)
+        settings[QString("STARTTOTRAY")] = QString("false");
+    else
+        settings[QString("STARTTOTRAY")] = QString("true");
     settings[QString("SUDO_PATH")] = ui->lineEdit_sudo->text();
     settings[QString("SYSTEMCTL_PATH")] = ui->lineEdit_systemctlPath->text();
+    if (ui->checkBox_enableTray->checkState() == 0)
+        settings[QString("SYSTRAY")] = QString("false");
+    else
+        settings[QString("SYSTRAY")] = QString("true");
     settings[QString("WPACLI_PATH")] = ui->lineEdit_wpaCliPath->text();
     settings[QString("WPASUP_PATH")] = ui->lineEdit_wpaSupPath->text();
     settings[QString("WPA_DRIVERS")] = ui->lineEdit_wpaSupDrivers->text();
@@ -293,6 +325,10 @@ void SettingsWindow::setSettings(const QMap<QString, QString> settings)
 {
     if (debug) qDebug() << "[SettingsWindow]" << "[setSettings]";
 
+    if (settings[QString("CLOSETOTRAY")] == QString("true"))
+        ui->checkBox_closeToTray->setCheckState(Qt::Checked);
+    else
+        ui->checkBox_closeToTray->setCheckState(Qt::Unchecked);
     ui->lineEdit_wpaDir->setText(settings[QString("CTRL_DIR")]);
     ui->lineEdit_wpaGroup->setText(settings[QString("CTRL_GROUP")]);
     ui->lineEdit_interfacesDir->setText(settings[QString("IFACE_DIR")]);
@@ -307,8 +343,16 @@ void SettingsWindow::setSettings(const QMap<QString, QString> settings)
     ui->lineEdit_interface->setText(settings[QString("PREFERED_IFACE")]);
     ui->lineEdit_profilePath->setText(settings[QString("PROFILE_DIR")]);
     ui->lineEdit_rfkill->setText(settings[QString("RFKILL_DIR")]);
+    if (settings[QString("STARTTOTRAY")] == QString("true"))
+        ui->checkBox_startToTray->setCheckState(Qt::Checked);
+    else
+        ui->checkBox_startToTray->setCheckState(Qt::Unchecked);
     ui->lineEdit_sudo->setText(settings[QString("SUDO_PATH")]);
     ui->lineEdit_systemctlPath->setText(settings[QString("SYSTEMCTL_PATH")]);
+    if (settings[QString("SYSTRAY")] == QString("true"))
+        ui->checkBox_enableTray->setCheckState(Qt::Checked);
+    else
+        ui->checkBox_enableTray->setCheckState(Qt::Unchecked);
     ui->lineEdit_wpaCliPath->setText(settings[QString("WPACLI_PATH")]);
     ui->lineEdit_wpaSupPath->setText(settings[QString("WPASUP_PATH")]);
     ui->lineEdit_wpaSupDrivers->setText(settings[QString("WPA_DRIVERS")]);
@@ -323,6 +367,7 @@ QMap<QString, QString> SettingsWindow::getDefault()
     if (debug) qDebug() << "[SettingsWindow]" << "[getDefault]";
 
     QMap<QString, QString> settings;
+    settings[QString("CLOSETOTRAY")] = QString("true");
     settings[QString("CTRL_DIR")] = QString("/run/wpa_supplicant_netctl-gui");
     settings[QString("CTRL_GROUP")] = QString("users");
     settings[QString("IFACE_DIR")] = QString("/sys/class/net/");
@@ -334,8 +379,10 @@ QMap<QString, QString> SettingsWindow::getDefault()
     settings[QString("PREFERED_IFACE")] = QString("");
     settings[QString("PROFILE_DIR")] = QString("/etc/netctl/");
     settings[QString("RFKILL_DIR")] = QString("/sys/class/rfkill/");
+    settings[QString("STARTTOTRAY")] = QString("false");
     settings[QString("SUDO_PATH")] = QString("/usr/bin/kdesu");
     settings[QString("SYSTEMCTL_PATH")] = QString("/usr/bin/systemctl");
+    settings[QString("SYSTRAY")] = QString("true");
     settings[QString("WPACLI_PATH")] = QString("/usr/bin/wpa_cli");
     settings[QString("WPASUP_PATH")] = QString("/usr/bin/wpa_supplicant");
     settings[QString("WPA_DRIVERS")] = QString("nl80211,wext");

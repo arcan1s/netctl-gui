@@ -54,6 +54,7 @@ int main(int argc, char *argv[])
     // reading command line flags
     bool error = false;
     // windows
+    int startMinimized = 0;
     bool showAbout = false;
     bool showNetctlAuto = false;
     bool showSettings = false;
@@ -73,8 +74,16 @@ int main(int argc, char *argv[])
     // reading
     for (int i=1; i<argc; i++) {
         // windows
+        // maximized
+        if (QString(argv[i]) == QString("--maximized")) {
+            startMinimized = 1;
+        }
+        // minimized
+        else if (QString(argv[i]) == QString("--minimized")) {
+            startMinimized = 2;
+        }
         // about
-        if (QString(argv[i]) == QString("--about")) {
+        else if (QString(argv[i]) == QString("--about")) {
             showAbout = true;
         }
         // netctl-auto
@@ -159,7 +168,8 @@ int main(int argc, char *argv[])
 
     QString helpMessage = QString("");
     helpMessage += QString("%1\n").arg(QApplication::translate("MainWindow", "Usage:"));
-    helpMessage += QString("netctl-gui [ --about ] [ --netctl-auto ] [ --settings ]\n");
+    helpMessage += QString("netctl-gui [ --maximized ] [ --minimized ]\n");
+    helpMessage += QString("           [ --about ] [ --netctl-auto ] [ --settings ]\n");
     helpMessage += QString("           [ -e ESSID | --essid ESSID ] [ -o PROFILE | --open PROFILE ]\n");
     helpMessage += QString("           [ -s PROFILE | --select PROFILE ]\n");
     helpMessage += QString("           [ -c FILE | --config FILE ] [ -d | --debug ] [ --default ]\n");
@@ -168,6 +178,12 @@ int main(int argc, char *argv[])
     helpMessage += QString("%1\n").arg(QApplication::translate("MainWindow", "Parametrs:"));
     // windows
     helpMessage += QString("%1\n").arg(QApplication::translate("MainWindow", "Open window:"));
+    helpMessage += QString("%1                  --maximized           - %2\n")
+            .arg(isParametrEnable(startMinimized))
+            .arg(QApplication::translate("MainWindow", "start maximized"));
+    helpMessage += QString("%1                  --minimized           - %2\n")
+            .arg(isParametrEnable(startMinimized))
+            .arg(QApplication::translate("MainWindow", "start minimized"));
     helpMessage += QString("%1                  --about               - %2\n")
             .arg(isParametrEnable(showAbout))
             .arg(QApplication::translate("MainWindow", "show about window"));
@@ -266,10 +282,9 @@ int main(int argc, char *argv[])
         cout << versionMessage.toUtf8().data();
         return 0;
     }
-    MainWindow w(0,
+    MainWindow w(0, startMinimized,
                  showAbout, showNetctlAuto, showSettings,
                  selectEssid, openProfile, selectProfile,
                  configPath, debug, defaultSettings, options, tabNumber);
-    w.show();
     return a.exec();
 }

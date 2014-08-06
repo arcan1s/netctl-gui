@@ -18,6 +18,8 @@
 
 # variables
 _netctl_gui_arglist=(
+    '--maximized'
+    '--minimized'
     '--about'
     '--netctl-auto'
     '--settings'
@@ -44,6 +46,7 @@ _netctl_gui_arglist=(
 )
 
 _netctl_gui_settings=(
+    'CLOSETOTRAY'
     'CTRL_DIR'
     'CTRL_GROUP'
     'IFACE_DIR'
@@ -55,8 +58,10 @@ _netctl_gui_settings=(
     'PREFERED_IFACE'
     'PROFILE_DIR'
     'RFKILL_DIR'
+    'STARTTOTRAY'
     'SUDO_PATH'
     'SYSTEMCTL_PATH'
+    'SYSTRAY'
     'WPACLI_PATH'
     'WPASUP_PATH'
     'WPA_DRIVERS'
