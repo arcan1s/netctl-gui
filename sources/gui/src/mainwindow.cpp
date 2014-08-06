@@ -363,11 +363,11 @@ void MainWindow::createDBusSession()
     if (!bus.registerService(QString(DBUS_SERVICE)))
         if (debug) qDebug() << "[MainWindow]" << "[createDBusSession]" << ":" << "Could not register service";
     if (!bus.registerObject(QString(DBUS_OBJECT_PATH),
-                            new NetctlGuiAdaptor(this, debug),
+                            new NetctlGuiAdaptor(this),
                             QDBusConnection::ExportAllContents))
         if (debug) qDebug() << "[MainWindow]" << "[createDBusSession]" << ":" << "Could not register GUI object";
     if (!bus.registerObject(QString(DBUS_LIB_PATH),
-                            new NetctlAdaptor(this, debug, configuration),
+                            new NetctlAdaptor(this, configuration),
                             QDBusConnection::ExportAllContents))
         if (debug) qDebug() << "[MainWindow]" << "[createDBusSession]" << ":" << "Could not register library object";
 }

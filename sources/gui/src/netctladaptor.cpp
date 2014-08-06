@@ -16,33 +16,139 @@
  ***************************************************************************/
 
 
-#include <QDebug>
-
-#include <netctlgui/netctlgui.h>
 #include "netctladaptor.h"
 
 
-NetctlAdaptor::NetctlAdaptor(QObject *parent, const bool debugCmd, const QMap<QString, QString> configuration)
-    : QDBusAbstractAdaptor(parent),
-      debug(debugCmd)
+NetctlAdaptor::NetctlAdaptor(QObject *parent, const QMap<QString, QString> configuration)
+    : QDBusAbstractAdaptor(parent)
 {
-    netctlCommand = new Netctl(debug, configuration);
-    netctlProfile = new NetctlProfile(debug, configuration);
-    wpaCommand = new WpaSup(debug, configuration);
+    netctlCommand = new Netctl(false, configuration);
+    netctlProfile = new NetctlProfile(false, configuration);
+    wpaCommand = new WpaSup(false, configuration);
 }
 
 
 NetctlAdaptor::~NetctlAdaptor()
 {
-    if (debug) qDebug() << "[NetctlAdaptor]" << "[~NetctlAdaptor]";
-
     delete netctlCommand;
     delete netctlProfile;
     delete wpaCommand;
 }
 
 
-QString NetctlAdaptor::Information()
+// netctlCommand
+QString NetctlAdaptor::ActiveProfile()
 {
-    if (debug) qDebug() << "[NetctlAdaptor]" << "[Information]";
+    if (netctlCommand->isNetctlAutoRunning())
+        return netctlCommand->autoGetActiveProfile();
+    else
+        return netctlCommand->getActiveProfile();
+}
+
+
+QString NetctlAdaptor::ActiveProfileStatus()
+{
+    if (netctlCommand->isNetctlAutoRunning())
+        return QString("netctl-auto");
+    else
+        return netctlCommand->getProfileStatus(ActiveProfile());
+}
+
+
+bool NetctlAdaptor::autoIsProfileActive(const QString profile)
+{
+    return netctlCommand->autoIsProfileActive(profile);
+}
+
+
+bool NetctlAdaptor::autoIsProfileEnabled(const QString profile)
+{
+    return netctlCommand->autoIsProfileEnabled(profile);
+}
+
+
+QStringList NetctlAdaptor::Information()
+{
+    QStringList output;
+    output.append(QString("Profile: %1").arg(ActiveProfile()));
+    output.append(QString("Status: %1").arg(ActiveProfileStatus()));
+
+    return output;
+}
+
+
+bool NetctlAdaptor::isProfileActive(const QString profile)
+{
+    return netctlCommand->isProfileActive(profile);
+}
+
+
+bool NetctlAdaptor::isProfileEnabled(const QString profile)
+{
+    return netctlCommand->isProfileEnabled(profile);
+}
+
+
+QStringList NetctlAdaptor::ProfileList()
+{
+    QList<netctlProfileInfo> profilesInfo;
+    if (netctlCommand->isNetctlAutoRunning())
+        profilesInfo = netctlCommand->getProfileListFromNetctlAuto();
+    else
+        profilesInfo = netctlCommand->getProfileList();
+    QStringList info;
+    for (int i=0; i<profilesInfo.count(); i++) {
+        QStringList profileInfo;
+        profileInfo.append(profilesInfo[i].name);
+        profileInfo.append(profilesInfo[i].description);
+        profileInfo.append(QString::number(profilesInfo[i].active));
+        profileInfo.append(QString::number(profilesInfo[i].enabled));
+        info.append(profileInfo.join(QChar('|')));
+    }
+
+    return info;
+}
+
+
+// netctlProfile
+QStringList NetctlAdaptor::Profile(const QString profile)
+{
+    QMap<QString, QString> settings = netctlProfile->getSettingsFromProfile(profile);
+    QStringList settingsList;
+    for (int i=0; i<settings.keys().count(); i++)
+        settingsList.append(settings.keys()[i] + QString("=") +
+                            settings[settings.keys()[i]]);
+
+    return settingsList;
+}
+
+
+QString NetctlAdaptor::ProfileValue(const QString profile, const QString key)
+{
+    return netctlProfile->getValueFromProfile(profile, key);
+}
+
+
+// wpaCommand
+QString NetctlAdaptor::ProfileByEssid(const QString essid)
+{
+    return wpaCommand->existentProfile(essid);
+}
+
+
+QStringList NetctlAdaptor::WiFi()
+{
+    QList<netctlWifiInfo> wifiPoints = wpaCommand->scanWifi();
+    QStringList info;
+    for (int i=0; i<wifiPoints.count(); i++) {
+        QStringList point;
+        point.append(wifiPoints[i].name);
+        point.append(wifiPoints[i].security);
+        point.append(wifiPoints[i].signal);
+        point.append(QString::number(wifiPoints[i].active));
+        point.append(QString::number(wifiPoints[i].exists));
+        info.append(point.join(QChar('|')));
+    }
+
+    return info;
 }

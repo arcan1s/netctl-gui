@@ -19,28 +19,39 @@
 #define NETCTLADAPTOR_H
 
 #include <QDBusAbstractAdaptor>
+#include <QStringList>
 
+#include <netctlgui/netctlgui.h>
 
-class Netctl;
-class NetctlProfile;
-class WpaSup;
 
 class NetctlAdaptor : public QDBusAbstractAdaptor
 {
     Q_OBJECT
-    Q_CLASSINFO("D-Bus Interface", "org.netctlgui.netctlgui")
+    Q_CLASSINFO("D-Bus Interface", "org.freedesktop.netctlgui")
 
 public:
     explicit NetctlAdaptor(QObject *parent = 0,
-                           const bool debugCmd = false,
                            const QMap<QString, QString> configuration = QMap<QString, QString>());
     ~NetctlAdaptor();
 
 public slots:
-    QString Information();
+    // netctlCommand
+    QString ActiveProfile();
+    QString ActiveProfileStatus();
+    bool autoIsProfileActive(const QString profile);
+    bool autoIsProfileEnabled(const QString profile);
+    QStringList Information();
+    bool isProfileActive(const QString profile);
+    bool isProfileEnabled(const QString profile);
+    QStringList ProfileList();
+    // netctlProfile
+    QStringList Profile(const QString profile);
+    QString ProfileValue(const QString profile, const QString key);
+    // wpaCommand
+    QString ProfileByEssid(const QString essid);
+    QStringList WiFi();
 
 private:
-    bool debug;
     Netctl *netctlCommand;
     NetctlProfile *netctlProfile;
     WpaSup *wpaCommand;

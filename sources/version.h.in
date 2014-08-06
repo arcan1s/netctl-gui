@@ -27,9 +27,9 @@
 #define PROJECT_BUILD_PLASMOID "@BUILD_PLASMOID@"
 #define PROJECT_USE_QT5 "@USE_QT5@"
 
-#define DBUS_INTERFACE "org.netctlgui.netctlgui"
+#define DBUS_INTERFACE "org.freedesktop.netctlgui"
 #define DBUS_LIB_PATH "/netctl"
 #define DBUS_OBJECT_PATH "/netctlgui"
-#define DBUS_SERVICE "org.netctlgui.netctlgui"
+#define DBUS_SERVICE "org.freedesktop.netctlgui"
 
 #endif /* VERSION_H */
