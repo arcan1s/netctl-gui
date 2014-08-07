@@ -74,6 +74,10 @@ MainWindow::MainWindow(QWidget *parent,
     if (debug) qDebug() << "[MainWindow]" << "[MainWindow]" << ":" << "settings" << args[QString("settings")].toBool();
     if (debug) qDebug() << "[MainWindow]" << "[MainWindow]" << ":" << "tab" << args[QString("tab")].toInt();
 
+    if (args[QString("minimized")].toInt() == 1)
+        isDaemon = true;
+    else
+        isDaemon = false;
     createDBusSession();
     updateConfiguration(args);
 
@@ -156,8 +160,8 @@ void MainWindow::closeEvent(QCloseEvent *event)
 {
     if (debug) qDebug() << "[MainWindow]" << "[closeEvent]";
 
-    if ((configuration[QString("CLOSETOTRAY")] == QString("true")) &&
-            (trayIcon->isVisible())) {
+    if ((QSystemTrayIcon::isSystemTrayAvailable()) &&
+            (configuration[QString("SYSTRAY")] == QString("true"))) {
         hide();
         event->ignore();
     }
@@ -305,6 +309,7 @@ void MainWindow::createObjects()
     aboutWin = new AboutWindow(this, debug);
     errorWin = new ErrorWindow(this, debug);
     netctlAutoWin = new NetctlAutoWindow(this, debug, configuration);
+    settingsWin = new SettingsWindow(this, debug, configPath);
     // profile widgets
     generalWid = new GeneralWidget(this, configuration);
     ui->scrollAreaWidgetContents->layout()->addWidget(generalWid);
@@ -520,6 +525,8 @@ void MainWindow::updateConfiguration(const QMap<QString, QVariant> args)
                                                 args[QString("options")].toString());
     translator->load(QString(":/translations/") + language);
     qApp->installTranslator(translator);
+    // update settingsWin
+    delete settingsWin;
 
     createObjects();
     setTab(args[QString("tab")].toInt() - 1);
@@ -527,7 +534,7 @@ void MainWindow::updateConfiguration(const QMap<QString, QVariant> args)
     setIconsToTabs();
 
     // tray
-    if (args[QString("minimized")].toInt() == 1)
+    if (isDaemon)
         return;
     if ((QSystemTrayIcon::isSystemTrayAvailable()) &&
             (configuration[QString("SYSTRAY")] == QString("true")))

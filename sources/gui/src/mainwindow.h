@@ -145,6 +145,7 @@ private:
     QString configPath;
     bool debug;
     bool hiddenNetwork;
+    bool isDaemon;
     QTranslator *translator = nullptr;
     // configuration
     QMap<QString, QString> configuration;
