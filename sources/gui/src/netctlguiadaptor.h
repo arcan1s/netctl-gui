@@ -36,7 +36,7 @@ public:
 public slots:
     bool Close();
     QString Information();
-    bool RestoreWindow();
+    bool Restore();
     QStringList Settings();
     bool ShowAbout();
     bool ShowMain();

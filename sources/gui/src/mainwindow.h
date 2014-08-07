@@ -54,18 +54,7 @@ class MainWindow : public QMainWindow
 
 public:
     explicit MainWindow(QWidget *parent = 0,
-                        const int startMinimized = false,
-                        const bool showAbout = false,
-                        const bool showNetctlAuto = false,
-                        const bool showSettings = false,
-                        const QString selectEssid = QString("ESSID"),
-                        const QString openProfile = QString("PROFILE"),
-                        const QString selectProfile = QString("PROFILE"),
-                        const QString configPath = QString(""),
-                        const bool debugCmd = false,
-                        const bool defaultSettings = false,
-                        const QString options = QString("OPTIONS"),
-                        const int tabNum = 1);
+                        const QMap<QString, QVariant> args = QMap<QString, QVariant>());
     ~MainWindow();
     QString getInformation();
     QStringList getSettings();

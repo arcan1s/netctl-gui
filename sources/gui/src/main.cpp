@@ -26,6 +26,7 @@
 
 #include "language.h"
 #include "mainwindow.h"
+#include "messages.h"
 #include "version.h"
 
 
@@ -38,19 +39,10 @@ bool restoreExistSession()
     QDBusMessage request = QDBusMessage::createMethodCall(QString(DBUS_SERVICE),
                                                           QString(DBUS_OBJECT_PATH),
                                                           QString(DBUS_INTERFACE),
-                                                          QString("RestoreWindow"));
+                                                          QString("Restore"));
     QDBusMessage response = bus.call(request);
     QList<QVariant> arguments = response.arguments();
     return ((arguments.size() == 1) && arguments[0].toBool());
-}
-
-
-QChar isParametrEnable(const bool parametr)
-{
-    if (parametr)
-        return QChar('*');
-    else
-        return QChar(' ');
 }
 
 
@@ -58,7 +50,7 @@ int main(int argc, char *argv[])
 {
     // detach from console
     for (int i=0; i<argc; i++)
-        if (QString(argv[i]) == QString("--daemonized")) {
+        if (QString(argv[i]) == QString("--daemon")) {
             daemon(0, 0);
             break;
         }
@@ -69,254 +61,135 @@ int main(int argc, char *argv[])
         return 0;
 
     // config path
-    QString configPath = QString(QDir::homePath() + QString("/.config/netctl-gui.conf"));
+    QMap<QString, QVariant> args = getArgs();
     // translation
-    QString language = Language::defineLanguage(configPath);
+    QString language = Language::defineLanguage(args[QString("config")].toString());
     QTranslator translator;
     translator.load(QString(":/translations/") + language);
     a.installTranslator(&translator);
 
-    // reading command line flags
-    bool error = false;
-    // windows
-    int startMinimized = 0;
-    bool showAbout = false;
-    bool showNetctlAuto = false;
-    bool showSettings = false;
-    // main functions
-    QString selectEssid = QString("ESSID");
-    QString openProfile = QString("PROFILE");
-    QString selectProfile = QString("PROFILE");
-    // additional functions
-    bool debug = false;
-    bool defaultSettings = false;
-    QString options = QString("OPTIONS");
-    int tabNumber = 1;
-    // messages
-    bool showVersion = false;
-    bool showInfo = false;
-    bool showHelp = false;
     // reading
     for (int i=1; i<argc; i++) {
         // windows
         // daemonized
-        if (QString(argv[i]) == QString("--daemonized")) {
-            startMinimized = 1;
+        if (QString(argv[i]) == QString("--daemon")) {
+            args[QString("minimized")] = (int) 1;
         }
         // maximized
         else if (QString(argv[i]) == QString("--maximized")) {
-            startMinimized = 2;
+            args[QString("minimized")] = (int) 2;
         }
         // minimized
         else if (QString(argv[i]) == QString("--minimized")) {
-            startMinimized = 3;
+            args[QString("minimized")] = (int) 3;
         }
         // about
         else if (QString(argv[i]) == QString("--about")) {
-            showAbout = true;
+            args[QString("about")] = true;
         }
         // netctl-auto
         else if (QString(argv[i]) == QString("--netctl-auto")) {
-            showNetctlAuto = true;
+            args[QString("auto")] = true;
         }
         // settings
         else if (QString(argv[i]) == QString("--settings")) {
-            showSettings = true;
+            args[QString("settings")] = true;
         }
         // main functions
         // select ESSID
         else if ((QString(argv[i]) == QString("-e")) || (QString(argv[i]) == QString("--essid"))) {
-            selectEssid = QString(argv[i+1]);
+            args[QString("essid")] = QString(argv[i+1]);
             i++;
         }
         // open profile
         else if ((QString(argv[i]) == QString("-o")) || (QString(argv[i]) == QString("--open"))) {
-            openProfile = QString(argv[i+1]);
+            args[QString("open")] = QString(argv[i+1]);
             i++;
         }
         // select profile
         else if ((QString(argv[i]) == QString("-s")) || (QString(argv[i]) == QString("--select"))) {
-            selectProfile = QString(argv[i+1]);
+            args[QString("select")] = QString(argv[i+1]);
             i++;
         }
         // additional functions
         // config path
         else if ((QString(argv[i]) == QString("-c")) || (QString(argv[i]) == QString("--config"))) {
-            configPath = QDir().absoluteFilePath(argv[i+1]);
+            args[QString("config")] = QDir().absoluteFilePath(argv[i+1]);
             i++;
         }
         // debug
         else if ((QString(argv[i]) == QString("-d")) || (QString(argv[i]) == QString("--debug"))) {
-            debug = true;
+            args[QString("debug")] = true;
         }
         // default settings
         else if (QString(argv[i]) == QString("--default")) {
-            defaultSettings = true;
+            args[QString("defaults")] = true;
         }
         // options
         else if (QString(argv[i]) == QString("--set-opts")) {
-            options = QString(argv[i+1]);
+            args[QString("options")] = QString(argv[i+1]);
             i++;
         }
         // tab number
         else if ((QString(argv[i]) == QString("-t")) || (QString(argv[i]) == QString("--tab"))) {
             if (atoi(argv[i+1]) > 3)
-                tabNumber = 3;
+                args[QString("tab")] = (int) 3;
             else if (atoi(argv[i+1]) < 1)
-                tabNumber = 1;
+                args[QString("tab")] = (int) 1;
             else
-                tabNumber = atoi(argv[i+1]);
+                args[QString("tab")] = atoi(argv[i+1]);
             i++;
         }
         // messages
-        // version message
-        else if ((QString(argv[i]) == QString("-v")) || (QString(argv[i]) == QString("--version"))) {
-            showVersion = true;
+        // help message
+        else if ((QString(argv[i]) == QString("-h")) || (QString(argv[i]) == QString("--help"))) {
+            args[QString("help")] = true;
         }
         // info message
         else if ((QString(argv[i]) == QString("-i")) || (QString(argv[i]) == QString("--info"))) {
-            showInfo = true;
+            args[QString("info")] = true;
         }
-        // help message
-        else if ((QString(argv[i]) == QString("-h")) || (QString(argv[i]) == QString("--help"))) {
-            showHelp = true;
+        // version message
+        else if ((QString(argv[i]) == QString("-v")) || (QString(argv[i]) == QString("--version"))) {
+            args[QString("version")] = true;
         }
         else {
-            error = true;
+            args[QString("error")] = true;
         }
     }
-    if (selectEssid != QString("ESSID"))
-        tabNumber = 3;
-    if (openProfile != QString("PROFILE"))
-        tabNumber = 2;
-    if (selectProfile != QString("PROFILE"))
-        tabNumber = 1;
-
-    // messages
-    QString errorMessage = QApplication::translate("MainWindow", "Unknown flag\n");
-
-    QString helpMessage = QString("");
-    helpMessage += QString("%1\n").arg(QApplication::translate("MainWindow", "Usage:"));
-    helpMessage += QString("netctl-gui [ --daemonized ] [ --maximized ] [ --minimized ]\n");
-    helpMessage += QString("           [ --about ] [ --netctl-auto ] [ --settings ]\n");
-    helpMessage += QString("           [ -e ESSID | --essid ESSID ] [ -o PROFILE | --open PROFILE ]\n");
-    helpMessage += QString("           [ -s PROFILE | --select PROFILE ]\n");
-    helpMessage += QString("           [ -c FILE | --config FILE ] [ -d | --debug ] [ --default ]\n");
-    helpMessage += QString("           [ --set-opts OPTIONS ] [ -t NUM | --tab NUM ]\n");
-    helpMessage += QString("           [ -v | --version ] [ -i | --info ] [ -h | --help]\n\n");
-    helpMessage += QString("%1\n").arg(QApplication::translate("MainWindow", "Parametrs:"));
-    // windows
-    helpMessage += QString("%1\n").arg(QApplication::translate("MainWindow", "Open window:"));
-    helpMessage += QString("%1                  --daemonized          - %2\n")
-            .arg(isParametrEnable(startMinimized))
-            .arg(QApplication::translate("MainWindow", "start daemonized"));
-    helpMessage += QString("%1                  --maximized           - %2\n")
-            .arg(isParametrEnable(startMinimized))
-            .arg(QApplication::translate("MainWindow", "start maximized"));
-    helpMessage += QString("%1                  --minimized           - %2\n")
-            .arg(isParametrEnable(startMinimized))
-            .arg(QApplication::translate("MainWindow", "start minimized to tray"));
-    helpMessage += QString("%1                  --about               - %2\n")
-            .arg(isParametrEnable(showAbout))
-            .arg(QApplication::translate("MainWindow", "show about window"));
-    helpMessage += QString("%1                  --netctl-auto         - %2\n")
-            .arg(isParametrEnable(showNetctlAuto))
-            .arg(QApplication::translate("MainWindow", "show netctl-auto window"));
-    helpMessage += QString("%1                  --settings            - %2\n")
-            .arg(isParametrEnable(showSettings))
-            .arg(QApplication::translate("MainWindow", "show settings window"));
-    // main functions
-    helpMessage += QString("%1\n").arg(QApplication::translate("MainWindow", "Functions:"));
-    helpMessage += QString("   -e %1   --essid %1    - %2\n")
-            .arg(selectEssid, -10)
-            .arg(QApplication::translate("MainWindow", "select ESSID %1").arg(selectEssid));
-    helpMessage += QString("   -o %1   --open %1     - %2\n")
-            .arg(openProfile, -10)
-            .arg(QApplication::translate("MainWindow", "open profile %1").arg(openProfile));
-    helpMessage += QString("   -s %1   --select %1   - %2\n")
-            .arg(selectProfile, -10)
-            .arg(QApplication::translate("MainWindow", "select profile %1").arg(selectProfile));
-    // additional functions
-    helpMessage += QString("%1\n").arg(QApplication::translate("MainWindow", "Additional flags:"));
-    helpMessage += QString("   -c %1   --config %1\n")
-            .arg(configPath, -10);
-    helpMessage += QString("                                         - %1\n")
-            .arg(QApplication::translate("MainWindow", "read configuration from this file"));
-    helpMessage += QString("%1  -d              --debug               - %2\n")
-            .arg(isParametrEnable(debug))
-            .arg(QApplication::translate("MainWindow", "print debug information"));
-    helpMessage += QString("%1                  --default             - %2\n")
-            .arg(isParametrEnable(defaultSettings))
-            .arg(QApplication::translate("MainWindow", "start with default settings"));
-    helpMessage += QString("                   --set-opts %1\n")
-            .arg(options, -10);
-    helpMessage += QString("                                         - %1\n")
-            .arg(QApplication::translate("MainWindow", "set options for this run, comma separated"));
-    helpMessage += QString("   -t %1          --tab %1             - %2\n")
-            .arg(QString::number(tabNumber), -3)
-            .arg(QApplication::translate("MainWindow", "open a tab with number %1").arg(QString::number(tabNumber)));
-    // messages
-    helpMessage += QString("%1\n").arg(QApplication::translate("MainWindow", "Show messages:"));
-    helpMessage += QString("   -v           --version                - %1\n")
-            .arg(QApplication::translate("MainWindow", "show version and exit"));
-    helpMessage += QString("   -i           --info                   - %1\n")
-            .arg(QApplication::translate("MainWindow", "show build information and exit"));
-    helpMessage += QString("   -h           --help                   - %1\n")
-            .arg(QApplication::translate("MainWindow", "show this help and exit"));
-
-    QString infoMessage = QString("");
-    infoMessage += QApplication::translate("MainWindow", "Build date: %1").
-            arg(QString(BUILD_DATE));
-    infoMessage += QString("\n%1\n").arg(QApplication::translate("MainWindow", "cmake flags:"));
-    infoMessage += QString("\t-DCMAKE_BUILD_TYPE=%1 \\\n").arg(QString(CMAKE_BUILD_TYPE));
-    infoMessage += QString("\t-DCMAKE_INSTALL_PREFIX=%1 \\\n").arg(QString(CMAKE_INSTALL_PREFIX));
-    infoMessage += QString("\t-DBUILD_DOCS=%1 \\\n").arg(QString(PROJECT_BUILD_DOCS));
-    infoMessage += QString("\t-DBUILD_LIBRARY=%1 \\\n").arg(QString(PROJECT_BUILD_LIBRARY));
-    infoMessage += QString("\t-DBUILD_GUI=%1 \\\n").arg(QString(PROJECT_BUILD_GUI));
-    infoMessage += QString("\t-DUSE_QT5=%1 \\\n").arg(QString(PROJECT_USE_QT5));
-    infoMessage += QString("\t-DBUILD_DATAENGINE=%1 \\\n").arg(QString(PROJECT_BUILD_DATAENGINE));
-    infoMessage += QString("\t-DBUILD_PLASMOID=%1\n").arg(QString(PROJECT_BUILD_PLASMOID));
-
-    QString versionMessage = QString("");
-    versionMessage += QString("%1\n").arg(QString(NAME));
-    versionMessage += QString("%1 : %2\n")
-            .arg(QApplication::translate("MainWindow", "Version"))
-            .arg(QString(VERSION));
-    versionMessage += QString("%1 : %2\n")
-            .arg(QApplication::translate("MainWindow", "Author"))
-            .arg(QString(AUTHOR));
-    versionMessage += QString("%1 : %2\n")
-            .arg(QApplication::translate("MainWindow", "License"))
-            .arg(QString(LICENSE));
+    if (args[QString("essid")].toString() != QString("ESSID"))
+        args[QString("tab")] = (int) 3;
+    if (args[QString("open")].toString() != QString("PROFILE"))
+        args[QString("tab")] = (int) 2;
+    if (args[QString("select")].toString() != QString("PROFILE"))
+        args[QString("tab")] = (int) 1;
 
     // reread translations
     a.removeTranslator(&translator);
-    language = Language::defineLanguage(configPath, options);
+    language = Language::defineLanguage(args[QString("config")].toString(),
+            args[QString("options")].toString());
     translator.load(QString(":/translations/") + language);
     a.installTranslator(&translator);
 
     // running
-    if (error) {
-        cout << errorMessage.toUtf8().data() << endl;
-        cout << helpMessage.toUtf8().data();
+    if (args[QString("error")].toBool()) {
+        cout << errorMessage().toUtf8().data() << endl;
+        cout << helpMessage().toUtf8().data();
         return 127;
     }
-    if (showInfo) {
-        cout << versionMessage.toUtf8().data() << endl;
-        cout << infoMessage.toUtf8().data();
+    if (args[QString("help")].toBool()) {
+        cout << helpMessage().toUtf8().data();
         return 0;
     }
-    if (showHelp) {
-        cout << helpMessage.toUtf8().data();
+    if (args[QString("info")].toBool()) {
+        cout << versionMessage().toUtf8().data() << endl;
+        cout << infoMessage().toUtf8().data();
         return 0;
     }
-    if (showVersion) {
-        cout << versionMessage.toUtf8().data();
+    if (args[QString("version")].toBool()) {
+        cout << versionMessage().toUtf8().data();
         return 0;
     }
-    MainWindow w(0, startMinimized,
-                 showAbout, showNetctlAuto, showSettings,
-                 selectEssid, openProfile, selectProfile,
-                 configPath, debug, defaultSettings, options, tabNumber);
+    MainWindow w(0, args);
     return a.exec();
 }

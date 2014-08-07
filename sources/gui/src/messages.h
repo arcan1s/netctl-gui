@@ -15,72 +15,18 @@
  *   along with netctl-gui. If not, see http://www.gnu.org/licenses/       *
  ***************************************************************************/
 
+#ifndef MESSAGES_H
+#define MESSAGES_H
 
-#include "mainwindow.h"
-#include "netctlguiadaptor.h"
-
-
-NetctlGuiAdaptor::NetctlGuiAdaptor(MainWindow *parent)
-    : QDBusAbstractAdaptor(parent),
-      mainWindow(parent)
-{
-}
+#include <QChar>
+#include <QString>
 
 
-NetctlGuiAdaptor::~NetctlGuiAdaptor()
-{
-}
+QString errorMessage();
+QMap<QString, QVariant> getArgs();
+QString helpMessage();
+QString infoMessage();
+QString versionMessage();
 
 
-bool NetctlGuiAdaptor::Close()
-{
-    mainWindow->closeMainWindow();
-    return true;
-}
-
-
-QString NetctlGuiAdaptor::Information()
-{
-    return mainWindow->getInformation();
-}
-
-
-bool NetctlGuiAdaptor::Restore()
-{
-    mainWindow->show();
-    return true;
-}
-
-
-QStringList NetctlGuiAdaptor::Settings()
-{
-    return mainWindow->getSettings();
-}
-
-
-bool NetctlGuiAdaptor::ShowAbout()
-{
-    mainWindow->showAboutWindow();
-    return true;
-}
-
-
-bool NetctlGuiAdaptor::ShowMain()
-{
-    mainWindow->showMainWindow();
-    return true;
-}
-
-
-bool NetctlGuiAdaptor::ShowNetctlAuto()
-{
-    mainWindow->showNetctlAutoWindow();
-    return true;
-}
-
-
-bool NetctlGuiAdaptor::ShowSettings()
-{
-    mainWindow->showSettingsWindow();
-    return true;
-}
+#endif /* MESSAGES_H */

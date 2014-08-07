@@ -52,41 +52,30 @@
 
 
 MainWindow::MainWindow(QWidget *parent,
-                       const int startMinimized,
-                       const bool showAbout,
-                       const bool showNetctlAuto,
-                       const bool showSettings,
-                       const QString selectEssid,
-                       const QString openProfile,
-                       const QString selectProfile,
-                       const QString configPath,
-                       const bool debugCmd,
-                       const bool defaultSettings,
-                       const QString options,
-                       const int tabNum)
+                       const QMap<QString, QVariant> args)
     : QMainWindow(parent),
       ui(new Ui::MainWindow),
-      debug(debugCmd)
+      debug(args[QString("debug")].toBool())
 {
-    if (debug) qDebug() << "[MainWindow]" << "[MainWindow]" << ":" << "startMinimized" << startMinimized;
-    if (debug) qDebug() << "[MainWindow]" << "[MainWindow]" << ":" << "showAbout" << showAbout;
-    if (debug) qDebug() << "[MainWindow]" << "[MainWindow]" << ":" << "showNetctlAuto" << showNetctlAuto;
-    if (debug) qDebug() << "[MainWindow]" << "[MainWindow]" << ":" << "showSettings" << showSettings;
-    if (debug) qDebug() << "[MainWindow]" << "[MainWindow]" << ":" << "selectEssid" << selectEssid;
-    if (debug) qDebug() << "[MainWindow]" << "[MainWindow]" << ":" << "openProfile" << openProfile;
-    if (debug) qDebug() << "[MainWindow]" << "[MainWindow]" << ":" << "selectProfile" << selectProfile;
-    if (debug) qDebug() << "[MainWindow]" << "[MainWindow]" << ":" << "configPath" << configPath;
-    if (debug) qDebug() << "[MainWindow]" << "[MainWindow]" << ":" << "debug" << debug;
-    if (debug) qDebug() << "[MainWindow]" << "[MainWindow]" << ":" << "defaultSettings" << defaultSettings;
-    if (debug) qDebug() << "[MainWindow]" << "[MainWindow]" << ":" << "options" << options;
-    if (debug) qDebug() << "[MainWindow]" << "[MainWindow]" << ":" << "tabNum" << tabNum;
+    if (debug) qDebug() << "[MainWindow]" << "[MainWindow]" << ":" << "startMinimized" << args[QString("minimized")].toInt();
+    if (debug) qDebug() << "[MainWindow]" << "[MainWindow]" << ":" << "showAbout" << args[QString("about")].toBool();
+    if (debug) qDebug() << "[MainWindow]" << "[MainWindow]" << ":" << "showNetctlAuto" << args[QString("auto")].toBool();
+    if (debug) qDebug() << "[MainWindow]" << "[MainWindow]" << ":" << "showSettings" << args[QString("settings")].toBool();
+    if (debug) qDebug() << "[MainWindow]" << "[MainWindow]" << ":" << "selectEssid" << args[QString("essid")].toString();
+    if (debug) qDebug() << "[MainWindow]" << "[MainWindow]" << ":" << "openProfile" << args[QString("open")].toString();
+    if (debug) qDebug() << "[MainWindow]" << "[MainWindow]" << ":" << "selectProfile" << args[QString("select")].toString();
+    if (debug) qDebug() << "[MainWindow]" << "[MainWindow]" << ":" << "configPath" << args[QString("config")].toString();
+    if (debug) qDebug() << "[MainWindow]" << "[MainWindow]" << ":" << "debug" << args[QString("debug")].toBool();
+    if (debug) qDebug() << "[MainWindow]" << "[MainWindow]" << ":" << "defaultSettings" << args[QString("defaults")].toBool();
+    if (debug) qDebug() << "[MainWindow]" << "[MainWindow]" << ":" << "options" << args[QString("options")].toString();
+    if (debug) qDebug() << "[MainWindow]" << "[MainWindow]" << ":" << "tabNum" << args[QString("tab")].toInt();
 
     // reading configuration
-    settingsWin = new SettingsWindow(this, debug, configPath);
-    if (defaultSettings)
+    settingsWin = new SettingsWindow(this, debug, args[QString("config")].toString());
+    if (args[QString("defaults")].toBool())
         settingsWin->setDefault();
     configuration = settingsWin->getSettings();
-    QMap<QString, QString> optionsDict = parseOptions(options);
+    QMap<QString, QString> optionsDict = parseOptions(args[QString("options")].toString());
     for (int i=0; i<optionsDict.keys().count(); i++)
         configuration[optionsDict.keys()[i]] = optionsDict[optionsDict.keys()[i]];
 
@@ -129,31 +118,31 @@ MainWindow::MainWindow(QWidget *parent,
     wirelessWid = new WirelessWidget(this, configuration);
     ui->scrollAreaWidgetContents->layout()->addWidget(wirelessWid);
 
-    setTab(tabNum-1);
+    setTab(args[QString("tab")].toInt()-1);
     createActions();
     setIconsToTabs();
 
-    if (showAbout)
+    if (args[QString("about")].toBool())
         showAboutWindow();
-    if (showNetctlAuto)
+    if (args[QString("auto")].toBool())
         showNetctlAutoWindow();
-    if (showSettings)
+    if (args[QString("settings")].toBool())
         showSettingsWindow();
 
-    if (selectEssid != QString("ESSID")) {
+    if (args[QString("essid")].toString() != QString("ESSID")) {
         for (int i=0; i<ui->tableWidget_wifi->rowCount(); i++)
-            if (ui->tableWidget_wifi->item(i, 0)->text() == selectEssid)
+            if (ui->tableWidget_wifi->item(i, 0)->text() == args[QString("essid")].toString())
                 ui->tableWidget_wifi->setCurrentCell(i, 0);
         if (ui->tableWidget_wifi->currentItem() == 0)
             errorWin->showWindow(18, QString("[MainWindow] : [MainWindow]"));
     }
-    else if (openProfile != QString("PROFILE")) {
-        ui->comboBox_profile->addItem(openProfile);
+    else if (args[QString("open")].toString() != QString("PROFILE")) {
+        ui->comboBox_profile->addItem(args[QString("open")].toString());
         ui->comboBox_profile->setCurrentIndex(ui->comboBox_profile->count()-1);
     }
-    else if (selectProfile != QString("PROFILE")) {
+    else if (args[QString("select")].toString() != QString("PROFILE")) {
         for (int i=0; i<ui->tableWidget_main->rowCount(); i++)
-            if (ui->tableWidget_main->item(i, 0)->text() == selectProfile)
+            if (ui->tableWidget_main->item(i, 0)->text() == args[QString("select")].toString())
                 ui->tableWidget_main->setCurrentCell(i, 0);
         if (ui->tableWidget_main->currentItem() == 0)
             errorWin->showWindow(17, QString("[MainWindow] : [MainWindow]"));
@@ -163,7 +152,7 @@ MainWindow::MainWindow(QWidget *parent,
 
     // tray
     trayIcon = new TrayIcon(this, debug);
-    if (startMinimized == 1)
+    if (args[QString("minimized")].toInt() == 1)
         return;
     if ((QSystemTrayIcon::isSystemTrayAvailable()) &&
             (configuration[QString("SYSTRAY")] == QString("true")))
@@ -175,9 +164,9 @@ MainWindow::MainWindow(QWidget *parent,
             hide();
         else
             show();
-        if (startMinimized == 2)
+        if (args[QString("minimized")].toInt() == 2)
             show();
-        else if (startMinimized == 3)
+        else if (args[QString("minimized")].toInt() == 3)
             hide();
     }
     else
