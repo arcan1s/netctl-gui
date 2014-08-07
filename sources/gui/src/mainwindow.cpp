@@ -24,6 +24,7 @@
 #include <QFileDialog>
 #include <QFileInfo>
 #include <QProcess>
+#include <QTranslator>
 #include <QUrl>
 
 #include <netctlgui/netctlgui.h>
@@ -35,6 +36,7 @@
 #include "ethernetwidget.h"
 #include "generalwidget.h"
 #include "ipwidget.h"
+#include "language.h"
 #include "macvlanwidget.h"
 #include "mobilewidget.h"
 #include "netctladaptor.h"
@@ -52,83 +54,30 @@
 
 
 MainWindow::MainWindow(QWidget *parent,
-                       const QMap<QString, QVariant> args)
+                       const QMap<QString, QVariant> args,
+                       QTranslator *appTranslator)
     : QMainWindow(parent),
-      ui(new Ui::MainWindow),
-      debug(args[QString("debug")].toBool())
+      configPath(args[QString("config")].toString()),
+      debug(args[QString("debug")].toBool()),
+      translator(appTranslator)
 {
-    if (debug) qDebug() << "[MainWindow]" << "[MainWindow]" << ":" << "startMinimized" << args[QString("minimized")].toInt();
-    if (debug) qDebug() << "[MainWindow]" << "[MainWindow]" << ":" << "showAbout" << args[QString("about")].toBool();
-    if (debug) qDebug() << "[MainWindow]" << "[MainWindow]" << ":" << "showNetctlAuto" << args[QString("auto")].toBool();
-    if (debug) qDebug() << "[MainWindow]" << "[MainWindow]" << ":" << "showSettings" << args[QString("settings")].toBool();
-    if (debug) qDebug() << "[MainWindow]" << "[MainWindow]" << ":" << "selectEssid" << args[QString("essid")].toString();
-    if (debug) qDebug() << "[MainWindow]" << "[MainWindow]" << ":" << "openProfile" << args[QString("open")].toString();
-    if (debug) qDebug() << "[MainWindow]" << "[MainWindow]" << ":" << "selectProfile" << args[QString("select")].toString();
-    if (debug) qDebug() << "[MainWindow]" << "[MainWindow]" << ":" << "configPath" << args[QString("config")].toString();
-    if (debug) qDebug() << "[MainWindow]" << "[MainWindow]" << ":" << "debug" << args[QString("debug")].toBool();
-    if (debug) qDebug() << "[MainWindow]" << "[MainWindow]" << ":" << "defaultSettings" << args[QString("defaults")].toBool();
+    if (debug) qDebug() << "[MainWindow]" << "[MainWindow]" << ":" << "about" << args[QString("about")].toBool();
+    if (debug) qDebug() << "[MainWindow]" << "[MainWindow]" << ":" << "auto" << args[QString("auto")].toBool();
+    if (debug) qDebug() << "[MainWindow]" << "[MainWindow]" << ":" << "config" << configPath;
+    if (debug) qDebug() << "[MainWindow]" << "[MainWindow]" << ":" << "debug" << debug;
+    if (debug) qDebug() << "[MainWindow]" << "[MainWindow]" << ":" << "defaults" << args[QString("defaults")].toBool();
+    if (debug) qDebug() << "[MainWindow]" << "[MainWindow]" << ":" << "essid" << args[QString("essid")].toString();
+    if (debug) qDebug() << "[MainWindow]" << "[MainWindow]" << ":" << "minimized" << args[QString("minimized")].toInt();
+    if (debug) qDebug() << "[MainWindow]" << "[MainWindow]" << ":" << "open" << args[QString("open")].toString();
     if (debug) qDebug() << "[MainWindow]" << "[MainWindow]" << ":" << "options" << args[QString("options")].toString();
-    if (debug) qDebug() << "[MainWindow]" << "[MainWindow]" << ":" << "tabNum" << args[QString("tab")].toInt();
+    if (debug) qDebug() << "[MainWindow]" << "[MainWindow]" << ":" << "select" << args[QString("select")].toString();
+    if (debug) qDebug() << "[MainWindow]" << "[MainWindow]" << ":" << "settings" << args[QString("settings")].toBool();
+    if (debug) qDebug() << "[MainWindow]" << "[MainWindow]" << ":" << "tab" << args[QString("tab")].toInt();
 
-    // reading configuration
-    settingsWin = new SettingsWindow(this, debug, args[QString("config")].toString());
-    if (args[QString("defaults")].toBool())
-        settingsWin->setDefault();
-    configuration = settingsWin->getSettings();
-    QMap<QString, QString> optionsDict = parseOptions(args[QString("options")].toString());
-    for (int i=0; i<optionsDict.keys().count(); i++)
-        configuration[optionsDict.keys()[i]] = optionsDict[optionsDict.keys()[i]];
-
-    // backend
     createDBusSession();
-    netctlCommand = new Netctl(debug, configuration);
-    netctlProfile = new NetctlProfile(debug, configuration);
-    wpaCommand = new WpaSup(debug, configuration);
-    // frontend
-    // windows
-    ui->setupUi(this);
-    ui->tableWidget_main->setColumnHidden(2, true);
-    ui->tableWidget_main->setColumnHidden(3, true);
-    ui->tableWidget_wifi->setColumnHidden(3, true);
-    ui->tableWidget_wifi->setColumnHidden(4, true);
-    aboutWin = new AboutWindow(this, debug);
-    errorWin = new ErrorWindow(this, debug);
-    netctlAutoWin = new NetctlAutoWindow(this, debug, configuration);
-    // profile widgets
-    generalWid = new GeneralWidget(this, configuration);
-    ui->scrollAreaWidgetContents->layout()->addWidget(generalWid);
-    ipWid = new IpWidget(this);
-    ui->scrollAreaWidgetContents->layout()->addWidget(ipWid);
-    bridgeWid = new BridgeWidget(this);
-    ui->scrollAreaWidgetContents->layout()->addWidget(bridgeWid);
-    ethernetWid = new EthernetWidget(this);
-    ui->scrollAreaWidgetContents->layout()->addWidget(ethernetWid);
-    macvlanWid = new MacvlanWidget(this);
-    ui->scrollAreaWidgetContents->layout()->addWidget(macvlanWid);
-    mobileWid = new MobileWidget(this);
-    ui->scrollAreaWidgetContents->layout()->addWidget(mobileWid);
-    pppoeWid = new PppoeWidget(this);
-    ui->scrollAreaWidgetContents->layout()->addWidget(pppoeWid);
-    tunnelWid = new TunnelWidget(this);
-    ui->scrollAreaWidgetContents->layout()->addWidget(tunnelWid);
-    tuntapWid = new TuntapWidget(this);
-    ui->scrollAreaWidgetContents->layout()->addWidget(tuntapWid);
-    vlanWid = new VlanWidget(this);
-    ui->scrollAreaWidgetContents->layout()->addWidget(vlanWid);
-    wirelessWid = new WirelessWidget(this, configuration);
-    ui->scrollAreaWidgetContents->layout()->addWidget(wirelessWid);
+    updateConfiguration(args);
 
-    setTab(args[QString("tab")].toInt()-1);
-    createActions();
-    setIconsToTabs();
-
-    if (args[QString("about")].toBool())
-        showAboutWindow();
-    if (args[QString("auto")].toBool())
-        showNetctlAutoWindow();
-    if (args[QString("settings")].toBool())
-        showSettingsWindow();
-
+    // main actions
     if (args[QString("essid")].toString() != QString("ESSID")) {
         for (int i=0; i<ui->tableWidget_wifi->rowCount(); i++)
             if (ui->tableWidget_wifi->item(i, 0)->text() == args[QString("essid")].toString())
@@ -148,29 +97,15 @@ MainWindow::MainWindow(QWidget *parent,
             errorWin->showWindow(17, QString("[MainWindow] : [MainWindow]"));
     }
 
-    ui->statusBar->showMessage(QApplication::translate("MainWindow", "Ready"));
+    // show windows
+    if (args[QString("about")].toBool())
+        showAboutWindow();
+    if (args[QString("auto")].toBool())
+        showNetctlAutoWindow();
+    if (args[QString("settings")].toBool())
+        showSettingsWindow();
 
-    // tray
-    trayIcon = new TrayIcon(this, debug);
-    if (args[QString("minimized")].toInt() == 1)
-        return;
-    if ((QSystemTrayIcon::isSystemTrayAvailable()) &&
-            (configuration[QString("SYSTRAY")] == QString("true")))
-        trayIcon->setVisible(true);
-    else
-        trayIcon->setVisible(false);
-    if (trayIcon->isVisible()) {
-        if (configuration[QString("STARTTOTRAY")] == QString("true"))
-            hide();
-        else
-            show();
-        if (args[QString("minimized")].toInt() == 2)
-            show();
-        else if (args[QString("minimized")].toInt() == 3)
-            hide();
-    }
-    else
-        show();
+    ui->statusBar->showMessage(QApplication::translate("MainWindow", "Ready"));
 }
 
 
@@ -179,28 +114,7 @@ MainWindow::~MainWindow()
     if (debug) qDebug() << "[MainWindow]" << "[~MainWindow]";
 
     QDBusConnection::sessionBus().unregisterService(QString(DBUS_SERVICE));
-    delete netctlCommand;
-    delete netctlProfile;
-    delete wpaCommand;
-
-    delete bridgeWid;
-    delete ethernetWid;
-    delete generalWid;
-    delete ipWid;
-    delete macvlanWid;
-    delete mobileWid;
-    delete pppoeWid;
-    delete tunnelWid;
-    delete tuntapWid;
-    delete vlanWid;
-    delete wirelessWid;
-
-    delete aboutWin;
-    delete errorWin;
-    delete netctlAutoWin;
-    delete settingsWin;
-    delete trayIcon;
-    delete ui;
+    deleteObjects();
 }
 
 
@@ -242,11 +156,13 @@ void MainWindow::closeEvent(QCloseEvent *event)
 {
     if (debug) qDebug() << "[MainWindow]" << "[closeEvent]";
 
-    if (configuration[QString("CLOSETOTRAY")] == QString("true"))
-        if (trayIcon->isVisible()) {
-            hide();
-            event->ignore();
-        }
+    if ((configuration[QString("CLOSETOTRAY")] == QString("true")) &&
+            (trayIcon->isVisible())) {
+        hide();
+        event->ignore();
+    }
+    else
+        closeMainWindow();
 }
 
 
@@ -366,6 +282,81 @@ void MainWindow::createDBusSession()
                             new ControlAdaptor(this, configuration),
                             QDBusConnection::ExportAllContents))
         if (debug) qDebug() << "[MainWindow]" << "[createDBusSession]" << ":" << "Could not register control object";
+}
+
+
+void MainWindow::createObjects()
+{
+    if (debug) qDebug() << "[MainWindow]" << "[createObjects]";
+
+    // backend
+    netctlCommand = new Netctl(debug, configuration);
+    netctlProfile = new NetctlProfile(debug, configuration);
+    wpaCommand = new WpaSup(debug, configuration);
+    // frontend
+    trayIcon = new TrayIcon(this, debug);
+    // windows
+    ui = new Ui::MainWindow;
+    ui->setupUi(this);
+    ui->tableWidget_main->setColumnHidden(2, true);
+    ui->tableWidget_main->setColumnHidden(3, true);
+    ui->tableWidget_wifi->setColumnHidden(3, true);
+    ui->tableWidget_wifi->setColumnHidden(4, true);
+    aboutWin = new AboutWindow(this, debug);
+    errorWin = new ErrorWindow(this, debug);
+    netctlAutoWin = new NetctlAutoWindow(this, debug, configuration);
+    // profile widgets
+    generalWid = new GeneralWidget(this, configuration);
+    ui->scrollAreaWidgetContents->layout()->addWidget(generalWid);
+    ipWid = new IpWidget(this);
+    ui->scrollAreaWidgetContents->layout()->addWidget(ipWid);
+    bridgeWid = new BridgeWidget(this);
+    ui->scrollAreaWidgetContents->layout()->addWidget(bridgeWid);
+    ethernetWid = new EthernetWidget(this);
+    ui->scrollAreaWidgetContents->layout()->addWidget(ethernetWid);
+    macvlanWid = new MacvlanWidget(this);
+    ui->scrollAreaWidgetContents->layout()->addWidget(macvlanWid);
+    mobileWid = new MobileWidget(this);
+    ui->scrollAreaWidgetContents->layout()->addWidget(mobileWid);
+    pppoeWid = new PppoeWidget(this);
+    ui->scrollAreaWidgetContents->layout()->addWidget(pppoeWid);
+    tunnelWid = new TunnelWidget(this);
+    ui->scrollAreaWidgetContents->layout()->addWidget(tunnelWid);
+    tuntapWid = new TuntapWidget(this);
+    ui->scrollAreaWidgetContents->layout()->addWidget(tuntapWid);
+    vlanWid = new VlanWidget(this);
+    ui->scrollAreaWidgetContents->layout()->addWidget(vlanWid);
+    wirelessWid = new WirelessWidget(this, configuration);
+    ui->scrollAreaWidgetContents->layout()->addWidget(wirelessWid);
+}
+
+
+void MainWindow::deleteObjects()
+{
+    if (debug) qDebug() << "[MainWindow]" << "[deleteObjects]";
+
+    if (netctlCommand != nullptr) delete netctlCommand;
+    if (netctlProfile != nullptr) delete netctlProfile;
+    if (wpaCommand != nullptr) delete wpaCommand;
+
+    if (bridgeWid != nullptr) delete bridgeWid;
+    if (ethernetWid != nullptr) delete ethernetWid;
+    if (generalWid != nullptr) delete generalWid;
+    if (ipWid != nullptr) delete ipWid;
+    if (macvlanWid != nullptr) delete macvlanWid;
+    if (mobileWid != nullptr) delete mobileWid;
+    if (pppoeWid != nullptr) delete pppoeWid;
+    if (tunnelWid != nullptr) delete tunnelWid;
+    if (tuntapWid != nullptr) delete tuntapWid;
+    if (vlanWid != nullptr) delete vlanWid;
+    if (wirelessWid != nullptr) delete wirelessWid;
+
+    if (aboutWin != nullptr) delete aboutWin;
+    if (errorWin != nullptr) delete errorWin;
+    if (netctlAutoWin != nullptr) delete netctlAutoWin;
+    if (settingsWin != nullptr) delete settingsWin;
+    if (trayIcon != nullptr) delete trayIcon;
+    if (ui != nullptr) delete ui;
 }
 
 
@@ -489,28 +480,72 @@ void MainWindow::showSettingsWindow()
 }
 
 
-void MainWindow::setTab(const int tab)
+void MainWindow::setTab(int tab)
 {
     if (debug) qDebug() << "[MainWindow]" << "[setTab]";
     if (debug) qDebug() << "[MainWindow]" << "[setTab]" << ":" << "Update tab" << tab;
 
+    switch (tab) {
+    case 0:
+    case 1:
+    case 2:
+        break;
+    default:
+        tab = 0;
+        break;
+    }
     ui->tabWidget->setCurrentIndex(tab);
+
     updateTabs(tab);
 }
 
 
-void MainWindow::updateTabs(const int tab)
+void MainWindow::updateConfiguration(const QMap<QString, QVariant> args)
 {
-    if (debug) qDebug() << "[MainWindow]" << "[updateTabs]";
-    if (debug) qDebug() << "[MainWindow]" << "[updateTabs]" << ":" << "Update tab" << tab;
+    if (debug) qDebug() << "[MainWindow]" << "[updateConfiguration]";
 
-    if (tab == 0)
-        updateMainTab();
-    else if (tab == 1)
-        updateProfileTab();
-    else if (tab == 2)
-        updateWifiTab();
-    updateMenu();
+    deleteObjects();
+
+    settingsWin = new SettingsWindow(this, debug, configPath);
+    if (args[QString("defauls")].toBool())
+        settingsWin->setDefault();
+    configuration = settingsWin->getSettings();
+    QMap<QString, QString> optionsDict = parseOptions(args[QString("options")].toString());
+    for (int i=0; i<optionsDict.keys().count(); i++)
+        configuration[optionsDict.keys()[i]] = optionsDict[optionsDict.keys()[i]];
+
+    // update translation
+    qApp->removeTranslator(translator);
+    QString language = Language::defineLanguage(configPath,
+                                                args[QString("options")].toString());
+    translator->load(QString(":/translations/") + language);
+    qApp->installTranslator(translator);
+
+    createObjects();
+    setTab(args[QString("tab")].toInt() - 1);
+    createActions();
+    setIconsToTabs();
+
+    // tray
+    if (args[QString("minimized")].toInt() == 1)
+        return;
+    if ((QSystemTrayIcon::isSystemTrayAvailable()) &&
+            (configuration[QString("SYSTRAY")] == QString("true")))
+        trayIcon->setVisible(true);
+    else
+        trayIcon->setVisible(false);
+    if (trayIcon->isVisible()) {
+        if (configuration[QString("STARTTOTRAY")] == QString("true"))
+            hide();
+        else
+            show();
+        if (args[QString("minimized")].toInt() == 2)
+            show();
+        else if (args[QString("minimized")].toInt() == 3)
+            hide();
+    }
+    else
+        show();
 }
 
 
@@ -527,6 +562,21 @@ void MainWindow::updateMenu()
         updateMenuProfile();
     else if (tab == 2)
         updateMenuWifi();
+}
+
+
+void MainWindow::updateTabs(const int tab)
+{
+    if (debug) qDebug() << "[MainWindow]" << "[updateTabs]";
+    if (debug) qDebug() << "[MainWindow]" << "[updateTabs]" << ":" << "Update tab" << tab;
+
+    if (tab == 0)
+        updateMainTab();
+    else if (tab == 1)
+        updateProfileTab();
+    else if (tab == 2)
+        updateWifiTab();
+    updateMenu();
 }
 
 

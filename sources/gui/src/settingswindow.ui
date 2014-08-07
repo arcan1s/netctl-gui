@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>662</width>
-    <height>323</height>
+    <width>660</width>
+    <height>321</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -127,8 +127,8 @@
               <rect>
                <x>0</x>
                <y>0</y>
-               <width>446</width>
-               <height>262</height>
+               <width>444</width>
+               <height>260</height>
               </rect>
              </property>
              <layout class="QVBoxLayout" name="verticalLayout_7">
@@ -149,16 +149,6 @@
                  </widget>
                 </item>
                </layout>
-              </item>
-              <item>
-               <widget class="QLabel" name="label_info">
-                <property name="text">
-                 <string>You will need to restart the application</string>
-                </property>
-                <property name="alignment">
-                 <set>Qt::AlignCenter</set>
-                </property>
-               </widget>
               </item>
               <item>
                <widget class="QCheckBox" name="checkBox_enableTray">

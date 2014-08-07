@@ -59,8 +59,7 @@ NetctlProfile::~NetctlProfile()
 {
     if (debug) qDebug() << "[NetctlProfile]" << "[~NetctlProfile]";
 
-    if (profileDirectory != 0)
-        delete profileDirectory;
+    if (profileDirectory != nullptr) delete profileDirectory;
 }
 
 

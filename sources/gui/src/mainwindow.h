@@ -54,7 +54,8 @@ class MainWindow : public QMainWindow
 
 public:
     explicit MainWindow(QWidget *parent = 0,
-                        const QMap<QString, QVariant> args = QMap<QString, QVariant>());
+                        const QMap<QString, QVariant> args = QMap<QString, QVariant>(),
+                        QTranslator *appTranslator = 0);
     ~MainWindow();
     QString getInformation();
     QStringList getSettings();
@@ -63,18 +64,20 @@ protected:
     void closeEvent(QCloseEvent *event);
 
 public slots:
-    void setTab(const int tab);
-    void updateTabs(const int tab);
-    void updateMenu();
-    // wifi tab slots
-    void connectToUnknownEssid(const QString passwd);
-    void setHiddenName(const QString name);
     // actions from trayicon
     void closeMainWindow();
     void showAboutWindow();
     void showMainWindow();
     void showNetctlAutoWindow();
     void showSettingsWindow();
+    // main
+    void setTab(int tab);
+    void updateConfiguration(const QMap<QString, QVariant> args = QMap<QString, QVariant>());
+    void updateMenu();
+    void updateTabs(const int tab);
+    // wifi tab slots
+    void connectToUnknownEssid(const QString passwd);
+    void setHiddenName(const QString name);
 
 private slots:
     void reportABug();
@@ -109,36 +112,40 @@ private slots:
 
 private:
     // ui
-    Ui::MainWindow *ui;
-    AboutWindow *aboutWin;
-    ErrorWindow *errorWin;
-    NetctlAutoWindow *netctlAutoWin;
-    PasswdWidget *passwdWid;
-    SettingsWindow *settingsWin;
-    BridgeWidget *bridgeWid;
-    EthernetWidget *ethernetWid;
-    GeneralWidget *generalWid;
-    IpWidget *ipWid;
-    MacvlanWidget *macvlanWid;
-    MobileWidget *mobileWid;
-    PppoeWidget *pppoeWid;
-    TunnelWidget *tunnelWid;
-    TuntapWidget *tuntapWid;
-    VlanWidget *vlanWid;
-    WirelessWidget *wirelessWid;
-    TrayIcon *trayIcon;
+    TrayIcon *trayIcon = nullptr;
+    Ui::MainWindow *ui = nullptr;
+    AboutWindow *aboutWin = nullptr;
+    ErrorWindow *errorWin = nullptr;
+    NetctlAutoWindow *netctlAutoWin = nullptr;
+    PasswdWidget *passwdWid = nullptr;
+    SettingsWindow *settingsWin = nullptr;
+    BridgeWidget *bridgeWid = nullptr;
+    EthernetWidget *ethernetWid = nullptr;
+    GeneralWidget *generalWid = nullptr;
+    IpWidget *ipWid = nullptr;
+    MacvlanWidget *macvlanWid = nullptr;
+    MobileWidget *mobileWid = nullptr;
+    PppoeWidget *pppoeWid = nullptr;
+    TunnelWidget *tunnelWid = nullptr;
+    TuntapWidget *tuntapWid = nullptr;
+    VlanWidget *vlanWid = nullptr;
+    WirelessWidget *wirelessWid = nullptr;
     // backend
-    Netctl *netctlCommand;
-    NetctlProfile *netctlProfile;
-    WpaSup *wpaCommand;
+    Netctl *netctlCommand = nullptr;
+    NetctlProfile *netctlProfile = nullptr;
+    WpaSup *wpaCommand = nullptr;
     bool checkExternalApps(const QString apps);
     QString checkStatus(const bool statusBool, const bool nullFalse = false);
     void createActions();
     void createDBusSession();
+    void createObjects();
+    void deleteObjects();
     void keyPressEvent(QKeyEvent *pressedKey);
     void setIconsToTabs();
+    QString configPath;
     bool debug;
     bool hiddenNetwork;
+    QTranslator *translator = nullptr;
     // configuration
     QMap<QString, QString> configuration;
     QMap<QString, QString> parseOptions(const QString options);

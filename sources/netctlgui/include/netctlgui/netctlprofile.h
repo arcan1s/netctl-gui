@@ -95,7 +95,7 @@ private:
     /**
      * @brief directory which contains profiles. Default is "/etc/netctl"
      */
-    QDir *profileDirectory;
+    QDir *profileDirectory = nullptr;
     /**
      * @brief path to sudo command. Default is "/usr/bin/kdesu"
      */

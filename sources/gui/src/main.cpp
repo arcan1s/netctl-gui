@@ -164,7 +164,7 @@ int main(int argc, char *argv[])
     if (args[QString("select")].toString() != QString("PROFILE"))
         args[QString("tab")] = (int) 1;
 
-    // reread translations
+    // reread translations according to flags
     a.removeTranslator(&translator);
     language = Language::defineLanguage(args[QString("config")].toString(),
             args[QString("options")].toString());
@@ -190,6 +190,6 @@ int main(int argc, char *argv[])
         cout << versionMessage().toUtf8().data();
         return 0;
     }
-    MainWindow w(0, args);
+    MainWindow w(0, args, &translator);
     return a.exec();
 }

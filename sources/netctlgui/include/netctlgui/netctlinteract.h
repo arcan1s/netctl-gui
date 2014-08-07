@@ -242,7 +242,7 @@ private:
     /**
      * @brief NetctlProfile class
      */
-    NetctlProfile *netctlProfile;
+    NetctlProfile *netctlProfile = nullptr;
     /**
      * @brief show debug messages
      */
@@ -250,7 +250,7 @@ private:
     /**
      * @brief directory with interfaces. Default is "/sys/class/net/"
      */
-    QDir *ifaceDirectory;
+    QDir *ifaceDirectory = nullptr;
     /**
      * @brief prefered interface for WiFi. Default is ""
      */

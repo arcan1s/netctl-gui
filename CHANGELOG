@@ -10,6 +10,7 @@ Ver.1.3.0
     + add 3rd party license information
     + add system tray icon
     + add dbus interface org.netctlgui.netctlgui
+    + add dynamic settings load
     * update to library changes
     * rewrite tables to use toolTip
 * library:

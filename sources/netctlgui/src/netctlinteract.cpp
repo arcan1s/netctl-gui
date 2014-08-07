@@ -78,10 +78,8 @@ Netctl::~Netctl()
 {
     if (debug) qDebug() << "[Netctl]" << "[~Netctl]";
 
-    if (netctlProfile != 0)
-        delete netctlProfile;
-    if (ifaceDirectory != 0)
-        delete ifaceDirectory;
+    if (netctlProfile != nullptr) delete netctlProfile;
+    if (ifaceDirectory != nullptr) delete ifaceDirectory;
 }
 
 

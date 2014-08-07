@@ -129,11 +129,11 @@ private:
     /**
      * @brief Netctl class
      */
-    Netctl *netctlCommand;
+    Netctl *netctlCommand = nullptr;
     /**
      * @brief NetctlProfile class
      */
-    NetctlProfile *netctlProfile;
+    NetctlProfile *netctlProfile = nullptr;
     /**
      * @brief show debug messages
      */

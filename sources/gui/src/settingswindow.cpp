@@ -24,6 +24,7 @@
 #include <QTextStream>
 
 #include "language.h"
+#include "mainwindow.h"
 
 
 SettingsWindow::SettingsWindow(QWidget *parent, const bool debugCmd, const QString configFile)
@@ -55,7 +56,6 @@ void SettingsWindow::createActions()
     connect(ui->buttonBox->button(QDialogButtonBox::Ok), SIGNAL(clicked(bool)), this, SLOT(saveSettings()));
     connect(ui->buttonBox->button(QDialogButtonBox::Ok), SIGNAL(clicked(bool)), this, SLOT(close()));
     connect(ui->checkBox_enableTray, SIGNAL(stateChanged(int)), this, SLOT(setTray()));
-    connect(ui->comboBox_language, SIGNAL(currentIndexChanged(int)), ui->label_info, SLOT(show()));
     connect(ui->treeWidget, SIGNAL(currentItemChanged(QTreeWidgetItem *, QTreeWidgetItem *)),
             this, SLOT(changePage(QTreeWidgetItem *, QTreeWidgetItem *)));
     // buttons
@@ -115,6 +115,8 @@ void SettingsWindow::saveSettings()
     for (int i=0; i<settings.keys().count(); i++)
         out << settings.keys()[i] << QString("=") << settings[settings.keys()[i]] << endl;
     configFile.close();
+
+    ((MainWindow *)parent())->updateConfiguration();
 }
 
 
@@ -123,15 +125,11 @@ void SettingsWindow::setTray()
     if (debug) qDebug() << "[SettingsWindow]" << "[setTray]";
 
     if (ui->checkBox_enableTray->checkState() == 0) {
-        ui->checkBox_closeToTray->setCheckState(Qt::Unchecked);
         ui->checkBox_closeToTray->setDisabled(true);
-        ui->checkBox_startToTray->setCheckState(Qt::Unchecked);
         ui->checkBox_startToTray->setDisabled(true);
     }
     else if (ui->checkBox_enableTray->checkState() == 2) {
-        ui->checkBox_closeToTray->setCheckState(Qt::Checked);
         ui->checkBox_closeToTray->setEnabled(true);
-        ui->checkBox_startToTray->setCheckState(Qt::Unchecked);
         ui->checkBox_startToTray->setEnabled(true);
     }
 }
@@ -274,7 +272,7 @@ void SettingsWindow::showWindow()
     if (debug) qDebug() << "[SettingsWindow]" << "[showWindow]";
 
     setSettings(getSettings());
-    ui->label_info->hide();
+    setTray();
 
     show();
 }
@@ -285,10 +283,10 @@ QMap<QString, QString> SettingsWindow::readSettings()
     if (debug) qDebug() << "[SettingsWindow]" << "[readSettings]";
 
     QMap<QString, QString> settings;
-    if (ui->checkBox_closeToTray->checkState() == 0)
-        settings[QString("CLOSETOTRAY")] = QString("false");
-    else
+    if (ui->checkBox_closeToTray->checkState() == 2)
         settings[QString("CLOSETOTRAY")] = QString("true");
+    else
+        settings[QString("CLOSETOTRAY")] = QString("false");
     settings[QString("CTRL_DIR")] = ui->lineEdit_wpaDir->text();
     settings[QString("CTRL_GROUP")] = ui->lineEdit_wpaGroup->text();
     settings[QString("IFACE_DIR")] = ui->lineEdit_interfacesDir->text();
@@ -300,16 +298,16 @@ QMap<QString, QString> SettingsWindow::readSettings()
     settings[QString("PREFERED_IFACE")] = ui->lineEdit_interface->text();
     settings[QString("PROFILE_DIR")] = ui->lineEdit_profilePath->text();
     settings[QString("RFKILL_DIR")] = ui->lineEdit_rfkill->text();
-    if (ui->checkBox_startToTray->checkState() == 0)
-        settings[QString("STARTTOTRAY")] = QString("false");
-    else
+    if (ui->checkBox_startToTray->checkState() == 2)
         settings[QString("STARTTOTRAY")] = QString("true");
+    else
+        settings[QString("STARTTOTRAY")] = QString("false");
     settings[QString("SUDO_PATH")] = ui->lineEdit_sudo->text();
     settings[QString("SYSTEMCTL_PATH")] = ui->lineEdit_systemctlPath->text();
-    if (ui->checkBox_enableTray->checkState() == 0)
-        settings[QString("SYSTRAY")] = QString("false");
-    else
+    if (ui->checkBox_enableTray->checkState() == 2)
         settings[QString("SYSTRAY")] = QString("true");
+    else
+        settings[QString("SYSTRAY")] = QString("false");
     settings[QString("WPACLI_PATH")] = ui->lineEdit_wpaCliPath->text();
     settings[QString("WPASUP_PATH")] = ui->lineEdit_wpaSupPath->text();
     settings[QString("WPA_DRIVERS")] = ui->lineEdit_wpaSupDrivers->text();

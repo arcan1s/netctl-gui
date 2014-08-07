@@ -79,10 +79,8 @@ WpaSup::~WpaSup()
 {
     if (debug) qDebug() << "[WpaSup]" << "[~WpaSup]";
 
-    if (netctlCommand != 0)
-        delete netctlCommand;
-    if (netctlProfile != 0)
-        delete netctlProfile;
+    if (netctlCommand != nullptr) delete netctlCommand;
+    if (netctlProfile != nullptr) delete netctlProfile;
 }
 
 
