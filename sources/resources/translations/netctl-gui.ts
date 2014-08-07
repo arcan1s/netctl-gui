@@ -743,27 +743,27 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../gui/src/mainwindow.cpp" line="507"/>
-        <location filename="../../gui/src/mainwindow.cpp" line="639"/>
+        <location filename="../../gui/src/mainwindow.cpp" line="612"/>
+        <location filename="../../gui/src/mainwindow.cpp" line="744"/>
         <location filename="../../../build/gui/src/ui_mainwindow.h" line="526"/>
         <location filename="../../../build/gui/src/ui_mainwindow.h" line="540"/>
         <source>Name</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../gui/src/mainwindow.cpp" line="508"/>
+        <location filename="../../gui/src/mainwindow.cpp" line="613"/>
         <location filename="../../../build/gui/src/ui_mainwindow.h" line="528"/>
         <source>Description</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../gui/src/mainwindow.cpp" line="226"/>
+        <location filename="../../gui/src/mainwindow.cpp" line="140"/>
         <source>Status</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../gui/src/mainwindow.cpp" line="729"/>
-        <location filename="../../gui/src/mainwindow.cpp" line="1343"/>
+        <location filename="../../gui/src/mainwindow.cpp" line="834"/>
+        <location filename="../../gui/src/mainwindow.cpp" line="1448"/>
         <location filename="../../../build/gui/src/ui_mainwindow.h" line="508"/>
         <location filename="../../../build/gui/src/ui_mainwindow.h" line="515"/>
         <location filename="../../../build/gui/src/ui_mainwindow.h" line="529"/>
@@ -783,9 +783,9 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../gui/src/mainwindow.cpp" line="920"/>
-        <location filename="../../gui/src/mainwindow.cpp" line="1537"/>
-        <location filename="../../gui/src/mainwindow.cpp" line="1542"/>
+        <location filename="../../gui/src/mainwindow.cpp" line="1025"/>
+        <location filename="../../gui/src/mainwindow.cpp" line="1642"/>
+        <location filename="../../gui/src/mainwindow.cpp" line="1647"/>
         <location filename="../../../build/gui/src/ui_mainwindow.h" line="532"/>
         <location filename="../../../build/gui/src/ui_mainwindow.h" line="547"/>
         <source>Start</source>
@@ -797,8 +797,8 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../gui/src/mainwindow.cpp" line="225"/>
-        <location filename="../../gui/src/mainwindow.cpp" line="520"/>
+        <location filename="../../gui/src/mainwindow.cpp" line="139"/>
+        <location filename="../../gui/src/mainwindow.cpp" line="625"/>
         <location filename="../../../build/gui/src/ui_mainwindow.h" line="534"/>
         <source>Profile</source>
         <translation type="unfinished"></translation>
@@ -845,13 +845,13 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../gui/src/mainwindow.cpp" line="640"/>
+        <location filename="../../gui/src/mainwindow.cpp" line="745"/>
         <location filename="../../../build/gui/src/ui_mainwindow.h" line="542"/>
         <source>Signal</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../gui/src/mainwindow.cpp" line="641"/>
+        <location filename="../../gui/src/mainwindow.cpp" line="746"/>
         <location filename="../../../build/gui/src/ui_mainwindow.h" line="544"/>
         <source>Security</source>
         <translation type="unfinished"></translation>
@@ -892,35 +892,35 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../gui/src/mainwindow.cpp" line="572"/>
-        <location filename="../../gui/src/mainwindow.cpp" line="732"/>
-        <location filename="../../gui/src/mainwindow.cpp" line="750"/>
+        <location filename="../../gui/src/mainwindow.cpp" line="677"/>
+        <location filename="../../gui/src/mainwindow.cpp" line="837"/>
+        <location filename="../../gui/src/mainwindow.cpp" line="855"/>
         <location filename="../../../build/gui/src/ui_mainwindow.h" line="509"/>
         <source>Start profile</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../gui/src/mainwindow.cpp" line="733"/>
+        <location filename="../../gui/src/mainwindow.cpp" line="838"/>
         <location filename="../../../build/gui/src/ui_mainwindow.h" line="510"/>
         <source>Restart profile</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../gui/src/mainwindow.cpp" line="581"/>
-        <location filename="../../gui/src/mainwindow.cpp" line="735"/>
-        <location filename="../../gui/src/mainwindow.cpp" line="758"/>
+        <location filename="../../gui/src/mainwindow.cpp" line="686"/>
+        <location filename="../../gui/src/mainwindow.cpp" line="840"/>
+        <location filename="../../gui/src/mainwindow.cpp" line="863"/>
         <location filename="../../../build/gui/src/ui_mainwindow.h" line="511"/>
         <source>Enable profile</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../gui/src/mainwindow.cpp" line="737"/>
+        <location filename="../../gui/src/mainwindow.cpp" line="842"/>
         <location filename="../../../build/gui/src/ui_mainwindow.h" line="512"/>
         <source>Edit profile</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../gui/src/mainwindow.cpp" line="739"/>
+        <location filename="../../gui/src/mainwindow.cpp" line="844"/>
         <location filename="../../../build/gui/src/ui_mainwindow.h" line="513"/>
         <location filename="../../../build/gui/src/ui_mainwindow.h" line="519"/>
         <source>Remove profile</source>
@@ -947,255 +947,265 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../gui/src/mainwindow.cpp" line="158"/>
+        <location filename="../../gui/src/mainwindow.cpp" line="112"/>
         <source>Ready</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../gui/src/mainwindow.cpp" line="290"/>
+        <location filename="../../gui/src/mainwindow.cpp" line="211"/>
         <source>yes</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../gui/src/mainwindow.cpp" line="294"/>
+        <location filename="../../gui/src/mainwindow.cpp" line="215"/>
         <source>no</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../gui/src/mainwindow.cpp" line="509"/>
-        <location filename="../../gui/src/mainwindow.cpp" line="521"/>
-        <location filename="../../gui/src/mainwindow.cpp" line="642"/>
-        <location filename="../../gui/src/mainwindow.cpp" line="654"/>
+        <location filename="../../gui/src/mainwindow.cpp" line="614"/>
+        <location filename="../../gui/src/mainwindow.cpp" line="626"/>
+        <location filename="../../gui/src/mainwindow.cpp" line="747"/>
+        <location filename="../../gui/src/mainwindow.cpp" line="759"/>
         <source>Active</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../gui/src/mainwindow.cpp" line="510"/>
-        <location filename="../../gui/src/mainwindow.cpp" line="522"/>
+        <location filename="../../gui/src/mainwindow.cpp" line="615"/>
+        <location filename="../../gui/src/mainwindow.cpp" line="627"/>
         <source>Enabled</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../gui/src/mainwindow.cpp" line="552"/>
-        <location filename="../../gui/src/mainwindow.cpp" line="597"/>
-        <location filename="../../gui/src/mainwindow.cpp" line="689"/>
+        <location filename="../../gui/src/mainwindow.cpp" line="657"/>
+        <location filename="../../gui/src/mainwindow.cpp" line="702"/>
+        <location filename="../../gui/src/mainwindow.cpp" line="794"/>
         <source>Updated</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../gui/src/mainwindow.cpp" line="567"/>
-        <location filename="../../gui/src/mainwindow.cpp" line="745"/>
+        <location filename="../../gui/src/mainwindow.cpp" line="672"/>
+        <location filename="../../gui/src/mainwindow.cpp" line="850"/>
         <source>Stop profile</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../gui/src/mainwindow.cpp" line="577"/>
-        <location filename="../../gui/src/mainwindow.cpp" line="754"/>
+        <location filename="../../gui/src/mainwindow.cpp" line="682"/>
+        <location filename="../../gui/src/mainwindow.cpp" line="859"/>
         <source>Disable profile</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../gui/src/mainwindow.cpp" line="643"/>
-        <location filename="../../gui/src/mainwindow.cpp" line="655"/>
+        <location filename="../../gui/src/mainwindow.cpp" line="748"/>
+        <location filename="../../gui/src/mainwindow.cpp" line="760"/>
         <source>Exists</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../gui/src/mainwindow.cpp" line="653"/>
+        <location filename="../../gui/src/mainwindow.cpp" line="758"/>
         <source>ESSID</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../gui/src/mainwindow.cpp" line="704"/>
-        <location filename="../../gui/src/mainwindow.cpp" line="1351"/>
+        <location filename="../../gui/src/mainwindow.cpp" line="809"/>
+        <location filename="../../gui/src/mainwindow.cpp" line="1456"/>
         <source>Stop WiFi</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../gui/src/mainwindow.cpp" line="708"/>
-        <location filename="../../gui/src/mainwindow.cpp" line="713"/>
-        <location filename="../../gui/src/mainwindow.cpp" line="1346"/>
-        <location filename="../../gui/src/mainwindow.cpp" line="1355"/>
-        <location filename="../../gui/src/mainwindow.cpp" line="1360"/>
+        <location filename="../../gui/src/mainwindow.cpp" line="813"/>
+        <location filename="../../gui/src/mainwindow.cpp" line="818"/>
+        <location filename="../../gui/src/mainwindow.cpp" line="1451"/>
+        <location filename="../../gui/src/mainwindow.cpp" line="1460"/>
+        <location filename="../../gui/src/mainwindow.cpp" line="1465"/>
         <source>Start WiFi</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../gui/src/mainwindow.cpp" line="394"/>
-        <location filename="../../gui/src/mainwindow.cpp" line="811"/>
-        <location filename="../../gui/src/mainwindow.cpp" line="834"/>
-        <location filename="../../gui/src/mainwindow.cpp" line="838"/>
-        <location filename="../../gui/src/mainwindow.cpp" line="859"/>
-        <location filename="../../gui/src/mainwindow.cpp" line="882"/>
-        <location filename="../../gui/src/mainwindow.cpp" line="890"/>
-        <location filename="../../gui/src/mainwindow.cpp" line="1255"/>
-        <location filename="../../gui/src/mainwindow.cpp" line="1326"/>
+        <location filename="../../gui/src/mainwindow.cpp" line="413"/>
+        <location filename="../../gui/src/mainwindow.cpp" line="916"/>
+        <location filename="../../gui/src/mainwindow.cpp" line="939"/>
+        <location filename="../../gui/src/mainwindow.cpp" line="943"/>
+        <location filename="../../gui/src/mainwindow.cpp" line="964"/>
+        <location filename="../../gui/src/mainwindow.cpp" line="987"/>
+        <location filename="../../gui/src/mainwindow.cpp" line="995"/>
+        <location filename="../../gui/src/mainwindow.cpp" line="1360"/>
         <location filename="../../gui/src/mainwindow.cpp" line="1431"/>
-        <location filename="../../gui/src/mainwindow.cpp" line="1484"/>
-        <location filename="../../gui/src/mainwindow.cpp" line="1488"/>
+        <location filename="../../gui/src/mainwindow.cpp" line="1536"/>
+        <location filename="../../gui/src/mainwindow.cpp" line="1589"/>
+        <location filename="../../gui/src/mainwindow.cpp" line="1593"/>
         <source>Done</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../gui/src/mainwindow.cpp" line="396"/>
-        <location filename="../../gui/src/mainwindow.cpp" line="813"/>
-        <location filename="../../gui/src/mainwindow.cpp" line="832"/>
-        <location filename="../../gui/src/mainwindow.cpp" line="840"/>
-        <location filename="../../gui/src/mainwindow.cpp" line="861"/>
-        <location filename="../../gui/src/mainwindow.cpp" line="880"/>
-        <location filename="../../gui/src/mainwindow.cpp" line="892"/>
-        <location filename="../../gui/src/mainwindow.cpp" line="1257"/>
-        <location filename="../../gui/src/mainwindow.cpp" line="1328"/>
+        <location filename="../../gui/src/mainwindow.cpp" line="415"/>
+        <location filename="../../gui/src/mainwindow.cpp" line="918"/>
+        <location filename="../../gui/src/mainwindow.cpp" line="937"/>
+        <location filename="../../gui/src/mainwindow.cpp" line="945"/>
+        <location filename="../../gui/src/mainwindow.cpp" line="966"/>
+        <location filename="../../gui/src/mainwindow.cpp" line="985"/>
+        <location filename="../../gui/src/mainwindow.cpp" line="997"/>
+        <location filename="../../gui/src/mainwindow.cpp" line="1362"/>
         <location filename="../../gui/src/mainwindow.cpp" line="1433"/>
-        <location filename="../../gui/src/mainwindow.cpp" line="1482"/>
-        <location filename="../../gui/src/mainwindow.cpp" line="1490"/>
+        <location filename="../../gui/src/mainwindow.cpp" line="1538"/>
+        <location filename="../../gui/src/mainwindow.cpp" line="1587"/>
+        <location filename="../../gui/src/mainwindow.cpp" line="1595"/>
         <source>Error</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../gui/src/mainwindow.cpp" line="915"/>
-        <location filename="../../gui/src/mainwindow.cpp" line="1533"/>
+        <location filename="../../gui/src/mainwindow.cpp" line="1020"/>
+        <location filename="../../gui/src/mainwindow.cpp" line="1638"/>
         <source>Stop</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../gui/src/main.cpp" line="167"/>
+        <location filename="../../gui/src/messages.cpp" line="28"/>
         <source>Unknown flag
 </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../gui/src/main.cpp" line="170"/>
+        <location filename="../../gui/src/messages.cpp" line="65"/>
         <source>Usage:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../gui/src/main.cpp" line="178"/>
-        <source>Parametrs:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../gui/src/main.cpp" line="180"/>
+        <location filename="../../gui/src/messages.cpp" line="69"/>
         <source>Open window:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../gui/src/main.cpp" line="183"/>
+        <location filename="../../gui/src/messages.cpp" line="73"/>
         <source>start maximized</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../gui/src/main.cpp" line="186"/>
-        <source>start minimized</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../gui/src/main.cpp" line="189"/>
+        <location filename="../../gui/src/messages.cpp" line="77"/>
         <source>show about window</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../gui/src/main.cpp" line="192"/>
+        <location filename="../../gui/src/messages.cpp" line="79"/>
         <source>show netctl-auto window</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../gui/src/main.cpp" line="195"/>
+        <location filename="../../gui/src/messages.cpp" line="81"/>
         <source>show settings window</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../gui/src/main.cpp" line="197"/>
+        <location filename="../../gui/src/messages.cpp" line="83"/>
         <source>Functions:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../gui/src/main.cpp" line="200"/>
-        <source>select ESSID %1</source>
+        <location filename="../../gui/src/messages.cpp" line="67"/>
+        <source>Options:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../gui/src/main.cpp" line="203"/>
-        <source>open profile %1</source>
+        <location filename="../../gui/src/messages.cpp" line="71"/>
+        <source>start as daemon</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../gui/src/main.cpp" line="206"/>
-        <source>select profile %1</source>
+        <location filename="../../gui/src/messages.cpp" line="75"/>
+        <source>start minimized to tray</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../gui/src/main.cpp" line="208"/>
+        <location filename="../../gui/src/messages.cpp" line="85"/>
+        <source>select this ESSID</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../gui/src/messages.cpp" line="87"/>
+        <source>open this profile</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../gui/src/messages.cpp" line="89"/>
+        <source>select this profile</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../gui/src/messages.cpp" line="91"/>
         <source>Additional flags:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../gui/src/main.cpp" line="212"/>
+        <location filename="../../gui/src/messages.cpp" line="93"/>
         <source>read configuration from this file</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../gui/src/main.cpp" line="215"/>
+        <location filename="../../gui/src/messages.cpp" line="95"/>
         <source>print debug information</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../gui/src/main.cpp" line="218"/>
+        <location filename="../../gui/src/messages.cpp" line="97"/>
         <source>start with default settings</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../gui/src/main.cpp" line="222"/>
+        <location filename="../../gui/src/messages.cpp" line="99"/>
         <source>set options for this run, comma separated</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../gui/src/main.cpp" line="225"/>
-        <source>open a tab with number %1</source>
+        <location filename="../../gui/src/messages.cpp" line="101"/>
+        <source>open a tab with this number</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../gui/src/main.cpp" line="227"/>
+        <location filename="../../gui/src/messages.cpp" line="121"/>
+        <source>cmake flags</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../gui/src/messages.cpp" line="131"/>
+        <source>DBus configuration</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../gui/src/messages.cpp" line="103"/>
         <source>Show messages:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../gui/src/main.cpp" line="229"/>
+        <location filename="../../gui/src/messages.cpp" line="105"/>
         <source>show version and exit</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../gui/src/main.cpp" line="231"/>
+        <location filename="../../gui/src/messages.cpp" line="107"/>
         <source>show build information and exit</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../gui/src/main.cpp" line="233"/>
+        <location filename="../../gui/src/messages.cpp" line="109"/>
         <source>show this help and exit</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../gui/src/main.cpp" line="236"/>
+        <location filename="../../gui/src/messages.cpp" line="119"/>
         <source>Build date: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../gui/src/main.cpp" line="238"/>
-        <source>cmake flags:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../gui/src/main.cpp" line="251"/>
+        <location filename="../../gui/src/messages.cpp" line="147"/>
         <source>Version</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../gui/src/main.cpp" line="254"/>
+        <location filename="../../gui/src/messages.cpp" line="150"/>
         <source>Author</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../gui/src/main.cpp" line="257"/>
+        <location filename="../../gui/src/messages.cpp" line="153"/>
         <source>License</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1758,276 +1768,271 @@
 <context>
     <name>SettingsWindow</name>
     <message>
-        <location filename="../../../build/gui/src/ui_settingswindow.h" line="653"/>
+        <location filename="../../../build/gui/src/ui_settingswindow.h" line="646"/>
         <source>Settings</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../build/gui/src/ui_settingswindow.h" line="658"/>
+        <location filename="../../../build/gui/src/ui_settingswindow.h" line="651"/>
         <source>General</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../build/gui/src/ui_settingswindow.h" line="669"/>
+        <location filename="../../../build/gui/src/ui_settingswindow.h" line="662"/>
         <source>Language</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../build/gui/src/ui_settingswindow.h" line="671"/>
+        <location filename="../../../build/gui/src/ui_settingswindow.h" line="664"/>
         <source>Select a language</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../build/gui/src/ui_settingswindow.h" line="673"/>
-        <source>You will need to restart the application</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../../build/gui/src/ui_settingswindow.h" line="660"/>
+        <location filename="../../../build/gui/src/ui_settingswindow.h" line="653"/>
         <source>netctl</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../build/gui/src/ui_settingswindow.h" line="682"/>
+        <location filename="../../../build/gui/src/ui_settingswindow.h" line="674"/>
         <source>netctl path</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../build/gui/src/ui_settingswindow.h" line="684"/>
+        <location filename="../../../build/gui/src/ui_settingswindow.h" line="676"/>
         <source>Path to netctl</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../build/gui/src/ui_settingswindow.h" line="681"/>
-        <location filename="../../../build/gui/src/ui_settingswindow.h" line="686"/>
-        <location filename="../../../build/gui/src/ui_settingswindow.h" line="691"/>
-        <location filename="../../../build/gui/src/ui_settingswindow.h" line="700"/>
-        <location filename="../../../build/gui/src/ui_settingswindow.h" line="705"/>
-        <location filename="../../../build/gui/src/ui_settingswindow.h" line="710"/>
-        <location filename="../../../build/gui/src/ui_settingswindow.h" line="715"/>
-        <location filename="../../../build/gui/src/ui_settingswindow.h" line="736"/>
-        <location filename="../../../build/gui/src/ui_settingswindow.h" line="741"/>
+        <location filename="../../../build/gui/src/ui_settingswindow.h" line="673"/>
+        <location filename="../../../build/gui/src/ui_settingswindow.h" line="678"/>
+        <location filename="../../../build/gui/src/ui_settingswindow.h" line="683"/>
+        <location filename="../../../build/gui/src/ui_settingswindow.h" line="692"/>
+        <location filename="../../../build/gui/src/ui_settingswindow.h" line="697"/>
+        <location filename="../../../build/gui/src/ui_settingswindow.h" line="702"/>
+        <location filename="../../../build/gui/src/ui_settingswindow.h" line="707"/>
+        <location filename="../../../build/gui/src/ui_settingswindow.h" line="728"/>
+        <location filename="../../../build/gui/src/ui_settingswindow.h" line="733"/>
         <source>Browse</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../build/gui/src/ui_settingswindow.h" line="696"/>
+        <location filename="../../../build/gui/src/ui_settingswindow.h" line="688"/>
         <source>Profile path</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../build/gui/src/ui_settingswindow.h" line="698"/>
+        <location filename="../../../build/gui/src/ui_settingswindow.h" line="690"/>
         <source>Path to profile directory</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../build/gui/src/ui_settingswindow.h" line="662"/>
+        <location filename="../../../build/gui/src/ui_settingswindow.h" line="655"/>
         <source>sudo</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../build/gui/src/ui_settingswindow.h" line="701"/>
+        <location filename="../../../build/gui/src/ui_settingswindow.h" line="693"/>
         <source>sudo path</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../build/gui/src/ui_settingswindow.h" line="703"/>
+        <location filename="../../../build/gui/src/ui_settingswindow.h" line="695"/>
         <source>Path to sudo</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../build/gui/src/ui_settingswindow.h" line="664"/>
+        <location filename="../../../build/gui/src/ui_settingswindow.h" line="657"/>
         <source>wpa_supplicant</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../build/gui/src/ui_settingswindow.h" line="674"/>
+        <location filename="../../../build/gui/src/ui_settingswindow.h" line="666"/>
         <source>Enable system tray</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../build/gui/src/ui_settingswindow.h" line="675"/>
+        <location filename="../../../build/gui/src/ui_settingswindow.h" line="667"/>
         <source>Minimize to tray instead of closing</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../build/gui/src/ui_settingswindow.h" line="676"/>
+        <location filename="../../../build/gui/src/ui_settingswindow.h" line="668"/>
         <source>Start minimized to tray</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../build/gui/src/ui_settingswindow.h" line="677"/>
+        <location filename="../../../build/gui/src/ui_settingswindow.h" line="669"/>
         <source>systemctl path</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../build/gui/src/ui_settingswindow.h" line="679"/>
+        <location filename="../../../build/gui/src/ui_settingswindow.h" line="671"/>
         <source>Path to systemctl</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../build/gui/src/ui_settingswindow.h" line="687"/>
+        <location filename="../../../build/gui/src/ui_settingswindow.h" line="679"/>
         <source>netctl-auto path</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../build/gui/src/ui_settingswindow.h" line="689"/>
+        <location filename="../../../build/gui/src/ui_settingswindow.h" line="681"/>
         <source>Path to netctl-auto</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../build/gui/src/ui_settingswindow.h" line="692"/>
+        <location filename="../../../build/gui/src/ui_settingswindow.h" line="684"/>
         <source>netctl-auto service</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../build/gui/src/ui_settingswindow.h" line="694"/>
+        <location filename="../../../build/gui/src/ui_settingswindow.h" line="686"/>
         <source>Name of netctl-auto systemd service</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../build/gui/src/ui_settingswindow.h" line="706"/>
+        <location filename="../../../build/gui/src/ui_settingswindow.h" line="698"/>
         <source>wpa_supplicant path</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../build/gui/src/ui_settingswindow.h" line="708"/>
+        <location filename="../../../build/gui/src/ui_settingswindow.h" line="700"/>
         <source>Path to wpa_supplicant</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../build/gui/src/ui_settingswindow.h" line="711"/>
+        <location filename="../../../build/gui/src/ui_settingswindow.h" line="703"/>
         <source>wpa_cli path</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../build/gui/src/ui_settingswindow.h" line="713"/>
+        <location filename="../../../build/gui/src/ui_settingswindow.h" line="705"/>
         <source>Path to wpa_cli</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../build/gui/src/ui_settingswindow.h" line="716"/>
+        <location filename="../../../build/gui/src/ui_settingswindow.h" line="708"/>
         <source>PID file</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../build/gui/src/ui_settingswindow.h" line="718"/>
+        <location filename="../../../build/gui/src/ui_settingswindow.h" line="710"/>
         <source>wpa_supplicant PID file</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../build/gui/src/ui_settingswindow.h" line="720"/>
+        <location filename="../../../build/gui/src/ui_settingswindow.h" line="712"/>
         <source>wpa_supplicant drivers</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../build/gui/src/ui_settingswindow.h" line="722"/>
+        <location filename="../../../build/gui/src/ui_settingswindow.h" line="714"/>
         <source>wpa_supplicant drivers comma separated</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../build/gui/src/ui_settingswindow.h" line="724"/>
+        <location filename="../../../build/gui/src/ui_settingswindow.h" line="716"/>
         <source>ctrl_interface directory</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../build/gui/src/ui_settingswindow.h" line="726"/>
+        <location filename="../../../build/gui/src/ui_settingswindow.h" line="718"/>
         <source>Path to control directory</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../build/gui/src/ui_settingswindow.h" line="728"/>
+        <location filename="../../../build/gui/src/ui_settingswindow.h" line="720"/>
         <source>ctrl_interface group</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../build/gui/src/ui_settingswindow.h" line="730"/>
+        <location filename="../../../build/gui/src/ui_settingswindow.h" line="722"/>
         <source>Group of control directory</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../build/gui/src/ui_settingswindow.h" line="666"/>
+        <location filename="../../../build/gui/src/ui_settingswindow.h" line="659"/>
         <source>Other</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../build/gui/src/ui_settingswindow.h" line="732"/>
+        <location filename="../../../build/gui/src/ui_settingswindow.h" line="724"/>
         <source>Path to interface list</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../build/gui/src/ui_settingswindow.h" line="734"/>
+        <location filename="../../../build/gui/src/ui_settingswindow.h" line="726"/>
         <source>Path to directory which contains network devices</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../build/gui/src/ui_settingswindow.h" line="737"/>
+        <location filename="../../../build/gui/src/ui_settingswindow.h" line="729"/>
         <source>Path to rfkill device list</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../build/gui/src/ui_settingswindow.h" line="739"/>
+        <location filename="../../../build/gui/src/ui_settingswindow.h" line="731"/>
         <source>Path to directory which contains rfkill devices</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../build/gui/src/ui_settingswindow.h" line="742"/>
-        <location filename="../../../build/gui/src/ui_settingswindow.h" line="744"/>
+        <location filename="../../../build/gui/src/ui_settingswindow.h" line="734"/>
+        <location filename="../../../build/gui/src/ui_settingswindow.h" line="736"/>
         <source>Prefered wireless interface</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../gui/src/settingswindow.cpp" line="155"/>
+        <location filename="../../gui/src/settingswindow.cpp" line="153"/>
         <source>Select path to directory with interfaces</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../gui/src/settingswindow.cpp" line="168"/>
+        <location filename="../../gui/src/settingswindow.cpp" line="166"/>
         <source>Select netctl command</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../gui/src/settingswindow.cpp" line="170"/>
-        <location filename="../../gui/src/settingswindow.cpp" line="184"/>
-        <location filename="../../gui/src/settingswindow.cpp" line="224"/>
-        <location filename="../../gui/src/settingswindow.cpp" line="238"/>
-        <location filename="../../gui/src/settingswindow.cpp" line="252"/>
-        <location filename="../../gui/src/settingswindow.cpp" line="266"/>
+        <location filename="../../gui/src/settingswindow.cpp" line="168"/>
+        <location filename="../../gui/src/settingswindow.cpp" line="182"/>
+        <location filename="../../gui/src/settingswindow.cpp" line="222"/>
+        <location filename="../../gui/src/settingswindow.cpp" line="236"/>
+        <location filename="../../gui/src/settingswindow.cpp" line="250"/>
+        <location filename="../../gui/src/settingswindow.cpp" line="264"/>
         <source>All files (*)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../gui/src/settingswindow.cpp" line="182"/>
+        <location filename="../../gui/src/settingswindow.cpp" line="180"/>
         <source>Select netctl-auto command</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../gui/src/settingswindow.cpp" line="196"/>
+        <location filename="../../gui/src/settingswindow.cpp" line="194"/>
         <source>Select path to profile directory</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../gui/src/settingswindow.cpp" line="209"/>
+        <location filename="../../gui/src/settingswindow.cpp" line="207"/>
         <source>Select path to directory with rfkill devices</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../gui/src/settingswindow.cpp" line="222"/>
+        <location filename="../../gui/src/settingswindow.cpp" line="220"/>
         <source>Select sudo command</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../gui/src/settingswindow.cpp" line="236"/>
+        <location filename="../../gui/src/settingswindow.cpp" line="234"/>
         <source>Select systemctl command</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../gui/src/settingswindow.cpp" line="250"/>
+        <location filename="../../gui/src/settingswindow.cpp" line="248"/>
         <source>Select wpa_cli command</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../gui/src/settingswindow.cpp" line="264"/>
+        <location filename="../../gui/src/settingswindow.cpp" line="262"/>
         <source>Select wpa_supplicant command</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2035,40 +2040,35 @@
 <context>
     <name>TrayIcon</name>
     <message>
-        <location filename="../../gui/src/trayicon.cpp" line="53"/>
+        <location filename="../../gui/src/trayicon.cpp" line="54"/>
+        <location filename="../../gui/src/trayicon.cpp" line="68"/>
         <source>netctl status</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../gui/src/trayicon.cpp" line="70"/>
+        <location filename="../../gui/src/trayicon.cpp" line="82"/>
         <source>Quit</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../gui/src/trayicon.cpp" line="72"/>
-        <location filename="../../gui/src/trayicon.cpp" line="107"/>
+        <location filename="../../gui/src/trayicon.cpp" line="84"/>
+        <location filename="../../gui/src/trayicon.cpp" line="120"/>
         <source>Show</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../gui/src/trayicon.cpp" line="74"/>
-        <location filename="../../gui/src/trayicon.cpp" line="111"/>
+        <location filename="../../gui/src/trayicon.cpp" line="86"/>
         <source>Show netctl-auto</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../gui/src/trayicon.cpp" line="76"/>
+        <location filename="../../gui/src/trayicon.cpp" line="88"/>
         <source>Status</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../gui/src/trayicon.cpp" line="109"/>
+        <location filename="../../gui/src/trayicon.cpp" line="122"/>
         <source>Hide</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../gui/src/trayicon.cpp" line="113"/>
-        <source>Hide netctl-auto</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

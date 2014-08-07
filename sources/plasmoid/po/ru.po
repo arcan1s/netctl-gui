@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: http://kde-look.org/content/show.php?content=98925\n"
-"POT-Creation-Date: 2014-08-06 00:06+0400\n"
-"PO-Revision-Date: 2014-08-06 00:07+0400\n"
+"POT-Creation-Date: 2014-08-07 17:22+0400\n"
+"PO-Revision-Date: 2014-08-07 17:23+0400\n"
 "Last-Translator: Evgeniy Alekseev <esalexeev@gmail.com>\n"
 "Language-Team: Russian <kde-russian@lists.kde.ru>\n"
 "Language: ru\n"
@@ -83,26 +83,30 @@ msgid "Enable profile"
 msgstr "Включить профиль"
 
 #: netctl.cpp:468
+msgid "Show netctl-gui"
+msgstr "Показать netctl-gui"
+
+#: netctl.cpp:473
 msgid "Show WiFi menu"
 msgstr "Запустить WiFi-menu"
 
-#: netctl.cpp:495
+#: netctl.cpp:500
 msgid "Start GUI"
 msgstr "Запуск GUI"
 
-#: netctl.cpp:506
+#: netctl.cpp:511
 msgid "Start WiFi menu"
 msgstr "Запуск WiFi-menu"
 
-#: netctl.cpp:570
+#: netctl.cpp:575
 msgid "Network is up"
 msgstr "Сеть работает"
 
-#: netctl.cpp:575
+#: netctl.cpp:580
 msgid "Network is down"
 msgstr "Сеть не работает"
 
-#: netctl.cpp:721
+#: netctl.cpp:726
 msgid ""
 "Version %1\n"
 "(build date %2)"
@@ -110,59 +114,59 @@ msgstr ""
 "Версия %1\n"
 "(дата сборки %2)"
 
-#: netctl.cpp:722
+#: netctl.cpp:727
 msgid "KDE widget which interacts with netctl."
 msgstr "Виджет KDE, который взаимодействует с netctl."
 
-#: netctl.cpp:723
+#: netctl.cpp:728
 msgid "Translators: %1"
 msgstr "Переводчики: %1"
 
-#: netctl.cpp:724
+#: netctl.cpp:729
 msgid "Links:"
 msgstr "Ссылки:"
 
-#: netctl.cpp:725
+#: netctl.cpp:730
 msgid "Homepage"
 msgstr "Домашняя страница"
 
-#: netctl.cpp:726
+#: netctl.cpp:731
 msgid "Repository"
 msgstr "Репозиторий"
 
-#: netctl.cpp:727
+#: netctl.cpp:732
 msgid "Bugtracker"
 msgstr "Багтрекер"
 
-#: netctl.cpp:728
+#: netctl.cpp:733
 msgid "Translation issue"
 msgstr "Тикет перевода"
 
-#: netctl.cpp:729
+#: netctl.cpp:734
 msgid "AUR packages"
 msgstr "Пакеты в AUR"
 
-#: netctl.cpp:731
+#: netctl.cpp:736
 msgid "This software is licensed under %1"
 msgstr "Данное приложение лицензировано под %1"
 
-#: netctl.cpp:732
+#: netctl.cpp:737
 msgid "This software uses: %1"
 msgstr "Данное приложение использует: %1"
 
-#: netctl.cpp:734
+#: netctl.cpp:739
 msgid "Netctl plasmoid"
 msgstr "Netctl plasmoid"
 
-#: netctl.cpp:735
+#: netctl.cpp:740
 msgid "Appearance"
 msgstr "Внешний вид"
 
-#: netctl.cpp:736
+#: netctl.cpp:741
 msgid "DataEngine"
 msgstr "DataEngine"
 
-#: netctl.cpp:737
+#: netctl.cpp:742
 msgid "About"
 msgstr "О программе"
 

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: http://kde-look.org/content/show.php?content=98925\n"
-"POT-Creation-Date: 2014-08-06 00:06+0400\n"
+"POT-Creation-Date: 2014-08-07 17:22+0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -82,84 +82,88 @@ msgid "Enable profile"
 msgstr ""
 
 #: netctl.cpp:468
+msgid "Show netctl-gui"
+msgstr ""
+
+#: netctl.cpp:473
 msgid "Show WiFi menu"
 msgstr ""
 
-#: netctl.cpp:495
+#: netctl.cpp:500
 msgid "Start GUI"
 msgstr ""
 
-#: netctl.cpp:506
+#: netctl.cpp:511
 msgid "Start WiFi menu"
 msgstr ""
 
-#: netctl.cpp:570
+#: netctl.cpp:575
 msgid "Network is up"
 msgstr ""
 
-#: netctl.cpp:575
+#: netctl.cpp:580
 msgid "Network is down"
 msgstr ""
 
-#: netctl.cpp:721
+#: netctl.cpp:726
 msgid ""
 "Version %1\n"
 "(build date %2)"
 msgstr ""
 
-#: netctl.cpp:722
+#: netctl.cpp:727
 msgid "KDE widget which interacts with netctl."
 msgstr ""
 
-#: netctl.cpp:723
+#: netctl.cpp:728
 msgid "Translators: %1"
 msgstr ""
 
-#: netctl.cpp:724
+#: netctl.cpp:729
 msgid "Links:"
 msgstr ""
 
-#: netctl.cpp:725
+#: netctl.cpp:730
 msgid "Homepage"
 msgstr ""
 
-#: netctl.cpp:726
+#: netctl.cpp:731
 msgid "Repository"
 msgstr ""
 
-#: netctl.cpp:727
+#: netctl.cpp:732
 msgid "Bugtracker"
 msgstr ""
 
-#: netctl.cpp:728
+#: netctl.cpp:733
 msgid "Translation issue"
 msgstr ""
 
-#: netctl.cpp:729
+#: netctl.cpp:734
 msgid "AUR packages"
 msgstr ""
 
-#: netctl.cpp:731
+#: netctl.cpp:736
 msgid "This software is licensed under %1"
 msgstr ""
 
-#: netctl.cpp:732
+#: netctl.cpp:737
 msgid "This software uses: %1"
 msgstr ""
 
-#: netctl.cpp:734
+#: netctl.cpp:739
 msgid "Netctl plasmoid"
 msgstr ""
 
-#: netctl.cpp:735
+#: netctl.cpp:740
 msgid "Appearance"
 msgstr ""
 
-#: netctl.cpp:736
+#: netctl.cpp:741
 msgid "DataEngine"
 msgstr ""
 
-#: netctl.cpp:737
+#: netctl.cpp:742
 msgid "About"
 msgstr ""
 

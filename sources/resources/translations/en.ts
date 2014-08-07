@@ -866,7 +866,7 @@
     </message>
     <message>
         <source>Parametrs:</source>
-        <translation>Parametrs:</translation>
+        <translation type="vanished">Parametrs:</translation>
     </message>
     <message>
         <source>Open window:</source>
@@ -890,15 +890,15 @@
     </message>
     <message>
         <source>select ESSID %1</source>
-        <translation>select ESSID %1</translation>
+        <translation type="vanished">select ESSID %1</translation>
     </message>
     <message>
         <source>open profile %1</source>
-        <translation>open profile %1</translation>
+        <translation type="vanished">open profile %1</translation>
     </message>
     <message>
         <source>select profile %1</source>
-        <translation>select profile %1</translation>
+        <translation type="vanished">select profile %1</translation>
     </message>
     <message>
         <source>Additional flags:</source>
@@ -918,7 +918,7 @@
     </message>
     <message>
         <source>open a tab with number %1</source>
-        <translation>open a tab with number %1</translation>
+        <translation type="vanished">open a tab with number %1</translation>
     </message>
     <message>
         <source>Show messages:</source>
@@ -942,7 +942,7 @@
     </message>
     <message>
         <source>cmake flags:</source>
-        <translation>cmake flags:</translation>
+        <translation type="vanished">cmake flags:</translation>
     </message>
     <message>
         <source>Version : %1
@@ -1032,7 +1032,43 @@
     </message>
     <message>
         <source>start minimized</source>
-        <translation>start minimized</translation>
+        <translation type="vanished">start minimized</translation>
+    </message>
+    <message>
+        <source>Options:</source>
+        <translation>Options:</translation>
+    </message>
+    <message>
+        <source>start as daemon</source>
+        <translation>start as daemon</translation>
+    </message>
+    <message>
+        <source>start minimized to tray</source>
+        <translation>start minimized to tray</translation>
+    </message>
+    <message>
+        <source>select this ESSID</source>
+        <translation>select this ESSID</translation>
+    </message>
+    <message>
+        <source>open this profile</source>
+        <translation>open this profile</translation>
+    </message>
+    <message>
+        <source>select this profile</source>
+        <translation>select this profile</translation>
+    </message>
+    <message>
+        <source>open a tab with this number</source>
+        <translation>open a tab with this number</translation>
+    </message>
+    <message>
+        <source>cmake flags</source>
+        <translation>cmake flags</translation>
+    </message>
+    <message>
+        <source>DBus configuration</source>
+        <translation>DBus configuration</translation>
     </message>
 </context>
 <context>
@@ -1511,7 +1547,7 @@
     </message>
     <message>
         <source>You will need to restart the application</source>
-        <translation>You will need to restart the application</translation>
+        <translation type="vanished">You will need to restart the application</translation>
     </message>
     <message>
         <source>General</source>
@@ -1714,7 +1750,7 @@
     </message>
     <message>
         <source>Hide netctl-auto</source>
-        <translation>Hide netctl-auto</translation>
+        <translation type="vanished">Hide netctl-auto</translation>
     </message>
 </context>
 <context>

@@ -865,7 +865,7 @@
     </message>
     <message>
         <source>Parametrs:</source>
-        <translation>Параметры:</translation>
+        <translation type="vanished">Параметры:</translation>
     </message>
     <message>
         <source>Open window:</source>
@@ -889,15 +889,15 @@
     </message>
     <message>
         <source>select ESSID %1</source>
-        <translation>выбрать ESSID %1</translation>
+        <translation type="vanished">выбрать ESSID %1</translation>
     </message>
     <message>
         <source>open profile %1</source>
-        <translation>открыть профиль %1</translation>
+        <translation type="vanished">открыть профиль %1</translation>
     </message>
     <message>
         <source>select profile %1</source>
-        <translation>выбрать профиль %1</translation>
+        <translation type="vanished">выбрать профиль %1</translation>
     </message>
     <message>
         <source>Additional flags:</source>
@@ -917,7 +917,7 @@
     </message>
     <message>
         <source>open a tab with number %1</source>
-        <translation>открыть вкладку с номером %1</translation>
+        <translation type="vanished">открыть вкладку с номером %1</translation>
     </message>
     <message>
         <source>Show messages:</source>
@@ -941,7 +941,7 @@
     </message>
     <message>
         <source>cmake flags:</source>
-        <translation>Флаги cmake:</translation>
+        <translation type="vanished">Флаги cmake:</translation>
     </message>
     <message>
         <source>Version : %1
@@ -1031,7 +1031,43 @@
     </message>
     <message>
         <source>start minimized</source>
-        <translation>запустить свернутым</translation>
+        <translation type="vanished">запустить свернутым</translation>
+    </message>
+    <message>
+        <source>Options:</source>
+        <translation>Опции:</translation>
+    </message>
+    <message>
+        <source>start as daemon</source>
+        <translation>запустить, как демон</translation>
+    </message>
+    <message>
+        <source>start minimized to tray</source>
+        <translation>запустить свернутым в трей</translation>
+    </message>
+    <message>
+        <source>select this ESSID</source>
+        <translation>выбрать данный ESSID</translation>
+    </message>
+    <message>
+        <source>open this profile</source>
+        <translation>открыть данный профиль</translation>
+    </message>
+    <message>
+        <source>select this profile</source>
+        <translation>выбрать данный профиль</translation>
+    </message>
+    <message>
+        <source>open a tab with this number</source>
+        <translation>открыть вкладку с этим номером</translation>
+    </message>
+    <message>
+        <source>cmake flags</source>
+        <translation>Флаги cmake</translation>
+    </message>
+    <message>
+        <source>DBus configuration</source>
+        <translation>Настройка DBus</translation>
     </message>
 </context>
 <context>
@@ -1510,7 +1546,7 @@
     </message>
     <message>
         <source>You will need to restart the application</source>
-        <translation>You will need to restart the application</translation>
+        <translation type="vanished">You will need to restart the application</translation>
     </message>
     <message>
         <source>General</source>
@@ -1713,7 +1749,7 @@
     </message>
     <message>
         <source>Hide netctl-auto</source>
-        <translation>Свернуть netctl-auto</translation>
+        <translation type="vanished">Свернуть netctl-auto</translation>
     </message>
 </context>
 <context>
