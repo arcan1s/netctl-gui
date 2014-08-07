@@ -222,9 +222,9 @@ void MainWindow::createActions()
     if (debug) qDebug() << "[MainWindow]" << "[createActions]";
 
     connect(ui->tabWidget, SIGNAL(currentChanged(int)), this, SLOT(updateTabs(int)));
-    connect(ui->actionAbout, SIGNAL(triggered(bool)), aboutWin, SLOT(show()));
-    connect(ui->actionNetctlAuto, SIGNAL(triggered(bool)), netctlAutoWin, SLOT(showWindow()));
-    connect(ui->actionSettings, SIGNAL(triggered(bool)), settingsWin, SLOT(showWindow()));
+    connect(ui->actionAbout, SIGNAL(triggered(bool)), this, SLOT(showAboutWindow()));
+    connect(ui->actionNetctlAuto, SIGNAL(triggered(bool)), this, SLOT(showNetctlAutoWindow()));
+    connect(ui->actionSettings, SIGNAL(triggered(bool)), this, SLOT(showSettingsWindow()));
     connect(ui->actionReport, SIGNAL(triggered(bool)), this, SLOT(reportABug()));
     connect(ui->actionQuit, SIGNAL(triggered(bool)), this, SLOT(closeMainWindow()));
 
@@ -247,7 +247,7 @@ void MainWindow::createActions()
     connect(ui->pushButton_mainRefresh, SIGNAL(clicked(bool)), this, SLOT(updateMainTab()));
     connect(ui->pushButton_mainRestart, SIGNAL(clicked(bool)), this, SLOT(mainTabRestartProfile()));
     connect(ui->pushButton_mainStart, SIGNAL(clicked(bool)), this, SLOT(mainTabStartProfile()));
-    connect(ui->pushButton_netctlAuto, SIGNAL(clicked(bool)), netctlAutoWin, SLOT(showWindow()));
+    connect(ui->pushButton_netctlAuto, SIGNAL(clicked(bool)), this, SLOT(showNetctlAutoWindow()));
     connect(ui->tableWidget_main, SIGNAL(itemActivated(QTableWidgetItem *)), this, SLOT(mainTabStartProfile()));
     connect(ui->tableWidget_main, SIGNAL(currentItemChanged(QTableWidgetItem *, QTableWidgetItem *)), this, SLOT(mainTabRefreshButtons(QTableWidgetItem *, QTableWidgetItem *)));
     connect(ui->tableWidget_main, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(mainTabContextualMenu(QPoint)));
