@@ -42,6 +42,7 @@ public:
     QMap<QString, QString> getSettings();
 
 public slots:
+    void closeWindow();
     void setDefault();
     void showWindow();
 
@@ -50,7 +51,9 @@ private slots:
     void changePage(QTreeWidgetItem *current, QTreeWidgetItem *previous);
     void saveSettings();
     void setTray();
+    void updateHelper();
     // buttons
+    void selectHelperPath();
     void selectIfaceDir();
     void selectNetctlPath();
     void selectNetctlAutoPath();
@@ -60,6 +63,7 @@ private slots:
     void selectSystemctlPath();
     void selectWpaCliPath();
     void selectWpaSupPath();
+    void startHelper();
 
 private:
     bool debug;

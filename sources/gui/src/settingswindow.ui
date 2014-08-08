@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>660</width>
-    <height>321</height>
+    <width>658</width>
+    <height>319</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -69,6 +69,15 @@
         </item>
         <item>
          <property name="text">
+          <string>Helper</string>
+         </property>
+         <property name="icon">
+          <iconset resource="../../resources/resources.qrc">
+           <normaloff>:/icon.png</normaloff>:/icon.png</iconset>
+         </property>
+        </item>
+        <item>
+         <property name="text">
           <string>netctl</string>
          </property>
          <property name="icon">
@@ -110,7 +119,7 @@
       <item>
        <widget class="QStackedWidget" name="stackedWidget">
         <property name="currentIndex">
-         <number>0</number>
+         <number>1</number>
         </property>
         <widget class="QWidget" name="page_general">
          <layout class="QVBoxLayout" name="verticalLayout">
@@ -127,8 +136,8 @@
               <rect>
                <x>0</x>
                <y>0</y>
-               <width>444</width>
-               <height>260</height>
+               <width>442</width>
+               <height>258</height>
               </rect>
              </property>
              <layout class="QVBoxLayout" name="verticalLayout_7">
@@ -180,6 +189,125 @@
                  <size>
                   <width>424</width>
                   <height>223</height>
+                 </size>
+                </property>
+               </spacer>
+              </item>
+             </layout>
+            </widget>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+        <widget class="QWidget" name="page_helper">
+         <layout class="QVBoxLayout" name="verticalLayout_12">
+          <item>
+           <widget class="QScrollArea" name="scrollArea_helper">
+            <property name="widgetResizable">
+             <bool>true</bool>
+            </property>
+            <widget class="QWidget" name="scrollAreaWidgetContents">
+             <property name="geometry">
+              <rect>
+               <x>0</x>
+               <y>0</y>
+               <width>442</width>
+               <height>258</height>
+              </rect>
+             </property>
+             <layout class="QVBoxLayout" name="verticalLayout_13">
+              <item>
+               <layout class="QHBoxLayout" name="layout_status">
+                <item>
+                 <widget class="QLabel" name="label_statusText">
+                  <property name="text">
+                   <string>Helper status</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <spacer name="spacer_status">
+                  <property name="orientation">
+                   <enum>Qt::Horizontal</enum>
+                  </property>
+                  <property name="sizeHint" stdset="0">
+                   <size>
+                    <width>40</width>
+                    <height>20</height>
+                   </size>
+                  </property>
+                 </spacer>
+                </item>
+                <item>
+                 <widget class="QLabel" name="label_status">
+                  <property name="text">
+                   <string/>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QPushButton" name="pushButton_status">
+                  <property name="text">
+                   <string>Start</string>
+                  </property>
+                  <property name="icon">
+                   <iconset theme="system-run"/>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
+              </item>
+              <item>
+               <widget class="QCheckBox" name="checkBox_useHelper">
+                <property name="text">
+                 <string>Use helper</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QCheckBox" name="checkBox_forceSudo">
+                <property name="text">
+                 <string>Force use sudo in helper</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QCheckBox" name="checkBox_helperClose">
+                <property name="text">
+                 <string>Close helper after exit</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <layout class="QHBoxLayout" name="layout_helperPath">
+                <item>
+                 <widget class="QLabel" name="label_helperPath">
+                  <property name="text">
+                   <string>Helper command</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QLineEdit" name="lineEdit_helperPath"/>
+                </item>
+                <item>
+                 <widget class="QPushButton" name="pushButton_helperPath">
+                  <property name="text">
+                   <string>Browse</string>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
+              </item>
+              <item>
+               <spacer name="spacer_helper">
+                <property name="orientation">
+                 <enum>Qt::Vertical</enum>
+                </property>
+                <property name="sizeHint" stdset="0">
+                 <size>
+                  <width>20</width>
+                  <height>104</height>
                  </size>
                 </property>
                </spacer>

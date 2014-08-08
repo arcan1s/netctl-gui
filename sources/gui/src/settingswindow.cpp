@@ -53,21 +53,22 @@ void SettingsWindow::createActions()
 
     connect(ui->buttonBox->button(QDialogButtonBox::Cancel), SIGNAL(clicked(bool)), this, SLOT(close()));
     connect(ui->buttonBox->button(QDialogButtonBox::Reset), SIGNAL(clicked(bool)), this, SLOT(setDefault()));
-    connect(ui->buttonBox->button(QDialogButtonBox::Ok), SIGNAL(clicked(bool)), this, SLOT(saveSettings()));
-    connect(ui->buttonBox->button(QDialogButtonBox::Ok), SIGNAL(clicked(bool)), this, SLOT(close()));
+    connect(ui->buttonBox->button(QDialogButtonBox::Ok), SIGNAL(clicked(bool)), this, SLOT(closeWindow()));
     connect(ui->checkBox_enableTray, SIGNAL(stateChanged(int)), this, SLOT(setTray()));
     connect(ui->treeWidget, SIGNAL(currentItemChanged(QTreeWidgetItem *, QTreeWidgetItem *)),
             this, SLOT(changePage(QTreeWidgetItem *, QTreeWidgetItem *)));
     // buttons
-    connect(ui->pushButton_interfaceDir, SIGNAL(clicked(bool)), SLOT(selectIfaceDir()));
-    connect(ui->pushButton_netctlPath, SIGNAL(clicked(bool)), SLOT(selectNetctlPath()));
-    connect(ui->pushButton_netctlAutoPath, SIGNAL(clicked(bool)), SLOT(selectNetctlAutoPath()));
-    connect(ui->pushButton_profilePath, SIGNAL(clicked(bool)), SLOT(selectProfileDir()));
-    connect(ui->pushButton_rfkill, SIGNAL(clicked(bool)), SLOT(selectRfkillDir()));
-    connect(ui->pushButton_sudo, SIGNAL(clicked(bool)), SLOT(selectSudoPath()));
-    connect(ui->pushButton_systemctlPath, SIGNAL(clicked(bool)), SLOT(selectSystemctlPath()));
-    connect(ui->pushButton_wpaCliPath, SIGNAL(clicked(bool)), SLOT(selectWpaCliPath()));
-    connect(ui->pushButton_wpaSupPath, SIGNAL(clicked(bool)), SLOT(selectWpaSupPath()));
+    connect(ui->pushButton_helperPath, SIGNAL(clicked(bool)), this, SLOT(selectHelperPath()));
+    connect(ui->pushButton_interfaceDir, SIGNAL(clicked(bool)), this, SLOT(selectIfaceDir()));
+    connect(ui->pushButton_netctlPath, SIGNAL(clicked(bool)), this, SLOT(selectNetctlPath()));
+    connect(ui->pushButton_netctlAutoPath, SIGNAL(clicked(bool)), this, SLOT(selectNetctlAutoPath()));
+    connect(ui->pushButton_profilePath, SIGNAL(clicked(bool)), this, SLOT(selectProfileDir()));
+    connect(ui->pushButton_rfkill, SIGNAL(clicked(bool)), this, SLOT(selectRfkillDir()));
+    connect(ui->pushButton_status, SIGNAL(clicked(bool)), this, SLOT(startHelper()));
+    connect(ui->pushButton_sudo, SIGNAL(clicked(bool)), this, SLOT(selectSudoPath()));
+    connect(ui->pushButton_systemctlPath, SIGNAL(clicked(bool)), this, SLOT(selectSystemctlPath()));
+    connect(ui->pushButton_wpaCliPath, SIGNAL(clicked(bool)), this, SLOT(selectWpaCliPath()));
+    connect(ui->pushButton_wpaSupPath, SIGNAL(clicked(bool)), this, SLOT(selectWpaSupPath()));
 }
 
 
@@ -103,6 +104,16 @@ void SettingsWindow::changePage(QTreeWidgetItem *current, QTreeWidgetItem *previ
 }
 
 
+void SettingsWindow::closeWindow()
+{
+    if (debug) qDebug() << "[SettingsWindow]" << "[closeWindow]";
+
+    saveSettings();
+    close();
+    ((MainWindow *)parent())->updateConfiguration();
+}
+
+
 void SettingsWindow::saveSettings()
 {
     if (debug) qDebug() << "[SettingsWindow]" << "[saveSettings]";
@@ -115,8 +126,6 @@ void SettingsWindow::saveSettings()
     for (int i=0; i<settings.keys().count(); i++)
         out << settings.keys()[i] << QString("=") << settings[settings.keys()[i]] << endl;
     configFile.close();
-
-    ((MainWindow *)parent())->updateConfiguration();
 }
 
 
@@ -141,6 +150,20 @@ void SettingsWindow::setDefault()
 
     setSettings(getDefault());
     saveSettings();
+}
+
+
+void SettingsWindow::selectHelperPath()
+{
+    if (debug) qDebug() << "[SettingsWindow]" << "[selectHelperPath]";
+
+    QString filename = QFileDialog::getOpenFileName(
+                this,
+                QApplication::translate("SettingsWindow", "Select helper command"),
+                QString("/usr/bin/"),
+                QApplication::translate("SettingsWindow", "All files (*)"));
+    if (!filename.isEmpty())
+        ui->lineEdit_helperPath->setText(filename);
 }
 
 
@@ -273,6 +296,7 @@ void SettingsWindow::showWindow()
 
     setSettings(getSettings());
     setTray();
+    updateHelper();
 
     show();
 }
@@ -283,12 +307,21 @@ QMap<QString, QString> SettingsWindow::readSettings()
     if (debug) qDebug() << "[SettingsWindow]" << "[readSettings]";
 
     QMap<QString, QString> settings;
+    if (ui->checkBox_helperClose->checkState() == 2)
+        settings[QString("CLOSE_HELPER")] = QString("true");
+    else
+        settings[QString("CLOSE_HELPER")] = QString("false");
     if (ui->checkBox_closeToTray->checkState() == 2)
         settings[QString("CLOSETOTRAY")] = QString("true");
     else
         settings[QString("CLOSETOTRAY")] = QString("false");
     settings[QString("CTRL_DIR")] = ui->lineEdit_wpaDir->text();
     settings[QString("CTRL_GROUP")] = ui->lineEdit_wpaGroup->text();
+    if (ui->checkBox_forceSudo->checkState() == 2)
+        settings[QString("FORCE_SUDO")] = QString("true");
+    else
+        settings[QString("FORCE_SUDO")] = QString("false");
+    settings[QString("HELPER_PATH")] = ui->lineEdit_helperPath->text();
     settings[QString("IFACE_DIR")] = ui->lineEdit_interfacesDir->text();
     settings[QString("LANGUAGE")] = ui->comboBox_language->currentText();
     settings[QString("NETCTL_PATH")] = ui->lineEdit_netctlPath->text();
@@ -308,6 +341,10 @@ QMap<QString, QString> SettingsWindow::readSettings()
         settings[QString("SYSTRAY")] = QString("true");
     else
         settings[QString("SYSTRAY")] = QString("false");
+    if (ui->checkBox_useHelper->checkState() == 2)
+        settings[QString("USE_HELPER")] = QString("true");
+    else
+        settings[QString("USE_HELPER")] = QString("false");
     settings[QString("WPACLI_PATH")] = ui->lineEdit_wpaCliPath->text();
     settings[QString("WPASUP_PATH")] = ui->lineEdit_wpaSupPath->text();
     settings[QString("WPA_DRIVERS")] = ui->lineEdit_wpaSupDrivers->text();
@@ -323,12 +360,21 @@ void SettingsWindow::setSettings(const QMap<QString, QString> settings)
 {
     if (debug) qDebug() << "[SettingsWindow]" << "[setSettings]";
 
+    if (settings[QString("CLOSE_HELPER")] == QString("true"))
+        ui->checkBox_helperClose->setCheckState(Qt::Checked);
+    else
+        ui->checkBox_helperClose->setCheckState(Qt::Unchecked);
     if (settings[QString("CLOSETOTRAY")] == QString("true"))
         ui->checkBox_closeToTray->setCheckState(Qt::Checked);
     else
         ui->checkBox_closeToTray->setCheckState(Qt::Unchecked);
     ui->lineEdit_wpaDir->setText(settings[QString("CTRL_DIR")]);
     ui->lineEdit_wpaGroup->setText(settings[QString("CTRL_GROUP")]);
+    if (settings[QString("FORCE_SUDO")] == QString("true"))
+        ui->checkBox_forceSudo->setCheckState(Qt::Checked);
+    else
+        ui->checkBox_forceSudo->setCheckState(Qt::Unchecked);
+    ui->lineEdit_helperPath->setText(settings[QString("HELPER_PATH")]);
     ui->lineEdit_interfacesDir->setText(settings[QString("IFACE_DIR")]);
     ui->comboBox_language->setCurrentIndex(0);
     for (int i=0; i<ui->comboBox_language->count(); i++)
@@ -351,6 +397,10 @@ void SettingsWindow::setSettings(const QMap<QString, QString> settings)
         ui->checkBox_enableTray->setCheckState(Qt::Checked);
     else
         ui->checkBox_enableTray->setCheckState(Qt::Unchecked);
+    if (settings[QString("USE_HELPER")] == QString("true"))
+        ui->checkBox_useHelper->setCheckState(Qt::Checked);
+    else
+        ui->checkBox_useHelper->setCheckState(Qt::Unchecked);
     ui->lineEdit_wpaCliPath->setText(settings[QString("WPACLI_PATH")]);
     ui->lineEdit_wpaSupPath->setText(settings[QString("WPASUP_PATH")]);
     ui->lineEdit_wpaSupDrivers->setText(settings[QString("WPA_DRIVERS")]);
@@ -365,9 +415,12 @@ QMap<QString, QString> SettingsWindow::getDefault()
     if (debug) qDebug() << "[SettingsWindow]" << "[getDefault]";
 
     QMap<QString, QString> settings;
+    settings[QString("CLOSE_HELPER")] = QString("false");
     settings[QString("CLOSETOTRAY")] = QString("true");
     settings[QString("CTRL_DIR")] = QString("/run/wpa_supplicant_netctl-gui");
     settings[QString("CTRL_GROUP")] = QString("users");
+    settings[QString("FORCE_SUDO")] = QString("false");
+    settings[QString("HELPER_PATH")] = QString("/usr/bin/netctlgui-helper");
     settings[QString("IFACE_DIR")] = QString("/sys/class/net/");
     settings[QString("LANGUAGE")] = QString("en");
     settings[QString("NETCTL_PATH")] = QString("/usr/bin/netctl");
@@ -381,6 +434,7 @@ QMap<QString, QString> SettingsWindow::getDefault()
     settings[QString("SUDO_PATH")] = QString("/usr/bin/kdesu");
     settings[QString("SYSTEMCTL_PATH")] = QString("/usr/bin/systemctl");
     settings[QString("SYSTRAY")] = QString("true");
+    settings[QString("USE_HELPER")] = QString("true");
     settings[QString("WPACLI_PATH")] = QString("/usr/bin/wpa_cli");
     settings[QString("WPASUP_PATH")] = QString("/usr/bin/wpa_supplicant");
     settings[QString("WPA_DRIVERS")] = QString("nl80211,wext");
@@ -416,4 +470,30 @@ QMap<QString, QString> SettingsWindow::getSettings()
                     settings.keys()[i] + QString("=") + settings[settings.keys()[i]];
 
     return settings;
+}
+
+
+void SettingsWindow::startHelper()
+{
+    if (debug) qDebug() << "[SettingsWindow]" << "[startHelper]";
+
+    ((MainWindow *)parent())->startHelper();
+    updateHelper();
+}
+
+
+void SettingsWindow::updateHelper()
+{
+    if (debug) qDebug() << "[SettingsWindow]" << "[updateHelper]";
+
+    if (((MainWindow *)parent())->isHelperActive()) {
+        ui->label_status->setText(QApplication::translate("SettingsWindow", "Active"));
+        ui->pushButton_status->setText(QApplication::translate("SettingsWindow", "Stop"));
+        ui->pushButton_status->setIcon(QIcon::fromTheme("process-stop"));
+    }
+    else {
+        ui->label_status->setText(QApplication::translate("SettingsWindow", "Inactive"));
+        ui->pushButton_status->setText(QApplication::translate("SettingsWindow", "Start"));
+        ui->pushButton_status->setIcon(QIcon::fromTheme("system-run"));
+    }
 }

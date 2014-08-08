@@ -15,47 +15,20 @@
  *   along with netctl-gui. If not, see http://www.gnu.org/licenses/       *
  ***************************************************************************/
 
-#ifndef NETCTLADAPTOR_H
-#define NETCTLADAPTOR_H
+#ifndef MESSAGES_H
+#define MESSAGES_H
 
-#include <QDBusAbstractAdaptor>
-#include <QStringList>
-
-#include <netctlgui/netctlgui.h>
-
-
-class NetctlAdaptor : public QDBusAbstractAdaptor
-{
-    Q_OBJECT
-    Q_CLASSINFO("D-Bus Interface", "org.freedesktop.netctlgui")
-
-public:
-    explicit NetctlAdaptor(QObject *parent = 0,
-                           const QMap<QString, QString> configuration = QMap<QString, QString>());
-    ~NetctlAdaptor();
-
-public slots:
-    // netctlCommand
-    QString ActiveProfile();
-    QString ActiveProfileStatus();
-    bool autoIsProfileActive(const QString profile);
-    bool autoIsProfileEnabled(const QString profile);
-    QStringList Information();
-    bool isProfileActive(const QString profile);
-    bool isProfileEnabled(const QString profile);
-    QStringList ProfileList();
-    // netctlProfile
-    QStringList Profile(const QString profile);
-    QString ProfileValue(const QString profile, const QString key);
-    // wpaCommand
-    QString ProfileByEssid(const QString essid);
-    QStringList WiFi();
-
-private:
-    Netctl *netctlCommand;
-    NetctlProfile *netctlProfile;
-    WpaSup *wpaCommand;
-};
+#include <QChar>
+#include <QMap>
+#include <QString>
+#include <QVariant>
 
 
-#endif /* NETCTLADAPTOR_H */
+QString errorMessage();
+QMap<QString, QVariant> getArgs();
+QString helpMessage();
+QString infoMessage();
+QString versionMessage();
+
+
+#endif /* MESSAGES_H */

@@ -27,7 +27,7 @@ class MainWindow;
 class NetctlGuiAdaptor : public QDBusAbstractAdaptor
 {
     Q_OBJECT
-    Q_CLASSINFO("D-Bus Interface", "org.freedesktop.netctlgui")
+    Q_CLASSINFO("D-Bus Interface", "org.netctlgui.netctlgui")
 
 public:
     explicit NetctlGuiAdaptor(MainWindow *parent = 0);

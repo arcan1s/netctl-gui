@@ -15,32 +15,50 @@
  *   along with netctl-gui. If not, see http://www.gnu.org/licenses/       *
  ***************************************************************************/
 
+#ifndef CONTROLADAPTOR_H
+#define CONTROLADAPTOR_H
 
-#ifndef TASKADDS_H
-#define TASKADDS_H
+#include <QDBusAbstractAdaptor>
 
-#include <QProcess>
-#include <unistd.h>
-
-#include "task.h"
+#include <netctlgui/netctlgui.h>
 
 
-class RootProcess : public QProcess
+class NetctlHelper;
+
+class ControlAdaptor : public QDBusAbstractAdaptor
 {
-protected:
-    void setupChildProcess()
-    {
-        ::setuid(0);
-    };
+    Q_OBJECT
+    Q_CLASSINFO("D-Bus Interface", "org.netctlgui.helper")
+
+public:
+    explicit ControlAdaptor(NetctlHelper *parent = 0,
+                            const QMap<QString, QString> configuration = QMap<QString, QString>());
+    ~ControlAdaptor();
+
+public slots:
+    // helper
+    bool Active();
+    bool Close();
+    // netctlCommand
+    bool autoDisableAll();
+    bool autoEnable(const QString profile);
+    bool autoEnableAll();
+    bool autoStart(const QString profile);
+    bool autoServiceEnable();
+    bool autoServiceRestart();
+    bool autoServiceStart();
+    bool Enable(const QString profile);
+    bool Restart(const QString profile);
+    bool Start(const QString profile);
+    bool SwitchTo(const QString profile);
+    // netctlProfile
+    bool Remove(const QString profile);
+
+private:
+    NetctlHelper *helper;
+    Netctl *netctlCommand;
+    NetctlProfile *netctlProfile;
 };
 
 
-struct TaskResult
-{
-    int exitCode;
-    QByteArray output;
-};
-TaskResult runTask(const QString cmd, const bool sudo = false);
-
-
-#endif /* TASKADDS_H */
+#endif /* CONTROLADAPTOR_H */

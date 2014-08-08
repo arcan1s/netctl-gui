@@ -19,15 +19,24 @@
 #include "taskadds.h"
 
 
-TaskResult runTask(const QString cmd)
+TaskResult runTask(const QString cmd, const bool sudo)
 {
     return Task::await<TaskResult>( [ & ]() {
-        SandboxProcess command;
-        command.start(cmd);
-        command.waitForFinished(-1);
         TaskResult r;
-        r.exitCode = command.exitCode();
-        r.output = command.readAllStandardOutput();
+        if (sudo) {
+            QProcess command;
+            command.start(cmd);
+            command.waitForFinished(-1);
+            r.exitCode = command.exitCode();
+            r.output = command.readAllStandardOutput();
+        }
+        else {
+            RootProcess command;
+            command.start(cmd);
+            command.waitForFinished(-1);
+            r.exitCode = command.exitCode();
+            r.output = command.readAllStandardOutput();
+        }
 
         return r;
     });

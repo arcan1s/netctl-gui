@@ -15,32 +15,47 @@
  *   along with netctl-gui. If not, see http://www.gnu.org/licenses/       *
  ***************************************************************************/
 
+#ifndef NETCTLADAPTOR_H
+#define NETCTLADAPTOR_H
 
-#ifndef TASKADDS_H
-#define TASKADDS_H
+#include <QDBusAbstractAdaptor>
+#include <QStringList>
 
-#include <QProcess>
-#include <unistd.h>
-
-#include "task.h"
+#include <netctlgui/netctlgui.h>
 
 
-class RootProcess : public QProcess
+class NetctlAdaptor : public QDBusAbstractAdaptor
 {
-protected:
-    void setupChildProcess()
-    {
-        ::setuid(0);
-    };
+    Q_OBJECT
+    Q_CLASSINFO("D-Bus Interface", "org.netctlgui.helper")
+
+public:
+    explicit NetctlAdaptor(QObject *parent = 0,
+                           const QMap<QString, QString> configuration = QMap<QString, QString>());
+    ~NetctlAdaptor();
+
+public slots:
+    // netctlCommand
+    QString ActiveProfile();
+    QString ActiveProfileStatus();
+    bool autoIsProfileActive(const QString profile);
+    bool autoIsProfileEnabled(const QString profile);
+    QStringList Information();
+    bool isProfileActive(const QString profile);
+    bool isProfileEnabled(const QString profile);
+    QStringList ProfileList();
+    // netctlProfile
+    QStringList Profile(const QString profile);
+    QString ProfileValue(const QString profile, const QString key);
+    // wpaCommand
+    QString ProfileByEssid(const QString essid);
+    QStringList WiFi();
+
+private:
+    Netctl *netctlCommand;
+    NetctlProfile *netctlProfile;
+    WpaSup *wpaCommand;
 };
 
 
-struct TaskResult
-{
-    int exitCode;
-    QByteArray output;
-};
-TaskResult runTask(const QString cmd, const bool sudo = false);
-
-
-#endif /* TASKADDS_H */
+#endif /* NETCTLADAPTOR_H */

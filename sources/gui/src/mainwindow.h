@@ -59,6 +59,7 @@ public:
     ~MainWindow();
     QString getInformation();
     QStringList getSettings();
+    bool isHelperActive();
 
 protected:
     void closeEvent(QCloseEvent *event);
@@ -70,6 +71,10 @@ public slots:
     void showMainWindow();
     void showNetctlAutoWindow();
     void showSettingsWindow();
+    // helper
+    void forceStartHelper();
+    void forceStopHelper();
+    void startHelper();
     // main
     void setTab(int tab);
     void updateConfiguration(const QMap<QString, QVariant> args = QMap<QString, QVariant>());
@@ -141,6 +146,8 @@ private:
     void createObjects();
     void deleteObjects();
     void keyPressEvent(QKeyEvent *pressedKey);
+    QList<QVariant> sendDBusRequest(const QString service, const QString path,
+                                    const QString interface, const QString cmd);
     void setIconsToTabs();
     QString configPath;
     bool debug;

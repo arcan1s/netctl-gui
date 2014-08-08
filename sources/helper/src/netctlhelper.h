@@ -15,44 +15,36 @@
  *   along with netctl-gui. If not, see http://www.gnu.org/licenses/       *
  ***************************************************************************/
 
-#ifndef CONTROLADAPTOR_H
-#define CONTROLADAPTOR_H
+#ifndef NETCTLHELPER_H
+#define NETCTLHELPER_H
 
-#include <QDBusAbstractAdaptor>
+#include <QMap>
+#include <QObject>
+#include <QVariant>
 
-#include <netctlgui/netctlgui.h>
 
-
-class ControlAdaptor : public QDBusAbstractAdaptor
+class NetctlHelper : public QObject
 {
     Q_OBJECT
-    Q_CLASSINFO("D-Bus Interface", "org.freedesktop.netctlgui")
 
 public:
-    explicit ControlAdaptor(QObject *parent = 0,
-                            const QMap<QString, QString> configuration = QMap<QString, QString>());
-    ~ControlAdaptor();
+    explicit NetctlHelper(QObject *parent = 0,
+                          QMap<QString, QVariant> args = QMap<QString, QVariant>());
+    ~NetctlHelper();
 
 public slots:
-    // netctlCommand
-    bool autoDisableAll();
-    bool autoEnable(const QString profile);
-    bool autoEnableAll();
-    bool autoStart(const QString profile);
-    bool autoServiceEnable();
-    bool autoServiceRestart();
-    bool autoServiceStart();
-    bool Enable(const QString profile);
-    bool Restart(const QString profile);
-    bool Start(const QString profile);
-    bool SwitchTo(const QString profile);
-    // netctlProfile
-    bool Remove(const QString profile);
+    QMap<QString, QString> getDefault();
+    QMap<QString, QString> getSettings();
+    void quitHelper();
 
 private:
-    Netctl *netctlCommand;
-    NetctlProfile *netctlProfile;
+    QString configPath;
+    QMap<QString, QString> configuration;
+    bool debug;
+    void createInterface();
+    void deleteInterface();
+    void updateConfiguration();
 };
 
 
-#endif /* CONTROLADAPTOR_H */
+#endif /* NETCTLHELPER_H */

@@ -16,11 +16,14 @@
  ***************************************************************************/
 
 
+#include "netctlhelper.h"
 #include "controladaptor.h"
 
 
-ControlAdaptor::ControlAdaptor(QObject *parent, const QMap<QString, QString> configuration)
-    : QDBusAbstractAdaptor(parent)
+ControlAdaptor::ControlAdaptor(NetctlHelper *parent, const QMap<QString, QString> configuration)
+    : QDBusAbstractAdaptor(parent),
+      helper(parent)
+
 {
     netctlCommand = new Netctl(false, configuration);
     netctlProfile = new NetctlProfile(false, configuration);
@@ -31,6 +34,20 @@ ControlAdaptor::~ControlAdaptor()
 {
     delete netctlCommand;
     delete netctlProfile;
+}
+
+
+// helper
+bool ControlAdaptor::Active()
+{
+    return true;
+}
+
+
+bool ControlAdaptor::Close()
+{
+    helper->quitHelper();
+    return true;
 }
 
 

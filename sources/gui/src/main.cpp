@@ -19,7 +19,6 @@
 #include <QApplication>
 #include <QDBusConnection>
 #include <QDBusMessage>
-#include <QDebug>
 #include <QDir>
 #include <QTranslator>
 #include <iostream>
@@ -55,17 +54,12 @@ int main(int argc, char *argv[])
             daemon(0, 0);
             break;
         }
-#if QT_VERSION >= 0x050000
-    QApplication::setSetuidAllowed(true);
-    qDebug() << QApplication::isSetuidAllowed();
-#endif
     QApplication a(argc, argv);
     QApplication::setQuitOnLastWindowClosed(false);
     // check if exists
     if (restoreExistSession())
         return 0;
 
-    // config path
     QMap<QString, QVariant> args = getArgs();
     // translation
     QString language = Language::defineLanguage(args[QString("config")].toString());

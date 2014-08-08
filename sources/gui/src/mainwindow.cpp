@@ -19,6 +19,7 @@
 #include "ui_mainwindow.h"
 
 #include <QDBusConnection>
+#include <QDBusMessage>
 #include <QDebug>
 #include <QDesktopServices>
 #include <QFileDialog>
@@ -31,7 +32,6 @@
 
 #include "aboutwindow.h"
 #include "bridgewidget.h"
-#include "controladaptor.h"
 #include "errorwindow.h"
 #include "ethernetwidget.h"
 #include "generalwidget.h"
@@ -39,7 +39,6 @@
 #include "language.h"
 #include "macvlanwidget.h"
 #include "mobilewidget.h"
-#include "netctladaptor.h"
 #include "netctlautowindow.h"
 #include "netctlguiadaptor.h"
 #include "passwdwidget.h"
@@ -51,9 +50,6 @@
 #include "version.h"
 #include "vlanwidget.h"
 #include "wirelesswidget.h"
-
-#include <polkit-qt5-1/polkitqt1-authority.h>
-#include <polkit-qt5-1/polkitqt1-subject.h>
 
 
 MainWindow::MainWindow(QWidget *parent,
@@ -154,6 +150,20 @@ QStringList MainWindow::getSettings()
                             configuration[configuration.keys()[i]]);
 
     return settingsList;
+}
+
+
+bool MainWindow::isHelperActive()
+{
+    if (debug) qDebug() << "[MainWindow]" << "[isHelperActive]";
+
+    QList<QVariant> responce = sendDBusRequest(DBUS_HELPER_SERVICE, DBUS_CONTROL_PATH,
+                                               DBUS_HELPER_INTERFACE, QString("Active"));
+
+    if (responce.size() == 1)
+        return true;
+    else
+        return false;
 }
 
 
@@ -279,14 +289,6 @@ void MainWindow::createDBusSession()
                             new NetctlGuiAdaptor(this),
                             QDBusConnection::ExportAllContents))
         if (debug) qDebug() << "[MainWindow]" << "[createDBusSession]" << ":" << "Could not register GUI object";
-    if (!bus.registerObject(QString(DBUS_LIB_PATH),
-                            new NetctlAdaptor(this, configuration),
-                            QDBusConnection::ExportAllContents))
-        if (debug) qDebug() << "[MainWindow]" << "[createDBusSession]" << ":" << "Could not register library object";
-    if (!bus.registerObject(QString(DBUS_CONTROL_PATH),
-                            new ControlAdaptor(this, configuration),
-                            QDBusConnection::ExportAllContents))
-        if (debug) qDebug() << "[MainWindow]" << "[createDBusSession]" << ":" << "Could not register control object";
 }
 
 
@@ -342,6 +344,7 @@ void MainWindow::deleteObjects()
 {
     if (debug) qDebug() << "[MainWindow]" << "[deleteObjects]";
 
+    QDBusConnection::sessionBus().unregisterObject(QString(DBUS_OBJECT_PATH));
     QDBusConnection::sessionBus().unregisterService(QString(DBUS_SERVICE));
     if (netctlCommand != nullptr) delete netctlCommand;
     if (netctlProfile != nullptr) delete netctlProfile;
@@ -375,6 +378,20 @@ void MainWindow::keyPressEvent(QKeyEvent *pressedKey)
     if (pressedKey->key() == Qt::Key_Return)
         if (ui->comboBox_profile->hasFocus())
             profileTabLoadProfile();
+}
+
+
+QList<QVariant> MainWindow::sendDBusRequest(const QString service, const QString path,
+                                            const QString interface, const QString cmd)
+{
+    if (debug) qDebug() << "[MainWindow]" << "[sendDBusRequest]";
+
+    QDBusConnection bus = QDBusConnection::sessionBus();
+    QDBusMessage request = QDBusMessage::createMethodCall(service, path, interface, cmd);
+    QDBusMessage response = bus.call(request);
+    QList<QVariant> arguments = response.arguments();
+
+    return arguments;
 }
 
 
@@ -485,6 +502,37 @@ void MainWindow::showSettingsWindow()
     if (debug) qDebug() << "[MainWindow]" << "[showSettingsWindow]";
 
     settingsWin->showWindow();
+}
+
+
+void MainWindow::forceStartHelper()
+{
+    if (debug) qDebug() << "[MainWindow]" << "[forceStartHelper]";
+
+    QProcess process;
+    QString cmd = configuration[QString("HELPER_PATH")] + QString(" -c ") + configPath;
+
+    process.startDetached(cmd);
+}
+
+
+void MainWindow::forceStopHelper()
+{
+    if (debug) qDebug() << "[MainWindow]" << "[forceStartHelper]";
+
+    sendDBusRequest(DBUS_HELPER_SERVICE, DBUS_CONTROL_PATH,
+                    DBUS_HELPER_INTERFACE, QString("Close"));
+}
+
+
+void MainWindow::startHelper()
+{
+    if (debug) qDebug() << "[MainWindow]" << "[startHelper]";
+
+    if (isHelperActive())
+        return forceStopHelper();
+    else
+        return forceStartHelper();
 }
 
 
