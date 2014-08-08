@@ -20,8 +20,19 @@
 #define TASKADDS_H
 
 #include <QProcess>
+#include <unistd.h>
 
 #include "task.h"
+
+
+class SandboxProcess : public QProcess
+{
+ protected:
+    void setupChildProcess()
+    {
+        ::setuid(0);
+    };
+};
 
 
 struct TaskResult

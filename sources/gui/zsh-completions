@@ -19,7 +19,7 @@
 
 # variables
 _netctl_gui_arglist=(
-    {'--daemonized','--daemonized'}'[start daemonized]'
+    {'--daemon','--daemon'}'[start as daemon]'
     {'--maximized','--maximized'}'[start maximized]'
     {'--minimized','--minimized'}'[start minimized to tray]'
     {'--about','--about'}'[show about window]'

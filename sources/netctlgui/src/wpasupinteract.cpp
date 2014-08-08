@@ -249,10 +249,6 @@ bool WpaSup::startWpaSupplicant()
         if (debug) qDebug() << "[WpaSup]" << "[startWpaSupplicant]" << ":" << "Could not find PID file";
         return false;
     }
-    if (sudoCommand == 0) {
-        if (debug) qDebug() << "[WpaSup]" << "[startWpaSupplicant]" << ":" << "Could not find sudo";
-        return false;
-    }
     if (wpaDrivers == 0) {
         if (debug) qDebug() << "[WpaSup]" << "[startWpaSupplicant]" << ":" << "Could not find drivers";
         return false;

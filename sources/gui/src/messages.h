@@ -19,7 +19,9 @@
 #define MESSAGES_H
 
 #include <QChar>
+#include <QMap>
 #include <QString>
+#include <QVariant>
 
 
 QString errorMessage();

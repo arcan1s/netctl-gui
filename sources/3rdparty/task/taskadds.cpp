@@ -22,7 +22,7 @@
 TaskResult runTask(const QString cmd)
 {
     return Task::await<TaskResult>( [ & ]() {
-        QProcess command;
+        SandboxProcess command;
         command.start(cmd);
         command.waitForFinished(-1);
         TaskResult r;

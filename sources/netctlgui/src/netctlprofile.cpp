@@ -74,10 +74,6 @@ bool NetctlProfile::copyProfile(const QString oldPath)
         if (debug) qDebug() << "[NetctlProfile]" << "[copyProfile]" << ":" << "Could not find directory";
         return false;
     }
-    if (sudoCommand == 0) {
-        if (debug) qDebug() << "[NetctlProfile]" << "[copyProfile]" << ":" << "Could not find sudo";
-        return false;
-    }
 
     QString newPath = profileDirectory->absolutePath() + QDir::separator() + QFileInfo(oldPath).fileName();
     QString cmd = sudoCommand + QString(" /usr/bin/mv ") + oldPath + QString(" ") + newPath;
@@ -211,10 +207,6 @@ bool NetctlProfile::removeProfile(const QString profile)
     if (debug) qDebug() << "[NetctlProfile]" << "[removeProfile]" << ":" << "Profile" << profile;
     if (profileDirectory == 0) {
         if (debug) qDebug() << "[NetctlProfile]" << "[removeProfile]" << ":" << "Could not find directory";
-        return false;
-    }
-    if (sudoCommand == 0) {
-        if (debug) qDebug() << "[NetctlProfile]" << "[removeProfile]" << ":" << "Could not find sudo";
         return false;
     }
 

@@ -97,10 +97,6 @@ bool Netctl::cmdCall(const bool sudo, const QString command, const QString comma
         if (debug) qDebug() << "[Netctl]" << "[cmdCall]" << ":" << "Could not find command";
         return false;
     }
-    if ((sudo) && (sudoCommand == 0)) {
-        if (debug) qDebug() << "[Netctl]" << "[cmdCall]" << ":" << "Could not find sudo";
-        return false;
-    }
 
     QString cmd = QString("");
     if (sudo) cmd = sudoCommand + QString(" ");
@@ -128,10 +124,6 @@ QString Netctl::getCmdOutput(const bool sudo, const QString command, const QStri
     if (debug) qDebug() << "[Netctl]" << "[getCmdOutput]" << ":" << "Argument" << argument;
     if (command == 0) {
         if (debug) qDebug() << "[Netctl]" << "[getCmdOutput]" << ":" << "Could not find command";
-        return QString();
-    }
-    if ((sudo) && (sudoCommand == 0)) {
-        if (debug) qDebug() << "[Netctl]" << "[getCmdOutput]" << ":" << "Could not find sudo";
         return QString();
     }
 

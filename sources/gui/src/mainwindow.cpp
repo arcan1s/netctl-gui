@@ -52,6 +52,9 @@
 #include "vlanwidget.h"
 #include "wirelesswidget.h"
 
+#include <polkit-qt5-1/polkitqt1-authority.h>
+#include <polkit-qt5-1/polkitqt1-subject.h>
+
 
 MainWindow::MainWindow(QWidget *parent,
                        const QMap<QString, QVariant> args,
@@ -78,7 +81,6 @@ MainWindow::MainWindow(QWidget *parent,
         isDaemon = true;
     else
         isDaemon = false;
-    createDBusSession();
     updateConfiguration(args);
 
     // main actions
@@ -117,7 +119,6 @@ MainWindow::~MainWindow()
 {
     if (debug) qDebug() << "[MainWindow]" << "[~MainWindow]";
 
-    QDBusConnection::sessionBus().unregisterService(QString(DBUS_SERVICE));
     deleteObjects();
 }
 
@@ -294,6 +295,7 @@ void MainWindow::createObjects()
     if (debug) qDebug() << "[MainWindow]" << "[createObjects]";
 
     // backend
+    createDBusSession();
     netctlCommand = new Netctl(debug, configuration);
     netctlProfile = new NetctlProfile(debug, configuration);
     wpaCommand = new WpaSup(debug, configuration);
@@ -340,6 +342,7 @@ void MainWindow::deleteObjects()
 {
     if (debug) qDebug() << "[MainWindow]" << "[deleteObjects]";
 
+    QDBusConnection::sessionBus().unregisterService(QString(DBUS_SERVICE));
     if (netctlCommand != nullptr) delete netctlCommand;
     if (netctlProfile != nullptr) delete netctlProfile;
     if (wpaCommand != nullptr) delete wpaCommand;
