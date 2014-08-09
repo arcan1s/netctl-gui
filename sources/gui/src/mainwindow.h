@@ -97,8 +97,8 @@ private slots:
     // main tab slots
     void mainTabContextualMenu(const QPoint &pos);
     void mainTabEditProfile();
-    void mainTabRemoveProfile();
     void mainTabEnableProfile();
+    void mainTabRemoveProfile();
     void mainTabRestartProfile();
     void mainTabStartProfile();
     void mainTabRefreshButtons(QTableWidgetItem *current, QTableWidgetItem *previous);
