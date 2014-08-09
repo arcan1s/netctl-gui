@@ -65,6 +65,7 @@ TODO (wish list)
 
 * helper daemon (including systemd integration)
 * include security notes / project architecture to about window
+* DBus API description
 
 Links
 -----
