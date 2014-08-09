@@ -15,9 +15,9 @@
  *   along with netctl-gui. If not, see http://www.gnu.org/licenses/       *
  ***************************************************************************/
 
+#include "controladaptor.h"
 
 #include "netctlhelper.h"
-#include "controladaptor.h"
 
 
 ControlAdaptor::ControlAdaptor(NetctlHelper *parent, const QMap<QString, QString> configuration)

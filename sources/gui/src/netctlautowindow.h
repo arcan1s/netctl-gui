@@ -58,9 +58,10 @@ private slots:
     void netctlAutoStartService();
 
 private:
-    Netctl *netctlCommand;
-    Ui::NetctlAutoWindow *ui;
-    bool debug;
+    Netctl *netctlCommand = nullptr;
+    Ui::NetctlAutoWindow *ui = nullptr;
+    bool debug = false;
+    bool useHelper = true;
     QString checkStatus(const bool statusBool, const bool nullFalse = false);
     void createActions();
 };

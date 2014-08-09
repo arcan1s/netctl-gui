@@ -25,6 +25,7 @@
 
 #include "aboutwindow.h"
 #include "bridgewidget.h"
+#include "dbusoperation.h"
 #include "errorwindow.h"
 #include "ethernetwidget.h"
 #include "generalwidget.h"
@@ -373,48 +374,6 @@ void MainWindow::deleteObjects()
 }
 
 
-QList<QVariant> MainWindow::sendDBusRequest(const QString service, const QString path,
-                                            const QString interface, const QString cmd,
-                                            const QList<QVariant> args, bool system)
-{
-    if (debug) qDebug() << "[MainWindow]" << "[sendDBusRequest]";
-    if (debug) qDebug() << "[MainWindow]" << "[sendDBusRequest]" << ":" << "Service" << service;
-    if (debug) qDebug() << "[MainWindow]" << "[sendDBusRequest]" << ":" << "Path" << path;
-    if (debug) qDebug() << "[MainWindow]" << "[sendDBusRequest]" << ":" << "Interface" << interface;
-    if (debug) qDebug() << "[MainWindow]" << "[sendDBusRequest]" << ":" << "cmd" << cmd;
-    if (debug) qDebug() << "[MainWindow]" << "[sendDBusRequest]" << ":" << "args" << args;
-    if (debug) qDebug() << "[MainWindow]" << "[sendDBusRequest]" << ":" << "is system bus" << system;
-
-    QList<QVariant> arguments;
-    QDBusMessage response;
-    if (system) {
-        QDBusConnection bus = QDBusConnection::systemBus();
-        QDBusMessage request = QDBusMessage::createMethodCall(service, path, interface, cmd);
-        if (!args.isEmpty())
-            request.setArguments(args);
-        response = bus.call(request);
-    }
-    else {
-        QDBusConnection bus = QDBusConnection::sessionBus();
-        QDBusMessage request = QDBusMessage::createMethodCall(service, path, interface, cmd);
-        if (!args.isEmpty())
-            request.setArguments(args);
-        response = bus.call(request);
-    }
-    arguments = response.arguments();
-    if ((arguments.size() == 0) &&
-        (service != DBUS_HELPER_SERVICE) &&
-        (path != DBUS_CONTROL_PATH) &&
-        (interface != DBUS_HELPER_INTERFACE) &&
-        (cmd != QString("Active"))) {
-        if (debug) qDebug() << "[MainWindow]" << "[sendDBusRequest]" << ":" << "Error message" << response.errorMessage();
-        errorWin->showWindow(0, QString("[MainWindow] : [sendDBusRequest]"), response.errorMessage());
-    }
-
-    return arguments;
-}
-
-
 void MainWindow::setIconsToTabs()
 {
     if (debug) qDebug() << "[MainWindow]" << "[setIconsToTabs]";
@@ -445,49 +404,6 @@ QMap<QString, QString> MainWindow::parseOptions(const QString options)
 }
 
 
-QList<netctlProfileInfo> MainWindow::parseOutputNetctl(const QList<QVariant> raw)
-{
-    if (debug) qDebug() << "[MainWindow]" << "[parseOutputNetctl]";
-
-    QList<netctlProfileInfo> profileInfo;
-    if (raw.size() == 0)
-        return profileInfo;
-    for (int i=0; i<raw[0].toStringList().count(); i++) {
-        netctlProfileInfo profile;
-        QStringList info = raw[0].toStringList()[i].split(QChar('|'));
-        profile.name = info[0];
-        profile.description = info[1];
-        profile.active = info[2].toInt();
-        profile.enabled = info[3].toInt();
-        profileInfo.append(profile);
-    }
-
-    return profileInfo;
-}
-
-
-QList<netctlWifiInfo> MainWindow::parseOutputWifi(const QList<QVariant> raw)
-{
-    if (debug) qDebug() << "[MainWindow]" << "[parseOutputNetctl]";
-
-    QList<netctlWifiInfo> wifiInfo;
-    if (raw.size() == 0)
-        return wifiInfo;
-    for (int i=0; i<raw[0].toStringList().count(); i++) {
-        netctlWifiInfo wifi;
-        QStringList info = raw[0].toStringList()[i].split(QChar('|'));
-        wifi.name = info[0];
-        wifi.security = info[1];
-        wifi.signal = info[2];
-        wifi.active = info[3].toInt();
-        wifi.exists = info[4].toInt();
-        wifiInfo.append(wifi);
-    }
-
-    return wifiInfo;
-}
-
-
 // window slots
 void MainWindow::updateConfiguration(const QMap<QString, QVariant> args)
 {
@@ -505,8 +421,10 @@ void MainWindow::updateConfiguration(const QMap<QString, QVariant> args)
     if ((configuration[QString("USE_HELPER")] == QString("true")) &&
             (checkExternalApps(QString("helper"))))
         useHelper = true;
-    else
+    else {
         useHelper = false;
+        configuration[QString("USE_HELPER")] = QString("false");
+    }
 
     // update translation
     qApp->removeTranslator(translator);

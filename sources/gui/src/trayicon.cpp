@@ -15,13 +15,13 @@
  *   along with netctl-gui. If not, see http://www.gnu.org/licenses/       *
  ***************************************************************************/
 
+#include "trayicon.h"
 
 #include <QDebug>
 #include <QMenu>
 #include <QMessageBox>
 
 #include "mainwindow.h"
-#include "trayicon.h"
 
 
 TrayIcon::TrayIcon(QObject *parent, const bool debugCmd)

@@ -145,10 +145,6 @@ private:
     void createObjects();
     void deleteObjects();
     void keyPressEvent(QKeyEvent *pressedKey);
-    QList<QVariant> sendDBusRequest(const QString service, const QString path,
-                                    const QString interface, const QString cmd,
-                                    const QList<QVariant> args = QList<QVariant>(),
-                                    const bool system = true);
     void setIconsToTabs();
     QString configPath;
     bool debug = false;
@@ -159,8 +155,6 @@ private:
     // configuration
     QMap<QString, QString> configuration;
     QMap<QString, QString> parseOptions(const QString options);
-    QList<netctlProfileInfo> parseOutputNetctl(const QList<QVariant> raw);
-    QList<netctlWifiInfo> parseOutputWifi(const QList<QVariant> raw);
 };
 
 

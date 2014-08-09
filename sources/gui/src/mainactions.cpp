@@ -26,6 +26,7 @@
 
 #include "aboutwindow.h"
 #include "bridgewidget.h"
+#include "dbusoperation.h"
 #include "errorwindow.h"
 #include "ethernetwidget.h"
 #include "generalwidget.h"

@@ -74,17 +74,6 @@ QStringList Netctl::sources() const
 }
 
 
-void Netctl::initValues()
-{
-    if (debug) qDebug() << "[DE]" << "[initValues]";
-
-    netctlAutoStatus = false;
-    QStringList sourcesList = sources();
-    for (int i=0; i<sourcesList.count(); i++)
-        sourceRequestEvent(sourcesList[i]);
-}
-
-
 void Netctl::setKeys()
 {
     if (debug) qDebug() << "[DE]" << "[setKeys]";
@@ -92,8 +81,6 @@ void Netctl::setKeys()
     QStringList sourcesList = sources();
     for (int i=0; i<sourcesList.count(); i++)
         setData(sourcesList[i], QString("value"), QString(""));
-
-    initValues();
 }
 
 

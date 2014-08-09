@@ -15,6 +15,7 @@
  *   along with netctl-gui. If not, see http://www.gnu.org/licenses/       *
  ***************************************************************************/
 
+#include "netctlhelper.h"
 
 #include <QCoreApplication>
 #include <QDBusConnection>
@@ -26,7 +27,6 @@
 
 #include "controladaptor.h"
 #include "netctladaptor.h"
-#include "netctlhelper.h"
 #include "version.h"
 
 

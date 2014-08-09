@@ -15,7 +15,6 @@
  *   along with netctl-gui. If not, see http://www.gnu.org/licenses/       *
  ***************************************************************************/
 
-
 #include "netctladaptor.h"
 
 
@@ -80,6 +79,12 @@ QStringList NetctlAdaptor::Information()
 bool NetctlAdaptor::isNetctlAutoActive()
 {
     return netctlCommand->isNetctlAutoRunning();
+}
+
+
+bool NetctlAdaptor::isNetctlAutoEnabled()
+{
+    return netctlCommand->isNetctlAutoEnabled();
 }
 
 
