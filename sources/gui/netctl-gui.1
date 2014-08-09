@@ -5,63 +5,65 @@ netctl-gui is a graphical interface for netctl
 .B netctl-gui
 [ options ]
 .SH DESCRIPTION
-Graphical user interface for netctl written on C++ using Qt toolkit. Provides shared library for interaction with netctl and Plasmoid and DataEngine for KDE.
+.B netctl-gui
+is a project which provides graphical user interface for
+.B netctl
+written on C++ using Qt toolkit. It provides shared library and DBus API (through helper daemon) and Plasmoid and DataEngine for KDE.
 .SH OPTIONS
-.TP
---daemon
+.IP "--daemon"
 run as daemon
-.TP
---maximized
+.IP "--maximized"
 run maximized
-.TP
---minimized
+.IP "--minimized"
 run to system tray if it is available
-.TP
---about
+.IP "--about"
 show about window
-.TP
---netctl-auto
+.IP "--netctl-auto"
 show netctl-auto window
-.TP
---settings
+.IP "--settings"
 show settings window
-.TP
--e, --essid ESSID
-select ESSID ESSID. This option will set tab to 3 automatically
-.TP
--o, --open PROFILE
-open profile PROFILE. This option will set tab to 2 automatically
-.TP
--s, --select PROFILE
-select profile PROFILE. This option will set tab to 1 automatically
-.TP
--c, --config FILE
-read configuration from file FILE
-.TP
--d, --debug
+.IP "-e, --essid ESSID"
+select ESSID
+.I ESSID
+This option will set tab to 3 automatically
+.IP "-o, --open PROFILE"
+open profile
+.I PROFILE
+This option will set tab to 2 automatically
+.IP "-s, --select PROFILE"
+select profile
+.I PROFILE
+This option will set tab to 1 automatically
+.IP "-c, --config FILE"
+read configuration from file
+.I FILE
+.IP "-d, --debug"
 print debug information
-.TP
---default
+.IP "--default"
 start with default settings
-.TP
---set-opts OPTIONS
-set options OPTIONS for this run, comma separated. Example "LANGUAGE=en,NETCTL_PATH=/usr/bin/netctl"
-.TP
--t, --tab NUM
-open a tab with number NUM
-.TP
--v, --version
+.IP "--set-opts OPTIONS"
+set options
+.I OPTIONS
+for this run, comma separated. Example:
+.nf
+    LANGUAGE=en,NETCTL_PATH=/path/to/ponies
+.fi
+.IP "-t, --tab NUM"
+open a tab with number
+.I NUM
+.IP "-v, --version"
 show version and exit
-.TP
--i, --info
+.IP "-i, --info"
 show build information and exit
-.TP
--h, --help
+.IP "-h, --help"
 show this help and exit
 .SH FILES
-.TP
-$HOME/.config/netctl-gui.conf
+.I $HOME/.config/netctl-gui.conf
+.RS
 Configuration file
+.RE
+.SH SEE ALSO
+.BR netctl-gui (1)
 .SH AUTHOR
 @PROJECT_AUTHOR@ <\fI@PROJECT_CONTACT@\fR>
 .SH LICENSE

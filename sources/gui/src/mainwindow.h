@@ -59,6 +59,7 @@ public:
     QString printInformation();
     QStringList printSettings();
     bool isHelperActive();
+    bool isHelperServiceActive();
 
 protected:
     void closeEvent(QCloseEvent *event);

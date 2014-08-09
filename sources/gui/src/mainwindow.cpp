@@ -171,6 +171,23 @@ bool MainWindow::isHelperActive()
 }
 
 
+bool MainWindow::isHelperServiceActive()
+{
+    if (debug) qDebug() << "[MainWindow]" << "[isHelperServiceActive]";
+
+    QString cmd = configuration[QString("SYSTEMCTL_PATH")] + QString(" is-active ") +
+            configuration[QString("HELPER_SERVICE")];
+    if (debug) qDebug() << "[MainWindow]" << "[isHelperServiceActive]" << ":" << "Run cmd" << cmd;
+    TaskResult process = runTask(cmd, false);
+    if (debug) qDebug() << "[MainWindow]" << "[isHelperServiceActive]" << ":" << "Cmd returns" << process.exitCode;
+
+    if (process.exitCode != 0)
+        return false;
+    else
+        return true;
+}
+
+
 bool MainWindow::checkExternalApps(const QString apps = QString("all"))
 {
     if (debug) qDebug() << "[MainWindow]" << "[checkExternalApps]";
@@ -436,11 +453,15 @@ void MainWindow::updateConfiguration(const QMap<QString, QVariant> args)
     delete settingsWin;
 
     createObjects();
+    // some helper fixs
     if (useHelper) useHelper = isHelperActive();
     if (useHelper)
         sendDBusRequest(DBUS_HELPER_SERVICE, DBUS_CTRL_PATH,
                         DBUS_HELPER_INTERFACE, QString("Update"),
                         QList<QVariant>(), true, debug);
+    if (isHelperServiceActive())
+        configuration[QString("CLOSE_HELPER")] = QString("false");
+    // update ui
     setTab(args[QString("tab")].toInt() - 1);
     createActions();
     setIconsToTabs();

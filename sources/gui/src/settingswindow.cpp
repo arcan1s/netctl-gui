@@ -489,14 +489,22 @@ void SettingsWindow::updateHelper()
 {
     if (debug) qDebug() << "[SettingsWindow]" << "[updateHelper]";
 
-    if (((MainWindow *)parent())->isHelperActive()) {
+    if (((MainWindow *)parent())->isHelperServiceActive()) {
+        ui->label_status->setText(QApplication::translate("SettingsWindow", "Active (systemd)"));
+        ui->pushButton_status->setText(QApplication::translate("SettingsWindow", "Stop"));
+        ui->pushButton_status->setIcon(QIcon::fromTheme("process-stop"));
+        ui->pushButton_status->setDisabled(true);
+    }
+    else if (((MainWindow *)parent())->isHelperActive()) {
         ui->label_status->setText(QApplication::translate("SettingsWindow", "Active"));
         ui->pushButton_status->setText(QApplication::translate("SettingsWindow", "Stop"));
         ui->pushButton_status->setIcon(QIcon::fromTheme("process-stop"));
+        ui->pushButton_status->setEnabled(true);
     }
     else {
         ui->label_status->setText(QApplication::translate("SettingsWindow", "Inactive"));
         ui->pushButton_status->setText(QApplication::translate("SettingsWindow", "Start"));
         ui->pushButton_status->setIcon(QIcon::fromTheme("system-run"));
+        ui->pushButton_status->setEnabled(true);
     }
 }

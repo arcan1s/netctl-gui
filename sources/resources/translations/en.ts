@@ -167,6 +167,10 @@
         <source>Sender : %1</source>
         <translation>Sender : %1</translation>
     </message>
+    <message>
+        <source>Could not run helper</source>
+        <translation>Could not run helper</translation>
+    </message>
 </context>
 <context>
     <name>EthernetWidget</name>
@@ -938,7 +942,7 @@
     </message>
     <message>
         <source>Build date: %1</source>
-        <translation>Build date: %1</translation>
+        <translation type="vanished">Build date: %1</translation>
     </message>
     <message>
         <source>cmake flags:</source>
@@ -1064,11 +1068,11 @@
     </message>
     <message>
         <source>cmake flags</source>
-        <translation>cmake flags</translation>
+        <translation type="vanished">cmake flags</translation>
     </message>
     <message>
         <source>DBus configuration</source>
-        <translation>DBus configuration</translation>
+        <translation type="vanished">DBus configuration</translation>
     </message>
 </context>
 <context>
@@ -1323,6 +1327,21 @@
     <message>
         <source>Profile</source>
         <translation>Profile</translation>
+    </message>
+</context>
+<context>
+    <name>NetctlHelper</name>
+    <message>
+        <source>Build date: %1</source>
+        <translation>Build date: %1</translation>
+    </message>
+    <message>
+        <source>cmake flags</source>
+        <translation>cmake flags</translation>
+    </message>
+    <message>
+        <source>DBus configuration</source>
+        <translation>DBus configuration</translation>
     </message>
 </context>
 <context>
@@ -1720,6 +1739,70 @@
     <message>
         <source>Start minimized to tray</source>
         <translation>Start minimized to tray</translation>
+    </message>
+    <message>
+        <source>Select helper command</source>
+        <translation>Select helper command</translation>
+    </message>
+    <message>
+        <source>Active</source>
+        <translation>Active</translation>
+    </message>
+    <message>
+        <source>Stop</source>
+        <translation>Stop</translation>
+    </message>
+    <message>
+        <source>Inactive</source>
+        <translation>Inactive</translation>
+    </message>
+    <message>
+        <source>Start</source>
+        <translation>Start</translation>
+    </message>
+    <message>
+        <source>Helper</source>
+        <translation>Helper</translation>
+    </message>
+    <message>
+        <source>Helper status</source>
+        <translation>Helper status</translation>
+    </message>
+    <message>
+        <source>Use helper</source>
+        <translation>Use helper</translation>
+    </message>
+    <message>
+        <source>Force use sudo in helper</source>
+        <translation>Force use sudo in helper</translation>
+    </message>
+    <message>
+        <source>Close helper after exit</source>
+        <translation type="vanished">Close helper after exit</translation>
+    </message>
+    <message>
+        <source>Helper command</source>
+        <translation>Helper command</translation>
+    </message>
+    <message>
+        <source>Helper service</source>
+        <translation>Helper service</translation>
+    </message>
+    <message>
+        <source>Name of netctlgui-helper service</source>
+        <translation>Name of netctlgui-helper service</translation>
+    </message>
+    <message>
+        <source>Active (systemd)</source>
+        <translation>Active (systemd)</translation>
+    </message>
+    <message>
+        <source>It is recommended to use systemd integration. See `man 1 netctlgui-helper` for more details.</source>
+        <translation>It is recommended to use systemd integration. See `man 1 netctlgui-helper` for more details.</translation>
+    </message>
+    <message>
+        <source>Close helper after exit (doesn&apos;t work while systemd service is active)</source>
+        <translation>Close helper after exit (doesn&apos;t work while systemd service is active)</translation>
     </message>
 </context>
 <context>

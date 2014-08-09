@@ -167,6 +167,10 @@
         <source>Sender : %1</source>
         <translation>Отправитель : %1</translation>
     </message>
+    <message>
+        <source>Could not run helper</source>
+        <translation>Не могу запустить хелпер</translation>
+    </message>
 </context>
 <context>
     <name>EthernetWidget</name>
@@ -937,7 +941,7 @@
     </message>
     <message>
         <source>Build date: %1</source>
-        <translation>Дата сборки: %1</translation>
+        <translation type="vanished">Дата сборки: %1</translation>
     </message>
     <message>
         <source>cmake flags:</source>
@@ -1063,11 +1067,11 @@
     </message>
     <message>
         <source>cmake flags</source>
-        <translation>Флаги cmake</translation>
+        <translation type="vanished">Флаги cmake</translation>
     </message>
     <message>
         <source>DBus configuration</source>
-        <translation>Настройка DBus</translation>
+        <translation type="vanished">Настройка DBus</translation>
     </message>
 </context>
 <context>
@@ -1322,6 +1326,21 @@
     <message>
         <source>Profile</source>
         <translation>Профиль</translation>
+    </message>
+</context>
+<context>
+    <name>NetctlHelper</name>
+    <message>
+        <source>Build date: %1</source>
+        <translation>Дата сборки: %1</translation>
+    </message>
+    <message>
+        <source>cmake flags</source>
+        <translation>Флаги cmake</translation>
+    </message>
+    <message>
+        <source>DBus configuration</source>
+        <translation>Настройка DBus</translation>
     </message>
 </context>
 <context>
@@ -1719,6 +1738,70 @@
     <message>
         <source>Start minimized to tray</source>
         <translation>Запускать свернутым в трей</translation>
+    </message>
+    <message>
+        <source>Select helper command</source>
+        <translation>Выберете команду для хелпера</translation>
+    </message>
+    <message>
+        <source>Active</source>
+        <translation>Активен</translation>
+    </message>
+    <message>
+        <source>Stop</source>
+        <translation>Стоп</translation>
+    </message>
+    <message>
+        <source>Inactive</source>
+        <translation>Неактивен</translation>
+    </message>
+    <message>
+        <source>Start</source>
+        <translation>Старт</translation>
+    </message>
+    <message>
+        <source>Helper</source>
+        <translation>Хелпер</translation>
+    </message>
+    <message>
+        <source>Helper status</source>
+        <translation>Статус</translation>
+    </message>
+    <message>
+        <source>Use helper</source>
+        <translation>Использовать хелпер</translation>
+    </message>
+    <message>
+        <source>Force use sudo in helper</source>
+        <translation>Принудительно использовать sudo</translation>
+    </message>
+    <message>
+        <source>Close helper after exit</source>
+        <translation type="vanished">Закрыть хелпер после выхода</translation>
+    </message>
+    <message>
+        <source>Helper command</source>
+        <translation>Команда</translation>
+    </message>
+    <message>
+        <source>Helper service</source>
+        <translation>Сервис</translation>
+    </message>
+    <message>
+        <source>Name of netctlgui-helper service</source>
+        <translation>Имя сервиса для netctlgui-helper</translation>
+    </message>
+    <message>
+        <source>Active (systemd)</source>
+        <translation>Активен (systemd)</translation>
+    </message>
+    <message>
+        <source>It is recommended to use systemd integration. See `man 1 netctlgui-helper` for more details.</source>
+        <translation>Рекомендуется использовать интеграцию с systemd. Смотри `man 1 netctlgui-helper` для более подробной информации.</translation>
+    </message>
+    <message>
+        <source>Close helper after exit (doesn&apos;t work while systemd service is active)</source>
+        <translation>Закрыть хелпер после выхода (не работает, если запущен сервис systemd)</translation>
     </message>
 </context>
 <context>

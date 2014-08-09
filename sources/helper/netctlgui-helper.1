@@ -5,36 +5,60 @@ netctlgui-helper is a helper daemon for netctl-gui
 .B netctlgui-helper
 [ options ]
 .SH DESCRIPTION
-Qt based helper daemon which provides a DBus interface for interaction with netctl without any additional permissions.
+.B netctlgui-helper
+is a Qt based helper daemon which provides a DBus interface for interaction with
+.B netctl
+without any additional permissions. To have access to DBus interface user should have group
+.B network
 .SH OPTIONS
-.TP
---nodaemon
+.IP "--nodaemon"
 do not run as daemon
-.TP
--c, --config FILE
-read configuration from file FILE
-.TP
--d, --debug
+.IP "-c, --config FILE"
+read configuration from file
+.I FILE
+.IP "-d, --debug"
 print debug information
-.TP
--v, --version
+.IP "-v, --version"
 show version and exit
-.TP
--i, --info
+.IP "-i, --info"
 show build information and exit
-.TP
--h, --help
+.IP "-h, --help"
 show this help and exit
 .SH FILES
-.TP
-$HOME/.config/netctl-gui.conf
+.I $HOME/.config/netctl-gui.conf
+.RS
 Configuration file
-.TP
-/usr/lib/systemd/system/netctlgui-helper.service
+.RE
+.I /usr/lib/systemd/system/netctlgui-helper.service
+.RS
 Systemd service file
-.TP
-/etc/dbus-1/system.d/org.netctlgui.helper.conf
+.RE
+.I /etc/dbus-1/system.d/org.netctlgui.helper.conf
+.RS
 DBus policy configuration file
+.RE
+.SH USAGE WITH SYSTEMD
+It is a recommended way to use this daemon. To start helper as systemd daemon type:
+.nf
+    # systemctl start netctlgui-helper
+.fi
+If you want to setup non-standard configuration file edit source service file and replace the following line:
+.nf
+    ExecStart=/usr/bin/netctlgui-helper
+.fi
+to
+.nf
+    ExecStart=/usr/bin/netctlgui-helper -c /path/to/your/file
+.fi
+By the way it is highly recommended to copy source service file before to
+.B /etc/systemd/system
+and edit copied file to avoid upgrade problems.
+.SH SEE ALSO
+.BR netctl-gui (1)
+.SH STANDARDS
+Some text will be here
+.SH SECURITY CONSIDERATIONS
+Some text will be here.
 .SH AUTHOR
 @PROJECT_AUTHOR@ <\fI@PROJECT_CONTACT@\fR>
 .SH LICENSE

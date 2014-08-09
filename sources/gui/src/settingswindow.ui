@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>656</width>
-    <height>317</height>
+    <width>654</width>
+    <height>315</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -136,8 +136,8 @@
               <rect>
                <x>0</x>
                <y>0</y>
-               <width>440</width>
-               <height>256</height>
+               <width>438</width>
+               <height>254</height>
               </rect>
              </property>
              <layout class="QVBoxLayout" name="verticalLayout_7">
@@ -211,11 +211,21 @@
               <rect>
                <x>0</x>
                <y>0</y>
-               <width>440</width>
-               <height>256</height>
+               <width>438</width>
+               <height>254</height>
               </rect>
              </property>
              <layout class="QVBoxLayout" name="verticalLayout_13">
+              <item>
+               <widget class="QLabel" name="label_helperInfo">
+                <property name="text">
+                 <string>It is recommended to use systemd integration. See `man 1 netctlgui-helper` for more details.</string>
+                </property>
+                <property name="wordWrap">
+                 <bool>true</bool>
+                </property>
+               </widget>
+              </item>
               <item>
                <layout class="QHBoxLayout" name="layout_status">
                 <item>
@@ -282,7 +292,7 @@
               <item>
                <widget class="QCheckBox" name="checkBox_helperClose">
                 <property name="text">
-                 <string>Close helper after exit</string>
+                 <string>Close helper after exit (doesn't work while systemd service is active)</string>
                 </property>
                </widget>
               </item>
@@ -342,12 +352,6 @@
                 <property name="orientation">
                  <enum>Qt::Vertical</enum>
                 </property>
-                <property name="sizeHint" stdset="0">
-                 <size>
-                  <width>20</width>
-                  <height>104</height>
-                 </size>
-                </property>
                </spacer>
               </item>
              </layout>
@@ -371,8 +375,8 @@
               <rect>
                <x>0</x>
                <y>0</y>
-               <width>440</width>
-               <height>256</height>
+               <width>436</width>
+               <height>165</height>
               </rect>
              </property>
              <layout class="QVBoxLayout" name="verticalLayout_2">
@@ -825,8 +829,8 @@
               <rect>
                <x>0</x>
                <y>0</y>
-               <width>436</width>
-               <height>103</height>
+               <width>438</width>
+               <height>254</height>
               </rect>
              </property>
              <layout class="QVBoxLayout" name="verticalLayout_11">
