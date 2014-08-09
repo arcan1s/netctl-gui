@@ -21,11 +21,7 @@
 #include <QDBusConnection>
 #include <QDBusMessage>
 #include <QDebug>
-#include <QDesktopServices>
-#include <QFileDialog>
-#include <QFileInfo>
 #include <QTranslator>
-#include <QUrl>
 
 #include "aboutwindow.h"
 #include "bridgewidget.h"
@@ -125,13 +121,21 @@ QString MainWindow::getInformation()
 
     QString profile;
     QString status;
-    if (netctlCommand->isNetctlAutoRunning()) {
-        profile = netctlCommand->autoGetActiveProfile();
-        status = QString("netctl-auto");
+    if (useHelper) {
+        QStringList request = sendDBusRequest(DBUS_HELPER_SERVICE, DBUS_LIB_PATH,
+                                              DBUS_HELPER_INTERFACE, QString("Information"))[0].toStringList();
+        profile = request[0];
+        status = request[1];
     }
     else {
-        profile = netctlCommand->getActiveProfile();
-        status = netctlCommand->getProfileStatus(profile);
+        if (netctlCommand->isNetctlAutoRunning()) {
+            profile = netctlCommand->autoGetActiveProfile();
+            status = QString("netctl-auto");
+        }
+        else {
+            profile = netctlCommand->getActiveProfile();
+            status = netctlCommand->getProfileStatus(profile);
+        }
     }
     QString output = QString("%1: %2\n").arg(QApplication::translate("MainWindow", "Profile")).arg(profile);
     output += QString("%1: %2").arg(QApplication::translate("MainWindow", "Status")).arg(status);
@@ -753,7 +757,12 @@ void MainWindow::updateWifiTab()
         return errorWin->showWindow(1, QString("[MainWindow] : [updateWifiTab]"));
 
     ui->tabWidget->setDisabled(true);
-    QList<netctlWifiInfo> scanResults = wpaCommand->scanWifi();
+    QList<netctlWifiInfo> scanResults;
+    if (useHelper)
+        scanResults = parseOutputWifi(sendDBusRequest(DBUS_HELPER_SERVICE, DBUS_LIB_PATH,
+                                                      DBUS_HELPER_INTERFACE, QString("WiFi")));
+    else
+        scanResults = wpaCommand->scanWifi();
 
     ui->tableWidget_wifi->setSortingEnabled(false);
     ui->tableWidget_wifi->selectRow(-1);

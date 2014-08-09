@@ -39,7 +39,7 @@ NetctlAdaptor::~NetctlAdaptor()
 // netctlCommand
 QString NetctlAdaptor::ActiveProfile()
 {
-    if (netctlCommand->isNetctlAutoRunning())
+    if (isNetctlAutoActive())
         return netctlCommand->autoGetActiveProfile();
     else
         return netctlCommand->getActiveProfile();
@@ -48,7 +48,7 @@ QString NetctlAdaptor::ActiveProfile()
 
 QString NetctlAdaptor::ActiveProfileStatus()
 {
-    if (netctlCommand->isNetctlAutoRunning())
+    if (isNetctlAutoActive())
         return QString("netctl-auto");
     else
         return netctlCommand->getProfileStatus(ActiveProfile());
@@ -70,10 +70,16 @@ bool NetctlAdaptor::autoIsProfileEnabled(const QString profile)
 QStringList NetctlAdaptor::Information()
 {
     QStringList output;
-    output.append(QString("Profile: %1").arg(ActiveProfile()));
-    output.append(QString("Status: %1").arg(ActiveProfileStatus()));
+    output.append(ActiveProfile());
+    output.append(ActiveProfileStatus());
 
     return output;
+}
+
+
+bool NetctlAdaptor::isNetctlAutoActive()
+{
+    return netctlCommand->isNetctlAutoRunning();
 }
 
 
@@ -92,7 +98,7 @@ bool NetctlAdaptor::isProfileEnabled(const QString profile)
 QStringList NetctlAdaptor::ProfileList()
 {
     QList<netctlProfileInfo> profilesInfo;
-    if (netctlCommand->isNetctlAutoRunning())
+    if (isNetctlAutoActive())
         profilesInfo = netctlCommand->getProfileListFromNetctlAuto();
     else
         profilesInfo = netctlCommand->getProfileList();

@@ -18,13 +18,10 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 
-#include <QDBusConnection>
-#include <QDBusMessage>
 #include <QDebug>
 #include <QDesktopServices>
 #include <QFileDialog>
 #include <QFileInfo>
-#include <QTranslator>
 #include <QUrl>
 
 #include "aboutwindow.h"
