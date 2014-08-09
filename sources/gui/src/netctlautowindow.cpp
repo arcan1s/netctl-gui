@@ -169,12 +169,26 @@ void NetctlAutoWindow::netctlAutoUpdateTable()
 
     ui->tableWidget->setDisabled(true);
     // actions
-    if (netctlCommand->isNetctlAutoEnabled())
+    bool enabled = false;
+    bool running = false;
+    if (useHelper) {
+        enabled = sendDBusRequest(DBUS_HELPER_SERVICE, DBUS_LIB_PATH,
+                                  DBUS_HELPER_INTERFACE, QString("isNetctlAutoEnabled"),
+                                  QList<QVariant>(), true, debug)[0].toBool();
+        running = sendDBusRequest(DBUS_HELPER_SERVICE, DBUS_LIB_PATH,
+                                  DBUS_HELPER_INTERFACE, QString("isNetctlAutoRunning"),
+                                  QList<QVariant>(), true, debug)[0].toBool();
+    }
+    else {
+        enabled = netctlCommand->isNetctlAutoEnabled();
+        running = netctlCommand->isNetctlAutoRunning();
+    }
+    if (enabled)
         ui->actionEnableService->setText(QApplication::translate("NetctlAutoWindow", "Disable service"));
     else
         ui->actionEnableService->setText(QApplication::translate("NetctlAutoWindow", "Enable service"));
     ui->actionEnableService->setVisible(true);
-    if (netctlCommand->isNetctlAutoRunning()) {
+    if (running) {
         ui->label_info->setText(QApplication::translate("NetctlAutoWindow", "netctl-auto is running"));
         ui->actionStartService->setText(QApplication::translate("NetctlAutoWindow", "Stop service"));
         ui->actionDisableAll->setVisible(true);
@@ -190,7 +204,13 @@ void NetctlAutoWindow::netctlAutoUpdateTable()
         netctlAutoRefreshButtons(0, 0);
         return;
     }
-    QList<netctlProfileInfo> profiles = netctlCommand->getProfileListFromNetctlAuto();
+    QList<netctlProfileInfo> profiles;
+    if (useHelper)
+        profiles = parseOutputNetctl(sendDBusRequest(DBUS_HELPER_SERVICE, DBUS_LIB_PATH,
+                                                     DBUS_HELPER_INTERFACE, QString("ProfileList"),
+                                                     QList<QVariant>(), true, debug), debug);
+    else
+        profiles = netctlCommand->getProfileListFromNetctlAuto();
 
     ui->tableWidget->setSortingEnabled(false);
     ui->tableWidget->selectRow(-1);
@@ -257,7 +277,14 @@ void NetctlAutoWindow::netctlAutoDisableAllProfiles()
     if (debug) qDebug() << "[NetctlAutoWindow]" << "[netctlAutoDisableAllProfiles]";
 
     ui->tableWidget->setDisabled(true);
-    if (netctlCommand->autoDisableAllProfiles())
+    bool status = false;
+    if (useHelper)
+        status = sendDBusRequest(DBUS_HELPER_SERVICE, DBUS_CONTROL_PATH,
+                                 DBUS_HELPER_INTERFACE, QString("autoDisableAll"),
+                                 QList<QVariant>(), true, debug)[0].toBool();
+    else
+        status = netctlCommand->autoDisableAllProfiles();
+    if (status)
         ui->statusBar->showMessage(QApplication::translate("NetctlAutoWindow", "Done"));
     else
         ui->statusBar->showMessage(QApplication::translate("NetctlAutoWindow", "Error"));
@@ -274,7 +301,17 @@ void NetctlAutoWindow::netctlAutoEnableProfile()
         return;
     ui->tableWidget->setDisabled(true);
     QString profile = ui->tableWidget->item(ui->tableWidget->currentItem()->row(), 0)->text();
-    if (netctlCommand->autoEnableProfile(profile))
+    bool status = false;
+    if (useHelper) {
+        QList<QVariant> args;
+        args.append(profile);
+        status = sendDBusRequest(DBUS_HELPER_SERVICE, DBUS_CONTROL_PATH,
+                                 DBUS_HELPER_INTERFACE, QString("autoEnable"),
+                                 args, true, debug)[0].toBool();
+    }
+    else
+        status = netctlCommand->autoEnableProfile(profile);
+    if (status)
         ui->statusBar->showMessage(QApplication::translate("NetctlAutoWindow", "Done"));
     else
         ui->statusBar->showMessage(QApplication::translate("NetctlAutoWindow", "Error"));
@@ -288,7 +325,14 @@ void NetctlAutoWindow::netctlAutoEnableAllProfiles()
     if (debug) qDebug() << "[NetctlAutoWindow]" << "[netctlAutoEnableAllProfiles]";
 
     ui->tableWidget->setDisabled(true);
-    if (netctlCommand->autoEnableAllProfiles())
+    bool status = false;
+    if (useHelper)
+        status = sendDBusRequest(DBUS_HELPER_SERVICE, DBUS_CONTROL_PATH,
+                                 DBUS_HELPER_INTERFACE, QString("autoEnableAll"),
+                                 QList<QVariant>(), true, debug)[0].toBool();
+    else
+        status = netctlCommand->autoEnableAllProfiles();
+    if (status)
         ui->statusBar->showMessage(QApplication::translate("NetctlAutoWindow", "Done"));
     else
         ui->statusBar->showMessage(QApplication::translate("NetctlAutoWindow", "Error"));
@@ -305,7 +349,17 @@ void NetctlAutoWindow::netctlAutoStartProfile()
         return;
     ui->tableWidget->setDisabled(true);
     QString profile = ui->tableWidget->item(ui->tableWidget->currentItem()->row(), 0)->text();
-    if (netctlCommand->autoStartProfile(profile))
+    bool status = false;
+    if (useHelper) {
+        QList<QVariant> args;
+        args.append(profile);
+        status = sendDBusRequest(DBUS_HELPER_SERVICE, DBUS_CONTROL_PATH,
+                                 DBUS_HELPER_INTERFACE, QString("autoStart"),
+                                 args, true, debug)[0].toBool();
+    }
+    else
+        status = netctlCommand->autoStartProfile(profile);
+    if (status)
         ui->statusBar->showMessage(QApplication::translate("NetctlAutoWindow", "Done"));
     else
         ui->statusBar->showMessage(QApplication::translate("NetctlAutoWindow", "Error"));
@@ -318,7 +372,14 @@ void NetctlAutoWindow::netctlAutoEnableService()
 {
     if (debug) qDebug() << "[NetctlAutoWindow]" << "[netctlAutoEnableService]";
 
-    if (netctlCommand->autoEnableService())
+    bool status = false;
+    if (useHelper)
+        status = sendDBusRequest(DBUS_HELPER_SERVICE, DBUS_CONTROL_PATH,
+                                 DBUS_HELPER_INTERFACE, QString("autoServiceEnable"),
+                                 QList<QVariant>(), true, debug)[0].toBool();
+    else
+        status = netctlCommand->autoEnableService();
+    if (status)
         ui->statusBar->showMessage(QApplication::translate("NetctlAutoWindow", "Done"));
     else
         ui->statusBar->showMessage(QApplication::translate("NetctlAutoWindow", "Error"));
@@ -331,7 +392,14 @@ void NetctlAutoWindow::netctlAutoRestartService()
 {
     if (debug) qDebug() << "[NetctlAutoWindow]" << "[netctlAutoRestartService]";
 
-    if (netctlCommand->autoRestartService())
+    bool status = false;
+    if (useHelper)
+        status = sendDBusRequest(DBUS_HELPER_SERVICE, DBUS_CONTROL_PATH,
+                                 DBUS_HELPER_INTERFACE, QString("autoServiceRestart"),
+                                 QList<QVariant>(), true, debug)[0].toBool();
+    else
+        status = netctlCommand->autoRestartService();
+    if (status)
         ui->statusBar->showMessage(QApplication::translate("NetctlAutoWindow", "Done"));
     else
         ui->statusBar->showMessage(QApplication::translate("NetctlAutoWindow", "Error"));
@@ -344,7 +412,14 @@ void NetctlAutoWindow::netctlAutoStartService()
 {
     if (debug) qDebug() << "[NetctlAutoWindow]" << "[netctlAutoStartService]";
 
-    if (netctlCommand->autoStartService())
+    bool status = false;
+    if (useHelper)
+        status = sendDBusRequest(DBUS_HELPER_SERVICE, DBUS_CONTROL_PATH,
+                                 DBUS_HELPER_INTERFACE, QString("autoServiceStart"),
+                                 QList<QVariant>(), true, debug)[0].toBool();
+    else
+        status = netctlCommand->autoStartService();
+    if (status)
         ui->statusBar->showMessage(QApplication::translate("NetctlAutoWindow", "Done"));
     else
         ui->statusBar->showMessage(QApplication::translate("NetctlAutoWindow", "Error"));

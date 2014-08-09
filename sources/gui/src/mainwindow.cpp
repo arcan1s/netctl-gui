@@ -125,7 +125,7 @@ QString MainWindow::getInformation()
     if (useHelper) {
         QStringList request = sendDBusRequest(DBUS_HELPER_SERVICE, DBUS_LIB_PATH,
                                               DBUS_HELPER_INTERFACE, QString("Information"),
-                                              QList<QVariant>(), true)[0].toStringList();
+                                              QList<QVariant>(), true, debug)[0].toStringList();
         profile = request[0];
         status = request[1];
     }
@@ -165,7 +165,7 @@ bool MainWindow::isHelperActive()
 
     QList<QVariant> responce = sendDBusRequest(DBUS_HELPER_SERVICE, DBUS_CONTROL_PATH,
                                                DBUS_HELPER_INTERFACE, QString("Active"),
-                                               QList<QVariant>(), true);
+                                               QList<QVariant>(), true, debug);
 
     return (!responce.isEmpty());
 }
@@ -605,10 +605,10 @@ void MainWindow::updateMainTab()
     if (useHelper) {
         netctlAutoStatus = sendDBusRequest(DBUS_HELPER_SERVICE, DBUS_LIB_PATH,
                                            DBUS_HELPER_INTERFACE, QString("isNetctlAutoActive"),
-                                           QList<QVariant>(), true)[0].toBool();
+                                           QList<QVariant>(), true, debug)[0].toBool();
         profiles = parseOutputNetctl(sendDBusRequest(DBUS_HELPER_SERVICE, DBUS_LIB_PATH,
                                                      DBUS_HELPER_INTERFACE, QString("ProfileList"),
-                                                     QList<QVariant>(), true));
+                                                     QList<QVariant>(), true, debug), debug);
     }
     else {
         netctlAutoStatus = netctlCommand->isNetctlAutoRunning();
@@ -700,7 +700,7 @@ void MainWindow::updateWifiTab()
     if (useHelper)
         scanResults = parseOutputWifi(sendDBusRequest(DBUS_HELPER_SERVICE, DBUS_CONTROL_PATH,
                                                       DBUS_HELPER_INTERFACE, QString("WiFi"),
-                                                      QList<QVariant>(), true));
+                                                      QList<QVariant>(), true, debug), debug);
     else
         scanResults = wpaCommand->scanWifi();
 
