@@ -65,7 +65,6 @@ TODO (wish list)
 ----------------
 
 * plasmoid helper integration
-* helper shell completions
 * gui helper|systemd integration
 * helper uid/euid check to allow use /Ctrl interface
 * include security notes / project architecture to about window

@@ -48,29 +48,7 @@ bool restoreExistSession()
 
 int main(int argc, char *argv[])
 {
-    // detach from console
-    bool debugFlag = false;
-    bool daemonFlag = false;
-    for (int i=0; i<argc; i++)
-        if (QString(argv[i]) == QString("--daemon"))
-            daemonFlag = true;
-        else if ((QString(argv[i]) == QString("-d")) || (QString(argv[i]) == QString("--debug")))
-            debugFlag = true;
-    if ((daemonFlag) && (!debugFlag))
-        daemon(0, 0);
-    QApplication a(argc, argv);
-    QApplication::setQuitOnLastWindowClosed(false);
-    // check if exists
-    if (restoreExistSession())
-        return 0;
-
     QMap<QString, QVariant> args = getArgs();
-    // translation
-    QString language = Language::defineLanguage(args[QString("config")].toString());
-    QTranslator translator;
-    translator.load(QString(":/translations/") + language);
-    a.installTranslator(&translator);
-
     // reading
     for (int i=1; i<argc; i++) {
         // windows
@@ -162,6 +140,11 @@ int main(int argc, char *argv[])
     }
     if ((args[QString("debug")].toBool()) && (args[QString("minimized")].toInt() == 1))
         args[QString("minimized")] = (int) 0;
+    else if ((args[QString("help")].toBool()) ||
+             (args[QString("info")].toBool()) ||
+             (args[QString("version")].toBool()) ||
+             (args[QString("error")].toBool()))
+        args[QString("minimized")] = (int) 0;
     if (args[QString("essid")].toString() != QString("ESSID"))
         args[QString("tab")] = (int) 3;
     if (args[QString("open")].toString() != QString("PROFILE"))
@@ -169,10 +152,18 @@ int main(int argc, char *argv[])
     if (args[QString("select")].toString() != QString("PROFILE"))
         args[QString("tab")] = (int) 1;
 
+    // detach from console
+    if (args[QString("minimized")].toInt() == 1)
+        daemon(0, 0);
+    QApplication a(argc, argv);
+    QApplication::setQuitOnLastWindowClosed(false);
+    // check if exists
+    if (restoreExistSession())
+        return 0;
     // reread translations according to flags
-    a.removeTranslator(&translator);
-    language = Language::defineLanguage(args[QString("config")].toString(),
+    QString language = Language::defineLanguage(args[QString("config")].toString(),
             args[QString("options")].toString());
+    QTranslator translator;
     translator.load(QString(":/translations/") + language);
     a.installTranslator(&translator);
 

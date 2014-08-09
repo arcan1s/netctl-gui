@@ -47,24 +47,6 @@ bool checkExistSession()
 
 int main(int argc, char *argv[])
 {
-    // detach from console
-    bool debugFlag = false;
-    bool daemonFlag = true;
-    for (int i=0; i<argc; i++)
-        if (QString(argv[i]) == QString("--nodaemon"))
-            daemonFlag = false;
-        else if ((QString(argv[i]) == QString("-d")) || (QString(argv[i]) == QString("--debug")))
-            debugFlag = true;
-    if ((daemonFlag) && (!debugFlag))
-        daemon(0, 0);
-#if QT_VERSION >= 0x050000
-    QCoreApplication::setSetuidAllowed(true);
-#endif
-    QCoreApplication a(argc, argv);
-    // check if exists
-    if (checkExistSession())
-        return 0;
-
     QMap<QString, QVariant> args = getArgs();
     // reading
     for (int i=1; i<argc; i++) {
@@ -98,7 +80,7 @@ int main(int argc, char *argv[])
             args[QString("error")] = true;
         }
     }
-    if ((args[QString("debug")].toBool()) && (!args[QString("nodaemon")].toBool()))
+    if (args[QString("debug")].toBool())
         args[QString("nodaemon")] = true;
 
     // running
@@ -120,6 +102,18 @@ int main(int argc, char *argv[])
         cout << versionMessage().toUtf8().data();
         return 0;
     }
+
+    // detach from console
+    if (!args[QString("nodaemon")].toBool())
+        daemon(0, 0);
+#if QT_VERSION >= 0x050000
+    QCoreApplication::setSetuidAllowed(true);
+#endif
+    QCoreApplication a(argc, argv);
+    // check if exists
+    if (checkExistSession())
+        return 0;
+
     NetctlHelper w(0, args);
     return a.exec();
 }

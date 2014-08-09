@@ -1,0 +1,49 @@
+###########################################################################
+#   This file is part of netctl-gui                                       #
+#                                                                         #
+#   netctl-gui is free software: you can redistribute it and/or           #
+#   modify it under the terms of the GNU General Public License as        #
+#   published by the Free Software Foundation, either version 3 of the    #
+#   License, or (at your option) any later version.                       #
+#                                                                         #
+#   netctl-gui is distributed in the hope that it will be useful,         #
+#   but WITHOUT ANY WARRANTY; without even the implied warranty of        #
+#   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         #
+#   GNU General Public License for more details.                          #
+#                                                                         #
+#   You should have received a copy of the GNU General Public License     #
+#   along with netctl-gui. If not, see http://www.gnu.org/licenses/       #
+###########################################################################
+
+
+# variables
+_netctlgui_helper_arglist=(
+    '--nodaemon'
+    '-c'
+    '--config'
+    '-d'
+    '--debug'
+    '-v'
+    '--version'
+    '-i'
+    '--info'
+    '-h'
+    '--help'
+)
+
+# work block
+_netctlgui_helper() {
+    COMPREPLY=()
+    wantfiles='-@(c|-config)'
+    _get_comp_words_by_ref cur prev words cword
+
+    if [[ $prev = $wantfiles ]]; then
+        _filedir
+    else
+        COMPREPLY=($(compgen -W '${_netctlgui_helper[@]}' -- "$cur"))
+    fi
+
+    true
+}
+
+complete -F _netctlgui_helper netctlgui-helper

@@ -1,0 +1,41 @@
+.TH netctlgui-helper 1  "@CURRENT_DATE@" "version @PROJECT_VERSION@" "USER COMMANDS"
+.SH NAME
+netctlgui-helper is a helper daemon for netctl-gui
+.SH SYNOPSIS
+.B netctlgui-helper
+[ options ]
+.SH DESCRIPTION
+Qt based helper daemon which provides a DBus interface for interaction with netctl without any additional permissions.
+.SH OPTIONS
+.TP
+--nodaemon
+do not run as daemon
+.TP
+-c, --config FILE
+read configuration from file FILE
+.TP
+-d, --debug
+print debug information
+.TP
+-v, --version
+show version and exit
+.TP
+-i, --info
+show build information and exit
+.TP
+-h, --help
+show this help and exit
+.SH FILES
+.TP
+$HOME/.config/netctl-gui.conf
+Configuration file
+.TP
+/usr/lib/systemd/system/netctlgui-helper.service
+Systemd service file
+.TP
+/etc/dbus-1/system.d/org.netctlgui.helper.conf
+DBus policy configuration file
+.SH AUTHOR
+@PROJECT_AUTHOR@ <\fI@PROJECT_CONTACT@\fR>
+.SH LICENSE
+This software is licensed under @PROJECT_LICENSE@
