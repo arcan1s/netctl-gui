@@ -53,6 +53,7 @@ Installation
   * `-DBUILD_DATAENGINE:BOOL=0` - do not build DataEngine
   * `-DBUILD_DOCS:BOOL=0` - do not build developer documentation
   * `-DBUILD_GUI:BOOL=0` - do not build GUI
+  * `-DBUILD_HELPER:BOOL=0` - do not build helper daemon
   * `-DBUILD_LIBRARY:BOOL=0` - do not build library
   * `-DBUILD_PLASMOID:BOOL=0` - do not build Plasmoid
   * `-DUSE_QT5:BOOL=0` - use Qt4 instead of Qt5 for GUI
@@ -63,9 +64,13 @@ Additional information
 TODO (wish list)
 ----------------
 
-* helper daemon (including systemd integration)
+* plasmoid helper integration
+* helper shell completions
+* gui helper|systemd integration
+* helper uid/euid check to allow use /Ctrl interface
 * include security notes / project architecture to about window
 * DBus API description
+* tests
 
 Links
 -----
