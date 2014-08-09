@@ -322,6 +322,7 @@ QMap<QString, QString> SettingsWindow::readSettings()
     else
         settings[QString("FORCE_SUDO")] = QString("false");
     settings[QString("HELPER_PATH")] = ui->lineEdit_helperPath->text();
+    settings[QString("HELPER_SERVICE")] = ui->lineEdit_helperService->text();
     settings[QString("IFACE_DIR")] = ui->lineEdit_interfacesDir->text();
     settings[QString("LANGUAGE")] = ui->comboBox_language->currentText();
     settings[QString("NETCTL_PATH")] = ui->lineEdit_netctlPath->text();
@@ -375,6 +376,7 @@ void SettingsWindow::setSettings(const QMap<QString, QString> settings)
     else
         ui->checkBox_forceSudo->setCheckState(Qt::Unchecked);
     ui->lineEdit_helperPath->setText(settings[QString("HELPER_PATH")]);
+    ui->lineEdit_helperPath->setText(settings[QString("HELPER_SERVICE")]);
     ui->lineEdit_interfacesDir->setText(settings[QString("IFACE_DIR")]);
     ui->comboBox_language->setCurrentIndex(0);
     for (int i=0; i<ui->comboBox_language->count(); i++)
@@ -421,6 +423,7 @@ QMap<QString, QString> SettingsWindow::getDefault()
     settings[QString("CTRL_GROUP")] = QString("users");
     settings[QString("FORCE_SUDO")] = QString("false");
     settings[QString("HELPER_PATH")] = QString("/usr/bin/netctlgui-helper");
+    settings[QString("HELPER_SERVICE")] = QString("netctlgui-helper.service");
     settings[QString("IFACE_DIR")] = QString("/sys/class/net/");
     settings[QString("LANGUAGE")] = QString("en");
     settings[QString("NETCTL_PATH")] = QString("/usr/bin/netctl");

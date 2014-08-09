@@ -437,6 +437,10 @@ void MainWindow::updateConfiguration(const QMap<QString, QVariant> args)
 
     createObjects();
     if (useHelper) useHelper = isHelperActive();
+    if (useHelper)
+        sendDBusRequest(DBUS_HELPER_SERVICE, DBUS_CTRL_PATH,
+                        DBUS_HELPER_INTERFACE, QString("Update"),
+                        QList<QVariant>(), true, debug);
     setTab(args[QString("tab")].toInt() - 1);
     createActions();
     setIconsToTabs();

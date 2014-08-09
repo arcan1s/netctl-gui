@@ -32,10 +32,10 @@
 
 NetctlHelper::NetctlHelper(QObject *parent, QMap<QString, QVariant> args)
     : QObject(parent),
-      initConfigPath(args[QString("config")].toString()),
+      configPath(args[QString("config")].toString()),
       debug(args[QString("debug")].toBool())
 {
-    updateConfiguration(initConfigPath);
+    updateConfiguration();
 }
 
 
@@ -108,6 +108,7 @@ QMap<QString, QString> NetctlHelper::getDefault()
     settings[QString("CTRL_GROUP")] = QString("users");
     settings[QString("FORCE_SUDO")] = QString("false");
     settings[QString("HELPER_PATH")] = QString("/usr/bin/netctlgui-helper");
+    settings[QString("HELPER_SERVICE")] = QString("netctlgui-helper.service");
     settings[QString("IFACE_DIR")] = QString("/sys/class/net/");
     settings[QString("LANGUAGE")] = QString("en");
     settings[QString("NETCTL_PATH")] = QString("/usr/bin/netctl");
@@ -133,7 +134,7 @@ QMap<QString, QString> NetctlHelper::getDefault()
 }
 
 
-QMap<QString, QString> NetctlHelper::getSettings(const QString configPath)
+QMap<QString, QString> NetctlHelper::getSettings()
 {
     if (debug) qDebug() << "[NetctlHelper]" << "[getSettings]";
 
@@ -160,15 +161,13 @@ QMap<QString, QString> NetctlHelper::getSettings(const QString configPath)
 }
 
 
-void NetctlHelper::updateConfiguration(QString configPath)
+void NetctlHelper::updateConfiguration()
 {
     if (debug) qDebug() << "[NetctlHelper]" << "[updateConfiguration]";
 
     deleteInterface();
 
-    if (configPath.isEmpty())
-        configPath = initConfigPath;
-    configuration = getSettings(configPath);
+    configuration = getSettings();
 
     createInterface();
 }

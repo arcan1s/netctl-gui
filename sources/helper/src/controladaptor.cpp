@@ -59,9 +59,9 @@ QStringList ControlAdaptor::Settings()
 }
 
 
-bool ControlAdaptor::Update(const QString configPath)
+bool ControlAdaptor::Update()
 {
-    helper->updateConfiguration(configPath);
+    helper->updateConfiguration();
     return true;
 }
 

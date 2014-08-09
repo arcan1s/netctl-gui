@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>658</width>
-    <height>319</height>
+    <width>656</width>
+    <height>317</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -119,7 +119,7 @@
       <item>
        <widget class="QStackedWidget" name="stackedWidget">
         <property name="currentIndex">
-         <number>1</number>
+         <number>0</number>
         </property>
         <widget class="QWidget" name="page_general">
          <layout class="QVBoxLayout" name="verticalLayout">
@@ -136,8 +136,8 @@
               <rect>
                <x>0</x>
                <y>0</y>
-               <width>442</width>
-               <height>258</height>
+               <width>440</width>
+               <height>256</height>
               </rect>
              </property>
              <layout class="QVBoxLayout" name="verticalLayout_7">
@@ -211,8 +211,8 @@
               <rect>
                <x>0</x>
                <y>0</y>
-               <width>442</width>
-               <height>258</height>
+               <width>440</width>
+               <height>256</height>
               </rect>
              </property>
              <layout class="QVBoxLayout" name="verticalLayout_13">
@@ -220,6 +220,12 @@
                <layout class="QHBoxLayout" name="layout_status">
                 <item>
                  <widget class="QLabel" name="label_statusText">
+                  <property name="minimumSize">
+                   <size>
+                    <width>150</width>
+                    <height>0</height>
+                   </size>
+                  </property>
                   <property name="text">
                    <string>Helper status</string>
                   </property>
@@ -251,7 +257,9 @@
                    <string>Start</string>
                   </property>
                   <property name="icon">
-                   <iconset theme="system-run"/>
+                   <iconset theme="system-run">
+                    <normaloff/>
+                   </iconset>
                   </property>
                  </widget>
                 </item>
@@ -282,6 +290,12 @@
                <layout class="QHBoxLayout" name="layout_helperPath">
                 <item>
                  <widget class="QLabel" name="label_helperPath">
+                  <property name="minimumSize">
+                   <size>
+                    <width>150</width>
+                    <height>0</height>
+                   </size>
+                  </property>
                   <property name="text">
                    <string>Helper command</string>
                   </property>
@@ -294,6 +308,30 @@
                  <widget class="QPushButton" name="pushButton_helperPath">
                   <property name="text">
                    <string>Browse</string>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
+              </item>
+              <item>
+               <layout class="QHBoxLayout" name="layout_helperService">
+                <item>
+                 <widget class="QLabel" name="label_helperService">
+                  <property name="minimumSize">
+                   <size>
+                    <width>150</width>
+                    <height>0</height>
+                   </size>
+                  </property>
+                  <property name="text">
+                   <string>Helper service</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QLineEdit" name="lineEdit_helperService">
+                  <property name="toolTip">
+                   <string>Name of netctlgui-helper service</string>
                   </property>
                  </widget>
                 </item>
@@ -333,8 +371,8 @@
               <rect>
                <x>0</x>
                <y>0</y>
-               <width>436</width>
-               <height>165</height>
+               <width>440</width>
+               <height>256</height>
               </rect>
              </property>
              <layout class="QVBoxLayout" name="verticalLayout_2">

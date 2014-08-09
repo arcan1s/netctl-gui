@@ -34,17 +34,17 @@ public:
     QStringList printSettings();
 
 public slots:
-    void updateConfiguration(QString configPath = QString(""));
+    void updateConfiguration();
     void quitHelper();
 
 private:
-    QString initConfigPath;
+    QString configPath;
     QMap<QString, QString> configuration;
     bool debug;
     void createInterface();
     void deleteInterface();
     QMap<QString, QString> getDefault();
-    QMap<QString, QString> getSettings(const QString configPath);
+    QMap<QString, QString> getSettings();
 };
 
 
