@@ -24,11 +24,8 @@
 #include <QDesktopServices>
 #include <QFileDialog>
 #include <QFileInfo>
-#include <QProcess>
 #include <QTranslator>
 #include <QUrl>
-
-#include <netctlgui/netctlgui.h>
 
 #include "aboutwindow.h"
 #include "bridgewidget.h"
@@ -44,6 +41,7 @@
 #include "passwdwidget.h"
 #include "pppoewidget.h"
 #include "settingswindow.h"
+#include "taskadds.h"
 #include "trayicon.h"
 #include "tunnelwidget.h"
 #include "tuntapwidget.h"
@@ -115,6 +113,8 @@ MainWindow::~MainWindow()
 {
     if (debug) qDebug() << "[MainWindow]" << "[~MainWindow]";
 
+    if ((useHelper) && (configuration[QString("CLOSE_HELPER")] == QString("true")))
+        forceStopHelper();
     deleteObjects();
 }
 
@@ -185,27 +185,29 @@ bool MainWindow::checkExternalApps(const QString apps = QString("all"))
 {
     if (debug) qDebug() << "[MainWindow]" << "[checkExternalApps]";
 
-    QStringList commandLine;
-    commandLine.append("which");
-    commandLine.append(configuration[QString("SUDO_PATH")]);
+    QStringList cmd;
+    cmd.append("which");
+    cmd.append(configuration[QString("SUDO_PATH")]);
+    if ((apps == QString("helper")) || (apps == QString("all"))) {
+        cmd.append(configuration[QString("HELPER_PATH")]);
+    }
     if ((apps == QString("netctl")) || (apps == QString("all"))) {
-        commandLine.append(configuration[QString("NETCTL_PATH")]);
-        commandLine.append(configuration[QString("NETCTLAUTO_PATH")]);
+        cmd.append(configuration[QString("NETCTL_PATH")]);
+        cmd.append(configuration[QString("NETCTLAUTO_PATH")]);
     }
     if ((apps == QString("systemctl")) || (apps == QString("all"))) {
-        commandLine.append(configuration[QString("SYSTEMCTL_PATH")]);
+        cmd.append(configuration[QString("SYSTEMCTL_PATH")]);
     }
     if ((apps == QString("wpasup")) || (apps == QString("all"))) {
-        commandLine.append(configuration[QString("WPACLI_PATH")]);
-        commandLine.append(configuration[QString("WPASUP_PATH")]);
+        cmd.append(configuration[QString("WPACLI_PATH")]);
+        cmd.append(configuration[QString("WPASUP_PATH")]);
     }
-    QProcess command;
-    if (debug) qDebug() << "[MainWindow]" << "[checkExternalApps]" << ":" << "Run cmd" << commandLine.join(QChar(' '));
-    command.start(commandLine.join(QChar(' ')));
-    command.waitForFinished(-1);
-    if (debug) qDebug() << "[MainWindow]" << "[checkExternalApps]" << ":" << "Cmd returns" << command.exitCode();
 
-    if (command.exitCode() != 0)
+    if (debug) qDebug() << "[MainWindow]" << "[checkExternalApps]" << ":" << "Run cmd" << cmd.join(QChar(' '));
+    TaskResult process = runTask(cmd.join(QChar(' ')), false);
+    if (debug) qDebug() << "[MainWindow]" << "[checkExternalApps]" << ":" << "Cmd returns" << process.exitCode;
+
+    if (process.exitCode != 0)
         return false;
     else
         return true;
@@ -283,12 +285,16 @@ void MainWindow::createDBusSession()
     if (debug) qDebug() << "[MainWindow]" << "[createDBusSession]";
 
     QDBusConnection bus = QDBusConnection::sessionBus();
-    if (!bus.registerService(QString(DBUS_SERVICE)))
+    if (!bus.registerService(DBUS_SERVICE)) {
         if (debug) qDebug() << "[MainWindow]" << "[createDBusSession]" << ":" << "Could not register service";
-    if (!bus.registerObject(QString(DBUS_OBJECT_PATH),
+        if (debug) qDebug() << "[MainWindow]" << "[createDBusSession]" << ":" << bus.lastError().message();
+    }
+    if (!bus.registerObject(DBUS_OBJECT_PATH,
                             new NetctlGuiAdaptor(this),
-                            QDBusConnection::ExportAllContents))
+                            QDBusConnection::ExportAllContents)) {
         if (debug) qDebug() << "[MainWindow]" << "[createDBusSession]" << ":" << "Could not register GUI object";
+        if (debug) qDebug() << "[MainWindow]" << "[createDBusSession]" << ":" << bus.lastError().message();
+    }
 }
 
 
@@ -296,8 +302,16 @@ void MainWindow::createObjects()
 {
     if (debug) qDebug() << "[MainWindow]" << "[createObjects]";
 
+    // error messages
+    errorWin = new ErrorWindow(this, debug);
     // backend
     createDBusSession();
+    if (useHelper)
+        if (!forceStartHelper()) {
+            errorWin->showWindow(19, QString("[MainWindow] : [createObjects]"));
+            useHelper = false;
+        }
+
     netctlCommand = new Netctl(debug, configuration);
     netctlProfile = new NetctlProfile(debug, configuration);
     wpaCommand = new WpaSup(debug, configuration);
@@ -311,7 +325,6 @@ void MainWindow::createObjects()
     ui->tableWidget_wifi->setColumnHidden(3, true);
     ui->tableWidget_wifi->setColumnHidden(4, true);
     aboutWin = new AboutWindow(this, debug);
-    errorWin = new ErrorWindow(this, debug);
     netctlAutoWin = new NetctlAutoWindow(this, debug, configuration);
     settingsWin = new SettingsWindow(this, debug, configPath);
     // profile widgets
@@ -344,8 +357,8 @@ void MainWindow::deleteObjects()
 {
     if (debug) qDebug() << "[MainWindow]" << "[deleteObjects]";
 
-    QDBusConnection::sessionBus().unregisterObject(QString(DBUS_OBJECT_PATH));
-    QDBusConnection::sessionBus().unregisterService(QString(DBUS_SERVICE));
+    QDBusConnection::sessionBus().unregisterObject(DBUS_OBJECT_PATH);
+    QDBusConnection::sessionBus().unregisterService(DBUS_SERVICE);
     if (netctlCommand != nullptr) delete netctlCommand;
     if (netctlProfile != nullptr) delete netctlProfile;
     if (wpaCommand != nullptr) delete wpaCommand;
@@ -382,14 +395,29 @@ void MainWindow::keyPressEvent(QKeyEvent *pressedKey)
 
 
 QList<QVariant> MainWindow::sendDBusRequest(const QString service, const QString path,
-                                            const QString interface, const QString cmd)
+                                            const QString interface, const QString cmd,
+                                            bool system)
 {
     if (debug) qDebug() << "[MainWindow]" << "[sendDBusRequest]";
+    if (debug) qDebug() << "[MainWindow]" << "[sendDBusRequest]" << ":" << "Service" << service;
+    if (debug) qDebug() << "[MainWindow]" << "[sendDBusRequest]" << ":" << "Path" << path;
+    if (debug) qDebug() << "[MainWindow]" << "[sendDBusRequest]" << ":" << "Interface" << interface;
+    if (debug) qDebug() << "[MainWindow]" << "[sendDBusRequest]" << ":" << "cmd" << cmd;
+    if (debug) qDebug() << "[MainWindow]" << "[sendDBusRequest]" << ":" << "is system bus" << system;
 
-    QDBusConnection bus = QDBusConnection::sessionBus();
-    QDBusMessage request = QDBusMessage::createMethodCall(service, path, interface, cmd);
-    QDBusMessage response = bus.call(request);
-    QList<QVariant> arguments = response.arguments();
+    QList<QVariant> arguments;
+    if (system) {
+        QDBusConnection bus = QDBusConnection::systemBus();
+        QDBusMessage request = QDBusMessage::createMethodCall(service, path, interface, cmd);
+        QDBusMessage response = bus.call(request);
+        arguments = response.arguments();
+    }
+    else {
+        QDBusConnection bus = QDBusConnection::sessionBus();
+        QDBusMessage request = QDBusMessage::createMethodCall(service, path, interface, cmd);
+        QDBusMessage response = bus.call(request);
+        arguments = response.arguments();
+    }
 
     return arguments;
 }
@@ -422,6 +450,49 @@ QMap<QString, QString> MainWindow::parseOptions(const QString options)
                     settings.keys()[i] + QString("=") + settings[settings.keys()[i]];
 
     return settings;
+}
+
+
+QList<netctlProfileInfo> MainWindow::parseOutputNetctl(const QList<QVariant> raw)
+{
+    if (debug) qDebug() << "[MainWindow]" << "[parseOutputNetctl]";
+
+    QList<netctlProfileInfo> profileInfo;
+    if (raw.size() == 0)
+        return profileInfo;
+    for (int i=0; i<raw[0].toStringList().count(); i++) {
+        netctlProfileInfo profile;
+        QStringList info = raw[0].toStringList()[i].split(QChar('|'));
+        profile.name = info[0];
+        profile.description = info[1];
+        profile.active = info[2].toInt();
+        profile.enabled = info[3].toInt();
+        profileInfo.append(profile);
+    }
+
+    return profileInfo;
+}
+
+
+QList<netctlWifiInfo> MainWindow::parseOutputWifi(const QList<QVariant> raw)
+{
+    if (debug) qDebug() << "[MainWindow]" << "[parseOutputNetctl]";
+
+    QList<netctlWifiInfo> wifiInfo;
+    if (raw.size() == 0)
+        return wifiInfo;
+    for (int i=0; i<raw[0].toStringList().count(); i++) {
+        netctlWifiInfo wifi;
+        QStringList info = raw[0].toStringList()[i].split(QChar('|'));
+        wifi.name = info[0];
+        wifi.security = info[1];
+        wifi.signal = info[2];
+        wifi.active = info[3].toInt();
+        wifi.exists = info[4].toInt();
+        wifiInfo.append(wifi);
+    }
+
+    return wifiInfo;
 }
 
 
@@ -505,27 +576,38 @@ void MainWindow::showSettingsWindow()
 }
 
 
-void MainWindow::forceStartHelper()
+bool MainWindow::forceStartHelper()
 {
     if (debug) qDebug() << "[MainWindow]" << "[forceStartHelper]";
+    if (!checkExternalApps(QString("helper"))) {
+        errorWin->showWindow(1, QString("[MainWindow] : [forceStartHelper]"));
+        return false;
+    }
 
-    QProcess process;
     QString cmd = configuration[QString("HELPER_PATH")] + QString(" -c ") + configPath;
+    if (debug) qDebug() << "[MainWindow]" << "[checkExternalApps]" << ":" << "Run cmd" << cmd;
+    TaskResult process = runTask(cmd, false);
+    if (debug) qDebug() << "[MainWindow]" << "[checkExternalApps]" << ":" << "Cmd returns" << process.exitCode;
 
-    process.startDetached(cmd);
+    return isHelperActive();
 }
 
 
-void MainWindow::forceStopHelper()
+bool MainWindow::forceStopHelper()
 {
     if (debug) qDebug() << "[MainWindow]" << "[forceStartHelper]";
 
-    sendDBusRequest(DBUS_HELPER_SERVICE, DBUS_CONTROL_PATH,
-                    DBUS_HELPER_INTERFACE, QString("Close"));
+    QList<QVariant> responce = sendDBusRequest(DBUS_HELPER_SERVICE, DBUS_CONTROL_PATH,
+                                               DBUS_HELPER_INTERFACE, QString("Close"));
+
+    if (responce.size() == 1)
+        return true;
+    else
+        return false;
 }
 
 
-void MainWindow::startHelper()
+bool MainWindow::startHelper()
 {
     if (debug) qDebug() << "[MainWindow]" << "[startHelper]";
 
@@ -569,6 +651,11 @@ void MainWindow::updateConfiguration(const QMap<QString, QVariant> args)
     QMap<QString, QString> optionsDict = parseOptions(args[QString("options")].toString());
     for (int i=0; i<optionsDict.keys().count(); i++)
         configuration[optionsDict.keys()[i]] = optionsDict[optionsDict.keys()[i]];
+    if ((configuration[QString("USE_HELPER")] == QString("true")) &&
+            (checkExternalApps(QString("helper"))))
+        useHelper = true;
+    else
+        useHelper = false;
 
     // update translation
     qApp->removeTranslator(translator);
@@ -645,12 +732,13 @@ void MainWindow::updateMainTab()
         return errorWin->showWindow(1, QString("[MainWindow] : [updateMainTab]"));
 
     ui->tabWidget->setDisabled(true);
-    QList<netctlProfileInfo> profiles = netctlCommand->getProfileList();
-
-    if (netctlCommand->isNetctlAutoRunning())
-        ui->widget_netctlAuto->setHidden(false);
+    ui->widget_netctlAuto->setHidden(!netctlCommand->isNetctlAutoRunning());
+    QList<netctlProfileInfo> profiles;
+    if (useHelper)
+        profiles = parseOutputNetctl(sendDBusRequest(DBUS_HELPER_SERVICE, DBUS_LIB_PATH,
+                                                     DBUS_HELPER_INTERFACE, QString("ProfileList")));
     else
-        ui->widget_netctlAuto->setHidden(true);
+        profiles = netctlCommand->getProfileList();
 
     ui->tableWidget_main->setSortingEnabled(false);
     ui->tableWidget_main->selectRow(-1);
@@ -1611,6 +1699,7 @@ void MainWindow::wifiTabStart()
     if (ui->tableWidget_wifi->currentItem() == 0)
         return;
 
+    ui->tabWidget->setDisabled(true);
     // name is hidden
     if (ui->tableWidget_wifi->item(ui->tableWidget_wifi->currentItem()->row(), 0)->text() == QString("<hidden>")) {
         hiddenNetwork = true;
@@ -1627,7 +1716,6 @@ void MainWindow::wifiTabStart()
     }
 
     // name isn't hidden
-    ui->tabWidget->setDisabled(true);
     hiddenNetwork = false;
     QString profile = ui->tableWidget_wifi->item(ui->tableWidget_wifi->currentItem()->row(), 0)->text();
     if (!ui->tableWidget_wifi->item(ui->tableWidget_wifi->currentItem()->row(), 4)->text().isEmpty()) {

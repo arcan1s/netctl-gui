@@ -116,9 +116,9 @@ QString infoMessage()
 {
     QString infoMessage = QString("");
     // build information
-    infoMessage += QApplication::translate("MainWindow", "Build date: %1").
+    infoMessage += QCoreApplication::translate("NetctlHelper", "Build date: %1").
             arg(QString(BUILD_DATE));
-    infoMessage += QString("\n%1:\n").arg(QApplication::translate("MainWindow", "cmake flags"));
+    infoMessage += QString("\n%1:\n").arg(QCoreApplication::translate("NetctlHelper", "cmake flags"));
     infoMessage += QString("\t-DCMAKE_BUILD_TYPE=%1 \\\n").arg(QString(CMAKE_BUILD_TYPE));
     infoMessage += QString("\t-DCMAKE_INSTALL_PREFIX=%1 \\\n").arg(QString(CMAKE_INSTALL_PREFIX));
     infoMessage += QString("\t-DBUILD_DOCS=%1 \\\n").arg(QString(PROJECT_BUILD_DOCS));
@@ -128,12 +128,14 @@ QString infoMessage()
     infoMessage += QString("\t-DBUILD_DATAENGINE=%1 \\\n").arg(QString(PROJECT_BUILD_DATAENGINE));
     infoMessage += QString("\t-DBUILD_PLASMOID=%1\n").arg(QString(PROJECT_BUILD_PLASMOID));
     // transport information
-    infoMessage += QString("%1:\n").arg(QApplication::translate("MainWindow", "DBus configuration"));
+    infoMessage += QString("%1:\n").arg(QCoreApplication::translate("NetctlHelper", "DBus configuration"));
     infoMessage += QString("\tDBUS_SERVICE=%1\n").arg(QString(DBUS_SERVICE));
     infoMessage += QString("\tDBUS_INTERFACE=%1\n").arg(QString(DBUS_INTERFACE));
+    infoMessage += QString("\tDBUS_OBJECT_PATH=%1\n").arg(QString(DBUS_OBJECT_PATH));
+    infoMessage += QString("\tDBUS_HELPER_SERVICE=%1\n").arg(QString(DBUS_HELPER_SERVICE));
+    infoMessage += QString("\tDBUS_HELPER_INTERFACE=%1\n").arg(QString(DBUS_HELPER_INTERFACE));
     infoMessage += QString("\tDBUS_CONTROL_PATH=%1\n").arg(QString(DBUS_CONTROL_PATH));
     infoMessage += QString("\tDBUS_LIB_PATH=%1\n").arg(QString(DBUS_LIB_PATH));
-    infoMessage += QString("\tDBUS_OBJECT_PATH=%1\n").arg(QString(DBUS_OBJECT_PATH));
 
     return infoMessage;
 }

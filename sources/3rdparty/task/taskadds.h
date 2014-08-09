@@ -40,7 +40,7 @@ struct TaskResult
     int exitCode;
     QByteArray output;
 };
-TaskResult runTask(const QString cmd, const bool sudo = false);
+TaskResult runTask(const QString cmd, const bool useSuid = true);
 
 
 #endif /* TASKADDS_H */

@@ -114,6 +114,10 @@ QStringList ErrorWindow::getMessage(const int mess)
         title = QApplication::translate("ErrorWindow", "Error!");
         message = QApplication::translate("ErrorWindow", "Could not find ESSID");
         break;
+    case 19:
+        title = QApplication::translate("ErrorWindow", "Error!");
+        message = QApplication::translate("ErrorWindow", "Could not run helper");
+        break;
     default:
         title = QApplication::translate("ErrorWindow", "Error!");
         message = QApplication::translate("ErrorWindow", "Unknown error");
@@ -135,57 +139,24 @@ QMessageBox::Icon ErrorWindow::getIcon(const int mess)
     QMessageBox::Icon icon;
     switch(mess) {
     case 1:
-        icon = QMessageBox::Critical;
-        break;
     case 2:
-        icon = QMessageBox::Critical;
-        break;
     case 3:
-        icon = QMessageBox::Critical;
-        break;
     case 4:
-        icon = QMessageBox::Critical;
-        break;
     case 5:
-        icon = QMessageBox::Critical;
-        break;
     case 6:
-        icon = QMessageBox::Critical;
-        break;
     case 7:
-        icon = QMessageBox::Critical;
-        break;
     case 8:
-        icon = QMessageBox::Critical;
-        break;
     case 9:
-        icon = QMessageBox::Critical;
-        break;
     case 10:
-        icon = QMessageBox::Critical;
-        break;
     case 11:
-        icon = QMessageBox::Critical;
-        break;
     case 12:
-        icon = QMessageBox::Critical;
-        break;
     case 13:
-        icon = QMessageBox::Critical;
-        break;
     case 14:
-        icon = QMessageBox::Critical;
-        break;
     case 15:
-        icon = QMessageBox::Critical;
-        break;
     case 16:
-        icon = QMessageBox::Critical;
-        break;
     case 17:
-        icon = QMessageBox::Critical;
-        break;
     case 18:
+    case 19:
         icon = QMessageBox::Critical;
         break;
     default:

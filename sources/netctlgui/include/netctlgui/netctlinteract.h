@@ -65,6 +65,7 @@ public:
      * @brief Netctl class constructor
      * @param debugCmd       show debug messages
      * @param settings       default settings. Needed keys are
+     *                       FORCE_SUDO (force to use sudo),
      *                       IFACE_DIR (path to directory with interfaces),
      *                       PREFERED_IFACE (prefered interface for WiFi),
      *                       NETCTL_PATH (path to netctl command),
@@ -244,9 +245,13 @@ private:
      */
     NetctlProfile *netctlProfile = nullptr;
     /**
-     * @brief show debug messages
+     * @brief show debug messages. Default is false
      */
-    bool debug;
+    bool debug = false;
+    /**
+     * @brief use RootProcess instead of QProcess. Default is true
+     */
+    bool useSuid = true;
     /**
      * @brief directory with interfaces. Default is "/sys/class/net/"
      */
@@ -254,27 +259,27 @@ private:
     /**
      * @brief prefered interface for WiFi. Default is ""
      */
-    QString mainInterface;
+    QString mainInterface = QString("");
     /**
      * @brief path to netctl command. Default is "/usr/bin/netctl"
      */
-    QString netctlCommand;
+    QString netctlCommand = QString("/usr/bin/netctl");
     /**
      * @brief path to netctl-auto command. Default is "/usr/bin/netctl-auto"
      */
-    QString netctlAutoCommand;
+    QString netctlAutoCommand = QString("/usr/bin/netctl-auto");
     /**
      * @brief netctl-auto service name. Default is "netctl-auto"
      */
-    QString netctlAutoService;
+    QString netctlAutoService = QString("netctl-auto");
     /**
      * @brief path to sudo command. Default is "/usr/bin/kdesu"
      */
-    QString sudoCommand;
+    QString sudoCommand = QString("/usr/bin/kdesu");
     /**
      * @brief path to systemctl command. Default is "/usr/bin/systemctl"
      */
-    QString systemctlCommand;
+    QString systemctlCommand = QString("/usr/bin/systemctl");
     // functions
     /**
      * @brief method which calls command

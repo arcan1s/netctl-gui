@@ -22,6 +22,8 @@
 #include <QMainWindow>
 #include <QTableWidgetItem>
 
+#include <netctlgui/netctlgui.h>
+
 
 class AboutWindow;
 class BridgeWidget;
@@ -31,9 +33,7 @@ class GeneralWidget;
 class IpWidget;
 class MacvlanWidget;
 class MobileWidget;
-class Netctl;
 class NetctlAutoWindow;
-class NetctlProfile;
 class PasswdWidget;
 class PppoeWidget;
 class SettingsWindow;
@@ -42,7 +42,6 @@ class TunnelWidget;
 class TuntapWidget;
 class VlanWidget;
 class WirelessWidget;
-class WpaSup;
 
 namespace Ui {
 class MainWindow;
@@ -72,9 +71,9 @@ public slots:
     void showNetctlAutoWindow();
     void showSettingsWindow();
     // helper
-    void forceStartHelper();
-    void forceStopHelper();
-    void startHelper();
+    bool forceStartHelper();
+    bool forceStopHelper();
+    bool startHelper();
     // main
     void setTab(int tab);
     void updateConfiguration(const QMap<QString, QVariant> args = QMap<QString, QVariant>());
@@ -147,16 +146,20 @@ private:
     void deleteObjects();
     void keyPressEvent(QKeyEvent *pressedKey);
     QList<QVariant> sendDBusRequest(const QString service, const QString path,
-                                    const QString interface, const QString cmd);
+                                    const QString interface, const QString cmd,
+                                    const bool system = true);
     void setIconsToTabs();
     QString configPath;
-    bool debug;
+    bool debug = false;
     bool hiddenNetwork;
-    bool isDaemon;
+    bool isDaemon = false;
+    bool useHelper = true;
     QTranslator *translator = nullptr;
     // configuration
     QMap<QString, QString> configuration;
     QMap<QString, QString> parseOptions(const QString options);
+    QList<netctlProfileInfo> parseOutputNetctl(const QList<QVariant> raw);
+    QList<netctlWifiInfo> parseOutputWifi(const QList<QVariant> raw);
 };
 
 

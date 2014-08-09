@@ -43,32 +43,24 @@ WpaSup::WpaSup(const bool debugCmd, const QMap<QString, QString> settings)
 
     if (settings.contains(QString("CTRL_DIR")))
         ctrlDir = settings[QString("CTRL_DIR")];
-    else
-        ctrlDir = QString("/run/wpa_supplicant_netctl-gui");
     if (settings.contains(QString("CTRL_GROUP")))
         ctrlGroup = settings[QString("CTRL_GROUP")];
-    else
-        ctrlGroup = QString("users");
     if (settings.contains(QString("PID_FILE")))
         pidFile = settings[QString("PID_FILE")];
-    else
-        pidFile = QString("/run/wpa_supplicant_netctl-gui.pid");
     if (settings.contains(QString("SUDO_PATH")))
         sudoCommand = settings[QString("SUDO_PATH")];
-    else
-        sudoCommand = QString("/usr/bin/kdesu");
     if (settings.contains(QString("WPACLI_PATH")))
         wpaCliPath = settings[QString("WPACLI_PATH")];
-    else
-        wpaCliPath = QString("/usr/bin/wpa_cli");
     if (settings.contains(QString("WPA_DRIVERS")))
         wpaDrivers = settings[QString("WPA_DRIVERS")];
-    else
-        wpaDrivers = QString("nl80211,wext");
     if (settings.contains(QString("WPASUP_PATH")))
         wpaSupPath = settings[QString("WPASUP_PATH")];
-    else
-        wpaSupPath = QString("/usr/bin/wpa_supplicant");
+    if (settings.contains(QString("FORCE_SUDO")))
+        if (settings[QString("FORCE_SUDO")] == QString("true"))
+            useSuid = false;
+
+    if (useSuid)
+        sudoCommand = QString("");
 }
 
 
@@ -273,7 +265,7 @@ bool WpaSup::startWpaSupplicant()
             QString(" -i ") + interface + QString(" -D ") + wpaDrivers +
             QString(" -C \"DIR=") + ctrlDir + QString(" GROUP=") + ctrlGroup + QString("\"");
     if (debug) qDebug() << "[WpaSup]" << "[startWpaSupplicant]" << ":" << "Run cmd" << cmd;
-    TaskResult process = runTask(cmd);
+    TaskResult process = runTask(cmd, useSuid);
     waitForProcess(1);
     if (debug) qDebug() << "[WpaSup]" << "[startWpaSupplicant]" << ":" << "Cmd returns" << process.exitCode;
 

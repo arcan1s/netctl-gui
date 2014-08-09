@@ -39,6 +39,9 @@ option (BUILD_DOCS "Build documentation and install headers" ON)
 if (BUILD_DOCS)
     set (BUILD_LIBRARY ON)
 endif ()
+# FIXME: dbus path
+set (DBUS_SYSTEMCONF_PATH "/etc/dbus-1/system.d/" CACHE STRING "Path to dbus system configuration files")
+set (SYSTEMD_SERVICE_PATH "lib/systemd/system" CACHE STRING "Path to systemd services")
 
 # flags
 if (CMAKE_COMPILER_IS_GNUCXX)

@@ -19,19 +19,19 @@
 #include "taskadds.h"
 
 
-TaskResult runTask(const QString cmd, const bool sudo)
+TaskResult runTask(const QString cmd, const bool useSuid)
 {
     return Task::await<TaskResult>( [ & ]() {
         TaskResult r;
-        if (sudo) {
-            QProcess command;
+        if (useSuid) {
+            RootProcess command;
             command.start(cmd);
             command.waitForFinished(-1);
             r.exitCode = command.exitCode();
             r.output = command.readAllStandardOutput();
         }
         else {
-            RootProcess command;
+            QProcess command;
             command.start(cmd);
             command.waitForFinished(-1);
             r.exitCode = command.exitCode();

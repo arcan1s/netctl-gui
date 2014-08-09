@@ -20,6 +20,7 @@
 #include <QDBusConnection>
 #include <QDBusMessage>
 #include <QDir>
+#include <QDebug>
 #include <iostream>
 #include <unistd.h>
 
@@ -33,10 +34,10 @@ using namespace std;
 
 bool checkExistSession()
 {
-    QDBusConnection bus = QDBusConnection::sessionBus();
-    QDBusMessage request = QDBusMessage::createMethodCall(QString(DBUS_HELPER_SERVICE),
-                                                          QString(DBUS_CONTROL_PATH),
-                                                          QString(DBUS_HELPER_INTERFACE),
+    QDBusConnection bus = QDBusConnection::systemBus();
+    QDBusMessage request = QDBusMessage::createMethodCall(DBUS_HELPER_SERVICE,
+                                                          DBUS_CONTROL_PATH,
+                                                          DBUS_HELPER_INTERFACE,
                                                           QString("Active"));
     QDBusMessage response = bus.call(request);
     QList<QVariant> arguments = response.arguments();
@@ -46,6 +47,9 @@ bool checkExistSession()
 
 int main(int argc, char *argv[])
 {
+//    setuid(getuid());
+//    qDebug() << getuid();
+//    qDebug() << geteuid();
     // detach from console
     bool isDaemon = true;
     for (int i=0; i<argc; i++)

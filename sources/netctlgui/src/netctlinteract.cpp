@@ -46,28 +46,22 @@ Netctl::Netctl(const bool debugCmd, const QMap<QString, QString> settings)
         ifaceDirectory = new QDir(QString("/sys/class/net/"));
     if (settings.contains(QString("PREFERED_IFACE")))
         mainInterface = settings[QString("PREFERED_IFACE")];
-    else
-        mainInterface = QString("");
     if (settings.contains(QString("NETCTL_PATH")))
         netctlCommand = settings[QString("NETCTL_PATH")];
-    else
-        netctlCommand = QString("/usr/bin/netctl");
     if (settings.contains(QString("NETCTLAUTO_PATH")))
         netctlAutoCommand = settings[QString("NETCTLAUTO_PATH")];
-    else
-        netctlAutoCommand = QString("/usr/bin/netctl-auto");
     if (settings.contains(QString("NETCTLAUTO_SERVICE")))
         netctlAutoService = settings[QString("NETCTLAUTO_SERVICE")];
-    else
-        netctlAutoService = QString("netctl-auto");
     if (settings.contains(QString("SUDO_PATH")))
         sudoCommand = settings[QString("SUDO_PATH")];
-    else
-        sudoCommand = QString("/usr/bin/kdesu");
     if (settings.contains(QString("SYSTEMCTL_PATH")))
         systemctlCommand = settings[QString("SYSTEMCTL_PATH")];
-    else
-        systemctlCommand = QString("/usr/bin/systemctl");
+    if (settings.contains(QString("FORCE_SUDO")))
+        if (settings[QString("FORCE_SUDO")] == QString("true"))
+            useSuid = false;
+
+    if (useSuid)
+        sudoCommand = QString("");
 }
 
 
@@ -103,7 +97,7 @@ bool Netctl::cmdCall(const bool sudo, const QString command, const QString comma
     cmd += command + QString(" ") + commandLine;
     if (argument != 0) cmd += QString(" ") + argument;
     if (debug) qDebug() << "[Netctl]" << "[cmdCall]" << ":" << "Run cmd" << cmd;
-    TaskResult process = runTask(cmd);
+    TaskResult process = runTask(cmd, (useSuid && sudo));
     if (debug) qDebug() << "[Netctl]" << "[cmdCall]" << ":" << "Cmd returns" << process.exitCode;
 
     if (process.exitCode == 0)
@@ -132,7 +126,7 @@ QString Netctl::getCmdOutput(const bool sudo, const QString command, const QStri
     cmd += command + QString(" ") + commandLine;
     if (argument != 0) cmd += QString(" ") + argument;
     if (debug) qDebug() << "[Netctl]" << "[getCmdOutput]" << ":" << "Run cmd" << cmd;
-    TaskResult process = runTask(cmd);
+    TaskResult process = runTask(cmd, (useSuid && sudo));
     if (debug) qDebug() << "[Netctl]" << "[getCmdOutput]" << ":" << "Cmd returns" << process.exitCode;
 
     return process.output;

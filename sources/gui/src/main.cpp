@@ -36,9 +36,9 @@ using namespace std;
 bool restoreExistSession()
 {
     QDBusConnection bus = QDBusConnection::sessionBus();
-    QDBusMessage request = QDBusMessage::createMethodCall(QString(DBUS_SERVICE),
-                                                          QString(DBUS_OBJECT_PATH),
-                                                          QString(DBUS_INTERFACE),
+    QDBusMessage request = QDBusMessage::createMethodCall(DBUS_SERVICE,
+                                                          DBUS_OBJECT_PATH,
+                                                          DBUS_INTERFACE,
                                                           QString("Restore"));
     QDBusMessage response = bus.call(request);
     QList<QVariant> arguments = response.arguments();

@@ -43,6 +43,7 @@ public:
      * @brief NetctlProfile class constructor
      * @param debugCmd       show debug messages
      * @param settings       default settings. Needed keys are
+     *                       FORCE_SUDO (force to use sudo),
      *                       PROFILE_DIR (path to directory which contains profiles),
      *                       SUDO_PATH (path to sudo command)
      */
@@ -89,9 +90,13 @@ public:
 
 private:
     /**
-     * @brief show debug messages
+     * @brief show debug messages. Default is false
      */
-    bool debug;
+    bool debug = false;
+    /**
+     * @brief use RootProcess instead of QProcess. Default is true
+     */
+    bool useSuid = true;
     /**
      * @brief directory which contains profiles. Default is "/etc/netctl"
      */
@@ -99,7 +104,7 @@ private:
     /**
      * @brief path to sudo command. Default is "/usr/bin/kdesu"
      */
-    QString sudoCommand;
+    QString sudoCommand = QString("/usr/bin/kdesu");
 };
 
 

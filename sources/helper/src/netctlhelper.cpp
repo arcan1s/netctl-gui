@@ -18,7 +18,9 @@
 
 #include <QCoreApplication>
 #include <QDBusConnection>
+#include <QDBusError>
 #include <QDebug>
+#include <unistd.h>
 
 #include <netctlgui/netctlgui.h>
 
@@ -50,9 +52,12 @@ QMap<QString, QString> NetctlHelper::getDefault()
     if (debug) qDebug() << "[NetctlHelper]" << "[getDefault]";
 
     QMap<QString, QString> settings;
+    settings[QString("CLOSE_HELPER")] = QString("false");
     settings[QString("CLOSETOTRAY")] = QString("true");
     settings[QString("CTRL_DIR")] = QString("/run/wpa_supplicant_netctl-gui");
     settings[QString("CTRL_GROUP")] = QString("users");
+    settings[QString("FORCE_SUDO")] = QString("false");
+    settings[QString("HELPER_PATH")] = QString("/usr/bin/netctlgui-helper");
     settings[QString("IFACE_DIR")] = QString("/sys/class/net/");
     settings[QString("LANGUAGE")] = QString("en");
     settings[QString("NETCTL_PATH")] = QString("/usr/bin/netctl");
@@ -66,6 +71,7 @@ QMap<QString, QString> NetctlHelper::getDefault()
     settings[QString("SUDO_PATH")] = QString("/usr/bin/kdesu");
     settings[QString("SYSTEMCTL_PATH")] = QString("/usr/bin/systemctl");
     settings[QString("SYSTRAY")] = QString("true");
+    settings[QString("USE_HELPER")] = QString("true");
     settings[QString("WPACLI_PATH")] = QString("/usr/bin/wpa_cli");
     settings[QString("WPASUP_PATH")] = QString("/usr/bin/wpa_supplicant");
     settings[QString("WPA_DRIVERS")] = QString("nl80211,wext");
@@ -116,17 +122,26 @@ void NetctlHelper::createInterface()
 {
     if (debug) qDebug() << "[NetctlHelper]" << "[createInterface]";
 
-    QDBusConnection bus = QDBusConnection::sessionBus();
-    if (!bus.registerService(QString(DBUS_HELPER_SERVICE)))
+    QDBusConnection bus = QDBusConnection::systemBus();
+    if (!bus.registerService(DBUS_HELPER_SERVICE)) {
         if (debug) qDebug() << "[NetctlHelper]" << "[createInterface]" << ":" << "Could not register service";
-    if (!bus.registerObject(QString(DBUS_LIB_PATH),
+        if (debug) qDebug() << "[NetctlHelper]" << "[createInterface]" << ":" << bus.lastError().message();
+        return quitHelper();
+    }
+    if (!bus.registerObject(DBUS_LIB_PATH,
                             new NetctlAdaptor(this, configuration),
-                            QDBusConnection::ExportAllContents))
+                            QDBusConnection::ExportAllContents)) {
         if (debug) qDebug() << "[NetctlHelper]" << "[createInterface]" << ":" << "Could not register library object";
-    if (!bus.registerObject(QString(DBUS_CONTROL_PATH),
+        if (debug) qDebug() << "[NetctlHelper]" << "[createInterface]" << ":" << bus.lastError().message();
+        return quitHelper();
+    }
+    if (!bus.registerObject(DBUS_CONTROL_PATH,
                             new ControlAdaptor(this, configuration),
-                            QDBusConnection::ExportAllContents))
+                            QDBusConnection::ExportAllContents)) {
         if (debug) qDebug() << "[NetctlHelper]" << "[createInterface]" << ":" << "Could not register control object";
+        if (debug) qDebug() << "[NetctlHelper]" << "[createInterface]" << ":" << bus.lastError().message();
+        return quitHelper();
+    }
 }
 
 
@@ -134,9 +149,9 @@ void NetctlHelper::deleteInterface()
 {
     if (debug) qDebug() << "[NetctlHelper]" << "[deleteInterface]";
 
-    QDBusConnection::sessionBus().unregisterObject(QString(DBUS_LIB_PATH));
-    QDBusConnection::sessionBus().unregisterObject(QString(DBUS_CONTROL_PATH));
-    QDBusConnection::sessionBus().unregisterService(QString(DBUS_HELPER_SERVICE));
+    QDBusConnection::systemBus().unregisterObject(DBUS_LIB_PATH);
+    QDBusConnection::systemBus().unregisterObject(DBUS_CONTROL_PATH);
+    QDBusConnection::systemBus().unregisterService(DBUS_HELPER_SERVICE);
 }
 
 

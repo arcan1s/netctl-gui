@@ -137,35 +137,39 @@ private:
     /**
      * @brief show debug messages
      */
-    bool debug;
+    bool debug = false;
+    /**
+     * @brief use RootProcess instead of QProcess. Default is true
+     */
+    bool useSuid = true;
     /**
      * @brief path to ctrl_directory. Defaults is "/run/wpa_supplicant_netctl-gui"
      */
-    QString ctrlDir;
+    QString ctrlDir = QString("/run/wpa_supplicant_netctl-gui");
     /**
      * @brief group which is owner of CTRL_DIR. Default is "users"
      */
-    QString ctrlGroup;
+    QString ctrlGroup = QString("users");
     /**
      * @brief wpa_supplicant PID file. Default is "/run/wpa_supplicant_netctl-gui.pid"
      */
-    QString pidFile;
+    QString pidFile = QString("/run/wpa_supplicant_netctl-gui.pid");
     /**
      * @brief path to sudo command. Default is "/usr/bin/kdesu"
      */
-    QString sudoCommand;
+    QString sudoCommand = QString("/usr/bin/kdesu");
     /**
      * @brief path to wpa_cli command. Default is "/usr/bin/wpa_cli"
      */
-    QString wpaCliPath;
+    QString wpaCliPath = QString("/usr/bin/wpa_cli");
     /**
      * @brief wpa_supplicant drivers comma separated. Default is "nl80211,wext"
      */
-    QString wpaDrivers;
+    QString wpaDrivers = QString("nl80211,wext");
     /**
      * @brief path to wpa_supplicant command. Default is "/usr/bin/wpa_supplicant"
      */
-    QString wpaSupPath;
+    QString wpaSupPath = QString("/usr/bin/wpa_supplicant");
     // functions
     /**
      * @brief method which calls wpa_cli and returns its output

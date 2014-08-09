@@ -47,8 +47,12 @@ NetctlProfile::NetctlProfile(const bool debugCmd, const QMap<QString, QString> s
         profileDirectory = new QDir(QString("/etc/netctl/"));
     if (settings.contains(QString("SUDO_PATH")))
         sudoCommand = settings[QString("SUDO_PATH")];
-    else
-        sudoCommand = QString("/usr/bin/kdesu");
+    if (settings.contains(QString("FORCE_SUDO")))
+        if (settings[QString("FORCE_SUDO")] == QString("true"))
+            useSuid = false;
+
+    if (useSuid)
+        sudoCommand = QString("");
 }
 
 
@@ -78,7 +82,7 @@ bool NetctlProfile::copyProfile(const QString oldPath)
     QString newPath = profileDirectory->absolutePath() + QDir::separator() + QFileInfo(oldPath).fileName();
     QString cmd = sudoCommand + QString(" /usr/bin/mv ") + oldPath + QString(" ") + newPath;
     if (debug) qDebug() << "[NetctlProfile]" << "[copyProfile]" << ":" << "Run cmd" << cmd;
-    TaskResult process = runTask(cmd);
+    TaskResult process = runTask(cmd, useSuid);
     if (debug) qDebug() << "[NetctlProfile]" << "[copyProfile]" << ":" << "Cmd returns" << process.exitCode;
 
     if (process.exitCode == 0)
@@ -213,7 +217,7 @@ bool NetctlProfile::removeProfile(const QString profile)
     QString profilePath = profileDirectory->absolutePath() + QDir::separator() + QFileInfo(profile).fileName();
     QString cmd = sudoCommand + QString(" /usr/bin/rm ") + profilePath;
     if (debug) qDebug() << "[NetctlProfile]" << "[removeProfile]" << ":" << "Run cmd" << cmd;
-    TaskResult process = runTask(cmd);
+    TaskResult process = runTask(cmd, useSuid);
     if (debug) qDebug() << "[NetctlProfile]" << "[removeProfile]" << ":" << "Cmd returns" << process.exitCode;
 
     if (process.exitCode == 0)

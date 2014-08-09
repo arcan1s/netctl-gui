@@ -90,9 +90,11 @@ QString infoMessage()
     infoMessage += QString("%1:\n").arg(QCoreApplication::translate("NetctlHelper", "DBus configuration"));
     infoMessage += QString("\tDBUS_SERVICE=%1\n").arg(QString(DBUS_SERVICE));
     infoMessage += QString("\tDBUS_INTERFACE=%1\n").arg(QString(DBUS_INTERFACE));
+    infoMessage += QString("\tDBUS_OBJECT_PATH=%1\n").arg(QString(DBUS_OBJECT_PATH));
+    infoMessage += QString("\tDBUS_HELPER_SERVICE=%1\n").arg(QString(DBUS_HELPER_SERVICE));
+    infoMessage += QString("\tDBUS_HELPER_INTERFACE=%1\n").arg(QString(DBUS_HELPER_INTERFACE));
     infoMessage += QString("\tDBUS_CONTROL_PATH=%1\n").arg(QString(DBUS_CONTROL_PATH));
     infoMessage += QString("\tDBUS_LIB_PATH=%1\n").arg(QString(DBUS_LIB_PATH));
-    infoMessage += QString("\tDBUS_OBJECT_PATH=%1\n").arg(QString(DBUS_OBJECT_PATH));
 
     return infoMessage;
 }

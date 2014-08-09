@@ -10,3 +10,5 @@ set (TARGETS "")
 set (HEADERS "")
 
 add_subdirectory (${SUBPROJECT_SOURCE_DIR})
+install (FILES org.netctlgui.helper.conf DESTINATION ${DBUS_SYSTEMCONF_PATH})
+install (FILES netctlgui-helper.service DESTINATION ${SYSTEMD_SERVICE_PATH})
