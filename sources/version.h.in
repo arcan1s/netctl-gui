@@ -32,7 +32,7 @@
 #define DBUS_OBJECT_PATH "/netctlgui"
 #define DBUS_HELPER_SERVICE "org.netctlgui.helper"
 #define DBUS_HELPER_INTERFACE "org.netctlgui.helper"
-#define DBUS_CONTROL_PATH "/ctrl"
+#define DBUS_CTRL_PATH "/ctrl"
 #define DBUS_LIB_PATH "/netctl"
 
 #endif /* VERSION_H */

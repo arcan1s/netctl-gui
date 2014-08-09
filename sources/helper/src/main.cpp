@@ -36,7 +36,7 @@ bool checkExistSession()
 {
     QDBusConnection bus = QDBusConnection::systemBus();
     QDBusMessage request = QDBusMessage::createMethodCall(DBUS_HELPER_SERVICE,
-                                                          DBUS_CONTROL_PATH,
+                                                          DBUS_CTRL_PATH,
                                                           DBUS_HELPER_INTERFACE,
                                                           QString("Active"));
     QDBusMessage response = bus.call(request);

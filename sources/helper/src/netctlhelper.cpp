@@ -135,7 +135,7 @@ void NetctlHelper::createInterface()
         if (debug) qDebug() << "[NetctlHelper]" << "[createInterface]" << ":" << bus.lastError().message();
         return quitHelper();
     }
-    if (!bus.registerObject(DBUS_CONTROL_PATH,
+    if (!bus.registerObject(DBUS_CTRL_PATH,
                             new ControlAdaptor(this, configuration),
                             QDBusConnection::ExportAllContents)) {
         if (debug) qDebug() << "[NetctlHelper]" << "[createInterface]" << ":" << "Could not register control object";
@@ -150,7 +150,7 @@ void NetctlHelper::deleteInterface()
     if (debug) qDebug() << "[NetctlHelper]" << "[deleteInterface]";
 
     QDBusConnection::systemBus().unregisterObject(DBUS_LIB_PATH);
-    QDBusConnection::systemBus().unregisterObject(DBUS_CONTROL_PATH);
+    QDBusConnection::systemBus().unregisterObject(DBUS_CTRL_PATH);
     QDBusConnection::systemBus().unregisterService(DBUS_HELPER_SERVICE);
 }
 

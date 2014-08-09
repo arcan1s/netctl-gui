@@ -279,7 +279,7 @@ void NetctlAutoWindow::netctlAutoDisableAllProfiles()
     ui->tableWidget->setDisabled(true);
     bool status = false;
     if (useHelper)
-        status = sendDBusRequest(DBUS_HELPER_SERVICE, DBUS_CONTROL_PATH,
+        status = sendDBusRequest(DBUS_HELPER_SERVICE, DBUS_CTRL_PATH,
                                  DBUS_HELPER_INTERFACE, QString("autoDisableAll"),
                                  QList<QVariant>(), true, debug)[0].toBool();
     else
@@ -305,7 +305,7 @@ void NetctlAutoWindow::netctlAutoEnableProfile()
     if (useHelper) {
         QList<QVariant> args;
         args.append(profile);
-        status = sendDBusRequest(DBUS_HELPER_SERVICE, DBUS_CONTROL_PATH,
+        status = sendDBusRequest(DBUS_HELPER_SERVICE, DBUS_CTRL_PATH,
                                  DBUS_HELPER_INTERFACE, QString("autoEnable"),
                                  args, true, debug)[0].toBool();
     }
@@ -327,7 +327,7 @@ void NetctlAutoWindow::netctlAutoEnableAllProfiles()
     ui->tableWidget->setDisabled(true);
     bool status = false;
     if (useHelper)
-        status = sendDBusRequest(DBUS_HELPER_SERVICE, DBUS_CONTROL_PATH,
+        status = sendDBusRequest(DBUS_HELPER_SERVICE, DBUS_CTRL_PATH,
                                  DBUS_HELPER_INTERFACE, QString("autoEnableAll"),
                                  QList<QVariant>(), true, debug)[0].toBool();
     else
@@ -353,7 +353,7 @@ void NetctlAutoWindow::netctlAutoStartProfile()
     if (useHelper) {
         QList<QVariant> args;
         args.append(profile);
-        status = sendDBusRequest(DBUS_HELPER_SERVICE, DBUS_CONTROL_PATH,
+        status = sendDBusRequest(DBUS_HELPER_SERVICE, DBUS_CTRL_PATH,
                                  DBUS_HELPER_INTERFACE, QString("autoStart"),
                                  args, true, debug)[0].toBool();
     }
@@ -374,7 +374,7 @@ void NetctlAutoWindow::netctlAutoEnableService()
 
     bool status = false;
     if (useHelper)
-        status = sendDBusRequest(DBUS_HELPER_SERVICE, DBUS_CONTROL_PATH,
+        status = sendDBusRequest(DBUS_HELPER_SERVICE, DBUS_CTRL_PATH,
                                  DBUS_HELPER_INTERFACE, QString("autoServiceEnable"),
                                  QList<QVariant>(), true, debug)[0].toBool();
     else
@@ -394,7 +394,7 @@ void NetctlAutoWindow::netctlAutoRestartService()
 
     bool status = false;
     if (useHelper)
-        status = sendDBusRequest(DBUS_HELPER_SERVICE, DBUS_CONTROL_PATH,
+        status = sendDBusRequest(DBUS_HELPER_SERVICE, DBUS_CTRL_PATH,
                                  DBUS_HELPER_INTERFACE, QString("autoServiceRestart"),
                                  QList<QVariant>(), true, debug)[0].toBool();
     else
@@ -414,7 +414,7 @@ void NetctlAutoWindow::netctlAutoStartService()
 
     bool status = false;
     if (useHelper)
-        status = sendDBusRequest(DBUS_HELPER_SERVICE, DBUS_CONTROL_PATH,
+        status = sendDBusRequest(DBUS_HELPER_SERVICE, DBUS_CTRL_PATH,
                                  DBUS_HELPER_INTERFACE, QString("autoServiceStart"),
                                  QList<QVariant>(), true, debug)[0].toBool();
     else

@@ -163,7 +163,7 @@ bool MainWindow::isHelperActive()
 {
     if (debug) qDebug() << "[MainWindow]" << "[isHelperActive]";
 
-    QList<QVariant> responce = sendDBusRequest(DBUS_HELPER_SERVICE, DBUS_CONTROL_PATH,
+    QList<QVariant> responce = sendDBusRequest(DBUS_HELPER_SERVICE, DBUS_CTRL_PATH,
                                                DBUS_HELPER_INTERFACE, QString("Active"),
                                                QList<QVariant>(), true, debug);
 
@@ -698,7 +698,7 @@ void MainWindow::updateWifiTab()
     ui->tabWidget->setDisabled(true);
     QList<netctlWifiInfo> scanResults;
     if (useHelper)
-        scanResults = parseOutputWifi(sendDBusRequest(DBUS_HELPER_SERVICE, DBUS_CONTROL_PATH,
+        scanResults = parseOutputWifi(sendDBusRequest(DBUS_HELPER_SERVICE, DBUS_CTRL_PATH,
                                                       DBUS_HELPER_INTERFACE, QString("WiFi"),
                                                       QList<QVariant>(), true, debug), debug);
     else

@@ -141,7 +141,7 @@ bool MainWindow::forceStopHelper()
 {
     if (debug) qDebug() << "[MainWindow]" << "[forceStartHelper]";
 
-    QList<QVariant> responce = sendDBusRequest(DBUS_HELPER_SERVICE, DBUS_CONTROL_PATH,
+    QList<QVariant> responce = sendDBusRequest(DBUS_HELPER_SERVICE, DBUS_CTRL_PATH,
                                                DBUS_HELPER_INTERFACE, QString("Close"),
                                                QList<QVariant>(), true, debug);
 
@@ -226,12 +226,12 @@ void MainWindow::connectToUnknownEssid(const QString passwd)
         QList<QVariant> args;
         args.append(profile);
         args.append(settingsList);
-        sendDBusRequest(DBUS_HELPER_SERVICE, DBUS_CONTROL_PATH,
+        sendDBusRequest(DBUS_HELPER_SERVICE, DBUS_CTRL_PATH,
                         DBUS_HELPER_INTERFACE, QString("Create"),
                         args, true, debug);
         args.clear();
         args.append(profile);
-        sendDBusRequest(DBUS_HELPER_SERVICE, DBUS_CONTROL_PATH,
+        sendDBusRequest(DBUS_HELPER_SERVICE, DBUS_CTRL_PATH,
                         DBUS_HELPER_INTERFACE, QString("Start"),
                         args, true, debug);
         status = sendDBusRequest(DBUS_HELPER_SERVICE, DBUS_LIB_PATH,
@@ -373,7 +373,7 @@ void MainWindow::mainTabEnableProfile()
     if (useHelper) {
         QList<QVariant> args;
         args.append(profile);
-        sendDBusRequest(DBUS_HELPER_SERVICE, DBUS_CONTROL_PATH,
+        sendDBusRequest(DBUS_HELPER_SERVICE, DBUS_CTRL_PATH,
                         DBUS_HELPER_INTERFACE, QString("Enable"),
                         args, true, debug);
         current = sendDBusRequest(DBUS_HELPER_SERVICE, DBUS_LIB_PATH,
@@ -404,7 +404,7 @@ void MainWindow::mainTabRemoveProfile()
     if (useHelper) {
         QList<QVariant> args;
         args.append(profile);
-        status = sendDBusRequest(DBUS_HELPER_SERVICE, DBUS_CONTROL_PATH,
+        status = sendDBusRequest(DBUS_HELPER_SERVICE, DBUS_CTRL_PATH,
                                  DBUS_HELPER_INTERFACE, QString("Remove"),
                                  args, true, debug)[0].toBool();
     }
@@ -433,7 +433,7 @@ void MainWindow::mainTabRestartProfile()
     if (useHelper) {
         QList<QVariant> args;
         args.append(profile);
-        sendDBusRequest(DBUS_HELPER_SERVICE, DBUS_CONTROL_PATH,
+        sendDBusRequest(DBUS_HELPER_SERVICE, DBUS_CTRL_PATH,
                         DBUS_HELPER_INTERFACE, QString("Restart"),
                         args, true, debug)[0].toBool();
         status = sendDBusRequest(DBUS_HELPER_SERVICE, DBUS_LIB_PATH,
@@ -468,7 +468,7 @@ void MainWindow::mainTabStartProfile()
     if (useHelper) {
         QList<QVariant> args;
         args.append(profile);
-        sendDBusRequest(DBUS_HELPER_SERVICE, DBUS_CONTROL_PATH,
+        sendDBusRequest(DBUS_HELPER_SERVICE, DBUS_CTRL_PATH,
                         DBUS_HELPER_INTERFACE, QString("Start"),
                         args, true, debug);
         current = sendDBusRequest(DBUS_HELPER_SERVICE, DBUS_LIB_PATH,
@@ -856,7 +856,7 @@ void MainWindow::profileTabCreateProfile()
         QList<QVariant> args;
         args.append(profile);
         args.append(settingsList);
-        status = sendDBusRequest(DBUS_HELPER_SERVICE, DBUS_CONTROL_PATH,
+        status = sendDBusRequest(DBUS_HELPER_SERVICE, DBUS_CTRL_PATH,
                                  DBUS_HELPER_INTERFACE, QString("Create"),
                                  args, true, debug)[0].toBool();
     }
@@ -956,7 +956,7 @@ void MainWindow::profileTabRemoveProfile()
     if (useHelper) {
         QList<QVariant> args;
         args.append(profile);
-        status = sendDBusRequest(DBUS_HELPER_SERVICE, DBUS_CONTROL_PATH,
+        status = sendDBusRequest(DBUS_HELPER_SERVICE, DBUS_CTRL_PATH,
                                  DBUS_HELPER_INTERFACE, QString("Remove"),
                                  args, true, debug)[0].toBool();
     }
@@ -1071,7 +1071,7 @@ void MainWindow::wifiTabStart()
                                                   args, true, debug)[0].toString();
             args.clear();
             args.append(profileName);
-            sendDBusRequest(DBUS_HELPER_SERVICE, DBUS_CONTROL_PATH,
+            sendDBusRequest(DBUS_HELPER_SERVICE, DBUS_CTRL_PATH,
                             DBUS_HELPER_INTERFACE, QString("Start"),
                             args, true, debug);
             current = sendDBusRequest(DBUS_HELPER_SERVICE, DBUS_LIB_PATH,
