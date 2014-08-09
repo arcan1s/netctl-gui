@@ -147,6 +147,7 @@ private:
     void keyPressEvent(QKeyEvent *pressedKey);
     QList<QVariant> sendDBusRequest(const QString service, const QString path,
                                     const QString interface, const QString cmd,
+                                    const QList<QVariant> args = QList<QVariant>(),
                                     const bool system = true);
     void setIconsToTabs();
     QString configPath;

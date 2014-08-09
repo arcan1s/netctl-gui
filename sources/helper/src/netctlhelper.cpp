@@ -114,7 +114,7 @@ void NetctlHelper::quitHelper()
 {
     if (debug) qDebug() << "[NetctlHelper]" << "[quitHelper]";
 
-    QCoreApplication::quit();
+    QCoreApplication::instance()->quit();
 }
 
 

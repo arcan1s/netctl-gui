@@ -41,15 +41,12 @@ bool checkExistSession()
                                                           QString("Active"));
     QDBusMessage response = bus.call(request);
     QList<QVariant> arguments = response.arguments();
-    return ((arguments.size() == 1) && arguments[0].toBool());
+    return !arguments.isEmpty();
 }
 
 
 int main(int argc, char *argv[])
 {
-//    setuid(getuid());
-//    qDebug() << getuid();
-//    qDebug() << geteuid();
     // detach from console
     bool isDaemon = true;
     for (int i=0; i<argc; i++)

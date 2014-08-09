@@ -364,12 +364,13 @@ bool Netctl::isNetctlAutoRunning()
         if (debug) qDebug() << "[Netctl]" << "[isNetctlAutoRunning]" << ":" << "Could not find service";
         return false;
     }
-    if (getWirelessInterfaceList().isEmpty()) {
+    QStringList interfaces = getWirelessInterfaceList();
+    if (interfaces.isEmpty()) {
         if (debug) qDebug() << "[Netctl]" << "[isNetctlAutoRunning]" << ":" << "Could not interface";
         return false;
     }
 
-    QString interface = getWirelessInterfaceList()[0];
+    QString interface = interfaces[0];
     QString argument = netctlAutoService + QString("@") + interface + QString(".service");
 
     return cmdCall(false, systemctlCommand, QString("is-active"), argument);
@@ -523,12 +524,13 @@ bool Netctl::autoEnableService()
         if (debug) qDebug() << "[Netctl]" << "[autoEnableService]" << ":" << "Could not find service";
         return false;
     }
-    if (getWirelessInterfaceList().isEmpty()) {
+    QStringList interfaces = getWirelessInterfaceList();
+    if (interfaces.isEmpty()) {
         if (debug) qDebug() << "[Netctl]" << "[autoEnableService]" << ":" << "Could not interface";
         return false;
     }
 
-    QString interface = getWirelessInterfaceList()[0];
+    QString interface = interfaces[0];
     QString argument = netctlAutoService + QString("@") + interface + QString(".service");
 
     if (isNetctlAutoEnabled())
@@ -548,12 +550,13 @@ bool Netctl::autoRestartService()
         if (debug) qDebug() << "[Netctl]" << "[autoRestartService]" << ":" << "Could not find service";
         return false;
     }
-    if (getWirelessInterfaceList().isEmpty()) {
+    QStringList interfaces = getWirelessInterfaceList();
+    if (interfaces.isEmpty()) {
         if (debug) qDebug() << "[Netctl]" << "[autoRestartService]" << ":" << "Could not interface";
         return false;
     }
 
-    QString interface = getWirelessInterfaceList()[0];
+    QString interface = interfaces[0];
     QString argument = netctlAutoService + QString("@") + interface + QString(".service");
 
     if (isNetctlAutoRunning())
@@ -573,12 +576,13 @@ bool Netctl::autoStartService()
         if (debug) qDebug() << "[Netctl]" << "[autoStartService]" << ":" << "Could not find service";
         return false;
     }
-    if (getWirelessInterfaceList().isEmpty()) {
+    QStringList interfaces = getWirelessInterfaceList();
+    if (interfaces.isEmpty()) {
         if (debug) qDebug() << "[Netctl]" << "[autoStartService]" << ":" << "Could not interface";
         return false;
     }
 
-    QString interface = getWirelessInterfaceList()[0];
+    QString interface = interfaces[0];
     QString argument = netctlAutoService + QString("@") + interface + QString(".service");
 
     if (isNetctlAutoRunning())

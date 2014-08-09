@@ -52,12 +52,16 @@ public slots:
     bool Start(const QString profile);
     bool SwitchTo(const QString profile);
     // netctlProfile
+    bool Create(const QString profile, const QStringList settingsList);
     bool Remove(const QString profile);
+    // wpaCommand
+    QStringList WiFi();
 
 private:
     NetctlHelper *helper;
     Netctl *netctlCommand;
     NetctlProfile *netctlProfile;
+    WpaSup *wpaCommand;
 };
 
 

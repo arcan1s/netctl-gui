@@ -123,7 +123,8 @@ QString MainWindow::getInformation()
     QString status;
     if (useHelper) {
         QStringList request = sendDBusRequest(DBUS_HELPER_SERVICE, DBUS_LIB_PATH,
-                                              DBUS_HELPER_INTERFACE, QString("Information"))[0].toStringList();
+                                              DBUS_HELPER_INTERFACE, QString("Information"),
+                                              QList<QVariant>(), true)[0].toStringList();
         profile = request[0];
         status = request[1];
     }
@@ -162,12 +163,10 @@ bool MainWindow::isHelperActive()
     if (debug) qDebug() << "[MainWindow]" << "[isHelperActive]";
 
     QList<QVariant> responce = sendDBusRequest(DBUS_HELPER_SERVICE, DBUS_CONTROL_PATH,
-                                               DBUS_HELPER_INTERFACE, QString("Active"));
+                                               DBUS_HELPER_INTERFACE, QString("Active"),
+                                               QList<QVariant>(), true);
 
-    if (responce.size() == 1)
-        return true;
-    else
-        return false;
+    return (!responce.isEmpty());
 }
 
 
@@ -376,27 +375,40 @@ void MainWindow::deleteObjects()
 
 QList<QVariant> MainWindow::sendDBusRequest(const QString service, const QString path,
                                             const QString interface, const QString cmd,
-                                            bool system)
+                                            const QList<QVariant> args, bool system)
 {
     if (debug) qDebug() << "[MainWindow]" << "[sendDBusRequest]";
     if (debug) qDebug() << "[MainWindow]" << "[sendDBusRequest]" << ":" << "Service" << service;
     if (debug) qDebug() << "[MainWindow]" << "[sendDBusRequest]" << ":" << "Path" << path;
     if (debug) qDebug() << "[MainWindow]" << "[sendDBusRequest]" << ":" << "Interface" << interface;
     if (debug) qDebug() << "[MainWindow]" << "[sendDBusRequest]" << ":" << "cmd" << cmd;
+    if (debug) qDebug() << "[MainWindow]" << "[sendDBusRequest]" << ":" << "args" << args;
     if (debug) qDebug() << "[MainWindow]" << "[sendDBusRequest]" << ":" << "is system bus" << system;
 
     QList<QVariant> arguments;
+    QDBusMessage response;
     if (system) {
         QDBusConnection bus = QDBusConnection::systemBus();
         QDBusMessage request = QDBusMessage::createMethodCall(service, path, interface, cmd);
-        QDBusMessage response = bus.call(request);
-        arguments = response.arguments();
+        if (!args.isEmpty())
+            request.setArguments(args);
+        response = bus.call(request);
     }
     else {
         QDBusConnection bus = QDBusConnection::sessionBus();
         QDBusMessage request = QDBusMessage::createMethodCall(service, path, interface, cmd);
-        QDBusMessage response = bus.call(request);
-        arguments = response.arguments();
+        if (!args.isEmpty())
+            request.setArguments(args);
+        response = bus.call(request);
+    }
+    arguments = response.arguments();
+    if ((arguments.size() == 0) &&
+        (service != DBUS_HELPER_SERVICE) &&
+        (path != DBUS_CONTROL_PATH) &&
+        (interface != DBUS_HELPER_INTERFACE) &&
+        (cmd != QString("Active"))) {
+        if (debug) qDebug() << "[MainWindow]" << "[sendDBusRequest]" << ":" << "Error message" << response.errorMessage();
+        errorWin->showWindow(0, QString("[MainWindow] : [sendDBusRequest]"), response.errorMessage());
     }
 
     return arguments;
@@ -506,6 +518,7 @@ void MainWindow::updateConfiguration(const QMap<QString, QVariant> args)
     delete settingsWin;
 
     createObjects();
+    if (useHelper) useHelper = isHelperActive();
     setTab(args[QString("tab")].toInt() - 1);
     createActions();
     setIconsToTabs();
@@ -669,13 +682,21 @@ void MainWindow::updateMainTab()
         return errorWin->showWindow(1, QString("[MainWindow] : [updateMainTab]"));
 
     ui->tabWidget->setDisabled(true);
-    ui->widget_netctlAuto->setHidden(!netctlCommand->isNetctlAutoRunning());
     QList<netctlProfileInfo> profiles;
-    if (useHelper)
+    bool netctlAutoStatus = false;
+    if (useHelper) {
+        netctlAutoStatus = sendDBusRequest(DBUS_HELPER_SERVICE, DBUS_LIB_PATH,
+                                           DBUS_HELPER_INTERFACE, QString("isNetctlAutoActive"),
+                                           QList<QVariant>(), true)[0].toBool();
         profiles = parseOutputNetctl(sendDBusRequest(DBUS_HELPER_SERVICE, DBUS_LIB_PATH,
-                                                     DBUS_HELPER_INTERFACE, QString("ProfileList")));
-    else
+                                                     DBUS_HELPER_INTERFACE, QString("ProfileList"),
+                                                     QList<QVariant>(), true));
+    }
+    else {
+        netctlAutoStatus = netctlCommand->isNetctlAutoRunning();
         profiles = netctlCommand->getProfileList();
+    }
+    ui->widget_netctlAuto->setHidden(!netctlAutoStatus);
 
     ui->tableWidget_main->setSortingEnabled(false);
     ui->tableWidget_main->selectRow(-1);
@@ -759,8 +780,9 @@ void MainWindow::updateWifiTab()
     ui->tabWidget->setDisabled(true);
     QList<netctlWifiInfo> scanResults;
     if (useHelper)
-        scanResults = parseOutputWifi(sendDBusRequest(DBUS_HELPER_SERVICE, DBUS_LIB_PATH,
-                                                      DBUS_HELPER_INTERFACE, QString("WiFi")));
+        scanResults = parseOutputWifi(sendDBusRequest(DBUS_HELPER_SERVICE, DBUS_CONTROL_PATH,
+                                                      DBUS_HELPER_INTERFACE, QString("WiFi"),
+                                                      QList<QVariant>(), true));
     else
         scanResults = wpaCommand->scanWifi();
 

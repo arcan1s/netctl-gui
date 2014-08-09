@@ -42,7 +42,7 @@ bool restoreExistSession()
                                                           QString("Restore"));
     QDBusMessage response = bus.call(request);
     QList<QVariant> arguments = response.arguments();
-    return ((arguments.size() == 1) && arguments[0].toBool());
+    return !arguments.isEmpty();
 }
 
 

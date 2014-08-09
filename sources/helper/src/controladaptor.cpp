@@ -27,6 +27,7 @@ ControlAdaptor::ControlAdaptor(NetctlHelper *parent, const QMap<QString, QString
 {
     netctlCommand = new Netctl(false, configuration);
     netctlProfile = new NetctlProfile(false, configuration);
+    wpaCommand = new WpaSup(false, configuration);
 }
 
 
@@ -34,6 +35,7 @@ ControlAdaptor::~ControlAdaptor()
 {
     delete netctlCommand;
     delete netctlProfile;
+    delete wpaCommand;
 }
 
 
@@ -119,7 +121,40 @@ bool ControlAdaptor::SwitchTo(const QString profile)
 
 
 // netctlProfile
+bool ControlAdaptor::Create(const QString profile, const QStringList settingsList)
+{
+    QMap<QString, QString> settings;
+    for (int i=0; i<settingsList.count(); i++) {
+        QString key = settingsList[i].split(QString("=="))[0];
+        QString value = settingsList[i].split(QString("=="))[1];
+        settings[key] = value;
+    }
+    QString temporaryProfile = netctlProfile->createProfile(profile, settings);
+
+    return netctlProfile->copyProfile(temporaryProfile);
+}
+
+
 bool ControlAdaptor::Remove(const QString profile)
 {
     return netctlProfile->removeProfile(profile);
+}
+
+
+// wpaCommand
+QStringList ControlAdaptor::WiFi()
+{
+    QList<netctlWifiInfo> wifiPoints = wpaCommand->scanWifi();
+    QStringList info;
+    for (int i=0; i<wifiPoints.count(); i++) {
+        QStringList point;
+        point.append(wifiPoints[i].name);
+        point.append(wifiPoints[i].security);
+        point.append(wifiPoints[i].signal);
+        point.append(QString::number(wifiPoints[i].active));
+        point.append(QString::number(wifiPoints[i].exists));
+        info.append(point.join(QChar('|')));
+    }
+
+    return info;
 }

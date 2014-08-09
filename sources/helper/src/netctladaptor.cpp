@@ -122,7 +122,7 @@ QStringList NetctlAdaptor::Profile(const QString profile)
     QMap<QString, QString> settings = netctlProfile->getSettingsFromProfile(profile);
     QStringList settingsList;
     for (int i=0; i<settings.keys().count(); i++)
-        settingsList.append(settings.keys()[i] + QString("=") +
+        settingsList.append(settings.keys()[i] + QString("==") +
                             settings[settings.keys()[i]]);
 
     return settingsList;
@@ -142,19 +142,7 @@ QString NetctlAdaptor::ProfileByEssid(const QString essid)
 }
 
 
-QStringList NetctlAdaptor::WiFi()
+QStringList NetctlAdaptor::WirelessInterfaces()
 {
-    QList<netctlWifiInfo> wifiPoints = wpaCommand->scanWifi();
-    QStringList info;
-    for (int i=0; i<wifiPoints.count(); i++) {
-        QStringList point;
-        point.append(wifiPoints[i].name);
-        point.append(wifiPoints[i].security);
-        point.append(wifiPoints[i].signal);
-        point.append(QString::number(wifiPoints[i].active));
-        point.append(QString::number(wifiPoints[i].exists));
-        info.append(point.join(QChar('|')));
-    }
-
-    return info;
+    return netctlCommand->getWirelessInterfaceList();
 }

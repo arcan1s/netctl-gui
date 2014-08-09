@@ -253,14 +253,15 @@ bool WpaSup::startWpaSupplicant()
         if (debug) qDebug() << "[WpaSup]" << "[startWpaSupplicant]" << ":" << "Could not find library";
         return false;
     }
-    if (netctlCommand->getWirelessInterfaceList().isEmpty()) {
+    QStringList interfaces = netctlCommand->getWirelessInterfaceList();
+    if (interfaces.isEmpty()) {
         if (debug) qDebug() << "[WpaSup]" << "[startWpaSupplicant]" << ":" << "Could not find interfaces";
         return false;
     }
 
     if (QFile(pidFile).exists())
         return true;
-    QString interface = netctlCommand->getWirelessInterfaceList()[0];
+    QString interface = interfaces[0];
     QString cmd = sudoCommand + QString(" ") + wpaSupPath + QString(" -B -P ") + pidFile +
             QString(" -i ") + interface + QString(" -D ") + wpaDrivers +
             QString(" -C \"DIR=") + ctrlDir + QString(" GROUP=") + ctrlGroup + QString("\"");
@@ -311,12 +312,13 @@ QString WpaSup::getWpaCliOutput(const QString commandLine)
         if (debug) qDebug() << "[WpaSup]" << "[getWpaCliOutput]" << ":" << "Could not find library";
         return QString();
     }
-    if (netctlCommand->getWirelessInterfaceList().isEmpty()) {
+    QStringList interfaces = netctlCommand->getWirelessInterfaceList();
+    if (interfaces.isEmpty()) {
         if (debug) qDebug() << "[WpaSup]" << "[getWpaCliOutput]" << ":" << "Could not find interfaces";
         return QString();
     }
 
-    QString interface = netctlCommand->getWirelessInterfaceList()[0];
+    QString interface = interfaces[0];
     QString cmd = wpaCliPath + QString(" -i ") + interface + QString(" -p ") + ctrlDir +
             QString(" -P ") + pidFile + QString(" ") + commandLine;
     if (debug) qDebug() << "[WpaSup]" << "[getWpaCliOutput]" << ":" << "Run cmd" << cmd;
@@ -365,12 +367,13 @@ bool WpaSup::wpaCliCall(const QString commandLine)
         if (debug) qDebug() << "[WpaSup]" << "[wpaCliCall]" << ":" << "Could not find library";
         return false;
     }
-    if (netctlCommand->getWirelessInterfaceList().isEmpty()) {
+    QStringList interfaces = netctlCommand->getWirelessInterfaceList();
+    if (interfaces.isEmpty()) {
         if (debug) qDebug() << "[WpaSup]" << "[wpaCliCall]" << ":" << "Could not find interfaces";
         return false;
     }
 
-    QString interface = netctlCommand->getWirelessInterfaceList()[0];
+    QString interface = interfaces[0];
     QString cmd = wpaCliPath + QString(" -i ") + interface + QString(" -p ") + ctrlDir +
             QString(" -P ") + pidFile + QString(" ") + commandLine;
     if (debug) qDebug() << "[WpaSup]" << "[getWpaCliOutput]" << ":" << "Run cmd" << cmd;

@@ -35,10 +35,11 @@ ErrorWindow::~ErrorWindow()
 }
 
 
-QStringList ErrorWindow::getMessage(const int mess)
+QStringList ErrorWindow::getMessage(const int mess, const QString custom)
 {
     if (debug) qDebug() << "[ErrorWindow]" << "[getMessage]";
     if (debug) qDebug() << "[ErrorWindow]" << "[getMessage]" << ":" << "Message" << mess;
+    if (debug) qDebug() << "[ErrorWindow]" << "[getMessage]" << ":" << "Custom message" << custom;
 
     QString message, title;
     switch(mess) {
@@ -123,6 +124,8 @@ QStringList ErrorWindow::getMessage(const int mess)
         message = QApplication::translate("ErrorWindow", "Unknown error");
         break;
     }
+    if (!custom.isEmpty())
+        message = custom;
 
     QStringList fullMessage;
     fullMessage.append(title);
@@ -168,13 +171,14 @@ QMessageBox::Icon ErrorWindow::getIcon(const int mess)
 }
 
 
-void ErrorWindow::showWindow(const int mess, const QString sender)
+void ErrorWindow::showWindow(const int mess, const QString sender, const QString custom)
 {
     if (debug) qDebug() << "[ErrorWindow]" << "[showWindow]";
     if (debug) qDebug() << "[ErrorWindow]" << "[showWindow]" << ":" << "Message" << mess;
     if (debug) qDebug() << "[ErrorWindow]" << "[showWindow]" << ":" << "Sender" << sender;
+    if (debug) qDebug() << "[ErrorWindow]" << "[showWindow]" << ":" << "Custom message" << custom;
 
-    QStringList message = getMessage(mess);
+    QStringList message = getMessage(mess, custom);
     QMessageBox messageBox;
     messageBox.setText(message[0]);
     messageBox.setInformativeText(message[1]);
