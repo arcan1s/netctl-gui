@@ -31,19 +31,20 @@ public:
     explicit NetctlHelper(QObject *parent = 0,
                           QMap<QString, QVariant> args = QMap<QString, QVariant>());
     ~NetctlHelper();
+    QStringList printSettings();
 
 public slots:
-    QMap<QString, QString> getDefault();
-    QMap<QString, QString> getSettings();
+    void updateConfiguration(QString configPath = QString(""));
     void quitHelper();
 
 private:
-    QString configPath;
+    QString initConfigPath;
     QMap<QString, QString> configuration;
     bool debug;
     void createInterface();
     void deleteInterface();
-    void updateConfiguration();
+    QMap<QString, QString> getDefault();
+    QMap<QString, QString> getSettings(const QString configPath);
 };
 
 

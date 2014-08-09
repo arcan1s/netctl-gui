@@ -49,11 +49,15 @@ bool restoreExistSession()
 int main(int argc, char *argv[])
 {
     // detach from console
+    bool debugFlag = false;
+    bool daemonFlag = false;
     for (int i=0; i<argc; i++)
-        if (QString(argv[i]) == QString("--daemon")) {
-            daemon(0, 0);
-            break;
-        }
+        if (QString(argv[i]) == QString("--daemon"))
+            daemonFlag = true;
+        else if ((QString(argv[i]) == QString("-d")) || (QString(argv[i]) == QString("--debug")))
+            debugFlag = true;
+    if ((daemonFlag) && (!debugFlag))
+        daemon(0, 0);
     QApplication a(argc, argv);
     QApplication::setQuitOnLastWindowClosed(false);
     // check if exists
@@ -156,6 +160,8 @@ int main(int argc, char *argv[])
             args[QString("error")] = true;
         }
     }
+    if ((args[QString("debug")].toBool()) && (args[QString("minimized")].toInt() == 1))
+        args[QString("minimized")] = (int) 0;
     if (args[QString("essid")].toString() != QString("ESSID"))
         args[QString("tab")] = (int) 3;
     if (args[QString("open")].toString() != QString("PROFILE"))

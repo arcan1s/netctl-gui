@@ -39,6 +39,8 @@ public slots:
     // helper
     bool Active();
     bool Close();
+    QStringList Settings();
+    bool Update(const QString configPath = QString(""));
     // netctlCommand
     bool autoDisableAll();
     bool autoEnable(const QString profile);

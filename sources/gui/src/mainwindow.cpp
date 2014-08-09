@@ -116,9 +116,9 @@ MainWindow::~MainWindow()
 }
 
 
-QString MainWindow::getInformation()
+QString MainWindow::printInformation()
 {
-    if (debug) qDebug() << "[MainWindow]" << "[getInformation]";
+    if (debug) qDebug() << "[MainWindow]" << "[printInformation]";
 
     QString profile;
     QString status;
@@ -146,9 +146,9 @@ QString MainWindow::getInformation()
 }
 
 
-QStringList MainWindow::getSettings()
+QStringList MainWindow::printSettings()
 {
-    if (debug) qDebug() << "[MainWindow]" << "[getSettings]";
+    if (debug) qDebug() << "[MainWindow]" << "[printSettings]";
 
     QStringList settingsList;
     for (int i=0; i<configuration.keys().count(); i++)

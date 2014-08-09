@@ -56,8 +56,8 @@ public:
                         const QMap<QString, QVariant> args = QMap<QString, QVariant>(),
                         QTranslator *appTranslator = 0);
     ~MainWindow();
-    QString getInformation();
-    QStringList getSettings();
+    QString printInformation();
+    QStringList printSettings();
     bool isHelperActive();
 
 protected:

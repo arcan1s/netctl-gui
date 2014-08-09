@@ -48,13 +48,14 @@ bool checkExistSession()
 int main(int argc, char *argv[])
 {
     // detach from console
-    bool isDaemon = true;
+    bool debugFlag = false;
+    bool daemonFlag = true;
     for (int i=0; i<argc; i++)
-        if (QString(argv[i]) == QString("--nodaemon")) {
-            isDaemon = false;
-            break;
-        }
-    if (isDaemon)
+        if (QString(argv[i]) == QString("--nodaemon"))
+            daemonFlag = false;
+        else if ((QString(argv[i]) == QString("-d")) || (QString(argv[i]) == QString("--debug")))
+            debugFlag = true;
+    if ((daemonFlag) && (!debugFlag))
         daemon(0, 0);
 #if QT_VERSION >= 0x050000
     QCoreApplication::setSetuidAllowed(true);
@@ -97,6 +98,8 @@ int main(int argc, char *argv[])
             args[QString("error")] = true;
         }
     }
+    if ((args[QString("debug")].toBool()) && (!args[QString("nodaemon")].toBool()))
+        args[QString("nodaemon")] = true;
 
     // running
     if (args[QString("error")].toBool()) {

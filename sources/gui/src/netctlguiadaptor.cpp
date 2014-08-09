@@ -41,7 +41,7 @@ bool NetctlGuiAdaptor::Close()
 
 QString NetctlGuiAdaptor::Information()
 {
-    return mainWindow->getInformation();
+    return mainWindow->printInformation();
 }
 
 
@@ -54,7 +54,7 @@ bool NetctlGuiAdaptor::Restore()
 
 QStringList NetctlGuiAdaptor::Settings()
 {
-    return mainWindow->getSettings();
+    return mainWindow->printSettings();
 }
 
 

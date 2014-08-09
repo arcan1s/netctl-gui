@@ -52,7 +52,7 @@ int TrayIcon::showInformation()
 
     if (supportsMessages()) {
         QString title = QApplication::translate("TrayIcon", "netctl status");
-        QString message = mainWindow->getInformation();
+        QString message = mainWindow->printInformation();
         showMessage(title, message, QSystemTrayIcon::Information);
     }
     else
@@ -66,7 +66,7 @@ int TrayIcon::showInformationInWindow()
     if (debug) qDebug() << "[TrayIcon]" << "[showInformationInWindow]";
 
     QString title = QApplication::translate("TrayIcon", "netctl status");
-    QString message = mainWindow->getInformation();
+    QString message = mainWindow->printInformation();
 
     return QMessageBox::information(0, title, message);
 }

@@ -53,6 +53,19 @@ bool ControlAdaptor::Close()
 }
 
 
+QStringList ControlAdaptor::Settings()
+{
+    return helper->printSettings();
+}
+
+
+bool ControlAdaptor::Update(const QString configPath)
+{
+    helper->updateConfiguration(configPath);
+    return true;
+}
+
+
 // netctlCommand
 bool ControlAdaptor::autoDisableAll()
 {
