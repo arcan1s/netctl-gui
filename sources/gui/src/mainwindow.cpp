@@ -35,6 +35,7 @@
 #include "mobilewidget.h"
 #include "netctlautowindow.h"
 #include "netctlguiadaptor.h"
+#include "openvswitchwidget.h"
 #include "passwdwidget.h"
 #include "pppoewidget.h"
 #include "settingswindow.h"
@@ -407,6 +408,8 @@ void MainWindow::createObjects()
     ui->scrollAreaWidgetContents->layout()->addWidget(macvlanWid);
     mobileWid = new MobileWidget(this);
     ui->scrollAreaWidgetContents->layout()->addWidget(mobileWid);
+    openvWid = new OpenvswitchWidget(this);
+    ui->scrollAreaWidgetContents->layout()->addWidget(openvWid);
     pppoeWid = new PppoeWidget(this);
     ui->scrollAreaWidgetContents->layout()->addWidget(pppoeWid);
     tunnelWid = new TunnelWidget(this);
@@ -436,6 +439,7 @@ void MainWindow::deleteObjects()
     if (ipWid != nullptr) delete ipWid;
     if (macvlanWid != nullptr) delete macvlanWid;
     if (mobileWid != nullptr) delete mobileWid;
+    if (openvWid != nullptr) delete openvWid;
     if (pppoeWid != nullptr) delete pppoeWid;
     if (tunnelWid != nullptr) delete tunnelWid;
     if (tuntapWid != nullptr) delete tuntapWid;

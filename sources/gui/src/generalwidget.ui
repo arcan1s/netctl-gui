@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>429</width>
-    <height>535</height>
+    <width>427</width>
+    <height>533</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -121,6 +121,11 @@
            <item>
             <property name="text">
              <string notr="true">macvlan</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>openvswitch</string>
             </property>
            </item>
           </widget>

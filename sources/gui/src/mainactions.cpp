@@ -36,6 +36,7 @@
 #include "mobilewidget.h"
 #include "netctlautowindow.h"
 #include "netctlguiadaptor.h"
+#include "openvswitchwidget.h"
 #include "passwdwidget.h"
 #include "pppoewidget.h"
 #include "settingswindow.h"
@@ -645,6 +646,7 @@ void MainWindow::profileTabChangeState(const QString current)
         ethernetWid->setShown(true);
         macvlanWid->setShown(false);
         mobileWid->setShown(false);
+        openvWid->setShown(false);
         pppoeWid->setShown(false);
         tunnelWid->setShown(false);
         tuntapWid->setShown(false);
@@ -658,6 +660,7 @@ void MainWindow::profileTabChangeState(const QString current)
         ethernetWid->setShown(false);
         macvlanWid->setShown(false);
         mobileWid->setShown(false);
+        openvWid->setShown(false);
         pppoeWid->setShown(false);
         tunnelWid->setShown(false);
         tuntapWid->setShown(false);
@@ -672,6 +675,7 @@ void MainWindow::profileTabChangeState(const QString current)
         ethernetWid->setShown(false);
         macvlanWid->setShown(false);
         mobileWid->setShown(false);
+        openvWid->setShown(false);
         pppoeWid->setShown(false);
         tunnelWid->setShown(false);
         tuntapWid->setShown(false);
@@ -685,6 +689,7 @@ void MainWindow::profileTabChangeState(const QString current)
         ethernetWid->setShown(false);
         macvlanWid->setShown(false);
         mobileWid->setShown(false);
+        openvWid->setShown(false);
         pppoeWid->setShown(false);
         tunnelWid->setShown(false);
         tuntapWid->setShown(false);
@@ -698,6 +703,7 @@ void MainWindow::profileTabChangeState(const QString current)
         ethernetWid->setShown(false);
         macvlanWid->setShown(false);
         mobileWid->setShown(false);
+        openvWid->setShown(false);
         pppoeWid->setShown(true);
         tunnelWid->setShown(false);
         tuntapWid->setShown(false);
@@ -711,6 +717,7 @@ void MainWindow::profileTabChangeState(const QString current)
         ethernetWid->setShown(false);
         macvlanWid->setShown(false);
         mobileWid->setShown(true);
+        openvWid->setShown(false);
         pppoeWid->setShown(false);
         tunnelWid->setShown(false);
         tuntapWid->setShown(false);
@@ -724,6 +731,7 @@ void MainWindow::profileTabChangeState(const QString current)
         ethernetWid->setShown(false);
         macvlanWid->setShown(false);
         mobileWid->setShown(false);
+        openvWid->setShown(false);
         pppoeWid->setShown(false);
         tunnelWid->setShown(true);
         tuntapWid->setShown(false);
@@ -737,6 +745,7 @@ void MainWindow::profileTabChangeState(const QString current)
         ethernetWid->setShown(false);
         macvlanWid->setShown(false);
         mobileWid->setShown(false);
+        openvWid->setShown(false);
         pppoeWid->setShown(false);
         tunnelWid->setShown(false);
         tuntapWid->setShown(true);
@@ -750,6 +759,7 @@ void MainWindow::profileTabChangeState(const QString current)
         ethernetWid->setShown(true);
         macvlanWid->setShown(false);
         mobileWid->setShown(false);
+        openvWid->setShown(false);
         pppoeWid->setShown(false);
         tunnelWid->setShown(false);
         tuntapWid->setShown(false);
@@ -763,6 +773,21 @@ void MainWindow::profileTabChangeState(const QString current)
         ethernetWid->setShown(true);
         macvlanWid->setShown(true);
         mobileWid->setShown(false);
+        openvWid->setShown(false);
+        pppoeWid->setShown(false);
+        tunnelWid->setShown(false);
+        tuntapWid->setShown(false);
+        vlanWid->setShown(false);
+        wirelessWid->setShown(false);
+    }
+    else if (current == QString("openvswitch")) {
+        generalWid->setShown(true);
+        ipWid->setShown(true);
+        bridgeWid->setShown(false);
+        ethernetWid->setShown(false);
+        macvlanWid->setShown(false);
+        mobileWid->setShown(false);
+        openvWid->setShown(true);
         pppoeWid->setShown(false);
         tunnelWid->setShown(false);
         tuntapWid->setShown(false);
@@ -794,6 +819,7 @@ void MainWindow::profileTabClear()
     ethernetWid->clear();
     macvlanWid->clear();
     mobileWid->clear();
+    openvWid->clear();
     pppoeWid->clear();
     tunnelWid->clear();
     tuntapWid->clear();
@@ -879,6 +905,8 @@ void MainWindow::profileTabCreateProfile()
         if (ethernetWid->isOk() == 1)
             return errorWin->showWindow(7, QString("[MainWindow] : [profileTabCreateProfile]"));
     }
+    else if (generalWid->connectionType->currentText() == QString("openvswitch")) {
+    }
 
     ui->tabWidget->setDisabled(true);
     // read settings
@@ -960,6 +988,14 @@ void MainWindow::profileTabCreateProfile()
         for (int i=0; i<addSettings.keys().count(); i++)
             settings.insert(addSettings.keys()[i], addSettings[addSettings.keys()[i]]);
         addSettings = macvlanWid->getSettings();
+        for (int i=0; i<addSettings.keys().count(); i++)
+            settings.insert(addSettings.keys()[i], addSettings[addSettings.keys()[i]]);
+    }
+    else if (generalWid->connectionType->currentText() == QString("openvswitch")) {
+        QMap<QString, QString> addSettings = ipWid->getSettings();
+        for (int i=0; i<addSettings.keys().count(); i++)
+            settings.insert(addSettings.keys()[i], addSettings[addSettings.keys()[i]]);
+        addSettings = openvWid->getSettings();
         for (int i=0; i<addSettings.keys().count(); i++)
             settings.insert(addSettings.keys()[i], addSettings[addSettings.keys()[i]]);
     }
@@ -1059,6 +1095,10 @@ void MainWindow::profileTabLoadProfile()
         ipWid->setSettings(settings);
         ethernetWid->setSettings(settings);
         macvlanWid->setSettings(settings);
+    }
+    else if (generalWid->connectionType->currentText() == QString("openvswitch")) {
+        ipWid->setSettings(settings);
+        openvWid->setSettings(settings);
     }
 }
 

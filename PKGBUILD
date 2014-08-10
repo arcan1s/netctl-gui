@@ -13,7 +13,7 @@ license=('GPL3')
 makedepends=('automoc4' 'cmake' 'kdelibs' 'qt5-base' 'qt5-tools')
 source=("https://github.com/arcan1s/netctl-gui/releases/download/V.${pkgver}/${pkgbase}-${pkgver}-src.tar.xz")
 install="${pkgbase}.install"
-md5sums=('9a47346e890e7c4458602d47751adf17')
+md5sums=('d0a279f99cbb9a33b283def9fe053594')
 
 
 prepare() {

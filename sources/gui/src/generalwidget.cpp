@@ -162,7 +162,9 @@ int GeneralWidget::isOk()
     // bind interfaces is not set
     if ((ui->comboBox_connection->currentText() == QString("bond")) ||
             (ui->comboBox_connection->currentText() == QString("bridge")) ||
-            (ui->comboBox_connection->currentText() == QString("vlan")))
+            (ui->comboBox_connection->currentText() == QString("vlan")) ||
+            (ui->comboBox_connection->currentText() == QString("macvlan")) ||
+            (ui->comboBox_connection->currentText() == QString("openvswitch")))
         if (ui->listWidget_bindto->count() == 0)
             return 1;
     // empty description
