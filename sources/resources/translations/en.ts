@@ -942,7 +942,7 @@
     </message>
     <message>
         <source>Build date: %1</source>
-        <translation type="vanished">Build date: %1</translation>
+        <translation>Build date: %1</translation>
     </message>
     <message>
         <source>cmake flags:</source>
@@ -1068,11 +1068,11 @@
     </message>
     <message>
         <source>cmake flags</source>
-        <translation type="vanished">cmake flags</translation>
+        <translation>cmake flags</translation>
     </message>
     <message>
         <source>DBus configuration</source>
-        <translation type="vanished">DBus configuration</translation>
+        <translation>DBus configuration</translation>
     </message>
     <message>
         <source>DBus API reference</source>
@@ -1085,6 +1085,10 @@
     <message>
         <source>Library documentation</source>
         <translation>Library documentation</translation>
+    </message>
+    <message>
+        <source>Documentation</source>
+        <translation>Documentation</translation>
     </message>
 </context>
 <context>
@@ -1345,19 +1349,19 @@
     <name>NetctlHelper</name>
     <message>
         <source>Build date: %1</source>
-        <translation>Build date: %1</translation>
+        <translation type="vanished">Build date: %1</translation>
     </message>
     <message>
         <source>cmake flags</source>
-        <translation>cmake flags</translation>
+        <translation type="vanished">cmake flags</translation>
     </message>
     <message>
         <source>DBus configuration</source>
-        <translation>DBus configuration</translation>
+        <translation type="vanished">DBus configuration</translation>
     </message>
     <message>
         <source>Documentation</source>
-        <translation>Documentation</translation>
+        <translation type="vanished">Documentation</translation>
     </message>
 </context>
 <context>

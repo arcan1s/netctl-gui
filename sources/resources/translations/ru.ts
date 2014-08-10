@@ -941,7 +941,7 @@
     </message>
     <message>
         <source>Build date: %1</source>
-        <translation type="vanished">Дата сборки: %1</translation>
+        <translation>Дата сборки: %1</translation>
     </message>
     <message>
         <source>cmake flags:</source>
@@ -1067,11 +1067,11 @@
     </message>
     <message>
         <source>cmake flags</source>
-        <translation type="vanished">Флаги cmake</translation>
+        <translation>Флаги cmake</translation>
     </message>
     <message>
         <source>DBus configuration</source>
-        <translation type="vanished">Настройка DBus</translation>
+        <translation>Настройка DBus</translation>
     </message>
     <message>
         <source>DBus API reference</source>
@@ -1083,6 +1083,10 @@
     </message>
     <message>
         <source>Library documentation</source>
+        <translation>Документация</translation>
+    </message>
+    <message>
+        <source>Documentation</source>
         <translation>Документация</translation>
     </message>
 </context>
@@ -1344,19 +1348,19 @@
     <name>NetctlHelper</name>
     <message>
         <source>Build date: %1</source>
-        <translation>Дата сборки: %1</translation>
+        <translation type="vanished">Дата сборки: %1</translation>
     </message>
     <message>
         <source>cmake flags</source>
-        <translation>Флаги cmake</translation>
+        <translation type="vanished">Флаги cmake</translation>
     </message>
     <message>
         <source>DBus configuration</source>
-        <translation>Настройка DBus</translation>
+        <translation type="vanished">Настройка DBus</translation>
     </message>
     <message>
         <source>Documentation</source>
-        <translation>Документация</translation>
+        <translation type="vanished">Документация</translation>
     </message>
 </context>
 <context>

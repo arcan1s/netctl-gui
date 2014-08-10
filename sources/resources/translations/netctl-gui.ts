@@ -1195,6 +1195,26 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="../../gui/src/messages.cpp" line="119"/>
+        <source>Build date: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../gui/src/messages.cpp" line="121"/>
+        <source>cmake flags</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../gui/src/messages.cpp" line="131"/>
+        <source>DBus configuration</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../gui/src/messages.cpp" line="140"/>
+        <source>Documentation</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location filename="../../gui/src/messages.cpp" line="155"/>
         <source>Version</source>
         <translation type="unfinished"></translation>
@@ -1542,29 +1562,6 @@
     <message>
         <location filename="../../../build/gui/src/ui_netctlautowindow.h" line="214"/>
         <source>Close</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>NetctlHelper</name>
-    <message>
-        <location filename="../../gui/src/messages.cpp" line="119"/>
-        <source>Build date: %1</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../gui/src/messages.cpp" line="121"/>
-        <source>cmake flags</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../gui/src/messages.cpp" line="131"/>
-        <source>DBus configuration</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../gui/src/messages.cpp" line="140"/>
-        <source>Documentation</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
