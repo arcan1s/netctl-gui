@@ -116,7 +116,7 @@ MainWindow::~MainWindow()
 }
 
 
-QString MainWindow::printInformation()
+QStringList MainWindow::printInformation()
 {
     if (debug) qDebug() << "[MainWindow]" << "[printInformation]";
 
@@ -139,8 +139,9 @@ QString MainWindow::printInformation()
             status = netctlCommand->getProfileStatus(profile);
         }
     }
-    QString output = QString("%1: %2\n").arg(QApplication::translate("MainWindow", "Profile")).arg(profile);
-    output += QString("%1: %2").arg(QApplication::translate("MainWindow", "Status")).arg(status);
+    QStringList output;
+    output.append(profile);
+    output.append(status);
 
     return output;
 }
@@ -156,6 +157,62 @@ QStringList MainWindow::printSettings()
                             configuration[configuration.keys()[i]]);
 
     return settingsList;
+}
+
+
+QStringList MainWindow::printTrayInformation()
+{
+    if (debug) qDebug() << "[MainWindow]" << "[printTrayInformation]";
+
+    QStringList information;
+    QString current;
+    bool enabled = false;
+    bool netctlAutoStatus = false;
+    QList<netctlProfileInfo> profiles;
+    if (useHelper) {
+        current = sendDBusRequest(DBUS_HELPER_SERVICE, DBUS_LIB_PATH,
+                                  DBUS_HELPER_INTERFACE, QString("ActiveProfile"),
+                                  QList<QVariant>(), true, debug)[0].toString();
+        netctlAutoStatus = sendDBusRequest(DBUS_HELPER_SERVICE, DBUS_LIB_PATH,
+                                           DBUS_HELPER_INTERFACE, QString("isNetctlAutoActive"),
+                                           QList<QVariant>(), true, debug)[0].toBool();
+        profiles = parseOutputNetctl(sendDBusRequest(DBUS_HELPER_SERVICE, DBUS_LIB_PATH,
+                                                     DBUS_HELPER_INTERFACE, QString("ProfileList"),
+                                                     QList<QVariant>(), true, debug), debug);
+        QList<QVariant> args;
+        args.append(current);
+        if (netctlAutoStatus)
+            enabled = sendDBusRequest(DBUS_HELPER_SERVICE, DBUS_LIB_PATH,
+                                      DBUS_HELPER_INTERFACE, QString("autoIsProfileEnabled"),
+                                      args, true, debug)[0].toBool();
+        else
+            enabled = sendDBusRequest(DBUS_HELPER_SERVICE, DBUS_LIB_PATH,
+                                      DBUS_HELPER_INTERFACE, QString("isProfileEnabled"),
+                                      args, true, debug)[0].toBool();
+    }
+    else {
+        netctlAutoStatus = netctlCommand->isNetctlAutoRunning();
+        if (netctlAutoStatus) {
+            current = netctlCommand->autoGetActiveProfile();
+            enabled = netctlCommand->autoIsProfileEnabled(current);
+            profiles = netctlCommand->getProfileListFromNetctlAuto();
+        }
+        else {
+            current = netctlCommand->getActiveProfile();
+            enabled = netctlCommand->isProfileEnabled(current);
+            profiles = netctlCommand->getProfileList();
+        }
+    }
+
+    information.append(QString::number(netctlAutoStatus));
+    QStringList profileList;
+    for (int i=0; i<profiles.count(); i++)
+        profileList.append(profiles[i].name);
+    information.append(profileList.join(QChar('|')));
+    information.append(current);
+    information.append(QString::number(enabled));
+
+    return information;
 }
 
 

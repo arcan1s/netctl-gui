@@ -117,6 +117,132 @@ void MainWindow::showSettingsWindow()
 }
 
 
+bool MainWindow::enableProfileSlot(const QString profile)
+{
+    if (debug) qDebug() << "[MainWindow]" << "[enableProfileSlot]";
+    if (debug) qDebug() << "[MainWindow]" << "[enableProfileSlot]" << ":" << "Profile" << profile;
+
+    bool current;
+    if (useHelper) {
+        QList<QVariant> args;
+        args.append(profile);
+        sendDBusRequest(DBUS_HELPER_SERVICE, DBUS_CTRL_PATH,
+                        DBUS_HELPER_INTERFACE, QString("Enable"),
+                        args, true, debug);
+        current = sendDBusRequest(DBUS_HELPER_SERVICE, DBUS_LIB_PATH,
+                                  DBUS_HELPER_INTERFACE, QString("isProfileEnabled"),
+                                  args, true, debug)[0].toBool();
+    }
+    else {
+        netctlCommand->enableProfile(profile);
+        current = netctlCommand->isProfileEnabled(profile);
+    }
+
+    return current;
+}
+
+
+bool MainWindow::restartProfileSlot(const QString profile)
+{
+    if (debug) qDebug() << "[MainWindow]" << "[restartProfileSlot]";
+    if (debug) qDebug() << "[MainWindow]" << "[restartProfileSlot]" << ":" << "Profile" << profile;
+
+    bool current;
+    if (useHelper) {
+        QList<QVariant> args;
+        args.append(profile);
+        sendDBusRequest(DBUS_HELPER_SERVICE, DBUS_CTRL_PATH,
+                        DBUS_HELPER_INTERFACE, QString("Restart"),
+                        args, true, debug)[0].toBool();
+        current = sendDBusRequest(DBUS_HELPER_SERVICE, DBUS_LIB_PATH,
+                                  DBUS_HELPER_INTERFACE, QString("isProfileActive"),
+                                  args, true, debug)[0].toBool();
+    }
+    else {
+        netctlCommand->restartProfile(profile);
+        current = netctlCommand->isProfileActive(profile);
+    }
+
+    return current;
+}
+
+
+bool MainWindow::startProfileSlot(const QString profile)
+{
+    if (debug) qDebug() << "[MainWindow]" << "[startProfileSlot]";
+    if (debug) qDebug() << "[MainWindow]" << "[startProfileSlot]" << ":" << "Profile" << profile;
+
+    bool current;
+    if (useHelper) {
+        QList<QVariant> args;
+        args.append(profile);
+        sendDBusRequest(DBUS_HELPER_SERVICE, DBUS_CTRL_PATH,
+                        DBUS_HELPER_INTERFACE, QString("Start"),
+                        args, true, debug);
+        current = sendDBusRequest(DBUS_HELPER_SERVICE, DBUS_LIB_PATH,
+                                  DBUS_HELPER_INTERFACE, QString("isProfileActive"),
+                                  args, true, debug)[0].toBool();
+    }
+    else {
+        netctlCommand->startProfile(profile);
+        current = netctlCommand->isProfileActive(profile);
+    }
+
+    return current;
+}
+
+
+bool MainWindow::switchToProfileSlot(const QString profile)
+{
+    if (debug) qDebug() << "[MainWindow]" << "[switchToProfileSlot]";
+    if (debug) qDebug() << "[MainWindow]" << "[switchToProfileSlot]" << ":" << "Profile" << profile;
+
+    bool netctlAutoStatus = false;
+    if (useHelper)
+        netctlAutoStatus = sendDBusRequest(DBUS_HELPER_SERVICE, DBUS_LIB_PATH,
+                                           DBUS_HELPER_INTERFACE, QString("isNetctlAutoActive"),
+                                           QList<QVariant>(), true, debug)[0].toBool();
+    else
+        netctlAutoStatus = netctlCommand->isNetctlAutoRunning();
+
+    bool current;
+    if (netctlAutoStatus) {
+        if (useHelper) {
+            QList<QVariant> args;
+            args.append(profile);
+            sendDBusRequest(DBUS_HELPER_SERVICE, DBUS_CTRL_PATH,
+                            DBUS_HELPER_INTERFACE, QString("autoStart"),
+                            args, true, debug);
+            current = sendDBusRequest(DBUS_HELPER_SERVICE, DBUS_LIB_PATH,
+                                      DBUS_HELPER_INTERFACE, QString("autoIsProfileActive"),
+                                      args, true, debug)[0].toBool();
+        }
+        else {
+            netctlCommand->autoStartProfile(profile);
+            current = netctlCommand->autoIsProfileActive(profile);
+        }
+    }
+    else {
+        if (useHelper) {
+            QList<QVariant> args;
+            args.append(profile);
+            sendDBusRequest(DBUS_HELPER_SERVICE, DBUS_CTRL_PATH,
+                            DBUS_HELPER_INTERFACE, QString("SwitchTo"),
+                            args, true, debug);
+            current = sendDBusRequest(DBUS_HELPER_SERVICE, DBUS_LIB_PATH,
+                                      DBUS_HELPER_INTERFACE, QString("isProfileActive"),
+                                      args, true, debug)[0].toBool();
+        }
+        else {
+            netctlCommand->switchToProfile(profile);
+            current = netctlCommand->isProfileActive(profile);
+        }
+    }
+
+    return current;
+}
+
+
 void MainWindow::showApi()
 {
     if (debug) qDebug() << "[MainWindow]" << "[showApi]";
@@ -400,23 +526,9 @@ void MainWindow::mainTabEnableProfile()
         return;
 
     ui->tabWidget->setDisabled(true);
-    bool previous = !ui->tableWidget_main->item(ui->tableWidget_main->currentItem()->row(), 3)->text().isEmpty();
-    bool current;
     QString profile = ui->tableWidget_main->item(ui->tableWidget_main->currentItem()->row(), 0)->text();
-    if (useHelper) {
-        QList<QVariant> args;
-        args.append(profile);
-        sendDBusRequest(DBUS_HELPER_SERVICE, DBUS_CTRL_PATH,
-                        DBUS_HELPER_INTERFACE, QString("Enable"),
-                        args, true, debug);
-        current = sendDBusRequest(DBUS_HELPER_SERVICE, DBUS_LIB_PATH,
-                                  DBUS_HELPER_INTERFACE, QString("isProfileEnabled"),
-                                  args, true, debug)[0].toBool();
-    }
-    else {
-        netctlCommand->enableProfile(profile);
-        current = netctlCommand->isProfileEnabled(profile);
-    }
+    bool previous = !ui->tableWidget_main->item(ui->tableWidget_main->currentItem()->row(), 3)->text().isEmpty();
+    bool current = enableProfileSlot(profile);
     if (current != previous)
         ui->statusBar->showMessage(QApplication::translate("MainWindow", "Done"));
     else
@@ -462,21 +574,7 @@ void MainWindow::mainTabRestartProfile()
 
     ui->tabWidget->setDisabled(true);
     QString profile = ui->tableWidget_main->item(ui->tableWidget_main->currentItem()->row(), 0)->text();
-    bool status = false;
-    if (useHelper) {
-        QList<QVariant> args;
-        args.append(profile);
-        sendDBusRequest(DBUS_HELPER_SERVICE, DBUS_CTRL_PATH,
-                        DBUS_HELPER_INTERFACE, QString("Restart"),
-                        args, true, debug)[0].toBool();
-        status = sendDBusRequest(DBUS_HELPER_SERVICE, DBUS_LIB_PATH,
-                                 DBUS_HELPER_INTERFACE, QString("isProfileActive"),
-                                 args, true, debug)[0].toBool();
-    }
-    else {
-        netctlCommand->restartProfile(profile);
-        status = netctlCommand->isProfileActive(profile);
-    }
+    bool status = restartProfileSlot(profile);
     if (status)
         ui->statusBar->showMessage(QApplication::translate("MainWindow", "Done"));
     else
@@ -495,23 +593,9 @@ void MainWindow::mainTabStartProfile()
         return;
 
     ui->tabWidget->setDisabled(true);
-    bool previous = !ui->tableWidget_main->item(ui->tableWidget_main->currentItem()->row(), 2)->text().isEmpty();
-    bool current;
     QString profile = ui->tableWidget_main->item(ui->tableWidget_main->currentItem()->row(), 0)->text();
-    if (useHelper) {
-        QList<QVariant> args;
-        args.append(profile);
-        sendDBusRequest(DBUS_HELPER_SERVICE, DBUS_CTRL_PATH,
-                        DBUS_HELPER_INTERFACE, QString("Start"),
-                        args, true, debug);
-        current = sendDBusRequest(DBUS_HELPER_SERVICE, DBUS_LIB_PATH,
-                                  DBUS_HELPER_INTERFACE, QString("isProfileActive"),
-                                  args, true, debug)[0].toBool();
-    }
-    else {
-        netctlCommand->startProfile(profile);
-        current = netctlCommand->isProfileActive(profile);
-    }
+    bool previous = !ui->tableWidget_main->item(ui->tableWidget_main->currentItem()->row(), 2)->text().isEmpty();
+    bool current = startProfileSlot(profile);
     if (current != previous)
         ui->statusBar->showMessage(QApplication::translate("MainWindow", "Done"));
     else

@@ -56,8 +56,9 @@ public:
                         const QMap<QString, QVariant> args = QMap<QString, QVariant>(),
                         QTranslator *appTranslator = 0);
     ~MainWindow();
-    QString printInformation();
+    QStringList printInformation();
     QStringList printSettings();
+    QStringList printTrayInformation();
     bool isHelperActive();
     bool isHelperServiceActive();
 
@@ -71,6 +72,11 @@ public slots:
     void showMainWindow();
     void showNetctlAutoWindow();
     void showSettingsWindow();
+    // trayicon control slots
+    bool enableProfileSlot(const QString profile);
+    bool startProfileSlot(const QString profile);
+    bool switchToProfileSlot(const QString profile);
+    bool restartProfileSlot(const QString profile);
     // open docs
     void showApi();
     void showLibrary();

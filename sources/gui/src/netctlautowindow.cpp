@@ -176,7 +176,7 @@ void NetctlAutoWindow::netctlAutoUpdateTable()
                                   DBUS_HELPER_INTERFACE, QString("isNetctlAutoEnabled"),
                                   QList<QVariant>(), true, debug)[0].toBool();
         running = sendDBusRequest(DBUS_HELPER_SERVICE, DBUS_LIB_PATH,
-                                  DBUS_HELPER_INTERFACE, QString("isNetctlAutoRunning"),
+                                  DBUS_HELPER_INTERFACE, QString("isNetctlAutoActive"),
                                   QList<QVariant>(), true, debug)[0].toBool();
     }
     else {

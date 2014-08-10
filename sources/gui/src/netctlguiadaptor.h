@@ -36,7 +36,7 @@ public:
 public slots:
     void ApiDocs();
     bool Close();
-    QString Information();
+    QStringList Information();
     void LibraryDocs();
     bool Restore();
     void SecurityDocs();
@@ -45,6 +45,7 @@ public slots:
     bool ShowMain();
     bool ShowNetctlAuto();
     bool ShowSettings();
+    QStringList VerboseInformation();
 
 private:
     MainWindow *mainWindow;

@@ -45,7 +45,7 @@ bool NetctlGuiAdaptor::Close()
 }
 
 
-QString NetctlGuiAdaptor::Information()
+QStringList NetctlGuiAdaptor::Information()
 {
     return mainWindow->printInformation();
 }
@@ -101,4 +101,10 @@ bool NetctlGuiAdaptor::ShowSettings()
 {
     mainWindow->showSettingsWindow();
     return true;
+}
+
+
+QStringList NetctlGuiAdaptor::VerboseInformation()
+{
+    return mainWindow->printTrayInformation();
 }

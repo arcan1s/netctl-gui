@@ -65,8 +65,8 @@ TODO (wish list)
 ----------------
 
 * plasmoid helper integration
-* more tray actions
-* include security notes / project architecture
+* remove suid from helper (polkit integration or run through sudo)
+* security notes / project architecture
 * autotests
 
 Links

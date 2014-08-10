@@ -6,5 +6,7 @@
 <!--     icons -->
     <file>icon.png</file>
     <file>wifi.png</file>
+    <file>network-idle-64x64.png</file>
+    <file>network-offline-64x64.png</file>
 </qresource>
 </RCC>

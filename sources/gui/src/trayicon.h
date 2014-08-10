@@ -37,19 +37,26 @@ public:
 public slots:
     int showInformation();
     int showInformationInWindow();
+    void updateMenu();
 
 private slots:
     void itemActivated(const QSystemTrayIcon::ActivationReason reason);
+    bool enableProfileSlot();
+    bool restartProfileSlot();
+    bool startProfileSlot(QAction *action);
+    bool stopProfileSlot();
+    bool switchToProfileSlot(QAction *action);
 
 private:
     bool debug;
     MainWindow *mainWindow;
     // contextual actions
-    QMenu *menu;
-    QAction *exit;
-    QAction *showMainWindow;
-    QAction *showNetctlAutoWindow;
-    QAction *showStatus;
+    QMenu *menuActions;
+    QMenu *startProfileMenu;
+    QMenu *switchToProfileMenu;
+    QMap<QString, QAction*> contextMenu;
+    // functions
+    void createActions();
     void init();
 };
 
