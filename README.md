@@ -64,6 +64,7 @@ Additional information
 TODO (wish list)
 ----------------
 
+* add support of **openvswitch** (netctl-auto-1.9)
 * plasmoid helper integration
 * remove suid from helper (polkit integration or run through sudo)
 * security notes / project architecture
