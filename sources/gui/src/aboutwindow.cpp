@@ -79,13 +79,10 @@ void AboutWindow::createUi()
     QWidget *aboutWidget = new QWidget();
     uiAbout = new Ui::About;
     uiAbout->setupUi(aboutWidget);
-    ui->verticalLayout->addWidget(aboutWidget);
+    ui->verticalLayout->insertWidget(0, aboutWidget);
     createText();
 
-    QDialogButtonBox *buttonBox = new QDialogButtonBox;
-    buttonBox->addButton(QDialogButtonBox::Close);
-    ui->verticalLayout->addWidget(buttonBox);
-    connect(buttonBox->button(QDialogButtonBox::Close), SIGNAL(clicked(bool)), this, SLOT(close()));
+    connect(ui->buttonBox->button(QDialogButtonBox::Close), SIGNAL(clicked(bool)), this, SLOT(close()));
 }
 
 

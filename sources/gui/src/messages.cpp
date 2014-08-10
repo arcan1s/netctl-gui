@@ -136,6 +136,12 @@ QString infoMessage()
     infoMessage += QString("\tDBUS_HELPER_INTERFACE=%1\n").arg(QString(DBUS_HELPER_INTERFACE));
     infoMessage += QString("\tDBUS_CTRL_PATH=%1\n").arg(QString(DBUS_CTRL_PATH));
     infoMessage += QString("\tDBUS_LIB_PATH=%1\n").arg(QString(DBUS_LIB_PATH));
+    // docs path
+    infoMessage += QString("%1:\n").arg(QCoreApplication::translate("NetctlHelper", "Documentation"));
+    infoMessage += QString("\tDOCS_PATH=%1\n").arg(QString(DOCS_PATH));
+    QStringList docs = QDir(QString(DOCS_PATH)).entryList(QDir::NoDotAndDotDot);
+    for (int i=0; i<docs.count(); i++)
+        infoMessage += QString("\t%1\n").arg(docs[i]);
 
     return infoMessage;
 }

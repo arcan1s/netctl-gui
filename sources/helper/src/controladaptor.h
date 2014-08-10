@@ -38,7 +38,10 @@ public:
 public slots:
     // helper
     bool Active();
+    QString ApiDocs();
     bool Close();
+    QString LibraryDocs();
+    QString SecurityDocs();
     QStringList Settings();
     bool Update();
     // netctlCommand

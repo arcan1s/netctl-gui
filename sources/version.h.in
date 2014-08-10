@@ -14,6 +14,7 @@
 #define BUGTRACKER "https://github.com/arcan1s/netctl-gui/issues"
 #define TRANSLATION "https://github.com/arcan1s/netctl-gui/issues/3"
 #define AUR_PACKAGES "https://aur.archlinux.org/pkgbase/netctl-gui/"
+#define DOCS_PATH "@CMAKE_INSTALL_PREFIX@/share/doc/netctl-gui/"
 
 #define BUILD_DATE "@CURRENT_DATE@"
 #define DATE "2014-@CURRENT_YEAR@"

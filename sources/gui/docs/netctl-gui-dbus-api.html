@@ -1,0 +1,325 @@
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <title>netctl-gui DBus API desription</title>
+    <style type="text/css">
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+th, td {
+  padding: 5px 10px;
+  border: 1px solid #000000;
+};
+td {
+  text-align: justify;
+}
+th {
+  text-align: center;
+}
+th.sub {
+  font-style: italic;
+  font-weight: normal;
+}
+    </style>
+      <h1>netctl-gui DBus API description</h1>
+      <h3>Project version : @PROJECT_VERSION@</h3>
+      <ol>
+        <li><a href="#api">DBus API</a></li>
+        <li><a href="#helper">Helper API</a></li>
+        <ul>
+          <li><a href="#ctrl">Helper ctrl API</a></li>
+          <li><a href="#netctl">Helper netctl API</a></li>
+        </ul>
+        <li><a href="#gui">GUI API</a></li>
+        <ul>
+          <li><a href="#netctlgui">GUI netctlgui API</a></li>
+        </ul>
+        <li><a href="#links">External links</a></li>
+      </ol>
+  </head>
+  <body>
+
+<h2><a href="#api" class="anchor" name="api"></a>DBus API</h2>
+<table>
+  <tbody><tr>
+    <th>method</th>
+    <th>responce</th>
+    <th>run as root</th>
+  </tr>
+  <!-- helper service -->
+  <tr>
+    <th colspan="3"><a href="#helper" class="anchor" name="helper"></a><code>org.netctlgui.helper</code> service (system bus)</th>
+  </tr>
+  <!-- /ctrl path -->
+  <tr>
+    <th colspan="3" class="sub"><a href="#ctrl" class="anchor" name="ctrl"></a><code>/ctrl</code> path</th>
+  </tr>
+  <!-- helper actions -->
+  <tr>
+    <td>bool Active()</td>
+    <td><code>true</code> if helper is active</td>
+    <td>no</td>
+  </tr>
+  <tr>
+    <td>QString ApiDocs()</td>
+    <td>returns path to this API documentation</td>
+    <td>no</td>
+  </tr>
+  <tr>
+    <td>bool Close()</td>
+    <td><code>true</code> and closes the helper</td>
+    <td>no</td>
+  </tr>
+  <tr>
+    <td>QString LibraryDocs()</td>
+    <td>returns path to the library documentation</td>
+    <td>no</td>
+  </tr>
+  <tr>
+    <td>QString SecurityDocs()</td>
+    <td>returns path to the security documentation</td>
+    <td>no</td>
+  </tr>
+  <tr>
+    <td>QStringList Settings()</td>
+    <td>current helper settings <code>KEY=VALUE</code></td>
+    <td>no</td>
+  </tr>
+  <tr>
+    <td>bool Update()</td>
+    <td>calls update helper configuration. Returns <code>true</code></td>
+    <td>no</td>
+  </tr>
+  <!-- netctl actions -->
+  <tr>
+    <td>bool Enable(QString profile)</td>
+    <td>enables or disables the profile. Returns <code>true</code> if action has been performed successfully</td>
+    <td>yes</td>
+  </tr>
+  <tr>
+    <td>bool Restart(QString profile)</td>
+    <td>restarts the profile. Returns <code>true</code> if action has been performed successfully</td>
+    <td>yes</td>
+  </tr>
+  <tr>
+    <td>bool Start(QString profile)</td>
+    <td>starts or stops the profile. Returns <code>true</code> if action has been performed successfully</td>
+    <td>yes</td>
+  </tr>
+  <tr>
+    <td>bool SwitchTo(QString profile)</td>
+    <td>switchs to the profile. Returns <code>true</code> if action has been performed successfully</td>
+    <td>yes</td>
+  </tr>
+  <tr>
+    <td>bool Create(QString profile, QStringList settingsList)</td>
+    <td>creates the profile with specified settings. Settings should be given in the format <code>KEY==VALUE</code>. Returns <code>true</code> if action has been performed successfully</td>
+    <td>yes</td>
+  </tr>
+  <tr>
+    <td>bool Remove(QString profile)</td>
+    <td>removes the profile. Returns <code>true</code> if action has been performed successfully</td>
+    <td>yes</td>
+  </tr>
+  <!-- netctl-auto actions -->
+  <tr>
+    <td>bool autoDisableAll()</td>
+    <td>disables all profiles (netctl-auto). Returns <code>true</code> if action has been performed successfully</td>
+    <td>no?</td>
+  </tr>
+  <tr>
+    <td>bool autoEnable(QString profile)</td>
+    <td>enables or disables the profile (netctl-auto). Returns <code>true</code> if action has been performed successfully</td>
+    <td>no?</td>
+  </tr>
+  <tr>
+    <td>bool autoEnableAll()</td>
+    <td>enables all profiles (netctl-auto). Returns <code>true</code> if action has been performed successfully</td>
+    <td>no?</td>
+  </tr>
+  <tr>
+    <td>bool autoStart(QString profile)</td>
+    <td>switchs to the profile (netctl-auto). Returns <code>true</code> if action has been performed successfully</td>
+    <td>no?</td>
+  </tr>
+  <!-- netctl-auto service actions -->
+  <tr>
+    <td>bool autoServiceEnable()</td>
+    <td>enables or disables netctl-auto systemd service. Returns <code>true</code> if action has been performed successfully</td>
+    <td>yes</td>
+  </tr>
+  <tr>
+    <td>bool autoServiceRestart()</td>
+    <td>restarts netctl-auto systemd service. Returns <code>true</code> if action has been performed successfully</td>
+    <td>yes</td>
+  </tr>
+  <tr>
+    <td>bool autoServiceStart()</td>
+    <td>starts or stops netctl-auto systemd service. Returns <code>true</code> if action has been performed successfully</td>
+    <td>yes</td>
+  </tr>
+  <!-- wpa_supplicant actions -->
+  <tr>
+    <td>QStringList WiFi()</td>
+    <td>returns available WiFi points in format <code>NAME|SECURITY|SIGNAL|ACTIVE|EXISTS</code></td>
+    <td>yes</td>
+  </tr>
+  <!-- /netctl path -->
+  <tr>
+    <th colspan="3" class="sub"><a href="#netctl" class="anchor" name="netctl"></a><code>/netctl</code> path</th>
+  </tr>
+  <!-- general information -->
+  <tr>
+    <td>QString ActiveProfile()</td>
+    <td>returns active profile from netctl or netctl-auto</td>
+    <td>no</td>
+  </tr>
+  <tr>
+    <td>QString ActiveProfileStatus()</td>
+    <td>returns active profile status from netctl or netctl-auto. May be <code>netctl-auto</code>, <code>active (enabled)</code>, <code>active (static)</code>, <code>inactive (enabled)</code>, <code>inactive (static)</code></td>
+    <td>no</td>
+  </tr>
+  <tr>
+    <td>QStringList Information()</td>
+    <td>returns general information in format <code>[ActiveProfile, ActiveProfileStatus]</code></td>
+    <td>no</td>
+  </tr>
+  <tr>
+    <td>QStringList ProfileList()</td>
+    <td>returns available profiles in format <code>NAME|DESCRIPTION|ACTIVE|ENABLED</code></td>
+    <td>no</td>
+  </tr>
+  <tr>
+    <td>QStringList WirelessInterface()</td>
+    <td>returns wireless interfaces</td>
+    <td>no</td>
+  </tr>
+  <!-- netctl specific information -->
+  <tr>
+    <td>bool isProfileActive(QString profile)</td>
+    <td>returns <code>true</code> if the profile is active</td>
+    <td>no</td>
+  </tr>
+  <tr>
+    <td>bool isProfileEnabled(QString profile)</td>
+    <td>returns <code>true</code> if the profile is enabled</td>
+    <td>no</td>
+  </tr>
+  <!-- netctl-auto specific information -->
+  <tr>
+    <td>bool autoIsProfileActive(QString profile)</td>
+    <td>returns <code>true</code> if the profile is active (netctl-auto)</td>
+    <td>no</td>
+  </tr>
+  <tr>
+    <td>bool autoIsProfileEnabled(QString profile)</td>
+    <td>returns <code>true</code> if the profile is enabled (netctl-auto)</td>
+    <td>no</td>
+  </tr>
+  <tr>
+    <td>bool isNetctlAutoActive()</td>
+    <td>returns <code>true</code> if netctl-auto is active</td>
+    <td>no</td>
+  </tr>
+  <tr>
+    <td>bool isNetctlAutoEnabled()</td>
+    <td>returns <code>true</code> if netctl-auto is enabled</td>
+    <td>no</td>
+  </tr>
+  <!-- profile information -->
+  <tr>
+    <td>QStringList Profile(QString profile)</td>
+    <td>returns the profile settings in format <code>KEY==VALUE</code></td>
+    <td>no</td>
+  </tr>
+  <tr>
+    <td>QString ProfileByEssid(QString essid)</td>
+    <td>returns the profile name by the given ESSID or empty line</td>
+    <td>no</td>
+  </tr>
+  <tr>
+    <td>QString ProfileValue(QString profile, QString key)</td>
+    <td>returns value of the key by the given profile or empty line</td>
+    <td>no</td>
+  </tr>
+  <!-- gui service -->
+  <tr>
+    <th colspan="3"><a href="#gui" class="anchor" name="gui"></a><code>org.netctlgui.netctlgui</code> service (session bus)</th>
+  </tr>
+  <!-- /netctlgui path -->
+  <tr>
+    <th colspan="3" class="sub"><a href="#netctlgui" class="anchor" name="netctlgui"></a><code>/netctlgui</code> path</th>
+  </tr>
+  <!-- gui actions -->
+  <tr>
+    <td>void ApiDocs()</td>
+    <td>opens this API documentation</td>
+    <td>no</td>
+  </tr>
+  <tr>
+    <td>bool Close()</td>
+    <td><code>true</code> and closes the application</td>
+    <td>no</td>
+  </tr>
+  <tr>
+    <td>QString Information()</td>
+    <td>the same as <code>org.netctlgui.helper /netctl Information</code></td>
+    <td>no</td>
+  </tr>
+  <tr>
+    <td>void LibraryDocs()</td>
+    <td>opens the library documentation</td>
+    <td>no</td>
+  </tr>
+  <tr>
+    <td>bool Restore()</td>
+    <td><code>true</code> and restores the application</td>
+    <td>no</td>
+  </tr>
+  <tr>
+    <td>void SecurityDocs()</td>
+    <td>opens the security documentation</td>
+    <td>no</td>
+  </tr>
+  <tr>
+    <td>QStringList Settings()</td>
+    <td>current application settings <code>KEY=VALUE</code></td>
+    <td>no</td>
+  </tr>
+  <tr>
+    <td>bool ShowAbout()</td>
+    <td><code>true</code> and shows about window</td>
+    <td>no</td>
+  </tr>
+  <tr>
+    <td>bool ShowMain()</td>
+    <td><code>true</code> and shows main window</td>
+    <td>no</td>
+  </tr>
+  <tr>
+    <td>bool ShowNetctlAuto()</td>
+    <td><code>true</code> and shows netctl-auto window</td>
+    <td>no</td>
+  </tr>
+  <tr>
+    <td>bool ShowSettings()</td>
+    <td><code>true</code> and shows settings window</td>
+    <td>no</td>
+  </tr>
+</table>
+
+<h2><a href="#links" class="anchor" name="links"></a>External links</h2>
+<ul>
+  <li><a href="http://arcanis.name/projects/netctl-gui/">Homepage</a></li>
+  <li><a href="https://github.com/arcan1s/netctl-gui">Repository</a></li>
+  <li><a href="https://github.com/arcan1s/netctl-gui/issues">Bugtracker</a></li>
+</ul>
+
+<p align="center" style="font-size: 70%">
+  &copy; 2014-@CURRENT_YEAR@ <a href="mailto:@PROJECT_CONTACT@">@PROJECT_AUTHOR@</a><br>
+  This software is licensed under @PROJECT_LICENSE@
+</p>
+
+  </body>
+</html>

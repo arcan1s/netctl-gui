@@ -71,6 +71,10 @@ public slots:
     void showMainWindow();
     void showNetctlAutoWindow();
     void showSettingsWindow();
+    // open docs
+    void showApi();
+    void showLibrary();
+    void showSecurityNotes();
     // helper
     bool forceStartHelper();
     bool forceStopHelper();
@@ -146,7 +150,6 @@ private:
     void createObjects();
     void deleteObjects();
     void keyPressEvent(QKeyEvent *pressedKey);
-    void setIconsToTabs();
     QString configPath;
     bool debug = false;
     bool hiddenNetwork;

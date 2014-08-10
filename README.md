@@ -65,11 +65,9 @@ TODO (wish list)
 ----------------
 
 * plasmoid helper integration
-* gui helper|systemd integration
-* helper uid/euid check to allow use /Ctrl interface
+* `==` checking to avoid segfaults
 * include security notes / project architecture to about window
-* DBus API description
-* tests
+* autotests
 
 Links
 -----

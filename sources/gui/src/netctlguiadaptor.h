@@ -34,9 +34,12 @@ public:
     ~NetctlGuiAdaptor();
 
 public slots:
+    void ApiDocs();
     bool Close();
     QString Information();
+    void LibraryDocs();
     bool Restore();
+    void SecurityDocs();
     QStringList Settings();
     bool ShowAbout();
     bool ShowMain();

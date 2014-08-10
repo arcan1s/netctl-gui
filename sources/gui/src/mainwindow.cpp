@@ -243,9 +243,12 @@ void MainWindow::createActions()
 
     connect(ui->tabWidget, SIGNAL(currentChanged(int)), this, SLOT(updateTabs(int)));
     connect(ui->actionAbout, SIGNAL(triggered(bool)), this, SLOT(showAboutWindow()));
+    connect(ui->actionApi, SIGNAL(triggered(bool)), this, SLOT(showApi()));
+    connect(ui->actionLibrary, SIGNAL(triggered(bool)), this, SLOT(showLibrary()));
     connect(ui->actionNetctlAuto, SIGNAL(triggered(bool)), this, SLOT(showNetctlAutoWindow()));
-    connect(ui->actionSettings, SIGNAL(triggered(bool)), this, SLOT(showSettingsWindow()));
     connect(ui->actionReport, SIGNAL(triggered(bool)), this, SLOT(reportABug()));
+    connect(ui->actionSecurity, SIGNAL(triggered(bool)), this, SLOT(showSecurityNotes()));
+    connect(ui->actionSettings, SIGNAL(triggered(bool)), this, SLOT(showSettingsWindow()));
     connect(ui->actionQuit, SIGNAL(triggered(bool)), this, SLOT(closeMainWindow()));
 
     // actions menu
@@ -391,17 +394,6 @@ void MainWindow::deleteObjects()
 }
 
 
-void MainWindow::setIconsToTabs()
-{
-    if (debug) qDebug() << "[MainWindow]" << "[setIconsToTabs]";
-
-    // tab widget
-    ui->tabWidget->setTabIcon(0, QIcon(":icon"));
-    ui->tabWidget->setTabIcon(1, QIcon::fromTheme("document-new"));
-    ui->tabWidget->setTabIcon(2, QIcon(":wifi"));
-}
-
-
 QMap<QString, QString> MainWindow::parseOptions(const QString options)
 {
     if (debug) qDebug() << "[MainWindow]" << "[parseOptions]";
@@ -464,7 +456,6 @@ void MainWindow::updateConfiguration(const QMap<QString, QVariant> args)
     // update ui
     setTab(args[QString("tab")].toInt() - 1);
     createActions();
-    setIconsToTabs();
 
     // tray
     if (isDaemon)

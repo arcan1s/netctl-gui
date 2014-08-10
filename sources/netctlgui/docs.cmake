@@ -15,4 +15,4 @@ install (FILES ${MAN_DIR}/Netctl.3 DESTINATION share/man/man3 RENAME ${SUBPROJEC
 install (FILES ${MAN_DIR}/NetctlProfile.3 DESTINATION share/man/man3 RENAME ${SUBPROJECT}_NetctlProfile.3)
 install (FILES ${MAN_DIR}/WpaSup.3 DESTINATION share/man/man3 RENAME ${SUBPROJECT}_WpaSup.3)
 # html docs
-install (DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/docs/html DESTINATION share/doc/${SUBPROJECT})
+install (DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/docs/html DESTINATION share/doc/${PROJECT_NAME})

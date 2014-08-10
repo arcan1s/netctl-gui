@@ -1,0 +1,9 @@
+# build pages
+file (GLOB SUBPROJECT_DOCS_IN *.html)
+foreach (DOC_IN ${SUBPROJECT_DOCS_IN})
+    file (RELATIVE_PATH ONE_DOC ${CMAKE_SOURCE_DIR} ${DOC_IN})
+    configure_file (${DOC_IN} ${CMAKE_CURRENT_BINARY_DIR}/${ONE_DOC})
+    set (SUBPROJECT_DOCS ${SUBPROJECT_DOCS} ${CMAKE_CURRENT_BINARY_DIR}/${ONE_DOC})
+endforeach ()
+
+install (FILES ${SUBPROJECT_DOCS} DESTINATION share/doc/${PROJECT_NAME})

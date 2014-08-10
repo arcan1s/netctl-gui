@@ -15,9 +15,9 @@
  *   along with netctl-gui. If not, see http://www.gnu.org/licenses/       *
  ***************************************************************************/
 
+#include "netctlguiadaptor.h"
 
 #include "mainwindow.h"
-#include "netctlguiadaptor.h"
 
 
 NetctlGuiAdaptor::NetctlGuiAdaptor(MainWindow *parent)
@@ -29,6 +29,12 @@ NetctlGuiAdaptor::NetctlGuiAdaptor(MainWindow *parent)
 
 NetctlGuiAdaptor::~NetctlGuiAdaptor()
 {
+}
+
+
+void NetctlGuiAdaptor::ApiDocs()
+{
+    return mainWindow->showApi();
 }
 
 
@@ -45,10 +51,22 @@ QString NetctlGuiAdaptor::Information()
 }
 
 
+void NetctlGuiAdaptor::LibraryDocs()
+{
+    return mainWindow->showLibrary();
+}
+
+
 bool NetctlGuiAdaptor::Restore()
 {
     mainWindow->show();
     return true;
+}
+
+
+void NetctlGuiAdaptor::SecurityDocs()
+{
+    return mainWindow->showSecurityNotes();
 }
 
 

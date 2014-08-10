@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>475</width>
-    <height>503</height>
+    <width>471</width>
+    <height>499</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -21,6 +21,10 @@
        <number>0</number>
       </property>
       <widget class="QWidget" name="tab_main">
+       <attribute name="icon">
+        <iconset resource="../../resources/resources.qrc">
+         <normaloff>:/icon.png</normaloff>:/icon.png</iconset>
+       </attribute>
        <attribute name="title">
         <string>Connect to profile</string>
        </attribute>
@@ -105,7 +109,9 @@
              <string>Refresh</string>
             </property>
             <property name="icon">
-             <iconset theme="stock-refresh"/>
+             <iconset theme="stock-refresh">
+              <normaloff/>
+             </iconset>
             </property>
             <property name="shortcut">
              <string>Ctrl+R</string>
@@ -137,7 +143,9 @@
              <string>Restart</string>
             </property>
             <property name="icon">
-             <iconset theme="stock-refresh"/>
+             <iconset theme="stock-refresh">
+              <normaloff/>
+             </iconset>
             </property>
             <property name="autoDefault">
              <bool>true</bool>
@@ -153,7 +161,9 @@
              <string>Start</string>
             </property>
             <property name="icon">
-             <iconset theme="system-run"/>
+             <iconset theme="system-run">
+              <normaloff/>
+             </iconset>
             </property>
             <property name="autoDefault">
              <bool>true</bool>
@@ -171,6 +181,9 @@
          <verstretch>0</verstretch>
         </sizepolicy>
        </property>
+       <attribute name="icon">
+        <iconset theme="document-new"/>
+       </attribute>
        <attribute name="title">
         <string>Create a new profile</string>
        </attribute>
@@ -212,8 +225,8 @@
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>443</width>
-             <height>345</height>
+             <width>439</width>
+             <height>340</height>
             </rect>
            </property>
            <property name="sizePolicy">
@@ -234,7 +247,9 @@
              <string>Clear</string>
             </property>
             <property name="icon">
-             <iconset theme="edit-clear"/>
+             <iconset theme="edit-clear">
+              <normaloff/>
+             </iconset>
             </property>
            </widget>
           </item>
@@ -257,7 +272,9 @@
              <string>Save</string>
             </property>
             <property name="icon">
-             <iconset theme="document-save"/>
+             <iconset theme="document-save">
+              <normaloff/>
+             </iconset>
             </property>
            </widget>
           </item>
@@ -266,6 +283,10 @@
        </layout>
       </widget>
       <widget class="QWidget" name="tab_wifi">
+       <attribute name="icon">
+        <iconset resource="../../resources/resources.qrc">
+         <normaloff>:/wifi.png</normaloff>:/wifi.png</iconset>
+       </attribute>
        <attribute name="title">
         <string>Connect to Wi-Fi</string>
        </attribute>
@@ -342,7 +363,9 @@
              <string>Refresh</string>
             </property>
             <property name="icon">
-             <iconset theme="stock-refresh"/>
+             <iconset theme="stock-refresh">
+              <normaloff/>
+             </iconset>
             </property>
             <property name="shortcut">
              <string>Ctrl+R</string>
@@ -374,7 +397,9 @@
              <string>Start</string>
             </property>
             <property name="icon">
-             <iconset theme="system-run"/>
+             <iconset theme="system-run">
+              <normaloff/>
+             </iconset>
             </property>
             <property name="autoDefault">
              <bool>true</bool>
@@ -394,7 +419,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>475</width>
+     <width>471</width>
      <height>22</height>
     </rect>
    </property>
@@ -429,6 +454,10 @@
     <property name="title">
      <string>Help</string>
     </property>
+    <addaction name="actionSecurity"/>
+    <addaction name="actionApi"/>
+    <addaction name="actionLibrary"/>
+    <addaction name="separator"/>
     <addaction name="actionReport"/>
     <addaction name="actionAbout"/>
    </widget>
@@ -608,6 +637,26 @@
     <string>Report a bug</string>
    </property>
   </action>
+  <action name="actionApi">
+   <property name="text">
+    <string>DBus API reference</string>
+   </property>
+  </action>
+  <action name="actionSecurity">
+   <property name="icon">
+    <iconset theme="security-medium">
+     <normaloff/>
+    </iconset>
+   </property>
+   <property name="text">
+    <string>Security notes</string>
+   </property>
+  </action>
+  <action name="actionLibrary">
+   <property name="text">
+    <string>Library documentation</string>
+   </property>
+  </action>
  </widget>
  <tabstops>
   <tabstop>tabWidget</tabstop>
@@ -622,6 +671,8 @@
   <tabstop>pushButton_wifiRefresh</tabstop>
   <tabstop>pushButton_wifiStart</tabstop>
  </tabstops>
- <resources/>
+ <resources>
+  <include location="../../resources/resources.qrc"/>
+ </resources>
  <connections/>
 </ui>

@@ -18,6 +18,7 @@
 #include "controladaptor.h"
 
 #include "netctlhelper.h"
+#include "version.h"
 
 
 ControlAdaptor::ControlAdaptor(NetctlHelper *parent, const QMap<QString, QString> configuration)
@@ -46,10 +47,28 @@ bool ControlAdaptor::Active()
 }
 
 
+QString ControlAdaptor::ApiDocs()
+{
+    return (QString(DOCS_PATH) + QString("netctl-gui-dbus-api.html"));
+}
+
+
 bool ControlAdaptor::Close()
 {
     helper->quitHelper();
     return true;
+}
+
+
+QString ControlAdaptor::LibraryDocs()
+{
+    return (QString(DOCS_PATH) + QString("html/index.html"));
+}
+
+
+QString ControlAdaptor::SecurityDocs()
+{
+    return (QString(DOCS_PATH) + QString("netctl-gui-security-notes.html"));
 }
 
 

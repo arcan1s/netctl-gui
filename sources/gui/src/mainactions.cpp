@@ -117,6 +117,39 @@ void MainWindow::showSettingsWindow()
 }
 
 
+void MainWindow::showApi()
+{
+    if (debug) qDebug() << "[MainWindow]" << "[showApi]";
+
+    if (QDesktopServices::openUrl(QUrl(QString(DOCS_PATH) + QString("netctl-gui-dbus-api.html"))))
+        ui->statusBar->showMessage(QApplication::translate("MainWindow", "Done"));
+    else
+        ui->statusBar->showMessage(QApplication::translate("MainWindow", "Error"));
+}
+
+
+void MainWindow::showLibrary()
+{
+    if (debug) qDebug() << "[MainWindow]" << "[showLibrary]";
+
+    if (QDesktopServices::openUrl(QUrl(QString(DOCS_PATH) + QString("html/index.html"))))
+        ui->statusBar->showMessage(QApplication::translate("MainWindow", "Done"));
+    else
+        ui->statusBar->showMessage(QApplication::translate("MainWindow", "Error"));
+}
+
+
+void MainWindow::showSecurityNotes()
+{
+    if (debug) qDebug() << "[MainWindow]" << "[showSecurityNotes]";
+
+    if (QDesktopServices::openUrl(QUrl(QString(DOCS_PATH) + QString("netctl-gui-security-notes.html"))))
+        ui->statusBar->showMessage(QApplication::translate("MainWindow", "Done"));
+    else
+        ui->statusBar->showMessage(QApplication::translate("MainWindow", "Error"));
+}
+
+
 bool MainWindow::forceStartHelper()
 {
     if (debug) qDebug() << "[MainWindow]" << "[forceStartHelper]";
