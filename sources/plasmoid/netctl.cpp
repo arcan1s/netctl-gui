@@ -70,6 +70,7 @@ Netctl::Netctl(QObject *parent, const QVariantList &args)
         debug = false;
 
     setBackgroundHints(DefaultBackground);
+    setAspectRatioMode(Plasma::IgnoreAspectRatio);
     setHasConfigurationInterface(true);
     connect(this, SIGNAL(activate()), this, SLOT(showGui()));
     // text format init

@@ -5,7 +5,7 @@ Comment=Plasmoid for netctl
 Type=Service
 Icon=netctl-gui-widget
 
-X-KDE-ServiceTypes=Plasma/Applet
+X-KDE-ServiceTypes=Plasma/Applet,Plasma/PopupApplet
 X-KDE-Library=plasma_applet_netctl
 
 X-KDE-PluginInfo-Author=Evgeniy Alekseev aka arcanis
@@ -17,3 +17,4 @@ X-KDE-PluginInfo-Category=Network
 X-KDE-PluginInfo-Depends=
 X-KDE-PluginInfo-License=GPLv3
 X-KDE-PluginInfo-EnabledByDefault=true
+X-Plasma-NotificationArea=true
