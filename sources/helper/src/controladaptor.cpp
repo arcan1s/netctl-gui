@@ -157,6 +157,7 @@ bool ControlAdaptor::Create(const QString profile, const QStringList settingsLis
 {
     QMap<QString, QString> settings;
     for (int i=0; i<settingsList.count(); i++) {
+        if (!settingsList[i].contains(QString("=="))) continue;
         QString key = settingsList[i].split(QString("=="))[0];
         QString value = settingsList[i].split(QString("=="))[1];
         settings[key] = value;

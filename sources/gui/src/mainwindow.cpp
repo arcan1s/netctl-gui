@@ -152,7 +152,7 @@ QStringList MainWindow::printSettings()
 
     QStringList settingsList;
     for (int i=0; i<configuration.keys().count(); i++)
-        settingsList.append(configuration.keys()[i] + QString("=") +
+        settingsList.append(configuration.keys()[i] + QString("==") +
                             configuration[configuration.keys()[i]]);
 
     return settingsList;

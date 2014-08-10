@@ -65,8 +65,8 @@ TODO (wish list)
 ----------------
 
 * plasmoid helper integration
-* `==` checking to avoid segfaults
-* include security notes / project architecture to about window
+* more tray actions
+* include security notes / project architecture
 * autotests
 
 Links

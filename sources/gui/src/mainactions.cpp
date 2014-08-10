@@ -921,6 +921,7 @@ void MainWindow::profileTabLoadProfile()
                                                    DBUS_HELPER_INTERFACE, QString("Profile"),
                                                    args, true, debug)[0].toStringList();
         for (int i=0; i<settingsList.count(); i++) {
+            if (!settingsList[i].contains(QString("=="))) continue;
             QString key = settingsList[i].split(QString("=="))[0];
             QString value = settingsList[i].split(QString("=="))[1];
             settings[key] = value;
