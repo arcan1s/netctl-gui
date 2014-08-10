@@ -435,6 +435,20 @@ void MainWindow::reportABug()
 }
 
 
+void MainWindow::checkHelperStatus()
+{
+    if (debug) qDebug() << "[MainWindow]" << "[checkHelperStatus]";
+
+    if (useHelper) useHelper = isHelperActive();
+    if (useHelper)
+        sendDBusRequest(DBUS_HELPER_SERVICE, DBUS_CTRL_PATH,
+                        DBUS_HELPER_INTERFACE, QString("Update"),
+                        QList<QVariant>(), true, debug);
+    if (isHelperServiceActive())
+        configuration[QString("CLOSE_HELPER")] = QString("false");
+}
+
+
 // main tab slots
 void MainWindow::mainTabContextualMenu(const QPoint &pos)
 {

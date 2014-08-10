@@ -64,7 +64,7 @@ Additional information
 TODO (wish list)
 ----------------
 
-* plasmoid helper integration
+* refactoring (I think that classes with more than 1k lines is not good :/)
 * remove suid from helper (polkit integration or run through sudo)
 * security notes / project architecture
 * autotests

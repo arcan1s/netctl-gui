@@ -96,6 +96,7 @@ public slots:
     void setHiddenName(const QString name);
 
 private slots:
+    void checkHelperStatus();
     void reportABug();
     // menu update slots
     void setMenuActionsShown(const bool state = true);

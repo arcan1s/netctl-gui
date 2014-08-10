@@ -21,6 +21,7 @@
 #include <QDBusConnection>
 #include <QDBusMessage>
 #include <QDebug>
+#include <QTimer>
 #include <QTranslator>
 
 #include "aboutwindow.h"
@@ -495,6 +496,9 @@ void MainWindow::updateConfiguration(const QMap<QString, QVariant> args)
         useHelper = false;
         configuration[QString("USE_HELPER")] = QString("false");
     }
+    // some helper fixs
+    // because interface will be created with a delay
+    QTimer::singleShot(1000, this, SLOT(checkHelperStatus()));
 
     // update translation
     qApp->removeTranslator(translator);
@@ -506,14 +510,6 @@ void MainWindow::updateConfiguration(const QMap<QString, QVariant> args)
     delete settingsWin;
 
     createObjects();
-    // some helper fixs
-    if (useHelper) useHelper = isHelperActive();
-    if (useHelper)
-        sendDBusRequest(DBUS_HELPER_SERVICE, DBUS_CTRL_PATH,
-                        DBUS_HELPER_INTERFACE, QString("Update"),
-                        QList<QVariant>(), true, debug);
-    if (isHelperServiceActive())
-        configuration[QString("CLOSE_HELPER")] = QString("false");
     // update ui
     setTab(args[QString("tab")].toInt() - 1);
     createActions();

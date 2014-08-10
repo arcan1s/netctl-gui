@@ -23,10 +23,13 @@
 #include <KUrl>
 #include <plasma/theme.h>
 
+#include <QDBusConnection>
+#include <QDBusMessage>
 #include <QDebug>
 #include <QGraphicsSceneMouseEvent>
 #include <QMenu>
 #include <QProcessEnvironment>
+#include <QTimer>
 
 #include "netctl.h"
 #include "ui_about.h"
@@ -290,8 +293,6 @@ void Netctl::enableProfileSlot()
 {
     if (debug) qDebug() << "[PLASMOID]" << "[enableProfileSlot]";
 
-    QProcess command;
-    QString commandLine = QString("");
     QString enableStatus = QString("");
     if (info[QString("status")].contains(QString("enabled"))) {
         enableStatus = QString(" disable ");
@@ -301,11 +302,40 @@ void Netctl::enableProfileSlot()
         enableStatus = QString(" enable ");
         sendNotification(QString("Info"), i18n("Set profile %1 enabled", info[QString("name")]));
     }
-    if (useSudo)
-        commandLine = paths[QString("sudo")] + QString(" ");
-    commandLine += paths[QString("netctl")] + enableStatus + info[QString("name")];
+    if (useHelper) {
+        QList<QVariant> args;
+        args.append(info[QString("name")]);
+        sendDBusRequest(QString("Enable"), args);
+    }
+    else {
+        QProcess command;
+        QString commandLine = QString("");
+        if (useSudo)
+            commandLine = paths[QString("sudo")] + QString(" ");
+        commandLine += paths[QString("netctl")] + enableStatus + info[QString("name")];
+        command.startDetached(commandLine);
+    }
+}
 
-    command.startDetached(commandLine);
+
+void Netctl::restartProfileSlot()
+{
+    if (debug) qDebug() << "[PLASMOID]" << "[restartProfileSlot]";
+
+    sendNotification(QString("Info"), i18n("Restart profile %1", info[QString("name")]));
+    if (useHelper) {
+        QList<QVariant> args;
+        args.append(info[QString("name")]);
+        sendDBusRequest(QString("Restart"), args);
+    }
+    else {
+        QProcess command;
+        QString commandLine = QString("");
+        if (useSudo)
+            commandLine = paths[QString("sudo")] + QString(" ");
+        commandLine += paths[QString("netctl")] + QString(" restart ") + info[QString("name")];
+        command.startDetached(commandLine);
+    }
 }
 
 
@@ -314,17 +344,26 @@ void Netctl::startProfileSlot(QAction *profile)
     if (debug) qDebug() << "[PLASMOID]" << "[startProfileSlot]";
     if (debug) qDebug() << "[PLASMOID]" << "[startProfileSlot]" << ":" << "Profile" << profile->text().remove(QChar('&'));
 
-    QProcess command;
-    QString commandLine = QString("");
     sendNotification(QString("Info"), i18n("Start profile %1", profile->text().remove(QChar('&'))));
-    if (useSudo)
-        commandLine = paths[QString("sudo")] + QString(" ");
-    if (status)
-        commandLine += paths[QString("netctl")] + QString(" switch-to ") + profile->text().remove(QChar('&'));
-    else
-        commandLine += paths[QString("netctl")] + QString(" start ") + profile->text().remove(QChar('&'));
-
-    command.startDetached(commandLine);
+    if (useHelper) {
+        QList<QVariant> args;
+        args.append(profile->text().remove(QChar('&')));
+        if (status)
+            sendDBusRequest(QString("SwitchTo"), args);
+        else
+            sendDBusRequest(QString("Start"), args);
+    }
+    else {
+        QProcess command;
+        QString commandLine = QString("");
+        if (useSudo)
+            commandLine = paths[QString("sudo")] + QString(" ");
+        if (status)
+            commandLine += paths[QString("netctl")] + QString(" switch-to ") + profile->text().remove(QChar('&'));
+        else
+            commandLine += paths[QString("netctl")] + QString(" start ") + profile->text().remove(QChar('&'));
+        command.startDetached(commandLine);
+    }
 }
 
 
@@ -332,14 +371,20 @@ void Netctl::stopProfileSlot()
 {
     if (debug) qDebug() << "[PLASMOID]" << "[stopProfileSlot]";
 
-    QProcess command;
-    QString commandLine = QString("");
     sendNotification(QString("Info"), i18n("Stop profile %1", info[QString("name")]));
-    if (useSudo)
-        commandLine = paths[QString("sudo")] + QString(" ");
-    commandLine += paths[QString("netctl")] + QString(" stop ") + info[QString("name")];
-
-    command.startDetached(commandLine);
+    if (useHelper) {
+        QList<QVariant> args;
+        args.append(info[QString("name")]);
+        sendDBusRequest(QString("Start"), args);
+    }
+    else {
+        QProcess command;
+        QString commandLine = QString("");
+        if (useSudo)
+            commandLine = paths[QString("sudo")] + QString(" ");
+        commandLine += paths[QString("netctl")] + QString(" stop ") + info[QString("name")];
+        command.startDetached(commandLine);
+    }
 }
 
 
@@ -348,29 +393,37 @@ void Netctl::switchToProfileSlot(QAction *profile)
     if (debug) qDebug() << "[PLASMOID]" << "[switchToProfileSlot]";
     if (debug) qDebug() << "[PLASMOID]" << "[switchToProfileSlot]" << ":" << "Profile" << profile->text().remove(QChar('&'));
 
-    QProcess command;
-    QString commandLine;
-    commandLine = QString("");
-    sendNotification(QString("Info"), i18n("Switch to profile %1", profile->text().remove(QChar('&'))));
-    commandLine = paths[QString("netctlAuto")] + QString(" switch-to ") +
-            profile->text().remove(QChar('&'));
 
+    sendNotification(QString("Info"), i18n("Switch to profile %1", profile->text().remove(QChar('&'))));
+    if (useHelper) {
+        QList<QVariant> args;
+        args.append(profile->text().remove(QChar('&')));
+        sendDBusRequest(QString("autoStart"), args);
+    }
+    else {
+        QProcess command;
+        QString commandLine = paths[QString("netctlAuto")] + QString(" switch-to ") +
+                profile->text().remove(QChar('&'));
+        command.startDetached(commandLine);
+    }
+}
+
+
+void Netctl::startHelper()
+{
+    if (debug) qDebug() << "[PLASMOID]" << "[startHelper]";
+
+    QProcess command;
+    QString commandLine = paths[QString("helper")];
     command.startDetached(commandLine);
 }
 
 
-void Netctl::restartProfileSlot()
+void Netctl::checkHelperStatus()
 {
-    if (debug) qDebug() << "[PLASMOID]" << "[restartProfileSlot]";
+    if (debug) qDebug() << "[PLASMOID]" << "[checkHelperStatus]";
 
-    QProcess command;
-    QString commandLine = QString("");
-    sendNotification(QString("Info"), i18n("Restart profile %1", info[QString("name")]));
-    if (useSudo)
-        commandLine = paths[QString("sudo")] + QString(" ");
-    commandLine += paths[QString("netctl")] + QString(" restart ") + info[QString("name")];
-
-    command.startDetached(commandLine);
+    if (useHelper) useHelper = !sendDBusRequest(QString("Active"), QList<QVariant>()).isEmpty();
 }
 
 
@@ -608,6 +661,26 @@ void Netctl::disconnectFromEngine()
 }
 
 
+QList<QVariant> Netctl::sendDBusRequest(const QString cmd, const QList<QVariant> args)
+{
+    if (debug) qDebug() << "[PLASMOID]" << "[sendDBusRequest]";
+    if (debug) qDebug() << "[PLASMOID]" << "[sendDBusRequest]" << ":" << "cmd" << cmd;
+    if (debug) qDebug() << "[PLASMOID]" << "[sendDBusRequest]" << ":" << "args" << args;
+
+    QDBusConnection bus = QDBusConnection::systemBus();
+    QDBusMessage request = QDBusMessage::createMethodCall(DBUS_HELPER_SERVICE, DBUS_CTRL_PATH,
+                                                          DBUS_HELPER_INTERFACE, cmd);
+    if (!args.isEmpty())
+        request.setArguments(args);
+    QDBusMessage response = bus.call(request);
+    QList<QVariant> arguments = response.arguments();
+    if (arguments.size() == 0)
+        if (debug) qDebug() << "[PLASMOID]" << "[sendDBusRequest]" << ":" << "Error message" << response.errorMessage();
+
+    return arguments;
+}
+
+
 //  configuration interface
 void Netctl::selectAbstractSomething()
 {
@@ -625,6 +698,8 @@ void Netctl::selectAbstractSomething()
     }
     else if (sender() == uiWidConfig.pushButton_gui)
         lineEdit = uiWidConfig.lineEdit_gui;
+    else if (sender() == uiWidConfig.pushButton_helper)
+        lineEdit = uiWidConfig.lineEdit_helper;
     else if (sender() == uiWidConfig.pushButton_netctl)
         lineEdit = uiWidConfig.lineEdit_netctl;
     else if (sender() == uiWidConfig.pushButton_netctlAuto)
@@ -662,6 +737,12 @@ void Netctl::createConfigurationInterface(KConfigDialog *parent)
 
     uiWidConfig.spinBox_autoUpdate->setValue(autoUpdateInterval);
     uiWidConfig.lineEdit_gui->setText(paths[QString("gui")]);
+    if (useHelper)
+        uiWidConfig.checkBox_helper->setCheckState(Qt::Checked);
+    else
+        uiWidConfig.checkBox_helper->setCheckState(Qt::Unchecked);
+    uiWidConfig.lineEdit_helper->setText(paths[QString("helper")]);
+    setHelper();
     uiWidConfig.lineEdit_netctl->setText(paths[QString("netctl")]);
     uiWidConfig.lineEdit_netctlAuto->setText(paths[QString("netctlAuto")]);
     if (useSudo)
@@ -742,6 +823,7 @@ void Netctl::createConfigurationInterface(KConfigDialog *parent)
     parent->addPage(deWidget, i18n("DataEngine"), Applet::icon());
     parent->addPage(aboutWidget, i18n("About"), QString("help-about"));
 
+    connect(uiWidConfig.checkBox_helper, SIGNAL(stateChanged(int)), this, SLOT(setHelper()));
     connect(uiWidConfig.checkBox_showBigInterface, SIGNAL(stateChanged(int)), this,
             SLOT(setBigInterface()));
     connect(uiWidConfig.checkBox_sudo, SIGNAL(stateChanged(int)), this, SLOT(setSudo()));
@@ -750,6 +832,7 @@ void Netctl::createConfigurationInterface(KConfigDialog *parent)
     connect(uiDEConfig.checkBox_extIp6, SIGNAL(stateChanged(int)), this, SLOT(setDataEngineExternalIp6()));
 
     connect(uiWidConfig.pushButton_gui, SIGNAL(clicked()), this, SLOT(selectAbstractSomething()));
+    connect(uiWidConfig.pushButton_helper, SIGNAL(clicked()), this, SLOT(selectAbstractSomething()));
     connect(uiWidConfig.pushButton_netctl, SIGNAL(clicked()), this, SLOT(selectAbstractSomething()));
     connect(uiWidConfig.pushButton_netctlAuto, SIGNAL(clicked()), this, SLOT(selectAbstractSomething()));
     connect(uiWidConfig.pushButton_sudo, SIGNAL(clicked()), this, SLOT(selectAbstractSomething()));
@@ -775,6 +858,11 @@ void Netctl::configAccepted()
 
     cg.writeEntry("autoUpdateInterval", uiWidConfig.spinBox_autoUpdate->value());
     cg.writeEntry("guiPath", uiWidConfig.lineEdit_gui->text());
+    if (uiWidConfig.checkBox_helper->checkState() == 0)
+        cg.writeEntry("useHelper", false);
+    else
+        cg.writeEntry("useHelper", true);
+    cg.writeEntry("helperPath", uiWidConfig.lineEdit_helper->text());
     cg.writeEntry("netctlPath", uiWidConfig.lineEdit_netctl->text());
     cg.writeEntry("netctlAutoPath", uiWidConfig.lineEdit_netctlAuto->text());
     if (uiWidConfig.checkBox_sudo->checkState() == 0)
@@ -829,6 +917,7 @@ void Netctl::configChanged()
 
     autoUpdateInterval = cg.readEntry("autoUpdateInterval", 1000);
     paths[QString("gui")] = cg.readEntry("guiPath", "/usr/bin/netctl-gui");
+    paths[QString("helper")] = cg.readEntry("helperPath", "/usr/bin/netctlgui-helper");
     paths[QString("netctl")] = cg.readEntry("netctlPath", "/usr/bin/netctl");
     paths[QString("netctlAuto")] = cg.readEntry("netctlAutoPath", "/usr/bin/netctl-auto");
     paths[QString("sudo")] = cg.readEntry("sudoPath", "/usr/bin/kdesu");
@@ -836,6 +925,7 @@ void Netctl::configChanged()
     useSudo = cg.readEntry("useSudo", true);
     useWifi = cg.readEntry("useWifi", false);
     bigInterface = cg.readEntry("showBigInterface", true);
+    useHelper = cg.readEntry("useHelper", true);
     textPattern = cg.readEntry("textPattern", "$current $status<br>IPv4: $intip4<br>IPv6: $intip6");
 
     QString textAlign = cg.readEntry("textAlign", "center");
@@ -860,6 +950,8 @@ void Netctl::configChanged()
             .arg(fontColor);
     formatLine[1] = QString("</p></body></html>");
 
+    if (useHelper) startHelper();
+    QTimer::singleShot(1000, this, SLOT(checkHelperStatus()));
     connectToEngine();
 }
 
@@ -901,6 +993,19 @@ void Netctl::setDataEngineExternalIp6()
     else if (uiDEConfig.checkBox_extIp6->checkState() == 2) {
         uiDEConfig.lineEdit_extIp6->setEnabled(true);
         uiDEConfig.pushButton_extIp6->setEnabled(true);
+    }
+}
+
+
+void Netctl::setHelper()
+{
+    if (uiWidConfig.checkBox_helper->checkState() == 0) {
+        uiWidConfig.lineEdit_helper->setDisabled(true);
+        uiWidConfig.pushButton_helper->setDisabled(true);
+    }
+    else if (uiWidConfig.checkBox_helper->checkState() == 2) {
+        uiWidConfig.lineEdit_helper->setEnabled(true);
+        uiWidConfig.pushButton_helper->setEnabled(true);
     }
 }
 

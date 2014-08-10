@@ -73,6 +73,7 @@ public slots:
     void setBigInterface();
     void setDataEngineExternalIp();
     void setDataEngineExternalIp6();
+    void setHelper();
     void setSudo();
     void setWifi();
 
@@ -84,10 +85,13 @@ private slots:
     void selectAbstractSomething();
     // context menu
     void enableProfileSlot();
+    void restartProfileSlot();
     void startProfileSlot(QAction *profile);
     void stopProfileSlot();
     void switchToProfileSlot(QAction *profile);
-    void restartProfileSlot();
+    // helper
+    void checkHelperStatus();
+    void startHelper();
 
 protected:
     void createConfigurationInterface(KConfigDialog *parent);
@@ -113,6 +117,7 @@ private:
     Plasma::DataEngine *netctlEngine;
     void connectToEngine();
     void disconnectFromEngine();
+    QList<QVariant> sendDBusRequest(const QString cmd, const QList<QVariant> args = QList<QVariant>());
     // configuration interface
     Ui::AppearanceWindow uiAppConfig;
     Ui::DataEngineWindow uiDEConfig;
@@ -125,7 +130,7 @@ private:
     QString textPattern;
     QStringList formatLine;
     QMap<QString, QString> paths;
-    bool useSudo, useWifi;
+    bool useHelper, useSudo, useWifi;
 };
 
 K_EXPORT_PLASMA_APPLET(netctl, Netctl)
