@@ -720,7 +720,7 @@
     </message>
     <message>
         <source>Status</source>
-        <translation>Статус</translation>
+        <translation type="vanished">Статус</translation>
     </message>
     <message>
         <source>Refresh</source>
@@ -1073,6 +1073,18 @@
         <source>DBus configuration</source>
         <translation type="vanished">Настройка DBus</translation>
     </message>
+    <message>
+        <source>DBus API reference</source>
+        <translation>Описание DBus API</translation>
+    </message>
+    <message>
+        <source>Security notes</source>
+        <translation>Примечания о безопасности</translation>
+    </message>
+    <message>
+        <source>Library documentation</source>
+        <translation>Документация</translation>
+    </message>
 </context>
 <context>
     <name>MobileWidget</name>
@@ -1341,6 +1353,10 @@
     <message>
         <source>DBus configuration</source>
         <translation>Настройка DBus</translation>
+    </message>
+    <message>
+        <source>Documentation</source>
+        <translation>Документация</translation>
     </message>
 </context>
 <context>
@@ -1833,6 +1849,66 @@
     <message>
         <source>Hide netctl-auto</source>
         <translation type="vanished">Свернуть netctl-auto</translation>
+    </message>
+    <message>
+        <source>Profile</source>
+        <translation>Профиль</translation>
+    </message>
+    <message>
+        <source>(inactive)</source>
+        <translation>(неактивен)</translation>
+    </message>
+    <message>
+        <source>(netctl-auto)</source>
+        <translation>(netctl-auto)</translation>
+    </message>
+    <message>
+        <source>(enabled)</source>
+        <translation>(включен)</translation>
+    </message>
+    <message>
+        <source>(static)</source>
+        <translation>(статический)</translation>
+    </message>
+    <message>
+        <source>Start another profile</source>
+        <translation>Запустить другой профиль</translation>
+    </message>
+    <message>
+        <source>Stop %1</source>
+        <translation>Остановить %1</translation>
+    </message>
+    <message>
+        <source>Restart %1</source>
+        <translation>Перезапустит %1</translation>
+    </message>
+    <message>
+        <source>Disable %1</source>
+        <translation>Отключить %1</translation>
+    </message>
+    <message>
+        <source>Enable %1</source>
+        <translation>Включить %1</translation>
+    </message>
+    <message>
+        <source>Start profile</source>
+        <translation>Запустить профиль</translation>
+    </message>
+    <message>
+        <source>Stop profile</source>
+        <translation>Остановить профиль</translation>
+    </message>
+    <message>
+        <source>Switch to profile</source>
+        <translation>Переключиться на профиль</translation>
+    </message>
+    <message>
+        <source>Restart profile</source>
+        <translation>Перезапустить профиль</translation>
+    </message>
+    <message>
+        <source>Enable profile</source>
+        <translation>Включить профиль</translation>
     </message>
 </context>
 <context>

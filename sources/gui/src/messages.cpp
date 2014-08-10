@@ -116,9 +116,9 @@ QString infoMessage()
 {
     QString infoMessage = QString("");
     // build information
-    infoMessage += QCoreApplication::translate("NetctlHelper", "Build date: %1").
+    infoMessage += QCoreApplication::translate("MainWindow", "Build date: %1").
             arg(QString(BUILD_DATE));
-    infoMessage += QString("\n%1:\n").arg(QCoreApplication::translate("NetctlHelper", "cmake flags"));
+    infoMessage += QString("\n%1:\n").arg(QCoreApplication::translate("MainWindow", "cmake flags"));
     infoMessage += QString("\t-DCMAKE_BUILD_TYPE=%1 \\\n").arg(QString(CMAKE_BUILD_TYPE));
     infoMessage += QString("\t-DCMAKE_INSTALL_PREFIX=%1 \\\n").arg(QString(CMAKE_INSTALL_PREFIX));
     infoMessage += QString("\t-DBUILD_DOCS=%1 \\\n").arg(QString(PROJECT_BUILD_DOCS));
@@ -128,7 +128,7 @@ QString infoMessage()
     infoMessage += QString("\t-DBUILD_DATAENGINE=%1 \\\n").arg(QString(PROJECT_BUILD_DATAENGINE));
     infoMessage += QString("\t-DBUILD_PLASMOID=%1\n").arg(QString(PROJECT_BUILD_PLASMOID));
     // transport information
-    infoMessage += QString("%1:\n").arg(QCoreApplication::translate("NetctlHelper", "DBus configuration"));
+    infoMessage += QString("%1:\n").arg(QCoreApplication::translate("MainWindow", "DBus configuration"));
     infoMessage += QString("\tDBUS_SERVICE=%1\n").arg(QString(DBUS_SERVICE));
     infoMessage += QString("\tDBUS_INTERFACE=%1\n").arg(QString(DBUS_INTERFACE));
     infoMessage += QString("\tDBUS_OBJECT_PATH=%1\n").arg(QString(DBUS_OBJECT_PATH));
@@ -137,7 +137,7 @@ QString infoMessage()
     infoMessage += QString("\tDBUS_CTRL_PATH=%1\n").arg(QString(DBUS_CTRL_PATH));
     infoMessage += QString("\tDBUS_LIB_PATH=%1\n").arg(QString(DBUS_LIB_PATH));
     // docs path
-    infoMessage += QString("%1:\n").arg(QCoreApplication::translate("NetctlHelper", "Documentation"));
+    infoMessage += QString("%1:\n").arg(QCoreApplication::translate("MainWindow", "Documentation"));
     infoMessage += QString("\tDOCS_PATH=%1\n").arg(QString(DOCS_PATH));
     QStringList docs = QDir(QString(DOCS_PATH)).entryList(QDir::NoDotAndDotDot);
     for (int i=0; i<docs.count(); i++)

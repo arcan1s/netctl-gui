@@ -720,7 +720,7 @@
     </message>
     <message>
         <source>Status</source>
-        <translation>Status</translation>
+        <translation type="vanished">Status</translation>
     </message>
     <message>
         <source>Refresh</source>
@@ -1074,6 +1074,18 @@
         <source>DBus configuration</source>
         <translation type="vanished">DBus configuration</translation>
     </message>
+    <message>
+        <source>DBus API reference</source>
+        <translation>DBus API reference</translation>
+    </message>
+    <message>
+        <source>Security notes</source>
+        <translation>Security notes</translation>
+    </message>
+    <message>
+        <source>Library documentation</source>
+        <translation>Library documentation</translation>
+    </message>
 </context>
 <context>
     <name>MobileWidget</name>
@@ -1342,6 +1354,10 @@
     <message>
         <source>DBus configuration</source>
         <translation>DBus configuration</translation>
+    </message>
+    <message>
+        <source>Documentation</source>
+        <translation>Documentation</translation>
     </message>
 </context>
 <context>
@@ -1834,6 +1850,66 @@
     <message>
         <source>Hide netctl-auto</source>
         <translation type="vanished">Hide netctl-auto</translation>
+    </message>
+    <message>
+        <source>Profile</source>
+        <translation>Profile</translation>
+    </message>
+    <message>
+        <source>(inactive)</source>
+        <translation>(inactive)</translation>
+    </message>
+    <message>
+        <source>(netctl-auto)</source>
+        <translation>(netctl-auto)</translation>
+    </message>
+    <message>
+        <source>(enabled)</source>
+        <translation>(enabled)</translation>
+    </message>
+    <message>
+        <source>(static)</source>
+        <translation>(static)</translation>
+    </message>
+    <message>
+        <source>Start another profile</source>
+        <translation>Start another profile</translation>
+    </message>
+    <message>
+        <source>Stop %1</source>
+        <translation>Stop %1</translation>
+    </message>
+    <message>
+        <source>Restart %1</source>
+        <translation>Restart %1</translation>
+    </message>
+    <message>
+        <source>Disable %1</source>
+        <translation>Disable %1</translation>
+    </message>
+    <message>
+        <source>Enable %1</source>
+        <translation>Enable %1</translation>
+    </message>
+    <message>
+        <source>Start profile</source>
+        <translation>Start profile</translation>
+    </message>
+    <message>
+        <source>Stop profile</source>
+        <translation>Stop profile</translation>
+    </message>
+    <message>
+        <source>Switch to profile</source>
+        <translation>Switch to profile</translation>
+    </message>
+    <message>
+        <source>Restart profile</source>
+        <translation>Restart profile</translation>
+    </message>
+    <message>
+        <source>Enable profile</source>
+        <translation>Enable profile</translation>
     </message>
 </context>
 <context>
