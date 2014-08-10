@@ -21,9 +21,11 @@
 #include <QDBusMessage>
 #include <QDir>
 #include <QDebug>
+#include <QTranslator>
 #include <iostream>
 #include <unistd.h>
 
+#include "language.h"
 #include "messages.h"
 #include "netctlhelper.h"
 #include "version.h"
@@ -80,8 +82,26 @@ int main(int argc, char *argv[])
             args[QString("error")] = true;
         }
     }
-    if (args[QString("debug")].toBool())
+    if ((args[QString("debug")].toBool()) ||
+            (args[QString("help")].toBool()) ||
+            (args[QString("info")].toBool()) ||
+            (args[QString("version")].toBool()) ||
+            (args[QString("error")].toBool()))
         args[QString("nodaemon")] = true;
+
+    // detach from console
+    if (!args[QString("nodaemon")].toBool())
+        daemon(0, 0);
+#if QT_VERSION >= 0x050000
+    QCoreApplication::setSetuidAllowed(true);
+#endif
+    QCoreApplication a(argc, argv);
+    // reread translations according to flags
+    QString language = Language::defineLanguage(args[QString("config")].toString(),
+            args[QString("options")].toString());
+    QTranslator translator;
+    translator.load(QString(":/translations-helper/") + language);
+    a.installTranslator(&translator);
 
     // running
     if (args[QString("error")].toBool()) {
@@ -103,17 +123,9 @@ int main(int argc, char *argv[])
         return 0;
     }
 
-    // detach from console
-    if (!args[QString("nodaemon")].toBool())
-        daemon(0, 0);
-#if QT_VERSION >= 0x050000
-    QCoreApplication::setSetuidAllowed(true);
-#endif
-    QCoreApplication a(argc, argv);
     // check if exists
     if (checkExistSession())
         return 0;
-
     NetctlHelper w(0, args);
     return a.exec();
 }

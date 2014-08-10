@@ -3,7 +3,12 @@ set (SUBPROJECT netctlgui-helper)
 message (STATUS "Subproject ${SUBPROJECT}")
 
 # set directories
+set (SUBPROJECT_BINARY_DIR bin)
 set (SUBPROJECT_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/src)
+set (SUBPROJECT_RESOURCE_DIR ${PROJECT_RESOURCE_DIR})
+set (SUBPROJECT_TRANSLATION_DIR ${SUBPROJECT_RESOURCE_DIR}/translations-helper)
+# executable path
+set (EXECUTABLE_OUTPUT_PATH ${SUBPROJECT_BINARY_DIR})
 
 # additional targets
 set (TARGETS "")

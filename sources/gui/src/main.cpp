@@ -157,9 +157,6 @@ int main(int argc, char *argv[])
         daemon(0, 0);
     QApplication a(argc, argv);
     QApplication::setQuitOnLastWindowClosed(false);
-    // check if exists
-    if (restoreExistSession())
-        return 0;
     // reread translations according to flags
     QString language = Language::defineLanguage(args[QString("config")].toString(),
             args[QString("options")].toString());
@@ -186,6 +183,10 @@ int main(int argc, char *argv[])
         cout << versionMessage().toUtf8().data();
         return 0;
     }
+
+    // check if exists
+    if (restoreExistSession())
+        return 0;
     MainWindow w(0, args, &translator);
     return a.exec();
 }
