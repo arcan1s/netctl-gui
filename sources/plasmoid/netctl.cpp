@@ -26,7 +26,6 @@
 #include <QDBusConnection>
 #include <QDBusMessage>
 #include <QDebug>
-#include <QGraphicsSceneMouseEvent>
 #include <QMenu>
 #include <QProcessEnvironment>
 #include <QTimer>
@@ -75,7 +74,6 @@ Netctl::Netctl(QObject *parent, const QVariantList &args)
     setBackgroundHints(DefaultBackground);
     setAspectRatioMode(Plasma::IgnoreAspectRatio);
     setHasConfigurationInterface(true);
-    connect(this, SIGNAL(activate()), this, SLOT(showGui()));
     // text format init
     formatLine.append(QString(""));
     formatLine.append(QString(""));
@@ -125,7 +123,6 @@ void Netctl::init()
     layout->addWidget(iconLabel);
     textLabel = new QLabel(graphicsWidget);
     layout->addWidget(textLabel);
-
     // read variables
     configChanged();
 }
@@ -219,8 +216,7 @@ void Netctl::writeDataEngineConfiguration(const QMap<QString, QString> settings)
     QString fileName = KGlobal::dirs()->locateLocal("config", "netctl.conf");
     if (debug) qDebug() << "[PLASMOID]" << "[writeDataEngineConfiguration]" << ":" << "Configuration file" << fileName;
     QFile configFile(fileName);
-    if (!configFile.open(QIODevice::WriteOnly))
-        return;
+    if (!configFile.open(QIODevice::WriteOnly)) return;
     for (int i=0; i<config.keys().count(); i++) {
         QByteArray string = (config.keys()[i] + QString("=") + config[config.keys()[i]] + QString("\n")).toUtf8();
         configFile.write(string);
@@ -297,8 +293,7 @@ void Netctl::enableProfileSlot()
     if (info[QString("status")].contains(QString("enabled"))) {
         enableStatus = QString(" disable ");
         sendNotification(QString("Info"), i18n("Set profile %1 disabled", info[QString("name")]));
-    }
-    else {
+    } else {
         enableStatus = QString(" enable ");
         sendNotification(QString("Info"), i18n("Set profile %1 enabled", info[QString("name")]));
     }
@@ -306,8 +301,7 @@ void Netctl::enableProfileSlot()
         QList<QVariant> args;
         args.append(info[QString("name")]);
         sendDBusRequest(QString("Enable"), args);
-    }
-    else {
+    } else {
         QProcess command;
         QString commandLine = QString("");
         if (useSudo)
@@ -327,8 +321,7 @@ void Netctl::restartProfileSlot()
         QList<QVariant> args;
         args.append(info[QString("name")]);
         sendDBusRequest(QString("Restart"), args);
-    }
-    else {
+    } else {
         QProcess command;
         QString commandLine = QString("");
         if (useSudo)
@@ -352,8 +345,7 @@ void Netctl::startProfileSlot(QAction *profile)
             sendDBusRequest(QString("SwitchTo"), args);
         else
             sendDBusRequest(QString("Start"), args);
-    }
-    else {
+    } else {
         QProcess command;
         QString commandLine = QString("");
         if (useSudo)
@@ -376,8 +368,7 @@ void Netctl::stopProfileSlot()
         QList<QVariant> args;
         args.append(info[QString("name")]);
         sendDBusRequest(QString("Start"), args);
-    }
-    else {
+    } else {
         QProcess command;
         QString commandLine = QString("");
         if (useSudo)
@@ -399,8 +390,7 @@ void Netctl::switchToProfileSlot(QAction *profile)
         QList<QVariant> args;
         args.append(profile->text().remove(QChar('&')));
         sendDBusRequest(QString("autoStart"), args);
-    }
-    else {
+    } else {
         QProcess command;
         QString commandLine = paths[QString("netctlAuto")] + QString(" switch-to ") +
                 profile->text().remove(QChar('&'));
@@ -415,6 +405,7 @@ void Netctl::startHelper()
 
     QProcess command;
     QString commandLine = paths[QString("helper")];
+
     command.startDetached(commandLine);
 }
 
@@ -423,7 +414,8 @@ void Netctl::checkHelperStatus()
 {
     if (debug) qDebug() << "[PLASMOID]" << "[checkHelperStatus]";
 
-    if (useHelper) useHelper = !sendDBusRequest(QString("Active"), QList<QVariant>()).isEmpty();
+    if (useHelper)
+        useHelper = !sendDBusRequest(QString("Active"), QList<QVariant>()).isEmpty();
 }
 
 
@@ -443,14 +435,12 @@ QList<QAction*> Netctl::contextualActions()
         contextMenu[QString("switch")]->setVisible(true);
         contextMenu[QString("restart")]->setVisible(false);
         contextMenu[QString("enable")]->setVisible(false);
-
         switchToProfileMenu->clear();
         for (int i=0; i<profileList.count(); i++) {
             QAction *profile = new QAction(profileList[i], this);
             switchToProfileMenu->addAction(profile);
         }
-    }
-    else {
+    } else {
         contextMenu[QString("start")]->setVisible(true);
         contextMenu[QString("stop")]->setVisible(status);
         contextMenu[QString("switch")]->setVisible(false);
@@ -592,51 +582,41 @@ void Netctl::dataUpdated(const QString &sourceName, const Plasma::DataEngine::Da
     if (debug) qDebug() << "[PLASMOID]" << "[dataUpdated]";
     if (debug) qDebug() << "[PLASMOID]" << "[dataUpdated]" << ":" << "Source" << sourceName;
 
-    if (data.isEmpty())
-        return;
+    if (isIconified()) return;
+    if (data.isEmpty()) return;
     QString value = data[QString("value")].toString();
     if (value.isEmpty())
         value = QString("N\\A");
 
     if (sourceName == QString("currentProfile")) {
         info[QString("name")] = value;
-
         // update text
         if (bigInterface)
             textLabel->setText(formatLine[0] + parsePattern(textPattern) + formatLine[1]);
-    }
-    else if (sourceName == QString("extIp")) {
+    } else if (sourceName == QString("extIp")) {
         info[QString("extIp")] = value;
-    }
-    else if (sourceName == QString("extIp6")) {
+    } else if (sourceName == QString("extIp6")) {
         info[QString("extIp6")] = value;
-    }
-    else if (sourceName == QString("interfaces")) {
+    } else if (sourceName == QString("interfaces")) {
         info[QString("interfaces")] = value;
-    }
-    else if (sourceName == QString("intIp")) {
+    } else if (sourceName == QString("intIp")) {
         info[QString("intIp")] = value;
-    }
-    else if (sourceName == QString("intIp6")) {
+    } else if (sourceName == QString("intIp6")) {
         info[QString("intIp6")] = value;
-    }
-    else if (sourceName == QString("profiles")) {
+    } else if (sourceName == QString("profiles")) {
         profileList = value.split(QChar(','));
-    }
-    else if (sourceName == QString("statusBool")) {
+    } else if (sourceName == QString("statusBool")) {
         if (value == QString("true")) {
             if (!status)
                 sendNotification(QString("Info"), i18n("Network is up"));
             status = true;
-        }
-        else {
+        } else {
             if (status)
                 sendNotification(QString("Info"), i18n("Network is down"));
             status = false;
         }
         updateIcon();
-    }
-    else if (sourceName == QString("statusString")) {
+    } else if (sourceName == QString("statusString")) {
         info[QString("status")] = QString("(") + value + QString(")");
     }
 
@@ -657,6 +637,7 @@ void Netctl::disconnectFromEngine()
     netctlEngine->disconnectSource(QString("profiles"), this);
     netctlEngine->disconnectSource(QString("statusBool"), this);
     netctlEngine->disconnectSource(QString("statusString"), this);
+
     updateInterface(false);
 }
 
@@ -691,12 +672,10 @@ void Netctl::selectAbstractSomething()
     if (sender() == uiAppConfig.pushButton_activeIcon) {
         path = QString("/usr/share/icons");
         lineEdit = uiAppConfig.lineEdit_activeIcon;
-    }
-    else if (sender() == uiAppConfig.pushButton_inactiveIcon) {
+    } else if (sender() == uiAppConfig.pushButton_inactiveIcon) {
         path = QString("/usr/share/icons");
         lineEdit = uiAppConfig.lineEdit_inactiveIcon;
-    }
-    else if (sender() == uiWidConfig.pushButton_gui)
+    } else if (sender() == uiWidConfig.pushButton_gui)
         lineEdit = uiWidConfig.lineEdit_gui;
     else if (sender() == uiWidConfig.pushButton_helper)
         lineEdit = uiWidConfig.lineEdit_helper;
@@ -953,6 +932,7 @@ void Netctl::configChanged()
     if (useHelper) startHelper();
     QTimer::singleShot(1000, this, SLOT(checkHelperStatus()));
     connectToEngine();
+    setAssociatedApplication(paths[QString("gui")]);
 }
 
 
@@ -974,8 +954,7 @@ void Netctl::setDataEngineExternalIp()
     if (uiDEConfig.checkBox_extIp->checkState() == 0) {
         uiDEConfig.lineEdit_extIp->setDisabled(true);
         uiDEConfig.pushButton_extIp->setDisabled(true);
-    }
-    else if (uiDEConfig.checkBox_extIp->checkState() == 2) {
+    } else if (uiDEConfig.checkBox_extIp->checkState() == 2) {
         uiDEConfig.lineEdit_extIp->setEnabled(true);
         uiDEConfig.pushButton_extIp->setEnabled(true);
     }
@@ -989,8 +968,7 @@ void Netctl::setDataEngineExternalIp6()
     if (uiDEConfig.checkBox_extIp6->checkState() == 0) {
         uiDEConfig.lineEdit_extIp6->setDisabled(true);
         uiDEConfig.pushButton_extIp6->setDisabled(true);
-    }
-    else if (uiDEConfig.checkBox_extIp6->checkState() == 2) {
+    } else if (uiDEConfig.checkBox_extIp6->checkState() == 2) {
         uiDEConfig.lineEdit_extIp6->setEnabled(true);
         uiDEConfig.pushButton_extIp6->setEnabled(true);
     }
@@ -1002,8 +980,7 @@ void Netctl::setHelper()
     if (uiWidConfig.checkBox_helper->checkState() == 0) {
         uiWidConfig.lineEdit_helper->setDisabled(true);
         uiWidConfig.pushButton_helper->setDisabled(true);
-    }
-    else if (uiWidConfig.checkBox_helper->checkState() == 2) {
+    } else if (uiWidConfig.checkBox_helper->checkState() == 2) {
         uiWidConfig.lineEdit_helper->setEnabled(true);
         uiWidConfig.pushButton_helper->setEnabled(true);
     }
@@ -1017,8 +994,7 @@ void Netctl::setSudo()
     if (uiWidConfig.checkBox_sudo->checkState() == 0) {
         uiWidConfig.lineEdit_sudo->setDisabled(true);
         uiWidConfig.pushButton_sudo->setDisabled(true);
-    }
-    else if (uiWidConfig.checkBox_sudo->checkState() == 2) {
+    } else if (uiWidConfig.checkBox_sudo->checkState() == 2) {
         uiWidConfig.lineEdit_sudo->setEnabled(true);
         uiWidConfig.pushButton_sudo->setEnabled(true);
     }
@@ -1032,8 +1008,7 @@ void Netctl::setWifi()
     if (uiWidConfig.checkBox_wifi->checkState() == 0) {
         uiWidConfig.lineEdit_wifi->setDisabled(true);
         uiWidConfig.pushButton_wifi->setDisabled(true);
-    }
-    else if (uiWidConfig.checkBox_wifi->checkState() == 2) {
+    } else if (uiWidConfig.checkBox_wifi->checkState() == 2) {
         uiWidConfig.lineEdit_wifi->setEnabled(true);
         uiWidConfig.pushButton_wifi->setEnabled(true);
     }

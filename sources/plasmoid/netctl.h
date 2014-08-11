@@ -28,7 +28,6 @@
 #include <ui_widget.h>
 
 
-class QGraphicsLinearLayout;
 class Netctl;
 
 class IconLabel : public QLabel
