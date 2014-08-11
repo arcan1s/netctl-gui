@@ -38,6 +38,7 @@ public slots:
     bool Close();
     QStringList Information();
     void LibraryDocs();
+    QString Pony();
     bool Restore();
     void SecurityDocs();
     QStringList Settings();

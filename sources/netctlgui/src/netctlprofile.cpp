@@ -100,8 +100,7 @@ QString NetctlProfile::createProfile(const QString profile, const QMap<QString, 
     if (debug) qDebug() << "[NetctlProfile]" << "[createProfile]";
     if (debug) qDebug() << "[NetctlProfile]" << "[createProfile]" << ":" << "Profile" << profile;
 
-    QString profileTempName = QDir::homePath() + QDir::separator() +
-            QString(".cache") + QDir::separator() + QFileInfo(profile).fileName();
+    QString profileTempName = QDir::homePath() + QString("/.cache/") + QFileInfo(profile).fileName();
     QFile profileFile(profileTempName);
     if (debug) qDebug() << "[NetctlProfile]" << "[createProfile]" << ":" << "Save to" << profileTempName;
     if (!profileFile.open(QIODevice::WriteOnly | QIODevice::Text))

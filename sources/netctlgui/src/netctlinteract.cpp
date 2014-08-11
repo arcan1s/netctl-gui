@@ -93,9 +93,11 @@ bool Netctl::cmdCall(const bool sudo, const QString command, const QString comma
     }
 
     QString cmd = QString("");
-    if (sudo) cmd = sudoCommand + QString(" ");
+    if (sudo)
+        cmd = sudoCommand + QString(" ");
     cmd += command + QString(" ") + commandLine;
-    if (argument != 0) cmd += QString(" ") + argument;
+    if (argument != 0)
+        cmd += QString(" ") + argument;
     if (debug) qDebug() << "[Netctl]" << "[cmdCall]" << ":" << "Run cmd" << cmd;
     TaskResult process = runTask(cmd, (useSuid && sudo));
     if (debug) qDebug() << "[Netctl]" << "[cmdCall]" << ":" << "Cmd returns" << process.exitCode;
@@ -122,9 +124,11 @@ QString Netctl::getCmdOutput(const bool sudo, const QString command, const QStri
     }
 
     QString cmd = QString("");
-    if (sudo) cmd = sudoCommand + QString(" ");
+    if (sudo)
+        cmd = sudoCommand + QString(" ");
     cmd += command + QString(" ") + commandLine;
-    if (argument != 0) cmd += QString(" ") + argument;
+    if (argument != 0)
+        cmd += QString(" ") + argument;
     if (debug) qDebug() << "[Netctl]" << "[getCmdOutput]" << ":" << "Run cmd" << cmd;
     TaskResult process = runTask(cmd, (useSuid && sudo));
     if (debug) qDebug() << "[Netctl]" << "[getCmdOutput]" << ":" << "Cmd returns" << process.exitCode;
@@ -255,9 +259,9 @@ QString Netctl::getProfileStatus(const QString profile)
     else
         status = QString("inactive");
     if (isProfileEnabled(profile))
-        status = status + QString(" (enabled)");
+        status += QString(" (enabled)");
     else
-        status = status + QString(" (static)");
+        status += QString(" (static)");
 
     return status;
 }

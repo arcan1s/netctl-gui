@@ -41,6 +41,7 @@ public slots:
     QString ApiDocs();
     bool Close();
     QString LibraryDocs();
+    QString Pony();
     QString SecurityDocs();
     QStringList Settings();
     bool Update();

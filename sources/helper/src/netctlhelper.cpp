@@ -166,9 +166,7 @@ void NetctlHelper::updateConfiguration()
     if (debug) qDebug() << "[NetctlHelper]" << "[updateConfiguration]";
 
     deleteInterface();
-
     configuration = getSettings();
-
     createInterface();
 }
 

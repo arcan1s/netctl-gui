@@ -7,7 +7,7 @@
 #define TRANSLATORS ""
 #define EMAIL "@PROJECT_CONTACT@"
 #define LICENSE "@PROJECT_LICENSE@"
-#define TRDPARTY_LICENSE "tasks,BSD,https://github.com/mhogomchungu/tasks;"
+#define TRDPARTY_LICENSE "tasks,BSD,https://github.com/mhogomchungu/tasks;ponysay,GPLv3,http://erkin.co/ponysay"
 
 #define HOMEPAGE "http://arcanis.name/projects/netctl-gui/"
 #define REPOSITORY "https://github.com/arcan1s/netctl-gui"

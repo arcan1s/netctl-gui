@@ -37,10 +37,8 @@ using namespace std;
 bool checkExistSession()
 {
     QDBusConnection bus = QDBusConnection::systemBus();
-    QDBusMessage request = QDBusMessage::createMethodCall(DBUS_HELPER_SERVICE,
-                                                          DBUS_CTRL_PATH,
-                                                          DBUS_HELPER_INTERFACE,
-                                                          QString("Active"));
+    QDBusMessage request = QDBusMessage::createMethodCall(DBUS_HELPER_SERVICE, DBUS_CTRL_PATH,
+                                                          DBUS_HELPER_INTERFACE, QString("Active"));
     QDBusMessage response = bus.call(request);
     QList<QVariant> arguments = response.arguments();
     return !arguments.isEmpty();
@@ -52,33 +50,26 @@ int main(int argc, char *argv[])
     QMap<QString, QVariant> args = getArgs();
     // reading
     for (int i=1; i<argc; i++) {
-        // config path
         if ((QString(argv[i]) == QString("-c")) || (QString(argv[i]) == QString("--config"))) {
+            // config path
             args[QString("config")] = QDir().absoluteFilePath(argv[i+1]);
             i++;
-        }
-        // debug
-        else if ((QString(argv[i]) == QString("-d")) || (QString(argv[i]) == QString("--debug"))) {
+        } else if ((QString(argv[i]) == QString("-d")) || (QString(argv[i]) == QString("--debug"))) {
+            // debug
             args[QString("debug")] = true;
-        }
-        // daemonized
-        else if (QString(argv[i]) == QString("--nodaemon")) {
+        } else if (QString(argv[i]) == QString("--nodaemon")) {
+            // daemonized
             args[QString("nodaemon")] = true;
-        }
-        // messages
-        // help message
-        else if ((QString(argv[i]) == QString("-h")) || (QString(argv[i]) == QString("--help"))) {
+        } else if ((QString(argv[i]) == QString("-h")) || (QString(argv[i]) == QString("--help"))) {
+            // help message
             args[QString("help")] = true;
-        }
-        // info message
-        else if ((QString(argv[i]) == QString("-i")) || (QString(argv[i]) == QString("--info"))) {
+        } else if ((QString(argv[i]) == QString("-i")) || (QString(argv[i]) == QString("--info"))) {
+            // info message
             args[QString("info")] = true;
-        }
-        // version message
-        else if ((QString(argv[i]) == QString("-v")) || (QString(argv[i]) == QString("--version"))) {
+        } else if ((QString(argv[i]) == QString("-v")) || (QString(argv[i]) == QString("--version"))) {
+            // version message
             args[QString("version")] = true;
-        }
-        else {
+        } else {
             args[QString("error")] = true;
         }
     }

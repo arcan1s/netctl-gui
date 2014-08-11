@@ -8,5 +8,7 @@
     <file>wifi.png</file>
     <file>network-idle-64x64.png</file>
     <file>network-offline-64x64.png</file>
+<!--     pony <3 -->
+    <file>pinkiepie</file>
 </qresource>
 </RCC>

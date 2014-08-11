@@ -24,7 +24,7 @@ if (USE_QT5)
     set (QT_NEEDED_LIBS ${Qt5Core_LIBRARIES} ${Qt5DBus_LIBRARIES})
     qt5_wrap_cpp (MOC_SOURCES ${HEADERS})
     qt5_add_resources (QRC_SOURCES ${RESOURCES})
-    
+
     foreach (LANGUAGE ${LANGUAGES})
         set (TS ${LANGUAGE})
         string (REPLACE ".ts" ".qm" QM ${TS})
@@ -40,7 +40,7 @@ else ()
     set (QT_NEEDED_LIBS ${QT_QTCORE_LIBRARY} ${QT_QTDBUS_LIBRARY})
     qt4_wrap_cpp (MOC_SOURCES ${HEADERS})
     qt4_add_resources (QRC_SOURCES ${RESOURCES})
-    
+
     foreach (LANGUAGE ${LANGUAGES})
         set (TS ${LANGUAGE})
         string (REPLACE ".ts" ".qm" QM ${TS})

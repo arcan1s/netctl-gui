@@ -17,6 +17,8 @@
 
 #include "controladaptor.h"
 
+#include <QTextCodec>
+
 #include "netctlhelper.h"
 #include "version.h"
 
@@ -63,6 +65,19 @@ bool ControlAdaptor::Close()
 QString ControlAdaptor::LibraryDocs()
 {
     return (QString(DOCS_PATH) + QString("html/index.html"));
+}
+
+
+QString ControlAdaptor::Pony()
+{
+    QString pony;
+    QFile ponyFile(QString(":pinkiepie"));
+    if (!ponyFile.open(QIODevice::ReadOnly))
+        return pony;
+    pony = QTextCodec::codecForMib(106)->toUnicode(ponyFile.readAll());
+    ponyFile.close();
+
+    return pony;
 }
 
 
