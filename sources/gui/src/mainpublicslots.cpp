@@ -20,7 +20,6 @@
 
 #include <QDebug>
 #include <QDesktopServices>
-#include <QTimer>
 #include <QTranslator>
 #include <QUrl>
 
@@ -306,6 +305,7 @@ void MainWindow::updateConfiguration(const QMap<QString, QVariant> args)
     if (args[QString("default")].toBool())
         settingsWin->setDefault();
     configuration = settingsWin->getSettings();
+    delete settingsWin;
     QMap<QString, QString> optionsDict = parseOptions(args[QString("options")].toString());
     for (int i=0; i<optionsDict.keys().count(); i++)
         configuration[optionsDict.keys()[i]] = optionsDict[optionsDict.keys()[i]];
@@ -316,9 +316,6 @@ void MainWindow::updateConfiguration(const QMap<QString, QVariant> args)
         useHelper = false;
         configuration[QString("USE_HELPER")] = QString("false");
     }
-    // some helper fixs
-    // because interface will be created with a delay
-    QTimer::singleShot(1000, this, SLOT(checkHelperStatus()));
 
     // update translation
     qApp->removeTranslator(translator);
@@ -326,10 +323,9 @@ void MainWindow::updateConfiguration(const QMap<QString, QVariant> args)
                                                 args[QString("options")].toString());
     translator->load(QString(":/translations/") + language);
     qApp->installTranslator(translator);
-    // update settingsWin
-    delete settingsWin;
 
     createObjects();
+    checkHelperStatus();
     createActions();
 
     // tray

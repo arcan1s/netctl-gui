@@ -28,7 +28,6 @@
 #include <QDebug>
 #include <QMenu>
 #include <QProcessEnvironment>
-#include <QTimer>
 
 #include "netctl.h"
 #include "ui_about.h"
@@ -930,7 +929,7 @@ void Netctl::configChanged()
     formatLine[1] = QString("</p></body></html>");
 
     if (useHelper) startHelper();
-    QTimer::singleShot(1000, this, SLOT(checkHelperStatus()));
+    checkHelperStatus();
     connectToEngine();
     setAssociatedApplication(paths[QString("gui")]);
 }

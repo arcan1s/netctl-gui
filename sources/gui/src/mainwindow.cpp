@@ -283,6 +283,20 @@ bool MainWindow::checkExternalApps(const QString apps = QString("all"))
 }
 
 
+bool MainWindow::checkHelperStatus()
+{
+    if (debug) qDebug() << "[MainWindow]" << "[checkHelperStatus]";
+
+    if (useHelper) useHelper = isHelperActive();
+    if (useHelper)
+        sendDBusRequest(DBUS_HELPER_SERVICE, DBUS_CTRL_PATH,
+                        DBUS_HELPER_INTERFACE, QString("Update"),
+                        QList<QVariant>(), true, debug);
+    if (isHelperServiceActive())
+        configuration[QString("CLOSE_HELPER")] = QString("false");
+}
+
+
 QString MainWindow::checkStatus(const bool statusBool, const bool nullFalse)
 {
     if (debug) qDebug() << "[MainWindow]" << "[checkStatus]";

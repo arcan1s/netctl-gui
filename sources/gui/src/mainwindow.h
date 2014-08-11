@@ -95,7 +95,6 @@ public slots:
     void setHiddenName(const QString name);
 
 private slots:
-    void checkHelperStatus();
     void reportABug();
     // menu update slots
     void setMenuActionsShown(const bool state = true);
@@ -151,6 +150,7 @@ private:
     NetctlProfile *netctlProfile = nullptr;
     WpaSup *wpaCommand = nullptr;
     bool checkExternalApps(const QString apps);
+    bool checkHelperStatus();
     QString checkStatus(const bool statusBool, const bool nullFalse = false);
     void createActions();
     void createDBusSession();

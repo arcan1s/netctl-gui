@@ -36,6 +36,8 @@ NetctlHelper::NetctlHelper(QObject *parent, QMap<QString, QVariant> args)
       debug(args[QString("debug")].toBool())
 {
     updateConfiguration();
+    if (!args[QString("nodaemon")].toBool())
+        daemon(0, 0);
 }
 
 
