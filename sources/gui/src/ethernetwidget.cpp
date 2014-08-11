@@ -88,8 +88,7 @@ void EthernetWidget::showAdvanced()
     if (ui->pushButton_ethernetAdvanced->isChecked()) {
         ui->widget_ethernetAdvanced->setHidden(false);
         ui->pushButton_ethernetAdvanced->setText(QApplication::translate("EthernetWidget", "Hide advanced"));
-    }
-    else {
+    } else {
         ui->widget_ethernetAdvanced->setHidden(true);
         ui->pushButton_ethernetAdvanced->setText(QApplication::translate("EthernetWidget", "Show advanced"));
     }

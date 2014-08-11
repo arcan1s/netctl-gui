@@ -36,12 +36,11 @@ using namespace std;
 bool restoreExistSession()
 {
     QDBusConnection bus = QDBusConnection::sessionBus();
-    QDBusMessage request = QDBusMessage::createMethodCall(DBUS_SERVICE,
-                                                          DBUS_OBJECT_PATH,
-                                                          DBUS_INTERFACE,
-                                                          QString("Restore"));
+    QDBusMessage request = QDBusMessage::createMethodCall(DBUS_SERVICE, DBUS_OBJECT_PATH,
+                                                          DBUS_INTERFACE, QString("Restore"));
     QDBusMessage response = bus.call(request);
     QList<QVariant> arguments = response.arguments();
+
     return !arguments.isEmpty();
 }
 
@@ -51,68 +50,52 @@ int main(int argc, char *argv[])
     QMap<QString, QVariant> args = getArgs();
     // reading
     for (int i=1; i<argc; i++) {
-        // windows
-        // daemonized
         if (QString(argv[i]) == QString("--daemon")) {
+            // daemonized
             args[QString("minimized")] = (int) 1;
-        }
-        // maximized
-        else if (QString(argv[i]) == QString("--maximized")) {
+        } else if (QString(argv[i]) == QString("--maximized")) {
+            // maximized
             args[QString("minimized")] = (int) 2;
-        }
-        // minimized
-        else if (QString(argv[i]) == QString("--minimized")) {
+        } else if (QString(argv[i]) == QString("--minimized")) {
+            // minimized
             args[QString("minimized")] = (int) 3;
-        }
-        // about
-        else if (QString(argv[i]) == QString("--about")) {
+        } else if (QString(argv[i]) == QString("--about")) {
+            // about
             args[QString("about")] = true;
-        }
-        // netctl-auto
-        else if (QString(argv[i]) == QString("--netctl-auto")) {
+        } else if (QString(argv[i]) == QString("--netctl-auto")) {
+            // netctl-auto
             args[QString("auto")] = true;
-        }
-        // settings
-        else if (QString(argv[i]) == QString("--settings")) {
+        } else if (QString(argv[i]) == QString("--settings")) {
+            // settings
             args[QString("settings")] = true;
-        }
-        // main functions
-        // select ESSID
-        else if ((QString(argv[i]) == QString("-e")) || (QString(argv[i]) == QString("--essid"))) {
+        } else if ((QString(argv[i]) == QString("-e")) || (QString(argv[i]) == QString("--essid"))) {
+            // select ESSID
             args[QString("essid")] = QString(argv[i+1]);
             i++;
-        }
-        // open profile
-        else if ((QString(argv[i]) == QString("-o")) || (QString(argv[i]) == QString("--open"))) {
+        } else if ((QString(argv[i]) == QString("-o")) || (QString(argv[i]) == QString("--open"))) {
+            // open profile
             args[QString("open")] = QString(argv[i+1]);
             i++;
-        }
-        // select profile
-        else if ((QString(argv[i]) == QString("-s")) || (QString(argv[i]) == QString("--select"))) {
+        } else if ((QString(argv[i]) == QString("-s")) || (QString(argv[i]) == QString("--select"))) {
+            // select profile
             args[QString("select")] = QString(argv[i+1]);
             i++;
-        }
-        // additional functions
-        // config path
-        else if ((QString(argv[i]) == QString("-c")) || (QString(argv[i]) == QString("--config"))) {
+        } else if ((QString(argv[i]) == QString("-c")) || (QString(argv[i]) == QString("--config"))) {
+            // config path
             args[QString("config")] = QDir().absoluteFilePath(argv[i+1]);
             i++;
-        }
-        // debug
-        else if ((QString(argv[i]) == QString("-d")) || (QString(argv[i]) == QString("--debug"))) {
+        } else if ((QString(argv[i]) == QString("-d")) || (QString(argv[i]) == QString("--debug"))) {
+            // debug
             args[QString("debug")] = true;
-        }
-        // default settings
-        else if (QString(argv[i]) == QString("--default")) {
+        } else if (QString(argv[i]) == QString("--default")) {
+            // default settings
             args[QString("defaults")] = true;
-        }
-        // options
-        else if (QString(argv[i]) == QString("--set-opts")) {
+        } else if (QString(argv[i]) == QString("--set-opts")) {
+            // options
             args[QString("options")] = QString(argv[i+1]);
             i++;
-        }
-        // tab number
-        else if ((QString(argv[i]) == QString("-t")) || (QString(argv[i]) == QString("--tab"))) {
+        } else if ((QString(argv[i]) == QString("-t")) || (QString(argv[i]) == QString("--tab"))) {
+            // tab number
             if (atoi(argv[i+1]) > 3)
                 args[QString("tab")] = (int) 3;
             else if (atoi(argv[i+1]) < 1)
@@ -120,21 +103,16 @@ int main(int argc, char *argv[])
             else
                 args[QString("tab")] = atoi(argv[i+1]);
             i++;
-        }
-        // messages
-        // help message
-        else if ((QString(argv[i]) == QString("-h")) || (QString(argv[i]) == QString("--help"))) {
+        } else if ((QString(argv[i]) == QString("-h")) || (QString(argv[i]) == QString("--help"))) {
+            // help message
             args[QString("help")] = true;
-        }
-        // info message
-        else if ((QString(argv[i]) == QString("-i")) || (QString(argv[i]) == QString("--info"))) {
+        } else if ((QString(argv[i]) == QString("-i")) || (QString(argv[i]) == QString("--info"))) {
+            // info message
             args[QString("info")] = true;
-        }
-        // version message
-        else if ((QString(argv[i]) == QString("-v")) || (QString(argv[i]) == QString("--version"))) {
+        } else if ((QString(argv[i]) == QString("-v")) || (QString(argv[i]) == QString("--version"))) {
+            // version message
             args[QString("version")] = true;
-        }
-        else {
+        } else {
             args[QString("error")] = true;
         }
     }
@@ -169,17 +147,14 @@ int main(int argc, char *argv[])
         cout << errorMessage().toUtf8().data() << endl;
         cout << helpMessage().toUtf8().data();
         return 127;
-    }
-    if (args[QString("help")].toBool()) {
+    } else if (args[QString("help")].toBool()) {
         cout << helpMessage().toUtf8().data();
         return 0;
-    }
-    if (args[QString("info")].toBool()) {
+    } else if (args[QString("info")].toBool()) {
         cout << versionMessage().toUtf8().data() << endl;
         cout << infoMessage().toUtf8().data();
         return 0;
-    }
-    if (args[QString("version")].toBool()) {
+    } else if (args[QString("version")].toBool()) {
         cout << versionMessage().toUtf8().data();
         return 0;
     }

@@ -159,21 +159,18 @@ void WirelessWidget::changeSecurity(const QString currentText)
         ui->widget_wpaConfigSection->setHidden(true);
         ui->widget_wpaConfig->setHidden(true);
         ui->widget_key->setHidden(true);
-    }
-    else if ((currentText == QString("wep")) ||
+    } else if ((currentText == QString("wep")) ||
              (currentText == QString("wpa"))) {
         ui->widget_essid->setHidden(false);
         ui->widget_wpaConfigSection->setHidden(true);
         ui->widget_wpaConfig->setHidden(true);
         ui->widget_key->setHidden(false);
-    }
-    else if (currentText == QString("wpa-configsection")) {
+    } else if (currentText == QString("wpa-configsection")) {
         ui->widget_essid->setHidden(true);
         ui->widget_wpaConfigSection->setHidden(false);
         ui->widget_wpaConfig->setHidden(true);
         ui->widget_key->setHidden(true);
-    }
-    else if (currentText == QString("wpa-config")) {
+    } else if (currentText == QString("wpa-config")) {
         ui->widget_essid->setHidden(true);
         ui->widget_wpaConfigSection->setHidden(true);
         ui->widget_wpaConfig->setHidden(false);
@@ -199,8 +196,7 @@ void WirelessWidget::showAdvanced()
     if (ui->pushButton_wirelessAdvanced->isChecked()) {
         ui->widget_wirelessAdvanced->setHidden(false);
         ui->pushButton_wirelessAdvanced->setText(QApplication::translate("WirelessWidget", "Hide advanced"));
-    }
-    else {
+    } else {
         ui->widget_wirelessAdvanced->setHidden(true);
         ui->pushButton_wirelessAdvanced->setText(QApplication::translate("WirelessWidget", "Show advanced"));
     }
@@ -221,8 +217,7 @@ QMap<QString, QString> WirelessWidget::getSettings()
             wirelessSettings[QString("Key")] = ui->lineEdit_key->text();
         else
             wirelessSettings[QString("Key")] = QString("'") + ui->lineEdit_key->text() + QString("'");
-    }
-    else if (ui->comboBox_security->currentText() == QString("wpa"))
+    } else if (ui->comboBox_security->currentText() == QString("wpa"))
         wirelessSettings[QString("Key")] = QString("'") + ui->lineEdit_key->text() + QString("'");
     if (ui->comboBox_security->currentText() == QString("wpa-configsection")) {
         QStringList section;

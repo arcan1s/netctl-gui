@@ -114,8 +114,7 @@ void GeneralWidget::showAdvanced()
     if (ui->pushButton_generalAdvanced->isChecked()) {
         ui->widget_generalAdvanced->setHidden(false);
         ui->pushButton_generalAdvanced->setText(QApplication::translate("GeneralWidget", "Hide advanced"));
-    }
-    else {
+    } else {
         ui->widget_generalAdvanced->setHidden(true);
         ui->pushButton_generalAdvanced->setText(QApplication::translate("GeneralWidget", "Show advanced"));
     }

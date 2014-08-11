@@ -58,17 +58,17 @@ void SettingsWindow::createActions()
     connect(ui->treeWidget, SIGNAL(currentItemChanged(QTreeWidgetItem *, QTreeWidgetItem *)),
             this, SLOT(changePage(QTreeWidgetItem *, QTreeWidgetItem *)));
     // buttons
-    connect(ui->pushButton_helperPath, SIGNAL(clicked(bool)), this, SLOT(selectHelperPath()));
-    connect(ui->pushButton_interfaceDir, SIGNAL(clicked(bool)), this, SLOT(selectIfaceDir()));
-    connect(ui->pushButton_netctlPath, SIGNAL(clicked(bool)), this, SLOT(selectNetctlPath()));
-    connect(ui->pushButton_netctlAutoPath, SIGNAL(clicked(bool)), this, SLOT(selectNetctlAutoPath()));
-    connect(ui->pushButton_profilePath, SIGNAL(clicked(bool)), this, SLOT(selectProfileDir()));
-    connect(ui->pushButton_rfkill, SIGNAL(clicked(bool)), this, SLOT(selectRfkillDir()));
+    connect(ui->pushButton_helperPath, SIGNAL(clicked(bool)), this, SLOT(selectAbstractSomething()));
+    connect(ui->pushButton_interfacesDir, SIGNAL(clicked(bool)), this, SLOT(selectAbstractSomething()));
+    connect(ui->pushButton_netctlPath, SIGNAL(clicked(bool)), this, SLOT(selectAbstractSomething()));
+    connect(ui->pushButton_netctlAutoPath, SIGNAL(clicked(bool)), this, SLOT(selectAbstractSomething()));
+    connect(ui->pushButton_profilePath, SIGNAL(clicked(bool)), this, SLOT(selectAbstractSomething()));
+    connect(ui->pushButton_rfkill, SIGNAL(clicked(bool)), this, SLOT(selectAbstractSomething()));
     connect(ui->pushButton_status, SIGNAL(clicked(bool)), this, SLOT(startHelper()));
-    connect(ui->pushButton_sudo, SIGNAL(clicked(bool)), this, SLOT(selectSudoPath()));
-    connect(ui->pushButton_systemctlPath, SIGNAL(clicked(bool)), this, SLOT(selectSystemctlPath()));
-    connect(ui->pushButton_wpaCliPath, SIGNAL(clicked(bool)), this, SLOT(selectWpaCliPath()));
-    connect(ui->pushButton_wpaSupPath, SIGNAL(clicked(bool)), this, SLOT(selectWpaSupPath()));
+    connect(ui->pushButton_sudo, SIGNAL(clicked(bool)), this, SLOT(selectAbstractSomething()));
+    connect(ui->pushButton_systemctlPath, SIGNAL(clicked(bool)), this, SLOT(selectAbstractSomething()));
+    connect(ui->pushButton_wpaCliPath, SIGNAL(clicked(bool)), this, SLOT(selectAbstractSomething()));
+    connect(ui->pushButton_wpaSupPath, SIGNAL(clicked(bool)), this, SLOT(selectAbstractSomething()));
 }
 
 
@@ -136,8 +136,7 @@ void SettingsWindow::setTray()
     if (ui->checkBox_enableTray->checkState() == 0) {
         ui->checkBox_closeToTray->setDisabled(true);
         ui->checkBox_startToTray->setDisabled(true);
-    }
-    else if (ui->checkBox_enableTray->checkState() == 2) {
+    } else if (ui->checkBox_enableTray->checkState() == 2) {
         ui->checkBox_closeToTray->setEnabled(true);
         ui->checkBox_startToTray->setEnabled(true);
     }
@@ -153,140 +152,60 @@ void SettingsWindow::setDefault()
 }
 
 
-void SettingsWindow::selectHelperPath()
+void SettingsWindow::selectAbstractSomething()
 {
-    if (debug) qDebug() << "[SettingsWindow]" << "[selectHelperPath]";
+    if (debug) qDebug() << "[SettingsWindow]" << "[selectAbstractSomething]";
 
-    QString filename = QFileDialog::getOpenFileName(
-                this,
-                QApplication::translate("SettingsWindow", "Select helper command"),
-                QString("/usr/bin/"),
-                QApplication::translate("SettingsWindow", "All files (*)"));
+    bool isDir = false;
+    QString path = QString("/usr/bin");
+    QString text = QApplication::translate("SettingsWindow", "Select helper command");
+    QLineEdit *lineEdit = ui->lineEdit_helperPath;
+    if (sender() == ui->pushButton_helperPath) {
+        text = QApplication::translate("SettingsWindow", "Select helper command");
+        lineEdit = ui->lineEdit_helperPath;
+    } else if (sender() == ui->pushButton_interfacesDir) {
+        isDir = true;
+        text = QApplication::translate("SettingsWindow", "Select path to directory with interfaces");
+        path = QString("/sys");
+        lineEdit = ui->lineEdit_interfacesDir;
+    } else if (sender() == ui->pushButton_netctlPath) {
+        text = QApplication::translate("SettingsWindow", "Select netctl command");
+        lineEdit = ui->lineEdit_netctlPath;
+    } else if (sender() == ui->pushButton_netctlAutoPath) {
+        text = QApplication::translate("SettingsWindow", "Select netctl-auto command");
+        lineEdit = ui->lineEdit_netctlAutoPath;
+    } else if (sender() == ui->pushButton_profilePath) {
+        isDir = true;
+        text = QApplication::translate("SettingsWindow", "Select path to profile directory");
+        path = QString("/etc");
+        lineEdit = ui->lineEdit_profilePath;
+    } else if (sender() == ui->pushButton_rfkill) {
+        isDir = true;
+        text = QApplication::translate("SettingsWindow", "Select path to directory with rfkill devices");
+        path = QString("/sys");
+        lineEdit = ui->lineEdit_rfkill;
+    } else if (sender() == ui->pushButton_sudo) {
+        text = QApplication::translate("SettingsWindow", "Select sudo command");
+        lineEdit = ui->lineEdit_sudo;
+    } else if (sender() == ui->pushButton_systemctlPath) {
+        text = QApplication::translate("SettingsWindow", "Select systemctl command");
+        lineEdit = ui->lineEdit_systemctlPath;
+    } else if (sender() == ui->pushButton_wpaCliPath) {
+        text = QApplication::translate("SettingsWindow", "Select wpa_cli command");
+        lineEdit = ui->lineEdit_wpaCliPath;
+    } else if (sender() == ui->pushButton_wpaSupPath) {
+        text = QApplication::translate("SettingsWindow", "Select wpa_supplicant command");
+        lineEdit = ui->lineEdit_wpaSupPath;
+    }
+
+    QString filename;
+    if (isDir)
+        filename = QFileDialog::getExistingDirectory(this, text, path);
+    else
+        filename = QFileDialog::getOpenFileName(this, text, path,
+                                                QApplication::translate("SettingsWindow", "All files (*)"));
     if (!filename.isEmpty())
-        ui->lineEdit_helperPath->setText(filename);
-}
-
-
-void SettingsWindow::selectIfaceDir()
-{
-    if (debug) qDebug() << "[SettingsWindow]" << "[selectIfaceDir]";
-
-    QString directory = QFileDialog::getExistingDirectory(
-                this,
-                QApplication::translate("SettingsWindow", "Select path to directory with interfaces"),
-                QString("/sys/"));
-    if (!directory.isEmpty())
-        ui->lineEdit_interfacesDir->setText(directory);
-}
-
-
-void SettingsWindow::selectNetctlPath()
-{
-    if (debug) qDebug() << "[SettingsWindow]" << "[selectNetctlPath]";
-
-    QString filename = QFileDialog::getOpenFileName(
-                this,
-                QApplication::translate("SettingsWindow", "Select netctl command"),
-                QString("/usr/bin/"),
-                QApplication::translate("SettingsWindow", "All files (*)"));
-    if (!filename.isEmpty())
-        ui->lineEdit_netctlPath->setText(filename);
-}
-
-
-void SettingsWindow::selectNetctlAutoPath()
-{
-    if (debug) qDebug() << "[SettingsWindow]" << "[selectNetctlAutoPath]";
-
-    QString filename = QFileDialog::getOpenFileName(
-                this,
-                QApplication::translate("SettingsWindow", "Select netctl-auto command"),
-                QString("/usr/bin/"),
-                QApplication::translate("SettingsWindow", "All files (*)"));
-    if (!filename.isEmpty())
-        ui->lineEdit_netctlAutoPath->setText(filename);
-}
-
-
-void SettingsWindow::selectProfileDir()
-{
-    if (debug) qDebug() << "[SettingsWindow]" << "[selectProfileDir]";
-
-    QString directory = QFileDialog::getExistingDirectory(
-                this,
-                QApplication::translate("SettingsWindow", "Select path to profile directory"),
-                QString("/etc/"));
-    if (!directory.isEmpty())
-        ui->lineEdit_profilePath->setText(directory);
-}
-
-
-void SettingsWindow::selectRfkillDir()
-{
-    if (debug) qDebug() << "[SettingsWindow]" << "[selectRfkillDir]";
-
-    QString directory = QFileDialog::getExistingDirectory(
-                this,
-                QApplication::translate("SettingsWindow", "Select path to directory with rfkill devices"),
-                QString("/sys/"));
-    if (!directory.isEmpty())
-        ui->lineEdit_rfkill->setText(directory);
-}
-
-
-void SettingsWindow::selectSudoPath()
-{
-    if (debug) qDebug() << "[SettingsWindow]" << "[selectSudoPath]";
-
-    QString filename = QFileDialog::getOpenFileName(
-                this,
-                QApplication::translate("SettingsWindow", "Select sudo command"),
-                QString("/usr/bin/"),
-                QApplication::translate("SettingsWindow", "All files (*)"));
-    if (!filename.isEmpty())
-        ui->lineEdit_sudo->setText(filename);
-}
-
-
-void SettingsWindow::selectSystemctlPath()
-{
-    if (debug) qDebug() << "[SettingsWindow]" << "[selectSystemctlPath]";
-
-    QString filename = QFileDialog::getOpenFileName(
-                this,
-                QApplication::translate("SettingsWindow", "Select systemctl command"),
-                QString("/usr/bin/"),
-                QApplication::translate("SettingsWindow", "All files (*)"));
-    if (!filename.isEmpty())
-        ui->lineEdit_systemctlPath->setText(filename);
-}
-
-
-void SettingsWindow::selectWpaCliPath()
-{
-    if (debug) qDebug() << "[SettingsWindow]" << "[selectWpaCliPath]";
-
-    QString filename = QFileDialog::getOpenFileName(
-                this,
-                QApplication::translate("SettingsWindow", "Select wpa_cli command"),
-                QString("/usr/bin/"),
-                QApplication::translate("SettingsWindow", "All files (*)"));
-    if (!filename.isEmpty())
-        ui->lineEdit_wpaCliPath->setText(filename);
-}
-
-
-void SettingsWindow::selectWpaSupPath()
-{
-    if (debug) qDebug() << "[SettingsWindow]" << "[selectWpaSupPath]";
-
-    QString filename = QFileDialog::getOpenFileName(
-                this,
-                QApplication::translate("SettingsWindow", "Select wpa_supplicant command"),
-                QString("/usr/bin/"),
-                QApplication::translate("SettingsWindow", "All files (*)"));
-    if (!filename.isEmpty())
-        ui->lineEdit_wpaSupPath->setText(filename);
+        lineEdit->setText(filename);
 }
 
 
@@ -494,14 +413,12 @@ void SettingsWindow::updateHelper()
         ui->pushButton_status->setText(QApplication::translate("SettingsWindow", "Stop"));
         ui->pushButton_status->setIcon(QIcon::fromTheme("process-stop"));
         ui->pushButton_status->setDisabled(true);
-    }
-    else if (((MainWindow *)parent())->isHelperActive()) {
+    } else if (((MainWindow *)parent())->isHelperActive()) {
         ui->label_status->setText(QApplication::translate("SettingsWindow", "Active"));
         ui->pushButton_status->setText(QApplication::translate("SettingsWindow", "Stop"));
         ui->pushButton_status->setIcon(QIcon::fromTheme("process-stop"));
         ui->pushButton_status->setEnabled(true);
-    }
-    else {
+    } else {
         ui->label_status->setText(QApplication::translate("SettingsWindow", "Inactive"));
         ui->pushButton_status->setText(QApplication::translate("SettingsWindow", "Start"));
         ui->pushButton_status->setIcon(QIcon::fromTheme("system-run"));

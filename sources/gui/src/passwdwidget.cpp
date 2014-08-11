@@ -66,8 +66,7 @@ void PasswdWidget::setPassword(const bool mode)
     if (mode) {
         ui->lineEdit->setEchoMode(QLineEdit::Password);
         ui->label->setText(QApplication::translate("PasswdWidget", "Password"));
-    }
-    else {
+    } else {
         ui->lineEdit->setEchoMode(QLineEdit::Normal);
         ui->label->setText(QApplication::translate("PasswdWidget", "ESSID"));
     }

@@ -89,8 +89,7 @@ void MobileWidget::showAdvanced()
     if (ui->pushButton_mobileAdvanced->isChecked()) {
         ui->widget_mobileAdvanced->setHidden(false);
         ui->pushButton_mobileAdvanced->setText(QApplication::translate("MobileWidget", "Hide advanced"));
-    }
-    else {
+    } else {
         ui->widget_mobileAdvanced->setHidden(true);
         ui->pushButton_mobileAdvanced->setText(QApplication::translate("MobileWidget", "Show advanced"));
     }

@@ -99,17 +99,14 @@ int main(int argc, char *argv[])
         cout << errorMessage().toUtf8().data() << endl;
         cout << helpMessage().toUtf8().data();
         return 127;
-    }
-    if (args[QString("help")].toBool()) {
+    } else if (args[QString("help")].toBool()) {
         cout << helpMessage().toUtf8().data();
         return 0;
-    }
-    if (args[QString("info")].toBool()) {
+    } else if (args[QString("info")].toBool()) {
         cout << versionMessage().toUtf8().data() << endl;
         cout << infoMessage().toUtf8().data();
         return 0;
-    }
-    if (args[QString("version")].toBool()) {
+    } else if (args[QString("version")].toBool()) {
         cout << versionMessage().toUtf8().data();
         return 0;
     }

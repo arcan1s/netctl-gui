@@ -93,8 +93,7 @@ void TrayIcon::updateMenu()
     if (current.isEmpty()) {
         contextMenu[QString("title")]->setIcon(QIcon(QString(":network-offline-64x64")));
         contextMenu[QString("title")]->setText(QApplication::translate("TrayIcon", "(inactive)"));
-    }
-    else {
+    } else {
         contextMenu[QString("title")]->setIcon(QIcon(QString(":network-idle-64x64")));
         QString status;
         if (netctlAutoStatus)
@@ -112,14 +111,12 @@ void TrayIcon::updateMenu()
         contextMenu[QString("switch")]->setVisible(true);
         contextMenu[QString("restart")]->setVisible(false);
         contextMenu[QString("enable")]->setVisible(false);
-
         switchToProfileMenu->clear();
         for (int i=0; i<profiles.count(); i++) {
             QAction *profile = new QAction(profiles[i], this);
             switchToProfileMenu->addAction(profile);
         }
-    }
-    else {
+    } else {
         contextMenu[QString("start")]->setVisible(true);
         contextMenu[QString("stop")]->setVisible(!current.isEmpty());
         contextMenu[QString("switch")]->setVisible(false);
@@ -133,8 +130,7 @@ void TrayIcon::updateMenu()
                 contextMenu[QString("enable")]->setText(QApplication::translate("TrayIcon", "Disable %1").arg(current));
             else
                 contextMenu[QString("enable")]->setText(QApplication::translate("TrayIcon", "Enable %1").arg(current));
-        }
-        else
+        } else
             contextMenu[QString("start")]->setText(QApplication::translate("TrayIcon", "Start profile"));
         startProfileMenu->clear();
         for (int i=0; i<profiles.count(); i++) {

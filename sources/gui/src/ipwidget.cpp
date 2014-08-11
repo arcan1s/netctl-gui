@@ -315,8 +315,7 @@ void IpWidget::ipEnable(const int state)
         ui->comboBox_ip->setDisabled(true);
         ui->widget_ip->setDisabled(true);
         ui->widget_ipRoutes->setDisabled(true);
-    }
-    else {
+    } else {
         ui->comboBox_ip->setEnabled(true);
         ui->widget_ip->setEnabled(true);
         ui->widget_ipRoutes->setEnabled(true);
@@ -341,8 +340,7 @@ void IpWidget::ip6Enable(const int state)
         ui->comboBox_ip6->setDisabled(true);
         ui->widget_ip6->setDisabled(true);
         ui->widget_ipRoutes6->setDisabled(true);
-    }
-    else {
+    } else {
         ui->comboBox_ip6->setEnabled(true);
         ui->widget_ip6->setEnabled(true);
         ui->widget_ipRoutes6->setEnabled(true);
@@ -355,8 +353,7 @@ void IpWidget::changeDhcpClient(const QString currentText)
     if (currentText == QString("dhcpcd")) {
         ui->widget_dhcpcdOpt->setHidden(false);
         ui->widget_dhclientOpt->setHidden(true);
-    }
-    else if (currentText == QString("dhclient")) {
+    } else if (currentText == QString("dhclient")) {
         ui->widget_dhcpcdOpt->setHidden(true);
         ui->widget_dhclientOpt->setHidden(false);
     }
@@ -368,8 +365,7 @@ void IpWidget::showAdvanced()
     if (ui->pushButton_ipAdvanced->isChecked()) {
         ui->widget_ipAdvanced->setHidden(false);
         ui->pushButton_ipAdvanced->setText(QApplication::translate("IpWidget", "Hide advanced"));
-    }
-    else {
+    } else {
         ui->widget_ipAdvanced->setHidden(true);
         ui->pushButton_ipAdvanced->setText(QApplication::translate("IpWidget", "Show advanced"));
     }
@@ -398,8 +394,7 @@ QMap<QString, QString> IpWidget::getSettings()
                 routes.append(QString("'") + ui->listWidget_ipRoutes->item(i)->text() + QString("'"));
             ipSettings[QString("Routes")] = routes.join(QChar(' '));
         }
-    }
-    else
+    } else
         ipSettings[QString("IP")] = QString("no");
     if (ui->checkBox_ip6->checkState() == Qt::Checked) {
         ipSettings[QString("IP6")] = ui->comboBox_ip6->currentText();
@@ -417,8 +412,7 @@ QMap<QString, QString> IpWidget::getSettings()
                 routes.append(QString("'") + ui->listWidget_ipRoutes6->item(i)->text() + QString("'"));
             ipSettings[QString("Routes6")] = routes.join(QChar(' '));
         }
-    }
-    else
+    } else
         ipSettings[QString("IP6")] = QString("no");
     if (ui->listWidget_custom->count() > 0) {
         QStringList custom;
@@ -433,8 +427,7 @@ QMap<QString, QString> IpWidget::getSettings()
     if (ui->comboBox_dhcp->currentText() == QString("dhcpcd")) {
         if (!ui->lineEdit_dhcpcdOpt->text().isEmpty())
             ipSettings[QString("DhcpcdOptions")] = QString("'") + ui->lineEdit_dhcpcdOpt->text() + QString("'");
-    }
-    else if (ui->comboBox_dhcp->currentText() == QString("dhclient")) {
+    } else if (ui->comboBox_dhcp->currentText() == QString("dhclient")) {
         ipSettings[QString("DHCPClient")] = ui->comboBox_dhcp->currentText();
         if (!ui->lineEdit_dhclientOpt->text().isEmpty())
             ipSettings[QString("DhclientOptions")] = QString("'") + ui->lineEdit_dhclientOpt->text() + QString("'");

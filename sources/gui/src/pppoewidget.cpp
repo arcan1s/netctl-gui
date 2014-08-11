@@ -117,8 +117,7 @@ void PppoeWidget::showAdvanced()
     if (ui->pushButton_pppoeAdvanced->isChecked()) {
         ui->widget_pppoeAdvanced->setHidden(false);
         ui->pushButton_pppoeAdvanced->setText(QApplication::translate("PppoeWidget", "Hide advanced"));
-    }
-    else {
+    } else {
         ui->widget_pppoeAdvanced->setHidden(true);
         ui->pushButton_pppoeAdvanced->setText(QApplication::translate("PppoeWidget", "Show advanced"));
     }

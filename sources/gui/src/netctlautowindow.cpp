@@ -128,15 +128,13 @@ void NetctlAutoWindow::netctlAutoContextualMenu(const QPoint &pos)
     if (!ui->tableWidget->item(ui->tableWidget->currentItem()->row(), 2)->text().isEmpty()) {
         enableProfile->setVisible(false);
         startProfile->setVisible(false);
-    }
-    else {
+    } else {
         enableProfile->setVisible(true);
         startProfile->setVisible(true);
         if (!ui->tableWidget->item(ui->tableWidget->currentItem()->row(), 3)->text().isEmpty()) {
             enableProfile->setText(QApplication::translate("NetctlAutoWindow", "Enable"));
             enableProfile->setIcon(QIcon::fromTheme("edit-add"));
-        }
-        else {
+        } else {
             enableProfile->setText(QApplication::translate("NetctlAutoWindow", "Disable"));
             enableProfile->setIcon(QIcon::fromTheme("edit-delete"));
         }
@@ -147,16 +145,13 @@ void NetctlAutoWindow::netctlAutoContextualMenu(const QPoint &pos)
     if (action == startProfile) {
         if (debug) qDebug() << "[NetctlAutoWindow]" << "[netctlAutoContextualMenu]" << "Switch to profile";
         netctlAutoStartProfile();
-    }
-    else if (action == enableProfile) {
+    } else if (action == enableProfile) {
         if (debug) qDebug() << "[NetctlAutoWindow]" << "[netctlAutoContextualMenu]" << "Enable profile";
         netctlAutoEnableProfile();
-    }
-    else if (action == enableAllProfiles) {
+    } else if (action == enableAllProfiles) {
         if (debug) qDebug() << "[NetctlAutoWindow]" << "[netctlAutoContextualMenu]" << "Enable all profiles";
         netctlAutoEnableAllProfiles();
-    }
-    else if (action == disableAllProfiles) {
+    } else if (action == disableAllProfiles) {
         if (debug) qDebug() << "[NetctlAutoWindow]" << "[netctlAutoContextualMenu]" << "Disable all profiles";
         netctlAutoDisableAllProfiles();
     }
@@ -178,8 +173,7 @@ void NetctlAutoWindow::netctlAutoUpdateTable()
         running = sendDBusRequest(DBUS_HELPER_SERVICE, DBUS_LIB_PATH,
                                   DBUS_HELPER_INTERFACE, QString("isNetctlAutoActive"),
                                   QList<QVariant>(), true, debug)[0].toBool();
-    }
-    else {
+    } else {
         enabled = netctlCommand->isNetctlAutoEnabled();
         running = netctlCommand->isNetctlAutoRunning();
     }
@@ -194,8 +188,7 @@ void NetctlAutoWindow::netctlAutoUpdateTable()
         ui->actionDisableAll->setVisible(true);
         ui->actionEnableAll->setVisible(true);
         ui->actionRestartService->setVisible(true);
-    }
-    else {
+    } else {
         ui->label_info->setText(QApplication::translate("NetctlAutoWindow", "netctl-auto is not running"));
         ui->actionStartService->setText(QApplication::translate("NetctlAutoWindow", "Start service"));
         ui->actionDisableAll->setVisible(false);
@@ -308,8 +301,7 @@ void NetctlAutoWindow::netctlAutoEnableProfile()
         status = sendDBusRequest(DBUS_HELPER_SERVICE, DBUS_CTRL_PATH,
                                  DBUS_HELPER_INTERFACE, QString("autoEnable"),
                                  args, true, debug)[0].toBool();
-    }
-    else
+    } else
         status = netctlCommand->autoEnableProfile(profile);
     if (status)
         ui->statusBar->showMessage(QApplication::translate("NetctlAutoWindow", "Done"));
@@ -356,8 +348,7 @@ void NetctlAutoWindow::netctlAutoStartProfile()
         status = sendDBusRequest(DBUS_HELPER_SERVICE, DBUS_CTRL_PATH,
                                  DBUS_HELPER_INTERFACE, QString("autoStart"),
                                  args, true, debug)[0].toBool();
-    }
-    else
+    } else
         status = netctlCommand->autoStartProfile(profile);
     if (status)
         ui->statusBar->showMessage(QApplication::translate("NetctlAutoWindow", "Done"));
@@ -449,8 +440,7 @@ void NetctlAutoWindow::netctlAutoRefreshButtons(QTableWidgetItem *current, QTabl
         // menu
         ui->actionEnable->setVisible(false);
         ui->actionSwitch->setVisible(false);
-    }
-    else {
+    } else {
         // buttons
         ui->pushButton_enable->setEnabled(true);
         ui->pushButton_switch->setEnabled(true);
@@ -464,8 +454,7 @@ void NetctlAutoWindow::netctlAutoRefreshButtons(QTableWidgetItem *current, QTabl
             // menu
             ui->actionEnable->setText(QApplication::translate("NetctlAutoWindow", "Enable profile"));
             ui->actionEnable->setIcon(QIcon::fromTheme("edit-add"));
-        }
-        else {
+        } else {
             // buttons
             ui->pushButton_enable->setText(QApplication::translate("NetctlAutoWindow", "Disable"));
             ui->pushButton_enable->setIcon(QIcon::fromTheme("edit-delete"));

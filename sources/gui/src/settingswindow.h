@@ -53,16 +53,7 @@ private slots:
     void setTray();
     void updateHelper();
     // buttons
-    void selectHelperPath();
-    void selectIfaceDir();
-    void selectNetctlPath();
-    void selectNetctlAutoPath();
-    void selectProfileDir();
-    void selectRfkillDir();
-    void selectSudoPath();
-    void selectSystemctlPath();
-    void selectWpaCliPath();
-    void selectWpaSupPath();
+    void selectAbstractSomething();
     void startHelper();
 
 private:
