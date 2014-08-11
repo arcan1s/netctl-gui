@@ -303,7 +303,7 @@ void MainWindow::updateConfiguration(const QMap<QString, QVariant> args)
     deleteObjects();
 
     settingsWin = new SettingsWindow(this, debug, configPath);
-    if (args[QString("defauls")].toBool())
+    if (args[QString("default")].toBool())
         settingsWin->setDefault();
     configuration = settingsWin->getSettings();
     QMap<QString, QString> optionsDict = parseOptions(args[QString("options")].toString());
@@ -330,8 +330,6 @@ void MainWindow::updateConfiguration(const QMap<QString, QVariant> args)
     delete settingsWin;
 
     createObjects();
-    // update ui
-    setTab(args[QString("tab")].toInt() - 1);
     createActions();
 
     // tray
@@ -354,6 +352,9 @@ void MainWindow::updateConfiguration(const QMap<QString, QVariant> args)
     }
     else
         show();
+
+    // update ui
+    setTab(args[QString("tab")].toInt() - 1);
 }
 
 

@@ -89,7 +89,7 @@ int main(int argc, char *argv[])
             args[QString("debug")] = true;
         } else if (QString(argv[i]) == QString("--default")) {
             // default settings
-            args[QString("defaults")] = true;
+            args[QString("default")] = true;
         } else if (QString(argv[i]) == QString("--set-opts")) {
             // options
             args[QString("options")] = QString(argv[i+1]);

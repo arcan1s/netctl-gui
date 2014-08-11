@@ -295,7 +295,7 @@ void SettingsWindow::setSettings(const QMap<QString, QString> settings)
     else
         ui->checkBox_forceSudo->setCheckState(Qt::Unchecked);
     ui->lineEdit_helperPath->setText(settings[QString("HELPER_PATH")]);
-    ui->lineEdit_helperPath->setText(settings[QString("HELPER_SERVICE")]);
+    ui->lineEdit_helperService->setText(settings[QString("HELPER_SERVICE")]);
     ui->lineEdit_interfacesDir->setText(settings[QString("IFACE_DIR")]);
     ui->comboBox_language->setCurrentIndex(0);
     for (int i=0; i<ui->comboBox_language->count(); i++)
