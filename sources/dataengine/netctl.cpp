@@ -175,7 +175,6 @@ QString Netctl::getCurrentProfile(const QString cmdNetctl, const QString cmdNetc
     if (debug) qDebug() << "[DE]" << "[getCurrentProfile]" << ":" << "Cmd" << cmd;
     TaskResult process = runTask(cmd + QString(" list"));
     if (debug) qDebug() << "[DE]" << "[getCurrentProfile]" << ":" << "Cmd returns" << process.exitCode;
-
     currentProfile = QString("");
     QString cmdOutput = QTextCodec::codecForMib(106)->toUnicode(process.output);
     QStringList profileList = cmdOutput.split(QChar('\n'), QString::SkipEmptyParts);
@@ -197,7 +196,6 @@ QString Netctl::getExtIp(const QString cmd)
 
     TaskResult process = runTask(cmd);
     if (debug) qDebug() << "[DE]" << "[getExtIp]" << ":" << "Cmd returns" << process.exitCode;
-
     QString extIp = QTextCodec::codecForMib(106)->toUnicode(process.output).trimmed();
 
     return extIp;
@@ -245,14 +243,12 @@ QString Netctl::getNetctlAutoStatus(const QString cmdNetctlAuto)
 
     TaskResult process = runTask(cmdNetctlAuto + QString(" list"));
     if (debug) qDebug() << "[DE]" << "[getNetctlAutoStatus]" << ":" << "Cmd returns" << process.exitCode;
-
     QString status;
     QString cmdOutput = QTextCodec::codecForMib(106)->toUnicode(process.output);
     if (cmdOutput.isEmpty()) {
         netctlAutoStatus = false;
         status = QString("false");
-    }
-    else {
+    } else {
         netctlAutoStatus = true;
         status = QString("true");
     }
@@ -274,7 +270,6 @@ QStringList Netctl::getProfileList(const QString cmdNetctl, const QString cmdNet
     if (debug) qDebug() << "[DE]" << "[getCurrentProfile]" << ":" << "Cmd" << cmd;
     TaskResult process = runTask(cmd + QString(" list"));
     if (debug) qDebug() << "[DE]" << "[getCurrentProfile]" << ":" << "Cmd returns" << process.exitCode;
-
     QString cmdOutput = QTextCodec::codecForMib(106)->toUnicode(process.output);
     QStringList profileList = cmdOutput.split(QChar('\n'), QString::SkipEmptyParts);
     for (int i=0; i<profileList.count(); i++)
@@ -295,7 +290,6 @@ QString Netctl::getProfileStringStatus(const QString cmdNetctl, const QString cm
     else {
         TaskResult process = runTask(cmdNetctl + QString(" is-enabled ") + getCurrentProfile(cmdNetctl, cmdNetctlAuto));
         if (debug) qDebug() << "[DE]" << "[getProfileStringStatus]" << ":" << "Cmd returns" << process.exitCode;
-
         if (process.exitCode == 0)
             status = QString("enabled");
     }
@@ -327,37 +321,28 @@ bool Netctl::updateSourceEvent(const QString &source)
     if (source == QString("currentProfile")) {
         value = getCurrentProfile(configuration[QString("CMD")],
                 configuration[QString("NETCTLAUTOCMD")]);
-    }
-    else if (source == QString("extIp")) {
+    } else if (source == QString("extIp")) {
         if (configuration[QString("EXTIP")] == QString("true"))
             value = getExtIp(configuration[QString("EXTIPCMD")]);
-    }
-    else if (source == QString("extIp6")) {
+    } else if (source == QString("extIp6")) {
         if (configuration[QString("EXTIP6")] == QString("true"))
             value = getExtIp(configuration[QString("EXTIP6CMD")]);
-    }
-    else if (source == QString("interfaces")) {
+    } else if (source == QString("interfaces")) {
         value = getInterfaceList().join(QChar(','));
-    }
-    else if (source == QString("intIp")) {
+    } else if (source == QString("intIp")) {
         value = getIntIp(QAbstractSocket::IPv4Protocol);
-    }
-    else if (source == QString("intIp6")) {
+    } else if (source == QString("intIp6")) {
         value = getIntIp(QAbstractSocket::IPv6Protocol);
-    }
-    else if (source == QString("netctlAuto")) {
+    } else if (source == QString("netctlAuto")) {
         value = getNetctlAutoStatus(configuration[QString("NETCTLAUTOCMD")]);
-    }
-    else if (source == QString("profiles")) {
+    } else if (source == QString("profiles")) {
         value = getProfileList(configuration[QString("CMD")],
                 configuration[QString("NETCTLAUTOCMD")])
                 .join(QChar(','));
-    }
-    else if (source == QString("statusBool")) {
+    } else if (source == QString("statusBool")) {
         value = getStatus(configuration[QString("CMD")],
                 configuration[QString("NETCTLAUTOCMD")]);
-    }
-    else if (source == QString("statusString")) {
+    } else if (source == QString("statusString")) {
         value = getProfileStringStatus(configuration[QString("CMD")],
                 configuration[QString("NETCTLAUTOCMD")]);
     }
