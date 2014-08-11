@@ -47,10 +47,12 @@
 
 MainWindow::MainWindow(QWidget *parent,
                        const QMap<QString, QVariant> args,
+                       QTranslator *qtAppTranslator,
                        QTranslator *appTranslator)
     : QMainWindow(parent),
       configPath(args[QString("config")].toString()),
       debug(args[QString("debug")].toBool()),
+      qtTranslator(qtAppTranslator),
       translator(appTranslator)
 {
     if (debug) qDebug() << "[MainWindow]" << "[MainWindow]" << ":" << "about" << args[QString("about")].toBool();
@@ -294,6 +296,8 @@ bool MainWindow::checkHelperStatus()
                         QList<QVariant>(), true, debug);
     if (isHelperServiceActive())
         configuration[QString("CLOSE_HELPER")] = QString("false");
+
+    return useHelper;
 }
 
 

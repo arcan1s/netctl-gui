@@ -90,5 +90,19 @@
         <source>License</source>
         <translation>License</translation>
     </message>
+    <message>
+        <source>The helper is running with EUID %1. Functions will not be available.</source>
+        <translation type="vanished">The helper is running with EUID %1. Functions will not be available.</translation>
+    </message>
+    <message>
+        <location filename="../../helper/src/main.cpp" line="84"/>
+        <source>The helper is running with EUID %1. Some functions will not be available.</source>
+        <translation>The helper is running with EUID %1. Some functions will not be available.</translation>
+    </message>
+    <message>
+        <location filename="../../helper/src/main.cpp" line="86"/>
+        <source>See security notes for more details.</source>
+        <translation>See security notes for more details.</translation>
+    </message>
 </context>
 </TS>

@@ -1,5 +1,7 @@
 Ver.1.3.0
 ---------
+* all:
+    * some bug fixes and refactoring
 * dataengine:
     + add new sources: intIp6, extIp6, netctlAutoStatus
     * rewrite to use [tasks](https://github.com/mhogomchungu/tasks) (see #7)
@@ -8,11 +10,19 @@ Ver.1.3.0
     * change internal IP definition
 * gui:
     + add 3rd party license information
-    + add system tray icon
-    + add dbus interface org.netctlgui.netctlgui
+    + add system tray icon as an alternative to the plasmoid
+    + add DBus session interface org.netctlgui.netctlgui
     + add dynamic settings load
+    + add support of openvswitch
+    + add security notes and API descriptions
+    + add ability to use helper
+    + add ability to start minimized/maximized/daemonized
+    * more correct actions into SettingsWindow
     * update to library changes
     * rewrite tables to use toolTip
+* helper:
+    + create daemon DBus system interface org.netctlgui.helper to the library:
+      self control slots, netctl control slots and netctl information slots
 * library:
     + add custom structures netctlWifiInfo and netctlProfileInfo
     + add methods getActiveProfile(), autoGetActiveProfile()
@@ -23,8 +33,11 @@ Ver.1.3.0
     - remove SleepThread class
 * plasmoid:
     + add 3rd party license information
+    + allow plasmoid to use system tray
+    + add ability to use helper
     * change all running processes to detached (see #7)
     * rewrite text label to use tags
+    * update to dataengine changes
 
 ***
 

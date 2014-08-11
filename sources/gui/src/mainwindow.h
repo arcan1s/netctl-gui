@@ -54,6 +54,7 @@ class MainWindow : public QMainWindow
 public:
     explicit MainWindow(QWidget *parent = 0,
                         const QMap<QString, QVariant> args = QMap<QString, QVariant>(),
+                        QTranslator *qtAppTranslator = 0,
                         QTranslator *appTranslator = 0);
     ~MainWindow();
     QStringList printInformation();
@@ -162,6 +163,7 @@ private:
     bool hiddenNetwork;
     bool isDaemon = false;
     bool useHelper = true;
+    QTranslator *qtTranslator = nullptr;
     QTranslator *translator = nullptr;
     // configuration
     QMap<QString, QString> configuration;

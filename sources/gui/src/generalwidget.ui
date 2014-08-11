@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>427</width>
-    <height>533</height>
+    <width>425</width>
+    <height>531</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -125,7 +125,7 @@
            </item>
            <item>
             <property name="text">
-             <string>openvswitch</string>
+             <string notr="true">openvswitch</string>
             </property>
            </item>
           </widget>

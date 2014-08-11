@@ -43,6 +43,7 @@ public:
 
 public slots:
     void closeWindow();
+    void restoreSettings();
     void setDefault();
     void showWindow();
 

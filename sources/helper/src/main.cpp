@@ -20,7 +20,7 @@
 #include <QDBusConnection>
 #include <QDBusMessage>
 #include <QDir>
-#include <QDebug>
+#include <QLibraryInfo>
 #include <QTranslator>
 #include <iostream>
 #include <unistd.h>
@@ -81,7 +81,7 @@ int main(int argc, char *argv[])
         args[QString("nodaemon")] = true;
     // check euid
     if (geteuid() != 0) {
-        cout << QCoreApplication::translate("NetctlHelper", "The helper is running with EUID %1. Functions will not be available.")
+        cout << QCoreApplication::translate("NetctlHelper", "The helper is running with EUID %1. Some functions will not be available.")
                 .arg(QString::number(geteuid())).toUtf8().data() << endl;
         cout << QCoreApplication::translate("NetctlHelper", "See security notes for more details.")
                 .toUtf8().data() << endl;
@@ -94,6 +94,9 @@ int main(int argc, char *argv[])
     // reread translations according to flags
     QString language = Language::defineLanguage(args[QString("config")].toString(),
             args[QString("options")].toString());
+    QTranslator qtTranslator;
+    qtTranslator.load(QString("qt_") + language, QLibraryInfo::location(QLibraryInfo::TranslationsPath));
+    a.installTranslator(&qtTranslator);
     QTranslator translator;
     translator.load(QString(":/translations-helper/") + language);
     a.installTranslator(&translator);

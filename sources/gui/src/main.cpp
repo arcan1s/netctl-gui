@@ -20,6 +20,7 @@
 #include <QDBusConnection>
 #include <QDBusMessage>
 #include <QDir>
+#include <QLibraryInfo>
 #include <QTranslator>
 #include <iostream>
 #include <unistd.h>
@@ -138,6 +139,9 @@ int main(int argc, char *argv[])
     // reread translations according to flags
     QString language = Language::defineLanguage(args[QString("config")].toString(),
             args[QString("options")].toString());
+    QTranslator qtTranslator;
+    qtTranslator.load(QString("qt_") + language, QLibraryInfo::location(QLibraryInfo::TranslationsPath));
+    a.installTranslator(&qtTranslator);
     QTranslator translator;
     translator.load(QString(":/translations/") + language);
     a.installTranslator(&translator);
@@ -162,6 +166,6 @@ int main(int argc, char *argv[])
     // check if exists
     if (restoreExistSession())
         return 0;
-    MainWindow w(0, args, &translator);
+    MainWindow w(0, args, &qtTranslator, &translator);
     return a.exec();
 }

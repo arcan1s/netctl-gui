@@ -52,8 +52,9 @@ void SettingsWindow::createActions()
     if (debug) qDebug() << "[SettingsWindow]" << "[createActions]";
 
     connect(ui->buttonBox->button(QDialogButtonBox::Cancel), SIGNAL(clicked(bool)), this, SLOT(close()));
-    connect(ui->buttonBox->button(QDialogButtonBox::Reset), SIGNAL(clicked(bool)), this, SLOT(setDefault()));
     connect(ui->buttonBox->button(QDialogButtonBox::Ok), SIGNAL(clicked(bool)), this, SLOT(closeWindow()));
+    connect(ui->buttonBox->button(QDialogButtonBox::Reset), SIGNAL(clicked(bool)), this, SLOT(restoreSettings()));
+    connect(ui->buttonBox->button(QDialogButtonBox::RestoreDefaults), SIGNAL(clicked(bool)), this, SLOT(setDefault()));
     connect(ui->checkBox_enableTray, SIGNAL(stateChanged(int)), this, SLOT(setTray()));
     connect(ui->treeWidget, SIGNAL(currentItemChanged(QTreeWidgetItem *, QTreeWidgetItem *)),
             this, SLOT(changePage(QTreeWidgetItem *, QTreeWidgetItem *)));
@@ -143,12 +144,21 @@ void SettingsWindow::setTray()
 }
 
 
+void SettingsWindow::restoreSettings()
+{
+    if (debug) qDebug() << "[SettingsWindow]" << "[restoreSettings]";
+
+    setSettings(getSettings());
+}
+
+
 void SettingsWindow::setDefault()
 {
     if (debug) qDebug() << "[SettingsWindow]" << "[setDefault]";
 
     setSettings(getDefault());
-    saveSettings();
+    if (sender() != ui->buttonBox->button(QDialogButtonBox::Reset))
+        saveSettings();
 }
 
 

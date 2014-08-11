@@ -20,6 +20,7 @@
 
 #include <QDebug>
 #include <QDesktopServices>
+#include <QLibraryInfo>
 #include <QTranslator>
 #include <QUrl>
 
@@ -321,6 +322,8 @@ void MainWindow::updateConfiguration(const QMap<QString, QVariant> args)
     qApp->removeTranslator(translator);
     QString language = Language::defineLanguage(configPath,
                                                 args[QString("options")].toString());
+    qtTranslator->load(QString("qt_") + language, QLibraryInfo::location(QLibraryInfo::TranslationsPath));
+    qApp->installTranslator(qtTranslator);
     translator->load(QString(":/translations/") + language);
     qApp->installTranslator(translator);
 

@@ -1823,6 +1823,10 @@
         <source>Close helper after exit (doesn&apos;t work while systemd service is active)</source>
         <translation>Закрыть хелпер после выхода (не работает, если запущен сервис systemd)</translation>
     </message>
+    <message>
+        <source>There are too binaries. `netctlgui-helper` should be running as root (for example from systemd), otherwise interface `/ctrl` will not be available. `netctlgui-helper-suid` may be running as normal user, but you should keep it in mind that it has SUID bit.</source>
+        <translation>Существует два бинарных файла. `netctlgui-helper` должен быть запущен от root&apos;а (например, через systemd), в противном случае интерфейс `/ctrl` не будет доступен. `netctlgui-helper-suid` может быть запущен от обычного пользователя, однако Вы должны иметь в виду, что он имеет SUID бит.</translation>
+    </message>
 </context>
 <context>
     <name>TrayIcon</name>

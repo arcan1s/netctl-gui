@@ -89,5 +89,15 @@
         <source>License</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <location filename="../../helper/src/main.cpp" line="84"/>
+        <source>The helper is running with EUID %1. Some functions will not be available.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../helper/src/main.cpp" line="86"/>
+        <source>See security notes for more details.</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 </TS>

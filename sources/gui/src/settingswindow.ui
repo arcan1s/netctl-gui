@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>682</width>
-    <height>399</height>
+    <width>680</width>
+    <height>397</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -136,8 +136,8 @@
               <rect>
                <x>0</x>
                <y>0</y>
-               <width>466</width>
-               <height>338</height>
+               <width>464</width>
+               <height>336</height>
               </rect>
              </property>
              <layout class="QVBoxLayout" name="verticalLayout_7">
@@ -211,8 +211,8 @@
               <rect>
                <x>0</x>
                <y>0</y>
-               <width>466</width>
-               <height>338</height>
+               <width>397</width>
+               <height>322</height>
               </rect>
              </property>
              <layout class="QVBoxLayout" name="verticalLayout_13">
@@ -845,8 +845,8 @@
               <rect>
                <x>0</x>
                <y>0</y>
-               <width>466</width>
-               <height>338</height>
+               <width>436</width>
+               <height>103</height>
               </rect>
              </property>
              <layout class="QVBoxLayout" name="verticalLayout_11">
@@ -962,7 +962,7 @@
     <item>
      <widget class="QDialogButtonBox" name="buttonBox">
       <property name="standardButtons">
-       <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok|QDialogButtonBox::Reset</set>
+       <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok|QDialogButtonBox::Reset|QDialogButtonBox::RestoreDefaults</set>
       </property>
      </widget>
     </item>
