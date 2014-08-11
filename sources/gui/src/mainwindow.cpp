@@ -33,7 +33,6 @@
 #include "mobilewidget.h"
 #include "netctlautowindow.h"
 #include "netctlguiadaptor.h"
-#include "openvswitchwidget.h"
 #include "passwdwidget.h"
 #include "pppoewidget.h"
 #include "settingswindow.h"
@@ -80,12 +79,10 @@ MainWindow::MainWindow(QWidget *parent,
                 ui->tableWidget_wifi->setCurrentCell(i, 0);
         if (ui->tableWidget_wifi->currentItem() == 0)
             errorWin->showWindow(18, QString("[MainWindow] : [MainWindow]"));
-    }
-    else if (args[QString("open")].toString() != QString("PROFILE")) {
+    } else if (args[QString("open")].toString() != QString("PROFILE")) {
         ui->comboBox_profile->addItem(args[QString("open")].toString());
         ui->comboBox_profile->setCurrentIndex(ui->comboBox_profile->count()-1);
-    }
-    else if (args[QString("select")].toString() != QString("PROFILE")) {
+    } else if (args[QString("select")].toString() != QString("PROFILE")) {
         for (int i=0; i<ui->tableWidget_main->rowCount(); i++)
             if (ui->tableWidget_main->item(i, 0)->text() == args[QString("select")].toString())
                 ui->tableWidget_main->setCurrentCell(i, 0);
@@ -127,13 +124,11 @@ QStringList MainWindow::printInformation()
                                               QList<QVariant>(), true, debug)[0].toStringList();
         profile = request[0];
         status = request[1];
-    }
-    else {
+    } else {
         if (netctlCommand->isNetctlAutoRunning()) {
             profile = netctlCommand->autoGetActiveProfile();
             status = QString("netctl-auto");
-        }
-        else {
+        } else {
             profile = netctlCommand->getActiveProfile();
             status = netctlCommand->getProfileStatus(profile);
         }
@@ -188,15 +183,13 @@ QStringList MainWindow::printTrayInformation()
             enabled = sendDBusRequest(DBUS_HELPER_SERVICE, DBUS_LIB_PATH,
                                       DBUS_HELPER_INTERFACE, QString("isProfileEnabled"),
                                       args, true, debug)[0].toBool();
-    }
-    else {
+    } else {
         netctlAutoStatus = netctlCommand->isNetctlAutoRunning();
         if (netctlAutoStatus) {
             current = netctlCommand->autoGetActiveProfile();
             enabled = netctlCommand->autoIsProfileEnabled(current);
             profiles = netctlCommand->getProfileListFromNetctlAuto();
-        }
-        else {
+        } else {
             current = netctlCommand->getActiveProfile();
             enabled = netctlCommand->isProfileEnabled(current);
             profiles = netctlCommand->getProfileList();
@@ -252,8 +245,7 @@ void MainWindow::closeEvent(QCloseEvent *event)
             (configuration[QString("SYSTRAY")] == QString("true"))) {
         hide();
         event->ignore();
-    }
-    else
+    } else
         closeMainWindow();
 }
 
@@ -420,8 +412,6 @@ void MainWindow::createObjects()
     ui->scrollAreaWidgetContents->layout()->addWidget(macvlanWid);
     mobileWid = new MobileWidget(this);
     ui->scrollAreaWidgetContents->layout()->addWidget(mobileWid);
-    openvWid = new OpenvswitchWidget(this);
-    ui->scrollAreaWidgetContents->layout()->addWidget(openvWid);
     pppoeWid = new PppoeWidget(this);
     ui->scrollAreaWidgetContents->layout()->addWidget(pppoeWid);
     tunnelWid = new TunnelWidget(this);
@@ -451,7 +441,6 @@ void MainWindow::deleteObjects()
     if (ipWid != nullptr) delete ipWid;
     if (macvlanWid != nullptr) delete macvlanWid;
     if (mobileWid != nullptr) delete mobileWid;
-    if (openvWid != nullptr) delete openvWid;
     if (pppoeWid != nullptr) delete pppoeWid;
     if (tunnelWid != nullptr) delete tunnelWid;
     if (tuntapWid != nullptr) delete tuntapWid;
@@ -483,8 +472,7 @@ QMap<QString, QString> MainWindow::parseOptions(const QString options)
 
     QMap<QString, QString> settings;
     for (int i=0; i<options.split(QChar(',')).count(); i++) {
-        if (options.split(QChar(','))[i].split(QChar('=')).count() < 2)
-            continue;
+        if (options.split(QChar(','))[i].split(QChar('=')).count() < 2) continue;
         settings[options.split(QChar(','))[i].split(QChar('='))[0]] =
                 options.split(QChar(','))[i].split(QChar('='))[1];
     }

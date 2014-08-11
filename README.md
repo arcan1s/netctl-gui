@@ -64,8 +64,7 @@ Additional information
 TODO (wish list)
 ----------------
 
-* refactoring (I think that classes with more than 1k lines is not good :/)
-* remove suid from helper (polkit integration or run through sudo)
+* add helper polkit-qt integration
 * security notes / project architecture
 * autotests
 

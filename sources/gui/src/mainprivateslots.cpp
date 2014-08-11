@@ -32,7 +32,6 @@
 #include "ipwidget.h"
 #include "macvlanwidget.h"
 #include "mobilewidget.h"
-#include "openvswitchwidget.h"
 #include "passwdwidget.h"
 #include "pppoewidget.h"
 #include "tunnelwidget.h"
@@ -96,14 +95,12 @@ void MainWindow::updateMenuMain()
     if (debug) qDebug() << "[MainWindow]" << "[updateMenuMain]";
 
     ui->actionMainRefresh->setVisible(true);
-    if (ui->tableWidget_main->currentItem() == 0)
-        return;
+    if (ui->tableWidget_main->currentItem() == 0) return;
     if (!ui->tableWidget_main->item(ui->tableWidget_main->currentItem()->row(), 2)->text().isEmpty()) {
         ui->actionMainRestart->setVisible(true);
         ui->actionMainStart->setText(QApplication::translate("MainWindow", "Stop profile"));
         ui->actionMainStart->setIcon(QIcon::fromTheme("process-stop"));
-    }
-    else {
+    } else {
         ui->actionMainRestart->setVisible(false);
         ui->actionMainStart->setText(QApplication::translate("MainWindow", "Start profile"));
         ui->actionMainStart->setIcon(QIcon::fromTheme("system-run"));
@@ -112,8 +109,7 @@ void MainWindow::updateMenuMain()
     if (!ui->tableWidget_main->item(ui->tableWidget_main->currentItem()->row(), 3)->text().isEmpty()) {
         ui->actionMainEnable->setText(QApplication::translate("MainWindow", "Disable profile"));
         ui->actionMainEnable->setIcon(QIcon::fromTheme("edit-remove"));
-    }
-    else {
+    } else {
         ui->actionMainEnable->setText(QApplication::translate("MainWindow", "Enable profile"));
         ui->actionMainEnable->setIcon(QIcon::fromTheme("edit-add"));
     }
@@ -132,8 +128,7 @@ void MainWindow::updateMenuProfile()
         ui->actionProfileLoad->setVisible(false);
         ui->actionProfileRemove->setVisible(false);
         ui->actionProfileSave->setVisible(false);
-    }
-    else {
+    } else {
         ui->actionProfileLoad->setVisible(true);
         ui->actionProfileRemove->setVisible(true);
         ui->actionProfileSave->setVisible(true);
@@ -146,19 +141,16 @@ void MainWindow::updateMenuWifi()
     if (debug) qDebug() << "[MainWindow]" << "[updateMenuWifi]";
 
     ui->actionWifiRefresh->setVisible(true);
-    if (ui->tableWidget_wifi->currentItem() == 0)
-        return;
+    if (ui->tableWidget_wifi->currentItem() == 0) return;
     if (!ui->tableWidget_wifi->item(ui->tableWidget_wifi->currentItem()->row(), 4)->text().isEmpty()) {
         if (!ui->tableWidget_wifi->item(ui->tableWidget_wifi->currentItem()->row(), 3)->text().isEmpty()) {
             ui->actionWifiStart->setText(QApplication::translate("MainWindow", "Stop WiFi"));
             ui->actionWifiStart->setIcon(QIcon::fromTheme("process-stop"));
-        }
-        else {
+        } else {
             ui->actionWifiStart->setText(QApplication::translate("MainWindow", "Start WiFi"));
             ui->actionWifiStart->setIcon(QIcon::fromTheme("system-run"));
         }
-    }
-    else {
+    } else {
         ui->actionWifiStart->setText(QApplication::translate("MainWindow", "Start WiFi"));
         ui->actionWifiStart->setIcon(QIcon::fromTheme("system-run"));
     }
@@ -183,8 +175,7 @@ void MainWindow::updateMainTab()
         profiles = parseOutputNetctl(sendDBusRequest(DBUS_HELPER_SERVICE, DBUS_LIB_PATH,
                                                      DBUS_HELPER_INTERFACE, QString("ProfileList"),
                                                      QList<QVariant>(), true, debug), debug);
-    }
-    else {
+    } else {
         netctlAutoStatus = netctlCommand->isNetctlAutoRunning();
         profiles = netctlCommand->getProfileList();
     }
@@ -369,8 +360,7 @@ void MainWindow::mainTabContextualMenu(const QPoint &pos)
         restartProfile->setVisible(true);
         startProfile->setText(QApplication::translate("MainWindow", "Stop profile"));
         startProfile->setIcon(QIcon::fromTheme("process-stop"));
-    }
-    else {
+    } else {
         restartProfile->setVisible(false);
         startProfile->setText(QApplication::translate("MainWindow", "Start profile"));
         startProfile->setIcon(QIcon::fromTheme("system-run"));
@@ -378,8 +368,7 @@ void MainWindow::mainTabContextualMenu(const QPoint &pos)
     if (!ui->tableWidget_main->item(ui->tableWidget_main->currentItem()->row(), 3)->text().isEmpty()) {
         enableProfile->setText(QApplication::translate("MainWindow", "Disable profile"));
         enableProfile->setIcon(QIcon::fromTheme("edit-remove"));
-    }
-    else {
+    } else {
         enableProfile->setText(QApplication::translate("MainWindow", "Enable profile"));
         enableProfile->setIcon(QIcon::fromTheme("edit-add"));
     }
@@ -389,24 +378,19 @@ void MainWindow::mainTabContextualMenu(const QPoint &pos)
     if (action == refreshTable) {
         if (debug) qDebug() << "[MainWindow]" << "[mainTabContextualMenu]" << "Refresh table";
         updateMainTab();
-    }
-    else if (action == startProfile) {
+    } else if (action == startProfile) {
         if (debug) qDebug() << "[MainWindow]" << "[mainTabContextualMenu]" << "Start profile";
         mainTabStartProfile();
-    }
-    else if (action == restartProfile) {
+    } else if (action == restartProfile) {
         if (debug) qDebug() << "[MainWindow]" << "[mainTabContextualMenu]" << "Restart profile";
         mainTabRestartProfile();
-    }
-    else if (action == enableProfile) {
+    } else if (action == enableProfile) {
         if (debug) qDebug() << "[MainWindow]" << "[mainTabContextualMenu]" << "Enable profile";
         mainTabEnableProfile();
-    }
-    else if (action == editProfile) {
+    } else if (action == editProfile) {
         if (debug) qDebug() << "[MainWindow]" << "[mainTabContextualMenu]" << "Edit profile";
         mainTabEditProfile();
-    }
-    else if (action == removeProfile) {
+    } else if (action == removeProfile) {
         if (debug) qDebug() << "[MainWindow]" << "[mainTabContextualMenu]" << "Remove profile";
         mainTabRemoveProfile();
     }
@@ -430,8 +414,7 @@ void MainWindow::mainTabEnableProfile()
     if (debug) qDebug() << "[MainWindow]" << "[mainTabEnableProfile]";
     if (!checkExternalApps(QString("netctl")))
         return errorWin->showWindow(1, QString("[MainWindow] : [mainTabEnableProfile]"));
-    if (ui->tableWidget_main->currentItem() == 0)
-        return;
+    if (ui->tableWidget_main->currentItem() == 0) return;
 
     ui->tabWidget->setDisabled(true);
     QString profile = ui->tableWidget_main->item(ui->tableWidget_main->currentItem()->row(), 0)->text();
@@ -460,8 +443,7 @@ void MainWindow::mainTabRemoveProfile()
         status = sendDBusRequest(DBUS_HELPER_SERVICE, DBUS_CTRL_PATH,
                                  DBUS_HELPER_INTERFACE, QString("Remove"),
                                  args, true, debug)[0].toBool();
-    }
-    else
+    } else
         status = netctlProfile->removeProfile(profile);
     if (status)
         ui->statusBar->showMessage(QApplication::translate("MainWindow", "Done"));
@@ -477,8 +459,7 @@ void MainWindow::mainTabRestartProfile()
     if (debug) qDebug() << "[MainWindow]" << "[mainTabRestartProfile]";
     if (!checkExternalApps(QString("netctl")))
         return errorWin->showWindow(1, QString("[MainWindow] : [mainTabRestartProfile]"));
-    if (ui->tableWidget_main->currentItem() == 0)
-        return;
+    if (ui->tableWidget_main->currentItem() == 0) return;
 
     ui->tabWidget->setDisabled(true);
     QString profile = ui->tableWidget_main->item(ui->tableWidget_main->currentItem()->row(), 0)->text();
@@ -497,8 +478,7 @@ void MainWindow::mainTabStartProfile()
     if (debug) qDebug() << "[MainWindow]" << "[mainTabStartProfile]";
     if (!checkExternalApps(QString("netctl")))
         return errorWin->showWindow(1, QString("[MainWindow] : [mainTabStartProfile]"));
-    if (ui->tableWidget_main->currentItem() == 0)
-        return;
+    if (ui->tableWidget_main->currentItem() == 0) return;
 
     ui->tabWidget->setDisabled(true);
     QString profile = ui->tableWidget_main->item(ui->tableWidget_main->currentItem()->row(), 0)->text();
@@ -531,8 +511,7 @@ void MainWindow::mainTabRefreshButtons(QTableWidgetItem *current, QTableWidgetIt
         ui->pushButton_mainRestart->setEnabled(true);
         ui->pushButton_mainStart->setText(QApplication::translate("MainWindow", "Stop"));
         ui->pushButton_mainStart->setIcon(QIcon::fromTheme("process-stop"));
-    }
-    else {
+    } else {
         ui->pushButton_mainRestart->setDisabled(true);
         ui->pushButton_mainStart->setText(QApplication::translate("MainWindow", "Start"));
         ui->pushButton_mainStart->setIcon(QIcon::fromTheme("system-run"));
@@ -553,148 +532,116 @@ void MainWindow::profileTabChangeState(const QString current)
         ethernetWid->setShown(true);
         macvlanWid->setShown(false);
         mobileWid->setShown(false);
-        openvWid->setShown(false);
         pppoeWid->setShown(false);
         tunnelWid->setShown(false);
         tuntapWid->setShown(false);
         vlanWid->setShown(false);
         wirelessWid->setShown(false);
-    }
-    else if (current == QString("wireless")) {
+    } else if (current == QString("wireless")) {
         generalWid->setShown(true);
         ipWid->setShown(true);
         bridgeWid->setShown(false);
         ethernetWid->setShown(false);
         macvlanWid->setShown(false);
         mobileWid->setShown(false);
-        openvWid->setShown(false);
         pppoeWid->setShown(false);
         tunnelWid->setShown(false);
         tuntapWid->setShown(false);
         vlanWid->setShown(false);
         wirelessWid->setShown(true);
-    }
-    else if ((current == QString("bond")) ||
-             (current == QString("dummy"))) {
+    } else if ((current == QString("bond")) ||
+               (current == QString("dummy")) ||
+               (current == QString("openvswitch"))) {
         generalWid->setShown(true);
         ipWid->setShown(true);
         bridgeWid->setShown(false);
         ethernetWid->setShown(false);
         macvlanWid->setShown(false);
         mobileWid->setShown(false);
-        openvWid->setShown(false);
         pppoeWid->setShown(false);
         tunnelWid->setShown(false);
         tuntapWid->setShown(false);
         vlanWid->setShown(false);
         wirelessWid->setShown(false);
-    }
-    else if (current == QString("bridge")) {
+    } else if (current == QString("bridge")) {
         generalWid->setShown(true);
         ipWid->setShown(true);
         bridgeWid->setShown(true);
         ethernetWid->setShown(false);
         macvlanWid->setShown(false);
         mobileWid->setShown(false);
-        openvWid->setShown(false);
         pppoeWid->setShown(false);
         tunnelWid->setShown(false);
         tuntapWid->setShown(false);
         vlanWid->setShown(false);
         wirelessWid->setShown(false);
-    }
-    else if (current == QString("pppoe")) {
+    } else if (current == QString("pppoe")) {
         generalWid->setShown(true);
         ipWid->setShown(false);
         bridgeWid->setShown(false);
         ethernetWid->setShown(false);
         macvlanWid->setShown(false);
         mobileWid->setShown(false);
-        openvWid->setShown(false);
         pppoeWid->setShown(true);
         tunnelWid->setShown(false);
         tuntapWid->setShown(false);
         vlanWid->setShown(false);
         wirelessWid->setShown(false);
-    }
-    else if (current == QString("mobile_ppp")) {
+    } else if (current == QString("mobile_ppp")) {
         generalWid->setShown(true);
         ipWid->setShown(false);
         bridgeWid->setShown(false);
         ethernetWid->setShown(false);
         macvlanWid->setShown(false);
         mobileWid->setShown(true);
-        openvWid->setShown(false);
         pppoeWid->setShown(false);
         tunnelWid->setShown(false);
         tuntapWid->setShown(false);
         vlanWid->setShown(false);
         wirelessWid->setShown(false);
-    }
-    else if (current == QString("tunnel")) {
+    } else if (current == QString("tunnel")) {
         generalWid->setShown(true);
         ipWid->setShown(true);
         bridgeWid->setShown(false);
         ethernetWid->setShown(false);
         macvlanWid->setShown(false);
         mobileWid->setShown(false);
-        openvWid->setShown(false);
         pppoeWid->setShown(false);
         tunnelWid->setShown(true);
         tuntapWid->setShown(false);
         vlanWid->setShown(false);
         wirelessWid->setShown(false);
-    }
-    else if (current == QString("tuntap")) {
+    } else if (current == QString("tuntap")) {
         generalWid->setShown(true);
         ipWid->setShown(true);
         bridgeWid->setShown(false);
         ethernetWid->setShown(false);
         macvlanWid->setShown(false);
         mobileWid->setShown(false);
-        openvWid->setShown(false);
         pppoeWid->setShown(false);
         tunnelWid->setShown(false);
         tuntapWid->setShown(true);
         vlanWid->setShown(false);
         wirelessWid->setShown(false);
-    }
-    else if (current == QString("vlan")) {
+    } else if (current == QString("vlan")) {
         generalWid->setShown(true);
         ipWid->setShown(true);
         bridgeWid->setShown(false);
         ethernetWid->setShown(true);
         macvlanWid->setShown(false);
         mobileWid->setShown(false);
-        openvWid->setShown(false);
         pppoeWid->setShown(false);
         tunnelWid->setShown(false);
         tuntapWid->setShown(false);
         vlanWid->setShown(true);
         wirelessWid->setShown(false);
-    }
-    else if (current == QString("macvlan")) {
+    } else if (current == QString("macvlan")) {
         generalWid->setShown(true);
         ipWid->setShown(true);
         bridgeWid->setShown(false);
         ethernetWid->setShown(true);
         macvlanWid->setShown(true);
         mobileWid->setShown(false);
-        openvWid->setShown(false);
-        pppoeWid->setShown(false);
-        tunnelWid->setShown(false);
-        tuntapWid->setShown(false);
-        vlanWid->setShown(false);
-        wirelessWid->setShown(false);
-    }
-    else if (current == QString("openvswitch")) {
-        generalWid->setShown(true);
-        ipWid->setShown(true);
-        bridgeWid->setShown(false);
-        ethernetWid->setShown(false);
-        macvlanWid->setShown(false);
-        mobileWid->setShown(false);
-        openvWid->setShown(true);
         pppoeWid->setShown(false);
         tunnelWid->setShown(false);
         tuntapWid->setShown(false);
@@ -726,7 +673,6 @@ void MainWindow::profileTabClear()
     ethernetWid->clear();
     macvlanWid->clear();
     mobileWid->clear();
-    openvWid->clear();
     pppoeWid->clear();
     tunnelWid->clear();
     tuntapWid->clear();
@@ -756,7 +702,8 @@ void MainWindow::profileTabCreateProfile()
             (generalWid->connectionType->currentText() == QString("tunnel")) ||
             (generalWid->connectionType->currentText() == QString("tuntap")) ||
             (generalWid->connectionType->currentText() == QString("vlan")) ||
-            (generalWid->connectionType->currentText() == QString("macvlan"))) {
+            (generalWid->connectionType->currentText() == QString("macvlan")) ||
+            (generalWid->connectionType->currentText() == QString("openvswitch"))) {
         if (ipWid->isOk() == 1)
             return errorWin->showWindow(6, QString("[MainWindow] : [profileTabCreateProfile]"));
         else if (ipWid->isOk() == 2)
@@ -765,8 +712,7 @@ void MainWindow::profileTabCreateProfile()
     if (generalWid->connectionType->currentText() == QString("ethernet")) {
         if (ethernetWid->isOk() == 1)
             return errorWin->showWindow(7, QString("[MainWindow] : [profileTabCreateProfile]"));
-    }
-    else if (generalWid->connectionType->currentText() == QString("wireless")) {
+    } else if (generalWid->connectionType->currentText() == QString("wireless")) {
         if (wirelessWid->isOk() == 1)
             return errorWin->showWindow(8, QString("[MainWindow] : [profileTabCreateProfile]"));
         else if (wirelessWid->isOk() == 2)
@@ -777,10 +723,8 @@ void MainWindow::profileTabCreateProfile()
             return errorWin->showWindow(7, QString("[MainWindow] : [profileTabCreateProfile]"));
         else if (wirelessWid->isOk() == 5)
             return errorWin->showWindow(11, QString("[MainWindow] : [profileTabCreateProfile]"));
-    }
-    else if (generalWid->connectionType->currentText() == QString("bridge")) {
-    }
-    else if (generalWid->connectionType->currentText() == QString("pppoe")) {
+    } else if (generalWid->connectionType->currentText() == QString("bridge")) {
+    } else if (generalWid->connectionType->currentText() == QString("pppoe")) {
         if (pppoeWid->isOk() == 1)
             return errorWin->showWindow(7, QString("[MainWindow] : [profileTabCreateProfile]"));
         else if (pppoeWid->isOk() == 2)
@@ -789,8 +733,7 @@ void MainWindow::profileTabCreateProfile()
             return errorWin->showWindow(13, QString("[MainWindow] : [profileTabCreateProfile]"));
         else if (pppoeWid->isOk() == 4)
             return errorWin->showWindow(12, QString("[MainWindow] : [profileTabCreateProfile]"));
-    }
-    else if (generalWid->connectionType->currentText() == QString("mobile_ppp")) {
+    } else if (generalWid->connectionType->currentText() == QString("mobile_ppp")) {
         if (mobileWid->isOk() == 1)
             return errorWin->showWindow(14, QString("[MainWindow] : [profileTabCreateProfile]"));
         if (mobileWid->isOk() == 2)
@@ -812,8 +755,6 @@ void MainWindow::profileTabCreateProfile()
         if (ethernetWid->isOk() == 1)
             return errorWin->showWindow(7, QString("[MainWindow] : [profileTabCreateProfile]"));
     }
-    else if (generalWid->connectionType->currentText() == QString("openvswitch")) {
-    }
 
     ui->tabWidget->setDisabled(true);
     // read settings
@@ -827,56 +768,49 @@ void MainWindow::profileTabCreateProfile()
         addSettings = ethernetWid->getSettings();
         for (int i=0; i<addSettings.keys().count(); i++)
             settings.insert(addSettings.keys()[i], addSettings[addSettings.keys()[i]]);
-    }
-    else if (generalWid->connectionType->currentText() == QString("wireless")) {
+    } else if (generalWid->connectionType->currentText() == QString("wireless")) {
         QMap<QString, QString> addSettings = ipWid->getSettings();
         for (int i=0; i<addSettings.keys().count(); i++)
             settings.insert(addSettings.keys()[i], addSettings[addSettings.keys()[i]]);
         addSettings = wirelessWid->getSettings();
         for (int i=0; i<addSettings.keys().count(); i++)
             settings.insert(addSettings.keys()[i], addSettings[addSettings.keys()[i]]);
-    }
-    else if ((generalWid->connectionType->currentText() == QString("bond")) ||
-             (generalWid->connectionType->currentText() == QString("dummy"))) {
+    } else if ((generalWid->connectionType->currentText() == QString("bond")) ||
+               (generalWid->connectionType->currentText() == QString("dummy")) ||
+               (generalWid->connectionType->currentText() == QString("openvswitch"))) {
         QMap<QString, QString> addSettings = ipWid->getSettings();
         for (int i=0; i<addSettings.keys().count(); i++)
             settings.insert(addSettings.keys()[i], addSettings[addSettings.keys()[i]]);
-    }
-    else if (generalWid->connectionType->currentText() == QString("bridge")) {
+    } else if (generalWid->connectionType->currentText() == QString("bridge")) {
         QMap<QString, QString> addSettings = ipWid->getSettings();
         for (int i=0; i<addSettings.keys().count(); i++)
             settings.insert(addSettings.keys()[i], addSettings[addSettings.keys()[i]]);
         addSettings =  bridgeWid->getSettings();
         for (int i=0; i<addSettings.keys().count(); i++)
             settings.insert(addSettings.keys()[i], addSettings[addSettings.keys()[i]]);
-    }
-    else if (generalWid->connectionType->currentText() == QString("pppoe")) {
+    } else if (generalWid->connectionType->currentText() == QString("pppoe")) {
         QMap<QString, QString> addSettings = pppoeWid->getSettings();
         for (int i=0; i<addSettings.keys().count(); i++)
             settings.insert(addSettings.keys()[i], addSettings[addSettings.keys()[i]]);
-    }
-    else if (generalWid->connectionType->currentText() == QString("mobile_ppp")) {
+    } else if (generalWid->connectionType->currentText() == QString("mobile_ppp")) {
         QMap<QString, QString> addSettings = mobileWid->getSettings();
         for (int i=0; i<addSettings.keys().count(); i++)
             settings.insert(addSettings.keys()[i], addSettings[addSettings.keys()[i]]);
-    }
-    else if (generalWid->connectionType->currentText() == QString("tunnel")) {
+    } else if (generalWid->connectionType->currentText() == QString("tunnel")) {
         QMap<QString, QString> addSettings = ipWid->getSettings();
         for (int i=0; i<addSettings.keys().count(); i++)
             settings.insert(addSettings.keys()[i], addSettings[addSettings.keys()[i]]);
         addSettings = tunnelWid->getSettings();
         for (int i=0; i<addSettings.keys().count(); i++)
             settings.insert(addSettings.keys()[i], addSettings[addSettings.keys()[i]]);
-    }
-    else if (generalWid->connectionType->currentText() == QString("tuntap")) {
+    } else if (generalWid->connectionType->currentText() == QString("tuntap")) {
         QMap<QString, QString> addSettings = ipWid->getSettings();
         for (int i=0; i<addSettings.keys().count(); i++)
             settings.insert(addSettings.keys()[i], addSettings[addSettings.keys()[i]]);
         addSettings = tuntapWid->getSettings();
         for (int i=0; i<addSettings.keys().count(); i++)
             settings.insert(addSettings.keys()[i], addSettings[addSettings.keys()[i]]);
-    }
-    else if (generalWid->connectionType->currentText() == QString("vlan")) {
+    } else if (generalWid->connectionType->currentText() == QString("vlan")) {
         QMap<QString, QString> addSettings = ipWid->getSettings();
         for (int i=0; i<addSettings.keys().count(); i++)
             settings.insert(addSettings.keys()[i], addSettings[addSettings.keys()[i]]);
@@ -886,8 +820,7 @@ void MainWindow::profileTabCreateProfile()
         addSettings = vlanWid->getSettings();
         for (int i=0; i<addSettings.keys().count(); i++)
             settings.insert(addSettings.keys()[i], addSettings[addSettings.keys()[i]]);
-    }
-    else if (generalWid->connectionType->currentText() == QString("macvlan")) {
+    } else if (generalWid->connectionType->currentText() == QString("macvlan")) {
         QMap<QString, QString> addSettings = ipWid->getSettings();
         for (int i=0; i<addSettings.keys().count(); i++)
             settings.insert(addSettings.keys()[i], addSettings[addSettings.keys()[i]]);
@@ -895,14 +828,6 @@ void MainWindow::profileTabCreateProfile()
         for (int i=0; i<addSettings.keys().count(); i++)
             settings.insert(addSettings.keys()[i], addSettings[addSettings.keys()[i]]);
         addSettings = macvlanWid->getSettings();
-        for (int i=0; i<addSettings.keys().count(); i++)
-            settings.insert(addSettings.keys()[i], addSettings[addSettings.keys()[i]]);
-    }
-    else if (generalWid->connectionType->currentText() == QString("openvswitch")) {
-        QMap<QString, QString> addSettings = ipWid->getSettings();
-        for (int i=0; i<addSettings.keys().count(); i++)
-            settings.insert(addSettings.keys()[i], addSettings[addSettings.keys()[i]]);
-        addSettings = openvWid->getSettings();
         for (int i=0; i<addSettings.keys().count(); i++)
             settings.insert(addSettings.keys()[i], addSettings[addSettings.keys()[i]]);
     }
@@ -919,8 +844,7 @@ void MainWindow::profileTabCreateProfile()
         status = sendDBusRequest(DBUS_HELPER_SERVICE, DBUS_CTRL_PATH,
                                  DBUS_HELPER_INTERFACE, QString("Create"),
                                  args, true, debug)[0].toBool();
-    }
-    else {
+    } else {
         QString profileTempName = netctlProfile->createProfile(profile, settings);
         status = netctlProfile->copyProfile(profileTempName);
     }
@@ -953,8 +877,7 @@ void MainWindow::profileTabLoadProfile()
             QString value = settingsList[i].split(QString("=="))[1];
             settings[key] = value;
         }
-    }
-    else
+    } else
         settings = netctlProfile->getSettingsFromProfile(profile);
 
 
@@ -966,46 +889,34 @@ void MainWindow::profileTabLoadProfile()
     if (generalWid->connectionType->currentText() == QString("ethernet")) {
         ipWid->setSettings(settings);
         ethernetWid->setSettings(settings);
-    }
-    else if (generalWid->connectionType->currentText() == QString("wireless")) {
+    } else if (generalWid->connectionType->currentText() == QString("wireless")) {
         ipWid->setSettings(settings);
         wirelessWid->setSettings(settings);
-    }
-    else if ((generalWid->connectionType->currentText() == QString("bond")) ||
-             (generalWid->connectionType->currentText() == QString("dummy"))) {
+    } else if ((generalWid->connectionType->currentText() == QString("bond")) ||
+               (generalWid->connectionType->currentText() == QString("dummy")) ||
+               (generalWid->connectionType->currentText() == QString("openvswitch"))) {
         ipWid->setSettings(settings);
-    }
-    else if (generalWid->connectionType->currentText() == QString("bridge")) {
+    } else if (generalWid->connectionType->currentText() == QString("bridge")) {
         ipWid->setSettings(settings);
         bridgeWid->setSettings(settings);
-    }
-    else if (generalWid->connectionType->currentText() == QString("pppoe")) {
+    } else if (generalWid->connectionType->currentText() == QString("pppoe")) {
         pppoeWid->setSettings(settings);
-    }
-    else if (generalWid->connectionType->currentText() == QString("mobile_ppp")) {
+    } else if (generalWid->connectionType->currentText() == QString("mobile_ppp")) {
         mobileWid->setSettings(settings);
-    }
-    else if (generalWid->connectionType->currentText() == QString("tunnel")) {
+    } else if (generalWid->connectionType->currentText() == QString("tunnel")) {
         ipWid->setSettings(settings);
         tunnelWid->setSettings(settings);
-    }
-    else if (generalWid->connectionType->currentText() == QString("tuntap")) {
+    } else if (generalWid->connectionType->currentText() == QString("tuntap")) {
         ipWid->setSettings(settings);
         tuntapWid->setSettings(settings);
-    }
-    else if (generalWid->connectionType->currentText() == QString("vlan")) {
+    } else if (generalWid->connectionType->currentText() == QString("vlan")) {
         ipWid->setSettings(settings);
         ethernetWid->setSettings(settings);
         vlanWid->setSettings(settings);
-    }
-    else if (generalWid->connectionType->currentText() == QString("macvlan")) {
+    } else if (generalWid->connectionType->currentText() == QString("macvlan")) {
         ipWid->setSettings(settings);
         ethernetWid->setSettings(settings);
         macvlanWid->setSettings(settings);
-    }
-    else if (generalWid->connectionType->currentText() == QString("openvswitch")) {
-        ipWid->setSettings(settings);
-        openvWid->setSettings(settings);
     }
 }
 
@@ -1024,8 +935,7 @@ void MainWindow::profileTabRemoveProfile()
         status = sendDBusRequest(DBUS_HELPER_SERVICE, DBUS_CTRL_PATH,
                                  DBUS_HELPER_INTERFACE, QString("Remove"),
                                  args, true, debug)[0].toBool();
-    }
-    else
+    } else
         status = netctlProfile->removeProfile(profile);
     if (status)
         ui->statusBar->showMessage(QApplication::translate("MainWindow", "Done"));
@@ -1040,8 +950,7 @@ void MainWindow::profileTabRemoveProfile()
 void MainWindow::wifiTabContextualMenu(const QPoint &pos)
 {
     if (debug) qDebug() << "[MainWindow]" << "[wifiTabContextualMenu]";
-    if (ui->tableWidget_wifi->currentItem() == 0)
-        return;
+    if (ui->tableWidget_wifi->currentItem() == 0) return;
 
     // create menu
     QMenu menu(this);
@@ -1055,13 +964,11 @@ void MainWindow::wifiTabContextualMenu(const QPoint &pos)
         if (!ui->tableWidget_wifi->item(ui->tableWidget_wifi->currentItem()->row(), 3)->text().isEmpty()) {
             startWifi->setText(QApplication::translate("MainWindow", "Stop WiFi"));
             startWifi->setIcon(QIcon::fromTheme("process-stop"));
-        }
-        else {
+        } else {
             startWifi->setText(QApplication::translate("MainWindow", "Start WiFi"));
             startWifi->setIcon(QIcon::fromTheme("system-run"));
         }
-    }
-    else {
+    } else {
         startWifi->setText(QApplication::translate("MainWindow", "Start WiFi"));
         startWifi->setIcon(QIcon::fromTheme("system-run"));
     }
@@ -1071,8 +978,7 @@ void MainWindow::wifiTabContextualMenu(const QPoint &pos)
     if (action == refreshTable) {
         if (debug) qDebug() << "[MainWindow]" << "[wifiTabContextualMenu]" << "Refresh WiFi";
         updateWifiTab();
-    }
-    else if (action == startWifi) {
+    } else if (action == startWifi) {
         if (debug) qDebug() << "[MainWindow]" << "[wifiTabContextualMenu]" << "Start WiFi";
         wifiTabStart();
     }
@@ -1088,8 +994,7 @@ void MainWindow::wifiTabSetEnabled(const bool state)
         ui->tableWidget_wifi->show();
         ui->pushButton_wifiRefresh->setEnabled(true);
         ui->label_wifi->hide();
-    }
-    else {
+    } else {
         ui->tableWidget_wifi->hide();
         ui->pushButton_wifiRefresh->setDisabled(true);
         ui->pushButton_wifiStart->setDisabled(true);
@@ -1103,8 +1008,7 @@ void MainWindow::wifiTabStart()
     if (debug) qDebug() << "[MainWindow]" << "[wifiTabStart]";
     if (!checkExternalApps(QString("wpasup")))
         return errorWin->showWindow(1, QString("[MainWindow] : [wifiTabStart]"));
-    if (ui->tableWidget_wifi->currentItem() == 0)
-        return;
+    if (ui->tableWidget_wifi->currentItem() == 0) return;
 
     ui->tabWidget->setDisabled(true);
     // name is hidden
@@ -1142,8 +1046,7 @@ void MainWindow::wifiTabStart()
             current = sendDBusRequest(DBUS_HELPER_SERVICE, DBUS_LIB_PATH,
                                       DBUS_HELPER_INTERFACE, QString("isProfileActive"),
                                       args, true, debug)[0].toBool();
-        }
-        else {
+        } else {
             QString profileName = wpaCommand->existentProfile(profile);
             netctlCommand->startProfile(profileName);
             current = netctlCommand->isProfileActive(profileName);
@@ -1152,8 +1055,7 @@ void MainWindow::wifiTabStart()
             ui->statusBar->showMessage(QApplication::translate("MainWindow", "Done"));
         else
             ui->statusBar->showMessage(QApplication::translate("MainWindow", "Error"));
-    }
-    else {
+    } else {
         QString security = ui->tableWidget_wifi->item(ui->tableWidget_wifi->currentItem()->row(), 1)->text();
         if (security.contains(QString("none")))
             return connectToUnknownEssid(QString(""));
@@ -1195,13 +1097,11 @@ void MainWindow::wifiTabRefreshButtons(QTableWidgetItem *current, QTableWidgetIt
         if (!ui->tableWidget_wifi->item(current->row(), 3)->text().isEmpty()) {
             ui->pushButton_wifiStart->setText(QApplication::translate("MainWindow", "Stop"));
             ui->pushButton_wifiStart->setIcon(QIcon::fromTheme("process-stop"));
-        }
-        else {
+        } else {
             ui->pushButton_wifiStart->setText(QApplication::translate("MainWindow", "Start"));
             ui->pushButton_wifiStart->setIcon(QIcon::fromTheme("system-run"));
         }
-    }
-    else {
+    } else {
         ui->pushButton_wifiStart->setText(QApplication::translate("MainWindow", "Start"));
         ui->pushButton_wifiStart->setIcon(QIcon::fromTheme("system-run"));
     }

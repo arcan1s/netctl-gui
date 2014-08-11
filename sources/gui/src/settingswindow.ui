@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>684</width>
-    <height>401</height>
+    <width>682</width>
+    <height>399</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -136,8 +136,8 @@
               <rect>
                <x>0</x>
                <y>0</y>
-               <width>468</width>
-               <height>340</height>
+               <width>466</width>
+               <height>338</height>
               </rect>
              </property>
              <layout class="QVBoxLayout" name="verticalLayout_7">
@@ -211,8 +211,8 @@
               <rect>
                <x>0</x>
                <y>0</y>
-               <width>468</width>
-               <height>340</height>
+               <width>466</width>
+               <height>338</height>
               </rect>
              </property>
              <layout class="QVBoxLayout" name="verticalLayout_13">
@@ -293,6 +293,16 @@
                <widget class="QCheckBox" name="checkBox_helperClose">
                 <property name="text">
                  <string>Close helper after exit (doesn't work while systemd service is active)</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QLabel" name="label_helperPathInfo">
+                <property name="text">
+                 <string>There are too binaries. `netctlgui-helper` should be running as root (for example from systemd), otherwise interface `/ctrl` will not be available. `netctlgui-helper-suid` may be running as normal user, but you should keep it in mind that it has SUID bit.</string>
+                </property>
+                <property name="wordWrap">
+                 <bool>true</bool>
                 </property>
                </widget>
               </item>
@@ -381,8 +391,8 @@
               <rect>
                <x>0</x>
                <y>0</y>
-               <width>468</width>
-               <height>340</height>
+               <width>436</width>
+               <height>165</height>
               </rect>
              </property>
              <layout class="QVBoxLayout" name="verticalLayout_2">
@@ -568,8 +578,8 @@
               <rect>
                <x>0</x>
                <y>0</y>
-               <width>468</width>
-               <height>340</height>
+               <width>436</width>
+               <height>43</height>
               </rect>
              </property>
              <layout class="QVBoxLayout" name="verticalLayout_9">
@@ -638,8 +648,8 @@
               <rect>
                <x>0</x>
                <y>0</y>
-               <width>468</width>
-               <height>340</height>
+               <width>277</width>
+               <height>190</height>
               </rect>
              </property>
              <layout class="QVBoxLayout" name="verticalLayout_10">
@@ -835,8 +845,8 @@
               <rect>
                <x>0</x>
                <y>0</y>
-               <width>468</width>
-               <height>340</height>
+               <width>466</width>
+               <height>338</height>
               </rect>
              </property>
              <layout class="QVBoxLayout" name="verticalLayout_11">

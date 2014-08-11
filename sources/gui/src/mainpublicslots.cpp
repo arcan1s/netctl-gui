@@ -27,7 +27,6 @@
 #include "aboutwindow.h"
 #include "dbusoperation.h"
 #include "errorwindow.h"
-#include "ethernetwidget.h"
 #include "language.h"
 #include "netctlautowindow.h"
 #include "passwdwidget.h"
@@ -60,8 +59,7 @@ void MainWindow::showMainWindow()
     if (isHidden()) {
         updateTabs(ui->tabWidget->currentIndex());
         show();
-    }
-    else
+    } else
         hide();
 }
 
@@ -97,8 +95,7 @@ bool MainWindow::enableProfileSlot(const QString profile)
         current = sendDBusRequest(DBUS_HELPER_SERVICE, DBUS_LIB_PATH,
                                   DBUS_HELPER_INTERFACE, QString("isProfileEnabled"),
                                   args, true, debug)[0].toBool();
-    }
-    else {
+    } else {
         netctlCommand->enableProfile(profile);
         current = netctlCommand->isProfileEnabled(profile);
     }
@@ -122,8 +119,7 @@ bool MainWindow::restartProfileSlot(const QString profile)
         current = sendDBusRequest(DBUS_HELPER_SERVICE, DBUS_LIB_PATH,
                                   DBUS_HELPER_INTERFACE, QString("isProfileActive"),
                                   args, true, debug)[0].toBool();
-    }
-    else {
+    } else {
         netctlCommand->restartProfile(profile);
         current = netctlCommand->isProfileActive(profile);
     }
@@ -147,8 +143,7 @@ bool MainWindow::startProfileSlot(const QString profile)
         current = sendDBusRequest(DBUS_HELPER_SERVICE, DBUS_LIB_PATH,
                                   DBUS_HELPER_INTERFACE, QString("isProfileActive"),
                                   args, true, debug)[0].toBool();
-    }
-    else {
+    } else {
         netctlCommand->startProfile(profile);
         current = netctlCommand->isProfileActive(profile);
     }
@@ -181,13 +176,11 @@ bool MainWindow::switchToProfileSlot(const QString profile)
             current = sendDBusRequest(DBUS_HELPER_SERVICE, DBUS_LIB_PATH,
                                       DBUS_HELPER_INTERFACE, QString("autoIsProfileActive"),
                                       args, true, debug)[0].toBool();
-        }
-        else {
+        } else {
             netctlCommand->autoStartProfile(profile);
             current = netctlCommand->autoIsProfileActive(profile);
         }
-    }
-    else {
+    } else {
         if (useHelper) {
             QList<QVariant> args;
             args.append(profile);
@@ -197,8 +190,7 @@ bool MainWindow::switchToProfileSlot(const QString profile)
             current = sendDBusRequest(DBUS_HELPER_SERVICE, DBUS_LIB_PATH,
                                       DBUS_HELPER_INTERFACE, QString("isProfileActive"),
                                       args, true, debug)[0].toBool();
-        }
-        else {
+        } else {
             netctlCommand->switchToProfile(profile);
             current = netctlCommand->isProfileActive(profile);
         }
@@ -409,8 +401,7 @@ void MainWindow::connectToUnknownEssid(const QString passwd)
                                      QList<QVariant>(), true, debug)[0].toStringList();
     else
         interfaces = netctlCommand->getWirelessInterfaceList();
-    if (interfaces.isEmpty())
-        return;
+    if (interfaces.isEmpty()) return;
 
     QMap<QString, QString> settings;
     settings[QString("Description")] = QString("'Automatically generated profile by Netctl GUI'");
@@ -453,8 +444,7 @@ void MainWindow::connectToUnknownEssid(const QString passwd)
         status = sendDBusRequest(DBUS_HELPER_SERVICE, DBUS_LIB_PATH,
                                  DBUS_HELPER_INTERFACE, QString("isProfileActive"),
                                  args, true, debug)[0].toBool();
-    }
-    else {
+    } else {
         QString profileTempName = netctlProfile->createProfile(profile, settings);
         netctlProfile->copyProfile(profileTempName);
         netctlCommand->startProfile(profile);

@@ -34,7 +34,6 @@ class IpWidget;
 class MacvlanWidget;
 class MobileWidget;
 class NetctlAutoWindow;
-class OpenvswitchWidget;
 class PasswdWidget;
 class PppoeWidget;
 class SettingsWindow;
@@ -142,7 +141,6 @@ private:
     IpWidget *ipWid = nullptr;
     MacvlanWidget *macvlanWid = nullptr;
     MobileWidget *mobileWid = nullptr;
-    OpenvswitchWidget *openvWid = nullptr;
     PppoeWidget *pppoeWid = nullptr;
     TunnelWidget *tunnelWid = nullptr;
     TuntapWidget *tuntapWid = nullptr;
