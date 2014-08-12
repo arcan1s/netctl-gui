@@ -58,7 +58,7 @@ th.sub {
   <!-- helper actions -->
   <tr>
     <td>bool Active()</td>
-    <td><code>true</code> if helper is active</td>
+    <td><code>true</code> if the helper is active</td>
     <td>no</td>
   </tr>
   <tr>
@@ -92,8 +92,13 @@ th.sub {
     <td>no</td>
   </tr>
   <tr>
+    <td>QStringList UIDs()</td>
+    <td>returns the helper process UIDs <code>[UID, EUID]</code></td>
+    <td>no</td>
+  </tr>
+  <tr>
     <td>bool Update()</td>
-    <td>calls update helper configuration. Returns <code>true</code></td>
+    <td>calls update the helper configuration. Returns <code>true</code></td>
     <td>no</td>
   </tr>
   <!-- netctl actions -->
@@ -258,6 +263,11 @@ th.sub {
   </tr>
   <!-- gui actions -->
   <tr>
+    <td>bool Active()</td>
+    <td><code>true</code> if the application is active</td>
+    <td>no</td>
+  </tr>
+  <tr>
     <td>void ApiDocs()</td>
     <td>opens this API documentation</td>
     <td>no</td>
@@ -269,7 +279,7 @@ th.sub {
   </tr>
   <tr>
     <td>QString Information()</td>
-    <td>the same as <code>org.netctlgui.helper /netctl Information</code></td>
+    <td>returns general information in format <code>[ActiveProfile, ActiveProfileStatus]</code></td>
     <td>no</td>
   </tr>
   <tr>
@@ -318,9 +328,13 @@ th.sub {
     <td>no</td>
   </tr>
   <tr>
+    <td>QStringList UIDs()</td>
+    <td>returns the application process UIDs <code>[UID, EUID]</code></td>
+    <td>no</td>
+  </tr>
+  <tr>
     <td>QStringList VerboseInformation()</td>
     <td>returns information in format <code>[isNetctlAutoActive, ProfileList, ActiveProfile, isProfileEnabled/autoIsProfileEnabled]</code></td>
-    <td>no</td>
     <td>no</td>
   </tr>
 </table>

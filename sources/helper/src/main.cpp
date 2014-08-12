@@ -34,13 +34,14 @@
 using namespace std;
 
 
-bool checkExistSession()
+bool existingSessionOperation(const QString operation)
 {
     QDBusConnection bus = QDBusConnection::systemBus();
     QDBusMessage request = QDBusMessage::createMethodCall(DBUS_HELPER_SERVICE, DBUS_CTRL_PATH,
-                                                          DBUS_HELPER_INTERFACE, QString("Active"));
+                                                          DBUS_HELPER_INTERFACE, operation);
     QDBusMessage response = bus.call(request);
     QList<QVariant> arguments = response.arguments();
+
     return !arguments.isEmpty();
 }
 
@@ -60,6 +61,12 @@ int main(int argc, char *argv[])
         } else if (QString(argv[i]) == QString("--nodaemon")) {
             // daemonized
             args[QString("nodaemon")] = true;
+        } else if (QString(argv[i]) == QString("--replace")) {
+            // replace
+            args[QString("state")] = (int) 1;
+        } else if (QString(argv[i]) == QString("--restore")) {
+            // restore
+            args[QString("state")] = (int) 2;
         } else if ((QString(argv[i]) == QString("-h")) || (QString(argv[i]) == QString("--help"))) {
             // help message
             args[QString("help")] = true;
@@ -119,8 +126,31 @@ int main(int argc, char *argv[])
     }
 
     // check if exists
-    if (checkExistSession())
-        return 0;
+    if (existingSessionOperation(QString("Active"))) {
+        if (args[QString("state")].toInt() == 1) {
+            // replace session
+            cout << QCoreApplication::translate("NetctlHelper", "Replace existing session.")
+                    .toUtf8().data() << endl;
+            existingSessionOperation(QString("Close"));
+        } else if (args[QString("state")].toInt() == 2) {
+            // restore session
+            cout << QCoreApplication::translate("NetctlHelper", "Restore existing session.")
+                    .toUtf8().data() << endl;
+            return 0;
+        }
+        else if (geteuid() == 0) {
+            // replace if running as root
+            cout << QCoreApplication::translate("NetctlHelper", "Replace existing session.")
+                    .toUtf8().data() << endl;
+            existingSessionOperation(QString("Close"));
+        }
+        else {
+            // restore if running as non-root
+            cout << QCoreApplication::translate("NetctlHelper", "Restore existing session.")
+                    .toUtf8().data() << endl;
+            return 0;
+        }
+    }
     NetctlHelper w(0, args);
     return a.exec();
 }

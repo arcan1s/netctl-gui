@@ -18,11 +18,13 @@
 
 # variables
 _netctlgui_helper_arglist=(
-    '--nodaemon'
     '-c'
     '--config'
     '-d'
     '--debug'
+    '--nodaemon'
+    '--replace'
+    '--restore'
     '-v'
     '--version'
     '-i'

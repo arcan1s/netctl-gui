@@ -18,6 +18,7 @@
 #include "netctlguiadaptor.h"
 
 #include <QTextCodec>
+#include <unistd.h>
 
 #include "mainwindow.h"
 
@@ -31,6 +32,12 @@ NetctlGuiAdaptor::NetctlGuiAdaptor(MainWindow *parent)
 
 NetctlGuiAdaptor::~NetctlGuiAdaptor()
 {
+}
+
+
+bool NetctlGuiAdaptor::Active()
+{
+    return true;
 }
 
 
@@ -116,6 +123,16 @@ bool NetctlGuiAdaptor::ShowSettings()
 {
     mainWindow->showSettingsWindow();
     return true;
+}
+
+
+QStringList NetctlGuiAdaptor::UIDs()
+{
+    QStringList uids;
+    uids.append(QString::number(getuid()));
+    uids.append(QString::number(geteuid()));
+
+    return uids;
 }
 
 

@@ -18,6 +18,7 @@
 #include "controladaptor.h"
 
 #include <QTextCodec>
+#include <unistd.h>
 
 #include "netctlhelper.h"
 #include "version.h"
@@ -90,6 +91,16 @@ QString ControlAdaptor::SecurityDocs()
 QStringList ControlAdaptor::Settings()
 {
     return helper->printSettings();
+}
+
+
+QStringList ControlAdaptor::UIDs()
+{
+    QStringList uids;
+    uids.append(QString::number(getuid()));
+    uids.append(QString::number(geteuid()));
+
+    return uids;
 }
 
 

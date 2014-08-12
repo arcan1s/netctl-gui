@@ -44,6 +44,7 @@ public slots:
     QString Pony();
     QString SecurityDocs();
     QStringList Settings();
+    QStringList UIDs();
     bool Update();
     // netctlCommand
     bool autoDisableAll();

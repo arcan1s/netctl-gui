@@ -34,15 +34,27 @@
 using namespace std;
 
 
-bool restoreExistSession()
+bool existingSessionOperation(const QString operation)
 {
     QDBusConnection bus = QDBusConnection::sessionBus();
     QDBusMessage request = QDBusMessage::createMethodCall(DBUS_SERVICE, DBUS_OBJECT_PATH,
-                                                          DBUS_INTERFACE, QString("Restore"));
+                                                          DBUS_INTERFACE, operation);
     QDBusMessage response = bus.call(request);
     QList<QVariant> arguments = response.arguments();
 
     return !arguments.isEmpty();
+}
+
+
+unsigned int getUidFromSession(const int type = 0)
+{
+    QDBusConnection bus = QDBusConnection::sessionBus();
+    QDBusMessage request = QDBusMessage::createMethodCall(DBUS_SERVICE, DBUS_OBJECT_PATH,
+                                                          DBUS_INTERFACE, QString("UIDs"));
+    QDBusMessage response = bus.call(request);
+    QList<QVariant> arguments = response.arguments();
+
+    return arguments[0].toStringList()[type].toUInt();
 }
 
 
@@ -164,8 +176,20 @@ int main(int argc, char *argv[])
     }
 
     // check if exists
-    if (restoreExistSession())
-        return 0;
+    if (existingSessionOperation(QString("Active"))) {
+        if ((getuid() == getUidFromSession(0)) && (geteuid() == getUidFromSession(1))) {
+            // restore session
+            cout << QCoreApplication::translate("MainWindow", "Restore existing session.")
+                    .toUtf8().data() << endl;
+            existingSessionOperation(QString("Restore"));
+            return 0;
+        } else if ((getuid() == getUidFromSession(0)) && (geteuid() != getUidFromSession(1))) {
+            cout << QCoreApplication::translate("MainWindow", "Close existing session.")
+                    .toUtf8().data() << endl;
+            existingSessionOperation(QString("Restore"));
+            return 0;
+        }
+    }
     MainWindow w(0, args, &qtTranslator, &translator);
     return a.exec();
 }

@@ -11,13 +11,17 @@ is a Qt based helper daemon which provides a DBus interface for interaction with
 without any additional permissions. To have access to DBus interface user should have group
 .B network
 .SH OPTIONS
-.IP "--nodaemon"
-do not run as daemon
 .IP "-c, --config FILE"
 read configuration from file
 .I FILE
 .IP "-d, --debug"
 print debug information
+.IP "--nodaemon"
+do not run as daemon
+.IP "--replace"
+force replace the existing session
+.IP "--restore"
+force restore the existing session
 .IP "-v, --version"
 show version and exit
 .IP "-i, --info"

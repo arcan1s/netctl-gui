@@ -34,6 +34,7 @@ public:
     ~NetctlGuiAdaptor();
 
 public slots:
+    bool Active();
     void ApiDocs();
     bool Close();
     QStringList Information();
@@ -46,6 +47,7 @@ public slots:
     bool ShowMain();
     bool ShowNetctlAuto();
     bool ShowSettings();
+    QStringList UIDs();
     QStringList VerboseInformation();
 
 private:
