@@ -70,7 +70,7 @@ public slots:
     void configAccepted();
     void configChanged();
     void setBigInterface();
-    void setDataEngineExternalIp();
+    void setDataEngineExternalIp4();
     void setDataEngineExternalIp6();
     void setHelper();
     void setSudo();

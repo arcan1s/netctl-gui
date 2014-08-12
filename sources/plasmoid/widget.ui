@@ -299,10 +299,10 @@
     <widget class="QPlainTextEdit" name="textEdit">
      <property name="toolTip">
       <string>$current - current profile name
-$extip - external IPv4
+$extip4 - external IPv4
 $extip6 - external IPv6
 $interfaces - list of the network interfaces
-$intip - internal IPv4
+$intip4 - internal IPv4
 $intip6 - internal IPv6
 $profiles - list of the netctl profiles
 $status - current profile status (static/enabled)</string>

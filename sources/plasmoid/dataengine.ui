@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>480</width>
-    <height>335</height>
+    <height>333</height>
    </rect>
   </property>
   <property name="minimumSize">
@@ -87,9 +87,9 @@
     </layout>
    </item>
    <item>
-    <layout class="QHBoxLayout" name="layout_extIp">
+    <layout class="QHBoxLayout" name="layout_extIp4">
      <item>
-      <widget class="QCheckBox" name="checkBox_extIp">
+      <widget class="QCheckBox" name="checkBox_extIp4">
        <property name="minimumSize">
         <size>
          <width>150</width>
@@ -105,10 +105,10 @@
       </widget>
      </item>
      <item>
-      <widget class="QLineEdit" name="lineEdit_extIp"/>
+      <widget class="QLineEdit" name="lineEdit_extIp4"/>
      </item>
      <item>
-      <widget class="QPushButton" name="pushButton_extIp">
+      <widget class="QPushButton" name="pushButton_extIp4">
        <property name="minimumSize">
         <size>
          <width>100</width>
@@ -176,9 +176,9 @@
  <tabstops>
   <tabstop>lineEdit_netctl</tabstop>
   <tabstop>pushButton_netctl</tabstop>
-  <tabstop>checkBox_extIp</tabstop>
-  <tabstop>lineEdit_extIp</tabstop>
-  <tabstop>pushButton_extIp</tabstop>
+  <tabstop>checkBox_extIp4</tabstop>
+  <tabstop>lineEdit_extIp4</tabstop>
+  <tabstop>pushButton_extIp4</tabstop>
  </tabstops>
  <resources/>
  <connections/>

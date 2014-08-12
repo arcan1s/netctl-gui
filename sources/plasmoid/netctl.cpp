@@ -101,13 +101,14 @@ void Netctl::init()
 {
     if (debug) qDebug() << "[PLASMOID]" << "[init]";
 
-    info[QString("name")] = QString("N\\A");
-    info[QString("status")] = QString("N\\A");
-    info[QString("intIp")] = QString("N\\A");
-    info[QString("intIp6")] = QString("N\\A");
-    info[QString("extIp")] = QString("N\\A");
-    info[QString("extIp6")] = QString("N\\A");
+    info[QString("current")] = QString("N\\A");
+    info[QString("extip4")] = QString("N\\A");
+    info[QString("extip6")] = QString("N\\A");
     info[QString("interfaces")] = QString("N\\A");
+    info[QString("intip4")] = QString("N\\A");
+    info[QString("intip6")] = QString("N\\A");
+    info[QString("profiles")] = QString("N\\A");
+    info[QString("status")] = QString("N\\A");
 
     netctlEngine = dataEngine(QString("netctl"));
     createActions();
@@ -132,38 +133,11 @@ QString Netctl::parsePattern(const QString rawLine)
     if (debug) qDebug() << "[PLASMOID]" << "[parsePattern]";
 
     QString line = rawLine;
-    if (line.contains(QString("$current"))) {
-        if (debug) qDebug() << "[PLASMOID]" << "[parsePattern]" << "Found $current";
-        line = line.split(QString("$current"))[0] + info[QString("name")] + line.split(QString("$current"))[1];
-    }
-    if (line.contains(QString("$extip4"))) {
-        if (debug) qDebug() << "[PLASMOID]" << "[parsePattern]" << "Found $extip4";
-        line = line.split(QString("$extip4"))[0] + info[QString("extIp")] + line.split(QString("$extip4"))[1];
-    }
-    if (line.contains(QString("$extip6"))) {
-        if (debug) qDebug() << "[PLASMOID]" << "[parsePattern]" << "Found $extip6";
-        line = line.split(QString("$extip6"))[0] + info[QString("extIp6")] + line.split(QString("$extip6"))[1];
-    }
-    if (line.contains(QString("$interfaces"))) {
-        if (debug) qDebug() << "[PLASMOID]" << "[parsePattern]" << "Found $interfaces";
-        line = line.split(QString("$interfaces"))[0] + info[QString("interfaces")] + line.split(QString("$interfaces"))[1];
-    }
-    if (line.contains(QString("$intip4"))) {
-        if (debug) qDebug() << "[PLASMOID]" << "[parsePattern]" << "Found $intip4";
-        line = line.split(QString("$intip4"))[0] + info[QString("intIp")] + line.split(QString("$intip4"))[1];
-    }
-    if (line.contains(QString("$intip6"))) {
-        if (debug) qDebug() << "[PLASMOID]" << "[parsePattern]" << "Found $intip6";
-        line = line.split(QString("$intip6"))[0] + info[QString("intIp6")] + line.split(QString("$intip6"))[1];
-    }
-    if (line.contains(QString("$profiles"))) {
-        if (debug) qDebug() << "[PLASMOID]" << "[parsePattern]" << "Found $profiles";
-        line = line.split(QString("$profiles"))[0] + profileList.join(QChar(',')) + line.split(QString("$profiles"))[1];
-    }
-    if (line.contains(QString("$status"))) {
-        if (debug) qDebug() << "[PLASMOID]" << "[parsePattern]" << "Found $status";
-        line = line.split(QString("$status"))[0] + info[QString("status")] + line.split(QString("$status"))[1];
-    }
+    for (int i=0; i<info.keys().count(); i++)
+        if (line.contains(QString("$") + info.keys()[i]))
+            line = line.split(QString("$") + info.keys()[i])[0] +
+                    info[info.keys()[i]] +
+                    line.split(QString("$") + info.keys()[i])[1];
 
     return line;
 }
@@ -174,11 +148,11 @@ QMap<QString, QString> Netctl::readDataEngineConfiguration()
     if (debug) qDebug() << "[PLASMOID]" << "[readDataEngineConfiguration]";
 
     QMap<QString, QString> rawConfig;
-    rawConfig[QString("CMD")] = QString("/usr/bin/netctl");
-    rawConfig[QString("EXTIP")] = QString("false");
-    rawConfig[QString("EXTIPCMD")] = QString("curl ip4.telize.com");
+    rawConfig[QString("EXTIP4")] = QString("false");
+    rawConfig[QString("EXTIP4CMD")] = QString("curl ip4.telize.com");
     rawConfig[QString("EXTIP6")] = QString("false");
     rawConfig[QString("EXTIP6CMD")] = QString("curl ip6.telize.com");
+    rawConfig[QString("NETCTLCMD")] = QString("/usr/bin/netctl");
     rawConfig[QString("NETCTLAUTOCMD")] = QString("/usr/bin/netctl-auto");
 
     QString fileName = KGlobal::dirs()->findResource("config", "netctl.conf");
@@ -235,9 +209,9 @@ QMap<QString, QString> Netctl::updateDataEngineConfiguration(const QMap<QString,
         key = rawConfig.keys()[i];
         value = rawConfig[key];
         key.remove(QChar(' '));
-        if ((key != QString("CMD")) &&
-            (key != QString("EXTIPCMD")) &&
+        if ((key != QString("EXTIP4CMD")) &&
             (key != QString("EXTIP6CMD")) &&
+            (key != QString("NETCTLCMD")) &&
             (key != QString("NETCTLAUTOCMD")))
             value.remove(QChar(' '));
         config[key] = value;
@@ -291,21 +265,21 @@ void Netctl::enableProfileSlot()
     QString enableStatus = QString("");
     if (info[QString("status")].contains(QString("enabled"))) {
         enableStatus = QString(" disable ");
-        sendNotification(QString("Info"), i18n("Set profile %1 disabled", info[QString("name")]));
+        sendNotification(QString("Info"), i18n("Set profile %1 disabled", info[QString("current")]));
     } else {
         enableStatus = QString(" enable ");
-        sendNotification(QString("Info"), i18n("Set profile %1 enabled", info[QString("name")]));
+        sendNotification(QString("Info"), i18n("Set profile %1 enabled", info[QString("current")]));
     }
     if (useHelper) {
         QList<QVariant> args;
-        args.append(info[QString("name")]);
+        args.append(info[QString("current")]);
         sendDBusRequest(QString("Enable"), args);
     } else {
         QProcess command;
         QString commandLine = QString("");
         if (useSudo)
             commandLine = paths[QString("sudo")] + QString(" ");
-        commandLine += paths[QString("netctl")] + enableStatus + info[QString("name")];
+        commandLine += paths[QString("netctl")] + enableStatus + info[QString("current")];
         command.startDetached(commandLine);
     }
 }
@@ -315,17 +289,17 @@ void Netctl::restartProfileSlot()
 {
     if (debug) qDebug() << "[PLASMOID]" << "[restartProfileSlot]";
 
-    sendNotification(QString("Info"), i18n("Restart profile %1", info[QString("name")]));
+    sendNotification(QString("Info"), i18n("Restart profile %1", info[QString("current")]));
     if (useHelper) {
         QList<QVariant> args;
-        args.append(info[QString("name")]);
+        args.append(info[QString("current")]);
         sendDBusRequest(QString("Restart"), args);
     } else {
         QProcess command;
         QString commandLine = QString("");
         if (useSudo)
             commandLine = paths[QString("sudo")] + QString(" ");
-        commandLine += paths[QString("netctl")] + QString(" restart ") + info[QString("name")];
+        commandLine += paths[QString("netctl")] + QString(" restart ") + info[QString("current")];
         command.startDetached(commandLine);
     }
 }
@@ -362,17 +336,17 @@ void Netctl::stopProfileSlot()
 {
     if (debug) qDebug() << "[PLASMOID]" << "[stopProfileSlot]";
 
-    sendNotification(QString("Info"), i18n("Stop profile %1", info[QString("name")]));
+    sendNotification(QString("Info"), i18n("Stop profile %1", info[QString("current")]));
     if (useHelper) {
         QList<QVariant> args;
-        args.append(info[QString("name")]);
+        args.append(info[QString("current")]);
         sendDBusRequest(QString("Start"), args);
     } else {
         QProcess command;
         QString commandLine = QString("");
         if (useSudo)
             commandLine = paths[QString("sudo")] + QString(" ");
-        commandLine += paths[QString("netctl")] + QString(" stop ") + info[QString("name")];
+        commandLine += paths[QString("netctl")] + QString(" stop ") + info[QString("current")];
         command.startDetached(commandLine);
     }
 }
@@ -426,7 +400,7 @@ QList<QAction*> Netctl::contextualActions()
         contextMenu[QString("title")]->setIcon(QIcon(paths[QString("active")]));
     else
         contextMenu[QString("title")]->setIcon(QIcon(paths[QString("inactive")]));
-    contextMenu[QString("title")]->setText(info[QString("name")] + QString(" ") + info[QString("status")]);
+    contextMenu[QString("title")]->setText(info[QString("current")] + QString(" ") + info[QString("status")]);
 
     if (info[QString("status")] == QString("(netctl-auto)")) {
         contextMenu[QString("start")]->setVisible(false);
@@ -447,12 +421,12 @@ QList<QAction*> Netctl::contextualActions()
         contextMenu[QString("enable")]->setVisible(status);
         if (status) {
             contextMenu[QString("start")]->setText(i18n("Start another profile"));
-            contextMenu[QString("stop")]->setText(i18n("Stop %1", info[QString("name")]));
-            contextMenu[QString("restart")]->setText(i18n("Restart %1", info[QString("name")]));
+            contextMenu[QString("stop")]->setText(i18n("Stop %1", info[QString("current")]));
+            contextMenu[QString("restart")]->setText(i18n("Restart %1", info[QString("current")]));
             if (info[QString("status")].contains(QString("enabled")))
-                contextMenu[QString("enable")]->setText(i18n("Disable %1", info[QString("name")]));
+                contextMenu[QString("enable")]->setText(i18n("Disable %1", info[QString("current")]));
             else
-                contextMenu[QString("enable")]->setText(i18n("Enable %1", info[QString("name")]));
+                contextMenu[QString("enable")]->setText(i18n("Enable %1", info[QString("current")]));
         }
         else
             contextMenu[QString("start")]->setText(i18n("Start profile"));
@@ -563,15 +537,15 @@ void Netctl::connectToEngine()
 {
     if (debug) qDebug() << "[PLASMOID]" << "[connectToEngine]";
 
-    netctlEngine->connectSource(QString("currentProfile"), this, autoUpdateInterval);
-    netctlEngine->connectSource(QString("extIp"), this, autoUpdateInterval);
-    netctlEngine->connectSource(QString("extIp6"), this, autoUpdateInterval);
+    netctlEngine->connectSource(QString("active"), this, autoUpdateInterval);
+    netctlEngine->connectSource(QString("current"), this, autoUpdateInterval);
+    netctlEngine->connectSource(QString("extip4"), this, autoUpdateInterval);
+    netctlEngine->connectSource(QString("extip6"), this, autoUpdateInterval);
     netctlEngine->connectSource(QString("interfaces"), this, autoUpdateInterval);
-    netctlEngine->connectSource(QString("intIp"), this, autoUpdateInterval);
-    netctlEngine->connectSource(QString("intIp6"), this, autoUpdateInterval);
+    netctlEngine->connectSource(QString("intip4"), this, autoUpdateInterval);
+    netctlEngine->connectSource(QString("intip6"), this, autoUpdateInterval);
     netctlEngine->connectSource(QString("profiles"), this, autoUpdateInterval);
-    netctlEngine->connectSource(QString("statusBool"), this, autoUpdateInterval);
-    netctlEngine->connectSource(QString("statusString"), this, autoUpdateInterval);
+    netctlEngine->connectSource(QString("status"), this, autoUpdateInterval);
     updateInterface(bigInterface);
 }
 
@@ -581,30 +555,14 @@ void Netctl::dataUpdated(const QString &sourceName, const Plasma::DataEngine::Da
     if (debug) qDebug() << "[PLASMOID]" << "[dataUpdated]";
     if (debug) qDebug() << "[PLASMOID]" << "[dataUpdated]" << ":" << "Source" << sourceName;
 
-    if (isIconified()) return;
+    if (isPopupShowing()) return;
+    if (isUserConfiguring()) return;
     if (data.isEmpty()) return;
     QString value = data[QString("value")].toString();
     if (value.isEmpty())
         value = QString("N\\A");
 
-    if (sourceName == QString("currentProfile")) {
-        info[QString("name")] = value;
-        // update text
-        if (bigInterface)
-            textLabel->setText(formatLine[0] + parsePattern(textPattern) + formatLine[1]);
-    } else if (sourceName == QString("extIp")) {
-        info[QString("extIp")] = value;
-    } else if (sourceName == QString("extIp6")) {
-        info[QString("extIp6")] = value;
-    } else if (sourceName == QString("interfaces")) {
-        info[QString("interfaces")] = value;
-    } else if (sourceName == QString("intIp")) {
-        info[QString("intIp")] = value;
-    } else if (sourceName == QString("intIp6")) {
-        info[QString("intIp6")] = value;
-    } else if (sourceName == QString("profiles")) {
-        profileList = value.split(QChar(','));
-    } else if (sourceName == QString("statusBool")) {
+    if (sourceName == QString("active")) {
         if (value == QString("true")) {
             if (!status)
                 sendNotification(QString("Info"), i18n("Network is up"));
@@ -615,7 +573,25 @@ void Netctl::dataUpdated(const QString &sourceName, const Plasma::DataEngine::Da
             status = false;
         }
         updateIcon();
-    } else if (sourceName == QString("statusString")) {
+    } else if (sourceName == QString("current")) {
+        info[QString("current")] = value;
+        // update text
+        if (bigInterface)
+            textLabel->setText(formatLine[0] + parsePattern(textPattern) + formatLine[1]);
+    } else if (sourceName == QString("extip4")) {
+        info[QString("extip4")] = value;
+    } else if (sourceName == QString("extip6")) {
+        info[QString("extip6")] = value;
+    } else if (sourceName == QString("interfaces")) {
+        info[QString("interfaces")] = value;
+    } else if (sourceName == QString("intip4")) {
+        info[QString("intip4")] = value;
+    } else if (sourceName == QString("intip6")) {
+        info[QString("intip6")] = value;
+    } else if (sourceName == QString("profiles")) {
+        profileList = value.split(QChar(','));
+        info[QString("profiles")] = profileList.join(QChar(','));
+    } else if (sourceName == QString("status")) {
         info[QString("status")] = QString("(") + value + QString(")");
     }
 
@@ -628,10 +604,10 @@ void Netctl::disconnectFromEngine()
     if (debug) qDebug() << "[PLASMOID]" << "[disconnectFromEngine]";
 
     netctlEngine->disconnectSource(QString("currentProfile"), this);
-    netctlEngine->disconnectSource(QString("extIp"), this);
+    netctlEngine->disconnectSource(QString("extIp4"), this);
     netctlEngine->disconnectSource(QString("extIp6"), this);
     netctlEngine->disconnectSource(QString("interfaces"), this);
-    netctlEngine->disconnectSource(QString("intIp"), this);
+    netctlEngine->disconnectSource(QString("intIp4"), this);
     netctlEngine->disconnectSource(QString("intIp6"), this);
     netctlEngine->disconnectSource(QString("profiles"), this);
     netctlEngine->disconnectSource(QString("statusBool"), this);
@@ -686,8 +662,8 @@ void Netctl::selectAbstractSomething()
         lineEdit = uiWidConfig.lineEdit_sudo;
     else if (sender() == uiWidConfig.pushButton_wifi)
         lineEdit = uiWidConfig.lineEdit_wifi;
-    else if (sender() == uiDEConfig.pushButton_extIp)
-        lineEdit = uiDEConfig.lineEdit_extIp;
+    else if (sender() == uiDEConfig.pushButton_extIp4)
+        lineEdit = uiDEConfig.lineEdit_extIp4;
     else if (sender() == uiDEConfig.pushButton_extIp6)
         lineEdit = uiDEConfig.lineEdit_extIp6;
     else if (sender() == uiDEConfig.pushButton_netctl)
@@ -761,14 +737,14 @@ void Netctl::createConfigurationInterface(KConfigDialog *parent)
     uiAppConfig.lineEdit_inactiveIcon->setText(paths[QString("inactive")]);
 
     QMap<QString, QString> deSettings = readDataEngineConfiguration();
-    uiDEConfig.lineEdit_netctl->setText(deSettings[QString("CMD")]);
+    uiDEConfig.lineEdit_netctl->setText(deSettings[QString("NETCTLCMD")]);
     uiDEConfig.lineEdit_netctlAuto->setText(deSettings[QString("NETCTLAUTOCMD")]);
-    if (deSettings[QString("EXTIP")] == QString("true"))
-        uiDEConfig.checkBox_extIp->setCheckState(Qt::Checked);
+    if (deSettings[QString("EXTIP4")] == QString("true"))
+        uiDEConfig.checkBox_extIp4->setCheckState(Qt::Checked);
     else
-        uiDEConfig.checkBox_extIp->setCheckState(Qt::Unchecked);
-    uiDEConfig.lineEdit_extIp->setText(deSettings[QString("EXTIPCMD")]);
-    setDataEngineExternalIp();
+        uiDEConfig.checkBox_extIp4->setCheckState(Qt::Unchecked);
+    uiDEConfig.lineEdit_extIp4->setText(deSettings[QString("EXTIP4CMD")]);
+    setDataEngineExternalIp4();
     if (deSettings[QString("EXTIP6")] == QString("true"))
         uiDEConfig.checkBox_extIp6->setCheckState(Qt::Checked);
     else
@@ -806,7 +782,7 @@ void Netctl::createConfigurationInterface(KConfigDialog *parent)
             SLOT(setBigInterface()));
     connect(uiWidConfig.checkBox_sudo, SIGNAL(stateChanged(int)), this, SLOT(setSudo()));
     connect(uiWidConfig.checkBox_wifi, SIGNAL(stateChanged(int)), this, SLOT(setWifi()));
-    connect(uiDEConfig.checkBox_extIp, SIGNAL(stateChanged(int)), this, SLOT(setDataEngineExternalIp()));
+    connect(uiDEConfig.checkBox_extIp4, SIGNAL(stateChanged(int)), this, SLOT(setDataEngineExternalIp4()));
     connect(uiDEConfig.checkBox_extIp6, SIGNAL(stateChanged(int)), this, SLOT(setDataEngineExternalIp6()));
 
     connect(uiWidConfig.pushButton_gui, SIGNAL(clicked()), this, SLOT(selectAbstractSomething()));
@@ -817,7 +793,7 @@ void Netctl::createConfigurationInterface(KConfigDialog *parent)
     connect(uiWidConfig.pushButton_wifi, SIGNAL(clicked()), this, SLOT(selectAbstractSomething()));
     connect(uiAppConfig.pushButton_activeIcon, SIGNAL(clicked()), this, SLOT(selectAbstractSomething()));
     connect(uiAppConfig.pushButton_inactiveIcon, SIGNAL(clicked()), this, SLOT(selectAbstractSomething()));
-    connect(uiDEConfig.pushButton_extIp, SIGNAL(clicked()), this, SLOT(selectAbstractSomething()));
+    connect(uiDEConfig.pushButton_extIp4, SIGNAL(clicked()), this, SLOT(selectAbstractSomething()));
     connect(uiDEConfig.pushButton_extIp6, SIGNAL(clicked()), this, SLOT(selectAbstractSomething()));
     connect(uiDEConfig.pushButton_netctl, SIGNAL(clicked()), this, SLOT(selectAbstractSomething()));
     connect(uiDEConfig.pushButton_netctlAuto, SIGNAL(clicked()), this, SLOT(selectAbstractSomething()));
@@ -871,13 +847,13 @@ void Netctl::configAccepted()
     cg.writeEntry("inactiveIconPath", uiAppConfig.lineEdit_inactiveIcon->text());
 
     QMap<QString, QString> deSettings;
-    deSettings[QString("CMD")] = uiDEConfig.lineEdit_netctl->text();
+    deSettings[QString("NETCTLCMD")] = uiDEConfig.lineEdit_netctl->text();
     deSettings[QString("NETCTLAUTOCMD")] = uiDEConfig.lineEdit_netctlAuto->text();
-    if (uiDEConfig.checkBox_extIp->checkState() == 0)
-        deSettings[QString("EXTIP")] = QString("false");
+    if (uiDEConfig.checkBox_extIp4->checkState() == 0)
+        deSettings[QString("EXTIP4")] = QString("false");
     else
-        deSettings[QString("EXTIP")] = QString("true");
-    deSettings[QString("EXTIPCMD")] = uiDEConfig.lineEdit_extIp->text();
+        deSettings[QString("EXTIP4")] = QString("true");
+    deSettings[QString("EXTIP4CMD")] = uiDEConfig.lineEdit_extIp4->text();
     if (uiDEConfig.checkBox_extIp6->checkState() == 0)
         deSettings[QString("EXTIP6")] = QString("false");
     else
@@ -946,16 +922,16 @@ void Netctl::setBigInterface()
 }
 
 
-void Netctl::setDataEngineExternalIp()
+void Netctl::setDataEngineExternalIp4()
 {
-    if (debug) qDebug() << "[PLASMOID]" << "[setDataEngineExternalIp]";
+    if (debug) qDebug() << "[PLASMOID]" << "[setDataEngineExternalIp4]";
 
-    if (uiDEConfig.checkBox_extIp->checkState() == 0) {
-        uiDEConfig.lineEdit_extIp->setDisabled(true);
-        uiDEConfig.pushButton_extIp->setDisabled(true);
-    } else if (uiDEConfig.checkBox_extIp->checkState() == 2) {
-        uiDEConfig.lineEdit_extIp->setEnabled(true);
-        uiDEConfig.pushButton_extIp->setEnabled(true);
+    if (uiDEConfig.checkBox_extIp4->checkState() == 0) {
+        uiDEConfig.lineEdit_extIp4->setDisabled(true);
+        uiDEConfig.pushButton_extIp4->setDisabled(true);
+    } else if (uiDEConfig.checkBox_extIp4->checkState() == 2) {
+        uiDEConfig.lineEdit_extIp4->setEnabled(true);
+        uiDEConfig.pushButton_extIp4->setEnabled(true);
     }
 }
 
