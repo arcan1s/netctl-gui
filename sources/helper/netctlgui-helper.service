@@ -2,6 +2,7 @@
 Description=netctlgui-helper daemon
 
 [Service]
+Type=forking
 ExecStart=/usr/bin/netctlgui-helper
 
 [Install]

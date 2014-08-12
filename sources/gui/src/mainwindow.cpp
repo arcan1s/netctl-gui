@@ -294,6 +294,8 @@ bool MainWindow::checkHelperStatus()
         sendDBusRequest(DBUS_HELPER_SERVICE, DBUS_CTRL_PATH,
                         DBUS_HELPER_INTERFACE, QString("Update"),
                         QList<QVariant>(), true, debug);
+    else
+        configuration[QString("FORCE_SUDO")] = QString("true");
     if (isHelperServiceActive())
         configuration[QString("CLOSE_HELPER")] = QString("false");
 
@@ -401,6 +403,7 @@ void MainWindow::createObjects()
             errorWin->showWindow(19, QString("[MainWindow] : [createObjects]"));
             useHelper = false;
         }
+    checkHelperStatus();
 
     netctlCommand = new Netctl(debug, configuration);
     netctlProfile = new NetctlProfile(debug, configuration);

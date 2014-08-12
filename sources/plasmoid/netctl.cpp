@@ -907,7 +907,6 @@ void Netctl::configChanged()
     if (useHelper) startHelper();
     checkHelperStatus();
     connectToEngine();
-    setAssociatedApplication(paths[QString("gui")]);
 }
 
 

@@ -97,10 +97,12 @@ bool Netctl::cmdCall(const bool sudo, const QString command, const QString comma
         cmd = sudoCommand + QString(" ");
     cmd += command + QString(" ") + commandLine;
     if (argument != 0)
-        cmd += QString(" ") + argument;
+        cmd += QString(" \"") + argument + QString("\"");
     if (debug) qDebug() << "[Netctl]" << "[cmdCall]" << ":" << "Run cmd" << cmd;
     TaskResult process = runTask(cmd, (useSuid && sudo));
     if (debug) qDebug() << "[Netctl]" << "[cmdCall]" << ":" << "Cmd returns" << process.exitCode;
+    if (process.exitCode != 0)
+        if (debug) qDebug() << "[Netctl]" << "[cmdCall]" << ":" << "Error" << process.error;
 
     if (process.exitCode == 0)
         return true;
@@ -128,10 +130,12 @@ QString Netctl::getCmdOutput(const bool sudo, const QString command, const QStri
         cmd = sudoCommand + QString(" ");
     cmd += command + QString(" ") + commandLine;
     if (argument != 0)
-        cmd += QString(" ") + argument;
+        cmd += QString(" \"") + argument + QString("\"");
     if (debug) qDebug() << "[Netctl]" << "[getCmdOutput]" << ":" << "Run cmd" << cmd;
     TaskResult process = runTask(cmd, (useSuid && sudo));
     if (debug) qDebug() << "[Netctl]" << "[getCmdOutput]" << ":" << "Cmd returns" << process.exitCode;
+    if (process.exitCode != 0)
+        if (debug) qDebug() << "[Netctl]" << "[getCmdOutput]" << ":" << "Error" << process.error;
 
     return process.output;
 }

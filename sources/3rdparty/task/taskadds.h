@@ -38,6 +38,7 @@ protected:
 struct TaskResult
 {
     int exitCode;
+    QByteArray error;
     QByteArray output;
 };
 TaskResult runTask(const QString cmd, const bool useSuid = true);

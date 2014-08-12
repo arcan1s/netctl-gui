@@ -29,12 +29,14 @@ TaskResult runTask(const QString cmd, const bool useSuid)
             command.waitForFinished(-1);
             r.exitCode = command.exitCode();
             r.output = command.readAllStandardOutput();
+            r.error = command.readAllStandardError();
         } else {
             QProcess command;
             command.start(cmd);
             command.waitForFinished(-1);
             r.exitCode = command.exitCode();
             r.output = command.readAllStandardOutput();
+            r.error = command.readAllStandardError();
         }
 
         return r;

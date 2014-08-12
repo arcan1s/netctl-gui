@@ -269,6 +269,8 @@ bool WpaSup::startWpaSupplicant()
     TaskResult process = runTask(cmd, useSuid);
     waitForProcess(1);
     if (debug) qDebug() << "[WpaSup]" << "[startWpaSupplicant]" << ":" << "Cmd returns" << process.exitCode;
+    if (process.exitCode != 0)
+        if (debug) qDebug() << "[WpaSup]" << "[startWpaSupplicant]" << ":" << "Error" << process.error;
 
     if (process.exitCode == 0)
         return true;
@@ -324,6 +326,8 @@ QString WpaSup::getWpaCliOutput(const QString commandLine)
     if (debug) qDebug() << "[WpaSup]" << "[getWpaCliOutput]" << ":" << "Run cmd" << cmd;
     TaskResult process = runTask(cmd);
     if (debug) qDebug() << "[WpaSup]" << "[getWpaCliOutput]" << ":" << "Cmd returns" << process.exitCode;
+    if (process.exitCode != 0)
+        if (debug) qDebug() << "[WpaSup]" << "[getWpaCliOutput]" << ":" << "Error" << process.error;
 
     return process.output;
 }
@@ -380,6 +384,8 @@ bool WpaSup::wpaCliCall(const QString commandLine)
     TaskResult process = runTask(cmd);
     waitForProcess(1);
     if (debug) qDebug() << "[WpaSup]" << "[getWpaCliOutput]" << ":" << "Cmd returns" << process.exitCode;
+    if (process.exitCode != 0)
+        if (debug) qDebug() << "[NetctlProfile]" << "[getWpaCliOutput]" << ":" << "Error" << process.error;
 
     if (process.exitCode == 0)
         return true;

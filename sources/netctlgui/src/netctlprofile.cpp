@@ -80,10 +80,12 @@ bool NetctlProfile::copyProfile(const QString oldPath)
     }
 
     QString newPath = profileDirectory->absolutePath() + QDir::separator() + QFileInfo(oldPath).fileName();
-    QString cmd = sudoCommand + QString(" /usr/bin/mv ") + oldPath + QString(" ") + newPath;
+    QString cmd = sudoCommand + QString(" /usr/bin/mv \"") + oldPath + QString("\" \"") + newPath + QString("\"");
     if (debug) qDebug() << "[NetctlProfile]" << "[copyProfile]" << ":" << "Run cmd" << cmd;
     TaskResult process = runTask(cmd, useSuid);
     if (debug) qDebug() << "[NetctlProfile]" << "[copyProfile]" << ":" << "Cmd returns" << process.exitCode;
+    if (process.exitCode != 0)
+        if (debug) qDebug() << "[NetctlProfile]" << "[copyProfile]" << ":" << "Error" << process.error;
 
     if (process.exitCode == 0)
         return true;
@@ -143,13 +145,13 @@ QMap<QString, QString> NetctlProfile::getSettingsFromProfile(const QString profi
 
     // getting variables list
     // system variables
-    QProcess shell;
     QString cmd = QString("env -i bash -c \"set\"");
     if (debug) qDebug() << "[NetctlProfile]" << "[getSettingsFromProfile]" << ":" << "Run cmd" << cmd;
-    shell.start(cmd);
-    shell.waitForFinished(-1);
-    if (debug) qDebug() << "[NetctlProfile]" << "[getSettingsFromProfile]" << ":" << "Cmd returns" << shell.exitCode();
-    QStringList output = QString(shell.readAllStandardOutput()).trimmed().split(QChar('\n'));
+    TaskResult process = runTask(cmd, false);
+    if (debug) qDebug() << "[NetctlProfile]" << "[getSettingsFromProfile]" << ":" << "Cmd returns" << process.exitCode;
+    if (process.exitCode != 0)
+        if (debug) qDebug() << "[NetctlProfile]" << "[getSettingsFromProfile]" << ":" << "Error" << process.error;
+    QStringList output = QString(process.output).trimmed().split(QChar('\n'));
     QStringList systemVariables;
     systemVariables.append(QString("PIPESTATUS"));
     for (int i=0; i<output.count(); i++)
@@ -157,12 +159,13 @@ QMap<QString, QString> NetctlProfile::getSettingsFromProfile(const QString profi
     // profile variables
     QMap<QString, QString> settings;
     QString profileUrl = profileDirectory->absolutePath() + QDir::separator() + QFileInfo(profile).fileName();
-    cmd = QString("env -i bash -c \"source ") + profileUrl + QString("; set\"");
+    cmd = QString("env -i bash -c \"source '") + profileUrl + QString("'; set\"");
     if (debug) qDebug() << "[NetctlProfile]" << "[getSettingsFromProfile]" << ":" << "Run cmd" << cmd;
-    shell.start(cmd);
-    shell.waitForFinished(-1);
-    if (debug) qDebug() << "[NetctlProfile]" << "[getSettingsFromProfile]" << ":" << "Cmd returns" << shell.exitCode();
-    output = QString(shell.readAllStandardOutput()).trimmed().split(QChar('\n'));
+    process = runTask(cmd, false);
+    if (debug) qDebug() << "[NetctlProfile]" << "[getSettingsFromProfile]" << ":" << "Cmd returns" << process.exitCode;
+    if (process.exitCode != 0)
+        if (debug) qDebug() << "[NetctlProfile]" << "[getSettingsFromProfile]" << ":" << "Error" << process.error;
+    output = QString(process.output).trimmed().split(QChar('\n'));
 
     // gettings variables
     QStringList keys;
@@ -170,12 +173,11 @@ QMap<QString, QString> NetctlProfile::getSettingsFromProfile(const QString profi
         if (!systemVariables.contains(output[i].split(QChar('='))[0]))
             keys.append(output[i].split(QChar('='))[0]);
     for (int i=0; i<keys.count(); i++){
-        cmd = QString("env -i bash -c \"source ") + profileUrl +
-                QString("; for i in ${!") + keys[i] + QString("[@]}; do echo ${") +
+        cmd = QString("env -i bash -c \"source '") + profileUrl +
+                QString("'; for i in ${!") + keys[i] + QString("[@]}; do echo ${") +
                 keys[i] + QString("[$i]}; done\"");
-        shell.start(cmd);
-        shell.waitForFinished(-1);
-        settings[keys[i]] = shell.readAllStandardOutput().trimmed();
+        process = runTask(cmd, false);
+        settings[keys[i]] = process.output.trimmed();
         if (debug) qDebug() << "[NetctlProfile]" << "[getSettingsFromProfile]" << ":" << keys[i] << "=" << settings[keys[i]];
     }
 
@@ -197,7 +199,7 @@ QString NetctlProfile::getValueFromProfile(const QString profile, const QString 
     if (settings.contains(key))
         return settings[key];
     else
-        return QString("");
+        return QString();
 }
 
 
@@ -214,10 +216,12 @@ bool NetctlProfile::removeProfile(const QString profile)
     }
 
     QString profilePath = profileDirectory->absolutePath() + QDir::separator() + QFileInfo(profile).fileName();
-    QString cmd = sudoCommand + QString(" /usr/bin/rm ") + profilePath;
+    QString cmd = sudoCommand + QString(" /usr/bin/rm \"") + profilePath + QString("\"");
     if (debug) qDebug() << "[NetctlProfile]" << "[removeProfile]" << ":" << "Run cmd" << cmd;
     TaskResult process = runTask(cmd, useSuid);
     if (debug) qDebug() << "[NetctlProfile]" << "[removeProfile]" << ":" << "Cmd returns" << process.exitCode;
+    if (process.exitCode != 0)
+        if (debug) qDebug() << "[NetctlProfile]" << "[removeProfile]" << ":" << "Error" << process.error;
 
     if (process.exitCode == 0)
         return true;

@@ -137,14 +137,24 @@ bool MainWindow::startProfileSlot(const QString profile)
     if (useHelper) {
         QList<QVariant> args;
         args.append(profile);
-        sendDBusRequest(DBUS_HELPER_SERVICE, DBUS_CTRL_PATH,
-                        DBUS_HELPER_INTERFACE, QString("Start"),
-                        args, true, debug);
+        if (sendDBusRequest(DBUS_HELPER_SERVICE, DBUS_LIB_PATH,
+                            DBUS_HELPER_INTERFACE, QString("ActiveProfile"),
+                            QList<QVariant>(), true, debug)[0].toString().isEmpty())
+            sendDBusRequest(DBUS_HELPER_SERVICE, DBUS_CTRL_PATH,
+                            DBUS_HELPER_INTERFACE, QString("Start"),
+                            args, true, debug);
+        else
+            sendDBusRequest(DBUS_HELPER_SERVICE, DBUS_CTRL_PATH,
+                            DBUS_HELPER_INTERFACE, QString("SwitchTo"),
+                            args, true, debug);
         current = sendDBusRequest(DBUS_HELPER_SERVICE, DBUS_LIB_PATH,
                                   DBUS_HELPER_INTERFACE, QString("isProfileActive"),
                                   args, true, debug)[0].toBool();
     } else {
-        netctlCommand->startProfile(profile);
+        if (netctlCommand->getActiveProfile().isEmpty())
+            netctlCommand->startProfile(profile);
+        else
+            netctlCommand->switchToProfile(profile);
         current = netctlCommand->isProfileActive(profile);
     }
 
@@ -328,7 +338,6 @@ void MainWindow::updateConfiguration(const QMap<QString, QVariant> args)
     qApp->installTranslator(translator);
 
     createObjects();
-    checkHelperStatus();
     createActions();
 
     // tray

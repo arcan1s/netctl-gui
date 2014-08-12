@@ -71,6 +71,7 @@ public:
      * @param settings       default settings. Needed keys are
      *                       CTRL_DIR (path to ctrl_directory),
      *                       CTRL_GROUP (group which is owner of CTRL_DIR),
+     *                       FORCE_SUDO (force to use sudo),
      *                       PID_FILE (wpa_supplicant PID file),
      *                       SUDO_PATH (path to sudo command),
      *                       WPACLI_PATH (path to wpa_cli command),
