@@ -38,6 +38,7 @@ QMap<QString, QVariant> getArgs()
     args[QString("debug")] = false;
     args[QString("nodaemon")] = false;
     args[QString("state")] = (int) 0;
+    args[QString("system")] = false;
     args[QString("help")] = false;
     args[QString("info")] = false;
     args[QString("version")] = false;
@@ -64,6 +65,8 @@ QString helpMessage()
             .arg(QCoreApplication::translate("NetctlHelper", "force replace the existing session"));
     helpMessage += QString("       --restore         - %1\n")
             .arg(QCoreApplication::translate("NetctlHelper", "force restore the existing session"));
+    helpMessage += QString("       --system          - %1\n")
+            .arg(QCoreApplication::translate("NetctlHelper", "do not read user configuration, system-wide only"));
     helpMessage += QString(" %1\n").arg(QCoreApplication::translate("NetctlHelper", "Show messages:"));
     helpMessage += QString("   -v, --version         - %1\n")
             .arg(QCoreApplication::translate("NetctlHelper", "show version and exit"));

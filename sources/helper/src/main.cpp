@@ -67,6 +67,9 @@ int main(int argc, char *argv[])
         } else if (QString(argv[i]) == QString("--restore")) {
             // restore
             args[QString("state")] = (int) 2;
+        } else if (QString(argv[i]) == QString("--system")) {
+            // system
+            args[QString("system")] = true;
         } else if ((QString(argv[i]) == QString("-h")) || (QString(argv[i]) == QString("--help"))) {
             // help message
             args[QString("help")] = true;

@@ -33,7 +33,8 @@
 NetctlHelper::NetctlHelper(QObject *parent, QMap<QString, QVariant> args)
     : QObject(parent),
       configPath(args[QString("config")].toString()),
-      debug(args[QString("debug")].toBool())
+      debug(args[QString("debug")].toBool()),
+      system(args[QString("system")].toBool())
 {
     updateConfiguration();
     if (!args[QString("nodaemon")].toBool())
@@ -136,12 +137,16 @@ QMap<QString, QString> NetctlHelper::getDefault()
 }
 
 
-QMap<QString, QString> NetctlHelper::getSettings()
+QMap<QString, QString> NetctlHelper::getSettings(const QString file, const QMap<QString, QString> existing)
 {
     if (debug) qDebug() << "[NetctlHelper]" << "[getSettings]";
 
-    QMap<QString, QString> settings = getDefault();
-    QFile configFile(configPath);
+    QMap<QString, QString> settings;
+    if (existing.isEmpty())
+        settings = getDefault();
+    else
+        settings = existing;
+    QFile configFile(file);
     QString fileStr;
     if (!configFile.open(QIODevice::ReadOnly))
         return settings;
@@ -168,7 +173,9 @@ void NetctlHelper::updateConfiguration()
     if (debug) qDebug() << "[NetctlHelper]" << "[updateConfiguration]";
 
     deleteInterface();
-    configuration = getSettings();
+    configuration = getSettings(QString("/etc/netctlgui-helper.conf"));
+    if (!system)
+        configuration = getSettings(configPath, configuration);
     createInterface();
 }
 

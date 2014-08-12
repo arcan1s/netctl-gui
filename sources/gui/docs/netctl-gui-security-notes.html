@@ -10,11 +10,10 @@
       <ol>
         <li><a href="#description">Description</a></li>
         <li><a href="#arch">Architecture</a></li>
-        <li><a href="#kde">KDE components security</a></li>
-        <li><a href="#kde">Graphical interface security</a></li>
         <li><a href="#library">Library security</a></li>
         <li><a href="#helper">Helper security</a></li>
-        <ul><li><a href="#helper-suid">Run helper with SUID bit</a></li></ul>
+        <li><a href="#gui">Graphical interface security</a></li>
+        <li><a href="#kde">KDE components security</a></li>
         <li><a href="#links">External links</a></li>
       </ol>
   </head>
@@ -26,33 +25,8 @@
 <h2><a href="#arch" class="anchor" name="arch"></a>Architecture</h2>
 <img src="architecture.png" alt="architecture" align="middle">
 
-<h2><a href="#kde" class="anchor" name="kde"></a>KDE components security</h2>
-<p>There are two netctl-based commands which are run from the DataEngine</p>
-<ul>
-  <li><code>&lt;cmd&gt; list</code></li>
-  <li><code>netctl is-enabled &lt;profile&gt;</code></li>
-</ul>
-<p>Both of them do not require any additional privileges normally. Also DataEngine has two other command which will be run from; they should define external IP. According to the idea that user can set <i>any</i> command to run, this module is not secure. But running commands will not do more than user can do from console himself.</p>
-
-<p>The widget gets information from DataEngine, thus it does not require any additional permissions to show information. But netctl calls with root privileges are used to control netctl. In this case used commands are</p>
-<ul>
-  <li><code>netctl enable &lt;profile&gt;</code></li>
-  <li><code>netctl disable &lt;profile&gt;</code></li>
-  <li><code>netctl restart &lt;profile&gt;</code></li>
-  <li><code>netctl start &lt;profile&gt;</code></li>
-  <li><code>netctl stop &lt;profile&gt;</code></li>
-  <li><code>netctl switch-to &lt;profile&gt;</code></li>
-  <li><code>netctl-auto switch-to &lt;profile&gt;</code></li>
-</ul>
-<p>All netctl-based commands <i>requires</i> root privileges and <code>sudo</code> (and any other alternatives) is used normally as prefix to the commands. The netctl-auto command does not require additional permissions.</p>
-
-<p>The other way is to use DBus communication with <a href="#helper">the helper</a>. In this case user should have rights to start the helper.</p>
-
-<h2><a href="#gui" class="anchor" name="gui"></a>Graphical interface security</h2>
-<p>Graphical interface may interact with netctl over <a href="#helper">DBus (the helper)</a> and over <a href="#library">the library</a>. Please refer to their notes to any additional information. If user uses helper he should have permissions to run it.</p>
-
-<h2><a href="#gui" class="anchor" name="gui"></a>Library security</h2>
-<p>According to <a href="#arch">the scheme</a> library gets information from netctl and can control it. Also it provides some additional functions such as a profile creation and removal and access to wpa_supplicant functions. Some function does not require additional permissions, but other ones do it. All dynamic arguments including profile names and paths are in double quotes to avoid white spaces problem. The functions which requires root privileges are:</p>
+<h2><a href="#library" class="anchor" name="library"></a>Library security</h2>
+<p>According to <a href="#arch">the scheme<a> the library gets information from netctl and can control it. Also it provides some additional functions such as a profile creation and removal and access to wpa_supplicant functions. Some functions do not require additional permissions, but other ones do it. All dynamic arguments including profile names and paths are in double quotes to avoid white spaces problem. The functions which <b>require</b> root privileges are:</p>
 <ul>
   <li>Netctl control module</li>
   <ul>
@@ -66,9 +40,43 @@
   </ul>
   <li>WiFi module</li>
   <ul>
-    <li>This module require root privileges to start wpa_supplicant only. For the futher interaction user must be in <code>CTRL_GROUP</code>.</li>
+    <li>This module require root privileges to start <code>wpa_supplicant</code> only. For the futher interaction user must be in <code>CTRL_GROUP</code>.</li>
   </ul>
 </ul>
+
+<p>If library will be initialized with <code>FORCE_SUDO=true</code> than it will use <code>sudo</code> command (which can be transferred to the library by <code>SUDO_PATH</code> option). Otherwise it will try to set UID of children processes to 0. Please note that <code>sudo</code> command and UID setting will be used only for those commands which require it.</p>
+
+<h2><a href="#helper" class="anchor" name="helper"></a>Helper security</h2>
+<p>First of all the helper <b>does not interact</b> with netctl directly, it uses the library to do it. So all library security notes are applicable here. To start the helper and to create DBus services user must be in <code>netcwork</code> group by default (or must be root). But you may change it by editing <code>$DBUS_SYSTEMCONF_PATH/org.netctlgui.helper.conf</code> policy file (<code>/etc/dbus-1/system.d/org.netctlgui.helper.conf</code> by default). Please refer to DBus documentation to do it.</p>
+
+<p>There are two binaries <code>netctgui-helper</code> and <code>netctlgui-helper-suid</code>. They are the same, but the second one has SUID bit, so it can be running by normal user without any password. Please note that <b>it is dangerous</b> and recommended way is to use systemd daemon. In this case you may not install <code>netctlgui-helper-suid</code> binary.</p>
+
+<p>There are two configuration files <code>$HOME/.config/netctl-gui.conf</code> and <code>/etc/netctl-gui.conf</code>. The first one is a user configuration and the second one is a system-wide. Please note that by default user configuration has higher priority than system-wide, but running with <code>--system</code> flag user configuration will not be reading. The helper and GUI configurations are the same (although some keys aren't needed).</p>
+
+<h2><a href="#gui" class="anchor" name="gui"></a>Graphical interface security</h2>
+<p>Graphical interface may interact with netctl over <a href="#helper">DBus (the helper)</a> and over <a href="#library">the library</a>. Please refer to their notes to any additional information. If user uses helper he should have permissions to run it.</p>
+
+<h2><a href="#kde" class="anchor" name="kde"></a>KDE components security</h2>
+<p>There are two netctl-based commands which are run from the DataEngine</p>
+<ul>
+  <li><code>&lt;cmd&gt; list</code></li>
+  <li><code>netctl is-enabled &lt;profile&gt;</code></li>
+</ul>
+<p>Both of them do not require any additional privileges normally. Also DataEngine has two other command which will be run from; they should define external IP. According to the idea that user can set <b>any</b> command to run, this module is not secure. But running commands will not do more than user can do from console himself.</p>
+
+<p>The widget gets information from DataEngine, thus it does not require any additional permissions to show information. But netctl calls are used to control netctl. In this case used commands are</p>
+<ul>
+  <li><code>netctl enable &lt;profile&gt;</code></li>
+  <li><code>netctl disable &lt;profile&gt;</code></li>
+  <li><code>netctl restart &lt;profile&gt;</code></li>
+  <li><code>netctl start &lt;profile&gt;</code></li>
+  <li><code>netctl stop &lt;profile&gt;</code></li>
+  <li><code>netctl switch-to &lt;profile&gt;</code></li>
+  <li><code>netctl-auto switch-to &lt;profile&gt;</code></li>
+</ul>
+<p>All netctl-based commands <b>require</b> root privileges and <code>sudo</code> (and any other alternatives) is used normally as prefix to the commands. The netctl-auto command <b>does not require</b> additional permissions.</p>
+
+<p>The other way is to use DBus communication with <a href="#helper">the helper</a>. In this case user should have rights to start the helper.</p>
 
 <h2><a href="#links" class="anchor" name="links"></a>External links</h2>
 <ul>
