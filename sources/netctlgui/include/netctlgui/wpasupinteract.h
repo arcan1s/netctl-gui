@@ -92,6 +92,11 @@ public:
      */
     QString existentProfile(const QString essid);
     /**
+     * @brief method which check system configuration and return recommended values to keys
+     * @return recommended parametrs
+     */
+    static QMap<QString, QString> getRecommendedConfiguration();
+    /**
      * @brief method which checks profile status by ESSID
      * @param essid          ESSID name
      * @return false if profile is inactive

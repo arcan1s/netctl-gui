@@ -24,6 +24,7 @@
 
 
 #include <QDebug>
+#include <grp.h>
 
 #include "netctlgui.h"
 #include "pdebug.h"
@@ -101,6 +102,102 @@ QString WpaSup::existentProfile(const QString essid)
             profileFile = profileList[i].name;
 
     return profileFile;
+}
+
+
+/**
+ * @fn getRecommendedConfiguration
+ */
+QMap<QString, QString> WpaSup::getRecommendedConfiguration()
+{
+    QMap<QString, QString> settings;
+    int size = 99;
+    QString cmd;
+    TaskResult process;
+    QStringList recommended;
+    // ctrl directory
+    // nothing to do
+    settings[QString("CTRL_DIR")] = QString("/run/wpa_supplicant_netctl-gui");
+    // ctrl group
+    // check group list and find out 'network', 'users', 'root'
+    settings[QString("CTRL_GROUP")] = QString("");
+    gid_t gtpList[99];
+    int grpSize = getgroups(size, gtpList);
+    recommended.clear();
+    recommended.append("network");
+    recommended.append("users");
+    recommended.append("root");
+    for (int i=0; i<recommended.count(); i++) {
+        for (int j=0; j<grpSize; j++)
+            if (recommended[i] == QString(getgrgid(gtpList[j])->gr_name)) {
+                settings[QString("CTRL_GROUP")] = recommended[i];
+                break;
+            }
+        if (!settings[QString("CTRL_GROUP")].isEmpty()) break;
+    }
+    // force sudo
+    // find out helper exe
+    settings[QString("FORCE_SUDO")] = QString("true");
+    recommended.clear();
+    recommended.append(QString("netctlgui-helper"));
+    recommended.append(QString("netctlgui-helper-suid"));
+    for (int i=0; i<recommended.count(); i++) {
+        cmd = QString("which ") + recommended[i];
+        process = runTask(cmd, false);
+        if (process.exitCode == 0) {
+            settings[QString("FORCE_SUDO")] = QString("false");
+            break;
+        }
+    }
+    // pid file
+    // nothing to do
+    settings[QString("PID_FILE")] = QString("/run/wpa_supplicant_netctl-gui.pid");
+    // sudo path
+    // find out sudo, kdesu, gksu exes
+    settings[QString("SUDO_PATH")] = QString("");
+    recommended.clear();
+    recommended.append("sudo");
+    recommended.append("kdesu");
+    recommended.append("gksu");
+    for (int i=0; i<recommended.count(); i++) {
+        cmd = QString("which ") + recommended[i];
+        process = runTask(cmd, false);
+        if (process.exitCode == 0) {
+            settings[QString("SUDO_PATH")] = process.output.trimmed();
+            break;
+        }
+    }
+    // wpa_cli path
+    // find out wpa_cli exe
+    settings[QString("WPACLI_PATH")] = QString("true");
+    recommended.clear();
+    recommended.append("wpa_cli");
+    for (int i=0; i<recommended.count(); i++) {
+        cmd = QString("which ") + recommended[i];
+        process = runTask(cmd, false);
+        if (process.exitCode == 0) {
+            settings[QString("WPACLI_PATH")] = process.output.trimmed();
+            break;
+        }
+    }
+    // wpa drivers
+    // nothing to do
+    settings[QString("WPA_DRIVERS")] = QString("nl80211,wext");
+    // wpa_supplicant path
+    // find out wpa_supplicant exe
+    settings[QString("WPASUP_PATH")] = QString("true");
+    recommended.clear();
+    recommended.append("wpa_supplicant");
+    for (int i=0; i<recommended.count(); i++) {
+        cmd = QString("which ") + recommended[i];
+        process = runTask(cmd, false);
+        if (process.exitCode == 0) {
+            settings[QString("WPASUP_PATH")] = process.output.trimmed();
+            break;
+        }
+    }
+
+    return settings;
 }
 
 
