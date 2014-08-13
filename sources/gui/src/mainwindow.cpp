@@ -34,6 +34,7 @@
 #include "netctlautowindow.h"
 #include "netctlguiadaptor.h"
 #include "passwdwidget.h"
+#include "pdebug.h"
 #include "pppoewidget.h"
 #include "settingswindow.h"
 #include "taskadds.h"
@@ -55,18 +56,18 @@ MainWindow::MainWindow(QWidget *parent,
       qtTranslator(qtAppTranslator),
       translator(appTranslator)
 {
-    if (debug) qDebug() << "[MainWindow]" << "[MainWindow]" << ":" << "about" << args[QString("about")].toBool();
-    if (debug) qDebug() << "[MainWindow]" << "[MainWindow]" << ":" << "auto" << args[QString("auto")].toBool();
-    if (debug) qDebug() << "[MainWindow]" << "[MainWindow]" << ":" << "config" << configPath;
-    if (debug) qDebug() << "[MainWindow]" << "[MainWindow]" << ":" << "debug" << debug;
-    if (debug) qDebug() << "[MainWindow]" << "[MainWindow]" << ":" << "defaults" << args[QString("defaults")].toBool();
-    if (debug) qDebug() << "[MainWindow]" << "[MainWindow]" << ":" << "essid" << args[QString("essid")].toString();
-    if (debug) qDebug() << "[MainWindow]" << "[MainWindow]" << ":" << "minimized" << args[QString("minimized")].toInt();
-    if (debug) qDebug() << "[MainWindow]" << "[MainWindow]" << ":" << "open" << args[QString("open")].toString();
-    if (debug) qDebug() << "[MainWindow]" << "[MainWindow]" << ":" << "options" << args[QString("options")].toString();
-    if (debug) qDebug() << "[MainWindow]" << "[MainWindow]" << ":" << "select" << args[QString("select")].toString();
-    if (debug) qDebug() << "[MainWindow]" << "[MainWindow]" << ":" << "settings" << args[QString("settings")].toBool();
-    if (debug) qDebug() << "[MainWindow]" << "[MainWindow]" << ":" << "tab" << args[QString("tab")].toInt();
+    if (debug) qDebug() << PDEBUG << ":" << "about" << args[QString("about")].toBool();
+    if (debug) qDebug() << PDEBUG << ":" << "auto" << args[QString("auto")].toBool();
+    if (debug) qDebug() << PDEBUG << ":" << "config" << configPath;
+    if (debug) qDebug() << PDEBUG << ":" << "debug" << debug;
+    if (debug) qDebug() << PDEBUG << ":" << "defaults" << args[QString("defaults")].toBool();
+    if (debug) qDebug() << PDEBUG << ":" << "essid" << args[QString("essid")].toString();
+    if (debug) qDebug() << PDEBUG << ":" << "minimized" << args[QString("minimized")].toInt();
+    if (debug) qDebug() << PDEBUG << ":" << "open" << args[QString("open")].toString();
+    if (debug) qDebug() << PDEBUG << ":" << "options" << args[QString("options")].toString();
+    if (debug) qDebug() << PDEBUG << ":" << "select" << args[QString("select")].toString();
+    if (debug) qDebug() << PDEBUG << ":" << "settings" << args[QString("settings")].toBool();
+    if (debug) qDebug() << PDEBUG << ":" << "tab" << args[QString("tab")].toInt();
 
     if (args[QString("minimized")].toInt() == 1)
         isDaemon = true;
@@ -80,7 +81,7 @@ MainWindow::MainWindow(QWidget *parent,
             if (ui->tableWidget_wifi->item(i, 0)->text() == args[QString("essid")].toString())
                 ui->tableWidget_wifi->setCurrentCell(i, 0);
         if (ui->tableWidget_wifi->currentItem() == 0)
-            errorWin->showWindow(18, QString("[MainWindow] : [MainWindow]"));
+            errorWin->showWindow(18, QString(PDEBUG));
     } else if (args[QString("open")].toString() != QString("PROFILE")) {
         ui->comboBox_profile->addItem(args[QString("open")].toString());
         ui->comboBox_profile->setCurrentIndex(ui->comboBox_profile->count()-1);
@@ -89,7 +90,7 @@ MainWindow::MainWindow(QWidget *parent,
             if (ui->tableWidget_main->item(i, 0)->text() == args[QString("select")].toString())
                 ui->tableWidget_main->setCurrentCell(i, 0);
         if (ui->tableWidget_main->currentItem() == 0)
-            errorWin->showWindow(17, QString("[MainWindow] : [MainWindow]"));
+            errorWin->showWindow(17, QString(PDEBUG));
     }
 
     // show windows
@@ -106,7 +107,7 @@ MainWindow::MainWindow(QWidget *parent,
 
 MainWindow::~MainWindow()
 {
-    if (debug) qDebug() << "[MainWindow]" << "[~MainWindow]";
+    if (debug) qDebug() << PDEBUG;
 
     if ((useHelper) && (configuration[QString("CLOSE_HELPER")] == QString("true")))
         forceStopHelper();
@@ -116,7 +117,7 @@ MainWindow::~MainWindow()
 
 QStringList MainWindow::printInformation()
 {
-    if (debug) qDebug() << "[MainWindow]" << "[printInformation]";
+    if (debug) qDebug() << PDEBUG;
 
     QString profile;
     QString status;
@@ -145,7 +146,7 @@ QStringList MainWindow::printInformation()
 
 QStringList MainWindow::printSettings()
 {
-    if (debug) qDebug() << "[MainWindow]" << "[printSettings]";
+    if (debug) qDebug() << PDEBUG;
 
     QStringList settingsList;
     for (int i=0; i<configuration.keys().count(); i++)
@@ -158,7 +159,7 @@ QStringList MainWindow::printSettings()
 
 QStringList MainWindow::printTrayInformation()
 {
-    if (debug) qDebug() << "[MainWindow]" << "[printTrayInformation]";
+    if (debug) qDebug() << PDEBUG;
 
     QStringList information;
     QString current;
@@ -212,7 +213,7 @@ QStringList MainWindow::printTrayInformation()
 
 bool MainWindow::isHelperActive()
 {
-    if (debug) qDebug() << "[MainWindow]" << "[isHelperActive]";
+    if (debug) qDebug() << PDEBUG;
 
     QList<QVariant> responce = sendDBusRequest(DBUS_HELPER_SERVICE, DBUS_CTRL_PATH,
                                                DBUS_HELPER_INTERFACE, QString("Active"),
@@ -224,13 +225,13 @@ bool MainWindow::isHelperActive()
 
 bool MainWindow::isHelperServiceActive()
 {
-    if (debug) qDebug() << "[MainWindow]" << "[isHelperServiceActive]";
+    if (debug) qDebug() << PDEBUG;
 
     QString cmd = configuration[QString("SYSTEMCTL_PATH")] + QString(" is-active ") +
             configuration[QString("HELPER_SERVICE")];
-    if (debug) qDebug() << "[MainWindow]" << "[isHelperServiceActive]" << ":" << "Run cmd" << cmd;
+    if (debug) qDebug() << PDEBUG << "Run cmd" << cmd;
     TaskResult process = runTask(cmd, false);
-    if (debug) qDebug() << "[MainWindow]" << "[isHelperServiceActive]" << ":" << "Cmd returns" << process.exitCode;
+    if (debug) qDebug() << PDEBUG << ":" << "Cmd returns" << process.exitCode;
 
     if (process.exitCode != 0)
         return false;
@@ -241,7 +242,7 @@ bool MainWindow::isHelperServiceActive()
 
 void MainWindow::closeEvent(QCloseEvent *event)
 {
-    if (debug) qDebug() << "[MainWindow]" << "[closeEvent]";
+    if (debug) qDebug() << PDEBUG;
 
     if ((QSystemTrayIcon::isSystemTrayAvailable()) &&
             (configuration[QString("SYSTRAY")] == QString("true"))) {
@@ -254,7 +255,7 @@ void MainWindow::closeEvent(QCloseEvent *event)
 
 bool MainWindow::checkExternalApps(const QString apps = QString("all"))
 {
-    if (debug) qDebug() << "[MainWindow]" << "[checkExternalApps]";
+    if (debug) qDebug() << PDEBUG;
 
     QStringList cmd;
     cmd.append("which");
@@ -274,9 +275,9 @@ bool MainWindow::checkExternalApps(const QString apps = QString("all"))
         cmd.append(configuration[QString("WPASUP_PATH")]);
     }
 
-    if (debug) qDebug() << "[MainWindow]" << "[checkExternalApps]" << ":" << "Run cmd" << cmd.join(QChar(' '));
+    if (debug) qDebug() << PDEBUG << ":" << "Run cmd" << cmd.join(QChar(' '));
     TaskResult process = runTask(cmd.join(QChar(' ')), false);
-    if (debug) qDebug() << "[MainWindow]" << "[checkExternalApps]" << ":" << "Cmd returns" << process.exitCode;
+    if (debug) qDebug() << PDEBUG << ":" << "Cmd returns" << process.exitCode;
 
     if (process.exitCode != 0)
         return false;
@@ -287,7 +288,7 @@ bool MainWindow::checkExternalApps(const QString apps = QString("all"))
 
 bool MainWindow::checkHelperStatus()
 {
-    if (debug) qDebug() << "[MainWindow]" << "[checkHelperStatus]";
+    if (debug) qDebug() << PDEBUG;
 
     if (useHelper) useHelper = isHelperActive();
     if (useHelper)
@@ -305,9 +306,9 @@ bool MainWindow::checkHelperStatus()
 
 QString MainWindow::checkStatus(const bool statusBool, const bool nullFalse)
 {
-    if (debug) qDebug() << "[MainWindow]" << "[checkStatus]";
-    if (debug) qDebug() << "[MainWindow]" << "[checkStatus]" << ":" << "Status" << statusBool;
-    if (debug) qDebug() << "[MainWindow]" << "[checkStatus]" << ":" << "Return null false" << nullFalse;
+    if (debug) qDebug() << PDEBUG;
+    if (debug) qDebug() << PDEBUG << ":" << "Status" << statusBool;
+    if (debug) qDebug() << PDEBUG << ":" << "Return null false" << nullFalse;
 
     if (statusBool)
         return QApplication::translate("MainWindow", "yes");
@@ -321,7 +322,7 @@ QString MainWindow::checkStatus(const bool statusBool, const bool nullFalse)
 // window signals
 void MainWindow::createActions()
 {
-    if (debug) qDebug() << "[MainWindow]" << "[createActions]";
+    if (debug) qDebug() << PDEBUG;
 
     connect(ui->tabWidget, SIGNAL(currentChanged(int)), this, SLOT(updateTabs(int)));
     connect(ui->actionAbout, SIGNAL(triggered(bool)), this, SLOT(showAboutWindow()));
@@ -374,25 +375,25 @@ void MainWindow::createActions()
 
 void MainWindow::createDBusSession()
 {
-    if (debug) qDebug() << "[MainWindow]" << "[createDBusSession]";
+    if (debug) qDebug() << PDEBUG;
 
     QDBusConnection bus = QDBusConnection::sessionBus();
     if (!bus.registerService(DBUS_SERVICE)) {
-        if (debug) qDebug() << "[MainWindow]" << "[createDBusSession]" << ":" << "Could not register service";
-        if (debug) qDebug() << "[MainWindow]" << "[createDBusSession]" << ":" << bus.lastError().message();
+        if (debug) qDebug() << PDEBUG << ":" << "Could not register service";
+        if (debug) qDebug() << PDEBUG << ":" << bus.lastError().message();
     }
     if (!bus.registerObject(DBUS_OBJECT_PATH,
                             new NetctlGuiAdaptor(this),
                             QDBusConnection::ExportAllContents)) {
-        if (debug) qDebug() << "[MainWindow]" << "[createDBusSession]" << ":" << "Could not register GUI object";
-        if (debug) qDebug() << "[MainWindow]" << "[createDBusSession]" << ":" << bus.lastError().message();
+        if (debug) qDebug() << PDEBUG << ":" << "Could not register GUI object";
+        if (debug) qDebug() << PDEBUG << ":" << bus.lastError().message();
     }
 }
 
 
 void MainWindow::createObjects()
 {
-    if (debug) qDebug() << "[MainWindow]" << "[createObjects]";
+    if (debug) qDebug() << PDEBUG;
 
     // error messages
     errorWin = new ErrorWindow(this, debug);
@@ -400,7 +401,7 @@ void MainWindow::createObjects()
     createDBusSession();
     if (useHelper)
         if (!forceStartHelper()) {
-            errorWin->showWindow(19, QString("[MainWindow] : [createObjects]"));
+            errorWin->showWindow(19, QString(PDEBUG));
             useHelper = false;
         }
     checkHelperStatus();
@@ -448,7 +449,7 @@ void MainWindow::createObjects()
 
 void MainWindow::deleteObjects()
 {
-    if (debug) qDebug() << "[MainWindow]" << "[deleteObjects]";
+    if (debug) qDebug() << PDEBUG;
 
     QDBusConnection::sessionBus().unregisterObject(DBUS_OBJECT_PATH);
     QDBusConnection::sessionBus().unregisterService(DBUS_SERVICE);
@@ -479,7 +480,7 @@ void MainWindow::deleteObjects()
 
 void MainWindow::keyPressEvent(QKeyEvent *pressedKey)
 {
-    if (debug) qDebug() << "[MainWindow]" << "[keyPressEvent]";
+    if (debug) qDebug() << PDEBUG;
 
     if (pressedKey->key() == Qt::Key_Return)
         if (ui->comboBox_profile->hasFocus())
@@ -489,7 +490,7 @@ void MainWindow::keyPressEvent(QKeyEvent *pressedKey)
 
 QMap<QString, QString> MainWindow::parseOptions(const QString options)
 {
-    if (debug) qDebug() << "[MainWindow]" << "[parseOptions]";
+    if (debug) qDebug() << PDEBUG;
 
     QMap<QString, QString> settings;
     for (int i=0; i<options.split(QChar(',')).count(); i++) {
@@ -498,8 +499,7 @@ QMap<QString, QString> MainWindow::parseOptions(const QString options)
                 options.split(QChar(','))[i].split(QChar('='))[1];
     }
     for (int i=0; i<settings.keys().count(); i++)
-        if (debug) qDebug() << "[MainWindow]" << "[parseOptions]" << ":" <<
-                    settings.keys()[i] + QString("=") + settings[settings.keys()[i]];
+        if (debug) qDebug() << PDEBUG << ":" << settings.keys()[i] + QString("=") + settings[settings.keys()[i]];
 
     return settings;
 }

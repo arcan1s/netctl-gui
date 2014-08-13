@@ -22,6 +22,7 @@
 #include <QDialogButtonBox>
 #include <QPushButton>
 
+#include "pdebug.h"
 #include "version.h"
 
 
@@ -38,7 +39,7 @@ AboutWindow::AboutWindow(QWidget *parent, const bool debugCmd)
 
 AboutWindow::~AboutWindow()
 {
-    if (debug) qDebug() << "[AboutWindow]" << "[~AboutWindow]";
+    if (debug) qDebug() << PDEBUG;
 
     delete uiAbout;
     delete ui;
@@ -47,7 +48,7 @@ AboutWindow::~AboutWindow()
 
 void AboutWindow::createText()
 {
-    if (debug) qDebug() << "[AboutWindow]" << "[createText]";
+    if (debug) qDebug() << PDEBUG;
 
     QStringList trdPartyList = QString(TRDPARTY_LICENSE).split(QChar(';'), QString::SkipEmptyParts);
     for (int i=0; i<trdPartyList.count(); i++)
@@ -74,7 +75,7 @@ void AboutWindow::createText()
 
 void AboutWindow::createUi()
 {
-    if (debug) qDebug() << "[AboutWindow]" << "[createUi]";
+    if (debug) qDebug() << PDEBUG;
 
     QWidget *aboutWidget = new QWidget();
     uiAbout = new Ui::About;
@@ -89,7 +90,7 @@ void AboutWindow::createUi()
 // ESC press event
 void AboutWindow::keyPressEvent(QKeyEvent *pressedKey)
 {
-    if (debug) qDebug() << "[AboutWindow]" << "[keyPressEvent]";
+    if (debug) qDebug() << PDEBUG;
 
     if (pressedKey->key() == Qt::Key_Escape)
         close();

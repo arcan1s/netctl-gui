@@ -31,6 +31,7 @@ class NetctlAdaptor : public QDBusAbstractAdaptor
 
 public:
     explicit NetctlAdaptor(QObject *parent = 0,
+                           const bool debugCmd = false,
                            const QMap<QString, QString> configuration = QMap<QString, QString>());
     ~NetctlAdaptor();
 
@@ -54,9 +55,10 @@ public slots:
     QStringList WirelessInterfaces();
 
 private:
-    Netctl *netctlCommand;
-    NetctlProfile *netctlProfile;
-    WpaSup *wpaCommand;
+    bool debug;
+    Netctl *netctlCommand = nullptr;
+    NetctlProfile *netctlProfile = nullptr;
+    WpaSup *wpaCommand = nullptr;
 };
 
 

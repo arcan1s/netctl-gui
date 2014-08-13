@@ -21,11 +21,13 @@
 #include <QDBusMessage>
 #include <QDebug>
 
+#include "pdebug.h"
+
 
 QList<netctlProfileInfo> parseOutputNetctl(const QList<QVariant> raw,
                                            const bool debug)
 {
-    if (debug) qDebug() << "[parseOutputNetctl]";
+    if (debug) qDebug() << PDEBUG;
 
     QList<netctlProfileInfo> profileInfo;
     if (raw.size() == 0)
@@ -47,7 +49,7 @@ QList<netctlProfileInfo> parseOutputNetctl(const QList<QVariant> raw,
 QList<netctlWifiInfo> parseOutputWifi(const QList<QVariant> raw,
                                       const bool debug)
 {
-    if (debug) qDebug() << "[MainWindow]" << "[parseOutputNetctl]";
+    if (debug) qDebug() << PDEBUG;
 
     QList<netctlWifiInfo> wifiInfo;
     if (raw.size() == 0)
@@ -72,13 +74,13 @@ QList<QVariant> sendDBusRequest(const QString service, const QString path,
                                 const QList<QVariant> args, const bool system,
                                 const bool debug)
 {
-    if (debug) qDebug() << "[sendDBusRequest]";
-    if (debug) qDebug() << "[sendDBusRequest]" << ":" << "Service" << service;
-    if (debug) qDebug() << "[sendDBusRequest]" << ":" << "Path" << path;
-    if (debug) qDebug() << "[sendDBusRequest]" << ":" << "Interface" << interface;
-    if (debug) qDebug() << "[sendDBusRequest]" << ":" << "cmd" << cmd;
-    if (debug) qDebug() << "[sendDBusRequest]" << ":" << "args" << args;
-    if (debug) qDebug() << "[sendDBusRequest]" << ":" << "is system bus" << system;
+    if (debug) qDebug() << PDEBUG;
+    if (debug) qDebug() << PDEBUG << ":" << "Service" << service;
+    if (debug) qDebug() << PDEBUG << ":" << "Path" << path;
+    if (debug) qDebug() << PDEBUG << ":" << "Interface" << interface;
+    if (debug) qDebug() << PDEBUG << ":" << "cmd" << cmd;
+    if (debug) qDebug() << PDEBUG << ":" << "args" << args;
+    if (debug) qDebug() << PDEBUG << ":" << "is system bus" << system;
 
     QList<QVariant> arguments;
     QDBusMessage response;
@@ -97,7 +99,7 @@ QList<QVariant> sendDBusRequest(const QString service, const QString path,
     }
     arguments = response.arguments();
     if (arguments.size() == 0)
-        if (debug) qDebug() << "[sendDBusRequest]" << ":" << "Error message" << response.errorMessage();
+        if (debug) qDebug() << PDEBUG << ":" << "Error message" << response.errorMessage();
 
     return arguments;
 }

@@ -24,22 +24,23 @@
 #include "version.h"
 
 
-ControlAdaptor::ControlAdaptor(NetctlHelper *parent, const QMap<QString, QString> configuration)
+ControlAdaptor::ControlAdaptor(NetctlHelper *parent, const bool debugCmd, const QMap<QString, QString> configuration)
     : QDBusAbstractAdaptor(parent),
+      debug(debugCmd),
       helper(parent)
 
 {
-    netctlCommand = new Netctl(false, configuration);
-    netctlProfile = new NetctlProfile(false, configuration);
-    wpaCommand = new WpaSup(false, configuration);
+    netctlCommand = new Netctl(debug, configuration);
+    netctlProfile = new NetctlProfile(debug, configuration);
+    wpaCommand = new WpaSup(debug, configuration);
 }
 
 
 ControlAdaptor::~ControlAdaptor()
 {
-    delete netctlCommand;
-    delete netctlProfile;
-    delete wpaCommand;
+    if (netctlCommand != nullptr) delete netctlCommand;
+    if (netctlProfile != nullptr) delete netctlProfile;
+    if (wpaCommand != nullptr) delete wpaCommand;
 }
 
 

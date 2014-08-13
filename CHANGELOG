@@ -1,6 +1,7 @@
 Ver.1.3.0
 ---------
 * all:
+    + add processes error messages
     * some bug fixes and refactoring
 * dataengine:
     + add new sources: intIp6, extIp6, netctlAutoStatus
@@ -27,6 +28,9 @@ Ver.1.3.0
     + add custom structures netctlWifiInfo and netctlProfileInfo
     + add methods getActiveProfile(), autoGetActiveProfile()
     + add slot switchToProfile()
+    + add slot stopAllProfiles()
+    + add slot reenableProfile()
+    + add double quotes to profile names
     * rewrite to use [tasks](https://github.com/mhogomchungu/tasks) (see #7)
     * rename getInterfaceList() to getWirelessInterfaceList()
     - remove functions getProfileDescriptions() and getProfileStatuses()

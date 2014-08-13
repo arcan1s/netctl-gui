@@ -22,6 +22,8 @@
 #include <QSpacerItem>
 #include <QDebug>
 
+#include "pdebug.h"
+
 
 ErrorWindow::ErrorWindow(QWidget *parent, const bool debugCmd)
     : debug(debugCmd)
@@ -31,15 +33,15 @@ ErrorWindow::ErrorWindow(QWidget *parent, const bool debugCmd)
 
 ErrorWindow::~ErrorWindow()
 {
-    if (debug) qDebug() << "[ErrorWindow]" << "[~ErrorWindow]";
+    if (debug) qDebug() << PDEBUG;
 }
 
 
 QStringList ErrorWindow::getMessage(const int mess, const QString custom)
 {
-    if (debug) qDebug() << "[ErrorWindow]" << "[getMessage]";
-    if (debug) qDebug() << "[ErrorWindow]" << "[getMessage]" << ":" << "Message" << mess;
-    if (debug) qDebug() << "[ErrorWindow]" << "[getMessage]" << ":" << "Custom message" << custom;
+    if (debug) qDebug() << PDEBUG;
+    if (debug) qDebug() << PDEBUG << ":" << "Message" << mess;
+    if (debug) qDebug() << PDEBUG << ":" << "Custom message" << custom;
 
     QString message, title;
     switch(mess) {
@@ -136,8 +138,8 @@ QStringList ErrorWindow::getMessage(const int mess, const QString custom)
 
 QMessageBox::Icon ErrorWindow::getIcon(const int mess)
 {
-    if (debug) qDebug() << "[ErrorWindow]" << "[getIcon]";
-    if (debug) qDebug() << "[ErrorWindow]" << "[getIcon]" << ":" << "Message" << mess;
+    if (debug) qDebug() << PDEBUG;
+    if (debug) qDebug() << PDEBUG << ":" << "Message" << mess;
 
     QMessageBox::Icon icon;
     switch(mess) {
@@ -173,10 +175,10 @@ QMessageBox::Icon ErrorWindow::getIcon(const int mess)
 
 void ErrorWindow::showWindow(const int mess, const QString sender, const QString custom)
 {
-    if (debug) qDebug() << "[ErrorWindow]" << "[showWindow]";
-    if (debug) qDebug() << "[ErrorWindow]" << "[showWindow]" << ":" << "Message" << mess;
-    if (debug) qDebug() << "[ErrorWindow]" << "[showWindow]" << ":" << "Sender" << sender;
-    if (debug) qDebug() << "[ErrorWindow]" << "[showWindow]" << ":" << "Custom message" << custom;
+    if (debug) qDebug() << PDEBUG;
+    if (debug) qDebug() << PDEBUG << ":" << "Message" << mess;
+    if (debug) qDebug() << PDEBUG << ":" << "Sender" << sender;
+    if (debug) qDebug() << PDEBUG << ":" << "Custom message" << custom;
 
     QStringList message = getMessage(mess, custom);
     QMessageBox messageBox;

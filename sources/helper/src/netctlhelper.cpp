@@ -74,14 +74,14 @@ void NetctlHelper::createInterface()
         return quitHelper();
     }
     if (!bus.registerObject(DBUS_LIB_PATH,
-                            new NetctlAdaptor(this, configuration),
+                            new NetctlAdaptor(this, debug, configuration),
                             QDBusConnection::ExportAllContents)) {
         if (debug) qDebug() << "[NetctlHelper]" << "[createInterface]" << ":" << "Could not register library object";
         if (debug) qDebug() << "[NetctlHelper]" << "[createInterface]" << ":" << bus.lastError().message();
         return quitHelper();
     }
     if (!bus.registerObject(DBUS_CTRL_PATH,
-                            new ControlAdaptor(this, configuration),
+                            new ControlAdaptor(this, debug, configuration),
                             QDBusConnection::ExportAllContents)) {
         if (debug) qDebug() << "[NetctlHelper]" << "[createInterface]" << ":" << "Could not register control object";
         if (debug) qDebug() << "[NetctlHelper]" << "[createInterface]" << ":" << bus.lastError().message();

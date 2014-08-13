@@ -23,6 +23,7 @@
 #include <netctlgui/netctlgui.h>
 
 #include "dbusoperation.h"
+#include "pdebug.h"
 #include "version.h"
 
 
@@ -47,7 +48,7 @@ NetctlAutoWindow::NetctlAutoWindow(QWidget *parent, const bool debugCmd, const Q
 
 NetctlAutoWindow::~NetctlAutoWindow()
 {
-    if (debug) qDebug() << "[NetctlAutoWindow]" << "[~NetctlAutoWindow]";
+    if (debug) qDebug() << PDEBUG;
 
     delete ui;
     delete netctlCommand;
@@ -56,9 +57,9 @@ NetctlAutoWindow::~NetctlAutoWindow()
 
 QString NetctlAutoWindow::checkStatus(const bool statusBool, const bool nullFalse)
 {
-    if (debug) qDebug() << "[NetctlAutoWindow]" << "[checkStatus]";
-    if (debug) qDebug() << "[NetctlAutoWindow]" << "[checkStatus]" << ":" << "Status" << statusBool;
-    if (debug) qDebug() << "[NetctlAutoWindow]" << "[checkStatus]" << ":" << "Return null false" << nullFalse;
+    if (debug) qDebug() << PDEBUG;
+    if (debug) qDebug() << PDEBUG << ":" << "Status" << statusBool;
+    if (debug) qDebug() << PDEBUG << ":" << "Return null false" << nullFalse;
 
     if (statusBool)
         return QApplication::translate("NetctlAutoWindow", "yes");
@@ -71,7 +72,7 @@ QString NetctlAutoWindow::checkStatus(const bool statusBool, const bool nullFals
 
 void NetctlAutoWindow::createActions()
 {
-    if (debug) qDebug() << "[NetctlAutoWindow]" << "[createActions]";
+    if (debug) qDebug() << PDEBUG;
 
     // menu actions
     connect(ui->actionClose, SIGNAL(triggered(bool)), this, SLOT(close()));
@@ -99,7 +100,7 @@ void NetctlAutoWindow::createActions()
 
 void NetctlAutoWindow::showWindow()
 {
-    if (debug) qDebug() << "[NetctlAutoWindow]" << "[showWindow]";
+    if (debug) qDebug() << PDEBUG;
 
     netctlAutoUpdateTable();
 
@@ -109,7 +110,7 @@ void NetctlAutoWindow::showWindow()
 
 void NetctlAutoWindow::netctlAutoContextualMenu(const QPoint &pos)
 {
-    if (debug) qDebug() << "[NetctlAutoWindow]" << "[netctlAutoContextualMenu]";
+    if (debug) qDebug() << PDEBUG;
 
     if (ui->tableWidget->currentItem() == 0)
         return;
@@ -143,16 +144,16 @@ void NetctlAutoWindow::netctlAutoContextualMenu(const QPoint &pos)
     // actions
     QAction *action = menu.exec(ui->tableWidget->viewport()->mapToGlobal(pos));
     if (action == startProfile) {
-        if (debug) qDebug() << "[NetctlAutoWindow]" << "[netctlAutoContextualMenu]" << "Switch to profile";
+        if (debug) qDebug() << PDEBUG << ":" << "Switch to profile";
         netctlAutoStartProfile();
     } else if (action == enableProfile) {
-        if (debug) qDebug() << "[NetctlAutoWindow]" << "[netctlAutoContextualMenu]" << "Enable profile";
+        if (debug) qDebug() << PDEBUG << ":" << "Enable profile";
         netctlAutoEnableProfile();
     } else if (action == enableAllProfiles) {
-        if (debug) qDebug() << "[NetctlAutoWindow]" << "[netctlAutoContextualMenu]" << "Enable all profiles";
+        if (debug) qDebug() << PDEBUG << ":" << "Enable all profiles";
         netctlAutoEnableAllProfiles();
     } else if (action == disableAllProfiles) {
-        if (debug) qDebug() << "[NetctlAutoWindow]" << "[netctlAutoContextualMenu]" << "Disable all profiles";
+        if (debug) qDebug() << PDEBUG << ":" << "Disable all profiles";
         netctlAutoDisableAllProfiles();
     }
 }
@@ -160,7 +161,7 @@ void NetctlAutoWindow::netctlAutoContextualMenu(const QPoint &pos)
 
 void NetctlAutoWindow::netctlAutoUpdateTable()
 {
-    if (debug) qDebug() << "[NetctlAutoWindow]" << "[netctlAutoUpdateTable]";
+    if (debug) qDebug() << PDEBUG;
 
     ui->tableWidget->setDisabled(true);
     // actions
@@ -267,7 +268,7 @@ void NetctlAutoWindow::netctlAutoUpdateTable()
 
 void NetctlAutoWindow::netctlAutoDisableAllProfiles()
 {
-    if (debug) qDebug() << "[NetctlAutoWindow]" << "[netctlAutoDisableAllProfiles]";
+    if (debug) qDebug() << PDEBUG;
 
     ui->tableWidget->setDisabled(true);
     bool status = false;
@@ -288,7 +289,7 @@ void NetctlAutoWindow::netctlAutoDisableAllProfiles()
 
 void NetctlAutoWindow::netctlAutoEnableProfile()
 {
-    if (debug) qDebug() << "[NetctlAutoWindow]" << "[netctlAutoEnableProfile]";
+    if (debug) qDebug() << PDEBUG;
 
     if (ui->tableWidget->currentItem() == 0)
         return;
@@ -314,7 +315,7 @@ void NetctlAutoWindow::netctlAutoEnableProfile()
 
 void NetctlAutoWindow::netctlAutoEnableAllProfiles()
 {
-    if (debug) qDebug() << "[NetctlAutoWindow]" << "[netctlAutoEnableAllProfiles]";
+    if (debug) qDebug() << PDEBUG;
 
     ui->tableWidget->setDisabled(true);
     bool status = false;
@@ -335,7 +336,7 @@ void NetctlAutoWindow::netctlAutoEnableAllProfiles()
 
 void NetctlAutoWindow::netctlAutoStartProfile()
 {
-    if (debug) qDebug() << "[NetctlAutoWindow]" << "[netctlAutoStartProfile]";
+    if (debug) qDebug() << PDEBUG;
 
     if (ui->tableWidget->currentItem() == 0)
         return;
@@ -361,7 +362,7 @@ void NetctlAutoWindow::netctlAutoStartProfile()
 
 void NetctlAutoWindow::netctlAutoEnableService()
 {
-    if (debug) qDebug() << "[NetctlAutoWindow]" << "[netctlAutoEnableService]";
+    if (debug) qDebug() << PDEBUG;
 
     bool status = false;
     if (useHelper)
@@ -381,7 +382,7 @@ void NetctlAutoWindow::netctlAutoEnableService()
 
 void NetctlAutoWindow::netctlAutoRestartService()
 {
-    if (debug) qDebug() << "[NetctlAutoWindow]" << "[netctlAutoRestartService]";
+    if (debug) qDebug() << PDEBUG;
 
     bool status = false;
     if (useHelper)
@@ -401,7 +402,7 @@ void NetctlAutoWindow::netctlAutoRestartService()
 
 void NetctlAutoWindow::netctlAutoStartService()
 {
-    if (debug) qDebug() << "[NetctlAutoWindow]" << "[netctlAutoStartService]";
+    if (debug) qDebug() << PDEBUG;
 
     bool status = false;
     if (useHelper)
@@ -422,7 +423,7 @@ void NetctlAutoWindow::netctlAutoStartService()
 void NetctlAutoWindow::netctlAutoRefreshButtons(QTableWidgetItem *current, QTableWidgetItem *previous)
 {
     Q_UNUSED(previous);
-    if (debug) qDebug() << "[NetctlAutoWindow]" << "[netctlAutoRefreshButtons]";
+    if (debug) qDebug() << PDEBUG;
 
     if (current == 0) {
         // buttons

@@ -22,6 +22,7 @@
 #include <QMessageBox>
 
 #include "mainwindow.h"
+#include "pdebug.h"
 
 
 TrayIcon::TrayIcon(QObject *parent, const bool debugCmd)
@@ -36,7 +37,7 @@ TrayIcon::TrayIcon(QObject *parent, const bool debugCmd)
 
 TrayIcon::~TrayIcon()
 {
-    if (debug) qDebug() << "[TrayIcon]" << "[~TrayIcon]";
+    if (debug) qDebug() << PDEBUG;
 
     setContextMenu(0);
     startProfileMenu->clear();
@@ -52,7 +53,7 @@ TrayIcon::~TrayIcon()
 
 int TrayIcon::showInformation()
 {
-    if (debug) qDebug() << "[TrayIcon]" << "[showInformation]";
+    if (debug) qDebug() << PDEBUG;
 
     if (supportsMessages()) {
         QString title = QApplication::translate("TrayIcon", "netctl status");
@@ -69,7 +70,7 @@ int TrayIcon::showInformation()
 
 int TrayIcon::showInformationInWindow()
 {
-    if (debug) qDebug() << "[TrayIcon]" << "[showInformationInWindow]";
+    if (debug) qDebug() << PDEBUG;
 
     QString title = QApplication::translate("TrayIcon", "netctl status");
     QStringList info = mainWindow->printInformation();
@@ -82,7 +83,7 @@ int TrayIcon::showInformationInWindow()
 
 void TrayIcon::updateMenu()
 {
-    if (debug) qDebug() << "[TrayIcon]" << "[showInformationInWindow]";
+    if (debug) qDebug() << PDEBUG;
 
     QStringList info = mainWindow->printTrayInformation();
     bool netctlAutoStatus = info[0].toInt();
@@ -148,7 +149,7 @@ void TrayIcon::updateMenu()
 
 void TrayIcon::createActions()
 {
-    if (debug) qDebug() << "[TrayIcon]" << "[createActions]";
+    if (debug) qDebug() << PDEBUG;
 
     menuActions = new QMenu();
 
@@ -201,7 +202,7 @@ void TrayIcon::createActions()
 
 void TrayIcon::init()
 {
-    if (debug) qDebug() << "[TrayIcon]" << "[init]";
+    if (debug) qDebug() << PDEBUG;
 
     setIcon(QIcon(":icon"));
     setToolTip(QString("netctl-gui"));
@@ -217,8 +218,8 @@ void TrayIcon::init()
 
 void TrayIcon::itemActivated(const QSystemTrayIcon::ActivationReason reason)
 {
-    if (debug) qDebug() << "[TrayIcon]" << "[itemActivated]";
-    if (debug) qDebug() << "[TrayIcon]" << "[itemActivated]" << ":" << "Reason" << reason;
+    if (debug) qDebug() << PDEBUG;
+    if (debug) qDebug() << PDEBUG << ":" << "Reason" << reason;
 
     switch (reason) {
     case QSystemTrayIcon::Trigger:
@@ -238,7 +239,7 @@ void TrayIcon::itemActivated(const QSystemTrayIcon::ActivationReason reason)
 
 bool TrayIcon::enableProfileSlot()
 {
-    if (debug) qDebug() << "[TrayIcon]" << "[enableProfileSlot]";
+    if (debug) qDebug() << PDEBUG;
 
     QString profile = mainWindow->printInformation()[0];
 
@@ -248,7 +249,7 @@ bool TrayIcon::enableProfileSlot()
 
 bool TrayIcon::restartProfileSlot()
 {
-    if (debug) qDebug() << "[TrayIcon]" << "[restartProfileSlot]";
+    if (debug) qDebug() << PDEBUG;
 
     QString profile = mainWindow->printInformation()[0];
 
@@ -258,7 +259,7 @@ bool TrayIcon::restartProfileSlot()
 
 bool TrayIcon::startProfileSlot(QAction *action)
 {
-    if (debug) qDebug() << "[TrayIcon]" << "[startProfileSlot]";
+    if (debug) qDebug() << PDEBUG;
 
     QString profile = action->text().remove(QChar('&'));
 
@@ -268,7 +269,7 @@ bool TrayIcon::startProfileSlot(QAction *action)
 
 bool TrayIcon::stopProfileSlot()
 {
-    if (debug) qDebug() << "[TrayIcon]" << "[stopProfileSlot]";
+    if (debug) qDebug() << PDEBUG;
 
     QString profile = mainWindow->printInformation()[0];
 
@@ -278,7 +279,7 @@ bool TrayIcon::stopProfileSlot()
 
 bool TrayIcon::switchToProfileSlot(QAction *action)
 {
-    if (debug) qDebug() << "[TrayIcon]" << "[switchToProfileSlot]";
+    if (debug) qDebug() << PDEBUG;
 
     QString profile = action->text().remove(QChar('&'));
 

@@ -30,6 +30,7 @@
 #include "language.h"
 #include "netctlautowindow.h"
 #include "passwdwidget.h"
+#include "pdebug.h"
 #include "settingswindow.h"
 #include "taskadds.h"
 #include "trayicon.h"
@@ -38,7 +39,7 @@
 
 void MainWindow::closeMainWindow()
 {
-    if (debug) qDebug() << "[MainWindow]" << "[closeMainWindow]";
+    if (debug) qDebug() << PDEBUG;
 
     qApp->quit();
 }
@@ -46,7 +47,7 @@ void MainWindow::closeMainWindow()
 
 void MainWindow::showAboutWindow()
 {
-    if (debug) qDebug() << "[MainWindow]" << "[showAboutWindow]";
+    if (debug) qDebug() << PDEBUG;
 
     aboutWin->show();
 }
@@ -54,7 +55,7 @@ void MainWindow::showAboutWindow()
 
 void MainWindow::showMainWindow()
 {
-    if (debug) qDebug() << "[MainWindow]" << "[showMainWindow]";
+    if (debug) qDebug() << PDEBUG;
 
     if (isHidden()) {
         updateTabs(ui->tabWidget->currentIndex());
@@ -66,7 +67,7 @@ void MainWindow::showMainWindow()
 
 void MainWindow::showNetctlAutoWindow()
 {
-    if (debug) qDebug() << "[MainWindow]" << "[showNetctlAutoWindow]";
+    if (debug) qDebug() << PDEBUG;
 
     netctlAutoWin->showWindow();
 }
@@ -74,7 +75,7 @@ void MainWindow::showNetctlAutoWindow()
 
 void MainWindow::showSettingsWindow()
 {
-    if (debug) qDebug() << "[MainWindow]" << "[showSettingsWindow]";
+    if (debug) qDebug() << PDEBUG;
 
     settingsWin->showWindow();
 }
@@ -82,8 +83,8 @@ void MainWindow::showSettingsWindow()
 
 bool MainWindow::enableProfileSlot(const QString profile)
 {
-    if (debug) qDebug() << "[MainWindow]" << "[enableProfileSlot]";
-    if (debug) qDebug() << "[MainWindow]" << "[enableProfileSlot]" << ":" << "Profile" << profile;
+    if (debug) qDebug() << PDEBUG;
+    if (debug) qDebug() << PDEBUG << ":" << "Profile" << profile;
 
     bool current;
     if (useHelper) {
@@ -106,8 +107,8 @@ bool MainWindow::enableProfileSlot(const QString profile)
 
 bool MainWindow::restartProfileSlot(const QString profile)
 {
-    if (debug) qDebug() << "[MainWindow]" << "[restartProfileSlot]";
-    if (debug) qDebug() << "[MainWindow]" << "[restartProfileSlot]" << ":" << "Profile" << profile;
+    if (debug) qDebug() << PDEBUG;
+    if (debug) qDebug() << PDEBUG << ":" << "Profile" << profile;
 
     bool current;
     if (useHelper) {
@@ -130,8 +131,8 @@ bool MainWindow::restartProfileSlot(const QString profile)
 
 bool MainWindow::startProfileSlot(const QString profile)
 {
-    if (debug) qDebug() << "[MainWindow]" << "[startProfileSlot]";
-    if (debug) qDebug() << "[MainWindow]" << "[startProfileSlot]" << ":" << "Profile" << profile;
+    if (debug) qDebug() << PDEBUG;
+    if (debug) qDebug() << PDEBUG << ":" << "Profile" << profile;
 
     bool current;
     if (useHelper) {
@@ -164,8 +165,8 @@ bool MainWindow::startProfileSlot(const QString profile)
 
 bool MainWindow::switchToProfileSlot(const QString profile)
 {
-    if (debug) qDebug() << "[MainWindow]" << "[switchToProfileSlot]";
-    if (debug) qDebug() << "[MainWindow]" << "[switchToProfileSlot]" << ":" << "Profile" << profile;
+    if (debug) qDebug() << PDEBUG;
+    if (debug) qDebug() << PDEBUG << ":" << "Profile" << profile;
 
     bool netctlAutoStatus = false;
     if (useHelper)
@@ -212,7 +213,7 @@ bool MainWindow::switchToProfileSlot(const QString profile)
 
 void MainWindow::showApi()
 {
-    if (debug) qDebug() << "[MainWindow]" << "[showApi]";
+    if (debug) qDebug() << PDEBUG;
 
     if (QDesktopServices::openUrl(QUrl(QString(DOCS_PATH) + QString("netctl-gui-dbus-api.html"))))
         ui->statusBar->showMessage(QApplication::translate("MainWindow", "Done"));
@@ -223,7 +224,7 @@ void MainWindow::showApi()
 
 void MainWindow::showLibrary()
 {
-    if (debug) qDebug() << "[MainWindow]" << "[showLibrary]";
+    if (debug) qDebug() << PDEBUG;
 
     if (QDesktopServices::openUrl(QUrl(QString(DOCS_PATH) + QString("html/index.html"))))
         ui->statusBar->showMessage(QApplication::translate("MainWindow", "Done"));
@@ -234,7 +235,7 @@ void MainWindow::showLibrary()
 
 void MainWindow::showSecurityNotes()
 {
-    if (debug) qDebug() << "[MainWindow]" << "[showSecurityNotes]";
+    if (debug) qDebug() << PDEBUG;
 
     if (QDesktopServices::openUrl(QUrl(QString(DOCS_PATH) + QString("netctl-gui-security-notes.html"))))
         ui->statusBar->showMessage(QApplication::translate("MainWindow", "Done"));
@@ -245,16 +246,16 @@ void MainWindow::showSecurityNotes()
 
 bool MainWindow::forceStartHelper()
 {
-    if (debug) qDebug() << "[MainWindow]" << "[forceStartHelper]";
+    if (debug) qDebug() << PDEBUG;
     if (!checkExternalApps(QString("helper"))) {
-        errorWin->showWindow(1, QString("[MainWindow] : [forceStartHelper]"));
+        errorWin->showWindow(1, QString(PDEBUG));
         return false;
     }
 
     QString cmd = configuration[QString("HELPER_PATH")] + QString(" -c ") + configPath;
-    if (debug) qDebug() << "[MainWindow]" << "[checkExternalApps]" << ":" << "Run cmd" << cmd;
+    if (debug) qDebug() << PDEBUG << ":" << "Run cmd" << cmd;
     TaskResult process = runTask(cmd, false);
-    if (debug) qDebug() << "[MainWindow]" << "[checkExternalApps]" << ":" << "Cmd returns" << process.exitCode;
+    if (debug) qDebug() << PDEBUG << ":" << "Cmd returns" << process.exitCode;
 
     if (process.exitCode == 0)
         return true;
@@ -265,7 +266,7 @@ bool MainWindow::forceStartHelper()
 
 bool MainWindow::forceStopHelper()
 {
-    if (debug) qDebug() << "[MainWindow]" << "[forceStartHelper]";
+    if (debug) qDebug() << PDEBUG;
 
     QList<QVariant> responce = sendDBusRequest(DBUS_HELPER_SERVICE, DBUS_CTRL_PATH,
                                                DBUS_HELPER_INTERFACE, QString("Close"),
@@ -277,7 +278,7 @@ bool MainWindow::forceStopHelper()
 
 bool MainWindow::startHelper()
 {
-    if (debug) qDebug() << "[MainWindow]" << "[startHelper]";
+    if (debug) qDebug() << PDEBUG;
 
     if (isHelperActive())
         return forceStopHelper();
@@ -288,8 +289,8 @@ bool MainWindow::startHelper()
 
 void MainWindow::setTab(int tab)
 {
-    if (debug) qDebug() << "[MainWindow]" << "[setTab]";
-    if (debug) qDebug() << "[MainWindow]" << "[setTab]" << ":" << "Update tab" << tab;
+    if (debug) qDebug() << PDEBUG;
+    if (debug) qDebug() << PDEBUG << ":" << "Update tab" << tab;
 
     switch (tab) {
     case 0:
@@ -308,7 +309,7 @@ void MainWindow::setTab(int tab)
 
 void MainWindow::updateConfiguration(const QMap<QString, QVariant> args)
 {
-    if (debug) qDebug() << "[MainWindow]" << "[updateConfiguration]";
+    if (debug) qDebug() << PDEBUG;
 
     deleteObjects();
 
@@ -368,7 +369,7 @@ void MainWindow::updateConfiguration(const QMap<QString, QVariant> args)
 
 void MainWindow::updateMenu()
 {
-    if (debug) qDebug() << "[MainWindow]" << "[updateMenu]";
+    if (debug) qDebug() << PDEBUG;
 
     int tab = ui->tabWidget->currentIndex();
     setMenuActionsShown(false);
@@ -384,8 +385,8 @@ void MainWindow::updateMenu()
 
 void MainWindow::updateTabs(const int tab)
 {
-    if (debug) qDebug() << "[MainWindow]" << "[updateTabs]";
-    if (debug) qDebug() << "[MainWindow]" << "[updateTabs]" << ":" << "Update tab" << tab;
+    if (debug) qDebug() << PDEBUG;
+    if (debug) qDebug() << PDEBUG << ":" << "Update tab" << tab;
 
     if (tab == 0)
         updateMainTab();
@@ -399,7 +400,7 @@ void MainWindow::updateTabs(const int tab)
 
 void MainWindow::connectToUnknownEssid(const QString passwd)
 {
-    if (debug) qDebug() << "[MainWindow]" << "[connectToUnknownEssid]";
+    if (debug) qDebug() << PDEBUG;
 
     if (passwdWid != 0)
         delete passwdWid;
@@ -470,8 +471,8 @@ void MainWindow::connectToUnknownEssid(const QString passwd)
 
 void MainWindow::setHiddenName(const QString name)
 {
-    if (debug) qDebug() << "[MainWindow]" << "[setHiddenName]";
-    if (debug) qDebug() << "[MainWindow]" << "[setHiddenName]" << ":" << "Set name" << name;
+    if (debug) qDebug() << PDEBUG;
+    if (debug) qDebug() << PDEBUG << ":" << "Set name" << name;
 
     ui->tableWidget_wifi->item(ui->tableWidget_wifi->currentItem()->row(), 0)->setText(name);
 

@@ -25,6 +25,7 @@
 
 #include "language.h"
 #include "mainwindow.h"
+#include "pdebug.h"
 
 
 SettingsWindow::SettingsWindow(QWidget *parent, const bool debugCmd, const QString configFile)
@@ -41,7 +42,7 @@ SettingsWindow::SettingsWindow(QWidget *parent, const bool debugCmd, const QStri
 
 SettingsWindow::~SettingsWindow()
 {
-    if (debug) qDebug() << "[SettingsWindow]" << "[~SettingsWindow]";
+    if (debug) qDebug() << PDEBUG;
 
     delete ui;
 }
@@ -49,7 +50,7 @@ SettingsWindow::~SettingsWindow()
 
 void SettingsWindow::createActions()
 {
-    if (debug) qDebug() << "[SettingsWindow]" << "[createActions]";
+    if (debug) qDebug() << PDEBUG;
 
     connect(ui->buttonBox->button(QDialogButtonBox::Cancel), SIGNAL(clicked(bool)), this, SLOT(close()));
     connect(ui->buttonBox->button(QDialogButtonBox::Ok), SIGNAL(clicked(bool)), this, SLOT(closeWindow()));
@@ -76,7 +77,7 @@ void SettingsWindow::createActions()
 // ESC press event
 void SettingsWindow::keyPressEvent(QKeyEvent *pressedKey)
 {
-    if (debug) qDebug() << "[SettingsWindow]" << "[keyPressEvent]";
+    if (debug) qDebug() << PDEBUG;
 
     if (pressedKey->key() == Qt::Key_Escape)
         close();
@@ -85,7 +86,7 @@ void SettingsWindow::keyPressEvent(QKeyEvent *pressedKey)
 
 void SettingsWindow::addLanguages()
 {
-    if (debug) qDebug() << "[SettingsWindow]" << "[addLanguages]";
+    if (debug) qDebug() << PDEBUG;
 
     ui->comboBox_language->clear();
     ui->comboBox_language->addItems(Language::getAvailableLanguages());
@@ -95,7 +96,7 @@ void SettingsWindow::addLanguages()
 void SettingsWindow::changePage(QTreeWidgetItem *current, QTreeWidgetItem *previous)
 {
     Q_UNUSED(previous)
-    if (debug) qDebug() << "[SettingsWindow]" << "[changePage]";
+    if (debug) qDebug() << PDEBUG;
 
     for (int i=0; i<ui->treeWidget->topLevelItemCount(); i++)
         if (current == ui->treeWidget->topLevelItem(i)) {
@@ -107,7 +108,7 @@ void SettingsWindow::changePage(QTreeWidgetItem *current, QTreeWidgetItem *previ
 
 void SettingsWindow::closeWindow()
 {
-    if (debug) qDebug() << "[SettingsWindow]" << "[closeWindow]";
+    if (debug) qDebug() << PDEBUG;
 
     saveSettings();
     close();
@@ -117,7 +118,7 @@ void SettingsWindow::closeWindow()
 
 void SettingsWindow::saveSettings()
 {
-    if (debug) qDebug() << "[SettingsWindow]" << "[saveSettings]";
+    if (debug) qDebug() << PDEBUG;
 
     QMap<QString, QString> settings = readSettings();
     QFile configFile(file);
@@ -132,7 +133,7 @@ void SettingsWindow::saveSettings()
 
 void SettingsWindow::setTray()
 {
-    if (debug) qDebug() << "[SettingsWindow]" << "[setTray]";
+    if (debug) qDebug() << PDEBUG;
 
     if (ui->checkBox_enableTray->checkState() == 0) {
         ui->checkBox_closeToTray->setDisabled(true);
@@ -146,7 +147,7 @@ void SettingsWindow::setTray()
 
 void SettingsWindow::restoreSettings()
 {
-    if (debug) qDebug() << "[SettingsWindow]" << "[restoreSettings]";
+    if (debug) qDebug() << PDEBUG;
 
     setSettings(getSettings());
 }
@@ -154,7 +155,7 @@ void SettingsWindow::restoreSettings()
 
 void SettingsWindow::setDefault()
 {
-    if (debug) qDebug() << "[SettingsWindow]" << "[setDefault]";
+    if (debug) qDebug() << PDEBUG;
 
     setSettings(getDefault());
     if (sender() != ui->buttonBox->button(QDialogButtonBox::Reset))
@@ -164,7 +165,7 @@ void SettingsWindow::setDefault()
 
 void SettingsWindow::selectAbstractSomething()
 {
-    if (debug) qDebug() << "[SettingsWindow]" << "[selectAbstractSomething]";
+    if (debug) qDebug() << PDEBUG;
 
     bool isDir = false;
     QString path = QString("/usr/bin");
@@ -221,7 +222,7 @@ void SettingsWindow::selectAbstractSomething()
 
 void SettingsWindow::showWindow()
 {
-    if (debug) qDebug() << "[SettingsWindow]" << "[showWindow]";
+    if (debug) qDebug() << PDEBUG;
 
     setSettings(getSettings());
     setTray();
@@ -233,7 +234,7 @@ void SettingsWindow::showWindow()
 
 QMap<QString, QString> SettingsWindow::readSettings()
 {
-    if (debug) qDebug() << "[SettingsWindow]" << "[readSettings]";
+    if (debug) qDebug() << PDEBUG;
 
     QMap<QString, QString> settings;
     if (ui->checkBox_helperClose->checkState() == 2)
@@ -279,8 +280,7 @@ QMap<QString, QString> SettingsWindow::readSettings()
     settings[QString("WPASUP_PATH")] = ui->lineEdit_wpaSupPath->text();
     settings[QString("WPA_DRIVERS")] = ui->lineEdit_wpaSupDrivers->text();
     for (int i=0; i<settings.keys().count(); i++)
-        if (debug) qDebug() << "[SettingsWindow]" << "[readSettings]" << ":" <<
-                    settings.keys()[i] + QString("=") + settings[settings.keys()[i]];
+        if (debug) qDebug() << PDEBUG << ":" << settings.keys()[i] + QString("=") + settings[settings.keys()[i]];
 
     return settings;
 }
@@ -288,7 +288,7 @@ QMap<QString, QString> SettingsWindow::readSettings()
 
 void SettingsWindow::setSettings(const QMap<QString, QString> settings)
 {
-    if (debug) qDebug() << "[SettingsWindow]" << "[setSettings]";
+    if (debug) qDebug() << PDEBUG;
 
     if (settings[QString("CLOSE_HELPER")] == QString("true"))
         ui->checkBox_helperClose->setCheckState(Qt::Checked);
@@ -336,14 +336,13 @@ void SettingsWindow::setSettings(const QMap<QString, QString> settings)
     ui->lineEdit_wpaSupPath->setText(settings[QString("WPASUP_PATH")]);
     ui->lineEdit_wpaSupDrivers->setText(settings[QString("WPA_DRIVERS")]);
     for (int i=0; i<settings.keys().count(); i++)
-        if (debug) qDebug() << "[SettingsWindow]" << "[setSettings]" << ":" <<
-                    settings.keys()[i] + QString("=") + settings[settings.keys()[i]];
+        if (debug) qDebug() << PDEBUG << ":" << settings.keys()[i] + QString("=") + settings[settings.keys()[i]];
 }
 
 
 QMap<QString, QString> SettingsWindow::getDefault()
 {
-    if (debug) qDebug() << "[SettingsWindow]" << "[getDefault]";
+    if (debug) qDebug() << PDEBUG;
 
     QMap<QString, QString> settings;
     settings[QString("CLOSE_HELPER")] = QString("false");
@@ -371,8 +370,7 @@ QMap<QString, QString> SettingsWindow::getDefault()
     settings[QString("WPASUP_PATH")] = QString("/usr/bin/wpa_supplicant");
     settings[QString("WPA_DRIVERS")] = QString("nl80211,wext");
     for (int i=0; i<settings.keys().count(); i++)
-        if (debug) qDebug() << "[SettingsWindow]" << "[getDefault]" << ":" <<
-                    settings.keys()[i] + QString("=") + settings[settings.keys()[i]];
+        if (debug) qDebug() << PDEBUG << ":" << settings.keys()[i] + QString("=") + settings[settings.keys()[i]];
 
     return settings;
 }
@@ -380,7 +378,7 @@ QMap<QString, QString> SettingsWindow::getDefault()
 
 QMap<QString, QString> SettingsWindow::getSettings()
 {
-    if (debug) qDebug() << "[SettingsWindow]" << "[getSettings]";
+    if (debug) qDebug() << PDEBUG;
 
     QMap<QString, QString> settings = getDefault();
     QFile configFile(file);
@@ -398,8 +396,7 @@ QMap<QString, QString> SettingsWindow::getSettings()
     }
     configFile.close();
     for (int i=0; i<settings.keys().count(); i++)
-        if (debug) qDebug() << "[SettingsWindow]" << "[getSettings]" << ":" <<
-                    settings.keys()[i] + QString("=") + settings[settings.keys()[i]];
+        if (debug) qDebug() << PDEBUG << ":" << settings.keys()[i] + QString("=") + settings[settings.keys()[i]];
 
     return settings;
 }
@@ -407,7 +404,7 @@ QMap<QString, QString> SettingsWindow::getSettings()
 
 void SettingsWindow::startHelper()
 {
-    if (debug) qDebug() << "[SettingsWindow]" << "[startHelper]";
+    if (debug) qDebug() << PDEBUG;
 
     ((MainWindow *)parent())->startHelper();
     updateHelper();
@@ -416,7 +413,7 @@ void SettingsWindow::startHelper()
 
 void SettingsWindow::updateHelper()
 {
-    if (debug) qDebug() << "[SettingsWindow]" << "[updateHelper]";
+    if (debug) qDebug() << PDEBUG;
 
     if (((MainWindow *)parent())->isHelperServiceActive()) {
         ui->label_status->setText(QApplication::translate("SettingsWindow", "Active (systemd)"));

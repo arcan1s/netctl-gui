@@ -32,6 +32,7 @@ class ControlAdaptor : public QDBusAbstractAdaptor
 
 public:
     explicit ControlAdaptor(NetctlHelper *parent = 0,
+                            const bool debugCmd = false,
                             const QMap<QString, QString> configuration = QMap<QString, QString>());
     ~ControlAdaptor();
 
@@ -65,10 +66,11 @@ public slots:
     QStringList WiFi();
 
 private:
+    bool debug;
     NetctlHelper *helper;
-    Netctl *netctlCommand;
-    NetctlProfile *netctlProfile;
-    WpaSup *wpaCommand;
+    Netctl *netctlCommand = nullptr;
+    NetctlProfile *netctlProfile = nullptr;
+    WpaSup *wpaCommand = nullptr;
 };
 
 

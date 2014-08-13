@@ -18,20 +18,21 @@
 #include "netctladaptor.h"
 
 
-NetctlAdaptor::NetctlAdaptor(QObject *parent, const QMap<QString, QString> configuration)
-    : QDBusAbstractAdaptor(parent)
+NetctlAdaptor::NetctlAdaptor(QObject *parent, const bool debugCmd, const QMap<QString, QString> configuration)
+    : QDBusAbstractAdaptor(parent),
+      debug(debugCmd)
 {
-    netctlCommand = new Netctl(false, configuration);
-    netctlProfile = new NetctlProfile(false, configuration);
-    wpaCommand = new WpaSup(false, configuration);
+    netctlCommand = new Netctl(debug, configuration);
+    netctlProfile = new NetctlProfile(debug, configuration);
+    wpaCommand = new WpaSup(debug, configuration);
 }
 
 
 NetctlAdaptor::~NetctlAdaptor()
 {
-    delete netctlCommand;
-    delete netctlProfile;
-    delete wpaCommand;
+    if (netctlCommand != nullptr) delete netctlCommand;
+    if (netctlProfile != nullptr) delete netctlProfile;
+    if (wpaCommand != nullptr) delete wpaCommand;
 }
 
 
