@@ -156,6 +156,11 @@ public:
      */
     bool isNetctlAutoRunning();
     /**
+     * @brief method which check system configuration and return recommended values to keys
+     * @return recommended parametrs
+     */
+    static QMap<QString, QString> getRecommendedConfiguration();
+    /**
      * @brief method which gets wireless interface list from PREFERED_IFACE and IFACE_DIR
      * @return interface list. If PREFERED_IFACE is not empty it will be first element
      */

@@ -68,6 +68,11 @@ public:
      */
     QString createProfile(const QString profile, const QMap<QString, QString> settings);
     /**
+     * @brief method which check system configuration and return recommended values to keys
+     * @return recommended parametrs
+     */
+    static QMap<QString, QString> getRecommendedConfiguration();
+    /**
      * @brief method which reads settings from profile
      * @param profile        profile name
      * @return settings from profile

@@ -64,6 +64,31 @@ bool ControlAdaptor::Close()
 }
 
 
+QStringList ControlAdaptor::FindSettings()
+{
+    QMap<QString, QString> configuration;
+    // apply settings from Netctl class
+    QMap<QString, QString> librarySettings = netctlCommand->getRecommendedConfiguration();
+    for (int i=0; i<librarySettings.keys().count(); i++)
+        configuration[librarySettings.keys()[i]] = librarySettings[librarySettings.keys()[i]];
+    // apply settings from NetctlProfile class
+    librarySettings = netctlProfile->getRecommendedConfiguration();
+    for (int i=0; i<librarySettings.keys().count(); i++)
+        configuration[librarySettings.keys()[i]] = librarySettings[librarySettings.keys()[i]];
+    // apply settings from WpaSup class
+    librarySettings = wpaCommand->getRecommendedConfiguration();
+    for (int i=0; i<librarySettings.keys().count(); i++)
+        configuration[librarySettings.keys()[i]] = librarySettings[librarySettings.keys()[i]];
+
+    QStringList settingsList;
+    for (int i=0; i<configuration.keys().count(); i++)
+        settingsList.append(configuration.keys()[i] + QString("==") +
+                            configuration[configuration.keys()[i]]);
+
+    return settingsList;
+}
+
+
 QString ControlAdaptor::LibraryDocs()
 {
     return (QString(DOCS_PATH) + QString("html/index.html"));

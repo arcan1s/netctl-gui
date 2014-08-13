@@ -24,6 +24,7 @@
 
 
 #include <QDebug>
+#include <QDirIterator>
 
 #include "netctlgui.h"
 #include "pdebug.h"
@@ -383,6 +384,120 @@ bool Netctl::isNetctlAutoRunning()
     QString argument = netctlAutoService + QString("@") + interface + QString(".service");
 
     return cmdCall(false, systemctlCommand, QString("is-active"), argument);
+}
+
+
+/**
+ * @fn getRecommendedConfiguration
+ */
+QMap<QString, QString> Netctl::getRecommendedConfiguration()
+{
+    QMap<QString, QString> settings;
+    QString cmd;
+    TaskResult process;
+    QStringList recommended;
+    // force sudo
+    // find out helper exe
+    settings[QString("FORCE_SUDO")] = QString("true");
+    recommended.clear();
+    recommended.append(QString("netctlgui-helper"));
+    recommended.append(QString("netctlgui-helper-suid"));
+    for (int i=0; i<recommended.count(); i++) {
+        cmd = QString("which ") + recommended[i];
+        process = runTask(cmd, false);
+        if (process.exitCode == 0) {
+            settings[QString("FORCE_SUDO")] = QString("false");
+            break;
+        }
+    }
+    // interfaces
+    // find out dircetory which contains wireless subdirectory
+    // I don't think that this parametr may change =)
+    settings[QString("IFACE_DIR")] = QString("/sys/class/net");
+    settings[QString("PREFERED_IFACE")] = QString("");
+    QDirIterator sysIterator(QDir("/sys"), QDirIterator::Subdirectories);
+    while (sysIterator.hasNext()) {
+        sysIterator.next();
+        if (!sysIterator.fileInfo().isDir()) continue;
+        QString name = sysIterator.filePath();
+        if (name.contains(QString("wireless"))) {
+            QString interfaceDir = QFileInfo(name).path();
+            settings[QString("PREFERED_IFACE")] = QFileInfo(interfaceDir).fileName();
+            break;
+        }
+    }
+    // netctl path
+    // find out netctl exe
+    settings[QString("NETCTL_PATH")] = QString("");
+    recommended.clear();
+    recommended.append("netctl");
+    for (int i=0; i<recommended.count(); i++) {
+        cmd = QString("which ") + recommended[i];
+        process = runTask(cmd, false);
+        if (process.exitCode == 0) {
+            settings[QString("NETCTL_PATH")] = process.output.trimmed();
+            break;
+        }
+    }
+    // netctl-auto path
+    // find out netctl-auto exe
+    settings[QString("NETCTLAUTO_PATH")] = QString("");
+    recommended.clear();
+    recommended.append("netctl-auto");
+    for (int i=0; i<recommended.count(); i++) {
+        cmd = QString("which ") + recommended[i];
+        process = runTask(cmd, false);
+        if (process.exitCode == 0) {
+            settings[QString("NETCTLAUTO_PATH")] = process.output.trimmed();
+            break;
+        }
+    }
+    // netctl-auto service
+    // usually it has the same name as netctl-auto
+    settings[QString("NETCTLAUTO_SERVICE")] = QFileInfo(settings[QString("NETCTLAUTO_PATH")]).fileName();
+    // profile path
+    // find out netctl directory into /etc
+    settings[QString("PROFILE_DIR")] = QString("");
+    QDirIterator iterator(QDir("/etc"), QDirIterator::Subdirectories);
+    while (iterator.hasNext()) {
+        iterator.next();
+        if (!iterator.fileInfo().isDir()) continue;
+        QString name = iterator.filePath();
+        if (name.contains(QString("netctl"))) {
+            settings[QString("PROFILE_DIR")] = name;
+            break;
+        }
+    }
+    // sudo path
+    // find out sudo, kdesu, gksu exes
+    settings[QString("SUDO_PATH")] = QString("");
+    recommended.clear();
+    recommended.append("sudo");
+    recommended.append("kdesu");
+    recommended.append("gksu");
+    for (int i=0; i<recommended.count(); i++) {
+        cmd = QString("which ") + recommended[i];
+        process = runTask(cmd, false);
+        if (process.exitCode == 0) {
+            settings[QString("SUDO_PATH")] = process.output.trimmed();
+            break;
+        }
+    }
+    // systemctl path
+    // find out systemctl exe
+    settings[QString("SYSTEMCTL_PATH")] = QString("");
+    recommended.clear();
+    recommended.append("systemctl");
+    for (int i=0; i<recommended.count(); i++) {
+        cmd = QString("which ") + recommended[i];
+        process = runTask(cmd, false);
+        if (process.exitCode == 0) {
+            settings[QString("SYSTEMCTL_PATH")] = process.output.trimmed();
+            break;
+        }
+    }
+
+    return settings;
 }
 
 

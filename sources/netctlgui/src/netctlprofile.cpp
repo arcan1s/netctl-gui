@@ -24,6 +24,7 @@
 
 
 #include <QDebug>
+#include <QDirIterator>
 #include <QFile>
 #include <QFileInfo>
 #include <QTextStream>
@@ -129,6 +130,62 @@ QString NetctlProfile::createProfile(const QString profile, const QMap<QString, 
     profileFile.close();
 
     return profileTempName;
+}
+
+
+/**
+ * @fn getRecommendedConfiguration
+ */
+QMap<QString, QString> NetctlProfile::getRecommendedConfiguration()
+{
+    QMap<QString, QString> settings;
+    QString cmd;
+    TaskResult process;
+    QStringList recommended;
+    // force sudo
+    // find out helper exe
+    settings[QString("FORCE_SUDO")] = QString("true");
+    recommended.clear();
+    recommended.append(QString("netctlgui-helper"));
+    recommended.append(QString("netctlgui-helper-suid"));
+    for (int i=0; i<recommended.count(); i++) {
+        cmd = QString("which ") + recommended[i];
+        process = runTask(cmd, false);
+        if (process.exitCode == 0) {
+            settings[QString("FORCE_SUDO")] = QString("false");
+            break;
+        }
+    }
+    // profile path
+    // find out netctl directory into /etc
+    settings[QString("PROFILE_DIR")] = QString("");
+    QDirIterator iterator(QDir("/etc"), QDirIterator::Subdirectories);
+    while (iterator.hasNext()) {
+        iterator.next();
+        if (!iterator.fileInfo().isDir()) continue;
+        QString name = iterator.filePath();
+        if (name.contains(QString("netctl"))) {
+            settings[QString("PROFILE_DIR")] = name;
+            break;
+        }
+    }
+    // sudo path
+    // find out sudo, kdesu, gksu exes
+    settings[QString("SUDO_PATH")] = QString("");
+    recommended.clear();
+    recommended.append("sudo");
+    recommended.append("kdesu");
+    recommended.append("gksu");
+    for (int i=0; i<recommended.count(); i++) {
+        cmd = QString("which ") + recommended[i];
+        process = runTask(cmd, false);
+        if (process.exitCode == 0) {
+            settings[QString("SUDO_PATH")] = process.output.trimmed();
+            break;
+        }
+    }
+
+    return settings;
 }
 
 
