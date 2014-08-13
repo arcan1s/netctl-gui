@@ -27,6 +27,7 @@
 
 #include "controladaptor.h"
 #include "netctladaptor.h"
+#include "pdebug.h"
 #include "version.h"
 
 
@@ -44,7 +45,7 @@ NetctlHelper::NetctlHelper(QObject *parent, QMap<QString, QVariant> args)
 
 NetctlHelper::~NetctlHelper()
 {
-    if (debug) qDebug() << "[NetctlHelper]" << "[~NetctlHelper]";
+    if (debug) qDebug() << PDEBUG;
 
     deleteInterface();
 }
@@ -52,7 +53,7 @@ NetctlHelper::~NetctlHelper()
 
 QStringList NetctlHelper::printSettings()
 {
-    if (debug) qDebug() << "[NetctlHelper]" << "[printSettings]";
+    if (debug) qDebug() << PDEBUG;
 
     QStringList settingsList;
     for (int i=0; i<configuration.keys().count(); i++)
@@ -65,26 +66,26 @@ QStringList NetctlHelper::printSettings()
 
 void NetctlHelper::createInterface()
 {
-    if (debug) qDebug() << "[NetctlHelper]" << "[createInterface]";
+    if (debug) qDebug() << PDEBUG;
 
     QDBusConnection bus = QDBusConnection::systemBus();
     if (!bus.registerService(DBUS_HELPER_SERVICE)) {
-        if (debug) qDebug() << "[NetctlHelper]" << "[createInterface]" << ":" << "Could not register service";
-        if (debug) qDebug() << "[NetctlHelper]" << "[createInterface]" << ":" << bus.lastError().message();
+        if (debug) qDebug() << PDEBUG << ":" << "Could not register service";
+        if (debug) qDebug() << PDEBUG << ":" << bus.lastError().message();
         return quitHelper();
     }
     if (!bus.registerObject(DBUS_LIB_PATH,
                             new NetctlAdaptor(this, debug, configuration),
                             QDBusConnection::ExportAllContents)) {
-        if (debug) qDebug() << "[NetctlHelper]" << "[createInterface]" << ":" << "Could not register library object";
-        if (debug) qDebug() << "[NetctlHelper]" << "[createInterface]" << ":" << bus.lastError().message();
+        if (debug) qDebug() << PDEBUG << ":" << "Could not register library object";
+        if (debug) qDebug() << PDEBUG << ":" << bus.lastError().message();
         return quitHelper();
     }
     if (!bus.registerObject(DBUS_CTRL_PATH,
                             new ControlAdaptor(this, debug, configuration),
                             QDBusConnection::ExportAllContents)) {
-        if (debug) qDebug() << "[NetctlHelper]" << "[createInterface]" << ":" << "Could not register control object";
-        if (debug) qDebug() << "[NetctlHelper]" << "[createInterface]" << ":" << bus.lastError().message();
+        if (debug) qDebug() << PDEBUG << ":" << "Could not register control object";
+        if (debug) qDebug() << PDEBUG << ":" << bus.lastError().message();
         return quitHelper();
     }
 }
@@ -92,7 +93,7 @@ void NetctlHelper::createInterface()
 
 void NetctlHelper::deleteInterface()
 {
-    if (debug) qDebug() << "[NetctlHelper]" << "[deleteInterface]";
+    if (debug) qDebug() << PDEBUG;
 
     QDBusConnection::systemBus().unregisterObject(DBUS_LIB_PATH);
     QDBusConnection::systemBus().unregisterObject(DBUS_CTRL_PATH);
@@ -102,7 +103,7 @@ void NetctlHelper::deleteInterface()
 
 QMap<QString, QString> NetctlHelper::getDefault()
 {
-    if (debug) qDebug() << "[NetctlHelper]" << "[getDefault]";
+    if (debug) qDebug() << PDEBUG;
 
     QMap<QString, QString> settings;
     settings[QString("CLOSE_HELPER")] = QString("false");
@@ -130,8 +131,7 @@ QMap<QString, QString> NetctlHelper::getDefault()
     settings[QString("WPASUP_PATH")] = QString("/usr/bin/wpa_supplicant");
     settings[QString("WPA_DRIVERS")] = QString("nl80211,wext");
     for (int i=0; i<settings.keys().count(); i++)
-        if (debug) qDebug() << "[NetctlHelper]" << "[getDefault]" << ":" <<
-                    settings.keys()[i] + QString("=") + settings[settings.keys()[i]];
+        if (debug) qDebug() << PDEBUG << ":" << settings.keys()[i] + QString("=") + settings[settings.keys()[i]];
 
     return settings;
 }
@@ -139,7 +139,7 @@ QMap<QString, QString> NetctlHelper::getDefault()
 
 QMap<QString, QString> NetctlHelper::getSettings(const QString file, const QMap<QString, QString> existing)
 {
-    if (debug) qDebug() << "[NetctlHelper]" << "[getSettings]";
+    if (debug) qDebug() << PDEBUG;
 
     QMap<QString, QString> settings;
     if (existing.isEmpty())
@@ -161,8 +161,7 @@ QMap<QString, QString> NetctlHelper::getSettings(const QString file, const QMap<
     }
     configFile.close();
     for (int i=0; i<settings.keys().count(); i++)
-        if (debug) qDebug() << "[NetctlHelper]" << "[getSettings]" << ":" <<
-                    settings.keys()[i] + QString("=") + settings[settings.keys()[i]];
+        if (debug) qDebug() << PDEBUG << ":" << settings.keys()[i] + QString("=") + settings[settings.keys()[i]];
 
     return settings;
 }
@@ -170,7 +169,7 @@ QMap<QString, QString> NetctlHelper::getSettings(const QString file, const QMap<
 
 void NetctlHelper::updateConfiguration()
 {
-    if (debug) qDebug() << "[NetctlHelper]" << "[updateConfiguration]";
+    if (debug) qDebug() << PDEBUG;
 
     deleteInterface();
     configuration = getSettings(QString("/etc/netctlgui-helper.conf"));
@@ -182,7 +181,7 @@ void NetctlHelper::updateConfiguration()
 
 void NetctlHelper::quitHelper()
 {
-    if (debug) qDebug() << "[NetctlHelper]" << "[quitHelper]";
+    if (debug) qDebug() << PDEBUG;
 
     QCoreApplication::instance()->quit();
 }

@@ -30,6 +30,7 @@
 #include <QProcessEnvironment>
 
 #include "netctl.h"
+#include "pdebug.h"
 #include "ui_about.h"
 #include "ui_appearance.h"
 #include "ui_dataengine.h"
@@ -52,7 +53,7 @@ IconLabel::~IconLabel()
 
 void IconLabel::mousePressEvent(QMouseEvent *event)
 {
-    if (debug) qDebug() << "[PLASMOID]" << "[mousePressEvent]";
+    if (debug) qDebug() << PDEBUG;
 
     if (event->button() == Qt::LeftButton)
         widget->showGui();
@@ -81,7 +82,7 @@ Netctl::Netctl(QObject *parent, const QVariantList &args)
 
 Netctl::~Netctl()
 {
-    if (debug) qDebug() << "[PLASMOID]" << "[~Netctl]";
+    if (debug) qDebug() << PDEBUG;
 
 //    // actions
 //    delete startProfileMenu;
@@ -99,7 +100,7 @@ Netctl::~Netctl()
 
 void Netctl::init()
 {
-    if (debug) qDebug() << "[PLASMOID]" << "[init]";
+    if (debug) qDebug() << PDEBUG;
 
     info[QString("current")] = QString("N\\A");
     info[QString("extip4")] = QString("N\\A");
@@ -130,7 +131,7 @@ void Netctl::init()
 
 QString Netctl::parsePattern(const QString rawLine)
 {
-    if (debug) qDebug() << "[PLASMOID]" << "[parsePattern]";
+    if (debug) qDebug() << PDEBUG;
 
     QString line = rawLine;
     for (int i=0; i<info.keys().count(); i++)
@@ -145,7 +146,7 @@ QString Netctl::parsePattern(const QString rawLine)
 
 QMap<QString, QString> Netctl::readDataEngineConfiguration()
 {
-    if (debug) qDebug() << "[PLASMOID]" << "[readDataEngineConfiguration]";
+    if (debug) qDebug() << PDEBUG;
 
     QMap<QString, QString> rawConfig;
     rawConfig[QString("EXTIP4")] = QString("false");
@@ -156,7 +157,7 @@ QMap<QString, QString> Netctl::readDataEngineConfiguration()
     rawConfig[QString("NETCTLAUTOCMD")] = QString("/usr/bin/netctl-auto");
 
     QString fileName = KGlobal::dirs()->findResource("config", "netctl.conf");
-    if (debug) qDebug() << "[PLASMOID]" << "[readDataEngineConfiguration]" << ":" << "Configuration file" << fileName;
+    if (debug) qDebug() << PDEBUG << ":" << "Configuration file" << fileName;
     QFile configFile(fileName);
     if (!configFile.open(QIODevice::ReadOnly))
         return updateDataEngineConfiguration(rawConfig);
@@ -183,11 +184,11 @@ QMap<QString, QString> Netctl::readDataEngineConfiguration()
 
 void Netctl::writeDataEngineConfiguration(const QMap<QString, QString> settings)
 {
-    if (debug) qDebug() << "[PLASMOID]" << "[writeDataEngineConfiguration]";
+    if (debug) qDebug() << PDEBUG;
 
     QMap<QString, QString> config = updateDataEngineConfiguration(settings);
     QString fileName = KGlobal::dirs()->locateLocal("config", "netctl.conf");
-    if (debug) qDebug() << "[PLASMOID]" << "[writeDataEngineConfiguration]" << ":" << "Configuration file" << fileName;
+    if (debug) qDebug() << PDEBUG << ":" << "Configuration file" << fileName;
     QFile configFile(fileName);
     if (!configFile.open(QIODevice::WriteOnly)) return;
     for (int i=0; i<config.keys().count(); i++) {
@@ -200,7 +201,7 @@ void Netctl::writeDataEngineConfiguration(const QMap<QString, QString> settings)
 
 QMap<QString, QString> Netctl::updateDataEngineConfiguration(const QMap<QString, QString> rawConfig)
 {
-    if (debug) qDebug() << "[PLASMOID]" << "[updateDataEngineConfiguration]";
+    if (debug) qDebug() << PDEBUG;
 
     QMap<QString, QString> config;
     QString key, value;
@@ -218,8 +219,7 @@ QMap<QString, QString> Netctl::updateDataEngineConfiguration(const QMap<QString,
     }
 
     for (int i=0; i<config.keys().count(); i++)
-        if (debug) qDebug() << "[PLASMOID]" << "[updateDataEngineConfiguration]" << ":" <<
-            config.keys()[i] + QString("=") + config[config.keys()[i]];
+        if (debug) qDebug() << PDEBUG << ":" << config.keys()[i] + QString("=") + config[config.keys()[i]];
 
     return config;
 }
@@ -227,8 +227,8 @@ QMap<QString, QString> Netctl::updateDataEngineConfiguration(const QMap<QString,
 
 void Netctl::updateIcon()
 {
-    if (debug) qDebug() << "[PLASMOID]" << "[updateIcon]";
-    if (debug) qDebug() << "[PLASMOID]" << "[updateIcon]" << ":" << "Status" << status;
+    if (debug) qDebug() << PDEBUG;
+    if (debug) qDebug() << PDEBUG << ":" << "Status" << status;
 
     QString icon;
     if (status)
@@ -245,8 +245,8 @@ void Netctl::updateIcon()
 
 void Netctl::updateInterface(bool setShown)
 {
-    if (debug) qDebug() << "[PLASMOID]" << "[updateInterface]";
-    if (debug) qDebug() << "[PLASMOID]" << "[updateInterface]" << ":" << "State" << setShown;
+    if (debug) qDebug() << PDEBUG;
+    if (debug) qDebug() << PDEBUG << ":" << "State" << setShown;
 
     if (setShown)
         layout->addWidget(textLabel);
@@ -260,7 +260,7 @@ void Netctl::updateInterface(bool setShown)
 // context menu
 void Netctl::enableProfileSlot()
 {
-    if (debug) qDebug() << "[PLASMOID]" << "[enableProfileSlot]";
+    if (debug) qDebug() << PDEBUG;
 
     QString enableStatus = QString("");
     if (info[QString("status")].contains(QString("enabled"))) {
@@ -287,7 +287,7 @@ void Netctl::enableProfileSlot()
 
 void Netctl::restartProfileSlot()
 {
-    if (debug) qDebug() << "[PLASMOID]" << "[restartProfileSlot]";
+    if (debug) qDebug() << PDEBUG;
 
     sendNotification(QString("Info"), i18n("Restart profile %1", info[QString("current")]));
     if (useHelper) {
@@ -307,8 +307,8 @@ void Netctl::restartProfileSlot()
 
 void Netctl::startProfileSlot(QAction *profile)
 {
-    if (debug) qDebug() << "[PLASMOID]" << "[startProfileSlot]";
-    if (debug) qDebug() << "[PLASMOID]" << "[startProfileSlot]" << ":" << "Profile" << profile->text().remove(QChar('&'));
+    if (debug) qDebug() << PDEBUG;
+    if (debug) qDebug() << PDEBUG << ":" << "Profile" << profile->text().remove(QChar('&'));
 
     sendNotification(QString("Info"), i18n("Start profile %1", profile->text().remove(QChar('&'))));
     if (useHelper) {
@@ -334,7 +334,7 @@ void Netctl::startProfileSlot(QAction *profile)
 
 void Netctl::stopProfileSlot()
 {
-    if (debug) qDebug() << "[PLASMOID]" << "[stopProfileSlot]";
+    if (debug) qDebug() << PDEBUG;
 
     sendNotification(QString("Info"), i18n("Stop profile %1", info[QString("current")]));
     if (useHelper) {
@@ -354,8 +354,8 @@ void Netctl::stopProfileSlot()
 
 void Netctl::switchToProfileSlot(QAction *profile)
 {
-    if (debug) qDebug() << "[PLASMOID]" << "[switchToProfileSlot]";
-    if (debug) qDebug() << "[PLASMOID]" << "[switchToProfileSlot]" << ":" << "Profile" << profile->text().remove(QChar('&'));
+    if (debug) qDebug() << PDEBUG;
+    if (debug) qDebug() << PDEBUG << ":" << "Profile" << profile->text().remove(QChar('&'));
 
 
     sendNotification(QString("Info"), i18n("Switch to profile %1", profile->text().remove(QChar('&'))));
@@ -374,7 +374,7 @@ void Netctl::switchToProfileSlot(QAction *profile)
 
 void Netctl::startHelper()
 {
-    if (debug) qDebug() << "[PLASMOID]" << "[startHelper]";
+    if (debug) qDebug() << PDEBUG;
 
     QProcess command;
     QString commandLine = paths[QString("helper")];
@@ -385,7 +385,7 @@ void Netctl::startHelper()
 
 void Netctl::checkHelperStatus()
 {
-    if (debug) qDebug() << "[PLASMOID]" << "[checkHelperStatus]";
+    if (debug) qDebug() << PDEBUG;
 
     if (useHelper)
         useHelper = !sendDBusRequest(QString("Active"), QList<QVariant>()).isEmpty();
@@ -394,7 +394,7 @@ void Netctl::checkHelperStatus()
 
 QList<QAction*> Netctl::contextualActions()
 {
-    if (debug) qDebug() << "[PLASMOID]" << "[contextualActions]";
+    if (debug) qDebug() << PDEBUG;
 
     if (status)
         contextMenu[QString("title")]->setIcon(QIcon(paths[QString("active")]));
@@ -445,7 +445,7 @@ QList<QAction*> Netctl::contextualActions()
 
 void Netctl::createActions()
 {
-    if (debug) qDebug() << "[PLASMOID]" << "[createActions]";
+    if (debug) qDebug() << PDEBUG;
 
     menuActions.clear();
 
@@ -497,9 +497,9 @@ void Netctl::createActions()
 // events
 void Netctl::sendNotification(const QString eventId, const QString message)
 {
-    if (debug) qDebug() << "[PLASMOID]" << "[sendNotification]";
-    if (debug) qDebug() << "[PLASMOID]" << "[sendNotification]" << ":" << "Event" << eventId;
-    if (debug) qDebug() << "[PLASMOID]" << "[sendNotification]" << ":" << "Message" << message;
+    if (debug) qDebug() << PDEBUG;
+    if (debug) qDebug() << PDEBUG << ":" << "Event" << eventId;
+    if (debug) qDebug() << PDEBUG << ":" << "Message" << message;
 
     KNotification *notification = new KNotification(eventId);
     notification->setComponentData(KComponentData("plasma_applet_netctl"));
@@ -512,7 +512,7 @@ void Netctl::sendNotification(const QString eventId, const QString message)
 
 void Netctl::showGui()
 {
-    if (debug) qDebug() << "[PLASMOID]" << "[showGui]";
+    if (debug) qDebug() << PDEBUG;
 
     sendNotification(QString("Info"), i18n("Start GUI"));
     QProcess command;
@@ -523,7 +523,7 @@ void Netctl::showGui()
 
 void Netctl::showWifi()
 {
-    if (debug) qDebug() << "[PLASMOID]" << "[showWifi]";
+    if (debug) qDebug() << PDEBUG;
 
     sendNotification(QString("Info"), i18n("Start WiFi menu"));
     QProcess command;
@@ -535,7 +535,7 @@ void Netctl::showWifi()
 // data engine interaction
 void Netctl::connectToEngine()
 {
-    if (debug) qDebug() << "[PLASMOID]" << "[connectToEngine]";
+    if (debug) qDebug() << PDEBUG;
 
     netctlEngine->connectSource(QString("active"), this, autoUpdateInterval);
     netctlEngine->connectSource(QString("current"), this, autoUpdateInterval);
@@ -552,8 +552,8 @@ void Netctl::connectToEngine()
 
 void Netctl::dataUpdated(const QString &sourceName, const Plasma::DataEngine::Data &data)
 {
-    if (debug) qDebug() << "[PLASMOID]" << "[dataUpdated]";
-    if (debug) qDebug() << "[PLASMOID]" << "[dataUpdated]" << ":" << "Source" << sourceName;
+    if (debug) qDebug() << PDEBUG;
+    if (debug) qDebug() << PDEBUG << ":" << "Source" << sourceName;
 
     if (isPopupShowing()) return;
     if (isUserConfiguring()) return;
@@ -601,7 +601,7 @@ void Netctl::dataUpdated(const QString &sourceName, const Plasma::DataEngine::Da
 
 void Netctl::disconnectFromEngine()
 {
-    if (debug) qDebug() << "[PLASMOID]" << "[disconnectFromEngine]";
+    if (debug) qDebug() << PDEBUG;
 
     netctlEngine->disconnectSource(QString("currentProfile"), this);
     netctlEngine->disconnectSource(QString("extIp4"), this);
@@ -619,9 +619,9 @@ void Netctl::disconnectFromEngine()
 
 QList<QVariant> Netctl::sendDBusRequest(const QString cmd, const QList<QVariant> args)
 {
-    if (debug) qDebug() << "[PLASMOID]" << "[sendDBusRequest]";
-    if (debug) qDebug() << "[PLASMOID]" << "[sendDBusRequest]" << ":" << "cmd" << cmd;
-    if (debug) qDebug() << "[PLASMOID]" << "[sendDBusRequest]" << ":" << "args" << args;
+    if (debug) qDebug() << PDEBUG;
+    if (debug) qDebug() << PDEBUG << ":" << "cmd" << cmd;
+    if (debug) qDebug() << PDEBUG << ":" << "args" << args;
 
     QDBusConnection bus = QDBusConnection::systemBus();
     QDBusMessage request = QDBusMessage::createMethodCall(DBUS_HELPER_SERVICE, DBUS_CTRL_PATH,
@@ -631,7 +631,7 @@ QList<QVariant> Netctl::sendDBusRequest(const QString cmd, const QList<QVariant>
     QDBusMessage response = bus.call(request);
     QList<QVariant> arguments = response.arguments();
     if (arguments.size() == 0)
-        if (debug) qDebug() << "[PLASMOID]" << "[sendDBusRequest]" << ":" << "Error message" << response.errorMessage();
+        if (debug) qDebug() << PDEBUG << ":" << "Error message" << response.errorMessage();
 
     return arguments;
 }
@@ -640,7 +640,7 @@ QList<QVariant> Netctl::sendDBusRequest(const QString cmd, const QList<QVariant>
 //  configuration interface
 void Netctl::selectAbstractSomething()
 {
-    if (debug) qDebug() << "[PLASMOID]" << "[selectAbstractSomething]";
+    if (debug) qDebug() << PDEBUG;
 
     QString path = QString("/usr/bin");
     QLineEdit *lineEdit = uiWidConfig.lineEdit_gui;
@@ -678,7 +678,7 @@ void Netctl::selectAbstractSomething()
 
 void Netctl::createConfigurationInterface(KConfigDialog *parent)
 {
-    if (debug) qDebug() << "[PLASMOID]" << "[createConfigurationInterface]";
+    if (debug) qDebug() << PDEBUG;
 
     QWidget *configWidget = new QWidget;
     uiWidConfig.setupUi(configWidget);
@@ -805,7 +805,7 @@ void Netctl::createConfigurationInterface(KConfigDialog *parent)
 
 void Netctl::configAccepted()
 {
-    if (debug) qDebug() << "[PLASMOID]" << "[configAccepted]";
+    if (debug) qDebug() << PDEBUG;
 
     disconnectFromEngine();
     KConfigGroup cg = config();
@@ -865,7 +865,7 @@ void Netctl::configAccepted()
 
 void Netctl::configChanged()
 {
-    if (debug) qDebug() << "[PLASMOID]" << "[configChanged]";
+    if (debug) qDebug() << PDEBUG;
 
     KConfigGroup cg = config();
 
@@ -912,7 +912,7 @@ void Netctl::configChanged()
 
 void Netctl::setBigInterface()
 {
-    if (debug) qDebug() << "[PLASMOID]" << "[setBigInterface]";
+    if (debug) qDebug() << PDEBUG;
 
     if (uiWidConfig.checkBox_showBigInterface->checkState() == 0)
         uiWidConfig.textEdit->setDisabled(true);
@@ -923,7 +923,7 @@ void Netctl::setBigInterface()
 
 void Netctl::setDataEngineExternalIp4()
 {
-    if (debug) qDebug() << "[PLASMOID]" << "[setDataEngineExternalIp4]";
+    if (debug) qDebug() << PDEBUG;
 
     if (uiDEConfig.checkBox_extIp4->checkState() == 0) {
         uiDEConfig.lineEdit_extIp4->setDisabled(true);
@@ -937,7 +937,7 @@ void Netctl::setDataEngineExternalIp4()
 
 void Netctl::setDataEngineExternalIp6()
 {
-    if (debug) qDebug() << "[PLASMOID]" << "[setDataEngineExternalIp6]";
+    if (debug) qDebug() << PDEBUG;
 
     if (uiDEConfig.checkBox_extIp6->checkState() == 0) {
         uiDEConfig.lineEdit_extIp6->setDisabled(true);
@@ -963,7 +963,7 @@ void Netctl::setHelper()
 
 void Netctl::setSudo()
 {
-    if (debug) qDebug() << "[PLASMOID]" << "[setSudo]";
+    if (debug) qDebug() << PDEBUG;
 
     if (uiWidConfig.checkBox_sudo->checkState() == 0) {
         uiWidConfig.lineEdit_sudo->setDisabled(true);
@@ -977,7 +977,7 @@ void Netctl::setSudo()
 
 void Netctl::setWifi()
 {
-    if (debug) qDebug() << "[PLASMOID]" << "[setWifi]";
+    if (debug) qDebug() << PDEBUG;
 
     if (uiWidConfig.checkBox_wifi->checkState() == 0) {
         uiWidConfig.lineEdit_wifi->setDisabled(true);
