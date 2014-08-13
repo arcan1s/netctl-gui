@@ -29,6 +29,7 @@
 #include <QTextStream>
 
 #include "netctlgui.h"
+#include "pdebug.h"
 #include "taskadds.h"
 
 
@@ -61,7 +62,7 @@ NetctlProfile::NetctlProfile(const bool debugCmd, const QMap<QString, QString> s
  */
 NetctlProfile::~NetctlProfile()
 {
-    if (debug) qDebug() << "[NetctlProfile]" << "[~NetctlProfile]";
+    if (debug) qDebug() << PDEBUG;
 
     if (profileDirectory != nullptr) delete profileDirectory;
 }
@@ -72,20 +73,20 @@ NetctlProfile::~NetctlProfile()
  */
 bool NetctlProfile::copyProfile(const QString oldPath)
 {
-    if (debug) qDebug() << "[NetctlProfile]" << "[copyProfile]";
-    if (debug) qDebug() << "[NetctlProfile]" << "[copyProfile]" << ":" << "Path" << oldPath;
+    if (debug) qDebug() << PDEBUG;
+    if (debug) qDebug() << PDEBUG << ":" << "Path" << oldPath;
     if (profileDirectory == 0) {
-        if (debug) qDebug() << "[NetctlProfile]" << "[copyProfile]" << ":" << "Could not find directory";
+        if (debug) qDebug() << PDEBUG << ":" << "Could not find directory";
         return false;
     }
 
     QString newPath = profileDirectory->absolutePath() + QDir::separator() + QFileInfo(oldPath).fileName();
     QString cmd = sudoCommand + QString(" /usr/bin/mv \"") + oldPath + QString("\" \"") + newPath + QString("\"");
-    if (debug) qDebug() << "[NetctlProfile]" << "[copyProfile]" << ":" << "Run cmd" << cmd;
+    if (debug) qDebug() << PDEBUG << ":" << "Run cmd" << cmd;
     TaskResult process = runTask(cmd, useSuid);
-    if (debug) qDebug() << "[NetctlProfile]" << "[copyProfile]" << ":" << "Cmd returns" << process.exitCode;
+    if (debug) qDebug() << PDEBUG << ":" << "Cmd returns" << process.exitCode;
     if (process.exitCode != 0)
-        if (debug) qDebug() << "[NetctlProfile]" << "[copyProfile]" << ":" << "Error" << process.error;
+        if (debug) qDebug() << PDEBUG << ":" << "Error" << process.error;
 
     if (process.exitCode == 0)
         return true;
@@ -99,12 +100,12 @@ bool NetctlProfile::copyProfile(const QString oldPath)
  */
 QString NetctlProfile::createProfile(const QString profile, const QMap<QString, QString> settings)
 {
-    if (debug) qDebug() << "[NetctlProfile]" << "[createProfile]";
-    if (debug) qDebug() << "[NetctlProfile]" << "[createProfile]" << ":" << "Profile" << profile;
+    if (debug) qDebug() << PDEBUG;
+    if (debug) qDebug() << PDEBUG << ":" << "Profile" << profile;
 
     QString profileTempName = QDir::homePath() + QString("/.cache/") + QFileInfo(profile).fileName();
     QFile profileFile(profileTempName);
-    if (debug) qDebug() << "[NetctlProfile]" << "[createProfile]" << ":" << "Save to" << profileTempName;
+    if (debug) qDebug() << PDEBUG << ":" << "Save to" << profileTempName;
     if (!profileFile.open(QIODevice::WriteOnly | QIODevice::Text))
         return profileTempName;
     QTextStream out(&profileFile);
@@ -136,21 +137,21 @@ QString NetctlProfile::createProfile(const QString profile, const QMap<QString, 
  */
 QMap<QString, QString> NetctlProfile::getSettingsFromProfile(const QString profile)
 {
-    if (debug) qDebug() << "[NetctlProfile]" << "[getSettingsFromProfile]";
-    if (debug) qDebug() << "[NetctlProfile]" << "[getSettingsFromProfile]" << ":" << "Profile" << profile;
+    if (debug) qDebug() << PDEBUG;
+    if (debug) qDebug() << PDEBUG << ":" << "Profile" << profile;
     if (profileDirectory == 0) {
-        if (debug) qDebug() << "[NetctlProfile]" << "[getSettingsFromProfile]" << ":" << "Could not find directory";
+        if (debug) qDebug() << PDEBUG << ":" << "Could not find directory";
         return QMap<QString, QString>();
     }
 
     // getting variables list
     // system variables
     QString cmd = QString("env -i bash -c \"set\"");
-    if (debug) qDebug() << "[NetctlProfile]" << "[getSettingsFromProfile]" << ":" << "Run cmd" << cmd;
+    if (debug) qDebug() << PDEBUG << ":" << "Run cmd" << cmd;
     TaskResult process = runTask(cmd, false);
-    if (debug) qDebug() << "[NetctlProfile]" << "[getSettingsFromProfile]" << ":" << "Cmd returns" << process.exitCode;
+    if (debug) qDebug() << PDEBUG << ":" << "Cmd returns" << process.exitCode;
     if (process.exitCode != 0)
-        if (debug) qDebug() << "[NetctlProfile]" << "[getSettingsFromProfile]" << ":" << "Error" << process.error;
+        if (debug) qDebug() << PDEBUG << ":" << "Error" << process.error;
     QStringList output = QString(process.output).trimmed().split(QChar('\n'));
     QStringList systemVariables;
     systemVariables.append(QString("PIPESTATUS"));
@@ -160,11 +161,11 @@ QMap<QString, QString> NetctlProfile::getSettingsFromProfile(const QString profi
     QMap<QString, QString> settings;
     QString profileUrl = profileDirectory->absolutePath() + QDir::separator() + QFileInfo(profile).fileName();
     cmd = QString("env -i bash -c \"source '") + profileUrl + QString("'; set\"");
-    if (debug) qDebug() << "[NetctlProfile]" << "[getSettingsFromProfile]" << ":" << "Run cmd" << cmd;
+    if (debug) qDebug() << PDEBUG << ":" << "Run cmd" << cmd;
     process = runTask(cmd, false);
-    if (debug) qDebug() << "[NetctlProfile]" << "[getSettingsFromProfile]" << ":" << "Cmd returns" << process.exitCode;
+    if (debug) qDebug() << PDEBUG << ":" << "Cmd returns" << process.exitCode;
     if (process.exitCode != 0)
-        if (debug) qDebug() << "[NetctlProfile]" << "[getSettingsFromProfile]" << ":" << "Error" << process.error;
+        if (debug) qDebug() << PDEBUG << ":" << "Error" << process.error;
     output = QString(process.output).trimmed().split(QChar('\n'));
 
     // gettings variables
@@ -178,7 +179,7 @@ QMap<QString, QString> NetctlProfile::getSettingsFromProfile(const QString profi
                 keys[i] + QString("[$i]}; done\"");
         process = runTask(cmd, false);
         settings[keys[i]] = process.output.trimmed();
-        if (debug) qDebug() << "[NetctlProfile]" << "[getSettingsFromProfile]" << ":" << keys[i] << "=" << settings[keys[i]];
+        if (debug) qDebug() << PDEBUG << ":" << keys[i] << "=" << settings[keys[i]];
     }
 
     return settings;
@@ -190,9 +191,9 @@ QMap<QString, QString> NetctlProfile::getSettingsFromProfile(const QString profi
  */
 QString NetctlProfile::getValueFromProfile(const QString profile, const QString key)
 {
-    if (debug) qDebug() << "[NetctlProfile]" << "[getValueFromProfile]";
-    if (debug) qDebug() << "[NetctlProfile]" << "[getValueFromProfile]" << ":" << "Profile" << profile;
-    if (debug) qDebug() << "[NetctlProfile]" << "[getValueFromProfile]" << ":" << "Key" << key;
+    if (debug) qDebug() << PDEBUG;
+    if (debug) qDebug() << PDEBUG << ":" << "Profile" << profile;
+    if (debug) qDebug() << PDEBUG << ":" << "Key" << key;
 
     QMap<QString, QString> settings = getSettingsFromProfile(profile);
 
@@ -208,20 +209,20 @@ QString NetctlProfile::getValueFromProfile(const QString profile, const QString 
  */
 bool NetctlProfile::removeProfile(const QString profile)
 {
-    if (debug) qDebug() << "[NetctlProfile]" << "[removeProfile]";
-    if (debug) qDebug() << "[NetctlProfile]" << "[removeProfile]" << ":" << "Profile" << profile;
+    if (debug) qDebug() << PDEBUG;
+    if (debug) qDebug() << PDEBUG << ":" << "Profile" << profile;
     if (profileDirectory == 0) {
-        if (debug) qDebug() << "[NetctlProfile]" << "[removeProfile]" << ":" << "Could not find directory";
+        if (debug) qDebug() << PDEBUG << ":" << "Could not find directory";
         return false;
     }
 
     QString profilePath = profileDirectory->absolutePath() + QDir::separator() + QFileInfo(profile).fileName();
     QString cmd = sudoCommand + QString(" /usr/bin/rm \"") + profilePath + QString("\"");
-    if (debug) qDebug() << "[NetctlProfile]" << "[removeProfile]" << ":" << "Run cmd" << cmd;
+    if (debug) qDebug() << PDEBUG << ":" << "Run cmd" << cmd;
     TaskResult process = runTask(cmd, useSuid);
-    if (debug) qDebug() << "[NetctlProfile]" << "[removeProfile]" << ":" << "Cmd returns" << process.exitCode;
+    if (debug) qDebug() << PDEBUG << ":" << "Cmd returns" << process.exitCode;
     if (process.exitCode != 0)
-        if (debug) qDebug() << "[NetctlProfile]" << "[removeProfile]" << ":" << "Error" << process.error;
+        if (debug) qDebug() << PDEBUG << ":" << "Error" << process.error;
 
     if (process.exitCode == 0)
         return true;

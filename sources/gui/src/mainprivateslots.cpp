@@ -963,10 +963,10 @@ void MainWindow::wifiTabContextualMenu(const QPoint &pos)
     // actions
     QAction *action = menu.exec(ui->tableWidget_main->viewport()->mapToGlobal(pos));
     if (action == refreshTable) {
-        if (debug) qDebug() << PDEBUG << "Refresh WiFi";
+        if (debug) qDebug() << PDEBUG << ":" << "Refresh WiFi";
         updateWifiTab();
     } else if (action == startWifi) {
-        if (debug) qDebug() << PDEBUG << "Start WiFi";
+        if (debug) qDebug() << PDEBUG << ":" << "Start WiFi";
         wifiTabStart();
     }
 }
