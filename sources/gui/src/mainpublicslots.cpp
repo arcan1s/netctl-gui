@@ -256,6 +256,8 @@ bool MainWindow::forceStartHelper()
     if (debug) qDebug() << PDEBUG << ":" << "Run cmd" << cmd;
     TaskResult process = runTask(cmd, false);
     if (debug) qDebug() << PDEBUG << ":" << "Cmd returns" << process.exitCode;
+    if (process.exitCode != 0)
+        if (debug) qDebug() << PDEBUG << ":" << "Error" << process.error;
 
     if (process.exitCode == 0)
         return true;

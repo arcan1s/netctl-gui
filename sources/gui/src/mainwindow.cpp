@@ -232,6 +232,8 @@ bool MainWindow::isHelperServiceActive()
     if (debug) qDebug() << PDEBUG << "Run cmd" << cmd;
     TaskResult process = runTask(cmd, false);
     if (debug) qDebug() << PDEBUG << ":" << "Cmd returns" << process.exitCode;
+    if (process.exitCode != 0)
+        if (debug) qDebug() << PDEBUG << ":" << "Error" << process.error;
 
     if (process.exitCode != 0)
         return false;
@@ -278,6 +280,8 @@ bool MainWindow::checkExternalApps(const QString apps = QString("all"))
     if (debug) qDebug() << PDEBUG << ":" << "Run cmd" << cmd.join(QChar(' '));
     TaskResult process = runTask(cmd.join(QChar(' ')), false);
     if (debug) qDebug() << PDEBUG << ":" << "Cmd returns" << process.exitCode;
+    if (process.exitCode != 0)
+        if (debug) qDebug() << PDEBUG << ":" << "Error" << process.error;
 
     if (process.exitCode != 0)
         return false;
