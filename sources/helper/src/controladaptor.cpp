@@ -161,6 +161,12 @@ bool ControlAdaptor::Enable(const QString profile)
 }
 
 
+bool ControlAdaptor::Reenable(const QString profile)
+{
+    return netctlCommand->reenableProfile(profile);
+}
+
+
 bool ControlAdaptor::Restart(const QString profile)
 {
     return netctlCommand->restartProfile(profile);
@@ -170,6 +176,12 @@ bool ControlAdaptor::Restart(const QString profile)
 bool ControlAdaptor::Start(const QString profile)
 {
     return netctlCommand->startProfile(profile);
+}
+
+
+bool ControlAdaptor::StopAll()
+{
+    return netctlCommand->stopAllProfiles();
 }
 
 

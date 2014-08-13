@@ -56,8 +56,10 @@ public slots:
     bool autoServiceRestart();
     bool autoServiceStart();
     bool Enable(const QString profile);
+    bool Reenable(const QString profile);
     bool Restart(const QString profile);
     bool Start(const QString profile);
+    bool StopAll();
     bool SwitchTo(const QString profile);
     // netctlProfile
     bool Create(const QString profile, const QStringList settingsList);

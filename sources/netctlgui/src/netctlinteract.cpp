@@ -475,7 +475,7 @@ bool Netctl::stopAllProfiles()
 {
     if (debug) qDebug() << PDEBUG;
 
-    return cmdCall(true, netctlCommand, QString("restart"));
+    return cmdCall(true, netctlCommand, QString("stop-all"));
 }
 
 
