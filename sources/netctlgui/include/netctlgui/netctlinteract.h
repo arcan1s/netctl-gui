@@ -172,6 +172,13 @@ public slots:
      */
     bool enableProfile(const QString profile);
     /**
+     * @brief method which reenables profile
+     * @param profile        profile name
+     * @return false if components are not found or command exit code is not equal to 0
+     * @return true if the method was completed without errors
+     */
+    bool reenableProfile(const QString profile);
+    /**
      * @brief method which restarts profile
      * @param profile        profile name
      * @return false if components are not found or command exit code is not equal to 0
@@ -185,6 +192,12 @@ public slots:
      * @return true if the method was completed without errors
      */
     bool startProfile(const QString profile);
+    /**
+     * @brief method which stops all profiles
+     * @return false if components are not found or command exit code is not equal to 0
+     * @return true if the method was completed without errors
+     */
+    bool stopAllProfiles();
     /**
      * @brief method which starts another profile
      * @param profile        profile name

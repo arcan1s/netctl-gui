@@ -430,6 +430,18 @@ bool Netctl::enableProfile(const QString profile)
 
 
 /**
+ * @fn reenableProfile
+ */
+bool Netctl::reenableProfile(const QString profile)
+{
+    if (debug) qDebug() << PDEBUG;
+    if (debug) qDebug() << PDEBUG << ":" << "Profile" << profile;
+
+    return cmdCall(true, netctlCommand, QString("reenable"), profile);
+}
+
+
+/**
  * @fn restartProfile
  */
 bool Netctl::restartProfile(const QString profile)
@@ -453,6 +465,17 @@ bool Netctl::startProfile(const QString profile)
         return cmdCall(true, netctlCommand, QString("stop"), profile);
     else
         return cmdCall(true, netctlCommand, QString("start"), profile);
+}
+
+
+/**
+ * @fn stopAllProfiles
+ */
+bool Netctl::stopAllProfiles()
+{
+    if (debug) qDebug() << PDEBUG;
+
+    return cmdCall(true, netctlCommand, QString("restart"));
 }
 
 
