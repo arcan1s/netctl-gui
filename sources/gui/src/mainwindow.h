@@ -110,9 +110,12 @@ private slots:
     void mainTabContextualMenu(const QPoint &pos);
     void mainTabEditProfile();
     void mainTabEnableProfile();
+    QStringList mainTabGetActiveProfiles();
     void mainTabRemoveProfile();
     void mainTabRestartProfile();
     void mainTabStartProfile();
+    void mainTabStopAllProfiles();
+    void mainTabSwitchToProfile();
     void mainTabRefreshButtons(QTableWidgetItem *current, QTableWidgetItem *previous);
     // profile tab slots
     void profileTabChangeState(const QString current);

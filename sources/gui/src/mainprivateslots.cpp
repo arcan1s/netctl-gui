@@ -66,6 +66,8 @@ void MainWindow::setMenuActionsShown(const bool state)
     ui->actionMainRemove->setVisible(state);
     ui->actionMainRestart->setVisible(state);
     ui->actionMainStart->setVisible(state);
+    ui->actionMainStopAll->setVisible(state);
+    ui->actionMainSwitch->setVisible(state);
     // profile
     ui->actionProfileClear->setVisible(state);
     ui->actionProfileLoad->setVisible(state);
@@ -88,9 +90,14 @@ void MainWindow::updateMenuMain()
         ui->actionMainStart->setText(QApplication::translate("MainWindow", "Stop profile"));
         ui->actionMainStart->setIcon(QIcon::fromTheme("process-stop"));
     } else {
-        ui->actionMainRestart->setVisible(false);
         ui->actionMainStart->setText(QApplication::translate("MainWindow", "Start profile"));
         ui->actionMainStart->setIcon(QIcon::fromTheme("system-run"));
+    }
+    if (!mainTabGetActiveProfiles().isEmpty()) {
+        if (!mainTabGetActiveProfiles()
+                .contains(ui->tableWidget_main->item(ui->tableWidget_main->currentItem()->row(), 0)->text()))
+            ui->actionMainSwitch->setVisible(true);
+        ui->actionMainStopAll->setVisible(true);
     }
     ui->actionMainStart->setVisible(true);
     if (!ui->tableWidget_main->item(ui->tableWidget_main->currentItem()->row(), 3)->text().isEmpty()) {
@@ -416,12 +423,24 @@ void MainWindow::mainTabEnableProfile()
 }
 
 
+QStringList MainWindow::mainTabGetActiveProfiles()
+{
+    if (debug) qDebug() << PDEBUG;
+
+    QStringList profiles;
+    for (int i=0; i<ui->tableWidget_main->rowCount(); i++)
+        if (!ui->tableWidget_main->item(i, 2)->text().isEmpty())
+            profiles.append(ui->tableWidget_main->item(i, 0)->text());
+
+    return profiles;
+}
+
+
 void MainWindow::mainTabRemoveProfile()
 {
     if (debug) qDebug() << PDEBUG;
 
     ui->tabWidget->setDisabled(true);
-    // call netctlprofile
     QString profile = ui->tableWidget_main->item(ui->tableWidget_main->currentItem()->row(), 0)->text();
     bool status;
     if (useHelper) {
@@ -471,6 +490,49 @@ void MainWindow::mainTabStartProfile()
     QString profile = ui->tableWidget_main->item(ui->tableWidget_main->currentItem()->row(), 0)->text();
     bool previous = !ui->tableWidget_main->item(ui->tableWidget_main->currentItem()->row(), 2)->text().isEmpty();
     bool current = startProfileSlot(profile);
+    if (current != previous)
+        ui->statusBar->showMessage(QApplication::translate("MainWindow", "Done"));
+    else
+        ui->statusBar->showMessage(QApplication::translate("MainWindow", "Error"));
+
+    updateMainTab();
+}
+
+
+void MainWindow::mainTabStopAllProfiles()
+{
+    if (debug) qDebug() << PDEBUG;
+    if (!checkExternalApps(QString("netctl")))
+        return errorWin->showWindow(1, QString(PDEBUG));
+
+    ui->tabWidget->setDisabled(true);
+    bool status;
+    if (useHelper)
+        status = sendDBusRequest(DBUS_HELPER_SERVICE, DBUS_CTRL_PATH,
+                                 DBUS_HELPER_INTERFACE, QString("StopAll"),
+                                 QList<QVariant>(), true, debug)[0].toBool();
+    else
+        status = netctlCommand->stopAllProfiles();
+    if (status)
+        ui->statusBar->showMessage(QApplication::translate("MainWindow", "Done"));
+    else
+        ui->statusBar->showMessage(QApplication::translate("MainWindow", "Error"));
+
+    updateMainTab();
+}
+
+
+void MainWindow::mainTabSwitchToProfile()
+{
+    if (debug) qDebug() << PDEBUG;
+    if (!checkExternalApps(QString("netctl")))
+        return errorWin->showWindow(1, QString(PDEBUG));
+    if (ui->tableWidget_main->currentItem() == 0) return;
+
+    ui->tabWidget->setDisabled(true);
+    QString profile = ui->tableWidget_main->item(ui->tableWidget_main->currentItem()->row(), 0)->text();
+    bool previous = !ui->tableWidget_main->item(ui->tableWidget_main->currentItem()->row(), 2)->text().isEmpty();
+    bool current = switchToProfileSlot(profile);
     if (current != previous)
         ui->statusBar->showMessage(QApplication::translate("MainWindow", "Done"));
     else

@@ -346,6 +346,8 @@ void MainWindow::createActions()
     connect(ui->actionMainRemove, SIGNAL(triggered(bool)), this, SLOT(mainTabRemoveProfile()));
     connect(ui->actionMainRestart, SIGNAL(triggered(bool)), this, SLOT(mainTabRestartProfile()));
     connect(ui->actionMainStart, SIGNAL(triggered(bool)), this, SLOT(mainTabStartProfile()));
+    connect(ui->actionMainStopAll, SIGNAL(triggered(bool)), this, SLOT(mainTabStopAllProfiles()));
+    connect(ui->actionMainSwitch, SIGNAL(triggered(bool)), this, SLOT(mainTabSwitchToProfile()));
     connect(ui->actionProfileClear, SIGNAL(triggered(bool)), this, SLOT(profileTabClear()));
     connect(ui->actionProfileLoad, SIGNAL(triggered(bool)), this, SLOT(profileTabLoadProfile()));
     connect(ui->actionProfileRemove, SIGNAL(triggered(bool)), this, SLOT(profileTabRemoveProfile()));

@@ -65,7 +65,6 @@ TODO (wish list)
 ----------------
 
 * add helper polkit-qt integration ?
-* update to show error messages if debug=true
 * autotests
 
 Links

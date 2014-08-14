@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>471</width>
-    <height>499</height>
+    <width>469</width>
+    <height>497</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -182,7 +182,9 @@
         </sizepolicy>
        </property>
        <attribute name="icon">
-        <iconset theme="document-new"/>
+        <iconset theme="document-new">
+         <normaloff/>
+        </iconset>
        </attribute>
        <attribute name="title">
         <string>Create a new profile</string>
@@ -225,8 +227,8 @@
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>439</width>
-             <height>340</height>
+             <width>437</width>
+             <height>338</height>
             </rect>
            </property>
            <property name="sizePolicy">
@@ -419,7 +421,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>471</width>
+     <width>469</width>
      <height>22</height>
     </rect>
    </property>
@@ -440,8 +442,10 @@
     <addaction name="actionProfileClear"/>
     <addaction name="separator"/>
     <addaction name="actionMainStart"/>
+    <addaction name="actionMainSwitch"/>
     <addaction name="actionMainRestart"/>
     <addaction name="actionMainEnable"/>
+    <addaction name="actionMainStopAll"/>
     <addaction name="actionProfileLoad"/>
     <addaction name="actionProfileSave"/>
     <addaction name="actionWifiStart"/>
@@ -655,6 +659,22 @@
   <action name="actionLibrary">
    <property name="text">
     <string>Library documentation</string>
+   </property>
+  </action>
+  <action name="actionMainSwitch">
+   <property name="icon">
+    <iconset theme="system-run"/>
+   </property>
+   <property name="text">
+    <string>Switch to profile</string>
+   </property>
+  </action>
+  <action name="actionMainStopAll">
+   <property name="icon">
+    <iconset theme="process-stop"/>
+   </property>
+   <property name="text">
+    <string>Stop all profiles</string>
    </property>
   </action>
  </widget>
