@@ -138,9 +138,10 @@ bool MainWindow::startProfileSlot(const QString profile)
     if (useHelper) {
         QList<QVariant> args;
         args.append(profile);
-        if (sendDBusRequest(DBUS_HELPER_SERVICE, DBUS_LIB_PATH,
-                            DBUS_HELPER_INTERFACE, QString("ActiveProfile"),
-                            QList<QVariant>(), true, debug)[0].toString().isEmpty())
+        QString currentProfile = sendDBusRequest(DBUS_HELPER_SERVICE, DBUS_LIB_PATH,
+                                                 DBUS_HELPER_INTERFACE, QString("ActiveProfile"),
+                                                 QList<QVariant>(), true, debug)[0].toString();
+        if ((currentProfile.isEmpty()) || (currentProfile == profile))
             sendDBusRequest(DBUS_HELPER_SERVICE, DBUS_CTRL_PATH,
                             DBUS_HELPER_INTERFACE, QString("Start"),
                             args, true, debug);
@@ -152,7 +153,8 @@ bool MainWindow::startProfileSlot(const QString profile)
                                   DBUS_HELPER_INTERFACE, QString("isProfileActive"),
                                   args, true, debug)[0].toBool();
     } else {
-        if (netctlCommand->getActiveProfile().isEmpty())
+        QString currentProfile = netctlCommand->getActiveProfile();
+        if ((currentProfile.isEmpty()) || (currentProfile == profile))
             netctlCommand->startProfile(profile);
         else
             netctlCommand->switchToProfile(profile);
