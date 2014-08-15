@@ -89,13 +89,13 @@ QList<QVariant> sendDBusRequest(const QString service, const QString path,
         QDBusMessage request = QDBusMessage::createMethodCall(service, path, interface, cmd);
         if (!args.isEmpty())
             request.setArguments(args);
-        response = bus.call(request);
+        response = bus.call(request, QDBus::BlockWithGui);
     } else {
         QDBusConnection bus = QDBusConnection::sessionBus();
         QDBusMessage request = QDBusMessage::createMethodCall(service, path, interface, cmd);
         if (!args.isEmpty())
             request.setArguments(args);
-        response = bus.call(request);
+        response = bus.call(request, QDBus::BlockWithGui);
     }
     arguments = response.arguments();
     if (arguments.size() == 0)

@@ -628,7 +628,7 @@ QList<QVariant> Netctl::sendDBusRequest(const QString cmd, const QList<QVariant>
                                                           DBUS_HELPER_INTERFACE, cmd);
     if (!args.isEmpty())
         request.setArguments(args);
-    QDBusMessage response = bus.call(request);
+    QDBusMessage response = bus.call(request, QDBus::BlockWithGui);
     QList<QVariant> arguments = response.arguments();
     if (arguments.size() == 0)
         if (debug) qDebug() << PDEBUG << ":" << "Error message" << response.errorMessage();
