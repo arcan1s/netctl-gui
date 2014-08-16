@@ -23,6 +23,35 @@
 #include <netctlgui/netctlgui.h>
 
 
+void TestNetctl::createTestProfile()
+{
+    QMap<QString, QString> settings = NetctlProfile::getRecommendedConfiguration();
+    settings[QString("FORCE_SUDO")] = QString("true");
+    NetctlProfile *netctl = new NetctlProfile(false, settings);
+
+    QMap<QString, QString> profileSettings;
+    profileSettings["Connection"] = QString("dummy");
+    profileSettings["Description"] = QString("Simple test profile");
+    profileSettings["IP"] = QString("no");
+    profileSettings["IP6"] = QString("no");
+    profileSettings["Interface"] = QString("test");
+
+    netctl->copyProfile(netctl->createProfile(QString("aaatest"), settings));
+    delete netctl;
+}
+
+
+void TestNetctl::removeTestProfile()
+{
+    QMap<QString, QString> settings = NetctlProfile::getRecommendedConfiguration();
+    settings[QString("FORCE_SUDO")] = QString("true");
+    NetctlProfile *netctl = new NetctlProfile(false, settings);
+
+    netctl->removeProfile(QString("aaatest"));
+    delete netctl;
+}
+
+
 void TestNetctl::test_getRecommendedConfiguration()
 {
     QStringList original;
@@ -56,7 +85,15 @@ void TestNetctl::test_getActiveProfile()
     settings[QString("FORCE_SUDO")] = QString("true");
     Netctl *netctl = new Netctl(false, settings);
 
+    createTestProfile();
+    netctl->startProfile(QString("aaatest"));
+    QString original = QString("aaatest");
+    QString result = netctl->getActiveProfile();
+    netctl->startProfile(QString("aaatest"));
+    removeTestProfile();
     delete netctl;
+
+    QCOMPARE(result, original);
 }
 
 

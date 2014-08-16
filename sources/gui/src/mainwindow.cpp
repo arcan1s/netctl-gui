@@ -132,8 +132,12 @@ QStringList MainWindow::printInformation()
             profile = netctlCommand->autoGetActiveProfile();
             status = QString("netctl-auto");
         } else {
-            profile = netctlCommand->getActiveProfile();
-            status = netctlCommand->getProfileStatus(profile);
+            QStringList currentProfiles = netctlCommand->getActiveProfile();
+            profile = currentProfiles.join(QChar('|'));
+            QStringList statusList;
+            for (int i=0; i<currentProfiles.count(); i++)
+                statusList.append(netctlCommand->getProfileStatus(currentProfiles[i]));
+            status = statusList.join(QChar('|'));
         }
     }
     QStringList output;
@@ -163,7 +167,7 @@ QStringList MainWindow::printTrayInformation()
 
     QStringList information;
     QString current;
-    bool enabled = false;
+    QString enabled;
     bool netctlAutoStatus = false;
     QList<netctlProfileInfo> profiles;
     if (useHelper) {
@@ -176,25 +180,38 @@ QStringList MainWindow::printTrayInformation()
         profiles = parseOutputNetctl(sendDBusRequest(DBUS_HELPER_SERVICE, DBUS_LIB_PATH,
                                                      DBUS_HELPER_INTERFACE, QString("ProfileList"),
                                                      QList<QVariant>(), true, debug), debug);
-        QList<QVariant> args;
-        args.append(current);
-        if (netctlAutoStatus)
-            enabled = sendDBusRequest(DBUS_HELPER_SERVICE, DBUS_LIB_PATH,
-                                      DBUS_HELPER_INTERFACE, QString("autoIsProfileEnabled"),
-                                      args, true, debug)[0].toBool();
-        else
-            enabled = sendDBusRequest(DBUS_HELPER_SERVICE, DBUS_LIB_PATH,
-                                      DBUS_HELPER_INTERFACE, QString("isProfileEnabled"),
-                                      args, true, debug)[0].toBool();
+        if (netctlAutoStatus) {
+            QList<QVariant> args;
+            args.append(current);
+            enabled = QString::number(sendDBusRequest(DBUS_HELPER_SERVICE, DBUS_LIB_PATH,
+                                                      DBUS_HELPER_INTERFACE, QString("autoIsProfileEnabled"),
+                                                      args, true, debug)[0].toBool());
+        } else {
+            QStringList currentProfiles = current.split(QChar('|'));
+            QStringList enabledList;
+            for (int i=0; i<currentProfiles.count(); i++) {
+                QList<QVariant> args;
+                args.append(currentProfiles[i]);
+                enabledList.append(QString::number(
+                                       sendDBusRequest(DBUS_HELPER_SERVICE, DBUS_LIB_PATH,
+                                                       DBUS_HELPER_INTERFACE, QString("isProfileEnabled"),
+                                                       args, true, debug)[0].toBool()));
+                enabled = enabledList.join(QChar('|'));
+            }
+        }
     } else {
         netctlAutoStatus = netctlCommand->isNetctlAutoRunning();
         if (netctlAutoStatus) {
             current = netctlCommand->autoGetActiveProfile();
-            enabled = netctlCommand->autoIsProfileEnabled(current);
+            enabled = QString::number(netctlCommand->autoIsProfileEnabled(current));
             profiles = netctlCommand->getProfileListFromNetctlAuto();
         } else {
-            current = netctlCommand->getActiveProfile();
-            enabled = netctlCommand->isProfileEnabled(current);
+            QStringList currentProfiles = netctlCommand->getActiveProfile();
+            current = currentProfiles.join(QChar('|'));
+            QStringList enabledList;
+            for (int i=0; i<currentProfiles.count(); i++)
+                enabledList.append(QString::number(netctlCommand->isProfileEnabled(currentProfiles[i])));
+            enabled = enabledList.join(QChar('|'));
             profiles = netctlCommand->getProfileList();
         }
     }
@@ -205,7 +222,7 @@ QStringList MainWindow::printTrayInformation()
         profileList.append(profiles[i].name);
     information.append(profileList.join(QChar('|')));
     information.append(current);
-    information.append(QString::number(enabled));
+    information.append(enabled);
 
     return information;
 }

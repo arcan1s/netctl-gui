@@ -42,7 +42,7 @@ QString NetctlAdaptor::ActiveProfile()
     if (isNetctlAutoActive())
         return netctlCommand->autoGetActiveProfile();
     else
-        return netctlCommand->getActiveProfile();
+        return netctlCommand->getActiveProfile().join(QChar('|'));
 }
 
 
@@ -50,8 +50,13 @@ QString NetctlAdaptor::ActiveProfileStatus()
 {
     if (isNetctlAutoActive())
         return QString("netctl-auto");
-    else
-        return netctlCommand->getProfileStatus(ActiveProfile());
+    else {
+        QStringList status;
+        QStringList profiles = ActiveProfile().split(QChar('|'));
+        for (int i=0; i<profiles.count(); i++)
+            status.append(netctlCommand->getProfileStatus(profiles[i]));
+        return status.join(QChar('|'));
+    }
 }
 
 

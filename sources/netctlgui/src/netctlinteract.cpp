@@ -147,17 +147,15 @@ QString Netctl::getCmdOutput(const bool sudo, const QString command, const QStri
 /**
  * @fn getActiveProfile
  */
-QString Netctl::getActiveProfile()
+QStringList Netctl::getActiveProfile()
 {
     if (debug) qDebug() << PDEBUG;
 
-    QString profile = QString("");
+    QStringList profile;
     QList<netctlProfileInfo> fullProfilesInfo = getProfileList();
     for (int i=0; i<fullProfilesInfo.count(); i++)
-        if (fullProfilesInfo[i].active) {
-            profile = fullProfilesInfo[i].name;
-            break;
-        }
+        if (fullProfilesInfo[i].active)
+            profile.append(fullProfilesInfo[i].name);
 
     return profile;
 }

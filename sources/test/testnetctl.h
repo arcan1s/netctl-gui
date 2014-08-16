@@ -28,6 +28,10 @@ class TestNetctl : public QObject
 private slots:
     void test_getRecommendedConfiguration();
     void test_getActiveProfile();
+
+private:
+    void createTestProfile();
+    void removeTestProfile();
 };
 
 

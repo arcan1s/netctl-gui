@@ -86,7 +86,7 @@ public:
      * @brief method which returns active profile name
      * @return profile name or ""
      */
-    QString getActiveProfile();
+    QStringList getActiveProfile();
     /**
      * @brief method which returns active profile name from netctl-auto
      * @return profile name or ""

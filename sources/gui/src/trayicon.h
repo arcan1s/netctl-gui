@@ -45,6 +45,7 @@ private slots:
     bool restartProfileSlot();
     bool startProfileSlot(QAction *action);
     bool stopProfileSlot();
+    bool stopAllProfilesSlot();
     bool switchToProfileSlot(QAction *action);
 
 private:

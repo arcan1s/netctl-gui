@@ -138,10 +138,11 @@ bool MainWindow::startProfileSlot(const QString profile)
     if (useHelper) {
         QList<QVariant> args;
         args.append(profile);
-        QString currentProfile = sendDBusRequest(DBUS_HELPER_SERVICE, DBUS_LIB_PATH,
-                                                 DBUS_HELPER_INTERFACE, QString("ActiveProfile"),
-                                                 QList<QVariant>(), true, debug)[0].toString();
-        if ((currentProfile.isEmpty()) || (currentProfile == profile))
+        QStringList currentProfile = sendDBusRequest(DBUS_HELPER_SERVICE, DBUS_LIB_PATH,
+                                                     DBUS_HELPER_INTERFACE, QString("ActiveProfile"),
+                                                     QList<QVariant>(), true, debug)[0]
+                .toString().split(QChar('|'));
+        if ((currentProfile.isEmpty()) || (currentProfile.contains(profile)))
             sendDBusRequest(DBUS_HELPER_SERVICE, DBUS_CTRL_PATH,
                             DBUS_HELPER_INTERFACE, QString("Start"),
                             args, true, debug);
@@ -153,8 +154,8 @@ bool MainWindow::startProfileSlot(const QString profile)
                                   DBUS_HELPER_INTERFACE, QString("isProfileActive"),
                                   args, true, debug)[0].toBool();
     } else {
-        QString currentProfile = netctlCommand->getActiveProfile();
-        if ((currentProfile.isEmpty()) || (currentProfile == profile))
+        QStringList currentProfile = netctlCommand->getActiveProfile();
+        if ((currentProfile.isEmpty()) || (currentProfile.contains(profile)))
             netctlCommand->startProfile(profile);
         else
             netctlCommand->switchToProfile(profile);
@@ -162,6 +163,21 @@ bool MainWindow::startProfileSlot(const QString profile)
     }
 
     return current;
+}
+
+
+bool MainWindow::stopAllProfilesSlot()
+{
+    if (debug) qDebug() << PDEBUG;
+
+    if (useHelper)
+        sendDBusRequest(DBUS_HELPER_SERVICE, DBUS_CTRL_PATH,
+                        DBUS_HELPER_INTERFACE, QString("StopAll"),
+                        QList<QVariant>(), true, debug);
+    else
+        netctlCommand->stopAllProfiles();
+
+    return true;
 }
 
 

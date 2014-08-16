@@ -76,6 +76,7 @@ public slots:
     // trayicon control slots
     bool enableProfileSlot(const QString profile);
     bool startProfileSlot(const QString profile);
+    bool stopAllProfilesSlot();
     bool switchToProfileSlot(const QString profile);
     bool restartProfileSlot(const QString profile);
     // open docs
