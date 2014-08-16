@@ -29,13 +29,13 @@ class Netctl : public Plasma::DataEngine
 public:
     Netctl(QObject *parent, const QVariantList &args);
     ~Netctl();
-    QString getCurrentProfile(const QString cmdNetctl, const QString cmdNetctlAuto);
+    QStringList getCurrentProfile(const QString cmdNetctl, const QString cmdNetctlAuto);
     QString getExtIp(const QString cmd);
     QStringList getInterfaceList();
     QString getIntIp(const QAbstractSocket::NetworkLayerProtocol protocol);
     QString getNetctlAutoStatus(const QString cmdNetctlAuto);
     QStringList getProfileList(const QString cmdNetctl, const QString cmdNetctlAuto);
-    QString getProfileStringStatus(const QString cmdNetctl, const QString cmdNetctlAuto);
+    QStringList getProfileStringStatus(const QString cmdNetctl, const QString cmdNetctlAuto);
     QString getStatus(const QString cmdNetctl, const QString cmdNetctlAuto);
 
 protected:

@@ -352,6 +352,24 @@ void Netctl::stopProfileSlot()
 }
 
 
+void Netctl::stopAllProfilesSlot()
+{
+    if (debug) qDebug() << PDEBUG;
+
+    sendNotification(QString("Info"), i18n("Stop all profiles"));
+    if (useHelper)
+        sendDBusRequest(QString("StopAll"),  QList<QVariant>());
+    else {
+        QProcess command;
+        QString commandLine = QString("");
+        if (useSudo)
+            commandLine = paths[QString("sudo")] + QString(" ");
+        commandLine += paths[QString("netctl")] + QString(" stop-all ");
+        command.startDetached(commandLine);
+    }
+}
+
+
 void Netctl::switchToProfileSlot(QAction *profile)
 {
     if (debug) qDebug() << PDEBUG;
@@ -405,6 +423,7 @@ QList<QAction*> Netctl::contextualActions()
     if (info[QString("status")] == QString("(netctl-auto)")) {
         contextMenu[QString("start")]->setVisible(false);
         contextMenu[QString("stop")]->setVisible(false);
+        contextMenu[QString("stopall")]->setVisible(false);
         contextMenu[QString("switch")]->setVisible(true);
         contextMenu[QString("restart")]->setVisible(false);
         contextMenu[QString("enable")]->setVisible(false);
@@ -414,11 +433,21 @@ QList<QAction*> Netctl::contextualActions()
             switchToProfileMenu->addAction(profile);
         }
     } else {
-        contextMenu[QString("start")]->setVisible(true);
-        contextMenu[QString("stop")]->setVisible(status);
-        contextMenu[QString("switch")]->setVisible(false);
-        contextMenu[QString("restart")]->setVisible(status);
-        contextMenu[QString("enable")]->setVisible(status);
+        if (info[QString("current")].contains(QChar('|'))) {
+            contextMenu[QString("start")]->setVisible(true);
+            contextMenu[QString("stop")]->setVisible(false);
+            contextMenu[QString("stopall")]->setVisible(true);
+            contextMenu[QString("switch")]->setVisible(false);
+            contextMenu[QString("restart")]->setVisible(false);
+            contextMenu[QString("enable")]->setVisible(false);
+        } else {
+            contextMenu[QString("start")]->setVisible(true);
+            contextMenu[QString("stop")]->setVisible(status);
+            contextMenu[QString("stopall")]->setVisible(false);
+            contextMenu[QString("switch")]->setVisible(false);
+            contextMenu[QString("restart")]->setVisible(status);
+            contextMenu[QString("enable")]->setVisible(status);
+        }
         if (status) {
             contextMenu[QString("start")]->setText(i18n("Start another profile"));
             contextMenu[QString("stop")]->setText(i18n("Stop %1", info[QString("current")]));
@@ -464,6 +493,11 @@ void Netctl::createActions()
     contextMenu[QString("stop")]->setIcon(QIcon::fromTheme("dialog-close"));
     connect(contextMenu[QString("stop")], SIGNAL(triggered(bool)), this, SLOT(stopProfileSlot()));
     menuActions.append(contextMenu[QString("stop")]);
+
+    contextMenu[QString("stopall")] = new QAction(i18n("Stop all profiles"), this);
+    contextMenu[QString("stopall")]->setIcon(QIcon::fromTheme("dialog-close"));
+    connect(contextMenu[QString("stopall")], SIGNAL(triggered(bool)), this, SLOT(stopAllProfilesSlot()));
+    menuActions.append(contextMenu[QString("stopall")]);
 
     contextMenu[QString("switch")] = new QAction(i18n("Switch to profile"), this);
     contextMenu[QString("switch")]->setIcon(QIcon::fromTheme("dialog-apply"));

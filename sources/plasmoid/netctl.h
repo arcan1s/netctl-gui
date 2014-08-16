@@ -87,6 +87,7 @@ private slots:
     void restartProfileSlot();
     void startProfileSlot(QAction *profile);
     void stopProfileSlot();
+    void stopAllProfilesSlot();
     void switchToProfileSlot(QAction *profile);
     // helper
     void checkHelperStatus();

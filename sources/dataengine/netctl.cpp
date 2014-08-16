@@ -151,7 +151,7 @@ bool Netctl::sourceRequestEvent(const QString &name)
 }
 
 
-QString Netctl::getCurrentProfile(const QString cmdNetctl, const QString cmdNetctlAuto)
+QStringList Netctl::getCurrentProfile(const QString cmdNetctl, const QString cmdNetctlAuto)
 {
     if (debug) qDebug() << PDEBUG;
     getNetctlAutoStatus(cmdNetctlAuto);
@@ -166,15 +166,14 @@ QString Netctl::getCurrentProfile(const QString cmdNetctl, const QString cmdNetc
     if (debug) qDebug() << PDEBUG << ":" << "Cmd returns" << process.exitCode;
     if (process.exitCode != 0)
         if (debug) qDebug() << PDEBUG << ":" << "Error" << process.error;
-    currentProfile = QString("");
+    QStringList currentProfile;
     QString cmdOutput = QTextCodec::codecForMib(106)->toUnicode(process.output);
     QStringList profileList = cmdOutput.split(QChar('\n'), QString::SkipEmptyParts);
     for (int i=0; i<profileList.count(); i++)
-        if (profileList[i][0] == QChar('*')) {
-            currentProfile = profileList[i];
-            break;
-        }
-    currentProfile.remove(0, 2);
+        if (profileList[i][0] == QChar('*'))
+            currentProfile.append(profileList[i]);
+    for (int i=0; i<currentProfile.count(); i++)
+        currentProfile[i].remove(0, 2);
 
     return currentProfile;
 }
@@ -276,21 +275,26 @@ QStringList Netctl::getProfileList(const QString cmdNetctl, const QString cmdNet
 }
 
 
-QString Netctl::getProfileStringStatus(const QString cmdNetctl, const QString cmdNetctlAuto)
+QStringList Netctl::getProfileStringStatus(const QString cmdNetctl, const QString cmdNetctlAuto)
 {
     if (debug) qDebug() << PDEBUG;
     getNetctlAutoStatus(cmdNetctlAuto);
 
-    QString status = QString("static");
+    QStringList status;
     if (netctlAutoStatus)
-        status = QString("netctl-auto");
+        status.append(QString("netctl-auto"));
     else {
-        TaskResult process = runTask(cmdNetctl + QString(" is-enabled ") + getCurrentProfile(cmdNetctl, cmdNetctlAuto));
-        if (debug) qDebug() << PDEBUG << ":" << "Cmd returns" << process.exitCode;
-        if (process.exitCode != 0)
-            if (debug) qDebug() << PDEBUG << ":" << "Error" << process.error;
-        if (process.exitCode == 0)
-            status = QString("enabled");
+        QStringList profiles = getCurrentProfile(cmdNetctl, cmdNetctlAuto);
+        for (int i=0; i<profiles.count(); i++) {
+            TaskResult process = runTask(cmdNetctl + QString(" is-enabled ") + profiles[i]);
+            if (debug) qDebug() << PDEBUG << ":" << "Cmd returns" << process.exitCode;
+            if (process.exitCode != 0)
+                if (debug) qDebug() << PDEBUG << ":" << "Error" << process.error;
+            if (process.exitCode == 0)
+                status.append(QString("enabled"));
+            else
+                status.append(QString("static"));
+        }
     }
 
     return status;
@@ -303,7 +307,7 @@ QString Netctl::getStatus(const QString cmdNetctl, const QString cmdNetctlAuto)
     getNetctlAutoStatus(cmdNetctlAuto);
 
     QString status = QString("false");
-    QString currentProfile = getCurrentProfile(cmdNetctl, cmdNetctlAuto);
+    QStringList currentProfile = getCurrentProfile(cmdNetctl, cmdNetctlAuto);
     if (!currentProfile.isEmpty())
         status = QString("true");
 
@@ -322,7 +326,8 @@ bool Netctl::updateSourceEvent(const QString &source)
                 configuration[QString("NETCTLAUTOCMD")]);
     } else if (source == QString("current")) {
         value = getCurrentProfile(configuration[QString("NETCTLCMD")],
-                configuration[QString("NETCTLAUTOCMD")]);
+                configuration[QString("NETCTLAUTOCMD")])
+                .join(QChar('|'));
     } else if (source == QString("extip4")) {
         if (configuration[QString("EXTIP4")] == QString("true"))
             value = getExtIp(configuration[QString("EXTIP4CMD")]);
@@ -343,7 +348,8 @@ bool Netctl::updateSourceEvent(const QString &source)
                 .join(QChar(','));
     } else if (source == QString("status")) {
         value = getProfileStringStatus(configuration[QString("NETCTLCMD")],
-                configuration[QString("NETCTLAUTOCMD")]);
+                configuration[QString("NETCTLAUTOCMD")])
+                .join(QChar('|'));
     }
     setData(source, QString("value"), value);
 
