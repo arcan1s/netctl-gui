@@ -2,7 +2,9 @@ Ver.1.3.0
 ---------
 * all:
     + add processes error messages
+    + add support of several active profiles
     * some bug fixes and refactoring
+    * rewrite debug messages
 * dataengine:
     + add new sources: intIp6, extIp6, netctlAutoStatus
     * rewrite to use [tasks](https://github.com/mhogomchungu/tasks) (see #7)
@@ -24,13 +26,16 @@ Ver.1.3.0
 * helper:
     + create daemon DBus system interface org.netctlgui.helper to the library:
       self control slots, netctl control slots and netctl information slots
+    + add tests
 * library:
     + add custom structures netctlWifiInfo and netctlProfileInfo
     + add methods getActiveProfile(), autoGetActiveProfile()
     + add slot switchToProfile()
     + add slot stopAllProfiles()
     + add slot reenableProfile()
+    + add slots getRecommendedConfiguration()
     + add double quotes to profile names
+    + add tests
     * rewrite to use [tasks](https://github.com/mhogomchungu/tasks) (see #7)
     * rename getInterfaceList() to getWirelessInterfaceList()
     - remove functions getProfileDescriptions() and getProfileStatuses()
