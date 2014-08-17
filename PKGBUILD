@@ -13,7 +13,7 @@ license=('GPL3')
 makedepends=('automoc4' 'cmake' 'kdelibs' 'qt5-base' 'qt5-tools')
 source=("https://github.com/arcan1s/netctl-gui/releases/download/V.${pkgver}/${pkgbase}-${pkgver}-src.tar.xz")
 install="${pkgbase}.install"
-md5sums=('d0a279f99cbb9a33b283def9fe053594')
+md5sums=('d99eba4101fee42ebbfa5735aa706bc9')
 
 
 prepare() {
@@ -26,7 +26,6 @@ build() {
   cd "${srcdir}/build-plasmoid"
   cmake -DCMAKE_INSTALL_PREFIX=/usr \
         -DCMAKE_BUILD_TYPE=Release \
-        -DBUILD_DOCS:BOOL=0 \
         -DBUILD_GUI:BOOL=0 \
         -DBUILD_LIBRARY:BOOL=0 \
         -DBUILD_HELPER:BOOL=0 \
@@ -36,7 +35,6 @@ build() {
   cd "${srcdir}/build-qt4"
   cmake -DCMAKE_INSTALL_PREFIX=/usr \
         -DCMAKE_BUILD_TYPE=Release \
-        -DBUILD_DOCS:BOOL=0 \
         -DBUILD_DATAENGINE:BOOL=0 \
         -DBUILD_PLASMOID:BOOL=0 \
         -DUSE_QT5:BOOL=0 \
@@ -46,7 +44,6 @@ build() {
   cd "${srcdir}/build-qt5"
   cmake -DCMAKE_INSTALL_PREFIX=/usr \
         -DCMAKE_BUILD_TYPE=Release \
-        -DBUILD_DOCS:BOOL=0 \
         -DBUILD_DATAENGINE:BOOL=0 \
         -DBUILD_PLASMOID:BOOL=0 \
         "../${pkgbase}"
@@ -89,6 +86,7 @@ package_netctlgui-helper() {
   depends=('libnetctlgui')
   provides=('netctlgui-helper-qt4')
   conflicts=('netctlgui-helper-qt4')
+  backup=('etc/netctlgui-helper.conf')
 
   cd "${srcdir}/build-qt5/helper"
   make DESTDIR="${pkgdir}" install
@@ -128,6 +126,7 @@ package_netctlgui-helper-qt4() {
   depends=('libnetctlgui-qt4')
   provides=('netctlgui-helper')
   conflicts=('netctlgui-helper')
+  backup=('etc/netctlgui-helper.conf')
 
   cd "${srcdir}/build-qt4/helper"
   make DESTDIR="${pkgdir}" install
