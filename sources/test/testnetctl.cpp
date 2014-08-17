@@ -69,6 +69,7 @@ void TestNetctl::removeTestProfile()
 void TestNetctl::initTestCase()
 {
     qDebug() << "netctlgui library tests";
+    qDebug() << "Netctl class tests (netctl functions)";
     qDebug() << "TODO: unfortunately, some functions which is required to work";
     qDebug() << "with the working profile isn't tested here (including netctl-auto)";
     QWARN("Some functions requires root privileges");
@@ -85,21 +86,15 @@ void TestNetctl::cleanupTestCase()
 void TestNetctl::test_getRecommendedConfiguration()
 {
     QStringList original;
-//    original.append(QString("CTRL_DIR==/run/wpa_supplicant_netctl-gui"));
-//    original.append(QString("CTRL_GROUP==network"));
     original.append(QString("FORCE_SUDO==false"));
     original.append(QString("IFACE_DIR==/sys/class/net"));
     original.append(QString("NETCTLAUTO_PATH==/usr/bin/netctl-auto"));
     original.append(QString("NETCTLAUTO_SERVICE==netctl-auto"));
     original.append(QString("NETCTL_PATH==/usr/bin/netctl"));
-//    original.append(QString("PID_FILE==/run/wpa_supplicant_netctl-gui.pid"));
     original.append(QString("PREFERED_IFACE==wifi0"));
     original.append(QString("PROFILE_DIR==/etc/netctl"));
     original.append(QString("SUDO_PATH==/usr/bin/sudo"));
     original.append(QString("SYSTEMCTL_PATH==/usr/bin/systemctl"));
-//    original.append(QString("WPACLI_PATH==/usr/bin/wpa_cli"));
-//    original.append(QString("WPASUP_PATH==/usr/bin/wpa_supplicant"));
-//    original.append(QString("WPA_DRIVERS==nl80211,wext"));
     QMap<QString, QString> resultMap = Netctl::getRecommendedConfiguration();
     QStringList result;
     for (int i=0; i<resultMap.keys().count(); i++)

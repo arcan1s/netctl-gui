@@ -77,6 +77,7 @@ void TestNetctlAuto::removeTestProfiles()
 void TestNetctlAuto::initTestCase()
 {
     qDebug() << "netctlgui library tests";
+    qDebug() << "Netctl class tests (netctl-auto functions)";
     qDebug() << "TODO: unfortunately, some functions which is required to work";
     qDebug() << "with the working profile isn't tested here (including netctl-auto)";
     QWARN("Some functions requires root privileges");

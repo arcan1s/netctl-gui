@@ -18,6 +18,9 @@ set (NETCTLAUTO_SOURCES testnetctlauto.cpp)
 # netctl profile
 set (PROFILE_HEADERS testnetctlprofile.h)
 set (PROFILE_SOURCES testnetctlprofile.cpp)
+# wpa_supplicant
+set (WPASUP_HEADERS testwpasup.h)
+set (WPASUP_SOURCES testwpasup.cpp)
 
 # include_path
 include_directories (${CMAKE_CURRENT_SOURCE_DIR}/../${PROJECT_LIBRARY}/include/
@@ -37,6 +40,7 @@ if (USE_QT5)
     qt5_wrap_cpp (NETCTL_MOC_SOURCES ${NETCTL_HEADERS})
     qt5_wrap_cpp (NETCTLAUTO_MOC_SOURCES ${NETCTLAUTO_HEADERS})
     qt5_wrap_cpp (PROFILE_MOC_SOURCES ${PROFILE_HEADERS})
+    qt5_wrap_cpp (WPASUP_MOC_SOURCES ${WPASUP_HEADERS})
 else ()
     find_package (Qt4 COMPONENTS QtCore QtTest REQUIRED)
     include (${QT_USE_FILE})
@@ -44,6 +48,7 @@ else ()
     qt4_wrap_cpp (NETCTL_MOC_SOURCES ${NETCTL_HEADERS})
     qt4_wrap_cpp (NETCTLAUTO_MOC_SOURCES ${NETCTLAUTO_HEADERS})
     qt4_wrap_cpp (PROFILE_MOC_SOURCES ${PROFILE_HEADERS})
+    qt4_wrap_cpp (WPASUP_MOC_SOURCES ${WPASUP_HEADERS})
 endif()
 
 # netctl
@@ -55,6 +60,9 @@ target_link_libraries (${SUBPROJECT}-netctlauto ${PROJECT_LIBRARY} ${QT_NEEDED_L
 # netctl profile
 add_executable (${SUBPROJECT}-profile ${PROFILE_HEADERS} ${PROFILE_SOURCES} ${PROFILE_MOC_SOURCES})
 target_link_libraries (${SUBPROJECT}-profile ${PROJECT_LIBRARY} ${QT_NEEDED_LIBS})
+# wpa_supplicant
+add_executable (${SUBPROJECT}-wpasup ${WPASUP_HEADERS} ${WPASUP_SOURCES} ${WPASUP_MOC_SOURCES})
+target_link_libraries (${SUBPROJECT}-wpasup ${PROJECT_LIBRARY} ${QT_NEEDED_LIBS})
 
 # install properties
 add_test (NAME Netctl COMMAND ${CMAKE_CURRENT_BINARY_DIR}/${SUBPROJECT}-netctl
@@ -63,4 +71,6 @@ add_test (NAME NetctlAuto COMMAND ${CMAKE_CURRENT_BINARY_DIR}/${SUBPROJECT}-netc
           "-o" "../Testing/output-netctlauto.log")
 add_test (NAME Profile COMMAND ${CMAKE_CURRENT_BINARY_DIR}/${SUBPROJECT}-profile
           "-o" "../Testing/output-profile.log")
+add_test (NAME WpaSup COMMAND ${CMAKE_CURRENT_BINARY_DIR}/${SUBPROJECT}-wpasup
+          "-o" "../Testing/output-wpasup.log")
 
