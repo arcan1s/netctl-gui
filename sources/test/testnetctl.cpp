@@ -27,7 +27,6 @@ Netctl *TestNetctl::createNetctlObj()
 {
     QMap<QString, QString> settings = Netctl::getRecommendedConfiguration();
     settings[QString("FORCE_SUDO")] = QString("true");
-    // to test netctl-auto with dummy profiles
     settings[QString("PREFERED_IFACE")] = QString("ngtest");
     Netctl *netctl = new Netctl(false, settings);
 
@@ -73,6 +72,13 @@ void TestNetctl::initTestCase()
     qDebug() << "TODO: unfortunately, some functions which is required to work";
     qDebug() << "with the working profile isn't tested here (including netctl-auto)";
     QWARN("Some functions requires root privileges");
+    createTestProfile();
+}
+
+
+void TestNetctl::cleanupTestCase()
+{
+    removeTestProfile();
 }
 
 
@@ -107,11 +113,9 @@ void TestNetctl::test_getRecommendedConfiguration()
 void TestNetctl::test_getActiveProfile()
 {
     Netctl *netctl = createNetctlObj();
-    createTestProfile();
     netctl->startProfile(QString("netctlgui-test-dummy"));
     QStringList result = netctl->getActiveProfile();
     netctl->startProfile(QString("netctlgui-test-dummy"));
-    removeTestProfile();
     delete netctl;
 
     QVERIFY(result.contains(QString("netctlgui-test-dummy")));
@@ -121,10 +125,8 @@ void TestNetctl::test_getActiveProfile()
 void TestNetctl::test_getProfileDescription()
 {
     Netctl *netctl = createNetctlObj();
-    createTestProfile();
     QString original = QString("Simple test profile");
     QString result = netctl->getProfileDescription(QString("netctlgui-test-dummy"));
-    removeTestProfile();
     delete netctl;
 
     QCOMPARE(result, original);
@@ -134,7 +136,6 @@ void TestNetctl::test_getProfileDescription()
 void TestNetctl::test_getProfileStatus()
 {
     Netctl *netctl = createNetctlObj();
-    createTestProfile();
     QStringList original;
     original.append(QString("inactive (static)"));
     original.append(QString("active (static)"));
@@ -151,7 +152,6 @@ void TestNetctl::test_getProfileStatus()
     result.append(netctl->getProfileStatus(QString("netctlgui-test-dummy")));
     netctl->enableProfile(QString("netctlgui-test-dummy"));
     result.append(netctl->getProfileStatus(QString("netctlgui-test-dummy")));
-    removeTestProfile();
     delete netctl;
 
     QCOMPARE(result, original);
@@ -161,13 +161,10 @@ void TestNetctl::test_getProfileStatus()
 void TestNetctl::test_isProfileActive()
 {
     Netctl *netctl = createNetctlObj();
-    createTestProfile();
     QVERIFY(!netctl->isProfileActive(QString("netctlgui-test-dummy")));
     netctl->startProfile(QString("netctlgui-test-dummy"));
     QVERIFY(netctl->isProfileActive(QString("netctlgui-test-dummy")));
     netctl->startProfile(QString("netctlgui-test-dummy"));
-
-    removeTestProfile();
     delete netctl;
 }
 
@@ -175,13 +172,10 @@ void TestNetctl::test_isProfileActive()
 void TestNetctl::test_isProfileEnabled()
 {
     Netctl *netctl = createNetctlObj();
-    createTestProfile();
     QVERIFY(!netctl->isProfileEnabled(QString("netctlgui-test-dummy")));
     netctl->enableProfile(QString("netctlgui-test-dummy"));
     QVERIFY(netctl->isProfileEnabled(QString("netctlgui-test-dummy")));
     netctl->enableProfile(QString("netctlgui-test-dummy"));
-
-    removeTestProfile();
     delete netctl;
 }
 
@@ -189,15 +183,12 @@ void TestNetctl::test_isProfileEnabled()
 void TestNetctl::test_reenableProfile()
 {
     Netctl *netctl = createNetctlObj();
-    createTestProfile();
     QVERIFY(!netctl->isProfileEnabled(QString("netctlgui-test-dummy")));
     netctl->enableProfile(QString("netctlgui-test-dummy"));
     QVERIFY(netctl->isProfileEnabled(QString("netctlgui-test-dummy")));
     QVERIFY(netctl->reenableProfile(QString("netctlgui-test-dummy")));
     QVERIFY(netctl->isProfileEnabled(QString("netctlgui-test-dummy")));
     netctl->enableProfile(QString("netctlgui-test-dummy"));
-
-    removeTestProfile();
     delete netctl;
 }
 
@@ -205,15 +196,12 @@ void TestNetctl::test_reenableProfile()
 void TestNetctl::test_restartProfile()
 {
     Netctl *netctl = createNetctlObj();
-    createTestProfile();
     QVERIFY(!netctl->isProfileActive(QString("netctlgui-test-dummy")));
     netctl->startProfile(QString("netctlgui-test-dummy"));
     QVERIFY(netctl->isProfileActive(QString("netctlgui-test-dummy")));
     QVERIFY(netctl->restartProfile(QString("netctlgui-test-dummy")));
     QVERIFY(netctl->isProfileActive(QString("netctlgui-test-dummy")));
     netctl->startProfile(QString("netctlgui-test-dummy"));
-
-    removeTestProfile();
     delete netctl;
 }
 

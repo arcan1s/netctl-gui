@@ -31,6 +31,7 @@ class TestNetctlAuto : public QObject
 private slots:
     // initialization
     void initTestCase();
+    void cleanupTestCase();
     // netctl-auto
 
 private:

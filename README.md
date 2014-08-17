@@ -66,7 +66,7 @@ TODO (wish list)
 
 * add helper polkit-qt integration ?
 * test several profiles support
-* autotests
+* autotests (QCOMPARE(gui, lib));
 
 Links
 -----

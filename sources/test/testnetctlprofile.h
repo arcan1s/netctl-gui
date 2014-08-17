@@ -15,16 +15,15 @@
  *   along with netctl-gui. If not, see http://www.gnu.org/licenses/       *
  ***************************************************************************/
 
-#ifndef TESTNETCTL_H
-#define TESTNETCTL_H
+#ifndef TESTNETCTLPROFILE_H
+#define TESTNETCTLPROFILE_H
 
 #include <QObject>
 
 
-class Netctl;
 class NetctlProfile;
 
-class TestNetctl : public QObject
+class TestNetctlProfile : public QObject
 {
     Q_OBJECT
 
@@ -32,22 +31,19 @@ private slots:
     // initialization
     void initTestCase();
     void cleanupTestCase();
-    // netctl
+    // netctl profile
     void test_getRecommendedConfiguration();
-    void test_getActiveProfile();
-    void test_getProfileDescription();
-    void test_getProfileStatus();
-    void test_isProfileActive();
-    void test_isProfileEnabled();
-    void test_reenableProfile();
-    void test_restartProfile();
+    void test_copyProfile();
+    void test_createProfile();
+    void test_getSettingsFromProfile();
+    void test_getValueFromProfile();
+    void test_removeProfile();
 
 private:
-    Netctl *createNetctlObj();
     NetctlProfile *createNetctlProfileObj();
-    void createTestProfile();
-    void removeTestProfile();
+    bool createTestProfile();
+    bool removeTestProfile();
 };
 
 
-#endif /* TESTNETCTL_H */
+#endif /* TESTNETCTLPROFILE_H */
