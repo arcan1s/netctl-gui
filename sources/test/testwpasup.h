@@ -19,6 +19,7 @@
 #define TESTWPASUP_H
 
 #include <QObject>
+#include <QVariant>
 
 
 class WpaSup;
@@ -36,6 +37,9 @@ private slots:
 
 private:
     WpaSup *createWpaSupObj();
+    QList<QVariant> sendDBusRequest(const QString path,
+                                    const QString cmd,
+                                    const QList<QVariant> args = QList<QVariant>());
 };
 
 

@@ -18,9 +18,13 @@
 
 #include "testnetctlauto.h"
 
+#include <QDBusConnection>
+#include <QDBusMessage>
 #include <QtTest>
 
 #include <netctlgui/netctlgui.h>
+
+#include "version.h"
 
 
 Netctl *TestNetctlAuto::createNetctlObj()
@@ -70,6 +74,20 @@ void TestNetctlAuto::removeTestProfiles()
     netctl->removeProfile(QString("netctlgui-test-dummy"));
     netctl->removeProfile(QString("netctlgui-test-dummy-snd"));
     delete netctl;
+}
+
+
+QList<QVariant> TestNetctlAuto::sendDBusRequest(const QString path, const QString cmd, const QList<QVariant> args)
+{
+    QDBusConnection bus = QDBusConnection::systemBus();
+    QDBusMessage request = QDBusMessage::createMethodCall(DBUS_HELPER_SERVICE, path,
+                                                          DBUS_HELPER_INTERFACE, cmd);
+    if (!args.isEmpty())
+        request.setArguments(args);
+    QDBusMessage response = bus.call(request);
+    QList<QVariant> arguments = response.arguments();
+
+    return arguments;
 }
 
 

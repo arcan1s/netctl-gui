@@ -19,6 +19,7 @@
 #define TESTNETCTLAUTO_H
 
 #include <QObject>
+#include <QVariant>
 
 
 class Netctl;
@@ -39,6 +40,9 @@ private:
     NetctlProfile *createNetctlProfileObj();
     void createTestProfiles();
     void removeTestProfiles();
+    QList<QVariant> sendDBusRequest(const QString path,
+                                    const QString cmd,
+                                    const QList<QVariant> args = QList<QVariant>());
 };
 
 

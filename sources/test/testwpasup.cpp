@@ -18,9 +18,13 @@
 
 #include "testwpasup.h"
 
+#include <QDBusConnection>
+#include <QDBusMessage>
 #include <QtTest>
 
 #include <netctlgui/netctlgui.h>
+
+#include "version.h"
 
 
 WpaSup *TestWpaSup::createWpaSupObj()
@@ -31,6 +35,20 @@ WpaSup *TestWpaSup::createWpaSupObj()
     WpaSup *wpasup = new WpaSup(false, settings);
 
     return wpasup;
+}
+
+
+QList<QVariant> TestWpaSup::sendDBusRequest(const QString path, const QString cmd, const QList<QVariant> args)
+{
+    QDBusConnection bus = QDBusConnection::systemBus();
+    QDBusMessage request = QDBusMessage::createMethodCall(DBUS_HELPER_SERVICE, path,
+                                                          DBUS_HELPER_INTERFACE, cmd);
+    if (!args.isEmpty())
+        request.setArguments(args);
+    QDBusMessage response = bus.call(request);
+    QList<QVariant> arguments = response.arguments();
+
+    return arguments;
 }
 
 
