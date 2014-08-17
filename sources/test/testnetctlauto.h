@@ -15,8 +15,8 @@
  *   along with netctl-gui. If not, see http://www.gnu.org/licenses/       *
  ***************************************************************************/
 
-#ifndef TESTNETCTL_H
-#define TESTNETCTL_H
+#ifndef TESTNETCTLAUTO_H
+#define TESTNETCTLAUTO_H
 
 #include <QObject>
 
@@ -24,29 +24,21 @@
 class Netctl;
 class NetctlProfile;
 
-class TestNetctl : public QObject
+class TestNetctlAuto : public QObject
 {
     Q_OBJECT
 
 private slots:
     // initialization
     void initTestCase();
-    // netctl
-    void test_getRecommendedConfiguration();
-    void test_getActiveProfile();
-    void test_getProfileDescription();
-    void test_getProfileStatus();
-    void test_isProfileActive();
-    void test_isProfileEnabled();
-    void test_reenableProfile();
-    void test_restartProfile();
+    // netctl-auto
 
 private:
     Netctl *createNetctlObj();
     NetctlProfile *createNetctlProfileObj();
-    void createTestProfile();
-    void removeTestProfile();
+    void createTestProfiles();
+    void removeTestProfiles();
 };
 
 
-#endif /* TESTNETCTL_H */
+#endif /* TESTNETCTLAUTO_H */

@@ -27,6 +27,8 @@ Netctl *TestNetctl::createNetctlObj()
 {
     QMap<QString, QString> settings = Netctl::getRecommendedConfiguration();
     settings[QString("FORCE_SUDO")] = QString("true");
+    // to test netctl-auto with dummy profiles
+    settings[QString("PREFERED_IFACE")] = QString("ngtest");
     Netctl *netctl = new Netctl(false, settings);
 
     return netctl;
@@ -53,12 +55,6 @@ void TestNetctl::createTestProfile()
     profileSettings["IP6"] = QString("no");
     profileSettings["Interface"] = QString("ngtest");
     netctl->copyProfile(netctl->createProfile(QString("netctlgui-test-dummy"), profileSettings));
-    profileSettings["Connection"] = QString("dummy");
-    profileSettings["Description"] = QString("\"Second simple test profile\"");
-    profileSettings["IP"] = QString("no");
-    profileSettings["IP6"] = QString("no");
-    profileSettings["Interface"] = QString("ngtest");
-    netctl->copyProfile(netctl->createProfile(QString("netctlgui-test-dummy-snd"), profileSettings));
     delete netctl;
 }
 
@@ -67,8 +63,16 @@ void TestNetctl::removeTestProfile()
 {
     NetctlProfile *netctl = createNetctlProfileObj();
     netctl->removeProfile(QString("netctlgui-test-dummy"));
-    netctl->removeProfile(QString("netctlgui-test-dummy-snd"));
     delete netctl;
+}
+
+
+void TestNetctl::initTestCase()
+{
+    qDebug() << "netctlgui library tests";
+    qDebug() << "TODO: unfortunately, some functions which is required to work";
+    qDebug() << "with the working profile isn't tested here (including netctl-auto)";
+    QWARN("Some functions requires root privileges");
 }
 
 
@@ -214,6 +218,4 @@ void TestNetctl::test_restartProfile()
 }
 
 
-// TODO: unfortunately, some functions which is required to work
-// with the working profile isn't tested here
 QTEST_MAIN(TestNetctl);
