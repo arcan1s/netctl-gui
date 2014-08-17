@@ -19,6 +19,7 @@
 #define TESTNETCTL_H
 
 #include <QObject>
+#include <QVariant>
 
 
 class Netctl;
@@ -43,10 +44,14 @@ private slots:
     void test_restartProfile();
 
 private:
+    bool helper;
     Netctl *createNetctlObj();
     NetctlProfile *createNetctlProfileObj();
     void createTestProfile();
     void removeTestProfile();
+    QList<QVariant> sendDBusRequest(const QString path,
+                                    const QString cmd,
+                                    const QList<QVariant> args = QList<QVariant>());
 };
 
 

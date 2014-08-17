@@ -27,6 +27,7 @@ WpaSup *TestWpaSup::createWpaSupObj()
 {
     QMap<QString, QString> settings = WpaSup::getRecommendedConfiguration();
     settings[QString("FORCE_SUDO")] = QString("true");
+    settings[QString("PREFERED_IFACE")] = QString("ngtest");
     WpaSup *wpasup = new WpaSup(false, settings);
 
     return wpasup;

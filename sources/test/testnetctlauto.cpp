@@ -27,7 +27,6 @@ Netctl *TestNetctlAuto::createNetctlObj()
 {
     QMap<QString, QString> settings = Netctl::getRecommendedConfiguration();
     settings[QString("FORCE_SUDO")] = QString("true");
-    // to test netctl-auto with dummy profiles
     settings[QString("PREFERED_IFACE")] = QString("ngtest");
     Netctl *netctl = new Netctl(false, settings);
 
