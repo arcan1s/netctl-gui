@@ -36,6 +36,7 @@ private slots:
     // netctl-auto
 
 private:
+    bool helper;
     Netctl *createNetctlObj();
     NetctlProfile *createNetctlProfileObj();
     void createTestProfiles();

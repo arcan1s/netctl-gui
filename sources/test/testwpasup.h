@@ -36,6 +36,7 @@ private slots:
     void test_getRecommendedConfiguration();
 
 private:
+    bool helper;
     WpaSup *createWpaSupObj();
     QList<QVariant> sendDBusRequest(const QString path,
                                     const QString cmd,

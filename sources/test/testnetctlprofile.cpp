@@ -18,9 +18,13 @@
 
 #include "testnetctlprofile.h"
 
+#include <QDBusConnection>
+#include <QDBusMessage>
 #include <QtTest>
 
 #include <netctlgui/netctlgui.h>
+
+#include "version.h"
 
 
 NetctlProfile *TestNetctlProfile::createNetctlProfileObj()
@@ -59,6 +63,20 @@ bool TestNetctlProfile::removeTestProfile()
 }
 
 
+QList<QVariant> TestNetctlProfile::sendDBusRequest(const QString path, const QString cmd, const QList<QVariant> args)
+{
+    QDBusConnection bus = QDBusConnection::systemBus();
+    QDBusMessage request = QDBusMessage::createMethodCall(DBUS_HELPER_SERVICE, path,
+                                                          DBUS_HELPER_INTERFACE, cmd);
+    if (!args.isEmpty())
+        request.setArguments(args);
+    QDBusMessage response = bus.call(request);
+    QList<QVariant> arguments = response.arguments();
+
+    return arguments;
+}
+
+
 void TestNetctlProfile::initTestCase()
 {
     qDebug() << "netctlgui library tests";
@@ -68,6 +86,11 @@ void TestNetctlProfile::initTestCase()
     QWARN("Some functions requires root privileges");
     // arent needed
 //    createTestProfile();
+    if (sendDBusRequest(QString("/ctrl"), QString("Active")).isEmpty()) {
+        helper = false;
+        QWARN("Helper isn't active. DBus tests will be ignored");
+    } else
+        helper = true;
 }
 
 
@@ -98,6 +121,18 @@ void TestNetctlProfile::test_copyProfile()
 {
     NetctlProfile *netctl = createNetctlProfileObj();
     QVERIFY(createTestProfile());
+    if (helper) {
+        QList<QVariant> args;
+        args.append(QString("netctlgui-test-dummy"));
+        QStringList profileSettings;
+        profileSettings.append(QString("Connection==dummy"));
+        profileSettings.append(QString("Description==\"Simple test profile\""));
+        profileSettings.append(QString("IP==no"));
+        profileSettings.append(QString("IP6==no"));
+        profileSettings.append(QString("Interface==ngtest"));
+        args.append(profileSettings);
+        QVERIFY(sendDBusRequest(QString("/ctrl"), QString("Create"), args)[0].toBool());
+    }
     delete netctl;
 }
 
@@ -112,7 +147,7 @@ void TestNetctlProfile::test_getValueFromProfile()
     original.append(QString("no"));
     original.append(QString("no"));
     original.append(QString("ngtest"));
-    QStringList result;
+    QStringList result, dbus;
     result.append(netctl->getValueFromProfile(QString("netctlgui-test-dummy"),
                                               QString("Connection")));
     result.append(netctl->getValueFromProfile(QString("netctlgui-test-dummy"),
@@ -123,6 +158,29 @@ void TestNetctlProfile::test_getValueFromProfile()
                                               QString("IP6")));
     result.append(netctl->getValueFromProfile(QString("netctlgui-test-dummy"),
                                               QString("Interface")));
+    if (helper) {
+        QList<QVariant> args;
+        args.append(QString("netctlgui-test-dummy"));
+        args.append(QString("Connection"));
+        dbus.append(sendDBusRequest(QString("/netctl"), QString("ProfileValue"), args)[0].toString());
+        args.clear();
+        args.append(QString("netctlgui-test-dummy"));
+        args.append(QString("Description"));
+        dbus.append(sendDBusRequest(QString("/netctl"), QString("ProfileValue"), args)[0].toString());
+        args.clear();
+        args.append(QString("netctlgui-test-dummy"));
+        args.append(QString("IP"));
+        dbus.append(sendDBusRequest(QString("/netctl"), QString("ProfileValue"), args)[0].toString());
+        args.clear();
+        args.append(QString("netctlgui-test-dummy"));
+        args.append(QString("IP6"));
+        dbus.append(sendDBusRequest(QString("/netctl"), QString("ProfileValue"), args)[0].toString());
+        args.clear();
+        args.append(QString("netctlgui-test-dummy"));
+        args.append(QString("Interface"));
+        dbus.append(sendDBusRequest(QString("/netctl"), QString("ProfileValue"), args)[0].toString());
+        QCOMPARE(dbus, result);
+    }
     delete netctl;
 
     QCOMPARE(result, original);
@@ -174,6 +232,15 @@ void TestNetctlProfile::test_createProfile()
 'phase2=\"auth=PAP\"'\n\
 ");
     QVERIFY(netctl->copyProfile(netctl->createProfile(QString("netctlgui-test-full"), profileSettings)));
+    if (helper) {
+        QList<QVariant> args;
+        args.append(QString("netctlgui-test-full"));
+        QStringList profileSettingsList;
+        for (int i=0; i<profileSettings.keys().count(); i++)
+            profileSettingsList.append(profileSettings.keys()[i] + QString("==") + profileSettings[profileSettings.keys()[i]]);
+        args.append(profileSettingsList);
+        QVERIFY(sendDBusRequest(QString("/ctrl"), QString("Create"), args)[0].toBool());
+    }
     delete netctl;
 }
 
@@ -225,7 +292,12 @@ password=\"mypassword\"\n\
 priority=1\n\
 phase2=\"auth=PAP\"\
 ");
-    QStringList result;
+    QStringList result, dbus;
+    if (helper) {
+        QList<QVariant> args;
+        args.append(QString("netctlgui-test-full"));
+        dbus = sendDBusRequest(QString("/netctl"), QString("Profile"), args)[0].toStringList();
+    }
     QMap<QString, QString> resultMap = netctl->getSettingsFromProfile(QString("netctlgui-test-full"));
     for (int i=0; i<resultMap.keys().count(); i++)
         result.append(resultMap.keys()[i] + QString("==") + resultMap[resultMap.keys()[i]]);
@@ -233,6 +305,7 @@ phase2=\"auth=PAP\"\
     delete netctl;
 
     QCOMPARE(result, original);
+    if (helper) QCOMPARE(dbus, result);
 }
 
 

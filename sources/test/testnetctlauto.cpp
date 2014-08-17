@@ -99,6 +99,11 @@ void TestNetctlAuto::initTestCase()
     qDebug() << "with the working profile isn't tested here (including netctl-auto)";
     QWARN("Some functions requires root privileges");
     createTestProfiles();
+    if (sendDBusRequest(QString("/ctrl"), QString("Active")).isEmpty()) {
+        helper = false;
+        QWARN("Helper isn't active. DBus tests will be ignored");
+    } else
+        helper = true;
 }
 
 
