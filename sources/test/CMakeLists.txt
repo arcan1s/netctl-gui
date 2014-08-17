@@ -16,7 +16,7 @@ file (GLOB SOURCES *.cpp)
 file (GLOB HEADERS *.h)
 
 # include_path
-include_directories (${CMAKE_CURRENT_SOURCE_DIR}/../../${PROJECT_LIBRARY}/include/
+include_directories (${CMAKE_CURRENT_SOURCE_DIR}/../${PROJECT_LIBRARY}/include/
                      ${CMAKE_CURRENT_BINARY_DIR}/../
                      ${CMAKE_SOURCE_DIR}
                      ${CMAKE_BINARY_DIR}
