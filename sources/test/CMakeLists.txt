@@ -31,9 +31,7 @@ include_directories (${CMAKE_CURRENT_SOURCE_DIR}/../${PROJECT_LIBRARY}/include/
 link_directories (${PROJECT_LIBRARY}/src/lib)
 
 if (USE_QT5)
-    find_package(Qt5Core REQUIRED)
-    find_package(Qt5DBus REQUIRED)
-    find_package(Qt5Test REQUIRED)
+    find_package(Qt5 COMPONENTS Core DBus Test REQUIRED)
     add_definitions(${Qt5Core_DEFINITIONS} ${Qt5DBus_DEFINITIONS} ${Qt5Test_DEFINITIONS})
     include_directories (${Qt5Core_INCLUDE_DIRS} ${Qt5DBus_INCLUDE_DIRS} ${Qt5Test_INCLUDE_DIRS})
     set (QT_NEEDED_LIBS ${Qt5Core_LIBRARIES} ${Qt5DBus_LIBRARIES} ${Qt5Test_LIBRARIES})

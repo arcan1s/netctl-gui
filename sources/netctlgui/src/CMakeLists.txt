@@ -10,7 +10,7 @@ include_directories (${SUBPROJECT_INCLUDE_DIR}
                      ${CMAKE_CURRENT_BINARY_DIR})
 
 if (USE_QT5)
-    find_package(Qt5Core REQUIRED)
+    find_package(Qt5 COMPONENTS Core REQUIRED)
     add_definitions(${Qt5Core_DEFINITIONS})
     include_directories (${Qt5Core_INCLUDE_DIRS})
     set (QT_NEEDED_LIBS ${Qt5Core_LIBRARIES})
