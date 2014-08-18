@@ -38,6 +38,7 @@ Ver.1.3.0
     + add tests
     * rewrite to use [tasks](https://github.com/mhogomchungu/tasks) (see #7)
     * rename getInterfaceList() to getWirelessInterfaceList()
+    * change temporaty directory from $HOME/.cache to system one
     - remove functions getProfileDescriptions() and getProfileStatuses()
     - remove SleepThread class
 * plasmoid:
