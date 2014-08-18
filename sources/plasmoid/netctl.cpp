@@ -106,6 +106,7 @@ void Netctl::init()
     info[QString("extip4")] = QString("N\\A");
     info[QString("extip6")] = QString("N\\A");
     info[QString("interfaces")] = QString("N\\A");
+    info[QString("info")] = QString("N\\A (N\\A)");
     info[QString("intip4")] = QString("N\\A");
     info[QString("intip6")] = QString("N\\A");
     info[QString("profiles")] = QString("N\\A");
@@ -609,6 +610,11 @@ void Netctl::dataUpdated(const QString &sourceName, const Plasma::DataEngine::Da
         updateIcon();
     } else if (sourceName == QString("current")) {
         info[QString("current")] = value;
+        QStringList profiles;
+        for (int i=0; i<info[QString("current")].split(QChar('|')).count(); i++)
+            profiles.append(info[QString("current")].split(QChar('|'))[i] +
+                    QString(" (") + info[QString("status")].split(QChar('|'))[i] + QString(")"));
+        info[QString("info")] = profiles.join(QString(" | "));
         // update text
         if (bigInterface)
             textLabel->setText(formatLine[0] + parsePattern(textPattern) + formatLine[1]);
@@ -626,7 +632,7 @@ void Netctl::dataUpdated(const QString &sourceName, const Plasma::DataEngine::Da
         profileList = value.split(QChar(','));
         info[QString("profiles")] = profileList.join(QChar(','));
     } else if (sourceName == QString("status")) {
-        info[QString("status")] = QString("(") + value + QString(")");
+        info[QString("status")] =  value;
     }
 
     update();
@@ -914,7 +920,7 @@ void Netctl::configChanged()
     useWifi = cg.readEntry("useWifi", false);
     bigInterface = cg.readEntry("showBigInterface", true);
     useHelper = cg.readEntry("useHelper", true);
-    textPattern = cg.readEntry("textPattern", "$current $status<br>IPv4: $intip4<br>IPv6: $intip6");
+    textPattern = cg.readEntry("textPattern", "$info<br>IPv4: $intip4<br>IPv6: $intip6");
 
     QString textAlign = cg.readEntry("textAlign", "center");
     QString fontFamily = cg.readEntry("fontFamily", "Terminus");

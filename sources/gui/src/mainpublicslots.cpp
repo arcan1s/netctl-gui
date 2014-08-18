@@ -480,10 +480,33 @@ void MainWindow::connectToUnknownEssid(const QString passwd)
         netctlCommand->startProfile(profile);
         status = netctlCommand->isProfileActive(profile);
     }
-    if (status)
+    QString message;
+    if (status) {
+        message = QApplication::translate("MainWindow", "Connection is successfully.");
         ui->statusBar->showMessage(QApplication::translate("MainWindow", "Done"));
-    else
+    } else {
+        message = QApplication::translate("MainWindow", "Connection failed.");
         ui->statusBar->showMessage(QApplication::translate("MainWindow", "Error"));
+    }
+    message += QString("\n");
+    message += QApplication::translate("MainWindow", "Do you want to save profile %1?").arg(profile);
+    int select = QMessageBox::question(this, QApplication::translate("MainWindow", "WiFi menu"),
+                                       message, QMessageBox::Save | QMessageBox::Discard, QMessageBox::Save);
+    switch (select) {
+    case QMessageBox::Save:
+        break;
+    case QMessageBox::Discard:
+    default:
+        if (useHelper) {
+            QList<QVariant> args;
+            args.append(profile);
+            sendDBusRequest(DBUS_HELPER_SERVICE, DBUS_CTRL_PATH,
+                            DBUS_HELPER_INTERFACE, QString("Remove"),
+                            args, true, debug)[0].toBool();
+        } else
+            netctlProfile->removeProfile(profile);
+        break;
+    }
 
     updateWifiTab();
 }

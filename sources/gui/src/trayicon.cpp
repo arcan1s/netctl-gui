@@ -96,18 +96,23 @@ void TrayIcon::updateMenu()
         contextMenu[QString("title")]->setText(QApplication::translate("TrayIcon", "(inactive)"));
     } else {
         contextMenu[QString("title")]->setIcon(QIcon(QString(":network-idle-64x64")));
-        QStringList status;
-        if (netctlAutoStatus)
+        QStringList currentProfiles, status;
+        if (netctlAutoStatus) {
+            currentProfiles.append(current);
             status.append(QApplication::translate("TrayIcon", "(netctl-auto)"));
-        else {
-            for (int i=0; i<enabled.split(QChar('|')).count(); i++)
+        } else {
+            for (int i=0; i<enabled.split(QChar('|')).count(); i++) {
+                currentProfiles.append(current.split(QChar('|'))[i]);
                 if (enabled.split(QChar('|'))[i] == QString("0"))
                     status.append(QApplication::translate("TrayIcon", "static"));
                 else
                     status.append(QApplication::translate("TrayIcon", "enabled"));
+            }
         }
-        contextMenu[QString("title")]->setText(current + QString(" ") +
-                                               QString("(") + status.join(QChar('|')) + QString(")"));
+        QStringList profiles;
+        for (int i=0; i<currentProfiles.count(); i++)
+            profiles.append(currentProfiles[i] + QString(" (") + status[i] + QString(")"));
+        contextMenu[QString("title")]->setText(profiles.join(QString(" | ")));
     }
 
     if (netctlAutoStatus) {

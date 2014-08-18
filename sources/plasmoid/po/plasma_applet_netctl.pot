@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: https://github.com/arcan1s/netctl-gui/issues\n"
-"POT-Creation-Date: 2014-08-18 10:01+0400\n"
+"POT-Creation-Date: 2014-08-18 21:17+0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,157 +17,157 @@ msgstr ""
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: netctl.cpp:268
+#: netctl.cpp:269
 msgid "Set profile %1 disabled"
 msgstr ""
 
-#: netctl.cpp:271
+#: netctl.cpp:272
 msgid "Set profile %1 enabled"
 msgstr ""
 
-#: netctl.cpp:292
+#: netctl.cpp:293
 msgid "Restart profile %1"
 msgstr ""
 
-#: netctl.cpp:313
+#: netctl.cpp:314
 msgid "Start profile %1"
 msgstr ""
 
-#: netctl.cpp:339
+#: netctl.cpp:340
 msgid "Stop profile %1"
 msgstr ""
 
-#: netctl.cpp:359 netctl.cpp:497
+#: netctl.cpp:360 netctl.cpp:498
 msgid "Stop all profiles"
 msgstr ""
 
-#: netctl.cpp:379
+#: netctl.cpp:380
 msgid "Switch to profile %1"
 msgstr ""
 
-#: netctl.cpp:452
+#: netctl.cpp:453
 msgid "Start another profile"
 msgstr ""
 
-#: netctl.cpp:453
+#: netctl.cpp:454
 msgid "Stop %1"
 msgstr ""
 
-#: netctl.cpp:454
+#: netctl.cpp:455
 msgid "Restart %1"
 msgstr ""
 
-#: netctl.cpp:456
+#: netctl.cpp:457
 msgid "Disable %1"
 msgstr ""
 
-#: netctl.cpp:458
+#: netctl.cpp:459
 msgid "Enable %1"
 msgstr ""
 
-#: netctl.cpp:461 netctl.cpp:484
+#: netctl.cpp:462 netctl.cpp:485
 msgid "Start profile"
 msgstr ""
 
-#: netctl.cpp:492
+#: netctl.cpp:493
 msgid "Stop profile"
 msgstr ""
 
-#: netctl.cpp:502
+#: netctl.cpp:503
 msgid "Switch to profile"
 msgstr ""
 
-#: netctl.cpp:510
+#: netctl.cpp:511
 msgid "Restart profile"
 msgstr ""
 
-#: netctl.cpp:515
+#: netctl.cpp:516
 msgid "Enable profile"
 msgstr ""
 
-#: netctl.cpp:519
+#: netctl.cpp:520
 msgid "Show netctl-gui"
 msgstr ""
 
-#: netctl.cpp:524
+#: netctl.cpp:525
 msgid "Show WiFi menu"
 msgstr ""
 
-#: netctl.cpp:551
+#: netctl.cpp:552
 msgid "Start GUI"
 msgstr ""
 
-#: netctl.cpp:562
+#: netctl.cpp:563
 msgid "Start WiFi menu"
 msgstr ""
 
-#: netctl.cpp:602
+#: netctl.cpp:603
 msgid "Network is up"
 msgstr ""
 
-#: netctl.cpp:606
+#: netctl.cpp:607
 msgid "Network is down"
 msgstr ""
 
-#: netctl.cpp:796
+#: netctl.cpp:802
 msgid ""
 "Version %1\n"
 "(build date %2)"
 msgstr ""
 
-#: netctl.cpp:797
+#: netctl.cpp:803
 msgid "KDE widget which interacts with netctl."
 msgstr ""
 
-#: netctl.cpp:798
+#: netctl.cpp:804
 msgid "Translators: %1"
 msgstr ""
 
-#: netctl.cpp:799
+#: netctl.cpp:805
 msgid "Links:"
 msgstr ""
 
-#: netctl.cpp:800
+#: netctl.cpp:806
 msgid "Homepage"
 msgstr ""
 
-#: netctl.cpp:801
+#: netctl.cpp:807
 msgid "Repository"
 msgstr ""
 
-#: netctl.cpp:802
+#: netctl.cpp:808
 msgid "Bugtracker"
 msgstr ""
 
-#: netctl.cpp:803
+#: netctl.cpp:809
 msgid "Translation issue"
 msgstr ""
 
-#: netctl.cpp:804
+#: netctl.cpp:810
 msgid "AUR packages"
 msgstr ""
 
-#: netctl.cpp:806
+#: netctl.cpp:812
 msgid "This software is licensed under %1"
 msgstr ""
 
-#: netctl.cpp:807
+#: netctl.cpp:813
 msgid "This software uses: %1"
 msgstr ""
 
-#: netctl.cpp:809
+#: netctl.cpp:815
 msgid "Netctl plasmoid"
 msgstr ""
 
-#: netctl.cpp:810
+#: netctl.cpp:816
 msgid "Appearance"
 msgstr ""
 
-#: netctl.cpp:811
+#: netctl.cpp:817
 msgid "DataEngine"
 msgstr ""
 
-#: netctl.cpp:812
+#: netctl.cpp:818
 msgid "About"
 msgstr ""
 
@@ -383,10 +383,11 @@ msgstr ""
 msgid "Show more detailed interface"
 msgstr ""
 
-#. i18n: file: widget.ui:308
+#. i18n: file: widget.ui:309
 #. i18n: ectx: property (toolTip), widget (QPlainTextEdit, textEdit)
 #: po/rc.cpp:117 rc.cpp:117
 msgid ""
+"$info - active profile information\n"
 "$current - current profile name\n"
 "$extip4 - external IPv4\n"
 "$extip6 - external IPv6\n"
@@ -397,12 +398,12 @@ msgid ""
 "$status - current profile status (static/enabled)"
 msgstr ""
 
-#: po/rc.cpp:125 rc.cpp:125
+#: po/rc.cpp:126 rc.cpp:126
 msgctxt "NAME OF TRANSLATORS"
 msgid "Your names"
 msgstr ""
 
-#: po/rc.cpp:126 rc.cpp:126
+#: po/rc.cpp:127 rc.cpp:127
 msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
 msgstr ""

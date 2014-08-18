@@ -56,6 +56,7 @@ MainWindow::MainWindow(QWidget *parent,
       qtTranslator(qtAppTranslator),
       translator(appTranslator)
 {
+    setWindowIcon(QIcon(":icon"));
     if (debug) qDebug() << PDEBUG << ":" << "about" << args[QString("about")].toBool();
     if (debug) qDebug() << PDEBUG << ":" << "auto" << args[QString("auto")].toBool();
     if (debug) qDebug() << PDEBUG << ":" << "config" << configPath;
