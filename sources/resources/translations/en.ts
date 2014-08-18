@@ -1090,6 +1090,22 @@
         <source>Documentation</source>
         <translation>Documentation</translation>
     </message>
+    <message>
+        <source>Restore existing session.</source>
+        <translation>Restore existing session.</translation>
+    </message>
+    <message>
+        <source>Close existing session.</source>
+        <translation>Close existing session.</translation>
+    </message>
+    <message>
+        <source>Switch to profile</source>
+        <translation>Switch to profile</translation>
+    </message>
+    <message>
+        <source>Stop all profiles</source>
+        <translation>Stop all profiles</translation>
+    </message>
 </context>
 <context>
     <name>MobileWidget</name>
@@ -1873,11 +1889,11 @@
     </message>
     <message>
         <source>(enabled)</source>
-        <translation>(enabled)</translation>
+        <translation type="vanished">(enabled)</translation>
     </message>
     <message>
         <source>(static)</source>
-        <translation>(static)</translation>
+        <translation type="vanished">(static)</translation>
     </message>
     <message>
         <source>Start another profile</source>
@@ -1918,6 +1934,18 @@
     <message>
         <source>Enable profile</source>
         <translation>Enable profile</translation>
+    </message>
+    <message>
+        <source>static</source>
+        <translation>static</translation>
+    </message>
+    <message>
+        <source>enabled</source>
+        <translation>enabled</translation>
+    </message>
+    <message>
+        <source>Stop all profiles</source>
+        <translation>Stop all profiles</translation>
     </message>
 </context>
 <context>

@@ -1089,6 +1089,22 @@
         <source>Documentation</source>
         <translation>Документация</translation>
     </message>
+    <message>
+        <source>Restore existing session.</source>
+        <translation>Восстановление существующей сессии.</translation>
+    </message>
+    <message>
+        <source>Close existing session.</source>
+        <translation>Закрытие существующей сессии.</translation>
+    </message>
+    <message>
+        <source>Switch to profile</source>
+        <translation>Переключиться на профиль</translation>
+    </message>
+    <message>
+        <source>Stop all profiles</source>
+        <translation>Остановить все профили</translation>
+    </message>
 </context>
 <context>
     <name>MobileWidget</name>
@@ -1872,11 +1888,11 @@
     </message>
     <message>
         <source>(enabled)</source>
-        <translation>(включен)</translation>
+        <translation type="vanished">(включен)</translation>
     </message>
     <message>
         <source>(static)</source>
-        <translation>(статический)</translation>
+        <translation type="vanished">(статический)</translation>
     </message>
     <message>
         <source>Start another profile</source>
@@ -1917,6 +1933,18 @@
     <message>
         <source>Enable profile</source>
         <translation>Включить профиль</translation>
+    </message>
+    <message>
+        <source>static</source>
+        <translation>статический</translation>
+    </message>
+    <message>
+        <source>enabled</source>
+        <translation>включен</translation>
+    </message>
+    <message>
+        <source>Stop all profiles</source>
+        <translation>Остановить все профили</translation>
     </message>
 </context>
 <context>
