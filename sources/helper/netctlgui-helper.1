@@ -1,4 +1,4 @@
-.TH netctlgui-helper 1  "@CURRENT_DATE@" "version @PROJECT_VERSION@" "USER COMMANDS"
+.TH netctlgui-helper 1  "@CURRENT_DATE@" "version @PROJECT_VERSION@" "General Commands Manual"
 .SH NAME
 netctlgui-helper is a helper daemon for netctl-gui
 .SH SYNOPSIS
@@ -14,6 +14,7 @@ without any additional permissions. To have access to DBus interface user should
 .IP "-c, --config FILE"
 read configuration from file
 .I FILE
+instead of default user configuration
 .IP "-d, --debug"
 print debug information
 .IP "--nodaemon"
@@ -32,8 +33,10 @@ show build information and exit
 show this help and exit
 .SH FILES
 .I $HOME/.config/netctl-gui.conf
+,
+.I /etc/netctlgui-helper.conf
 .RS
-Configuration file
+Configuration files
 .RE
 .I /usr/lib/systemd/system/netctlgui-helper.service
 .RS
@@ -61,6 +64,7 @@ By the way it is highly recommended to copy source service file before to
 and edit copied file to avoid upgrade problems.
 .SH SEE ALSO
 .BR netctl-gui (1)
+.BR netctlgui-helper.conf (5)
 .SH STANDARDS
 See
 .B @CMAKE_INSTALL_PREFIX@/share/doc/netctl-gui/netctl-gui-dbus-api.html

@@ -35,6 +35,7 @@ QMap<QString, QVariant> getArgs()
 {
     QMap<QString, QVariant> args;
     // windows
+    args[QString("detached")] = false;
     args[QString("minimized")] = (int) 0;
     args[QString("about")] = false;
     args[QString("auto")] = false;
@@ -67,8 +68,8 @@ QString helpMessage()
     helpMessage += QString("%1\n").arg(QApplication::translate("MainWindow", "Options:"));
     // windows
     helpMessage += QString(" %1\n").arg(QApplication::translate("MainWindow", "Open window:"));
-    helpMessage += QString("       --daemon          - %1\n")
-            .arg(QApplication::translate("MainWindow", "start as daemon"));
+    helpMessage += QString("       --detached        - %1\n")
+            .arg(QApplication::translate("MainWindow", "start detached from console"));
     helpMessage += QString("       --maximized       - %1\n")
             .arg(QApplication::translate("MainWindow", "start maximized"));
     helpMessage += QString("       --minimized       - %1\n")

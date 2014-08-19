@@ -165,7 +165,6 @@ private:
     QString configPath;
     bool debug = false;
     bool hiddenNetwork;
-    bool isDaemon = false;
     bool useHelper = true;
     QTranslator *qtTranslator = nullptr;
     QTranslator *translator = nullptr;

@@ -63,15 +63,15 @@ int main(int argc, char *argv[])
     QMap<QString, QVariant> args = getArgs();
     // reading
     for (int i=1; i<argc; i++) {
-        if (QString(argv[i]) == QString("--daemon")) {
-            // daemonized
-            args[QString("minimized")] = (int) 1;
+        if (QString(argv[i]) == QString("--detached")) {
+            // detached
+            args[QString("detached")] = true;
         } else if (QString(argv[i]) == QString("--maximized")) {
             // maximized
-            args[QString("minimized")] = (int) 2;
+            args[QString("minimized")] = (int) 1;
         } else if (QString(argv[i]) == QString("--minimized")) {
             // minimized
-            args[QString("minimized")] = (int) 3;
+            args[QString("minimized")] = (int) 2;
         } else if (QString(argv[i]) == QString("--about")) {
             // about
             args[QString("about")] = true;
@@ -129,13 +129,12 @@ int main(int argc, char *argv[])
             args[QString("error")] = true;
         }
     }
-    if ((args[QString("debug")].toBool()) && (args[QString("minimized")].toInt() == 1))
-        args[QString("minimized")] = (int) 0;
-    else if ((args[QString("help")].toBool()) ||
-             (args[QString("info")].toBool()) ||
-             (args[QString("version")].toBool()) ||
-             (args[QString("error")].toBool()))
-        args[QString("minimized")] = (int) 0;
+    if ((args[QString("debug")].toBool()) ||
+        (args[QString("help")].toBool()) ||
+        (args[QString("info")].toBool()) ||
+        (args[QString("version")].toBool()) ||
+        (args[QString("error")].toBool()))
+        args[QString("detached")] = false;
     if (args[QString("essid")].toString() != QString("ESSID"))
         args[QString("tab")] = (int) 3;
     if (args[QString("open")].toString() != QString("PROFILE"))
@@ -144,7 +143,7 @@ int main(int argc, char *argv[])
         args[QString("tab")] = (int) 1;
 
     // detach from console
-    if (args[QString("minimized")].toInt() == 1)
+    if (args[QString("detached")].toBool())
         daemon(0, 0);
     QApplication a(argc, argv);
     QApplication::setQuitOnLastWindowClosed(false);
@@ -186,8 +185,7 @@ int main(int argc, char *argv[])
         } else if ((getuid() == getUidFromSession(0)) && (geteuid() != getUidFromSession(1))) {
             cout << QCoreApplication::translate("MainWindow", "Close existing session.")
                     .toUtf8().data() << endl;
-            existingSessionOperation(QString("Restore"));
-            return 0;
+            existingSessionOperation(QString("Close"));
         }
     }
     MainWindow w(0, args, &qtTranslator, &translator);

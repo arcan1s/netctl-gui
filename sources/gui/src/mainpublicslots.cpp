@@ -362,8 +362,6 @@ void MainWindow::updateConfiguration(const QMap<QString, QVariant> args)
     createActions();
 
     // tray
-    if (isDaemon)
-        return;
     if ((QSystemTrayIcon::isSystemTrayAvailable()) &&
             (configuration[QString("SYSTRAY")] == QString("true")))
         trayIcon->setVisible(true);
@@ -374,9 +372,9 @@ void MainWindow::updateConfiguration(const QMap<QString, QVariant> args)
             hide();
         else
             show();
-        if (args[QString("minimized")].toInt() == 2)
+        if (args[QString("minimized")].toInt() == 1)
             show();
-        else if (args[QString("minimized")].toInt() == 3)
+        else if (args[QString("minimized")].toInt() == 2)
             hide();
     }
     else

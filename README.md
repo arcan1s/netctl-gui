@@ -64,8 +64,8 @@ Additional information
 TODO (wish list)
 ----------------
 
-* add helper polkit-qt integration ?
-* test several profiles support
+* remove suid bit from helper (polkit/logind/etc)
+* option descriptions to /etc/netctlgui-helper.conf
 
 Links
 -----

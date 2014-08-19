@@ -70,10 +70,6 @@ MainWindow::MainWindow(QWidget *parent,
     if (debug) qDebug() << PDEBUG << ":" << "settings" << args[QString("settings")].toBool();
     if (debug) qDebug() << PDEBUG << ":" << "tab" << args[QString("tab")].toInt();
 
-    if (args[QString("minimized")].toInt() == 1)
-        isDaemon = true;
-    else
-        isDaemon = false;
     updateConfiguration(args);
 
     // main actions

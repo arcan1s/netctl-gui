@@ -1,0 +1,104 @@
+.TH netctlgui-helper.conf 5  "@CURRENT_DATE@" "version @PROJECT_VERSION@" "File Formats Manual"
+.SH NAME
+netctlgui-helper.conf is a configuration file of Netctl GUI project
+.SH SYNOPSIS
+.B /etc/netctlgui-helper.conf
+for system-wide configuration or
+.B $HOME/.config/netctl-gui.conf
+for user one
+.SH DESCRIPTION
+.B netctlgui-helper.conf
+is a file which contains parameters for
+.BR netctlgui-helper (1)
+and may be used as template for
+.BR netctl-gui (1)
+configuration also.
+.SH OPTIONS
+.IP "CLOSE_HELPER=false"
+close helper after GUI application quit. This option is not recognized by
+.BR netctlgui-helper (1)
+.IP "CLOSETOTRAY=true"
+hide application to tray on exit if tray is available. This option is not recognized by
+.BR netctlgui-helper (1)
+.IP "CTRL_DIR=/run/wpa_supplicant_netctl-gui"
+path to control directory which is required by
+.BR wpa_supplicant (8)
+.IP "CTRL_GROUP=users"
+group which is owner of
+.B CTRL_DIR
+.IP "FORCE_SUDO=false"
+force use
+.B SUDO_PATH
+for helper instead of using
+.BR setuid (3)
+to child processes
+.IP "HELPER_PATH=/usr/bin/netctlgui-helper"
+path to
+.BR netctlgui-helper (1)
+This option is not recognized by
+.BR netctlgui-helper (1)
+.IP "HELPER_SERVICE=netctlgui-helper.service"
+.BR netctlgui-helper (1)
+service name. This option is not recognized by
+.BR netctlgui-helper (1)
+.IP "IFACE_DIR=/sys/class/net/"
+path to directory which contains interface information
+.IP "LANGUAGE=en"
+application language
+.IP "NETCTL_PATH=/usr/bin/netctl"
+path to
+.BR netctl (1)
+.IP "NETCTLAUTO_PATH=/usr/bin/netctl-auto"
+path to
+.BR netctl-auto (1)
+.IP "NETCTLAUTO_SERVICE=netctl-auto"
+.BR netctl-auto (1)
+service name without
+.I .service
+suffix
+.IP "PID_FILE=/run/wpa_supplicant_netctl-gui.pid"
+.BR wpa_supplicant (8)
+PID file
+.IP "PREFERED_IFACE="
+prefered wireless interface
+.IP "PROFILE_DIR=/etc/netctl/"
+path to
+.BR netctl (1)
+profile directory
+.IP "RFKILL_DIR=/sys/class/rfkill/"
+path to directory with
+.BR rfkill (8)
+devices. This option is not recognized by
+.BR netctlgui-helper (1)
+.IP "STARTTOTRAY=false"
+start
+.BR netctl-gui (1)
+minimized to tray if it is available. This option is not recognized by
+.BR netctlgui-helper (1)
+.IP "SUDO_PATH=/usr/bin/kdesu"
+path to
+.BR sudo (8)
+frontend
+.IP "SYSTEMCTL_PATH=/usr/bin/systemctl"
+path to
+.BR systemctl (1)
+.IP "SYSTRAY=true"
+create system tray icon. This option is not recognized by
+.BR netctlgui-helper (1)
+.IP "USE_HELPER=true"
+use
+.BR netctlgui-helper (1)
+if it is available. This option is not recognized by
+.BR netctlgui-helper (1)
+.IP "WPACLI_PATH=/usr/bin/wpa_cli"
+path to
+.BR wpa_cli (8)
+.IP "WPASUP_PATH=/usr/bin/wpa_supplicant"
+path to
+.BR wpa_supplicant (8)
+.IP "WPA_DRIVERS=nl80211,wext"
+.BR wpa_supplicant (8)
+drivers for wireless interface comma separated
+.SH SEE ALSO
+.BR netctl-gui (1)
+.BR netctlgui-helper (1)

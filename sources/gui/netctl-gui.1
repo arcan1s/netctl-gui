@@ -1,4 +1,4 @@
-.TH netctl-gui 1  "@CURRENT_DATE@" "version @PROJECT_VERSION@" "USER COMMANDS"
+.TH netctl-gui 1  "@CURRENT_DATE@" "version @PROJECT_VERSION@" "General Commands Manual"
 .SH NAME
 netctl-gui is a graphical interface for netctl
 .SH SYNOPSIS
@@ -10,8 +10,8 @@ is a project which provides graphical user interface for
 .B netctl
 written on C++ using Qt toolkit. It provides shared library and DBus API (through helper daemon) and Plasmoid and DataEngine for KDE.
 .SH OPTIONS
-.IP "--daemon"
-run as daemon
+.IP "--detached"
+run detached from console
 .IP "--maximized"
 run maximized
 .IP "--minimized"
@@ -64,6 +64,7 @@ Configuration file
 .RE
 .SH SEE ALSO
 .BR netctlgui-helper (1)
+.BR netctlgui-helper.conf (5)
 .SH STANDARDS
 See
 .B @CMAKE_INSTALL_PREFIX@/share/doc/netctl-gui/netctl-gui-dbus-api.html
