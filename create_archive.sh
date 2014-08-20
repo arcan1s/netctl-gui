@@ -14,8 +14,12 @@ cp -r "${SRCDIR}" "${ARCHIVE}"
 for FILE in ${FILES[*]}; do cp -r "$FILE" "${ARCHIVE}"; done
 for FILE in ${IGNORELIST[*]}; do find "${ARCHIVE}" -name "${FILE}" -exec rm -rf {} \;; done
 tar cJf "${ARCHIVE}-${VERSION}-src.tar.xz" "${ARCHIVE}"
+ln -sf "${ARCHIVE}-${VERSION}-src.tar.xz" arch
 rm -rf "${ARCHIVE}"
 # update md5sum
 MD5SUMS=$(md5sum ${ARCHIVE}-${VERSION}-src.tar.xz | awk '{print $1}')
 sed -i "/md5sums=('[0-9A-Fa-f]*/s/[^'][^)]*/md5sums=('${MD5SUMS}'/" arch/PKGBUILD
 sed -i "s/pkgver=[0-9.]*/pkgver=${VERSION}/" arch/PKGBUILD
+# clear
+find . -name '*src.tar.xz' -not -name "*${VERSION}-src.tar.xz" -exec rm -rf {} \;
+find arch -type l -xtype l
