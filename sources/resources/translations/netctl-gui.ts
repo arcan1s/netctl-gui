@@ -2,50 +2,63 @@
 <!DOCTYPE TS>
 <TS version="2.1">
 <context>
+    <name>About</name>
+    <message>
+        <location filename="../../../build/gui/src/ui_about.h" line="177"/>
+        <source>About</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../../build/gui/src/ui_about.h" line="180"/>
+        <source>Acknowledgement</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>AboutWindow</name>
     <message>
-        <location filename="../../gui/src/aboutwindow.cpp" line="60"/>
+        <location filename="../../gui/src/aboutwindow.cpp" line="55"/>
         <source>Version %1
 (build date %2)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../gui/src/aboutwindow.cpp" line="62"/>
+        <location filename="../../gui/src/aboutwindow.cpp" line="57"/>
         <source>Qt-based graphical interface for netctl.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../gui/src/aboutwindow.cpp" line="63"/>
+        <location filename="../../gui/src/aboutwindow.cpp" line="80"/>
         <source>Translators: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../gui/src/aboutwindow.cpp" line="64"/>
+        <location filename="../../gui/src/aboutwindow.cpp" line="58"/>
         <source>Links:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../gui/src/aboutwindow.cpp" line="65"/>
+        <location filename="../../gui/src/aboutwindow.cpp" line="60"/>
         <source>Homepage</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../gui/src/aboutwindow.cpp" line="66"/>
+        <location filename="../../gui/src/aboutwindow.cpp" line="62"/>
         <source>Repository</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../gui/src/aboutwindow.cpp" line="67"/>
+        <location filename="../../gui/src/aboutwindow.cpp" line="64"/>
         <source>Bugtracker</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../gui/src/aboutwindow.cpp" line="68"/>
+        <location filename="../../gui/src/aboutwindow.cpp" line="66"/>
         <source>Translation issue</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../gui/src/aboutwindow.cpp" line="69"/>
+        <location filename="../../gui/src/aboutwindow.cpp" line="68"/>
         <source>AUR packages</source>
         <translation type="unfinished"></translation>
     </message>
@@ -55,7 +68,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../gui/src/aboutwindow.cpp" line="72"/>
+        <location filename="../../gui/src/aboutwindow.cpp" line="81"/>
         <source>This software uses: %1</source>
         <translation type="unfinished"></translation>
     </message>
@@ -972,17 +985,17 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../gui/src/mainwindow.cpp" line="104"/>
+        <location filename="../../gui/src/mainwindow.cpp" line="101"/>
         <source>Ready</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../gui/src/mainwindow.cpp" line="335"/>
+        <location filename="../../gui/src/mainwindow.cpp" line="332"/>
         <source>yes</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../gui/src/mainwindow.cpp" line="339"/>
+        <location filename="../../gui/src/mainwindow.cpp" line="336"/>
         <source>no</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1077,7 +1090,7 @@
         <location filename="../../gui/src/mainpublicslots.cpp" line="239"/>
         <location filename="../../gui/src/mainpublicslots.cpp" line="250"/>
         <location filename="../../gui/src/mainpublicslots.cpp" line="261"/>
-        <location filename="../../gui/src/mainpublicslots.cpp" line="486"/>
+        <location filename="../../gui/src/mainpublicslots.cpp" line="487"/>
         <source>Error</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1094,163 +1107,183 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../gui/src/messages.cpp" line="65"/>
+        <location filename="../../gui/src/messages.cpp" line="66"/>
         <source>Usage:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../gui/src/messages.cpp" line="69"/>
+        <location filename="../../gui/src/messages.cpp" line="70"/>
         <source>Open window:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../gui/src/messages.cpp" line="73"/>
+        <location filename="../../gui/src/messages.cpp" line="72"/>
+        <source>start detached from console</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../gui/src/messages.cpp" line="74"/>
         <source>start maximized</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../gui/src/messages.cpp" line="77"/>
+        <location filename="../../gui/src/messages.cpp" line="78"/>
         <source>show about window</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../gui/src/messages.cpp" line="79"/>
+        <location filename="../../gui/src/messages.cpp" line="80"/>
         <source>show netctl-auto window</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../gui/src/messages.cpp" line="81"/>
+        <location filename="../../gui/src/messages.cpp" line="82"/>
         <source>show settings window</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../gui/src/messages.cpp" line="83"/>
+        <location filename="../../gui/src/messages.cpp" line="84"/>
         <source>Functions:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../gui/src/messages.cpp" line="67"/>
+        <location filename="../../gui/src/messages.cpp" line="68"/>
         <source>Options:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../gui/src/messages.cpp" line="71"/>
-        <source>start as daemon</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../gui/src/messages.cpp" line="75"/>
+        <location filename="../../gui/src/messages.cpp" line="76"/>
         <source>start minimized to tray</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../gui/src/messages.cpp" line="85"/>
+        <location filename="../../gui/src/messages.cpp" line="86"/>
         <source>select this ESSID</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../gui/src/messages.cpp" line="87"/>
+        <location filename="../../gui/src/messages.cpp" line="88"/>
         <source>open this profile</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../gui/src/messages.cpp" line="89"/>
+        <location filename="../../gui/src/messages.cpp" line="90"/>
         <source>select this profile</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../gui/src/messages.cpp" line="91"/>
+        <location filename="../../gui/src/messages.cpp" line="92"/>
         <source>Additional flags:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../gui/src/messages.cpp" line="93"/>
+        <location filename="../../gui/src/messages.cpp" line="94"/>
         <source>read configuration from this file</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../gui/src/messages.cpp" line="95"/>
+        <location filename="../../gui/src/messages.cpp" line="96"/>
         <source>print debug information</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../gui/src/messages.cpp" line="97"/>
+        <location filename="../../gui/src/messages.cpp" line="98"/>
         <source>start with default settings</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../gui/src/messages.cpp" line="99"/>
+        <location filename="../../gui/src/messages.cpp" line="100"/>
         <source>set options for this run, comma separated</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../gui/src/messages.cpp" line="101"/>
+        <location filename="../../gui/src/messages.cpp" line="102"/>
         <source>open a tab with this number</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../gui/src/messages.cpp" line="103"/>
+        <location filename="../../gui/src/messages.cpp" line="104"/>
         <source>Show messages:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../gui/src/messages.cpp" line="105"/>
+        <location filename="../../gui/src/messages.cpp" line="106"/>
         <source>show version and exit</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../gui/src/messages.cpp" line="107"/>
+        <location filename="../../gui/src/messages.cpp" line="108"/>
         <source>show build information and exit</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../gui/src/messages.cpp" line="109"/>
+        <location filename="../../gui/src/messages.cpp" line="110"/>
         <source>show this help and exit</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../gui/src/messages.cpp" line="119"/>
+        <location filename="../../gui/src/messages.cpp" line="120"/>
         <source>Build date: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../gui/src/messages.cpp" line="121"/>
+        <location filename="../../gui/src/messages.cpp" line="122"/>
         <source>cmake flags</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../gui/src/messages.cpp" line="131"/>
+        <location filename="../../gui/src/messages.cpp" line="132"/>
         <source>DBus configuration</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../gui/src/messages.cpp" line="140"/>
+        <location filename="../../gui/src/messages.cpp" line="141"/>
         <source>Documentation</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../gui/src/messages.cpp" line="155"/>
+        <location filename="../../gui/src/messages.cpp" line="156"/>
         <source>Version</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../gui/src/messages.cpp" line="158"/>
+        <location filename="../../gui/src/messages.cpp" line="159"/>
         <source>Author</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../gui/src/messages.cpp" line="161"/>
+        <location filename="../../gui/src/messages.cpp" line="162"/>
         <source>License</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../gui/src/main.cpp" line="182"/>
+        <location filename="../../gui/src/main.cpp" line="181"/>
         <source>Restore existing session.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../gui/src/main.cpp" line="187"/>
+        <location filename="../../gui/src/main.cpp" line="186"/>
         <source>Close existing session.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../gui/src/mainpublicslots.cpp" line="483"/>
+        <source>Connection is successfully.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../gui/src/mainpublicslots.cpp" line="486"/>
+        <source>Connection failed.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../gui/src/mainpublicslots.cpp" line="490"/>
+        <source>Do you want to save profile %1?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../gui/src/mainpublicslots.cpp" line="491"/>
+        <source>WiFi menu</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -2180,101 +2213,101 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../gui/src/trayicon.cpp" line="101"/>
+        <location filename="../../gui/src/trayicon.cpp" line="102"/>
         <source>(netctl-auto)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../gui/src/trayicon.cpp" line="142"/>
+        <location filename="../../gui/src/trayicon.cpp" line="147"/>
         <source>Start another profile</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../gui/src/trayicon.cpp" line="143"/>
+        <location filename="../../gui/src/trayicon.cpp" line="148"/>
         <source>Stop %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../gui/src/trayicon.cpp" line="144"/>
+        <location filename="../../gui/src/trayicon.cpp" line="149"/>
         <source>Restart %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../gui/src/trayicon.cpp" line="146"/>
+        <location filename="../../gui/src/trayicon.cpp" line="151"/>
         <source>Disable %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../gui/src/trayicon.cpp" line="148"/>
+        <location filename="../../gui/src/trayicon.cpp" line="153"/>
         <source>Enable %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../gui/src/trayicon.cpp" line="150"/>
-        <location filename="../../gui/src/trayicon.cpp" line="176"/>
+        <location filename="../../gui/src/trayicon.cpp" line="155"/>
+        <location filename="../../gui/src/trayicon.cpp" line="181"/>
         <source>Start profile</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../gui/src/trayicon.cpp" line="182"/>
+        <location filename="../../gui/src/trayicon.cpp" line="187"/>
         <source>Stop profile</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../gui/src/trayicon.cpp" line="186"/>
+        <location filename="../../gui/src/trayicon.cpp" line="191"/>
         <source>Stop all profiles</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../gui/src/trayicon.cpp" line="190"/>
+        <location filename="../../gui/src/trayicon.cpp" line="195"/>
         <source>Switch to profile</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../gui/src/trayicon.cpp" line="196"/>
+        <location filename="../../gui/src/trayicon.cpp" line="201"/>
         <source>Restart profile</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../gui/src/trayicon.cpp" line="200"/>
+        <location filename="../../gui/src/trayicon.cpp" line="205"/>
         <source>Enable profile</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../gui/src/trayicon.cpp" line="216"/>
+        <location filename="../../gui/src/trayicon.cpp" line="221"/>
         <source>Quit</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../gui/src/trayicon.cpp" line="159"/>
-        <location filename="../../gui/src/trayicon.cpp" line="206"/>
+        <location filename="../../gui/src/trayicon.cpp" line="164"/>
+        <location filename="../../gui/src/trayicon.cpp" line="211"/>
         <source>Show</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../gui/src/trayicon.cpp" line="105"/>
+        <location filename="../../gui/src/trayicon.cpp" line="107"/>
         <source>static</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../gui/src/trayicon.cpp" line="107"/>
+        <location filename="../../gui/src/trayicon.cpp" line="109"/>
         <source>enabled</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../gui/src/trayicon.cpp" line="210"/>
+        <location filename="../../gui/src/trayicon.cpp" line="215"/>
         <source>Show netctl-auto</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../gui/src/trayicon.cpp" line="62"/>
         <location filename="../../gui/src/trayicon.cpp" line="78"/>
-        <location filename="../../gui/src/trayicon.cpp" line="171"/>
+        <location filename="../../gui/src/trayicon.cpp" line="176"/>
         <source>Status</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../gui/src/trayicon.cpp" line="161"/>
+        <location filename="../../gui/src/trayicon.cpp" line="166"/>
         <source>Hide</source>
         <translation type="unfinished"></translation>
     </message>

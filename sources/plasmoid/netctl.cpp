@@ -792,16 +792,10 @@ void Netctl::createConfigurationInterface(KConfigDialog *parent)
     uiDEConfig.lineEdit_extIp6->setText(deSettings[QString("EXTIP6CMD")]);
     setDataEngineExternalIp6();
 
-    QStringList trdPartyList = QString(TRDPARTY_LICENSE).split(QChar(';'), QString::SkipEmptyParts);
-    for (int i=0; i<trdPartyList.count(); i++)
-        trdPartyList[i] = QString("<a href=\"%3\">%1</a> (%2 license)")
-                .arg(trdPartyList[i].split(QChar(','))[0])
-                .arg(trdPartyList[i].split(QChar(','))[1])
-                .arg(trdPartyList[i].split(QChar(','))[2]);
+    // 1st tab
     uiAboutConfig.label_name->setText(QString(NAME));
     uiAboutConfig.label_version->setText(i18n("Version %1\n(build date %2)", QString(VERSION), QString(BUILD_DATE)));
     uiAboutConfig.label_description->setText(i18n("KDE widget which interacts with netctl."));
-    uiAboutConfig.label_translators->setText(i18n("Translators: %1", QString(TRANSLATORS)));
     uiAboutConfig.label_links->setText(i18n("Links:") + QString("<br>") +
                                        QString("<a href=\"%1\">%2</a><br>").arg(QString(HOMEPAGE)).arg(i18n("Homepage")) +
                                        QString("<a href=\"%1\">%2</a><br>").arg(QString(REPOSITORY)).arg(i18n("Repository")) +
@@ -809,8 +803,16 @@ void Netctl::createConfigurationInterface(KConfigDialog *parent)
                                        QString("<a href=\"%1\">%2</a><br>").arg(QString(TRANSLATION)).arg(i18n("Translation issue")) +
                                        QString("<a href=\"%1\">%2</a>").arg(QString(AUR_PACKAGES)).arg(i18n("AUR packages")));
     uiAboutConfig.label_license->setText(QString("<small>&copy; %1 <a href=\"mailto:%2\">%3</a><br>").arg(QString(DATE)).arg(QString(EMAIL)).arg(QString(AUTHOR)) +
-                                         i18n("This software is licensed under %1", QString(LICENSE)) + QString("<br>") +
-                                         i18n("This software uses: %1", trdPartyList.join(QString(", "))) + QString("</small>"));
+                                         i18n("This software is licensed under %1", QString(LICENSE)) + QString("</small>"));
+    // 2nd tab
+    QStringList trdPartyList = QString(TRDPARTY_LICENSE).split(QChar(';'), QString::SkipEmptyParts);
+    for (int i=0; i<trdPartyList.count(); i++)
+        trdPartyList[i] = QString("<a href=\"%3\">%1</a> (%2 license)")
+                .arg(trdPartyList[i].split(QChar(','))[0])
+                .arg(trdPartyList[i].split(QChar(','))[1])
+                .arg(trdPartyList[i].split(QChar(','))[2]);
+    uiAboutConfig.label_translators->setText(i18n("Translators: %1", QString(TRANSLATORS)));
+    uiAboutConfig.label_trdparty->setText(i18n("This software uses: %1", trdPartyList.join(QString(", "))));
 
     parent->addPage(configWidget, i18n("Netctl plasmoid"), Applet::icon());
     parent->addPage(appWidget, i18n("Appearance"), QString("preferences-desktop-theme"));

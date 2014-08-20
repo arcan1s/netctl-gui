@@ -24,6 +24,7 @@ Ver.1.3.0
     * more correct actions into SettingsWindow
     * update to library changes
     * rewrite tables to use toolTip
+    * edit about window
 * helper:
     + create daemon DBus system interface org.netctlgui.helper to the library:
       self control slots, netctl control slots and netctl information slots
@@ -49,6 +50,7 @@ Ver.1.3.0
     * change all running processes to detached (see #7)
     * rewrite text label to use tags
     * update to dataengine changes
+    * edit about window
 
 ***
 

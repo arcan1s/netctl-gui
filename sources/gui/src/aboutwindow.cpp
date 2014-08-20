@@ -50,26 +50,35 @@ void AboutWindow::createText()
 {
     if (debug) qDebug() << PDEBUG;
 
+    // 1st tab
+    uiAbout->label_name->setText(QString(NAME));
+    uiAbout->label_version->setText(QApplication::translate("AboutWindow", "Version %1\n(build date %2)")
+                                    .arg(QString(VERSION)).arg(QString(BUILD_DATE)));
+    uiAbout->label_description->setText(QApplication::translate("AboutWindow", "Qt-based graphical interface for netctl."));
+    uiAbout->label_links->setText(QApplication::translate("AboutWindow", "Links:") + QString("<br>") +
+                                  QString("<a href=\"%1\">%2</a><br>").arg(QString(HOMEPAGE))
+                                  .arg(QApplication::translate("AboutWindow", "Homepage")) +
+                                  QString("<a href=\"%1\">%2</a><br>").arg(QString(REPOSITORY))
+                                  .arg(QApplication::translate("AboutWindow", "Repository")) +
+                                  QString("<a href=\"%1\">%2</a><br>").arg(QString(BUGTRACKER))
+                                  .arg(QApplication::translate("AboutWindow", "Bugtracker")) +
+                                  QString("<a href=\"%1\">%2</a><br>").arg(QString(TRANSLATION))
+                                  .arg(QApplication::translate("AboutWindow", "Translation issue")) +\
+                                  QString("<a href=\"%1\">%2</a>").arg(QString(AUR_PACKAGES))
+                                  .arg(QApplication::translate("AboutWindow", "AUR packages")));
+    uiAbout->label_license->setText(QString("<small>&copy; %1 <a href=\"mailto:%2\">%3</a><br>")
+                                    .arg(QString(DATE)).arg(QString(EMAIL)).arg(QString(AUTHOR)) +
+                                    QApplication::translate("AboutWindow", "This software is licensed under %1").arg(QString(LICENSE)) +
+                                    QString("</small>"));
+    // 2nd tab
     QStringList trdPartyList = QString(TRDPARTY_LICENSE).split(QChar(';'), QString::SkipEmptyParts);
     for (int i=0; i<trdPartyList.count(); i++)
         trdPartyList[i] = QString("<a href=\"%3\">%1</a> (%2 license)")
                 .arg(trdPartyList[i].split(QChar(','))[0])
                 .arg(trdPartyList[i].split(QChar(','))[1])
                 .arg(trdPartyList[i].split(QChar(','))[2]);
-    uiAbout->label_name->setText(QString(NAME));
-    uiAbout->label_version->setText(QApplication::translate("AboutWindow", "Version %1\n(build date %2)")
-                                    .arg(QString(VERSION)).arg(QString(BUILD_DATE)));
-    uiAbout->label_description->setText(QApplication::translate("AboutWindow", "Qt-based graphical interface for netctl."));
     uiAbout->label_translators->setText(QApplication::translate("AboutWindow", "Translators: %1").arg(QString(TRANSLATORS)));
-    uiAbout->label_links->setText(QApplication::translate("AboutWindow", "Links:") + QString("<br>") +
-                                  QString("<a href=\"%1\">%2</a><br>").arg(QString(HOMEPAGE)).arg(QApplication::translate("AboutWindow", "Homepage")) +
-                                  QString("<a href=\"%1\">%2</a><br>").arg(QString(REPOSITORY)).arg(QApplication::translate("AboutWindow", "Repository")) +
-                                  QString("<a href=\"%1\">%2</a><br>").arg(QString(BUGTRACKER)).arg(QApplication::translate("AboutWindow", "Bugtracker")) +
-                                  QString("<a href=\"%1\">%2</a><br>").arg(QString(TRANSLATION)).arg(QApplication::translate("AboutWindow", "Translation issue")) +\
-                                  QString("<a href=\"%1\">%2</a>").arg(QString(AUR_PACKAGES)).arg(QApplication::translate("AboutWindow", "AUR packages")));
-    uiAbout->label_license->setText(QString("<small>&copy; %1 <a href=\"mailto:%2\">%3</a><br>").arg(QString(DATE)).arg(QString(EMAIL)).arg(QString(AUTHOR)) +
-                                    QApplication::translate("AboutWindow", "This software is licensed under %1").arg(QString(LICENSE)) + QString("<br>") +
-                                    QApplication::translate("AboutWindow", "This software uses: %1").arg(trdPartyList.join(QString(", "))) + QString("</small>"));
+    uiAbout->label_trdparty->setText(QApplication::translate("AboutWindow", "This software uses: %1").arg(trdPartyList.join(QString(", "))));
 }
 
 

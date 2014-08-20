@@ -2,6 +2,17 @@
 <!DOCTYPE TS>
 <TS version="2.1" language="ru">
 <context>
+    <name>About</name>
+    <message>
+        <source>About</source>
+        <translation>О программе</translation>
+    </message>
+    <message>
+        <source>Acknowledgement</source>
+        <translation>Благодарности</translation>
+    </message>
+</context>
+<context>
     <name>AboutWindow</name>
     <message>
         <source>Version %1
@@ -1043,7 +1054,7 @@
     </message>
     <message>
         <source>start as daemon</source>
-        <translation>запустить, как демон</translation>
+        <translation type="vanished">запустить, как демон</translation>
     </message>
     <message>
         <source>start minimized to tray</source>
@@ -1104,6 +1115,26 @@
     <message>
         <source>Stop all profiles</source>
         <translation>Остановить все профили</translation>
+    </message>
+    <message>
+        <source>start detached from console</source>
+        <translation>запустить открепленным от консоли</translation>
+    </message>
+    <message>
+        <source>Connection is successfully.</source>
+        <translation>Соединение установлено.</translation>
+    </message>
+    <message>
+        <source>Connection failed.</source>
+        <translation>Соединение не установлено.</translation>
+    </message>
+    <message>
+        <source>Do you want to save profile %1?</source>
+        <translation>Вы хотите сохранить профиль %1?</translation>
+    </message>
+    <message>
+        <source>WiFi menu</source>
+        <translation>WiFi меню</translation>
     </message>
 </context>
 <context>

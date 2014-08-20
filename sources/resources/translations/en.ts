@@ -2,6 +2,17 @@
 <!DOCTYPE TS>
 <TS version="2.1" language="en">
 <context>
+    <name>About</name>
+    <message>
+        <source>About</source>
+        <translation>About</translation>
+    </message>
+    <message>
+        <source>Acknowledgement</source>
+        <translation>Acknowledgement</translation>
+    </message>
+</context>
+<context>
     <name>AboutWindow</name>
     <message>
         <source>Version %1
@@ -1044,7 +1055,7 @@
     </message>
     <message>
         <source>start as daemon</source>
-        <translation>start as daemon</translation>
+        <translation type="vanished">start as daemon</translation>
     </message>
     <message>
         <source>start minimized to tray</source>
@@ -1105,6 +1116,26 @@
     <message>
         <source>Stop all profiles</source>
         <translation>Stop all profiles</translation>
+    </message>
+    <message>
+        <source>start detached from console</source>
+        <translation>start detached from console</translation>
+    </message>
+    <message>
+        <source>Connection is successfully.</source>
+        <translation>Connection is successfully.</translation>
+    </message>
+    <message>
+        <source>Connection failed.</source>
+        <translation>Connection failed.</translation>
+    </message>
+    <message>
+        <source>Do you want to save profile %1?</source>
+        <translation>Do you want to save profile %1?</translation>
+    </message>
+    <message>
+        <source>WiFi menu</source>
+        <translation>WiFi menu</translation>
     </message>
 </context>
 <context>
