@@ -211,8 +211,8 @@
               <rect>
                <x>0</x>
                <y>0</y>
-               <width>397</width>
-               <height>322</height>
+               <width>464</width>
+               <height>336</height>
               </rect>
              </property>
              <layout class="QVBoxLayout" name="verticalLayout_13">
@@ -293,16 +293,6 @@
                <widget class="QCheckBox" name="checkBox_helperClose">
                 <property name="text">
                  <string>Close helper after exit (doesn't work while systemd service is active)</string>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QLabel" name="label_helperPathInfo">
-                <property name="text">
-                 <string>There are too binaries. `netctlgui-helper` should be running as root (for example from systemd), otherwise interface `/ctrl` will not be available. `netctlgui-helper-suid` may be running as normal user, but you should keep it in mind that it has SUID bit.</string>
-                </property>
-                <property name="wordWrap">
-                 <bool>true</bool>
                 </property>
                </widget>
               </item>

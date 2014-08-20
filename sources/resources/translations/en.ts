@@ -1873,7 +1873,7 @@
     </message>
     <message>
         <source>There are too binaries. `netctlgui-helper` should be running as root (for example from systemd), otherwise interface `/ctrl` will not be available. `netctlgui-helper-suid` may be running as normal user, but you should keep it in mind that it has SUID bit.</source>
-        <translation>There are too binaries. `netctlgui-helper` should be running as root (for example from systemd), otherwise interface `/ctrl` will not be available. `netctlgui-helper-suid` may be running as normal user, but you should keep it in mind that it has SUID bit.</translation>
+        <translation type="vanished">There are too binaries. `netctlgui-helper` should be running as root (for example from systemd), otherwise interface `/ctrl` will not be available. `netctlgui-helper-suid` may be running as normal user, but you should keep it in mind that it has SUID bit.</translation>
     </message>
 </context>
 <context>

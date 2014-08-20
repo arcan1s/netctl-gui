@@ -12,8 +12,7 @@ url="http://arcanis.name/projects/netctl-gui"
 license=('GPL3')
 makedepends=('automoc4' 'cmake' 'kdelibs' 'qt5-base' 'qt5-tools')
 source=("https://github.com/arcan1s/netctl-gui/releases/download/V.${pkgver}/${pkgbase}-${pkgver}-src.tar.xz")
-install="${pkgbase}.install"
-md5sums=('65b6b2ff184de7e55a70645dc4e2f43a')
+md5sums=('958d4639b8768407a70935cbc008f3a3')
 
 
 prepare() {
@@ -60,7 +59,7 @@ package_kdeplasma-applets-netctl-gui() {
               'netctl-gui: graphical front-end'
               'netctl-gui-qt4: graphical front-end'
               'sudo: sudo support')
-  install="${pkgbase}.install"
+  install="kdeplasma-applets-netctl-gui.install"
 
   cd "${srcdir}/build-plasmoid"
   make DESTDIR="${pkgdir}" install
@@ -87,6 +86,7 @@ package_netctlgui-helper() {
   provides=('netctlgui-helper-qt4')
   conflicts=('netctlgui-helper-qt4')
   backup=('etc/netctlgui-helper.conf')
+  install="netctlgui-helper.install"
 
   cd "${srcdir}/build-qt5/helper"
   make DESTDIR="${pkgdir}" install
@@ -100,7 +100,7 @@ package_netctl-gui() {
               'netctlgui-helper: DBus helper daemon')
   provides=('netctl-gui-qt4')
   conflicts=('netctl-gui-qt4')
-  install="${pkgbase}.install"
+  install="netctl-gui.install"
 
   cd "${srcdir}/build-qt5/gui"
   make DESTDIR="${pkgdir}" install
@@ -115,6 +115,7 @@ package_libnetctlgui-qt4() {
               'wpa_supplicant: wifi support')
   provides=('libnetctlgui')
   conflicts=('libnetctlgui')
+  install=""
 
   cd "${srcdir}/build-qt4/netctlgui"
   make DESTDIR="${pkgdir}" install
@@ -127,6 +128,7 @@ package_netctlgui-helper-qt4() {
   provides=('netctlgui-helper')
   conflicts=('netctlgui-helper')
   backup=('etc/netctlgui-helper.conf')
+  install="netctlgui-helper.install"
 
   cd "${srcdir}/build-qt4/helper"
   make DESTDIR="${pkgdir}" install
@@ -140,7 +142,7 @@ package_netctl-gui-qt4() {
               'netctlgui-helper-qt4: DBus helper daemon')
   provides=('netctl-gui')
   conflicts=('netctl-gui')
-  install="${pkgbase}.install"
+  install="netctl-gui.install"
 
   cd "${srcdir}/build-qt4/gui"
   make DESTDIR="${pkgdir}" install

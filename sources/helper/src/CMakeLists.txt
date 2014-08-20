@@ -53,5 +53,5 @@ target_link_libraries (${SUBPROJECT} ${PROJECT_LIBRARY} ${QT_NEEDED_LIBS})
 # install properties
 install (TARGETS ${SUBPROJECT} DESTINATION bin)
 if (USE_CAPABILITIES)
-    install (CODE "exec_program (setcap ARGS \\\"cap_setuid+iep cap_setgid+iep\\\" \"$ENV{DESTDIR}/bin/${SUBPROJECT}\")")
+    install (CODE "exec_program (setcap ARGS \"cap_setuid=ep\" \"$ENV{DESTDIR}/bin/${SUBPROJECT}\")")
 endif ()

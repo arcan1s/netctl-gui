@@ -49,7 +49,7 @@
 <h2><a href="#helper" class="anchor" name="helper"></a>Helper</h2>
 <p>First of all the helper <b>does not interact</b> with netctl directly, it uses the library to do it. So all library security notes are applicable here. To start the helper and to create DBus services user must be in <code>network</code> group by default (or must be root). But you may change it by editing <code>$DBUS_SYSTEMCONF_PATH/org.netctlgui.helper.conf</code> policy file (<code>/etc/dbus-1/system.d/org.netctlgui.helper.conf</code> by default). Please refer to DBus documentation to do it.</p>
 
-<p>There are two binaries <code>netctgui-helper</code> and <code>netctlgui-helper-suid</code>. They are the same, but the second one has SUID bit, so it can be running by normal user without any password. Please note that <b>it is dangerous</b> and recommended way is to use systemd daemon. In this case you may not install <code>netctlgui-helper-suid</code> binary.</p>
+<p>By default <code>netctgui-helper</code> binary has capabilities to set UID to the children processes (<code>CAP_SETUID</code>). If you do not want to get these capabilities you may use <code>-DUSE_CAPABILITIES</code> cmake flag. Please refer to <code>man 7 capabilities</code> for more details.</p>
 
 <p>There are two configuration files <code>$HOME/.config/netctl-gui.conf</code> and <code>/etc/netctl-gui.conf</code>. The first one is a user configuration and the second one is a system-wide. Please note that by default user configuration has higher priority than system-wide, but running with <code>--system</code> flag user configuration will not be reading. The helper and GUI configurations are the same (although some keys aren't needed).</p>
 
