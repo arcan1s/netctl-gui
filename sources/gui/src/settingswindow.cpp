@@ -23,9 +23,10 @@
 #include <QFileDialog>
 #include <QTextStream>
 
-#include "language.h"
+#include <language/language.h>
+#include <pdebug/pdebug.h>
+
 #include "mainwindow.h"
-#include "pdebug.h"
 
 
 SettingsWindow::SettingsWindow(QWidget *parent, const bool debugCmd, const QString configFile)

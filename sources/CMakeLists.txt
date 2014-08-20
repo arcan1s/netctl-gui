@@ -61,6 +61,7 @@ endif ()
 configure_file (${CMAKE_SOURCE_DIR}/version.h.in ${CMAKE_CURRENT_BINARY_DIR}/version.h)
 
 # resources
+set (PROJECT_TRDPARTY_DIR ${CMAKE_CURRENT_SOURCE_DIR}/3rdparty)
 set (PROJECT_LIBRARY netctlgui)
 set (PROJECT_RESOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/resources)
 add_subdirectory (${PROJECT_RESOURCE_DIR})

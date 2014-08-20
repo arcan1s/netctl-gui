@@ -24,15 +24,16 @@
 #include <QTranslator>
 #include <QUrl>
 
+#include <language/language.h>
+#include <pdebug/pdebug.h>
+#include <task/taskadds.h>
+
 #include "aboutwindow.h"
 #include "dbusoperation.h"
 #include "errorwindow.h"
-#include "language.h"
 #include "netctlautowindow.h"
 #include "passwdwidget.h"
-#include "pdebug.h"
 #include "settingswindow.h"
-#include "taskadds.h"
 #include "trayicon.h"
 #include "version.h"
 

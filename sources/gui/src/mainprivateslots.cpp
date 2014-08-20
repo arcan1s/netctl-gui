@@ -24,6 +24,8 @@
 #include <QFileInfo>
 #include <QUrl>
 
+#include <pdebug/pdebug.h>
+
 #include "bridgewidget.h"
 #include "dbusoperation.h"
 #include "errorwindow.h"
@@ -33,7 +35,6 @@
 #include "macvlanwidget.h"
 #include "mobilewidget.h"
 #include "passwdwidget.h"
-#include "pdebug.h"
 #include "pppoewidget.h"
 #include "tunnelwidget.h"
 #include "tuntapwidget.h"

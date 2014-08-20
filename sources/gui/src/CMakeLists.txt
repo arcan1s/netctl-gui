@@ -1,7 +1,9 @@
 # set files
-file (GLOB SOURCES *.cpp)
-file (GLOB HEADERS *.h)
-file (GLOB FORMS *.ui)
+file (GLOB_RECURSE SOURCES *.cpp ${PROJECT_TRDPARTY_DIR}/task/*.cpp
+                                 ${PROJECT_TRDPARTY_DIR}/language/*.cpp)
+file (GLOB_RECURSE HEADERS *.h ${PROJECT_TRDPARTY_DIR}/task/*.h
+                               ${PROJECT_TRDPARTY_DIR}/language/*.h)
+file (GLOB_RECURSE FORMS *.ui ${PROJECT_TRDPARTY_DIR}/about/*.ui)
 
 file (GLOB LANGUAGES ${SUBPROJECT_TRANSLATION_DIR}/*.ts)
 set (RESOURCES ${SUBPROJECT_RESOURCE_DIR}/resources.qrc)
@@ -11,7 +13,8 @@ include_directories (${CMAKE_CURRENT_SOURCE_DIR}/../../${PROJECT_LIBRARY}/includ
                      ${CMAKE_CURRENT_BINARY_DIR}/../
                      ${CMAKE_SOURCE_DIR}
                      ${CMAKE_BINARY_DIR}
-                     ${CMAKE_CURRENT_BINARY_DIR})
+                     ${CMAKE_CURRENT_BINARY_DIR}
+                     ${PROJECT_TRDPARTY_DIR})
 link_directories (${PROJECT_LIBRARY}/src/lib)
 
 if (USE_QT5)

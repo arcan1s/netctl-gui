@@ -29,8 +29,9 @@
 #include <QMenu>
 #include <QProcessEnvironment>
 
+#include <pdebug/pdebug.h>
+
 #include "netctl.h"
-#include "pdebug.h"
 #include "ui_about.h"
 #include "ui_appearance.h"
 #include "ui_dataengine.h"

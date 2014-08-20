@@ -23,7 +23,7 @@
  */
 
 
-#include "netctlgui.h"
+#include <netctlgui/netctlgui.h>
 
 
 /**

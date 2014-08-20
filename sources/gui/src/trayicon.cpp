@@ -21,8 +21,9 @@
 #include <QMenu>
 #include <QMessageBox>
 
+#include <pdebug/pdebug.h>
+
 #include "mainwindow.h"
-#include "pdebug.h"
 
 
 TrayIcon::TrayIcon(QObject *parent, const bool debugCmd)

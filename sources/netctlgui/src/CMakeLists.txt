@@ -1,13 +1,15 @@
 # set files
-file (GLOB SOURCES *.cpp)
-file (GLOB HEADERS *.h)
+file (GLOB_RECURSE SOURCES *.cpp ${PROJECT_TRDPARTY_DIR}/task/*.cpp)
+file (GLOB_RECURSE HEADERS *.h ${SUBPROJECT_INCLUDE_DIR}/*h
+                               ${PROJECT_TRDPARTY_DIR}/task/*.h)
 
 # include_path
 include_directories (${SUBPROJECT_INCLUDE_DIR}
                      ${CMAKE_CURRENT_BINARY_DIR}/../
                      ${CMAKE_SOURCE_DIR}
                      ${CMAKE_BINARY_DIR}
-                     ${CMAKE_CURRENT_BINARY_DIR})
+                     ${CMAKE_CURRENT_BINARY_DIR}
+                     ${PROJECT_TRDPARTY_DIR})
 
 if (USE_QT5)
     find_package(Qt5 COMPONENTS Core REQUIRED)

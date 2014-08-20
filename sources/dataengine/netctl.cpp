@@ -15,6 +15,8 @@
  *   along with netctl-gui. If not, see http://www.gnu.org/licenses/       *
  ***************************************************************************/
 
+#include "netctl.h"
+
 #include <KGlobal>
 #include <KStandardDirs>
 #include <Plasma/DataContainer>
@@ -25,9 +27,8 @@
 #include <QProcessEnvironment>
 #include <QTextCodec>
 
-#include "netctl.h"
-#include "pdebug.h"
-#include "taskadds.h"
+#include <pdebug/pdebug.h>
+#include <task/taskadds.h>
 
 
 Netctl::Netctl(QObject *parent, const QVariantList &args)

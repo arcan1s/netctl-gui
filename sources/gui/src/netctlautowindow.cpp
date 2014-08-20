@@ -21,9 +21,9 @@
 #include <QDebug>
 
 #include <netctlgui/netctlgui.h>
+#include <pdebug/pdebug.h>
 
 #include "dbusoperation.h"
-#include "pdebug.h"
 #include "version.h"
 
 

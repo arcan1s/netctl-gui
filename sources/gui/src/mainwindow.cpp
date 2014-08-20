@@ -22,6 +22,9 @@
 #include <QDBusMessage>
 #include <QDebug>
 
+#include <pdebug/pdebug.h>
+#include <task/taskadds.h>
+
 #include "aboutwindow.h"
 #include "bridgewidget.h"
 #include "dbusoperation.h"
@@ -34,10 +37,8 @@
 #include "netctlautowindow.h"
 #include "netctlguiadaptor.h"
 #include "passwdwidget.h"
-#include "pdebug.h"
 #include "pppoewidget.h"
 #include "settingswindow.h"
-#include "taskadds.h"
 #include "trayicon.h"
 #include "tunnelwidget.h"
 #include "tuntapwidget.h"

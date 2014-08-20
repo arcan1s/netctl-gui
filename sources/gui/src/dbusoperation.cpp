@@ -21,7 +21,7 @@
 #include <QDBusMessage>
 #include <QDebug>
 
-#include "pdebug.h"
+#include <pdebug/pdebug.h>
 
 
 QList<netctlProfileInfo> parseOutputNetctl(const QList<QVariant> raw,

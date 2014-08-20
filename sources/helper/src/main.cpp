@@ -25,7 +25,8 @@
 #include <iostream>
 #include <unistd.h>
 
-#include "language.h"
+#include <language/language.h>
+
 #include "messages.h"
 #include "netctlhelper.h"
 #include "version.h"

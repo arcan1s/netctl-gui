@@ -22,7 +22,7 @@
 #include <QSpacerItem>
 #include <QDebug>
 
-#include "pdebug.h"
+#include <pdebug/pdebug.h>
 
 
 ErrorWindow::ErrorWindow(QWidget *parent, const bool debugCmd)

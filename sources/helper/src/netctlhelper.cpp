@@ -24,10 +24,10 @@
 #include <unistd.h>
 
 #include <netctlgui/netctlgui.h>
+#include <pdebug/pdebug.h>
 
 #include "controladaptor.h"
 #include "netctladaptor.h"
-#include "pdebug.h"
 #include "version.h"
 
 

@@ -9,7 +9,12 @@ find_package (KDE4 REQUIRED)
 include (KDE4Defaults)
 
 add_definitions (${QT_DEFINITIONS} ${KDE4_DEFINITIONS})
-include_directories (${CMAKE_SOURCE_DIR} ${CMAKE_BINARY_DIR} ${KDE4_INCLUDES} ${CMAKE_CURRENT_BINARY_DIR} ${CMAKE_CURRENT_BINARY_DIR}/../)
+include_directories (${CMAKE_SOURCE_DIR}
+                     ${CMAKE_BINARY_DIR}
+                     ${KDE4_INCLUDES}
+                     ${CMAKE_CURRENT_BINARY_DIR}
+                     ${CMAKE_CURRENT_BINARY_DIR}/../
+                     ${PROJECT_TRDPARTY_DIR})
 
 add_subdirectory (po)
 
@@ -19,7 +24,7 @@ file (GLOB SUBPROJECT_DESKTOP_IN *.desktop)
 file (RELATIVE_PATH SUBPROJECT_DESKTOP ${CMAKE_SOURCE_DIR} ${SUBPROJECT_DESKTOP_IN})
 file (GLOB SUBPROJECT_NOTIFY *.notifyrc)
 file (GLOB SUBPROJECT_SOURCE *.cpp)
-file (GLOB SUBPROJECT_UI *.ui)
+file (GLOB_RECURSE SUBPROJECT_UI *.ui ${PROJECT_TRDPARTY_DIR}/about/*.ui)
 
 # prepare
 configure_file (${SUBPROJECT_DESKTOP_IN} ${CMAKE_CURRENT_BINARY_DIR}/${SUBPROJECT_DESKTOP})

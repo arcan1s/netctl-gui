@@ -22,7 +22,8 @@
 #include <QDialogButtonBox>
 #include <QPushButton>
 
-#include "pdebug.h"
+#include <pdebug/pdebug.h>
+
 #include "version.h"
 
 

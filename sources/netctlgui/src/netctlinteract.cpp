@@ -26,9 +26,9 @@
 #include <QDebug>
 #include <QDirIterator>
 
-#include "netctlgui.h"
-#include "pdebug.h"
-#include "taskadds.h"
+#include <netctlgui/netctlgui.h>
+#include <pdebug/pdebug.h>
+#include <task/taskadds.h>
 
 
 /**
