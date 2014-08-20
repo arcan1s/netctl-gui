@@ -56,6 +56,7 @@ Installation
   * `-DBUILD_HELPER:BOOL=0` - do not build helper daemon
   * `-DBUILD_LIBRARY:BOOL=0` - do not build library
   * `-DBUILD_PLASMOID:BOOL=0` - do not build Plasmoid
+  * `-DBUILD_TEST:BOOL=1` - build auto tests for the library and the helper
   * `-DUSE_QT5:BOOL=0` - use Qt4 instead of Qt5 for GUI
 
 Additional information
@@ -65,7 +66,7 @@ TODO (wish list)
 ----------------
 
 * remove suid bit from helper (polkit/logind/etc)
-* option descriptions to /etc/netctlgui-helper.conf
+* check/update documentation
 
 Links
 -----

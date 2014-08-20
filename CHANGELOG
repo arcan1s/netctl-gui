@@ -19,7 +19,7 @@ Ver.1.3.0
     + add support of openvswitch
     + add security notes and API descriptions
     + add ability to use helper
-    + add ability to start minimized/maximized/daemonized
+    + add ability to start minimized/maximized/detached
     + add ability to don't save profile from WiFi tab
     * more correct actions into SettingsWindow
     * update to library changes
