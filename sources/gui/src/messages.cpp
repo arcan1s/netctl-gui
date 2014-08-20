@@ -117,19 +117,33 @@ QString infoMessage()
 {
     QString infoMessage = QString("");
     // build information
-    infoMessage += QCoreApplication::translate("MainWindow", "Build date: %1").
+    infoMessage += QApplication::translate("MainWindow", "Build date: %1").
             arg(QString(BUILD_DATE));
-    infoMessage += QString("\n%1:\n").arg(QCoreApplication::translate("MainWindow", "cmake flags"));
-    infoMessage += QString("\t-DCMAKE_BUILD_TYPE=%1 \\\n").arg(QString(CMAKE_BUILD_TYPE));
-    infoMessage += QString("\t-DCMAKE_INSTALL_PREFIX=%1 \\\n").arg(QString(CMAKE_INSTALL_PREFIX));
-    infoMessage += QString("\t-DBUILD_DOCS=%1 \\\n").arg(QString(PROJECT_BUILD_DOCS));
-    infoMessage += QString("\t-DBUILD_LIBRARY=%1 \\\n").arg(QString(PROJECT_BUILD_LIBRARY));
-    infoMessage += QString("\t-DBUILD_GUI=%1 \\\n").arg(QString(PROJECT_BUILD_GUI));
-    infoMessage += QString("\t-DUSE_QT5=%1 \\\n").arg(QString(PROJECT_USE_QT5));
-    infoMessage += QString("\t-DBUILD_DATAENGINE=%1 \\\n").arg(QString(PROJECT_BUILD_DATAENGINE));
+    // cmake
+    infoMessage += QString("\n%1:\n").arg(QApplication::translate("MainWindow", "cmake flags"));
+    // cmake properties
+    infoMessage += QString("%1:\n").arg(QApplication::translate("MainWindow", "cmake properties"));
+    infoMessage += QString("\t-DCMAKE_BUILD_TYPE=%1\n").arg(QString(CMAKE_BUILD_TYPE));
+    infoMessage += QString("\t-DCMAKE_INSTALL_PREFIX=%1\n").arg(QString(CMAKE_INSTALL_PREFIX));
+    // components
+    infoMessage += QString("%1:\n").arg(QApplication::translate("MainWindow", "Components"));
+    infoMessage += QString("\t-DBUILD_DATAENGINE=%1\n").arg(QString(PROJECT_BUILD_DATAENGINE));
+    infoMessage += QString("\t-DBUILD_GUI=%1\n").arg(QString(PROJECT_BUILD_GUI));
+    infoMessage += QString("\t-DBUILD_HELPER=%1\n").arg(QString(PROJECT_BUILD_HELPER));
+    infoMessage += QString("\t-DBUILD_LIBRARY=%1\n").arg(QString(PROJECT_BUILD_LIBRARY));
     infoMessage += QString("\t-DBUILD_PLASMOID=%1\n").arg(QString(PROJECT_BUILD_PLASMOID));
+    // additional components
+    infoMessage += QString("%1:\n").arg(QApplication::translate("MainWindow", "Additional components"));
+    infoMessage += QString("\t-DBUILD_DOCS=%1\n").arg(QString(PROJECT_BUILD_DOCS));
+    infoMessage += QString("\t-DBUILD_TEST=%1\n").arg(QString(PROJECT_BUILD_TEST));
+    // project properties
+    infoMessage += QString("%1:\n").arg(QApplication::translate("MainWindow", "Project properties"));
+    infoMessage += QString("\t-DDBUS_SYSTEMCONF_PATH=%1\n").arg(QString(PROJECT_DBUS_SYSTEMCONF_PATH));
+    infoMessage += QString("\t-DSYSTEMD_SERVICE_PATH=%1\n").arg(QString(PROJECT_SYSTEMD_SERVICE_PATH));
+    infoMessage += QString("\t-DUSE_CAPABILITIES=%1\n").arg(QString(PROJECT_USE_CAPABILITIES));
+    infoMessage += QString("\t-DUSE_QT5=%1\n").arg(QString(PROJECT_USE_QT5));
     // transport information
-    infoMessage += QString("%1:\n").arg(QCoreApplication::translate("MainWindow", "DBus configuration"));
+    infoMessage += QString("%1:\n").arg(QApplication::translate("MainWindow", "DBus configuration"));
     infoMessage += QString("\tDBUS_SERVICE=%1\n").arg(QString(DBUS_SERVICE));
     infoMessage += QString("\tDBUS_INTERFACE=%1\n").arg(QString(DBUS_INTERFACE));
     infoMessage += QString("\tDBUS_OBJECT_PATH=%1\n").arg(QString(DBUS_OBJECT_PATH));
@@ -138,11 +152,8 @@ QString infoMessage()
     infoMessage += QString("\tDBUS_CTRL_PATH=%1\n").arg(QString(DBUS_CTRL_PATH));
     infoMessage += QString("\tDBUS_LIB_PATH=%1\n").arg(QString(DBUS_LIB_PATH));
     // docs path
-    infoMessage += QString("%1:\n").arg(QCoreApplication::translate("MainWindow", "Documentation"));
+    infoMessage += QString("%1:\n").arg(QApplication::translate("MainWindow", "Documentation"));
     infoMessage += QString("\tDOCS_PATH=%1\n").arg(QString(DOCS_PATH));
-    QStringList docs = QDir(QString(DOCS_PATH)).entryList(QDir::NoDotAndDotDot);
-    for (int i=0; i<docs.count(); i++)
-        infoMessage += QString("\t%1\n").arg(docs[i]);
 
     return infoMessage;
 }

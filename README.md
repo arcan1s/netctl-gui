@@ -49,16 +49,20 @@ Installation
         sudo make install
 
   Available cmake flags:
-
-  * `-DBUILD_DATAENGINE:BOOL=0` - do not build DataEngine
-  * `-DBUILD_DOCS:BOOL=0` - do not build developer documentation
-  * `-DBUILD_GUI:BOOL=0` - do not build GUI
-  * `-DBUILD_HELPER:BOOL=0` - do not build helper daemon
-  * `-DBUILD_LIBRARY:BOOL=0` - do not build library
-  * `-DBUILD_PLASMOID:BOOL=0` - do not build Plasmoid
-  * `-DBUILD_TEST:BOOL=1` - build auto tests for the library and the helper
-  * `-DUSE_CAPABILITIES` - use setcap to get privileges to the helper
-  * `-DUSE_QT5:BOOL=0` - use Qt4 instead of Qt5 for GUI
+    * components:
+        * `-DBUILD_DATAENGINE:BOOL=0` - do not build DataEngine
+        * `-DBUILD_GUI:BOOL=0` - do not build GUI
+        * `-DBUILD_HELPER:BOOL=0` - do not build helper daemon
+        * `-DBUILD_LIBRARY:BOOL=0` - do not build library
+        * `-DBUILD_PLASMOID:BOOL=0` - do not build Plasmoid
+    * additional components
+        * `-DBUILD_DOCS:BOOL=0` - do not build developer documentation
+        * `-DBUILD_TEST:BOOL=1` - build auto tests for the library and the helper
+    * project properties
+        * `-DDBUS_SYSTEMCONF_PATH=/etc/dbus-1/system.d/` - path to dbus system configuration files
+        * `-DSYSTEMD_SERVICE_PATH=lib/systemd/system` - path to systemd services
+        * `-DUSE_CAPABILITIES` - use setcap to get privileges to the helper
+        * `-DUSE_QT5:BOOL=0` - use Qt4 instead of Qt5 for GUI
 
 Additional information
 ======================

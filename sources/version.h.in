@@ -1,6 +1,7 @@
 #ifndef VERSION_H
 #define VERSION_H
 
+// information
 #define NAME "Netctl Graphical Interface"
 #define VERSION "@PROJECT_VERSION@"
 #define AUTHOR "@PROJECT_AUTHOR@"
@@ -8,26 +9,38 @@
 #define EMAIL "@PROJECT_CONTACT@"
 #define LICENSE "@PROJECT_LICENSE@"
 #define TRDPARTY_LICENSE "tasks,BSD,https://github.com/mhogomchungu/tasks;ponysay,GPLv3,http://erkin.co/ponysay"
+#define DOCS_PATH "@CMAKE_INSTALL_PREFIX@/share/doc/netctl-gui/"
 
+// links
 #define HOMEPAGE "http://arcanis.name/projects/netctl-gui/"
 #define REPOSITORY "https://github.com/arcan1s/netctl-gui"
 #define BUGTRACKER "https://github.com/arcan1s/netctl-gui/issues"
 #define TRANSLATION "https://github.com/arcan1s/netctl-gui/issues/3"
 #define AUR_PACKAGES "https://aur.archlinux.org/pkgbase/netctl-gui/"
-#define DOCS_PATH "@CMAKE_INSTALL_PREFIX@/share/doc/netctl-gui/"
 
+// build information
 #define BUILD_DATE "@CURRENT_DATE@"
 #define DATE "2014-@CURRENT_YEAR@"
 
+// cmake properties
 #define CMAKE_BUILD_TYPE "@CMAKE_BUILD_TYPE@"
 #define CMAKE_INSTALL_PREFIX "@CMAKE_INSTALL_PREFIX@"
+// components
 #define PROJECT_BUILD_DATAENGINE "@BUILD_DATAENGINE@"
-#define PROJECT_BUILD_DOCS "@BUILD_DOCS@"
 #define PROJECT_BUILD_GUI "@BUILD_GUI@"
+#define PROJECT_BUILD_HELPER "@BUILD_HELPER@"
 #define PROJECT_BUILD_LIBRARY "@BUILD_LIBRARY@"
 #define PROJECT_BUILD_PLASMOID "@BUILD_PLASMOID@"
+// additional components
+#define PROJECT_BUILD_DOCS "@BUILD_DOCS@"
+#define PROJECT_BUILD_TEST "@BUILD_TEST@"
+// project properties
+#define PROJECT_DBUS_SYSTEMCONF_PATH "@DBUS_SYSTEMCONF_PATH@"
+#define PROJECT_SYSTEMD_SERVICE_PATH "@SYSTEMD_SERVICE_PATH@"
+#define PROJECT_USE_CAPABILITIES "@USE_CAPABILITIES@"
 #define PROJECT_USE_QT5 "@USE_QT5@"
 
+// dbus configuration
 #define DBUS_SERVICE "org.netctlgui.netctlgui"
 #define DBUS_INTERFACE "org.netctlgui.netctlgui"
 #define DBUS_OBJECT_PATH "/netctlgui"
