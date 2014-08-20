@@ -50,9 +50,8 @@ endif()
 
 add_executable (${SUBPROJECT} ${SOURCES} ${HEADERS} ${MOC_SOURCES} ${QRC_SOURCES} ${TRANSLATIONS})
 target_link_libraries (${SUBPROJECT} ${PROJECT_LIBRARY} ${QT_NEEDED_LIBS})
-add_executable (${SUBPROJECT}-suid ${SOURCES} ${HEADERS} ${MOC_SOURCES} ${QRC_SOURCES} ${TRANSLATIONS})
-target_link_libraries (${SUBPROJECT}-suid ${PROJECT_LIBRARY} ${QT_NEEDED_LIBS})
 # install properties
 install (TARGETS ${SUBPROJECT} DESTINATION bin)
-install (TARGETS ${SUBPROJECT}-suid DESTINATION bin
-         PERMISSIONS OWNER_READ OWNER_WRITE OWNER_EXECUTE GROUP_READ GROUP_EXECUTE WORLD_READ WORLD_EXECUTE SETUID)
+if (USE_CAPABILITIES)
+    install (CODE "exec_program (setcap ARGS \\\"cap_setuid+iep cap_setgid+iep\\\" \"$ENV{DESTDIR}/bin/${SUBPROJECT}\")")
+endif ()

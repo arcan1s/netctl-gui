@@ -91,7 +91,7 @@ int main(int argc, char *argv[])
         args[QString("nodaemon")] = true;
     // check euid
     if (geteuid() != 0) {
-        cout << QCoreApplication::translate("NetctlHelper", "The helper is running with EUID %1. Some functions will not be available.")
+        cout << QCoreApplication::translate("NetctlHelper", "The helper is running with EUID %1. Some functions may not be available.")
                 .arg(QString::number(geteuid())).toUtf8().data() << endl;
         cout << QCoreApplication::translate("NetctlHelper", "See security notes for more details.")
                 .toUtf8().data() << endl;

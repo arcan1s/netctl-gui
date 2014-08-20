@@ -21,6 +21,7 @@ message (STATUS "Version: ${PROJECT_VERSION}")
 message (STATUS "Build date: ${CURRENT_DATE}")
 
 # install options
+option (USE_CAPABILITIES "Use setcap to set capabilities for the helper" ON)
 option (USE_QT5 "Use Qt5 instead of Qt4" ON)
 # components
 option (BUILD_GUI "Build GUI" ON)
