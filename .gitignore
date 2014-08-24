@@ -25,3 +25,5 @@ usr/
 # translations
 *.qm
 
+# temporary bckps
+*~

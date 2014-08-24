@@ -177,6 +177,20 @@ public slots:
      */
     bool enableProfile(const QString profile);
     /**
+     * @brief method which force starts profile
+     * @param profile        profile name
+     * @return false if components are not found or command exit code is not equal to 0
+     * @return true if the method was completed without errors
+     */
+    bool forceStartProfile(const QString profile);
+    /**
+     * @brief method which force stops profile
+     * @param profile        profile name
+     * @return false if components are not found or command exit code is not equal to 0
+     * @return true if the method was completed without errors
+     */
+    bool forceStopProfile(const QString profile);
+    /**
      * @brief method which reenables profile
      * @param profile        profile name
      * @return false if components are not found or command exit code is not equal to 0

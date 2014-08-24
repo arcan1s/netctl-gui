@@ -186,6 +186,18 @@ bool ControlAdaptor::Enable(const QString profile)
 }
 
 
+bool ControlAdaptor::forceStart(const QString profile)
+{
+    return netctlCommand->forceStartProfile(profile);
+}
+
+
+bool ControlAdaptor::forceStop(const QString profile)
+{
+    return netctlCommand->forceStopProfile(profile);
+}
+
+
 bool ControlAdaptor::Reenable(const QString profile)
 {
     return netctlCommand->reenableProfile(profile);

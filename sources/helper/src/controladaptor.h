@@ -57,6 +57,8 @@ public slots:
     bool autoServiceRestart();
     bool autoServiceStart();
     bool Enable(const QString profile);
+    bool forceStart(const QString profile);
+    bool forceStop(const QString profile);
     bool Reenable(const QString profile);
     bool Restart(const QString profile);
     bool Start(const QString profile);
