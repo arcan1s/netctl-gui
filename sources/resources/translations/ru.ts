@@ -1935,7 +1935,7 @@
     </message>
     <message>
         <source>Restart %1</source>
-        <translation>Перезапустит %1</translation>
+        <translation>Перезапустить %1</translation>
     </message>
     <message>
         <source>Disable %1</source>

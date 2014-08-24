@@ -165,6 +165,8 @@ void TrayIcon::updateMenu()
         contextMenu[QString("gui")]->setText(QApplication::translate("TrayIcon", "Show"));
     else
         contextMenu[QString("gui")]->setText(QApplication::translate("TrayIcon", "Hide"));
+
+    setContextMenu(menuActions);
 }
 
 
@@ -176,6 +178,7 @@ void TrayIcon::createActions()
 
     contextMenu[QString("title")] = new QAction(QIcon(":icon"), QApplication::translate("TrayIcon", "Status"), this);
     menuActions->addAction(contextMenu[QString("title")]);
+    connect(contextMenu[QString("title")], SIGNAL(triggered(bool)), this, SLOT(showInformationInWindow()));
 
     menuActions->addSeparator();
 
@@ -233,9 +236,7 @@ void TrayIcon::init()
     setToolTip(QString("netctl-gui"));
 
     createActions();
-    setContextMenu(menuActions);
 
-    connect(this, SIGNAL(messageClicked()), this, SLOT(showInformationInWindow()));
     connect(this, SIGNAL(activated(QSystemTrayIcon::ActivationReason)),
             this, SLOT(itemActivated(QSystemTrayIcon::ActivationReason)));
 }
@@ -254,6 +255,8 @@ void TrayIcon::itemActivated(const QSystemTrayIcon::ActivationReason reason)
         mainWindow->showMainWindow();
         break;
     case QSystemTrayIcon::Context:
+        // clear menu before update
+        setContextMenu(0);
         updateMenu();
         break;
     default:
