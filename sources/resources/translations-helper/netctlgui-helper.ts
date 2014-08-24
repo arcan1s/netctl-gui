@@ -75,54 +75,74 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../helper/src/messages.cpp" line="88"/>
+        <location filename="../../helper/src/messages.cpp" line="89"/>
         <source>cmake flags</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../helper/src/messages.cpp" line="98"/>
+        <location filename="../../helper/src/messages.cpp" line="91"/>
+        <source>cmake properties</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../helper/src/messages.cpp" line="95"/>
+        <source>Components</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../helper/src/messages.cpp" line="102"/>
+        <source>Additional components</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../helper/src/messages.cpp" line="106"/>
+        <source>Project properties</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../helper/src/messages.cpp" line="112"/>
         <source>DBus configuration</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../helper/src/messages.cpp" line="107"/>
+        <location filename="../../helper/src/messages.cpp" line="121"/>
         <source>Documentation</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../helper/src/messages.cpp" line="122"/>
+        <location filename="../../helper/src/messages.cpp" line="133"/>
         <source>Version</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../helper/src/messages.cpp" line="125"/>
+        <location filename="../../helper/src/messages.cpp" line="136"/>
         <source>Author</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../helper/src/messages.cpp" line="128"/>
+        <location filename="../../helper/src/messages.cpp" line="139"/>
         <source>License</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../helper/src/main.cpp" line="94"/>
-        <source>The helper is running with EUID %1. Some functions will not be available.</source>
+        <location filename="../../helper/src/main.cpp" line="95"/>
+        <source>The helper is running with EUID %1. Some functions may not be available.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../helper/src/main.cpp" line="96"/>
+        <location filename="../../helper/src/main.cpp" line="97"/>
         <source>See security notes for more details.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../helper/src/main.cpp" line="135"/>
-        <location filename="../../helper/src/main.cpp" line="146"/>
+        <location filename="../../helper/src/main.cpp" line="136"/>
+        <location filename="../../helper/src/main.cpp" line="147"/>
         <source>Replace existing session.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../helper/src/main.cpp" line="140"/>
-        <location filename="../../helper/src/main.cpp" line="152"/>
+        <location filename="../../helper/src/main.cpp" line="141"/>
+        <location filename="../../helper/src/main.cpp" line="153"/>
         <source>Restore existing session.</source>
         <translation type="unfinished"></translation>
     </message>

@@ -76,32 +76,52 @@
         <translation>Build date: %1</translation>
     </message>
     <message>
-        <location filename="../../helper/src/messages.cpp" line="88"/>
+        <location filename="../../helper/src/messages.cpp" line="89"/>
         <source>cmake flags</source>
         <translation>cmake flags</translation>
     </message>
     <message>
-        <location filename="../../helper/src/messages.cpp" line="98"/>
+        <location filename="../../helper/src/messages.cpp" line="91"/>
+        <source>cmake properties</source>
+        <translation>cmake properties</translation>
+    </message>
+    <message>
+        <location filename="../../helper/src/messages.cpp" line="95"/>
+        <source>Components</source>
+        <translation>Components</translation>
+    </message>
+    <message>
+        <location filename="../../helper/src/messages.cpp" line="102"/>
+        <source>Additional components</source>
+        <translation>Additional components</translation>
+    </message>
+    <message>
+        <location filename="../../helper/src/messages.cpp" line="106"/>
+        <source>Project properties</source>
+        <translation>Project properties</translation>
+    </message>
+    <message>
+        <location filename="../../helper/src/messages.cpp" line="112"/>
         <source>DBus configuration</source>
         <translation>DBus configuration</translation>
     </message>
     <message>
-        <location filename="../../helper/src/messages.cpp" line="107"/>
+        <location filename="../../helper/src/messages.cpp" line="121"/>
         <source>Documentation</source>
         <translation>Documentation</translation>
     </message>
     <message>
-        <location filename="../../helper/src/messages.cpp" line="122"/>
+        <location filename="../../helper/src/messages.cpp" line="133"/>
         <source>Version</source>
         <translation>Version</translation>
     </message>
     <message>
-        <location filename="../../helper/src/messages.cpp" line="125"/>
+        <location filename="../../helper/src/messages.cpp" line="136"/>
         <source>Author</source>
         <translation>Author</translation>
     </message>
     <message>
-        <location filename="../../helper/src/messages.cpp" line="128"/>
+        <location filename="../../helper/src/messages.cpp" line="139"/>
         <source>License</source>
         <translation>License</translation>
     </message>
@@ -110,24 +130,28 @@
         <translation type="vanished">The helper is running with EUID %1. Functions will not be available.</translation>
     </message>
     <message>
-        <location filename="../../helper/src/main.cpp" line="94"/>
         <source>The helper is running with EUID %1. Some functions will not be available.</source>
-        <translation>The helper is running with EUID %1. Some functions will not be available.</translation>
+        <translation type="vanished">The helper is running with EUID %1. Some functions will not be available.</translation>
     </message>
     <message>
-        <location filename="../../helper/src/main.cpp" line="96"/>
+        <location filename="../../helper/src/main.cpp" line="95"/>
+        <source>The helper is running with EUID %1. Some functions may not be available.</source>
+        <translation>The helper is running with EUID %1. Some functions may not be available.</translation>
+    </message>
+    <message>
+        <location filename="../../helper/src/main.cpp" line="97"/>
         <source>See security notes for more details.</source>
         <translation>See security notes for more details.</translation>
     </message>
     <message>
-        <location filename="../../helper/src/main.cpp" line="135"/>
-        <location filename="../../helper/src/main.cpp" line="146"/>
+        <location filename="../../helper/src/main.cpp" line="136"/>
+        <location filename="../../helper/src/main.cpp" line="147"/>
         <source>Replace existing session.</source>
         <translation>Replace existing session.</translation>
     </message>
     <message>
-        <location filename="../../helper/src/main.cpp" line="140"/>
-        <location filename="../../helper/src/main.cpp" line="152"/>
+        <location filename="../../helper/src/main.cpp" line="141"/>
+        <location filename="../../helper/src/main.cpp" line="153"/>
         <source>Restore existing session.</source>
         <translation>Restore existing session.</translation>
     </message>

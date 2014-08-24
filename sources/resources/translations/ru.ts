@@ -623,11 +623,11 @@
     </message>
     <message>
         <source>Disable</source>
-        <translation type="obsolete">Отключить</translation>
+        <translation>Отключить</translation>
     </message>
     <message>
         <source>Enable</source>
-        <translation type="obsolete">Включить</translation>
+        <translation>Включить</translation>
     </message>
     <message>
         <source>Save profile as...</source>
@@ -739,7 +739,7 @@
     </message>
     <message>
         <source>Ctrl+R</source>
-        <translation>Ctrl+R</translation>
+        <translation type="vanished">Ctrl+R</translation>
     </message>
     <message>
         <source>Restart</source>
@@ -763,7 +763,7 @@
     </message>
     <message>
         <source>Load</source>
-        <translation type="obsolete">Загрузить</translation>
+        <translation>Загрузить</translation>
     </message>
     <message>
         <source>Save</source>
@@ -803,7 +803,7 @@
     </message>
     <message>
         <source>Remove</source>
-        <translation type="obsolete">Удалить</translation>
+        <translation>Удалить</translation>
     </message>
     <message>
         <source>Stop profile</source>
@@ -843,15 +843,15 @@
     </message>
     <message>
         <source>Load profile</source>
-        <translation>Загрузить профиль</translation>
+        <translation type="vanished">Загрузить профиль</translation>
     </message>
     <message>
         <source>Save profile</source>
-        <translation>Сохранить профиль</translation>
+        <translation type="vanished">Сохранить профиль</translation>
     </message>
     <message>
         <source>Start Wi-Fi</source>
-        <translation>Подключить WiFi</translation>
+        <translation type="vanished">Подключить WiFi</translation>
     </message>
     <message>
         <source>netctl-auto</source>
@@ -1086,15 +1086,15 @@
     </message>
     <message>
         <source>DBus API reference</source>
-        <translation>Описание DBus API</translation>
+        <translation type="vanished">Описание DBus API</translation>
     </message>
     <message>
         <source>Security notes</source>
-        <translation>Примечания о безопасности</translation>
+        <translation type="vanished">Примечания о безопасности</translation>
     </message>
     <message>
         <source>Library documentation</source>
-        <translation>Документация</translation>
+        <translation type="vanished">Документация</translation>
     </message>
     <message>
         <source>Documentation</source>
@@ -1110,11 +1110,11 @@
     </message>
     <message>
         <source>Switch to profile</source>
-        <translation>Переключиться на профиль</translation>
+        <translation type="vanished">Переключиться на профиль</translation>
     </message>
     <message>
         <source>Stop all profiles</source>
-        <translation>Остановить все профили</translation>
+        <translation type="vanished">Остановить все профили</translation>
     </message>
     <message>
         <source>start detached from console</source>
@@ -1135,6 +1135,42 @@
     <message>
         <source>WiFi menu</source>
         <translation>WiFi меню</translation>
+    </message>
+    <message>
+        <source>Switch</source>
+        <translation>Переключить</translation>
+    </message>
+    <message>
+        <source>Stop all</source>
+        <translation>Остановить все</translation>
+    </message>
+    <message>
+        <source>Edit</source>
+        <translation>Редактировать</translation>
+    </message>
+    <message>
+        <source>DBus API</source>
+        <translation>DBus API</translation>
+    </message>
+    <message>
+        <source>Library</source>
+        <translation>Библиотека</translation>
+    </message>
+    <message>
+        <source>cmake properties</source>
+        <translation>Свойства cmake</translation>
+    </message>
+    <message>
+        <source>Components</source>
+        <translation>Компоненты</translation>
+    </message>
+    <message>
+        <source>Additional components</source>
+        <translation>Дополнительные компоненты</translation>
+    </message>
+    <message>
+        <source>Project properties</source>
+        <translation>Свойства проекта</translation>
     </message>
 </context>
 <context>
@@ -1873,6 +1909,10 @@
     <message>
         <source>There are too binaries. `netctlgui-helper` should be running as root (for example from systemd), otherwise interface `/ctrl` will not be available. `netctlgui-helper-suid` may be running as normal user, but you should keep it in mind that it has SUID bit.</source>
         <translation type="vanished">Существует два бинарных файла. `netctlgui-helper` должен быть запущен от root&apos;а (например, через systemd), в противном случае интерфейс `/ctrl` не будет доступен. `netctlgui-helper-suid` может быть запущен от обычного пользователя, однако Вы должны иметь в виду, что он имеет SUID бит.</translation>
+    </message>
+    <message>
+        <source>Skip components checking</source>
+        <translation>Пропустить проверку компонентов</translation>
     </message>
 </context>
 <context>
