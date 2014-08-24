@@ -181,6 +181,13 @@
                </widget>
               </item>
               <item>
+               <widget class="QCheckBox" name="checkBox_components">
+                <property name="text">
+                 <string>Skip components checking</string>
+                </property>
+               </widget>
+              </item>
+              <item>
                <spacer name="spacer_general">
                 <property name="orientation">
                  <enum>Qt::Vertical</enum>
@@ -211,8 +218,8 @@
               <rect>
                <x>0</x>
                <y>0</y>
-               <width>464</width>
-               <height>336</height>
+               <width>397</width>
+               <height>256</height>
               </rect>
              </property>
              <layout class="QVBoxLayout" name="verticalLayout_13">

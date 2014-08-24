@@ -21,10 +21,13 @@ Ver.1.3.0
     + add ability to use helper
     + add ability to start minimized/maximized/detached
     + add ability to don't save profile from WiFi tab
+    + add ability to skip external components checking
+    - remove buttons
     * more correct actions into SettingsWindow
     * update to library changes
     * rewrite tables to use toolTip
     * edit about window
+    * change menuBar
 * helper:
     + create daemon DBus system interface org.netctlgui.helper to the library:
       self control slots, netctl control slots and netctl information slots
@@ -39,11 +42,11 @@ Ver.1.3.0
     + add slots forceStartProfile() and forceStopProfile()
     + add double quotes to profile names
     + add tests
+    - remove functions getProfileDescriptions() and getProfileStatuses()
+    - remove SleepThread class
     * rewrite to use [tasks](https://github.com/mhogomchungu/tasks) (see #7)
     * rename getInterfaceList() to getWirelessInterfaceList()
     * change temporaty directory from $HOME/.cache to system one
-    - remove functions getProfileDescriptions() and getProfileStatuses()
-    - remove SleepThread class
 * plasmoid:
     + add 3rd party license information
     + allow plasmoid to use system tray

@@ -274,6 +274,7 @@ bool MainWindow::checkExternalApps(const QString apps = QString("all"))
 {
     if (debug) qDebug() << PDEBUG;
 
+    if (configuration[QString("SKIPCOMPONENTS")] == QString("true")) return true;
     QStringList cmd;
     cmd.append("which");
     cmd.append(configuration[QString("SUDO_PATH")]);
@@ -344,52 +345,23 @@ void MainWindow::createActions()
     if (debug) qDebug() << PDEBUG;
 
     connect(ui->tabWidget, SIGNAL(currentChanged(int)), this, SLOT(updateTabs(int)));
-    connect(ui->actionAbout, SIGNAL(triggered(bool)), this, SLOT(showAboutWindow()));
-    connect(ui->actionApi, SIGNAL(triggered(bool)), this, SLOT(showApi()));
-    connect(ui->actionLibrary, SIGNAL(triggered(bool)), this, SLOT(showLibrary()));
-    connect(ui->actionNetctlAuto, SIGNAL(triggered(bool)), this, SLOT(showNetctlAutoWindow()));
-    connect(ui->actionReport, SIGNAL(triggered(bool)), this, SLOT(reportABug()));
-    connect(ui->actionSecurity, SIGNAL(triggered(bool)), this, SLOT(showSecurityNotes()));
-    connect(ui->actionSettings, SIGNAL(triggered(bool)), this, SLOT(showSettingsWindow()));
-    connect(ui->actionQuit, SIGNAL(triggered(bool)), this, SLOT(closeMainWindow()));
-
-    // actions menu
-    connect(ui->menuActions, SIGNAL(aboutToShow()), this, SLOT(updateMenu()));
-    connect(ui->actionMainEdit, SIGNAL(triggered(bool)), this, SLOT(mainTabEditProfile()));
-    connect(ui->actionMainEnable, SIGNAL(triggered(bool)), this, SLOT(mainTabEnableProfile()));
-    connect(ui->actionMainRefresh, SIGNAL(triggered(bool)), this, SLOT(updateMainTab()));
-    connect(ui->actionMainRemove, SIGNAL(triggered(bool)), this, SLOT(mainTabRemoveProfile()));
-    connect(ui->actionMainRestart, SIGNAL(triggered(bool)), this, SLOT(mainTabRestartProfile()));
-    connect(ui->actionMainStart, SIGNAL(triggered(bool)), this, SLOT(mainTabStartProfile()));
-    connect(ui->actionMainStopAll, SIGNAL(triggered(bool)), this, SLOT(mainTabStopAllProfiles()));
-    connect(ui->actionMainSwitch, SIGNAL(triggered(bool)), this, SLOT(mainTabSwitchToProfile()));
-    connect(ui->actionProfileClear, SIGNAL(triggered(bool)), this, SLOT(profileTabClear()));
-    connect(ui->actionProfileLoad, SIGNAL(triggered(bool)), this, SLOT(profileTabLoadProfile()));
-    connect(ui->actionProfileRemove, SIGNAL(triggered(bool)), this, SLOT(profileTabRemoveProfile()));
-    connect(ui->actionProfileSave, SIGNAL(triggered(bool)), this, SLOT(profileTabCreateProfile()));
-    connect(ui->actionWifiRefresh, SIGNAL(triggered(bool)), this, SLOT(updateWifiTab()));
-    connect(ui->actionWifiStart, SIGNAL(triggered(bool)), this, SLOT(wifiTabStart()));
 
     // main tab events
-    connect(ui->pushButton_mainRefresh, SIGNAL(clicked(bool)), this, SLOT(updateMainTab()));
-    connect(ui->pushButton_mainRestart, SIGNAL(clicked(bool)), this, SLOT(mainTabRestartProfile()));
-    connect(ui->pushButton_mainStart, SIGNAL(clicked(bool)), this, SLOT(mainTabStartProfile()));
     connect(ui->pushButton_netctlAuto, SIGNAL(clicked(bool)), this, SLOT(showNetctlAutoWindow()));
     connect(ui->tableWidget_main, SIGNAL(itemActivated(QTableWidgetItem *)), this, SLOT(mainTabStartProfile()));
-    connect(ui->tableWidget_main, SIGNAL(currentItemChanged(QTableWidgetItem *, QTableWidgetItem *)), this, SLOT(mainTabRefreshButtons(QTableWidgetItem *, QTableWidgetItem *)));
+    connect(ui->tableWidget_main, SIGNAL(currentItemChanged(QTableWidgetItem *, QTableWidgetItem *)),
+            this, SLOT(updateMenuMain()));
     connect(ui->tableWidget_main, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(mainTabContextualMenu(QPoint)));
 
     // profile tab events
     connect(ui->comboBox_profile, SIGNAL(currentIndexChanged(QString)), this, SLOT(profileTabLoadProfile()));
-    connect(ui->pushButton_profileClear, SIGNAL(clicked(bool)), this, SLOT(profileTabClear()));
-    connect(ui->pushButton_profileSave, SIGNAL(clicked(bool)), this, SLOT(profileTabCreateProfile()));
+    connect(ui->comboBox_profile, SIGNAL(editTextChanged(QString)), this, SLOT(updateMenuProfile()));
     connect(generalWid->connectionType, SIGNAL(currentIndexChanged(QString)), this, SLOT(profileTabChangeState(QString)));
 
     // wifi tab events
-    connect(ui->pushButton_wifiRefresh, SIGNAL(clicked(bool)), this, SLOT(updateWifiTab()));
-    connect(ui->pushButton_wifiStart, SIGNAL(clicked(bool)), this, SLOT(wifiTabStart()));
     connect(ui->tableWidget_wifi, SIGNAL(itemActivated(QTableWidgetItem *)), this, SLOT(wifiTabStart()));
-    connect(ui->tableWidget_wifi, SIGNAL(currentItemChanged(QTableWidgetItem *, QTableWidgetItem *)), this, SLOT(wifiTabRefreshButtons(QTableWidgetItem *, QTableWidgetItem *)));
+    connect(ui->tableWidget_wifi, SIGNAL(currentItemChanged(QTableWidgetItem *, QTableWidgetItem *)),
+            this, SLOT(updateMenuWifi()));
     connect(ui->tableWidget_wifi, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(wifiTabContextualMenu(QPoint)));
 }
 
@@ -465,6 +437,108 @@ void MainWindow::createObjects()
     ui->scrollAreaWidgetContents->layout()->addWidget(vlanWid);
     wirelessWid = new WirelessWidget(this, configuration);
     ui->scrollAreaWidgetContents->layout()->addWidget(wirelessWid);
+
+    createToolBars();
+}
+
+
+void MainWindow::createToolBars()
+{
+    if (debug) qDebug() << PDEBUG;
+
+    toolBarActions[QString("menu")] = ui->menuBar->addAction(QApplication::translate("MainWindow", "Menu"),
+                                                             this, SLOT(updateToolBars()));
+    toolBarActions[QString("actions")] = ui->menuBar->addAction(QApplication::translate("MainWindow", "Actions"),
+                                                                this, SLOT(updateToolBars()));
+    toolBarActions[QString("help")] = ui->menuBar->addAction(QApplication::translate("MainWindow", "Help"),
+                                                             this, SLOT(updateToolBars()));
+
+    mainToolBar = new QToolBar(this);
+    mainToolBar->setToolButtonStyle(Qt::ToolButtonFollowStyle);
+    toolBarActions[QString("netctlAuto")] = mainToolBar->addAction(QApplication::translate("MainWindow", "netctl-auto"),
+                                                                   this, SLOT(showNetctlAutoWindow()));
+    toolBarActions[QString("settings")] = mainToolBar->addAction(QIcon::fromTheme(QString("configure")),
+                                                                 QApplication::translate("MainWindow", "Settings"),
+                                                                 this, SLOT(showSettingsWindow()));
+    appShortcuts[QString("settingsShortcut")] = new QShortcut(QKeySequence(QApplication::translate("MainWindow", "Ctrl+S")),
+                                                              this, SLOT(showSettingsWindow()));
+    toolBarActions[QString("quit")] = mainToolBar->addAction(QIcon::fromTheme(QString("exit")),
+                                                             QApplication::translate("MainWindow", "Quit"),
+                                                             this, SLOT(closeMainWindow()));
+    appShortcuts[QString("quitShortcut")] = new QShortcut(QKeySequence(QApplication::translate("MainWindow", "Ctrl+Q")),
+                                                          this, SLOT(closeMainWindow()));
+    ui->verticalLayout_4->insertWidget(0, mainToolBar);
+    mainToolBar->setHidden(true);
+
+    actionToolBar = new QToolBar(this);
+    actionToolBar->setToolButtonStyle(Qt::ToolButtonFollowStyle);
+    toolBarActions[QString("mainRefresh")] = actionToolBar->addAction(QIcon::fromTheme(QString("stock-refresh")),
+                                                                      QApplication::translate("MainWindow", "Refresh"),
+                                                                      this, SLOT(updateMainTab()));
+    toolBarActions[QString("profileClear")] = actionToolBar->addAction(QIcon::fromTheme(QString("edit-clear")),
+                                                                       QApplication::translate("MainWindow", "Clear"),
+                                                                       this, SLOT(profileTabClear()));
+    toolBarActions[QString("wifiRefresh")] = actionToolBar->addAction(QIcon::fromTheme(QString("stock-refresh")),
+                                                                      QApplication::translate("MainWindow", "Refresh"),
+                                                                      this, SLOT(updateWifiTab()));
+    actionToolBar->addSeparator();
+    toolBarActions[QString("mainStart")] = actionToolBar->addAction(QIcon::fromTheme(QString("system-run")),
+                                                                    QApplication::translate("MainWindow", "Start"),
+                                                                    this, SLOT(mainTabStartProfile()));
+    toolBarActions[QString("mainSwitch")] = actionToolBar->addAction(QIcon::fromTheme(QString("system-run")),
+                                                                     QApplication::translate("MainWindow", "Switch"),
+                                                                     this, SLOT(mainTabSwitchToProfile()));
+    toolBarActions[QString("mainRestart")] = actionToolBar->addAction(QIcon::fromTheme(QString("stock-refresh")),
+                                                                      QApplication::translate("MainWindow", "Restart"),
+                                                                      this, SLOT(mainTabRestartProfile()));
+    toolBarActions[QString("mainEnable")] = actionToolBar->addAction(QIcon::fromTheme(QString("edit-add")),
+                                                                     QApplication::translate("MainWindow", "Enable"),
+                                                                     this, SLOT(mainTabEnableProfile()));
+    toolBarActions[QString("mainStopAll")] = actionToolBar->addAction(QIcon::fromTheme(QString("process-stop")),
+                                                                      QApplication::translate("MainWindow", "Stop all"),
+                                                                      this, SLOT(mainTabStopAllProfiles()));
+    toolBarActions[QString("profileLoad")] = actionToolBar->addAction(QIcon::fromTheme(QString("document-open")),
+                                                                      QApplication::translate("MainWindow", "Load"),
+                                                                      this, SLOT(profileTabLoadProfile()));
+    toolBarActions[QString("profileSave")] = actionToolBar->addAction(QIcon::fromTheme(QString("document-save")),
+                                                                      QApplication::translate("MainWindow", "Save"),
+                                                                      this, SLOT(profileTabCreateProfile()));
+    toolBarActions[QString("wifiStart")] = actionToolBar->addAction(QIcon::fromTheme(QString("system-run")),
+                                                                    QApplication::translate("MainWindow", "Start"),
+                                                                    this, SLOT(wifiTabStart()));
+    actionToolBar->addSeparator();
+    toolBarActions[QString("mainEdit")] = actionToolBar->addAction(QIcon::fromTheme(QString("edit")),
+                                                                   QApplication::translate("MainWindow", "Edit"),
+                                                                   this, SLOT(mainTabEditProfile()));
+    toolBarActions[QString("mainRemove")] = actionToolBar->addAction(QIcon::fromTheme(QString("edit-delete")),
+                                                                     QApplication::translate("MainWindow", "Remove"),
+                                                                     this, SLOT(mainTabRemoveProfile()));
+    toolBarActions[QString("profileRemove")] = actionToolBar->addAction(QIcon::fromTheme(QString("edit-delete")),
+                                                                        QApplication::translate("MainWindow", "Remove"),
+                                                                        this, SLOT(profileTabRemoveProfile()));
+    ui->verticalLayout_4->insertWidget(0, actionToolBar);
+    actionToolBar->setHidden(true);
+
+    helpToolBar = new QToolBar(this);
+    helpToolBar->setToolButtonStyle(Qt::ToolButtonFollowStyle);
+    toolBarActions[QString("security")] = helpToolBar->addAction(QIcon::fromTheme(QString("security-medium")),
+                                                                 QApplication::translate("MainWindow", "Security"),
+                                                                 this, SLOT(showSecurityNotes()));
+    toolBarActions[QString("api")] = helpToolBar->addAction(QApplication::translate("MainWindow", "DBus API"),
+                                                            this, SLOT(showApi()));
+    toolBarActions[QString("library")] = helpToolBar->addAction(QApplication::translate("MainWindow", "Library"),
+                                                                this, SLOT(showLibrary()));
+    helpToolBar->addSeparator();
+    toolBarActions[QString("report")] = helpToolBar->addAction(QIcon::fromTheme(QString("tools-report-bug")),
+                                                               QApplication::translate("MainWindow", "Report a bug"),
+                                                               this, SLOT(reportABug()));
+    toolBarActions[QString("about")] = helpToolBar->addAction(QIcon::fromTheme(QString("help-about")),
+                                                              QApplication::translate("MainWindow", "About"),
+                                                              this, SLOT(showAboutWindow()));
+    ui->verticalLayout_4->insertWidget(0, helpToolBar);
+    helpToolBar->setHidden(true);
+
+    toolBarActions[QString("menu")]->trigger();
 }
 
 
@@ -494,8 +568,25 @@ void MainWindow::deleteObjects()
     if (errorWin != nullptr) delete errorWin;
     if (netctlAutoWin != nullptr) delete netctlAutoWin;
     if (settingsWin != nullptr) delete settingsWin;
+    if (actionToolBar != nullptr) {
+        actionToolBar->clear();
+        delete actionToolBar;
+    }
+    if (helpToolBar != nullptr) {
+        helpToolBar->clear();
+        delete helpToolBar;
+    }
+    if (mainToolBar != nullptr) {
+        mainToolBar->clear();
+        delete mainToolBar;
+        delete appShortcuts[QString("settingsShortcut")];
+        delete appShortcuts[QString("quitShortcut")];
+    }
     if (trayIcon != nullptr) delete trayIcon;
-    if (ui != nullptr) delete ui;
+    if (ui != nullptr) {
+        ui->menuBar->clear();
+        delete ui;
+    }
 }
 
 

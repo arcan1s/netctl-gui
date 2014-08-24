@@ -20,7 +20,9 @@
 
 #include <QApplication>
 #include <QMainWindow>
+#include <QShortcut>
 #include <QTableWidgetItem>
+#include <QToolBar>
 
 #include <netctlgui/netctlgui.h>
 
@@ -103,6 +105,7 @@ private slots:
     void updateMenuMain();
     void updateMenuProfile();
     void updateMenuWifi();
+    void updateToolBars();
     // tab update slots
     void updateMainTab();
     void updateProfileTab();
@@ -117,7 +120,6 @@ private slots:
     void mainTabStartProfile();
     void mainTabStopAllProfiles();
     void mainTabSwitchToProfile();
-    void mainTabRefreshButtons(QTableWidgetItem *current, QTableWidgetItem *previous);
     // profile tab slots
     void profileTabChangeState(const QString current);
     void profileTabClear();
@@ -128,11 +130,15 @@ private slots:
     void wifiTabContextualMenu(const QPoint &pos);
     void wifiTabSetEnabled(const bool state);
     void wifiTabStart();
-    void wifiTabRefreshButtons(QTableWidgetItem *current, QTableWidgetItem *previous);
 
 private:
     // ui
     TrayIcon *trayIcon = nullptr;
+    QMap<QString, QShortcut *> appShortcuts;
+    QMap<QString, QAction *> toolBarActions;
+    QToolBar *actionToolBar = nullptr;
+    QToolBar *helpToolBar = nullptr;
+    QToolBar *mainToolBar = nullptr;
     Ui::MainWindow *ui = nullptr;
     AboutWindow *aboutWin = nullptr;
     ErrorWindow *errorWin = nullptr;
@@ -160,6 +166,7 @@ private:
     void createActions();
     void createDBusSession();
     void createObjects();
+    void createToolBars();
     void deleteObjects();
     void keyPressEvent(QKeyEvent *pressedKey);
     QString configPath;

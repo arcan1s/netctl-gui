@@ -61,22 +61,22 @@ void MainWindow::setMenuActionsShown(const bool state)
     if (debug) qDebug() << PDEBUG << ":" << "State" << state;
 
     // main
-    ui->actionMainEdit->setVisible(state);
-    ui->actionMainEnable->setVisible(state);
-    ui->actionMainRefresh->setVisible(state);
-    ui->actionMainRemove->setVisible(state);
-    ui->actionMainRestart->setVisible(state);
-    ui->actionMainStart->setVisible(state);
-    ui->actionMainStopAll->setVisible(state);
-    ui->actionMainSwitch->setVisible(state);
+    toolBarActions[QString("mainRefresh")]->setVisible(state);
+    toolBarActions[QString("mainStart")]->setVisible(state);
+    toolBarActions[QString("mainSwitch")]->setVisible(state);
+    toolBarActions[QString("mainRestart")]->setVisible(state);
+    toolBarActions[QString("mainEnable")]->setVisible(state);
+    toolBarActions[QString("mainStopAll")]->setVisible(state);
+    toolBarActions[QString("mainEdit")]->setVisible(state);
+    toolBarActions[QString("mainRemove")]->setVisible(state);
     // profile
-    ui->actionProfileClear->setVisible(state);
-    ui->actionProfileLoad->setVisible(state);
-    ui->actionProfileRemove->setVisible(state);
-    ui->actionProfileSave->setVisible(state);
+    toolBarActions[QString("profileClear")]->setVisible(state);
+    toolBarActions[QString("profileLoad")]->setVisible(state);
+    toolBarActions[QString("profileSave")]->setVisible(state);
+    toolBarActions[QString("profileRemove")]->setVisible(state);
     // wifi
-    ui->actionWifiRefresh->setVisible(state);
-    ui->actionWifiStart->setVisible(state);
+    toolBarActions[QString("wifiRefresh")]->setVisible(state);
+    toolBarActions[QString("wifiStart")]->setVisible(state);
 }
 
 
@@ -84,33 +84,33 @@ void MainWindow::updateMenuMain()
 {
     if (debug) qDebug() << PDEBUG;
 
-    ui->actionMainRefresh->setVisible(true);
+    toolBarActions[QString("mainRefresh")]->setVisible(true);
     if (ui->tableWidget_main->currentItem() == 0) return;
     if (!ui->tableWidget_main->item(ui->tableWidget_main->currentItem()->row(), 2)->text().isEmpty()) {
-        ui->actionMainRestart->setVisible(true);
-        ui->actionMainStart->setText(QApplication::translate("MainWindow", "Stop profile"));
-        ui->actionMainStart->setIcon(QIcon::fromTheme("process-stop"));
+        toolBarActions[QString("mainRestart")]->setVisible(true);
+        toolBarActions[QString("mainStart")]->setText(QApplication::translate("MainWindow", "Stop"));
+        toolBarActions[QString("mainStart")]->setIcon(QIcon::fromTheme("process-stop"));
     } else {
-        ui->actionMainStart->setText(QApplication::translate("MainWindow", "Start profile"));
-        ui->actionMainStart->setIcon(QIcon::fromTheme("system-run"));
+        toolBarActions[QString("mainStart")]->setText(QApplication::translate("MainWindow", "Start"));
+        toolBarActions[QString("mainStart")]->setIcon(QIcon::fromTheme("system-run"));
     }
     if (!mainTabGetActiveProfiles().isEmpty()) {
         if (!mainTabGetActiveProfiles()
                 .contains(ui->tableWidget_main->item(ui->tableWidget_main->currentItem()->row(), 0)->text()))
-            ui->actionMainSwitch->setVisible(true);
-        ui->actionMainStopAll->setVisible(true);
+            toolBarActions[QString("mainSwitch")]->setVisible(true);
+        toolBarActions[QString("mainStopAll")]->setVisible(true);
     }
-    ui->actionMainStart->setVisible(true);
+    toolBarActions[QString("mainStart")]->setVisible(true);
     if (!ui->tableWidget_main->item(ui->tableWidget_main->currentItem()->row(), 3)->text().isEmpty()) {
-        ui->actionMainEnable->setText(QApplication::translate("MainWindow", "Disable profile"));
-        ui->actionMainEnable->setIcon(QIcon::fromTheme("edit-remove"));
+        toolBarActions[QString("mainEnable")]->setText(QApplication::translate("MainWindow", "Disable"));
+        toolBarActions[QString("mainEnable")]->setIcon(QIcon::fromTheme("edit-remove"));
     } else {
-        ui->actionMainEnable->setText(QApplication::translate("MainWindow", "Enable profile"));
-        ui->actionMainEnable->setIcon(QIcon::fromTheme("edit-add"));
+        toolBarActions[QString("mainEnable")]->setText(QApplication::translate("MainWindow", "Enable"));
+        toolBarActions[QString("mainEnable")]->setIcon(QIcon::fromTheme("edit-add"));
     }
-    ui->actionMainEnable->setVisible(true);
-    ui->actionMainEdit->setVisible(true);
-    ui->actionMainRemove->setVisible(true);
+    toolBarActions[QString("mainEnable")]->setVisible(true);
+    toolBarActions[QString("mainEdit")]->setVisible(true);
+    toolBarActions[QString("mainRemove")]->setVisible(true);
 }
 
 
@@ -118,15 +118,15 @@ void MainWindow::updateMenuProfile()
 {
     if (debug) qDebug() << PDEBUG;
 
-    ui->actionProfileClear->setVisible(true);
+    toolBarActions[QString("profileClear")]->setVisible(true);
     if (ui->comboBox_profile->currentText().isEmpty()) {
-        ui->actionProfileLoad->setVisible(false);
-        ui->actionProfileRemove->setVisible(false);
-        ui->actionProfileSave->setVisible(false);
+        toolBarActions[QString("profileLoad")]->setVisible(false);
+        toolBarActions[QString("profileRemove")]->setVisible(false);
+        toolBarActions[QString("profileSave")]->setVisible(false);
     } else {
-        ui->actionProfileLoad->setVisible(true);
-        ui->actionProfileRemove->setVisible(true);
-        ui->actionProfileSave->setVisible(true);
+        toolBarActions[QString("profileLoad")]->setVisible(true);
+        toolBarActions[QString("profileRemove")]->setVisible(true);
+        toolBarActions[QString("profileSave")]->setVisible(true);
     }
 }
 
@@ -135,21 +135,43 @@ void MainWindow::updateMenuWifi()
 {
     if (debug) qDebug() << PDEBUG;
 
-    ui->actionWifiRefresh->setVisible(true);
+    toolBarActions[QString("wifiRefresh")]->setVisible(true);
     if (ui->tableWidget_wifi->currentItem() == 0) return;
     if (!ui->tableWidget_wifi->item(ui->tableWidget_wifi->currentItem()->row(), 4)->text().isEmpty()) {
         if (!ui->tableWidget_wifi->item(ui->tableWidget_wifi->currentItem()->row(), 3)->text().isEmpty()) {
-            ui->actionWifiStart->setText(QApplication::translate("MainWindow", "Stop WiFi"));
-            ui->actionWifiStart->setIcon(QIcon::fromTheme("process-stop"));
+            toolBarActions[QString("wifiStart")]->setText(QApplication::translate("MainWindow", "Stop"));
+            toolBarActions[QString("wifiStart")]->setIcon(QIcon::fromTheme("process-stop"));
         } else {
-            ui->actionWifiStart->setText(QApplication::translate("MainWindow", "Start WiFi"));
-            ui->actionWifiStart->setIcon(QIcon::fromTheme("system-run"));
+            toolBarActions[QString("wifiStart")]->setText(QApplication::translate("MainWindow", "Start"));
+            toolBarActions[QString("wifiStart")]->setIcon(QIcon::fromTheme("system-run"));
         }
     } else {
-        ui->actionWifiStart->setText(QApplication::translate("MainWindow", "Start WiFi"));
-        ui->actionWifiStart->setIcon(QIcon::fromTheme("system-run"));
+        toolBarActions[QString("wifiStart")]->setText(QApplication::translate("MainWindow", "Start"));
+        toolBarActions[QString("wifiStart")]->setIcon(QIcon::fromTheme("system-run"));
     }
-    ui->actionWifiStart->setVisible(true);
+    toolBarActions[QString("wifiStart")]->setVisible(true);
+}
+
+
+void MainWindow::updateToolBars()
+{
+    if (debug) qDebug() << PDEBUG;
+
+    if (sender() == toolBarActions[QString("menu")]) {
+        mainToolBar->setHidden(false);
+        actionToolBar->setHidden(true);
+        helpToolBar->setHidden(true);
+    } else if (sender() == toolBarActions[QString("actions")]) {
+        mainToolBar->setHidden(true);
+        actionToolBar->setHidden(false);
+        helpToolBar->setHidden(true);
+        updateMenu();
+    } else if (sender() == toolBarActions[QString("help")]) {
+        mainToolBar->setHidden(true);
+        actionToolBar->setHidden(true);
+        helpToolBar->setHidden(false);
+
+    }
 }
 
 
@@ -540,32 +562,6 @@ void MainWindow::mainTabSwitchToProfile()
         ui->statusBar->showMessage(QApplication::translate("MainWindow", "Error"));
 
     updateMainTab();
-}
-
-
-void MainWindow::mainTabRefreshButtons(QTableWidgetItem *current, QTableWidgetItem *previous)
-{
-    Q_UNUSED(previous);
-    if (debug) qDebug() << PDEBUG;
-    if (!checkExternalApps(QString("netctl")))
-        return errorWin->showWindow(1, QString(PDEBUG));
-    if (current == 0) {
-        ui->pushButton_mainRestart->setDisabled(true);
-        ui->pushButton_mainStart->setDisabled(true);
-        return;
-    }
-
-    ui->pushButton_mainStart->setEnabled(true);
-
-    if (!ui->tableWidget_main->item(current->row(), 2)->text().isEmpty()) {
-        ui->pushButton_mainRestart->setEnabled(true);
-        ui->pushButton_mainStart->setText(QApplication::translate("MainWindow", "Stop"));
-        ui->pushButton_mainStart->setIcon(QIcon::fromTheme("process-stop"));
-    } else {
-        ui->pushButton_mainRestart->setDisabled(true);
-        ui->pushButton_mainStart->setText(QApplication::translate("MainWindow", "Start"));
-        ui->pushButton_mainStart->setIcon(QIcon::fromTheme("system-run"));
-    }
 }
 
 
@@ -1042,12 +1038,9 @@ void MainWindow::wifiTabSetEnabled(const bool state)
 
     if (state) {
         ui->tableWidget_wifi->show();
-        ui->pushButton_wifiRefresh->setEnabled(true);
         ui->label_wifi->hide();
     } else {
         ui->tableWidget_wifi->hide();
-        ui->pushButton_wifiRefresh->setDisabled(true);
-        ui->pushButton_wifiStart->setDisabled(true);
         ui->label_wifi->show();
     }
 }
@@ -1124,35 +1117,4 @@ void MainWindow::wifiTabStart()
     }
 
     updateWifiTab();
-}
-
-
-void MainWindow::wifiTabRefreshButtons(QTableWidgetItem *current, QTableWidgetItem *previous)
-{
-    Q_UNUSED(previous);
-    if (debug) qDebug() << PDEBUG;
-    if (!checkExternalApps(QString("wpasup")))
-        return errorWin->showWindow(1, QString(PDEBUG));
-    if (current == 0) {
-        ui->pushButton_wifiStart->setDisabled(true);
-        return;
-    }
-    if (ui->tableWidget_wifi->item(current->row(), 0)->text() == QString("<hidden>")) {
-        ui->pushButton_wifiStart->setDisabled(true);
-        return;
-    }
-
-    ui->pushButton_wifiStart->setEnabled(true);
-    if (!ui->tableWidget_wifi->item(current->row(), 4)->text().isEmpty()) {
-        if (!ui->tableWidget_wifi->item(current->row(), 3)->text().isEmpty()) {
-            ui->pushButton_wifiStart->setText(QApplication::translate("MainWindow", "Stop"));
-            ui->pushButton_wifiStart->setIcon(QIcon::fromTheme("process-stop"));
-        } else {
-            ui->pushButton_wifiStart->setText(QApplication::translate("MainWindow", "Start"));
-            ui->pushButton_wifiStart->setIcon(QIcon::fromTheme("system-run"));
-        }
-    } else {
-        ui->pushButton_wifiStart->setText(QApplication::translate("MainWindow", "Start"));
-        ui->pushButton_wifiStart->setIcon(QIcon::fromTheme("system-run"));
-    }
 }

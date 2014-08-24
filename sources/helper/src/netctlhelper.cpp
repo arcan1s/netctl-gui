@@ -122,6 +122,7 @@ QMap<QString, QString> NetctlHelper::getDefault()
     settings[QString("PREFERED_IFACE")] = QString("");
     settings[QString("PROFILE_DIR")] = QString("/etc/netctl/");
     settings[QString("RFKILL_DIR")] = QString("/sys/class/rfkill/");
+    settings[QString("SKIPCOMPONENTS")] = QString("false");
     settings[QString("STARTTOTRAY")] = QString("false");
     settings[QString("SUDO_PATH")] = QString("/usr/bin/kdesu");
     settings[QString("SYSTEMCTL_PATH")] = QString("/usr/bin/systemctl");

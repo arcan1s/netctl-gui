@@ -263,6 +263,10 @@ QMap<QString, QString> SettingsWindow::readSettings()
     settings[QString("PREFERED_IFACE")] = ui->lineEdit_interface->text();
     settings[QString("PROFILE_DIR")] = ui->lineEdit_profilePath->text();
     settings[QString("RFKILL_DIR")] = ui->lineEdit_rfkill->text();
+    if (ui->checkBox_components->checkState() == 2)
+        settings[QString("SKIPCOMPONENTS")] = QString("true");
+    else
+        settings[QString("SKIPCOMPONENTS")] = QString("false");
     if (ui->checkBox_startToTray->checkState() == 2)
         settings[QString("STARTTOTRAY")] = QString("true");
     else
@@ -319,6 +323,10 @@ void SettingsWindow::setSettings(const QMap<QString, QString> settings)
     ui->lineEdit_interface->setText(settings[QString("PREFERED_IFACE")]);
     ui->lineEdit_profilePath->setText(settings[QString("PROFILE_DIR")]);
     ui->lineEdit_rfkill->setText(settings[QString("RFKILL_DIR")]);
+    if (settings[QString("SKIPCOMPONENTS")] == QString("true"))
+        ui->checkBox_components->setCheckState(Qt::Checked);
+    else
+        ui->checkBox_components->setCheckState(Qt::Unchecked);
     if (settings[QString("STARTTOTRAY")] == QString("true"))
         ui->checkBox_startToTray->setCheckState(Qt::Checked);
     else
@@ -362,6 +370,7 @@ QMap<QString, QString> SettingsWindow::getDefault()
     settings[QString("PREFERED_IFACE")] = QString("");
     settings[QString("PROFILE_DIR")] = QString("/etc/netctl/");
     settings[QString("RFKILL_DIR")] = QString("/sys/class/rfkill/");
+    settings[QString("SKIPCOMPONENTS")] = QString("false");
     settings[QString("STARTTOTRAY")] = QString("false");
     settings[QString("SUDO_PATH")] = QString("/usr/bin/kdesu");
     settings[QString("SYSTEMCTL_PATH")] = QString("/usr/bin/systemctl");

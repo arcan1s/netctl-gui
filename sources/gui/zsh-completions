@@ -55,6 +55,7 @@ _netctl_gui_settings=(
     'PREFERED_IFACE'
     'PROFILE_DIR'
     'RFKILL_DIR'
+    'SKIPCOMPONENTS'
     'STARTTOTRAY'
     'SUDO_PATH'
     'SYSTEMCTL_PATH'
