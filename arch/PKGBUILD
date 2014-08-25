@@ -53,8 +53,7 @@ build() {
 package_kdeplasma-applets-netctl-gui() {
   pkgdesc="A plasmoid, which interacts with netctl. A part of netctl-gui"
   depends=('netctl' 'kdebase-workspace')
-  optdepends=('kdebase-runtime: sudo support'
-              'netctlgui-helper: DBus helper daemon'
+  optdepends=('netctlgui-helper: DBus helper daemon'
               'netctlgui-helper-qt4: DBus helper daemon'
               'netctl-gui: graphical front-end'
               'netctl-gui-qt4: graphical front-end'
