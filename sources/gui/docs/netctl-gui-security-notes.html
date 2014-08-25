@@ -46,6 +46,16 @@
 
 <p>If library will be initialized with <code>FORCE_SUDO=true</code> than it will use <code>sudo</code> command (which can be transferred to the library by <code>SUDO_PATH</code> option). Otherwise it will try to set UID of children processes to 0. Please note that <code>sudo</code> command and UID setting will be used only for those commands which require it.</p>
 
+<p>Profiles reading should be described. Since profiles has shell-like syntax some variables (which provide an array) cannot be reading by usual ways. To do it library uses bash:</p>
+<pre>
+# define system variables
+env -i bash -c "set"
+# get profile and system variable list
+env -i bash -c "source '&lt;profile&gt;'; set"
+# get profile variables
+env -i bash -c "source '&lt;profile&gt;'; for i in ${!&lt;key&gt;[@]}; do echo ${&lt;key&gt;[$i]}; done"
+</pre>
+
 <h2><a href="#helper" class="anchor" id="helper"></a>Helper</h2>
 <p>First of all the helper <b>does not interact</b> with netctl directly, it uses the library to do it. So all library security notes are applicable here. To start the helper and to create DBus services user must be in <code>network</code> group by default (or must be root). But you may change it by editing <code>$DBUS_SYSTEMCONF_PATH/org.netctlgui.helper.conf</code> policy file (<code>/etc/dbus-1/system.d/org.netctlgui.helper.conf</code> by default). Please refer to DBus documentation to do it.</p>
 
