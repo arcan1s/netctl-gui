@@ -19,13 +19,13 @@
   </head>
   <body>
 
-<h2><a href="#description" class="anchor" name="description"></a>Description</h2>
+<h2><a href="#description" class="anchor" id="description"></a>Description</h2>
 <p></p>
 
-<h2><a href="#arch" class="anchor" name="arch"></a>Architecture</h2>
+<h2><a href="#arch" class="anchor" id="arch"></a>Architecture</h2>
 <img src="architecture.png" alt="architecture" align="middle">
 
-<h2><a href="#library" class="anchor" name="library"></a>Library</h2>
+<h2><a href="#library" class="anchor" id="library"></a>Library</h2>
 <p>According to <a href="#arch">the scheme<a> the library gets information from netctl and can control it. Also it provides some additional functions such as a profile creation and removal and access to wpa_supplicant functions. Some functions do not require additional permissions, but other ones do it. All dynamic arguments including profile names and paths are in double quotes to avoid white spaces problem. The functions which <b>require</b> root privileges are:</p>
 <ul>
   <li>Netctl control module</li>
@@ -46,17 +46,17 @@
 
 <p>If library will be initialized with <code>FORCE_SUDO=true</code> than it will use <code>sudo</code> command (which can be transferred to the library by <code>SUDO_PATH</code> option). Otherwise it will try to set UID of children processes to 0. Please note that <code>sudo</code> command and UID setting will be used only for those commands which require it.</p>
 
-<h2><a href="#helper" class="anchor" name="helper"></a>Helper</h2>
+<h2><a href="#helper" class="anchor" id="helper"></a>Helper</h2>
 <p>First of all the helper <b>does not interact</b> with netctl directly, it uses the library to do it. So all library security notes are applicable here. To start the helper and to create DBus services user must be in <code>network</code> group by default (or must be root). But you may change it by editing <code>$DBUS_SYSTEMCONF_PATH/org.netctlgui.helper.conf</code> policy file (<code>/etc/dbus-1/system.d/org.netctlgui.helper.conf</code> by default). Please refer to DBus documentation to do it.</p>
 
 <p>By default <code>netctgui-helper</code> binary has capabilities to set UID to the children processes (<code>CAP_SETUID</code>). If you do not want to get these capabilities you may use <code>-DUSE_CAPABILITIES</code> cmake flag. Please refer to <code>man 7 capabilities</code> for more details.</p>
 
 <p>There are two configuration files <code>$HOME/.config/netctl-gui.conf</code> and <code>/etc/netctl-gui.conf</code>. The first one is a user configuration and the second one is a system-wide. Please note that by default user configuration has higher priority than system-wide, but running with <code>--system</code> flag user configuration will not be reading. The helper and GUI configurations are the same (although some keys aren't needed).</p>
 
-<h2><a href="#gui" class="anchor" name="gui"></a>Graphical interface</h2>
+<h2><a href="#gui" class="anchor" id="gui"></a>Graphical interface</h2>
 <p>Graphical interface may interact with netctl over <a href="#helper">DBus (the helper)</a> and over <a href="#library">the library</a>. Please refer to their notes to any additional information. If user uses helper he should have permissions to run it.</p>
 
-<h2><a href="#kde" class="anchor" name="kde"></a>KDE components</h2>
+<h2><a href="#kde" class="anchor" id="kde"></a>KDE components</h2>
 <p>There are two netctl-based commands which are run from the DataEngine</p>
 <ul>
   <li><code>&lt;cmd&gt; list</code></li>
@@ -79,7 +79,7 @@
 
 <p>The other way is to use DBus communication with <a href="#helper">the helper</a>. In this case user should have rights to start the helper.</p>
 
-<h2><a href="#links" class="anchor" name="links"></a>External links</h2>
+<h2><a href="#links" class="anchor" id="links"></a>External links</h2>
 <ul>
   <li><a href="http://arcanis.name/projects/netctl-gui/">Homepage</a></li>
   <li><a href="https://github.com/arcan1s/netctl-gui">Repository</a></li>
