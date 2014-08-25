@@ -1,47 +1,55 @@
+<!doctype html>
 <html>
   <head>
     <meta http-equiv="content-type" content="text/html; charset=utf-8">
     <title>netctl-gui secutiry notes</title>
     <style type="text/css">
-
+img {
+  display: block;
+  margin: 0 auto;
+}
+small {
+  font-size: 70%;
+}
     </style>
-      <h1>netctl-gui security notes</h1>
-      <h3>Project version : @PROJECT_VERSION@</h3>
-      <ol>
-        <li><a href="#description">Description</a></li>
-        <li><a href="#arch">Architecture</a></li>
-        <li><a href="#library">Library</a></li>
-        <li><a href="#helper">Helper</a></li>
-        <li><a href="#gui">Graphical interface</a></li>
-        <li><a href="#kde">KDE components</a></li>
-        <li><a href="#links">External links</a></li>
-      </ol>
   </head>
   <body>
+
+<h1>netctl-gui security notes</h1>
+<h3>Project version : @PROJECT_VERSION@</h3>
+<ol>
+  <li><a href="#description">Description</a></li>
+  <li><a href="#arch">Architecture</a></li>
+  <li><a href="#library">Library</a></li>
+  <li><a href="#helper">Helper</a></li>
+  <li><a href="#gui">Graphical interface</a></li>
+  <li><a href="#kde">KDE components</a></li>
+  <li><a href="#links">External links</a></li>
+</ol>
 
 <h2><a href="#description" class="anchor" id="description"></a>Description</h2>
 <p></p>
 
 <h2><a href="#arch" class="anchor" id="arch"></a>Architecture</h2>
-<img src="architecture.png" alt="architecture" align="middle">
+<img src="architecture.png" alt="architecture">
 
 <h2><a href="#library" class="anchor" id="library"></a>Library</h2>
-<p>According to <a href="#arch">the scheme<a> the library gets information from netctl and can control it. Also it provides some additional functions such as a profile creation and removal and access to wpa_supplicant functions. Some functions do not require additional permissions, but other ones do it. All dynamic arguments including profile names and paths are in double quotes to avoid white spaces problem. The functions which <b>require</b> root privileges are:</p>
+<p>According to <a href="#arch">the scheme</a> the library gets information from netctl and can control it. Also it provides some additional functions such as a profile creation and removal and access to wpa_supplicant functions. Some functions do not require additional permissions, but other ones do it. All dynamic arguments including profile names and paths are in double quotes to avoid white spaces problem. The functions which <b>require</b> root privileges are:</p>
 <ul>
   <li>Netctl control module</li>
-  <ul>
+  <li><ul>
     <li><code>netctl stop-all|start|stop|restart|switch-to|enable|disable|reenable &lt;profile&gt;</code>. They are commands which provide a general control to netctl.</li>
     <li><code>systemctl start|restart|enable &lt;netctl-auto@service&gt;</code>. They are commands which provide ability to control netctl-auto systemd service.</li>
-  </ul>
+  </ul></li>
   <li>Netctl profiles module</li>
-  <ul>
+  <li><ul>
     <li>Copying of a temporary profile from home directory to netctl profiles directory. <code>cp</code> command is used for it.</li>
     <li>Removal of a profile. <code>rm</code> command is used for it.</li>
-  </ul>
+  </ul></li>
   <li>WiFi module</li>
-  <ul>
+  <li><ul>
     <li>This module require root privileges to start <code>wpa_supplicant</code> only. For the futher interaction user must be in <code>CTRL_GROUP</code>.</li>
-  </ul>
+  </ul></li>
 </ul>
 
 <p>If library will be initialized with <code>FORCE_SUDO=true</code> than it will use <code>sudo</code> command (which can be transferred to the library by <code>SUDO_PATH</code> option). Otherwise it will try to set UID of children processes to 0. Please note that <code>sudo</code> command and UID setting will be used only for those commands which require it.</p>
@@ -96,10 +104,10 @@ env -i bash -c "source '&lt;profile&gt;'; for i in &#36;{!&lt;key&gt;[@]}; do ec
   <li><a href="https://github.com/arcan1s/netctl-gui/issues">Bugtracker</a></li>
 </ul>
 
-<p align="center" style="font-size: 70%">
+<small>
   &copy; 2014-@CURRENT_YEAR@ <a href="mailto:@PROJECT_CONTACT@">@PROJECT_AUTHOR@</a><br>
   This software is licensed under @PROJECT_LICENSE@
-</p>
+</small>
 
   </body>
 </html>
