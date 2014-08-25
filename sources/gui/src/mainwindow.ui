@@ -14,7 +14,7 @@
    <string>Netctl GUI</string>
   </property>
   <widget class="QWidget" name="centralWidget">
-   <layout class="QVBoxLayout" name="verticalLayout_4">
+   <layout class="QVBoxLayout" name="centralLayout">
     <item>
      <widget class="QTabWidget" name="tabWidget">
       <property name="currentIndex">

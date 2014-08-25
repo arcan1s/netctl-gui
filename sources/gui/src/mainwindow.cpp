@@ -467,7 +467,7 @@ void MainWindow::createToolBars()
                                                              this, SLOT(closeMainWindow()));
     appShortcuts[QString("quitShortcut")] = new QShortcut(QKeySequence(QApplication::translate("MainWindow", "Ctrl+Q")),
                                                           this, SLOT(closeMainWindow()));
-    ui->verticalLayout_4->insertWidget(0, mainToolBar);
+    ui->centralLayout->insertWidget(0, mainToolBar);
     mainToolBar->setHidden(true);
 
     actionToolBar = new QToolBar(this);
@@ -516,7 +516,7 @@ void MainWindow::createToolBars()
     toolBarActions[QString("profileRemove")] = actionToolBar->addAction(QIcon::fromTheme(QString("edit-delete")),
                                                                         QApplication::translate("MainWindow", "Remove"),
                                                                         this, SLOT(profileTabRemoveProfile()));
-    ui->verticalLayout_4->insertWidget(0, actionToolBar);
+    ui->centralLayout->insertWidget(0, actionToolBar);
     actionToolBar->setHidden(true);
 
     helpToolBar = new QToolBar(this);
@@ -535,7 +535,7 @@ void MainWindow::createToolBars()
     toolBarActions[QString("about")] = helpToolBar->addAction(QIcon::fromTheme(QString("help-about")),
                                                               QApplication::translate("MainWindow", "About"),
                                                               this, SLOT(showAboutWindow()));
-    ui->verticalLayout_4->insertWidget(0, helpToolBar);
+    ui->centralLayout->insertWidget(0, helpToolBar);
     helpToolBar->setHidden(true);
 
     toolBarActions[QString("menu")]->trigger();
