@@ -11,7 +11,7 @@ Qt4/Qt5 graphical interface for netctl. It may work with profiles and may create
 Configuration
 -------------
 
-It is recommended to use graphical interface for widget and DataEngine configuration. Configuration files are:
+It is recommended to use graphical interface for configuration. Configuration files are:
 
 * `$HOME/.config/netctl-gui.conf` - GUI/helper user configuration
 * `/etc/netctl-gui.conf` - helper system-wide configuration
@@ -61,10 +61,10 @@ Installation
         * `-DBUILD_HELPER:BOOL=0` - do not build helper daemon
         * `-DBUILD_LIBRARY:BOOL=0` - do not build library
         * `-DBUILD_PLASMOID:BOOL=0` - do not build Plasmoid
-    * additional components
+    * additional components:
         * `-DBUILD_DOCS:BOOL=0` - do not build developer documentation
         * `-DBUILD_TEST:BOOL=1` - build auto tests for the library and the helper
-    * project properties
+    * project properties:
         * `-DDBUS_SYSTEMCONF_PATH=/etc/dbus-1/system.d/` - path to dbus system configuration files
         * `-DSYSTEMD_SERVICE_PATH=lib/systemd/system` - path to systemd services
         * `-DUSE_CAPABILITIES:BOOL=0` - do not use setcap to get privileges to the helper

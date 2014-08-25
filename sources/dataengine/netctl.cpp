@@ -220,6 +220,7 @@ QString Netctl::getIntIp(const QAbstractSocket::NetworkLayerProtocol protocol)
     QList<QHostAddress> rawList = QNetworkInterface::allAddresses();
     for (int i=0; i<rawList.count(); i++) {
         if(rawList[i] == QHostAddress(QHostAddress::LocalHost)) continue;
+        if(rawList[i] == QHostAddress(QHostAddress::LocalHostIPv6)) continue;
         if (rawList[i].protocol() == protocol) {
             intIp = rawList[i].toString();
             break;
