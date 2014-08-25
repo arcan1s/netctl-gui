@@ -24,7 +24,7 @@ configure_file (${SUBPROJECT_MAN_IN} ${CMAKE_CURRENT_BINARY_DIR}/${SUBPROJECT_MA
 configure_file (${SUBPROJECT_MAN5_IN} ${CMAKE_CURRENT_BINARY_DIR}/${SUBPROJECT_MAN5})
 
 install (FILES org.netctlgui.helper.conf DESTINATION ${DBUS_SYSTEMCONF_PATH})
-install (FILES netctlgui-helper.conf DESTINATION /etc)
+install (FILES netctl-gui.conf DESTINATION /etc)
 install (FILES netctlgui-helper.service DESTINATION ${SYSTEMD_SERVICE_PATH})
 install (FILES ${CMAKE_CURRENT_BINARY_DIR}/${SUBPROJECT_MAN} DESTINATION share/man/man1/)
 install (FILES ${CMAKE_CURRENT_BINARY_DIR}/${SUBPROJECT_MAN5} DESTINATION share/man/man5/)

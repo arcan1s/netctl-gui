@@ -173,7 +173,7 @@ void NetctlHelper::updateConfiguration()
     if (debug) qDebug() << PDEBUG;
 
     deleteInterface();
-    configuration = getSettings(QString("/etc/netctlgui-helper.conf"));
+    configuration = getSettings(QString("/etc/netctl-gui.conf"));
     if (!system)
         configuration = getSettings(configPath, configuration);
     createInterface();
