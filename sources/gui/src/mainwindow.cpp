@@ -481,32 +481,38 @@ void MainWindow::createToolBars()
     toolBarActions[QString("wifiRefresh")] = actionToolBar->addAction(QIcon::fromTheme(QString("stock-refresh")),
                                                                       QApplication::translate("MainWindow", "Refresh"),
                                                                       this, SLOT(updateWifiTab()));
-    actionToolBar->addSeparator();
-    toolBarActions[QString("mainStart")] = actionToolBar->addAction(QIcon::fromTheme(QString("system-run")),
-                                                                    QApplication::translate("MainWindow", "Start"),
-                                                                    this, SLOT(mainTabStartProfile()));
-    toolBarActions[QString("mainSwitch")] = actionToolBar->addAction(QIcon::fromTheme(QString("system-run")),
-                                                                     QApplication::translate("MainWindow", "Switch"),
-                                                                     this, SLOT(mainTabSwitchToProfile()));
-    toolBarActions[QString("mainRestart")] = actionToolBar->addAction(QIcon::fromTheme(QString("stock-refresh")),
-                                                                      QApplication::translate("MainWindow", "Restart"),
-                                                                      this, SLOT(mainTabRestartProfile()));
-    toolBarActions[QString("mainEnable")] = actionToolBar->addAction(QIcon::fromTheme(QString("edit-add")),
-                                                                     QApplication::translate("MainWindow", "Enable"),
-                                                                     this, SLOT(mainTabEnableProfile()));
-    toolBarActions[QString("mainStopAll")] = actionToolBar->addAction(QIcon::fromTheme(QString("process-stop")),
-                                                                      QApplication::translate("MainWindow", "Stop all"),
-                                                                      this, SLOT(mainTabStopAllProfiles()));
-    toolBarActions[QString("profileLoad")] = actionToolBar->addAction(QIcon::fromTheme(QString("document-open")),
-                                                                      QApplication::translate("MainWindow", "Load"),
-                                                                      this, SLOT(profileTabLoadProfile()));
-    toolBarActions[QString("profileSave")] = actionToolBar->addAction(QIcon::fromTheme(QString("document-save")),
-                                                                      QApplication::translate("MainWindow", "Save"),
-                                                                      this, SLOT(profileTabCreateProfile()));
-    toolBarActions[QString("wifiStart")] = actionToolBar->addAction(QIcon::fromTheme(QString("system-run")),
-                                                                    QApplication::translate("MainWindow", "Start"),
-                                                                    this, SLOT(wifiTabStart()));
-    actionToolBar->addSeparator();
+
+    actionMenu = new QToolButton(this);
+    actionMenu->setPopupMode(QToolButton::DelayedPopup);
+    actionMenu->setToolButtonStyle(Qt::ToolButtonFollowStyle);
+    QMenu *menu = new QMenu(actionMenu);
+    toolBarActions[QString("mainStart")] = menu->addAction(QIcon::fromTheme(QString("system-run")),
+                                                           QApplication::translate("MainWindow", "Start"),
+                                                           this, SLOT(mainTabStartProfile()));
+    toolBarActions[QString("mainSwitch")] = menu->addAction(QIcon::fromTheme(QString("system-run")),
+                                                            QApplication::translate("MainWindow", "Switch"),
+                                                            this, SLOT(mainTabSwitchToProfile()));
+    toolBarActions[QString("mainRestart")] = menu->addAction(QIcon::fromTheme(QString("stock-refresh")),
+                                                             QApplication::translate("MainWindow", "Restart"),
+                                                             this, SLOT(mainTabRestartProfile()));
+    toolBarActions[QString("mainEnable")] = menu->addAction(QIcon::fromTheme(QString("edit-add")),
+                                                            QApplication::translate("MainWindow", "Enable"),
+                                                            this, SLOT(mainTabEnableProfile()));
+    toolBarActions[QString("mainStopAll")] = menu->addAction(QIcon::fromTheme(QString("process-stop")),
+                                                             QApplication::translate("MainWindow", "Stop all"),
+                                                             this, SLOT(mainTabStopAllProfiles()));
+    toolBarActions[QString("profileLoad")] = menu->addAction(QIcon::fromTheme(QString("document-open")),
+                                                             QApplication::translate("MainWindow", "Load"),
+                                                             this, SLOT(profileTabLoadProfile()));
+    toolBarActions[QString("profileSave")] = menu->addAction(QIcon::fromTheme(QString("document-save")),
+                                                             QApplication::translate("MainWindow", "Save"),
+                                                             this, SLOT(profileTabCreateProfile()));
+    toolBarActions[QString("wifiStart")] = menu->addAction(QIcon::fromTheme(QString("system-run")),
+                                                           QApplication::translate("MainWindow", "Start"),
+                                                           this, SLOT(wifiTabStart()));
+    actionMenu->setMenu(menu);
+    actionToolBar->addWidget(actionMenu);
+
     toolBarActions[QString("mainEdit")] = actionToolBar->addAction(QIcon::fromTheme(QString("edit")),
                                                                    QApplication::translate("MainWindow", "Edit"),
                                                                    this, SLOT(mainTabEditProfile()));
@@ -568,6 +574,10 @@ void MainWindow::deleteObjects()
     if (errorWin != nullptr) delete errorWin;
     if (netctlAutoWin != nullptr) delete netctlAutoWin;
     if (settingsWin != nullptr) delete settingsWin;
+    if (actionMenu != nullptr) {
+        actionMenu->menu()->clear();
+        delete actionMenu;
+    }
     if (actionToolBar != nullptr) {
         actionToolBar->clear();
         delete actionToolBar;

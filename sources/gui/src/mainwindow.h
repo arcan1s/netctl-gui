@@ -23,6 +23,7 @@
 #include <QShortcut>
 #include <QTableWidgetItem>
 #include <QToolBar>
+#include <QToolButton>
 
 #include <netctlgui/netctlgui.h>
 
@@ -136,6 +137,7 @@ private:
     TrayIcon *trayIcon = nullptr;
     QMap<QString, QShortcut *> appShortcuts;
     QMap<QString, QAction *> toolBarActions;
+    QToolButton *actionMenu = nullptr;
     QToolBar *actionToolBar = nullptr;
     QToolBar *helpToolBar = nullptr;
     QToolBar *mainToolBar = nullptr;

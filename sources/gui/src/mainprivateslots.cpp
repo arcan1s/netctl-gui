@@ -84,6 +84,7 @@ void MainWindow::updateMenuMain()
 {
     if (debug) qDebug() << PDEBUG;
     setMenuActionsShown(false);
+    actionMenu->setDefaultAction(toolBarActions[QString("mainStart")]);
 
     toolBarActions[QString("mainRefresh")]->setVisible(true);
     if (ui->tableWidget_main->currentItem() == 0) return;
@@ -119,6 +120,7 @@ void MainWindow::updateMenuProfile()
 {
     if (debug) qDebug() << PDEBUG;
     setMenuActionsShown(false);
+    actionMenu->setDefaultAction(toolBarActions[QString("profileSave")]);
 
     toolBarActions[QString("profileClear")]->setVisible(true);
     if (ui->comboBox_profile->currentText().isEmpty()) {
@@ -137,6 +139,7 @@ void MainWindow::updateMenuWifi()
 {
     if (debug) qDebug() << PDEBUG;
     setMenuActionsShown(false);
+    actionMenu->setDefaultAction(toolBarActions[QString("wifiStart")]);
 
     toolBarActions[QString("wifiRefresh")]->setVisible(true);
     if (ui->tableWidget_wifi->currentItem() == 0) return;
