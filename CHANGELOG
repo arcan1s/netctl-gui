@@ -46,7 +46,7 @@ Ver.1.3.0
     - remove SleepThread class
     * rewrite to use [tasks](https://github.com/mhogomchungu/tasks) (see #7)
     * rename getInterfaceList() to getWirelessInterfaceList()
-    * change temporaty directory from $HOME/.cache to system one
+    * change temporary directory from $HOME/.cache to system one
 * plasmoid:
     + add 3rd party license information
     + allow plasmoid to use system tray
