@@ -11,7 +11,12 @@ Qt4/Qt5 graphical interface for netctl. It may work with profiles and may create
 Configuration
 -------------
 
-It is recommended to use graphical interface for widget and DataEngine configuration. All settings of GUI are stored in `$HOME/.config/netctl-gui.conf`. It is highly recommended to edit it from graphical interface.
+It is recommended to use graphical interface for widget and DataEngine configuration. Configuration files are:
+
+* `$HOME/.config/netctl-gui.conf` - GUI/helper user configuration
+* `/etc/netctl-gui.conf` - helper system-wide configuration
+* `$KDEHOME/share/config/netctl.conf` - DataEngine user configuration
+* `$KDESYSTEM/share/config/netctl.conf` - DataEngine system-wide configuration
 
 Instruction
 ===========
@@ -49,6 +54,7 @@ Installation
         sudo make install
 
   Available cmake flags:
+
     * components:
         * `-DBUILD_DATAENGINE:BOOL=0` - do not build DataEngine
         * `-DBUILD_GUI:BOOL=0` - do not build GUI
@@ -61,7 +67,7 @@ Installation
     * project properties
         * `-DDBUS_SYSTEMCONF_PATH=/etc/dbus-1/system.d/` - path to dbus system configuration files
         * `-DSYSTEMD_SERVICE_PATH=lib/systemd/system` - path to systemd services
-        * `-DUSE_CAPABILITIES` - use setcap to get privileges to the helper
+        * `-DUSE_CAPABILITIES:BOOL=0` - do not use setcap to get privileges to the helper
         * `-DUSE_QT5:BOOL=0` - use Qt4 instead of Qt5 for GUI
 
 Additional information

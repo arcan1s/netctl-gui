@@ -12,7 +12,7 @@ url="http://arcanis.name/projects/netctl-gui"
 license=('GPL3')
 makedepends=('automoc4' 'cmake' 'kdelibs' 'qt5-base' 'qt5-tools')
 source=("https://github.com/arcan1s/netctl-gui/releases/download/V.${pkgver}/${pkgbase}-${pkgver}-src.tar.xz")
-md5sums=('e13006142434d84a473ffc06272f1a7d')
+md5sums=('04cc427314f30e88516102ad996c69dc')
 
 
 prepare() {
