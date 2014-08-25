@@ -178,7 +178,7 @@
          <normaloff>:/wifi.png</normaloff>:/wifi.png</iconset>
        </attribute>
        <attribute name="title">
-        <string>Connect to Wi-Fi</string>
+        <string>WiFi menu</string>
        </attribute>
        <layout class="QVBoxLayout" name="verticalLayout_2">
         <item>

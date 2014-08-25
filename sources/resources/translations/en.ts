@@ -787,7 +787,7 @@
     </message>
     <message>
         <source>Connect to Wi-Fi</source>
-        <translation>Connect to Wi-Fi</translation>
+        <translation type="vanished">Connect to Wi-Fi</translation>
     </message>
     <message>
         <source>Menu</source>

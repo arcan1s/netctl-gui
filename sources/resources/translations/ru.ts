@@ -787,7 +787,7 @@
     </message>
     <message>
         <source>Connect to Wi-Fi</source>
-        <translation>Подключиться к Wi-Fi</translation>
+        <translation type="vanished">Подключиться к Wi-Fi</translation>
     </message>
     <message>
         <source>Menu</source>

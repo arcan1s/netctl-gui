@@ -53,7 +53,7 @@ env -i bash -c "set"
 # get profile and system variable list
 env -i bash -c "source '&lt;profile&gt;'; set"
 # get profile variables
-env -i bash -c "source '&lt;profile&gt;'; for i in ${!&lt;key&gt;[@]}; do echo ${&lt;key&gt;[$i]}; done"
+env -i bash -c "source '&lt;profile&gt;'; for i in &#36;{!&lt;key&gt;[@]}; do echo &#36;{&lt;key&gt;[$i]}; done"
 </pre>
 
 <h2><a href="#helper" class="anchor" id="helper"></a>Helper</h2>

@@ -762,38 +762,38 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../gui/src/mainprivateslots.cpp" line="212"/>
-        <location filename="../../gui/src/mainprivateslots.cpp" line="300"/>
+        <location filename="../../gui/src/mainprivateslots.cpp" line="215"/>
+        <location filename="../../gui/src/mainprivateslots.cpp" line="303"/>
         <location filename="../../../build/gui/src/ui_mainwindow.h" line="236"/>
         <location filename="../../../build/gui/src/ui_mainwindow.h" line="244"/>
         <source>Name</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../gui/src/mainprivateslots.cpp" line="213"/>
+        <location filename="../../gui/src/mainprivateslots.cpp" line="216"/>
         <location filename="../../../build/gui/src/ui_mainwindow.h" line="238"/>
         <source>Description</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../gui/src/mainprivateslots.cpp" line="365"/>
-        <location filename="../../gui/src/mainprivateslots.cpp" line="1006"/>
+        <location filename="../../gui/src/mainprivateslots.cpp" line="368"/>
+        <location filename="../../gui/src/mainprivateslots.cpp" line="1009"/>
         <location filename="../../gui/src/mainwindow.cpp" line="476"/>
         <location filename="../../gui/src/mainwindow.cpp" line="482"/>
         <source>Refresh</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../gui/src/mainwindow.cpp" line="492"/>
+        <location filename="../../gui/src/mainwindow.cpp" line="496"/>
         <source>Restart</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../gui/src/mainprivateslots.cpp" line="95"/>
-        <location filename="../../gui/src/mainprivateslots.cpp" line="148"/>
-        <location filename="../../gui/src/mainprivateslots.cpp" line="152"/>
-        <location filename="../../gui/src/mainwindow.cpp" line="486"/>
-        <location filename="../../gui/src/mainwindow.cpp" line="507"/>
+        <location filename="../../gui/src/mainprivateslots.cpp" line="96"/>
+        <location filename="../../gui/src/mainprivateslots.cpp" line="151"/>
+        <location filename="../../gui/src/mainprivateslots.cpp" line="155"/>
+        <location filename="../../gui/src/mainwindow.cpp" line="490"/>
+        <location filename="../../gui/src/mainwindow.cpp" line="511"/>
         <source>Start</source>
         <translation type="unfinished"></translation>
     </message>
@@ -803,7 +803,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../gui/src/mainprivateslots.cpp" line="225"/>
+        <location filename="../../gui/src/mainprivateslots.cpp" line="228"/>
         <location filename="../../../build/gui/src/ui_mainwindow.h" line="240"/>
         <source>Profile</source>
         <translation type="unfinished"></translation>
@@ -814,54 +814,49 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../gui/src/mainwindow.cpp" line="489"/>
+        <location filename="../../gui/src/mainwindow.cpp" line="493"/>
         <source>Switch</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../gui/src/mainwindow.cpp" line="498"/>
+        <location filename="../../gui/src/mainwindow.cpp" line="502"/>
         <source>Stop all</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../gui/src/mainwindow.cpp" line="501"/>
+        <location filename="../../gui/src/mainwindow.cpp" line="505"/>
         <source>Load</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../gui/src/mainwindow.cpp" line="511"/>
+        <location filename="../../gui/src/mainwindow.cpp" line="517"/>
         <source>Edit</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../gui/src/mainwindow.cpp" line="514"/>
-        <location filename="../../gui/src/mainwindow.cpp" line="517"/>
+        <location filename="../../gui/src/mainwindow.cpp" line="520"/>
+        <location filename="../../gui/src/mainwindow.cpp" line="523"/>
         <source>Remove</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../gui/src/mainwindow.cpp" line="527"/>
+        <location filename="../../gui/src/mainwindow.cpp" line="533"/>
         <source>DBus API</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../gui/src/mainwindow.cpp" line="529"/>
+        <location filename="../../gui/src/mainwindow.cpp" line="535"/>
         <source>Library</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../gui/src/mainwindow.cpp" line="533"/>
+        <location filename="../../gui/src/mainwindow.cpp" line="539"/>
         <source>Report a bug</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../gui/src/mainwindow.cpp" line="504"/>
+        <location filename="../../gui/src/mainwindow.cpp" line="508"/>
         <source>Save</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../../build/gui/src/ui_mainwindow.h" line="249"/>
-        <source>Connect to Wi-Fi</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -870,7 +865,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../gui/src/mainwindow.cpp" line="536"/>
+        <location filename="../../gui/src/mainwindow.cpp" line="542"/>
         <source>About</source>
         <translation type="unfinished"></translation>
     </message>
@@ -885,14 +880,14 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../gui/src/mainprivateslots.cpp" line="301"/>
+        <location filename="../../gui/src/mainprivateslots.cpp" line="304"/>
         <location filename="../../../build/gui/src/ui_mainwindow.h" line="246"/>
         <source>Signal</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../gui/src/mainprivateslots.cpp" line="302"/>
-        <location filename="../../gui/src/mainwindow.cpp" line="525"/>
+        <location filename="../../gui/src/mainprivateslots.cpp" line="305"/>
+        <location filename="../../gui/src/mainwindow.cpp" line="531"/>
         <location filename="../../../build/gui/src/ui_mainwindow.h" line="248"/>
         <source>Security</source>
         <translation type="unfinished"></translation>
@@ -933,29 +928,29 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../gui/src/mainprivateslots.cpp" line="368"/>
-        <location filename="../../gui/src/mainprivateslots.cpp" line="385"/>
+        <location filename="../../gui/src/mainprivateslots.cpp" line="371"/>
+        <location filename="../../gui/src/mainprivateslots.cpp" line="388"/>
         <source>Start profile</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../gui/src/mainprivateslots.cpp" line="369"/>
+        <location filename="../../gui/src/mainprivateslots.cpp" line="372"/>
         <source>Restart profile</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../gui/src/mainprivateslots.cpp" line="371"/>
-        <location filename="../../gui/src/mainprivateslots.cpp" line="392"/>
+        <location filename="../../gui/src/mainprivateslots.cpp" line="374"/>
+        <location filename="../../gui/src/mainprivateslots.cpp" line="395"/>
         <source>Enable profile</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../gui/src/mainprivateslots.cpp" line="373"/>
+        <location filename="../../gui/src/mainprivateslots.cpp" line="376"/>
         <source>Edit profile</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../gui/src/mainprivateslots.cpp" line="375"/>
+        <location filename="../../gui/src/mainprivateslots.cpp" line="378"/>
         <source>Remove profile</source>
         <translation type="unfinished"></translation>
     </message>
@@ -980,81 +975,81 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../gui/src/mainprivateslots.cpp" line="214"/>
-        <location filename="../../gui/src/mainprivateslots.cpp" line="226"/>
-        <location filename="../../gui/src/mainprivateslots.cpp" line="303"/>
-        <location filename="../../gui/src/mainprivateslots.cpp" line="315"/>
+        <location filename="../../gui/src/mainprivateslots.cpp" line="217"/>
+        <location filename="../../gui/src/mainprivateslots.cpp" line="229"/>
+        <location filename="../../gui/src/mainprivateslots.cpp" line="306"/>
+        <location filename="../../gui/src/mainprivateslots.cpp" line="318"/>
         <source>Active</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../gui/src/mainprivateslots.cpp" line="215"/>
-        <location filename="../../gui/src/mainprivateslots.cpp" line="227"/>
+        <location filename="../../gui/src/mainprivateslots.cpp" line="218"/>
+        <location filename="../../gui/src/mainprivateslots.cpp" line="230"/>
         <source>Enabled</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../gui/src/mainprivateslots.cpp" line="257"/>
-        <location filename="../../gui/src/mainprivateslots.cpp" line="270"/>
-        <location filename="../../gui/src/mainprivateslots.cpp" line="350"/>
+        <location filename="../../gui/src/mainprivateslots.cpp" line="260"/>
+        <location filename="../../gui/src/mainprivateslots.cpp" line="273"/>
+        <location filename="../../gui/src/mainprivateslots.cpp" line="353"/>
         <source>Updated</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../gui/src/mainprivateslots.cpp" line="381"/>
+        <location filename="../../gui/src/mainprivateslots.cpp" line="384"/>
         <source>Stop profile</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../gui/src/mainprivateslots.cpp" line="389"/>
+        <location filename="../../gui/src/mainprivateslots.cpp" line="392"/>
         <source>Disable profile</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../gui/src/mainprivateslots.cpp" line="304"/>
-        <location filename="../../gui/src/mainprivateslots.cpp" line="316"/>
+        <location filename="../../gui/src/mainprivateslots.cpp" line="307"/>
+        <location filename="../../gui/src/mainprivateslots.cpp" line="319"/>
         <source>Exists</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../gui/src/mainprivateslots.cpp" line="106"/>
+        <location filename="../../gui/src/mainprivateslots.cpp" line="107"/>
         <source>Disable</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../gui/src/mainprivateslots.cpp" line="109"/>
-        <location filename="../../gui/src/mainwindow.cpp" line="495"/>
+        <location filename="../../gui/src/mainprivateslots.cpp" line="110"/>
+        <location filename="../../gui/src/mainwindow.cpp" line="499"/>
         <source>Enable</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../gui/src/mainprivateslots.cpp" line="314"/>
+        <location filename="../../gui/src/mainprivateslots.cpp" line="317"/>
         <source>ESSID</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../gui/src/mainprivateslots.cpp" line="1014"/>
+        <location filename="../../gui/src/mainprivateslots.cpp" line="1017"/>
         <source>Stop WiFi</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../gui/src/mainprivateslots.cpp" line="1009"/>
-        <location filename="../../gui/src/mainprivateslots.cpp" line="1017"/>
-        <location filename="../../gui/src/mainprivateslots.cpp" line="1021"/>
+        <location filename="../../gui/src/mainprivateslots.cpp" line="1012"/>
+        <location filename="../../gui/src/mainprivateslots.cpp" line="1020"/>
+        <location filename="../../gui/src/mainprivateslots.cpp" line="1024"/>
         <source>Start WiFi</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../gui/src/mainprivateslots.cpp" line="51"/>
-        <location filename="../../gui/src/mainprivateslots.cpp" line="444"/>
-        <location filename="../../gui/src/mainprivateslots.cpp" line="481"/>
-        <location filename="../../gui/src/mainprivateslots.cpp" line="500"/>
-        <location filename="../../gui/src/mainprivateslots.cpp" line="520"/>
-        <location filename="../../gui/src/mainprivateslots.cpp" line="543"/>
-        <location filename="../../gui/src/mainprivateslots.cpp" line="563"/>
-        <location filename="../../gui/src/mainprivateslots.cpp" line="901"/>
-        <location filename="../../gui/src/mainprivateslots.cpp" line="990"/>
-        <location filename="../../gui/src/mainprivateslots.cpp" line="1101"/>
+        <location filename="../../gui/src/mainprivateslots.cpp" line="447"/>
+        <location filename="../../gui/src/mainprivateslots.cpp" line="484"/>
+        <location filename="../../gui/src/mainprivateslots.cpp" line="503"/>
+        <location filename="../../gui/src/mainprivateslots.cpp" line="523"/>
+        <location filename="../../gui/src/mainprivateslots.cpp" line="546"/>
+        <location filename="../../gui/src/mainprivateslots.cpp" line="566"/>
+        <location filename="../../gui/src/mainprivateslots.cpp" line="904"/>
+        <location filename="../../gui/src/mainprivateslots.cpp" line="993"/>
+        <location filename="../../gui/src/mainprivateslots.cpp" line="1104"/>
         <location filename="../../gui/src/mainpublicslots.cpp" line="238"/>
         <location filename="../../gui/src/mainpublicslots.cpp" line="249"/>
         <location filename="../../gui/src/mainpublicslots.cpp" line="260"/>
@@ -1064,15 +1059,15 @@
     </message>
     <message>
         <location filename="../../gui/src/mainprivateslots.cpp" line="53"/>
-        <location filename="../../gui/src/mainprivateslots.cpp" line="446"/>
-        <location filename="../../gui/src/mainprivateslots.cpp" line="483"/>
-        <location filename="../../gui/src/mainprivateslots.cpp" line="502"/>
-        <location filename="../../gui/src/mainprivateslots.cpp" line="522"/>
-        <location filename="../../gui/src/mainprivateslots.cpp" line="545"/>
-        <location filename="../../gui/src/mainprivateslots.cpp" line="565"/>
-        <location filename="../../gui/src/mainprivateslots.cpp" line="903"/>
-        <location filename="../../gui/src/mainprivateslots.cpp" line="992"/>
-        <location filename="../../gui/src/mainprivateslots.cpp" line="1103"/>
+        <location filename="../../gui/src/mainprivateslots.cpp" line="449"/>
+        <location filename="../../gui/src/mainprivateslots.cpp" line="486"/>
+        <location filename="../../gui/src/mainprivateslots.cpp" line="505"/>
+        <location filename="../../gui/src/mainprivateslots.cpp" line="525"/>
+        <location filename="../../gui/src/mainprivateslots.cpp" line="548"/>
+        <location filename="../../gui/src/mainprivateslots.cpp" line="568"/>
+        <location filename="../../gui/src/mainprivateslots.cpp" line="906"/>
+        <location filename="../../gui/src/mainprivateslots.cpp" line="995"/>
+        <location filename="../../gui/src/mainprivateslots.cpp" line="1106"/>
         <location filename="../../gui/src/mainpublicslots.cpp" line="240"/>
         <location filename="../../gui/src/mainpublicslots.cpp" line="251"/>
         <location filename="../../gui/src/mainpublicslots.cpp" line="262"/>
@@ -1081,8 +1076,8 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../gui/src/mainprivateslots.cpp" line="92"/>
-        <location filename="../../gui/src/mainprivateslots.cpp" line="145"/>
+        <location filename="../../gui/src/mainprivateslots.cpp" line="93"/>
+        <location filename="../../gui/src/mainprivateslots.cpp" line="148"/>
         <source>Stop</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1289,6 +1284,7 @@
     </message>
     <message>
         <location filename="../../gui/src/mainpublicslots.cpp" line="492"/>
+        <location filename="../../../build/gui/src/ui_mainwindow.h" line="249"/>
         <source>WiFi menu</source>
         <translation type="unfinished"></translation>
     </message>
