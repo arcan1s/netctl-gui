@@ -21,15 +21,18 @@
 #include <QFile>
 #include <QLocale>
 
+#include "config.h"
+
 
 Language::Language()
 {
 }
 
 
-QString Language::checkLanguage(const QString language, const QString defaultLanguage)
+QString Language::checkLanguage(const QString language)
 {
     QStringList availableLanguages = getAvailableLanguages();
+    if (availableLanguages.count() == 0) return QString();
     for (int i=0; i<availableLanguages.count(); i++)
         if (language == availableLanguages[i])
             return availableLanguages[i];
@@ -37,22 +40,22 @@ QString Language::checkLanguage(const QString language, const QString defaultLan
         if (language.contains(availableLanguages[i] + QChar('_')))
             return availableLanguages[i];
 
-    return defaultLanguage;
+    return availableLanguages[0];
 }
 
 
 QString Language::defineLanguage(const QString configPath, const QString options)
 {
     QMap<QString, QString> optionsDict = parseOptions(options);
-    if (optionsDict.contains(QString("LANGUAGE")))
-        if (getAvailableLanguages().contains(optionsDict[QString("LANGUAGE")]))
-            return optionsDict[QString("LANGUAGE")];
+    if (optionsDict.contains(QString(LANGUAGE_KEY)))
+        if (getAvailableLanguages().contains(optionsDict[QString(LANGUAGE_KEY)]))
+            return optionsDict[QString(LANGUAGE_KEY)];
 
     QString language;
     language = defineLanguageFromFile(configPath);
     if (language.isEmpty())
         language = defineLanguageFromLocale();
-    language = checkLanguage(language, QString("en"));
+    language = checkLanguage(language);
 
     return language;
 }
@@ -78,8 +81,8 @@ QString Language::defineLanguageFromFile(const QString configPath)
     }
     configFile.close();
 
-    if (settings.contains(QString("LANGUAGE")))
-        return settings[QString("LANGUAGE")];
+    if (settings.contains(QString(LANGUAGE_KEY)))
+        return settings[QString(LANGUAGE_KEY)];
     else
         return QString("");
 }
@@ -93,11 +96,7 @@ QString Language::defineLanguageFromLocale()
 
 QStringList Language::getAvailableLanguages()
 {
-    QStringList languages;
-    languages.append(QString("en"));
-    // put your languages here
-
-    return languages;
+    return QString(LANGUAGES).split(QChar(','));
 }
 
 

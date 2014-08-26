@@ -27,8 +27,7 @@ class Language : public QObject
 
 public:
     explicit Language();
-    static QString checkLanguage(const QString language,
-                                 const QString defaultLanguage = QString("en"));
+    static QString checkLanguage(const QString language);
     static QString defineLanguage(const QString configPath,
                                   const QString options = QString("OPTIONS"));
     static QString defineLanguageFromFile(const QString configPath);
