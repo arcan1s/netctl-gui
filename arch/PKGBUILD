@@ -84,7 +84,8 @@ package_netctlgui-helper() {
   depends=('libnetctlgui')
   provides=('netctlgui-helper-qt4')
   conflicts=('netctlgui-helper-qt4')
-  backup=('etc/netctlgui-helper.conf')
+  backup=('etc/netctlgui-helper.conf'
+          'etc/dbus-1/system.d/org.netctlgui.helper.conf')
   install="netctlgui-helper.install"
 
   cd "${srcdir}/build-qt5/helper"
@@ -126,7 +127,8 @@ package_netctlgui-helper-qt4() {
   depends=('libnetctlgui-qt4')
   provides=('netctlgui-helper')
   conflicts=('netctlgui-helper')
-  backup=('etc/netctlgui-helper.conf')
+  backup=('etc/netctlgui-helper.conf'
+          'etc/dbus-1/system.d/org.netctlgui.helper.conf')
   install="netctlgui-helper.install"
 
   cd "${srcdir}/build-qt4/helper"
