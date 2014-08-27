@@ -234,7 +234,7 @@ bool MainWindow::isHelperActive()
                                                DBUS_HELPER_INTERFACE, QString("Active"),
                                                QList<QVariant>(), true, debug);
 
-    return (!responce.isEmpty());
+    return (!responce.isEmpty() && bool(responce[0].toInt()));
 }
 
 

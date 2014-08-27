@@ -43,7 +43,7 @@ bool existingSessionOperation(const QString operation)
     QDBusMessage response = bus.call(request);
     QList<QVariant> arguments = response.arguments();
 
-    return !arguments.isEmpty();
+    return (!arguments.isEmpty() && bool(arguments[0].toInt()));
 }
 
 
