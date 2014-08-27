@@ -24,6 +24,7 @@ _netctlgui_helper_arglist=(
     {'--nodaemon','--nodaemon'}'[do not start as daemon]'
     {'--replace','--replace'}'[force replace the existing session]'
     {'--restore','--restore'}'[force restore the existing session]'
+    {'--session','--session'}'[force create user DBus session]'
     {'--system','--system'}'[do not read user configuration]'
     {'(--version)-v','(-v)--version'}'[show version and exit]'
     {'(--info)-i','(-i)--info'}'[show build information and exit]'

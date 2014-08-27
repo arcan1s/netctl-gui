@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>680</width>
-    <height>397</height>
+    <width>678</width>
+    <height>395</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -73,7 +73,7 @@
          </property>
          <property name="icon">
           <iconset resource="../../resources/resources.qrc">
-           <normaloff>:/icon.png</normaloff>:/icon.png</iconset>
+           <normaloff>:/icon-helper.png</normaloff>:/icon-helper.png</iconset>
          </property>
         </item>
         <item>
@@ -136,8 +136,8 @@
               <rect>
                <x>0</x>
                <y>0</y>
-               <width>464</width>
-               <height>336</height>
+               <width>462</width>
+               <height>330</height>
               </rect>
              </property>
              <layout class="QVBoxLayout" name="verticalLayout_7">
@@ -218,8 +218,8 @@
               <rect>
                <x>0</x>
                <y>0</y>
-               <width>397</width>
-               <height>256</height>
+               <width>462</width>
+               <height>330</height>
               </rect>
              </property>
              <layout class="QVBoxLayout" name="verticalLayout_13">
@@ -389,7 +389,7 @@
                <x>0</x>
                <y>0</y>
                <width>436</width>
-               <height>165</height>
+               <height>173</height>
               </rect>
              </property>
              <layout class="QVBoxLayout" name="verticalLayout_2">
@@ -576,7 +576,7 @@
                <x>0</x>
                <y>0</y>
                <width>436</width>
-               <height>43</height>
+               <height>45</height>
               </rect>
              </property>
              <layout class="QVBoxLayout" name="verticalLayout_9">
@@ -646,7 +646,7 @@
                <x>0</x>
                <y>0</y>
                <width>277</width>
-               <height>190</height>
+               <height>194</height>
               </rect>
              </property>
              <layout class="QVBoxLayout" name="verticalLayout_10">
@@ -843,7 +843,7 @@
                <x>0</x>
                <y>0</y>
                <width>436</width>
-               <height>103</height>
+               <height>107</height>
               </rect>
              </property>
              <layout class="QVBoxLayout" name="verticalLayout_11">

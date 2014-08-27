@@ -1,9 +1,12 @@
 [Unit]
 Description=netctlgui-helper daemon
+Documentation=man:netctlgui-helper(1) man:netctl-gui.conf(5)
 
 [Service]
-Type=forking
-ExecStart=/usr/bin/netctlgui-helper --system
+Type=dbus
+BusName=org.netctlgui.helper
+ExecStart=/usr/bin/netctlgui-helper --nodaemon --system
+Capabilities=CAP_SETUID
 
 [Install]
 WantedBy=multi-user.target

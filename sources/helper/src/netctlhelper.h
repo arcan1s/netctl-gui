@@ -41,6 +41,7 @@ private:
     QString configPath;
     QMap<QString, QString> configuration;
     bool debug;
+    bool session;
     bool system;
     void createInterface();
     void deleteInterface();

@@ -25,6 +25,7 @@ _netctlgui_helper_arglist=(
     '--nodaemon'
     '--replace'
     '--restore'
+    '--session'
     '--system'
     '-v'
     '--version'

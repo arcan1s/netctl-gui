@@ -68,6 +68,9 @@ int main(int argc, char *argv[])
         } else if (QString(argv[i]) == QString("--restore")) {
             // restore
             args[QString("state")] = (int) 2;
+        } else if (QString(argv[i]) == QString("--session")) {
+            // session
+            args[QString("session")] = true;
         } else if (QString(argv[i]) == QString("--system")) {
             // system
             args[QString("system")] = true;
@@ -96,6 +99,7 @@ int main(int argc, char *argv[])
                 .arg(QString::number(geteuid())).toUtf8().data() << endl;
         cout << QCoreApplication::translate("NetctlHelper", "See security notes for more details.")
                 .toUtf8().data() << endl;
+        args[QString("session")] = true;
     }
 
 #if QT_VERSION >= 0x050000

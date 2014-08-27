@@ -35,6 +35,7 @@ NetctlHelper::NetctlHelper(QObject *parent, QMap<QString, QVariant> args)
     : QObject(parent),
       configPath(args[QString("config")].toString()),
       debug(args[QString("debug")].toBool()),
+      session(args[QString("session")].toBool()),
       system(args[QString("system")].toBool())
 {
     updateConfiguration();
@@ -88,6 +89,28 @@ void NetctlHelper::createInterface()
         if (debug) qDebug() << PDEBUG << ":" << bus.lastError().message();
         return quitHelper();
     }
+    // session bus
+    if (!session) return;
+    QDBusConnection sessionBus = QDBusConnection::sessionBus();
+    if (!sessionBus.registerService(DBUS_HELPER_SERVICE)) {
+        if (debug) qDebug() << PDEBUG << ":" << "Could not register session service";
+        if (debug) qDebug() << PDEBUG << ":" << sessionBus.lastError().message();
+        return quitHelper();
+    }
+    if (!sessionBus.registerObject(DBUS_LIB_PATH,
+                                   new NetctlAdaptor(this, debug, configuration),
+                                   QDBusConnection::ExportAllContents)) {
+        if (debug) qDebug() << PDEBUG << ":" << "Could not register session library object";
+        if (debug) qDebug() << PDEBUG << ":" << sessionBus.lastError().message();
+        return quitHelper();
+    }
+    if (!sessionBus.registerObject(DBUS_CTRL_PATH,
+                                   new ControlAdaptor(this, debug, configuration),
+                                   QDBusConnection::ExportAllContents)) {
+        if (debug) qDebug() << PDEBUG << ":" << "Could not register session control object";
+        if (debug) qDebug() << PDEBUG << ":" << sessionBus.lastError().message();
+        return quitHelper();
+    }
 }
 
 
@@ -98,6 +121,11 @@ void NetctlHelper::deleteInterface()
     QDBusConnection::systemBus().unregisterObject(DBUS_LIB_PATH);
     QDBusConnection::systemBus().unregisterObject(DBUS_CTRL_PATH);
     QDBusConnection::systemBus().unregisterService(DBUS_HELPER_SERVICE);
+    // session bus
+    if (!session) return;
+    QDBusConnection::sessionBus().unregisterObject(DBUS_LIB_PATH);
+    QDBusConnection::sessionBus().unregisterObject(DBUS_CTRL_PATH);
+    QDBusConnection::sessionBus().unregisterService(DBUS_HELPER_SERVICE);
 }
 
 
