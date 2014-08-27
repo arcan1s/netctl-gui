@@ -6,7 +6,6 @@ Documentation=man:netctlgui-helper(1) man:netctl-gui.conf(5)
 Type=dbus
 BusName=org.netctlgui.helper
 ExecStart=/usr/bin/netctlgui-helper --nodaemon --system
-Capabilities=CAP_SETUID
 
 [Install]
 WantedBy=multi-user.target

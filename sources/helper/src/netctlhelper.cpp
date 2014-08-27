@@ -95,21 +95,18 @@ void NetctlHelper::createInterface()
     if (!sessionBus.registerService(DBUS_HELPER_SERVICE)) {
         if (debug) qDebug() << PDEBUG << ":" << "Could not register session service";
         if (debug) qDebug() << PDEBUG << ":" << sessionBus.lastError().message();
-        return quitHelper();
     }
     if (!sessionBus.registerObject(DBUS_LIB_PATH,
                                    new NetctlAdaptor(this, debug, configuration),
                                    QDBusConnection::ExportAllContents)) {
         if (debug) qDebug() << PDEBUG << ":" << "Could not register session library object";
         if (debug) qDebug() << PDEBUG << ":" << sessionBus.lastError().message();
-        return quitHelper();
     }
     if (!sessionBus.registerObject(DBUS_CTRL_PATH,
                                    new ControlAdaptor(this, debug, configuration),
                                    QDBusConnection::ExportAllContents)) {
         if (debug) qDebug() << PDEBUG << ":" << "Could not register session control object";
         if (debug) qDebug() << PDEBUG << ":" << sessionBus.lastError().message();
-        return quitHelper();
     }
 }
 
