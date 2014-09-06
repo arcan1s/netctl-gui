@@ -5,7 +5,7 @@ pkgname=('libnetctlgui' 'netctlgui-helper' 'netctl-gui'
          'libnetctlgui-qt4' 'netctlgui-helper-qt4' 'netctl-gui-qt4'
          'kdeplasma-applets-netctl-gui')
 pkgver=1.3.1
-pkgrel=1
+pkgrel=2
 pkgdesc="Qt4/Qt5 GUI for netctl. Also provides a widget for KDE"
 arch=('i686' 'x86_64')
 url="http://arcanis.name/projects/netctl-gui"
@@ -36,6 +36,7 @@ build() {
         -DCMAKE_BUILD_TYPE=Release \
         -DBUILD_DATAENGINE:BOOL=0 \
         -DBUILD_PLASMOID:BOOL=0 \
+        -DUSE_CAPABILITIES:BOOL=0 \
         -DUSE_QT5:BOOL=0 \
         "../${pkgbase}"
   make
@@ -45,6 +46,7 @@ build() {
         -DCMAKE_BUILD_TYPE=Release \
         -DBUILD_DATAENGINE:BOOL=0 \
         -DBUILD_PLASMOID:BOOL=0 \
+        -DUSE_CAPABILITIES:BOOL=0 \
         "../${pkgbase}"
   make
 }
@@ -84,7 +86,7 @@ package_netctlgui-helper() {
   depends=('libnetctlgui')
   provides=('netctlgui-helper-qt4')
   conflicts=('netctlgui-helper-qt4')
-  backup=('etc/netctlgui-helper.conf'
+  backup=('etc/netctl-gui.conf'
           'etc/dbus-1/system.d/org.netctlgui.helper.conf')
   install="netctlgui-helper.install"
 
@@ -127,7 +129,7 @@ package_netctlgui-helper-qt4() {
   depends=('libnetctlgui-qt4')
   provides=('netctlgui-helper')
   conflicts=('netctlgui-helper')
-  backup=('etc/netctlgui-helper.conf'
+  backup=('etc/netctl-gui.conf'
           'etc/dbus-1/system.d/org.netctlgui.helper.conf')
   install="netctlgui-helper.install"
 
