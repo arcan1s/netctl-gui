@@ -22,6 +22,7 @@
 #include <QDesktopServices>
 #include <QFileDialog>
 #include <QFileInfo>
+#include <QMenu>
 #include <QUrl>
 
 #include <pdebug/pdebug.h>
@@ -163,16 +164,16 @@ void MainWindow::updateToolBars()
 {
     if (debug) qDebug() << PDEBUG;
 
-    if (sender() == toolBarActions[QString("menu")]) {
+    if (sender() == ui->pushButton_menu) {
         mainToolBar->setHidden(false);
         actionToolBar->setHidden(true);
         helpToolBar->setHidden(true);
-    } else if (sender() == toolBarActions[QString("actions")]) {
+    } else if (sender() == ui->pushButton_action) {
         mainToolBar->setHidden(true);
         actionToolBar->setHidden(false);
         helpToolBar->setHidden(true);
         updateMenu();
-    } else if (sender() == toolBarActions[QString("help")]) {
+    } else if (sender() == ui->pushButton_help) {
         mainToolBar->setHidden(true);
         actionToolBar->setHidden(true);
         helpToolBar->setHidden(false);

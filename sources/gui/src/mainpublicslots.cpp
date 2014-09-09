@@ -361,6 +361,7 @@ void MainWindow::updateConfiguration(const QMap<QString, QVariant> args)
 
     createObjects();
     createActions();
+    createToolBars();
 
     // tray
     if ((QSystemTrayIcon::isSystemTrayAvailable()) &&

@@ -21,6 +21,7 @@
 #include <QDBusConnection>
 #include <QDBusMessage>
 #include <QDebug>
+#include <QMenu>
 
 #include <pdebug/pdebug.h>
 #include <task/taskadds.h>
@@ -345,6 +346,9 @@ void MainWindow::createActions()
     if (debug) qDebug() << PDEBUG;
 
     connect(ui->tabWidget, SIGNAL(currentChanged(int)), this, SLOT(updateTabs(int)));
+    connect(ui->pushButton_menu, SIGNAL(clicked(bool)), this, SLOT(updateToolBars()));
+    connect(ui->pushButton_action, SIGNAL(clicked(bool)), this, SLOT(updateToolBars()));
+    connect(ui->pushButton_help, SIGNAL(clicked(bool)), this, SLOT(updateToolBars()));
 
     // main tab events
     connect(ui->pushButton_netctlAuto, SIGNAL(clicked(bool)), this, SLOT(showNetctlAutoWindow()));
@@ -437,21 +441,12 @@ void MainWindow::createObjects()
     ui->scrollAreaWidgetContents->layout()->addWidget(vlanWid);
     wirelessWid = new WirelessWidget(this, configuration);
     ui->scrollAreaWidgetContents->layout()->addWidget(wirelessWid);
-
-    createToolBars();
 }
 
 
 void MainWindow::createToolBars()
 {
     if (debug) qDebug() << PDEBUG;
-
-    toolBarActions[QString("menu")] = ui->menuBar->addAction(QApplication::translate("MainWindow", "Menu"),
-                                                             this, SLOT(updateToolBars()));
-    toolBarActions[QString("actions")] = ui->menuBar->addAction(QApplication::translate("MainWindow", "Actions"),
-                                                                this, SLOT(updateToolBars()));
-    toolBarActions[QString("help")] = ui->menuBar->addAction(QApplication::translate("MainWindow", "Help"),
-                                                             this, SLOT(updateToolBars()));
 
     mainToolBar = new QToolBar(this);
     mainToolBar->setToolButtonStyle(Qt::ToolButtonFollowStyle);
@@ -467,7 +462,7 @@ void MainWindow::createToolBars()
                                                              this, SLOT(closeMainWindow()));
     appShortcuts[QString("quitShortcut")] = new QShortcut(QKeySequence(QApplication::translate("MainWindow", "Ctrl+Q")),
                                                           this, SLOT(closeMainWindow()));
-    ui->centralLayout->insertWidget(0, mainToolBar);
+    ui->centralLayout->insertWidget(1, mainToolBar);
     mainToolBar->setHidden(true);
 
     actionToolBar = new QToolBar(this);
@@ -522,7 +517,7 @@ void MainWindow::createToolBars()
     toolBarActions[QString("profileRemove")] = actionToolBar->addAction(QIcon::fromTheme(QString("edit-delete")),
                                                                         QApplication::translate("MainWindow", "Remove"),
                                                                         this, SLOT(profileTabRemoveProfile()));
-    ui->centralLayout->insertWidget(0, actionToolBar);
+    ui->centralLayout->insertWidget(1, actionToolBar);
     actionToolBar->setHidden(true);
 
     helpToolBar = new QToolBar(this);
@@ -541,10 +536,10 @@ void MainWindow::createToolBars()
     toolBarActions[QString("about")] = helpToolBar->addAction(QIcon::fromTheme(QString("help-about")),
                                                               QApplication::translate("MainWindow", "About"),
                                                               this, SLOT(showAboutWindow()));
-    ui->centralLayout->insertWidget(0, helpToolBar);
+    ui->centralLayout->insertWidget(1, helpToolBar);
     helpToolBar->setHidden(true);
 
-    toolBarActions[QString("menu")]->trigger();
+    ui->pushButton_menu->click();
 }
 
 
@@ -593,10 +588,7 @@ void MainWindow::deleteObjects()
         delete appShortcuts[QString("quitShortcut")];
     }
     if (trayIcon != nullptr) delete trayIcon;
-    if (ui != nullptr) {
-        ui->menuBar->clear();
-        delete ui;
-    }
+    if (ui != nullptr) delete ui;
 }
 
 
