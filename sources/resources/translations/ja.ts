@@ -156,78 +156,78 @@
     <message>
         <location filename="../../gui/src/errorwindow.cpp" line="70"/>
         <source>Ip settings are not set</source>
-        <translation type="unfinished">IPアドレスの設定がされていません</translation>
+        <translation>IPの設定が指定されていません</translation>
     </message>
     <message>
         <location filename="../../gui/src/errorwindow.cpp" line="74"/>
         <source>Configuration file does not exist</source>
-        <translation type="unfinished"></translation>
+        <translation>設定ファイルが存在しません</translation>
     </message>
     <message>
         <location filename="../../gui/src/errorwindow.cpp" line="78"/>
         <source>Key is not set</source>
-        <translation type="unfinished"></translation>
+        <translation>キーが設定されていません</translation>
     </message>
     <message>
         <location filename="../../gui/src/errorwindow.cpp" line="82"/>
         <source>Wireless settings are not set</source>
-        <translation type="unfinished"></translation>
+        <translation>無線設定が指定されていません</translation>
     </message>
     <message>
         <location filename="../../gui/src/errorwindow.cpp" line="86"/>
         <source>Configuration file is not set</source>
-        <translation type="unfinished"></translation>
+        <translation>設定ファイルが存在しません</translation>
     </message>
     <message>
         <location filename="../../gui/src/errorwindow.cpp" line="90"/>
         <source>ESSID is not set</source>
-        <translation type="unfinished"></translation>
+        <translation>ESSIDが設定されていません</translation>
     </message>
     <message>
         <location filename="../../gui/src/errorwindow.cpp" line="94"/>
         <source>MAC address is incorrect</source>
-        <translation type="unfinished"></translation>
+        <translation>MACアドレスが正しくありません</translation>
     </message>
     <message>
         <location filename="../../gui/src/errorwindow.cpp" line="98"/>
         <source>Session ID is not set</source>
-        <translation type="unfinished"></translation>
+        <translation>セッションIDが設定されていません</translation>
     </message>
     <message>
         <location filename="../../gui/src/errorwindow.cpp" line="102"/>
         <location filename="../../gui/src/errorwindow.cpp" line="106"/>
         <source>APN is not set</source>
-        <translation type="unfinished"></translation>
+        <translation>APNが設定されていません</translation>
     </message>
     <message>
         <location filename="../../gui/src/errorwindow.cpp" line="110"/>
         <source>Empty user/group name</source>
-        <translation type="unfinished"></translation>
+        <translation>ユーザ名/グループ名が空です</translation>
     </message>
     <message>
         <location filename="../../gui/src/errorwindow.cpp" line="114"/>
         <source>Could not find profile</source>
-        <translation type="unfinished"></translation>
+        <translation>プロファイルが見付かりません</translation>
     </message>
     <message>
         <location filename="../../gui/src/errorwindow.cpp" line="118"/>
         <source>Could not find ESSID</source>
-        <translation type="unfinished"></translation>
+        <translation>ESSIDを見付けられません</translation>
     </message>
     <message>
         <location filename="../../gui/src/errorwindow.cpp" line="122"/>
         <source>Could not run helper</source>
-        <translation type="unfinished"></translation>
+        <translation>ヘルパを起動できません</translation>
     </message>
     <message>
         <location filename="../../gui/src/errorwindow.cpp" line="126"/>
         <source>Unknown error</source>
-        <translation type="unfinished"></translation>
+        <translation>不明なエラーです</translation>
     </message>
     <message>
         <location filename="../../gui/src/errorwindow.cpp" line="188"/>
         <source>Sender : %1</source>
-        <translation type="unfinished"></translation>
+        <translation>送り手：%1</translation>
     </message>
 </context>
 <context>
@@ -235,18 +235,18 @@
     <message>
         <location filename="../../../build/gui/src/ui_ethernetwidget.h" line="207"/>
         <source>Form</source>
-        <translation type="unfinished"></translation>
+        <translation>フォーム</translation>
     </message>
     <message>
         <location filename="../../../build/gui/src/ui_ethernetwidget.h" line="208"/>
         <source>Ethernet options</source>
-        <translation type="unfinished"></translation>
+        <translation>イーサネットのオプション</translation>
     </message>
     <message>
         <location filename="../../gui/src/ethernetwidget.cpp" line="90"/>
         <location filename="../../../build/gui/src/ui_ethernetwidget.h" line="209"/>
         <source>Hide advanced</source>
-        <translation type="unfinished"></translation>
+        <translation>詳細を隠す</translation>
     </message>
     <message>
         <location filename="../../../build/gui/src/ui_ethernetwidget.h" line="211"/>
@@ -266,47 +266,47 @@
     <message>
         <location filename="../../../build/gui/src/ui_ethernetwidget.h" line="217"/>
         <source>802.1x authentication</source>
-        <translation type="unfinished"></translation>
+        <translation>802.1.x認証</translation>
     </message>
     <message>
         <location filename="../../../build/gui/src/ui_ethernetwidget.h" line="218"/>
         <source>WPA config file</source>
-        <translation type="unfinished"></translation>
+        <translation>WPA設定ファイル</translation>
     </message>
     <message>
         <location filename="../../../build/gui/src/ui_ethernetwidget.h" line="220"/>
         <source>Path to a wpa_supplicant configuration file</source>
-        <translation type="unfinished"></translation>
+        <translation>wpa_supplicant設定ファイルへのパス</translation>
     </message>
     <message>
         <location filename="../../../build/gui/src/ui_ethernetwidget.h" line="222"/>
         <source>Browse</source>
-        <translation type="unfinished"></translation>
+        <translation>見る</translation>
     </message>
     <message>
         <location filename="../../../build/gui/src/ui_ethernetwidget.h" line="223"/>
         <source>WPA driver</source>
-        <translation type="unfinished"></translation>
+        <translation>WPAドライバ</translation>
     </message>
     <message>
         <location filename="../../../build/gui/src/ui_ethernetwidget.h" line="231"/>
         <source>The wpa_supplicant driver to use for 802.1x authentication</source>
-        <translation type="unfinished"></translation>
+        <translation>802.1.x認証利用の為のwpa_supplicantドライバ</translation>
     </message>
     <message>
         <location filename="../../../build/gui/src/ui_ethernetwidget.h" line="226"/>
         <source>wired</source>
-        <translation type="unfinished"></translation>
+        <translation>有線</translation>
     </message>
     <message>
         <location filename="../../../build/gui/src/ui_ethernetwidget.h" line="227"/>
         <source>nl80211</source>
-        <translation type="unfinished"></translation>
+        <translation>nl80211</translation>
     </message>
     <message>
         <location filename="../../../build/gui/src/ui_ethernetwidget.h" line="228"/>
         <source>wext</source>
-        <translation type="unfinished"></translation>
+        <translation>wext</translation>
     </message>
     <message>
         <location filename="../../../build/gui/src/ui_ethernetwidget.h" line="233"/>
@@ -332,13 +332,13 @@
         <location filename="../../gui/src/wirelesswidget.cpp" line="186"/>
         <location filename="../../gui/src/ethernetwidget.cpp" line="78"/>
         <source>Select wpa configuration file</source>
-        <translation type="unfinished"></translation>
+        <translation>WPA設定ファイルを選択</translation>
     </message>
     <message>
         <location filename="../../gui/src/wirelesswidget.cpp" line="188"/>
         <location filename="../../gui/src/ethernetwidget.cpp" line="80"/>
         <source>Configuration files (*.conf)</source>
-        <translation type="unfinished"></translation>
+        <translation>設定ファイル (*.conf)</translation>
     </message>
     <message>
         <location filename="../../gui/src/ethernetwidget.cpp" line="93"/>
@@ -351,94 +351,94 @@
     <message>
         <location filename="../../../build/gui/src/ui_generalwidget.h" line="292"/>
         <source>Form</source>
-        <translation type="unfinished"></translation>
+        <translation>フォーム</translation>
     </message>
     <message>
         <location filename="../../../build/gui/src/ui_generalwidget.h" line="293"/>
         <source>General</source>
-        <translation type="unfinished"></translation>
+        <translation>一般</translation>
     </message>
     <message>
         <location filename="../../../build/gui/src/ui_generalwidget.h" line="294"/>
         <source>Description</source>
-        <translation type="unfinished"></translation>
+        <translation>説明</translation>
     </message>
     <message>
         <location filename="../../../build/gui/src/ui_generalwidget.h" line="296"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;A description of the profile&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;プロファイルの説明&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="../../../build/gui/src/ui_generalwidget.h" line="298"/>
         <source>Connection</source>
-        <translation type="unfinished"></translation>
+        <translation>接続</translation>
     </message>
     <message>
         <location filename="../../../build/gui/src/ui_generalwidget.h" line="300"/>
         <source>The connection type used by the profile</source>
-        <translation type="unfinished"></translation>
+        <translation>プロファイルで利用される接続</translation>
     </message>
     <message>
         <location filename="../../../build/gui/src/ui_generalwidget.h" line="302"/>
         <source>Interface</source>
-        <translation type="unfinished"></translation>
+        <translation>インターフェース</translation>
     </message>
     <message>
         <location filename="../../../build/gui/src/ui_generalwidget.h" line="304"/>
         <source>The name of the associated network interface</source>
-        <translation type="unfinished"></translation>
+        <translation>確立されたネットワークインターフェースの名前</translation>
     </message>
     <message>
         <location filename="../../../build/gui/src/ui_generalwidget.h" line="306"/>
         <source>Binds to interfaces</source>
-        <translation type="unfinished"></translation>
+        <translation>インターフェースとの紐付け</translation>
     </message>
     <message>
         <location filename="../../../build/gui/src/ui_generalwidget.h" line="307"/>
         <location filename="../../../build/gui/src/ui_generalwidget.h" line="313"/>
         <source>Add</source>
-        <translation type="unfinished"></translation>
+        <translation>追加</translation>
     </message>
     <message>
         <location filename="../../../build/gui/src/ui_generalwidget.h" line="309"/>
         <source>An array of physical network interfaces that this profile needs before it can be started</source>
-        <translation type="unfinished"></translation>
+        <translation>開始前にプロファイルを必要とする物理ネットワークインターフェース</translation>
     </message>
     <message>
         <location filename="../../gui/src/generalwidget.cpp" line="116"/>
         <location filename="../../../build/gui/src/ui_generalwidget.h" line="311"/>
         <source>Hide advanced</source>
-        <translation type="unfinished"></translation>
+        <translation>詳細を隠す</translation>
     </message>
     <message>
         <location filename="../../../build/gui/src/ui_generalwidget.h" line="312"/>
         <source>After</source>
-        <translation type="unfinished"></translation>
+        <translation>以後</translation>
     </message>
     <message>
         <location filename="../../../build/gui/src/ui_generalwidget.h" line="315"/>
         <source>An array of profile names that should be started before this profile is started</source>
-        <translation type="unfinished"></translation>
+        <translation>開始前にプロファイルを必要とするプロファイル名</translation>
     </message>
     <message>
         <location filename="../../../build/gui/src/ui_generalwidget.h" line="317"/>
         <source>Command after starting</source>
-        <translation type="unfinished"></translation>
+        <translation>開始後に実行するコマンド</translation>
     </message>
     <message>
         <location filename="../../../build/gui/src/ui_generalwidget.h" line="319"/>
         <source>A command that is executed after a connection is established</source>
-        <translation type="unfinished"></translation>
+        <translation>コネクション確立後に実行されるコマンド</translation>
     </message>
     <message>
         <location filename="../../../build/gui/src/ui_generalwidget.h" line="321"/>
         <source>Command before stoping</source>
-        <translation type="unfinished"></translation>
+        <translation>停止前に実行するコマンド</translation>
     </message>
     <message>
         <location filename="../../../build/gui/src/ui_generalwidget.h" line="323"/>
         <source>A command that is executed before a connection is brought down</source>
-        <translation type="unfinished"></translation>
+        <translation>コネクション切断前に実行されるコマンド</translation>
     </message>
     <message>
         <location filename="../../../build/gui/src/ui_generalwidget.h" line="326"/>
@@ -448,17 +448,17 @@
     <message>
         <location filename="../../../build/gui/src/ui_generalwidget.h" line="328"/>
         <source>Force connect</source>
-        <translation type="unfinished"></translation>
+        <translation>接続を強制</translation>
     </message>
     <message>
         <location filename="../../../build/gui/src/ui_generalwidget.h" line="329"/>
         <source>Debug mode</source>
-        <translation type="unfinished"></translation>
+        <translation>デバッグモード</translation>
     </message>
     <message>
         <location filename="../../gui/src/generalwidget.cpp" line="119"/>
         <source>Show advanced</source>
-        <translation type="unfinished"></translation>
+        <translation>詳細を表示</translation>
     </message>
 </context>
 <context>
@@ -466,34 +466,34 @@
     <message>
         <location filename="../../../build/gui/src/ui_ipwidget.h" line="760"/>
         <source>Form</source>
-        <translation type="unfinished"></translation>
+        <translation>フォーム</translation>
     </message>
     <message>
         <location filename="../../../build/gui/src/ui_ipwidget.h" line="761"/>
         <source>IP options</source>
-        <translation type="unfinished"></translation>
+        <translation>IPオプション</translation>
     </message>
     <message>
         <location filename="../../../build/gui/src/ui_ipwidget.h" line="762"/>
         <source>IP</source>
-        <translation type="unfinished"></translation>
+        <translation>IP</translation>
     </message>
     <message>
         <location filename="../../../build/gui/src/ui_ipwidget.h" line="765"/>
         <location filename="../../../build/gui/src/ui_ipwidget.h" line="780"/>
         <source>dhcp</source>
-        <translation type="unfinished"></translation>
+        <translation>DHCP</translation>
     </message>
     <message>
         <location filename="../../../build/gui/src/ui_ipwidget.h" line="766"/>
         <location filename="../../../build/gui/src/ui_ipwidget.h" line="782"/>
         <source>static</source>
-        <translation type="unfinished"></translation>
+        <translation>静的</translation>
     </message>
     <message>
         <location filename="../../../build/gui/src/ui_ipwidget.h" line="768"/>
         <source>Address</source>
-        <translation type="unfinished"></translation>
+        <translation>アドレス (IPv4)</translation>
     </message>
     <message>
         <location filename="../../../build/gui/src/ui_ipwidget.h" line="769"/>
@@ -504,110 +504,110 @@
         <location filename="../../../build/gui/src/ui_ipwidget.h" line="850"/>
         <location filename="../../../build/gui/src/ui_ipwidget.h" line="863"/>
         <source>Add</source>
-        <translation type="unfinished"></translation>
+        <translation>追加</translation>
     </message>
     <message>
         <location filename="../../../build/gui/src/ui_ipwidget.h" line="771"/>
         <source>An array of IP addresses suffixed with ‘/&lt;netmask&gt;’</source>
-        <translation type="unfinished"></translation>
+        <translation>追記されるIPアドレス</translation>
     </message>
     <message>
         <location filename="../../../build/gui/src/ui_ipwidget.h" line="773"/>
         <source>Gateway</source>
-        <translation type="unfinished"></translation>
+        <translation>ゲートウェイ (IPv4)</translation>
     </message>
     <message>
         <location filename="../../../build/gui/src/ui_ipwidget.h" line="775"/>
         <source>An IP routing gateway address</source>
-        <translation type="unfinished"></translation>
+        <translation>IPv4ルーティングゲートウェイアドレス</translation>
     </message>
     <message>
         <location filename="../../../build/gui/src/ui_ipwidget.h" line="777"/>
         <source>IP6</source>
-        <translation type="unfinished"></translation>
+        <translation>IP6</translation>
     </message>
     <message>
         <location filename="../../../build/gui/src/ui_ipwidget.h" line="781"/>
         <source>dhcp-noaddr</source>
-        <translation type="unfinished"></translation>
+        <translation>dhcp-noaddr</translation>
     </message>
     <message>
         <location filename="../../../build/gui/src/ui_ipwidget.h" line="783"/>
         <source>stateless</source>
-        <translation type="unfinished"></translation>
+        <translation>ステートレス</translation>
     </message>
     <message>
         <location filename="../../../build/gui/src/ui_ipwidget.h" line="785"/>
         <source>Address6</source>
-        <translation type="unfinished"></translation>
+        <translation>アドレス (IPv6)</translation>
     </message>
     <message>
         <location filename="../../../build/gui/src/ui_ipwidget.h" line="788"/>
         <source>An array of IPv6 addresses</source>
-        <translation type="unfinished"></translation>
+        <translation>IPv6アドレス</translation>
     </message>
     <message>
         <location filename="../../../build/gui/src/ui_ipwidget.h" line="790"/>
         <source>Gateway6</source>
-        <translation type="unfinished"></translation>
+        <translation>ゲートウェイ (IPv6)</translation>
     </message>
     <message>
         <location filename="../../../build/gui/src/ui_ipwidget.h" line="792"/>
         <source>An IPv6 routing gateway address</source>
-        <translation type="unfinished"></translation>
+        <translation>IPv6ルーティングゲートウェイアドレス</translation>
     </message>
     <message>
         <location filename="../../gui/src/ipwidget.cpp" line="367"/>
         <location filename="../../../build/gui/src/ui_ipwidget.h" line="794"/>
         <source>Hide advanced</source>
-        <translation type="unfinished"></translation>
+        <translation>詳細を隠す</translation>
     </message>
     <message>
         <location filename="../../../build/gui/src/ui_ipwidget.h" line="795"/>
         <source>Routes</source>
-        <translation type="unfinished"></translation>
+        <translation>ルート (IPv4)</translation>
     </message>
     <message>
         <location filename="../../../build/gui/src/ui_ipwidget.h" line="796"/>
         <location filename="../../../build/gui/src/ui_ipwidget.h" line="802"/>
         <source>via</source>
-        <translation type="unfinished"></translation>
+        <translation>経由</translation>
     </message>
     <message>
         <location filename="../../../build/gui/src/ui_ipwidget.h" line="799"/>
         <location filename="../../../build/gui/src/ui_ipwidget.h" line="805"/>
         <source>An array of custom routes</source>
-        <translation type="unfinished"></translation>
+        <translation>カスタムされたルート</translation>
     </message>
     <message>
         <location filename="../../../build/gui/src/ui_ipwidget.h" line="801"/>
         <source>Routes6</source>
-        <translation type="unfinished"></translation>
+        <translation>ルート (IPv6)</translation>
     </message>
     <message>
         <location filename="../../../build/gui/src/ui_ipwidget.h" line="807"/>
         <source>Custom</source>
-        <translation type="unfinished"></translation>
+        <translation>カスタム</translation>
     </message>
     <message>
         <location filename="../../../build/gui/src/ui_ipwidget.h" line="810"/>
         <source>An array of argument lines to pass to ip</source>
-        <translation type="unfinished"></translation>
+        <translation>IPへ渡す引数列</translation>
     </message>
     <message>
         <location filename="../../../build/gui/src/ui_ipwidget.h" line="812"/>
         <source>Hostname</source>
-        <translation type="unfinished"></translation>
+        <translation>ホスト名</translation>
     </message>
     <message>
         <location filename="../../../build/gui/src/ui_ipwidget.h" line="814"/>
         <source>A system hostname</source>
-        <translation type="unfinished"></translation>
+        <translation>システムのホスト名</translation>
     </message>
     <message>
         <location filename="../../../build/gui/src/ui_ipwidget.h" line="816"/>
         <source>Timeout DAD</source>
-        <translation type="unfinished"></translation>
+        <translation>DADのタイムアウト</translation>
     </message>
     <message>
         <location filename="../../../build/gui/src/ui_ipwidget.h" line="818"/>
@@ -617,49 +617,49 @@
     <message>
         <location filename="../../../build/gui/src/ui_ipwidget.h" line="820"/>
         <source>DHCP client</source>
-        <translation type="unfinished"></translation>
+        <translation>DHCPクライアント</translation>
     </message>
     <message>
         <location filename="../../../build/gui/src/ui_ipwidget.h" line="827"/>
         <source>The name of the preferred DHCP client</source>
-        <translation type="unfinished"></translation>
+        <translation>優先するDHCPクライアントの名前</translation>
     </message>
     <message>
         <location filename="../../../build/gui/src/ui_ipwidget.h" line="823"/>
         <source>dhcpcd</source>
-        <translation type="unfinished"></translation>
+        <translation>dhcpcd</translation>
     </message>
     <message>
         <location filename="../../../build/gui/src/ui_ipwidget.h" line="824"/>
         <source>dhclient</source>
-        <translation type="unfinished"></translation>
+        <translation>dhclient</translation>
     </message>
     <message>
         <location filename="../../../build/gui/src/ui_ipwidget.h" line="829"/>
         <source>dhcpcd options</source>
-        <translation type="unfinished"></translation>
+        <translation>dhcpcdオプション</translation>
     </message>
     <message>
         <location filename="../../../build/gui/src/ui_ipwidget.h" line="831"/>
         <location filename="../../../build/gui/src/ui_ipwidget.h" line="835"/>
         <location filename="../../../build/gui/src/ui_ipwidget.h" line="839"/>
         <source>Additional options to be passed to the DHCP client</source>
-        <translation type="unfinished"></translation>
+        <translation>DHCPクライアントへ渡す追加オプション</translation>
     </message>
     <message>
         <location filename="../../../build/gui/src/ui_ipwidget.h" line="833"/>
         <source>dhclient options</source>
-        <translation type="unfinished"></translation>
+        <translation>dhclientオプション (IPv4)</translation>
     </message>
     <message>
         <location filename="../../../build/gui/src/ui_ipwidget.h" line="837"/>
         <source>dhclient options (6)</source>
-        <translation type="unfinished"></translation>
+        <translation>dhclientオプション (IPv6)</translation>
     </message>
     <message>
         <location filename="../../../build/gui/src/ui_ipwidget.h" line="841"/>
         <source>Timeout DHCP</source>
-        <translation type="unfinished"></translation>
+        <translation>DHCPのタイムアウト</translation>
     </message>
     <message>
         <location filename="../../../build/gui/src/ui_ipwidget.h" line="843"/>
@@ -679,47 +679,47 @@
     <message>
         <location filename="../../../build/gui/src/ui_ipwidget.h" line="849"/>
         <source>DNS</source>
-        <translation type="unfinished"></translation>
+        <translation>DNS</translation>
     </message>
     <message>
         <location filename="../../../build/gui/src/ui_ipwidget.h" line="852"/>
         <source>An array of DNS nameservers</source>
-        <translation type="unfinished"></translation>
+        <translation>DNSネームサーバ</translation>
     </message>
     <message>
         <location filename="../../../build/gui/src/ui_ipwidget.h" line="854"/>
         <source>DNS domain</source>
-        <translation type="unfinished"></translation>
+        <translation>DNSドメイン</translation>
     </message>
     <message>
         <location filename="../../../build/gui/src/ui_ipwidget.h" line="856"/>
         <source>A ‘domain’ line for /etc/resolv.conf</source>
-        <translation type="unfinished"></translation>
+        <translation>/etc/resolv.confに対する &apos;domain&apos; 行</translation>
     </message>
     <message>
         <location filename="../../../build/gui/src/ui_ipwidget.h" line="858"/>
         <source>DNS search</source>
-        <translation type="unfinished"></translation>
+        <translation>DNS検索</translation>
     </message>
     <message>
         <location filename="../../../build/gui/src/ui_ipwidget.h" line="860"/>
         <source>A ‘search’ line for /etc/resolv.conf</source>
-        <translation type="unfinished"></translation>
+        <translation>/etc/resolv.confに対する &apos;search&apos; 行</translation>
     </message>
     <message>
         <location filename="../../../build/gui/src/ui_ipwidget.h" line="862"/>
         <source>DNS options</source>
-        <translation type="unfinished"></translation>
+        <translation>DNSオプション</translation>
     </message>
     <message>
         <location filename="../../../build/gui/src/ui_ipwidget.h" line="865"/>
         <source>An array of ‘options’ lines for /etc/resolv.conf</source>
-        <translation type="unfinished"></translation>
+        <translation>/etc/resolv.confに対する &apos;options&apos; 行</translation>
     </message>
     <message>
         <location filename="../../gui/src/ipwidget.cpp" line="370"/>
         <source>Show advanced</source>
-        <translation type="unfinished"></translation>
+        <translation>詳細を表示</translation>
     </message>
 </context>
 <context>
@@ -727,27 +727,27 @@
     <message>
         <location filename="../../../build/gui/src/ui_macvlanwidget.h" line="105"/>
         <source>Form</source>
-        <translation type="unfinished"></translation>
+        <translation>フォーム</translation>
     </message>
     <message>
         <location filename="../../../build/gui/src/ui_macvlanwidget.h" line="106"/>
         <source>macvlan settings</source>
-        <translation type="unfinished"></translation>
+        <translation>macvlan設定</translation>
     </message>
     <message>
         <location filename="../../../build/gui/src/ui_macvlanwidget.h" line="107"/>
         <source>Mode</source>
-        <translation type="unfinished"></translation>
+        <translation>モード</translation>
     </message>
     <message>
         <location filename="../../../build/gui/src/ui_macvlanwidget.h" line="108"/>
         <source>MAC address</source>
-        <translation type="unfinished"></translation>
+        <translation>MACアドレス</translation>
     </message>
     <message>
         <location filename="../../../build/gui/src/ui_macvlanwidget.h" line="110"/>
         <source>Optional static MAC address</source>
-        <translation type="unfinished"></translation>
+        <translation>追加的な静的MACアドレス</translation>
     </message>
 </context>
 <context>
@@ -1630,18 +1630,18 @@
     <message>
         <location filename="../../../build/gui/src/ui_passwdwidget.h" line="104"/>
         <source>Form</source>
-        <translation type="unfinished"></translation>
+        <translation>フォーム</translation>
     </message>
     <message>
         <location filename="../../gui/src/passwdwidget.cpp" line="68"/>
         <location filename="../../../build/gui/src/ui_passwdwidget.h" line="105"/>
         <source>Password</source>
-        <translation type="unfinished"></translation>
+        <translation>パスワード</translation>
     </message>
     <message>
         <location filename="../../gui/src/passwdwidget.cpp" line="71"/>
         <source>ESSID</source>
-        <translation type="unfinished"></translation>
+        <translation>ESSID</translation>
     </message>
 </context>
 <context>
@@ -2403,52 +2403,52 @@
     <message>
         <location filename="../../../build/gui/src/ui_tuntapwidget.h" line="118"/>
         <source>Form</source>
-        <translation type="unfinished"></translation>
+        <translation>フォーム</translation>
     </message>
     <message>
         <location filename="../../../build/gui/src/ui_tuntapwidget.h" line="119"/>
         <source>Tuntap settings</source>
-        <translation type="unfinished"></translation>
+        <translation>TUN/TAP設定</translation>
     </message>
     <message>
         <location filename="../../../build/gui/src/ui_tuntapwidget.h" line="120"/>
         <source>Mode</source>
-        <translation type="unfinished"></translation>
+        <translation>モード</translation>
     </message>
     <message>
         <location filename="../../../build/gui/src/ui_tuntapwidget.h" line="127"/>
         <source>Either ‘tun’, or ‘tap’</source>
-        <translation type="unfinished"></translation>
+        <translation>&apos;TUN&apos; 又は &apos;TAP&apos; のどれか</translation>
     </message>
     <message>
         <location filename="../../../build/gui/src/ui_tuntapwidget.h" line="123"/>
         <source>tun</source>
-        <translation type="unfinished"></translation>
+        <translation>TUN</translation>
     </message>
     <message>
         <location filename="../../../build/gui/src/ui_tuntapwidget.h" line="124"/>
         <source>tap</source>
-        <translation type="unfinished"></translation>
+        <translation>TAP</translation>
     </message>
     <message>
         <location filename="../../../build/gui/src/ui_tuntapwidget.h" line="129"/>
         <source>User</source>
-        <translation type="unfinished"></translation>
+        <translation>ユーザ</translation>
     </message>
     <message>
         <location filename="../../../build/gui/src/ui_tuntapwidget.h" line="131"/>
         <source>The owning user of the tun/tap interface</source>
-        <translation type="unfinished"></translation>
+        <translation>TUN/TAPインターフェースを所有するユーザ</translation>
     </message>
     <message>
         <location filename="../../../build/gui/src/ui_tuntapwidget.h" line="133"/>
         <source>Group</source>
-        <translation type="unfinished"></translation>
+        <translation>グループ</translation>
     </message>
     <message>
         <location filename="../../../build/gui/src/ui_tuntapwidget.h" line="135"/>
         <source>The owning group of the tun/tap interface</source>
-        <translation type="unfinished"></translation>
+        <translation>TUN/TAPインターフェースを所有するグループ</translation>
     </message>
 </context>
 <context>
@@ -2456,22 +2456,22 @@
     <message>
         <location filename="../../../build/gui/src/ui_vlanwidget.h" line="81"/>
         <source>Form</source>
-        <translation type="unfinished"></translation>
+        <translation>フォーム</translation>
     </message>
     <message>
         <location filename="../../../build/gui/src/ui_vlanwidget.h" line="82"/>
         <source>vlan settings</source>
-        <translation type="unfinished"></translation>
+        <translation>VLAN設定</translation>
     </message>
     <message>
         <location filename="../../../build/gui/src/ui_vlanwidget.h" line="83"/>
         <source>vlan ID</source>
-        <translation type="unfinished"></translation>
+        <translation>VLAN ID</translation>
     </message>
     <message>
         <location filename="../../../build/gui/src/ui_vlanwidget.h" line="85"/>
         <source>vlan identifier</source>
-        <translation type="unfinished"></translation>
+        <translation>VLAN識別子</translation>
     </message>
 </context>
 <context>
