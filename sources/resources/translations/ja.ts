@@ -251,17 +251,18 @@
     <message>
         <location filename="../../../build/gui/src/ui_ethernetwidget.h" line="211"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Whether or not the absence of a carrier is acceptable&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translatorcomment>I don&apos;t know this translation is exactry correct because of my lack of knowledge in network.</translatorcomment>
+        <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;受理可能なキャリアの不在を問わない&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="../../../build/gui/src/ui_ethernetwidget.h" line="213"/>
         <source>Skip no carrier</source>
-        <translation type="unfinished"></translation>
+        <translation>存在しないキャリアをスキップ</translation>
     </message>
     <message>
         <location filename="../../../build/gui/src/ui_ethernetwidget.h" line="215"/>
         <source>Set to ‘yes’ to use 802.1x authentication</source>
-        <translation type="unfinished"></translation>
+        <translation>802.1.x認証を使用「する」ように設定する</translation>
     </message>
     <message>
         <location filename="../../../build/gui/src/ui_ethernetwidget.h" line="217"/>
@@ -281,7 +282,7 @@
     <message>
         <location filename="../../../build/gui/src/ui_ethernetwidget.h" line="222"/>
         <source>Browse</source>
-        <translation>見る</translation>
+        <translation>ブラウズ</translation>
     </message>
     <message>
         <location filename="../../../build/gui/src/ui_ethernetwidget.h" line="223"/>
@@ -311,22 +312,22 @@
     <message>
         <location filename="../../../build/gui/src/ui_ethernetwidget.h" line="233"/>
         <source>Timeout carrier</source>
-        <translation type="unfinished"></translation>
+        <translation>キャリアのタイムアウト</translation>
     </message>
     <message>
         <location filename="../../../build/gui/src/ui_ethernetwidget.h" line="235"/>
         <source>Maximum time, in seconds, to wait for a carrier</source>
-        <translation type="unfinished"></translation>
+        <translation>キャリアを待機する最大時間（秒）</translation>
     </message>
     <message>
         <location filename="../../../build/gui/src/ui_ethernetwidget.h" line="237"/>
         <source>Timeout WPA</source>
-        <translation type="unfinished"></translation>
+        <translation>WPAのタイムアウト</translation>
     </message>
     <message>
         <location filename="../../../build/gui/src/ui_ethernetwidget.h" line="239"/>
         <source>Maximum time, in seconds, to wait for 802.1x authentication to succeed</source>
-        <translation type="unfinished"></translation>
+        <translation>802.1.x認証の成功を待機する最大時間（秒）</translation>
     </message>
     <message>
         <location filename="../../gui/src/wirelesswidget.cpp" line="186"/>
@@ -343,7 +344,7 @@
     <message>
         <location filename="../../gui/src/ethernetwidget.cpp" line="93"/>
         <source>Show advanced</source>
-        <translation type="unfinished"></translation>
+        <translation>詳細を表示</translation>
     </message>
 </context>
 <context>
@@ -413,7 +414,7 @@
     <message>
         <location filename="../../../build/gui/src/ui_generalwidget.h" line="312"/>
         <source>After</source>
-        <translation>以後</translation>
+        <translation>次</translation>
     </message>
     <message>
         <location filename="../../../build/gui/src/ui_generalwidget.h" line="315"/>
@@ -443,7 +444,7 @@
     <message>
         <location filename="../../../build/gui/src/ui_generalwidget.h" line="326"/>
         <source>Set to ‘yes’ to force connecting even if the interface is up</source>
-        <translation type="unfinished"></translation>
+        <translation>インターフェースが有効であっても強制的に接続「する」ように設定する</translation>
     </message>
     <message>
         <location filename="../../../build/gui/src/ui_generalwidget.h" line="328"/>
@@ -509,7 +510,7 @@
     <message>
         <location filename="../../../build/gui/src/ui_ipwidget.h" line="771"/>
         <source>An array of IP addresses suffixed with ‘/&lt;netmask&gt;’</source>
-        <translation>追記されるIPアドレス</translation>
+        <translation>&apos;&lt;/netmask&gt;&apos; が後続するIPアドレスの列</translation>
     </message>
     <message>
         <location filename="../../../build/gui/src/ui_ipwidget.h" line="773"/>
@@ -544,7 +545,7 @@
     <message>
         <location filename="../../../build/gui/src/ui_ipwidget.h" line="788"/>
         <source>An array of IPv6 addresses</source>
-        <translation>IPv6アドレス</translation>
+        <translation>IPv6アドレスの列</translation>
     </message>
     <message>
         <location filename="../../../build/gui/src/ui_ipwidget.h" line="790"/>
@@ -577,7 +578,7 @@
         <location filename="../../../build/gui/src/ui_ipwidget.h" line="799"/>
         <location filename="../../../build/gui/src/ui_ipwidget.h" line="805"/>
         <source>An array of custom routes</source>
-        <translation>カスタムされたルート</translation>
+        <translation>編集された経路の列</translation>
     </message>
     <message>
         <location filename="../../../build/gui/src/ui_ipwidget.h" line="801"/>
@@ -587,7 +588,7 @@
     <message>
         <location filename="../../../build/gui/src/ui_ipwidget.h" line="807"/>
         <source>Custom</source>
-        <translation>カスタム</translation>
+        <translation>編集</translation>
     </message>
     <message>
         <location filename="../../../build/gui/src/ui_ipwidget.h" line="810"/>
@@ -612,7 +613,7 @@
     <message>
         <location filename="../../../build/gui/src/ui_ipwidget.h" line="818"/>
         <source>Maximum time, in seconds, to wait for IPv6’s Duplicate Address Detection to succeed</source>
-        <translation type="unfinished"></translation>
+        <translation>IPv6における重複アドレス検出の成功を待機する最大時間（秒）</translation>
     </message>
     <message>
         <location filename="../../../build/gui/src/ui_ipwidget.h" line="820"/>
@@ -664,17 +665,17 @@
     <message>
         <location filename="../../../build/gui/src/ui_ipwidget.h" line="843"/>
         <source>Maximum time, in seconds, to wait for DHCP to be successful</source>
-        <translation type="unfinished"></translation>
+        <translation>DHCP成功までの最大待機時間（秒）</translation>
     </message>
     <message>
         <location filename="../../../build/gui/src/ui_ipwidget.h" line="846"/>
         <source>Set to ‘yes’ to release the DHCP lease when the profile is stopped</source>
-        <translation type="unfinished"></translation>
+        <translation>プロファイル停止時にDHCPリースの解放のために &apos;yes&apos; を設定する</translation>
     </message>
     <message>
         <location filename="../../../build/gui/src/ui_ipwidget.h" line="848"/>
         <source>DHCP release on stop</source>
-        <translation type="unfinished"></translation>
+        <translation>停止時にDHCPを解放する</translation>
     </message>
     <message>
         <location filename="../../../build/gui/src/ui_ipwidget.h" line="849"/>
@@ -684,7 +685,7 @@
     <message>
         <location filename="../../../build/gui/src/ui_ipwidget.h" line="852"/>
         <source>An array of DNS nameservers</source>
-        <translation>DNSネームサーバ</translation>
+        <translation>DNSネームサーバの列</translation>
     </message>
     <message>
         <location filename="../../../build/gui/src/ui_ipwidget.h" line="854"/>
@@ -694,7 +695,7 @@
     <message>
         <location filename="../../../build/gui/src/ui_ipwidget.h" line="856"/>
         <source>A ‘domain’ line for /etc/resolv.conf</source>
-        <translation>/etc/resolv.confに対する &apos;domain&apos; 行</translation>
+        <translation>/etc/resolv.conf に対する &apos;domain&apos; 行</translation>
     </message>
     <message>
         <location filename="../../../build/gui/src/ui_ipwidget.h" line="858"/>
@@ -704,7 +705,7 @@
     <message>
         <location filename="../../../build/gui/src/ui_ipwidget.h" line="860"/>
         <source>A ‘search’ line for /etc/resolv.conf</source>
-        <translation>/etc/resolv.confに対する &apos;search&apos; 行</translation>
+        <translation>/etc/resolv.conf に対する &apos;search&apos; 行</translation>
     </message>
     <message>
         <location filename="../../../build/gui/src/ui_ipwidget.h" line="862"/>
@@ -714,7 +715,7 @@
     <message>
         <location filename="../../../build/gui/src/ui_ipwidget.h" line="865"/>
         <source>An array of ‘options’ lines for /etc/resolv.conf</source>
-        <translation>/etc/resolv.confに対する &apos;options&apos; 行</translation>
+        <translation>/etc/resolv.conf に対する &apos;options&apos; 行の列</translation>
     </message>
     <message>
         <location filename="../../gui/src/ipwidget.cpp" line="370"/>
@@ -1295,149 +1296,149 @@
     <message>
         <location filename="../../../build/gui/src/ui_mobilewidget.h" line="257"/>
         <source>Form</source>
-        <translation type="unfinished"></translation>
+        <translation>フォーム</translation>
     </message>
     <message>
         <location filename="../../../build/gui/src/ui_mobilewidget.h" line="258"/>
         <source>Mobile PPP settings</source>
-        <translation type="unfinished"></translation>
+        <translation>モバイルPPPの設定</translation>
     </message>
     <message>
         <location filename="../../../build/gui/src/ui_mobilewidget.h" line="259"/>
         <source>Username</source>
-        <translation type="unfinished"></translation>
+        <translation>ユーザ名</translation>
     </message>
     <message>
         <location filename="../../../build/gui/src/ui_mobilewidget.h" line="261"/>
         <location filename="../../../build/gui/src/ui_mobilewidget.h" line="265"/>
         <source>The username and password to connect with</source>
-        <translation type="unfinished"></translation>
+        <translation>接続する際のユーザ名とパスワード</translation>
     </message>
     <message>
         <location filename="../../../build/gui/src/ui_mobilewidget.h" line="263"/>
         <source>Password</source>
-        <translation type="unfinished"></translation>
+        <translation>パスワード</translation>
     </message>
     <message>
         <location filename="../../../build/gui/src/ui_mobilewidget.h" line="267"/>
         <source>Access point name</source>
-        <translation type="unfinished"></translation>
+        <translation>アクセスポイント名</translation>
     </message>
     <message>
         <location filename="../../../build/gui/src/ui_mobilewidget.h" line="269"/>
         <source>The access point (apn) to connect on</source>
-        <translation type="unfinished"></translation>
+        <translation>接続するアクセスポイント (APN)</translation>
     </message>
     <message>
         <location filename="../../../build/gui/src/ui_mobilewidget.h" line="271"/>
         <source>PIN</source>
-        <translation type="unfinished"></translation>
+        <translation>PIN</translation>
     </message>
     <message>
         <location filename="../../../build/gui/src/ui_mobilewidget.h" line="273"/>
         <source>If your modem requires a PIN to unlock, use this option</source>
-        <translation type="unfinished"></translation>
+        <translation>モデムがPINのアンロックを要求する場合にこのオプションを使用する</translation>
     </message>
     <message>
         <location filename="../../../build/gui/src/ui_mobilewidget.h" line="275"/>
         <source>Mode</source>
-        <translation type="unfinished"></translation>
+        <translation>モード</translation>
     </message>
     <message>
         <location filename="../../../build/gui/src/ui_mobilewidget.h" line="285"/>
         <source>This option is used to specify the connection mode</source>
-        <translation type="unfinished"></translation>
+        <translation>このオプションはコネクションモードを示す際に使用されます</translation>
     </message>
     <message>
         <location filename="../../../build/gui/src/ui_mobilewidget.h" line="278"/>
         <source>None</source>
-        <translation type="unfinished"></translation>
+        <translation>無し</translation>
     </message>
     <message>
         <location filename="../../../build/gui/src/ui_mobilewidget.h" line="279"/>
         <source>3Gpref</source>
-        <translation type="unfinished"></translation>
+        <translation>3Gpref</translation>
     </message>
     <message>
         <location filename="../../../build/gui/src/ui_mobilewidget.h" line="280"/>
         <source>3Gonly</source>
-        <translation type="unfinished"></translation>
+        <translation>３Gonly</translation>
     </message>
     <message>
         <location filename="../../../build/gui/src/ui_mobilewidget.h" line="281"/>
         <source>GPRSpref</source>
-        <translation type="unfinished"></translation>
+        <translation>GPRSpref</translation>
     </message>
     <message>
         <location filename="../../../build/gui/src/ui_mobilewidget.h" line="282"/>
         <source>GPRSonly</source>
-        <translation type="unfinished"></translation>
+        <translation>GPRSonly</translation>
     </message>
     <message>
         <location filename="../../gui/src/mobilewidget.cpp" line="94"/>
         <location filename="../../../build/gui/src/ui_mobilewidget.h" line="287"/>
         <source>Show advanced</source>
-        <translation type="unfinished"></translation>
+        <translation>詳細を表示</translation>
     </message>
     <message>
         <location filename="../../../build/gui/src/ui_mobilewidget.h" line="288"/>
         <source>Max fail</source>
-        <translation type="unfinished"></translation>
+        <translation>最大失敗数</translation>
     </message>
     <message>
         <location filename="../../../build/gui/src/ui_mobilewidget.h" line="290"/>
         <source>The number of consecutive failed connection attempts to tolerate</source>
-        <translation type="unfinished"></translation>
+        <translation>許容する連続して失敗したコネクションの試行の回数</translation>
     </message>
     <message>
         <location filename="../../../build/gui/src/ui_mobilewidget.h" line="293"/>
         <source>Use the default route provided by the peer</source>
-        <translation type="unfinished"></translation>
+        <translation>ピアから提供されるデフォルトの経路を使用</translation>
     </message>
     <message>
         <location filename="../../../build/gui/src/ui_mobilewidget.h" line="295"/>
         <source>Default route</source>
-        <translation type="unfinished"></translation>
+        <translation>デフォルトの経路</translation>
     </message>
     <message>
         <location filename="../../../build/gui/src/ui_mobilewidget.h" line="297"/>
         <source>Use the DNS provided by the peer</source>
-        <translation type="unfinished"></translation>
+        <translation>ピアから提供されるDNSを使用</translation>
     </message>
     <message>
         <location filename="../../../build/gui/src/ui_mobilewidget.h" line="299"/>
         <source>Use peer DNS</source>
-        <translation type="unfinished"></translation>
+        <translation>ピアDNSを使用</translation>
     </message>
     <message>
         <location filename="../../../build/gui/src/ui_mobilewidget.h" line="300"/>
         <source>Options file</source>
-        <translation type="unfinished"></translation>
+        <translation>オプションのファイル</translation>
     </message>
     <message>
         <location filename="../../../build/gui/src/ui_mobilewidget.h" line="302"/>
         <source>A file to read additional pppd options from</source>
-        <translation type="unfinished"></translation>
+        <translation>追加のPPPDオプションを読み込む為のファイル</translation>
     </message>
     <message>
         <location filename="../../../build/gui/src/ui_mobilewidget.h" line="304"/>
         <source>Browse</source>
-        <translation type="unfinished"></translation>
+        <translation>ブラウズ</translation>
     </message>
     <message>
         <location filename="../../gui/src/mobilewidget.cpp" line="79"/>
         <source>Select options file</source>
-        <translation type="unfinished"></translation>
+        <translation>オプションファイルを選択</translation>
     </message>
     <message>
         <location filename="../../gui/src/mobilewidget.cpp" line="81"/>
         <source>Configuration files (*.conf)</source>
-        <translation type="unfinished"></translation>
+        <translation>設定ファイル (*.conf)</translation>
     </message>
     <message>
         <location filename="../../gui/src/mobilewidget.cpp" line="91"/>
         <source>Hide advanced</source>
-        <translation type="unfinished"></translation>
+        <translation>詳細を隠す</translation>
     </message>
 </context>
 <context>
@@ -2202,117 +2203,117 @@
         <location filename="../../gui/src/trayicon.cpp" line="60"/>
         <location filename="../../gui/src/trayicon.cpp" line="76"/>
         <source>netctl status</source>
-        <translation type="unfinished"></translation>
+        <translation>netctlの状態</translation>
     </message>
     <message>
         <location filename="../../gui/src/trayicon.cpp" line="62"/>
         <location filename="../../gui/src/trayicon.cpp" line="78"/>
         <source>Profile</source>
-        <translation type="unfinished"></translation>
+        <translation>プロファイル</translation>
     </message>
     <message>
         <location filename="../../gui/src/trayicon.cpp" line="97"/>
         <source>(inactive)</source>
-        <translation type="unfinished"></translation>
+        <translation>（無効）</translation>
     </message>
     <message>
         <location filename="../../gui/src/trayicon.cpp" line="103"/>
         <source>(netctl-auto)</source>
-        <translation type="unfinished"></translation>
+        <translation>(netctl-auto)</translation>
     </message>
     <message>
         <location filename="../../gui/src/trayicon.cpp" line="148"/>
         <source>Start another profile</source>
-        <translation type="unfinished"></translation>
+        <translation>他のプロファイルを開始する</translation>
     </message>
     <message>
         <location filename="../../gui/src/trayicon.cpp" line="149"/>
         <source>Stop %1</source>
-        <translation type="unfinished"></translation>
+        <translation>%1を停止する</translation>
     </message>
     <message>
         <location filename="../../gui/src/trayicon.cpp" line="150"/>
         <source>Restart %1</source>
-        <translation type="unfinished"></translation>
+        <translation>%1を再起動</translation>
     </message>
     <message>
         <location filename="../../gui/src/trayicon.cpp" line="152"/>
         <source>Disable %1</source>
-        <translation type="unfinished"></translation>
+        <translation>%1を無効にする</translation>
     </message>
     <message>
         <location filename="../../gui/src/trayicon.cpp" line="154"/>
         <source>Enable %1</source>
-        <translation type="unfinished"></translation>
+        <translation>%1を有効にする</translation>
     </message>
     <message>
         <location filename="../../gui/src/trayicon.cpp" line="156"/>
         <location filename="../../gui/src/trayicon.cpp" line="185"/>
         <source>Start profile</source>
-        <translation type="unfinished"></translation>
+        <translation>プロファイルを開始する</translation>
     </message>
     <message>
         <location filename="../../gui/src/trayicon.cpp" line="191"/>
         <source>Stop profile</source>
-        <translation type="unfinished"></translation>
+        <translation>プロファイルを停止する</translation>
     </message>
     <message>
         <location filename="../../gui/src/trayicon.cpp" line="195"/>
         <source>Stop all profiles</source>
-        <translation type="unfinished"></translation>
+        <translation>すべてのプロセスを停止する</translation>
     </message>
     <message>
         <location filename="../../gui/src/trayicon.cpp" line="199"/>
         <source>Switch to profile</source>
-        <translation type="unfinished"></translation>
+        <translation>プロファイルを切り替える</translation>
     </message>
     <message>
         <location filename="../../gui/src/trayicon.cpp" line="205"/>
         <source>Restart profile</source>
-        <translation type="unfinished"></translation>
+        <translation>プロファイルを再開する</translation>
     </message>
     <message>
         <location filename="../../gui/src/trayicon.cpp" line="209"/>
         <source>Enable profile</source>
-        <translation type="unfinished"></translation>
+        <translation>プロファイルを有効</translation>
     </message>
     <message>
         <location filename="../../gui/src/trayicon.cpp" line="225"/>
         <source>Quit</source>
-        <translation type="unfinished"></translation>
+        <translation>終了</translation>
     </message>
     <message>
         <location filename="../../gui/src/trayicon.cpp" line="165"/>
         <location filename="../../gui/src/trayicon.cpp" line="215"/>
         <source>Show</source>
-        <translation type="unfinished"></translation>
+        <translation>表示</translation>
     </message>
     <message>
         <location filename="../../gui/src/trayicon.cpp" line="108"/>
         <source>static</source>
-        <translation type="unfinished"></translation>
+        <translation>静的</translation>
     </message>
     <message>
         <location filename="../../gui/src/trayicon.cpp" line="110"/>
         <source>enabled</source>
-        <translation type="unfinished"></translation>
+        <translation>有効</translation>
     </message>
     <message>
         <location filename="../../gui/src/trayicon.cpp" line="219"/>
         <source>Show netctl-auto</source>
-        <translation type="unfinished"></translation>
+        <translation>netctl-auto を表示</translation>
     </message>
     <message>
         <location filename="../../gui/src/trayicon.cpp" line="63"/>
         <location filename="../../gui/src/trayicon.cpp" line="79"/>
         <location filename="../../gui/src/trayicon.cpp" line="179"/>
         <source>Status</source>
-        <translation type="unfinished"></translation>
+        <translation>状態</translation>
     </message>
     <message>
         <location filename="../../gui/src/trayicon.cpp" line="167"/>
         <source>Hide</source>
-        <translation type="unfinished"></translation>
+        <translation>隠す</translation>
     </message>
 </context>
 <context>
@@ -2320,82 +2321,82 @@
     <message>
         <location filename="../../../build/gui/src/ui_tunnelwidget.h" line="120"/>
         <source>Form</source>
-        <translation type="unfinished"></translation>
+        <translation>フォーム</translation>
     </message>
     <message>
         <location filename="../../../build/gui/src/ui_tunnelwidget.h" line="121"/>
         <source>Tunnel settings</source>
-        <translation type="unfinished"></translation>
+        <translation>トンネルの設定</translation>
     </message>
     <message>
         <location filename="../../../build/gui/src/ui_tunnelwidget.h" line="122"/>
         <source>Mode</source>
-        <translation type="unfinished"></translation>
+        <translation>モード</translation>
     </message>
     <message>
         <location filename="../../../build/gui/src/ui_tunnelwidget.h" line="135"/>
         <source>The tunnel type</source>
-        <translation type="unfinished"></translation>
+        <translation>トンネルのタイプ</translation>
     </message>
     <message>
         <location filename="../../../build/gui/src/ui_tunnelwidget.h" line="125"/>
         <source>ipip</source>
-        <translation type="unfinished"></translation>
+        <translation>ipip</translation>
     </message>
     <message>
         <location filename="../../../build/gui/src/ui_tunnelwidget.h" line="126"/>
         <source>gre</source>
-        <translation type="unfinished"></translation>
+        <translation>gre</translation>
     </message>
     <message>
         <location filename="../../../build/gui/src/ui_tunnelwidget.h" line="127"/>
         <source>sit</source>
-        <translation type="unfinished"></translation>
+        <translation>sit</translation>
     </message>
     <message>
         <location filename="../../../build/gui/src/ui_tunnelwidget.h" line="128"/>
         <source>isatap</source>
-        <translation type="unfinished"></translation>
+        <translation>isatap</translation>
     </message>
     <message>
         <location filename="../../../build/gui/src/ui_tunnelwidget.h" line="129"/>
         <source>ip6ip6</source>
-        <translation type="unfinished"></translation>
+        <translation>ip6ip6</translation>
     </message>
     <message>
         <location filename="../../../build/gui/src/ui_tunnelwidget.h" line="130"/>
         <source>ipip6</source>
-        <translation type="unfinished"></translation>
+        <translation>ipip6</translation>
     </message>
     <message>
         <location filename="../../../build/gui/src/ui_tunnelwidget.h" line="131"/>
         <source>ip6gre</source>
-        <translation type="unfinished"></translation>
+        <translation>ip6gre</translation>
     </message>
     <message>
         <location filename="../../../build/gui/src/ui_tunnelwidget.h" line="132"/>
         <source>any</source>
-        <translation type="unfinished"></translation>
+        <translation>すべて</translation>
     </message>
     <message>
         <location filename="../../../build/gui/src/ui_tunnelwidget.h" line="137"/>
         <source>Local</source>
-        <translation type="unfinished"></translation>
+        <translation>ローカル</translation>
     </message>
     <message>
         <location filename="../../../build/gui/src/ui_tunnelwidget.h" line="139"/>
         <source>The address of the local end of the tunnel</source>
-        <translation type="unfinished"></translation>
+        <translation>トンネルのローカルにおける始点アドレス</translation>
     </message>
     <message>
         <location filename="../../../build/gui/src/ui_tunnelwidget.h" line="141"/>
         <source>Remote</source>
-        <translation type="unfinished"></translation>
+        <translation>リモート</translation>
     </message>
     <message>
         <location filename="../../../build/gui/src/ui_tunnelwidget.h" line="143"/>
         <source>The address of the remote end of the tunnel</source>
-        <translation type="unfinished"></translation>
+        <translation>トンネルのリモートにおける終点アドレス</translation>
     </message>
 </context>
 <context>
