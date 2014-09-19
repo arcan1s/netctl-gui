@@ -26,7 +26,7 @@
     <message>
         <location filename="../../gui/src/aboutwindow.cpp" line="58"/>
         <source>Qt-based graphical interface for netctl.</source>
-        <translation>Qtベースのnetctl用グラフィカルインターフェース。</translation>
+        <translation>Qt ベースの netctl 用グラフィカルインターフェース。</translation>
     </message>
     <message>
         <location filename="../../gui/src/aboutwindow.cpp" line="81"/>
@@ -56,22 +56,22 @@
     <message>
         <location filename="../../gui/src/aboutwindow.cpp" line="67"/>
         <source>Translation issue</source>
-        <translation>翻訳についてのissue</translation>
+        <translation>翻訳についての issue</translation>
     </message>
     <message>
         <location filename="../../gui/src/aboutwindow.cpp" line="69"/>
         <source>AUR packages</source>
-        <translation>AURパッケージ</translation>
+        <translation>AUR パッケージ</translation>
     </message>
     <message>
         <location filename="../../gui/src/aboutwindow.cpp" line="72"/>
         <source>This software is licensed under %1</source>
-        <translation>このソフトウェアは%1の下で利用を許可される</translation>
+        <translation>このソフトウェアは%1の下で利用を許可されます</translation>
     </message>
     <message>
         <location filename="../../gui/src/aboutwindow.cpp" line="82"/>
         <source>This software uses: %1</source>
-        <translation>このソフトウェアは次を利用している：%1</translation>
+        <translation>このソフトウェアは次を利用しています：%1</translation>
     </message>
     <message>
         <location filename="../../../build/gui/src/ui_aboutwindow.h" line="55"/>
@@ -94,7 +94,7 @@
     <message>
         <location filename="../../../build/gui/src/ui_bridgewidget.h" line="67"/>
         <source>Skip (R)STP and immediately activate all bridge members</source>
-        <translation>(R)STPをスキップし直ちにすべてのブリッジメンバを活性化する</translation>
+        <translation>(R)STP をスキップし直ちにすべてのブリッジメンバを活性化する</translation>
     </message>
     <message>
         <location filename="../../../build/gui/src/ui_bridgewidget.h" line="69"/>
@@ -156,7 +156,7 @@
     <message>
         <location filename="../../gui/src/errorwindow.cpp" line="70"/>
         <source>Ip settings are not set</source>
-        <translation>IPの設定が指定されていません</translation>
+        <translation>IP の設定が指定されていません</translation>
     </message>
     <message>
         <location filename="../../gui/src/errorwindow.cpp" line="74"/>
@@ -181,23 +181,23 @@
     <message>
         <location filename="../../gui/src/errorwindow.cpp" line="90"/>
         <source>ESSID is not set</source>
-        <translation>ESSIDが設定されていません</translation>
+        <translation>ESSID が設定されていません</translation>
     </message>
     <message>
         <location filename="../../gui/src/errorwindow.cpp" line="94"/>
         <source>MAC address is incorrect</source>
-        <translation>MACアドレスが正しくありません</translation>
+        <translation>MAC アドレスが正しくありません</translation>
     </message>
     <message>
         <location filename="../../gui/src/errorwindow.cpp" line="98"/>
         <source>Session ID is not set</source>
-        <translation>セッションIDが設定されていません</translation>
+        <translation>セッション ID が設定されていません</translation>
     </message>
     <message>
         <location filename="../../gui/src/errorwindow.cpp" line="102"/>
         <location filename="../../gui/src/errorwindow.cpp" line="106"/>
         <source>APN is not set</source>
-        <translation>APNが設定されていません</translation>
+        <translation>APN が設定されていません</translation>
     </message>
     <message>
         <location filename="../../gui/src/errorwindow.cpp" line="110"/>
@@ -212,7 +212,7 @@
     <message>
         <location filename="../../gui/src/errorwindow.cpp" line="118"/>
         <source>Could not find ESSID</source>
-        <translation>ESSIDを見付けられません</translation>
+        <translation>ESSID を発見できません</translation>
     </message>
     <message>
         <location filename="../../gui/src/errorwindow.cpp" line="122"/>
@@ -227,7 +227,7 @@
     <message>
         <location filename="../../gui/src/errorwindow.cpp" line="188"/>
         <source>Sender : %1</source>
-        <translation>送り手：%1</translation>
+        <translation>送信元：%1</translation>
     </message>
 </context>
 <context>
@@ -262,22 +262,22 @@
     <message>
         <location filename="../../../build/gui/src/ui_ethernetwidget.h" line="215"/>
         <source>Set to ‘yes’ to use 802.1x authentication</source>
-        <translation>802.1.x認証を使用「する」ように設定する</translation>
+        <translation>802.1.x 認証を使用「する」ように設定する</translation>
     </message>
     <message>
         <location filename="../../../build/gui/src/ui_ethernetwidget.h" line="217"/>
         <source>802.1x authentication</source>
-        <translation>802.1.x認証</translation>
+        <translation>802.1.x 認証</translation>
     </message>
     <message>
         <location filename="../../../build/gui/src/ui_ethernetwidget.h" line="218"/>
         <source>WPA config file</source>
-        <translation>WPA設定ファイル</translation>
+        <translation>WPA 設定ファイル</translation>
     </message>
     <message>
         <location filename="../../../build/gui/src/ui_ethernetwidget.h" line="220"/>
         <source>Path to a wpa_supplicant configuration file</source>
-        <translation>wpa_supplicant設定ファイルへのパス</translation>
+        <translation>wpa_supplicant 設定ファイルへのパス</translation>
     </message>
     <message>
         <location filename="../../../build/gui/src/ui_ethernetwidget.h" line="222"/>
@@ -287,17 +287,17 @@
     <message>
         <location filename="../../../build/gui/src/ui_ethernetwidget.h" line="223"/>
         <source>WPA driver</source>
-        <translation>WPAドライバ</translation>
+        <translation>WPA ドライバ</translation>
     </message>
     <message>
         <location filename="../../../build/gui/src/ui_ethernetwidget.h" line="231"/>
         <source>The wpa_supplicant driver to use for 802.1x authentication</source>
-        <translation>802.1.x認証利用の為のwpa_supplicantドライバ</translation>
+        <translation>802.1.x 認証利用の為の wpa_supplicant ドライバ</translation>
     </message>
     <message>
         <location filename="../../../build/gui/src/ui_ethernetwidget.h" line="226"/>
         <source>wired</source>
-        <translation>有線</translation>
+        <translation>wired</translation>
     </message>
     <message>
         <location filename="../../../build/gui/src/ui_ethernetwidget.h" line="227"/>
@@ -322,18 +322,18 @@
     <message>
         <location filename="../../../build/gui/src/ui_ethernetwidget.h" line="237"/>
         <source>Timeout WPA</source>
-        <translation>WPAのタイムアウト</translation>
+        <translation>WPA のタイムアウト</translation>
     </message>
     <message>
         <location filename="../../../build/gui/src/ui_ethernetwidget.h" line="239"/>
         <source>Maximum time, in seconds, to wait for 802.1x authentication to succeed</source>
-        <translation>802.1.x認証の成功を待機する最大時間（秒）</translation>
+        <translation>802.1.x 認証の成功を待機する最大時間（秒）</translation>
     </message>
     <message>
         <location filename="../../gui/src/wirelesswidget.cpp" line="186"/>
         <location filename="../../gui/src/ethernetwidget.cpp" line="78"/>
         <source>Select wpa configuration file</source>
-        <translation>WPA設定ファイルを選択</translation>
+        <translation>WPA 設定ファイルを選択</translation>
     </message>
     <message>
         <location filename="../../gui/src/wirelesswidget.cpp" line="188"/>
@@ -472,7 +472,7 @@
     <message>
         <location filename="../../../build/gui/src/ui_ipwidget.h" line="761"/>
         <source>IP options</source>
-        <translation>IPオプション</translation>
+        <translation>IP オプション</translation>
     </message>
     <message>
         <location filename="../../../build/gui/src/ui_ipwidget.h" line="762"/>
@@ -520,7 +520,7 @@
     <message>
         <location filename="../../../build/gui/src/ui_ipwidget.h" line="775"/>
         <source>An IP routing gateway address</source>
-        <translation>IPv4ルーティングゲートウェイアドレス</translation>
+        <translation>IPv4 ルーティングゲートウェイアドレス</translation>
     </message>
     <message>
         <location filename="../../../build/gui/src/ui_ipwidget.h" line="777"/>
@@ -545,7 +545,7 @@
     <message>
         <location filename="../../../build/gui/src/ui_ipwidget.h" line="788"/>
         <source>An array of IPv6 addresses</source>
-        <translation>IPv6アドレスの列</translation>
+        <translation>IPv6 アドレスの列</translation>
     </message>
     <message>
         <location filename="../../../build/gui/src/ui_ipwidget.h" line="790"/>
@@ -555,7 +555,7 @@
     <message>
         <location filename="../../../build/gui/src/ui_ipwidget.h" line="792"/>
         <source>An IPv6 routing gateway address</source>
-        <translation>IPv6ルーティングゲートウェイアドレス</translation>
+        <translation>IPv6 ルーティングゲートウェイアドレス</translation>
     </message>
     <message>
         <location filename="../../gui/src/ipwidget.cpp" line="367"/>
@@ -588,7 +588,7 @@
     <message>
         <location filename="../../../build/gui/src/ui_ipwidget.h" line="807"/>
         <source>Custom</source>
-        <translation>編集</translation>
+        <translation>カスタム</translation>
     </message>
     <message>
         <location filename="../../../build/gui/src/ui_ipwidget.h" line="810"/>
@@ -608,22 +608,22 @@
     <message>
         <location filename="../../../build/gui/src/ui_ipwidget.h" line="816"/>
         <source>Timeout DAD</source>
-        <translation>DADのタイムアウト</translation>
+        <translation>DAD のタイムアウト</translation>
     </message>
     <message>
         <location filename="../../../build/gui/src/ui_ipwidget.h" line="818"/>
         <source>Maximum time, in seconds, to wait for IPv6’s Duplicate Address Detection to succeed</source>
-        <translation>IPv6における重複アドレス検出の成功を待機する最大時間（秒）</translation>
+        <translation>IPv6 における重複アドレス検出の成功を待機する最大時間（秒）</translation>
     </message>
     <message>
         <location filename="../../../build/gui/src/ui_ipwidget.h" line="820"/>
         <source>DHCP client</source>
-        <translation>DHCPクライアント</translation>
+        <translation>DHCP クライアント</translation>
     </message>
     <message>
         <location filename="../../../build/gui/src/ui_ipwidget.h" line="827"/>
         <source>The name of the preferred DHCP client</source>
-        <translation>優先するDHCPクライアントの名前</translation>
+        <translation>優先する DHCP クライアントの名前</translation>
     </message>
     <message>
         <location filename="../../../build/gui/src/ui_ipwidget.h" line="823"/>
@@ -638,7 +638,7 @@
     <message>
         <location filename="../../../build/gui/src/ui_ipwidget.h" line="829"/>
         <source>dhcpcd options</source>
-        <translation>dhcpcdオプション</translation>
+        <translation>dhcpcd オプション</translation>
     </message>
     <message>
         <location filename="../../../build/gui/src/ui_ipwidget.h" line="831"/>
@@ -655,27 +655,27 @@
     <message>
         <location filename="../../../build/gui/src/ui_ipwidget.h" line="837"/>
         <source>dhclient options (6)</source>
-        <translation>dhclientオプション (IPv6)</translation>
+        <translation>dhclient オプション (IPv6)</translation>
     </message>
     <message>
         <location filename="../../../build/gui/src/ui_ipwidget.h" line="841"/>
         <source>Timeout DHCP</source>
-        <translation>DHCPのタイムアウト</translation>
+        <translation>DHCP のタイムアウト</translation>
     </message>
     <message>
         <location filename="../../../build/gui/src/ui_ipwidget.h" line="843"/>
         <source>Maximum time, in seconds, to wait for DHCP to be successful</source>
-        <translation>DHCP成功までの最大待機時間（秒）</translation>
+        <translation>DHCP が成功するまでの最大待機時間（秒）</translation>
     </message>
     <message>
         <location filename="../../../build/gui/src/ui_ipwidget.h" line="846"/>
         <source>Set to ‘yes’ to release the DHCP lease when the profile is stopped</source>
-        <translation>プロファイル停止時にDHCPリースの解放のために &apos;yes&apos; を設定する</translation>
+        <translation>プロファイル停止時に DHCP リースの解放のために &apos;yes&apos; を設定する</translation>
     </message>
     <message>
         <location filename="../../../build/gui/src/ui_ipwidget.h" line="848"/>
         <source>DHCP release on stop</source>
-        <translation>停止時にDHCPを解放する</translation>
+        <translation>停止時に DHCP を解放する</translation>
     </message>
     <message>
         <location filename="../../../build/gui/src/ui_ipwidget.h" line="849"/>
@@ -690,7 +690,7 @@
     <message>
         <location filename="../../../build/gui/src/ui_ipwidget.h" line="854"/>
         <source>DNS domain</source>
-        <translation>DNSドメイン</translation>
+        <translation>DNS ドメイン</translation>
     </message>
     <message>
         <location filename="../../../build/gui/src/ui_ipwidget.h" line="856"/>
@@ -700,7 +700,7 @@
     <message>
         <location filename="../../../build/gui/src/ui_ipwidget.h" line="858"/>
         <source>DNS search</source>
-        <translation>DNS検索</translation>
+        <translation>DNS 検索</translation>
     </message>
     <message>
         <location filename="../../../build/gui/src/ui_ipwidget.h" line="860"/>
@@ -710,7 +710,7 @@
     <message>
         <location filename="../../../build/gui/src/ui_ipwidget.h" line="862"/>
         <source>DNS options</source>
-        <translation>DNSオプション</translation>
+        <translation>DNS オプション</translation>
     </message>
     <message>
         <location filename="../../../build/gui/src/ui_ipwidget.h" line="865"/>
@@ -733,7 +733,7 @@
     <message>
         <location filename="../../../build/gui/src/ui_macvlanwidget.h" line="106"/>
         <source>macvlan settings</source>
-        <translation>macvlan設定</translation>
+        <translation>macvlan 設定</translation>
     </message>
     <message>
         <location filename="../../../build/gui/src/ui_macvlanwidget.h" line="107"/>
@@ -743,12 +743,12 @@
     <message>
         <location filename="../../../build/gui/src/ui_macvlanwidget.h" line="108"/>
         <source>MAC address</source>
-        <translation>MACアドレス</translation>
+        <translation>MAC アドレス</translation>
     </message>
     <message>
         <location filename="../../../build/gui/src/ui_macvlanwidget.h" line="110"/>
         <source>Optional static MAC address</source>
-        <translation>追加的な静的MACアドレス</translation>
+        <translation>追加的な静的 MAC アドレス</translation>
     </message>
 </context>
 <context>
@@ -874,7 +874,7 @@
     <message>
         <location filename="../../../build/gui/src/ui_mainwindow.h" line="233"/>
         <source>netctl-auto is running</source>
-        <translation>netctl-autoは実行中です</translation>
+        <translation>netctl-auto は実行中です</translation>
     </message>
     <message>
         <location filename="../../../build/gui/src/ui_mainwindow.h" line="234"/>
@@ -964,7 +964,7 @@
     <message>
         <location filename="../../gui/src/mainwindow.cpp" line="102"/>
         <source>Ready</source>
-        <translation>レディ</translation>
+        <translation>用意</translation>
     </message>
     <message>
         <location filename="../../gui/src/mainwindow.cpp" line="334"/>
@@ -1102,7 +1102,7 @@
     <message>
         <location filename="../../gui/src/messages.cpp" line="72"/>
         <source>start detached from console</source>
-        <translation>コンソールから切り離して開始する</translation>
+        <translation>コンソールから分離して開始する</translation>
     </message>
     <message>
         <location filename="../../gui/src/messages.cpp" line="74"/>
@@ -1142,7 +1142,7 @@
     <message>
         <location filename="../../gui/src/messages.cpp" line="86"/>
         <source>select this ESSID</source>
-        <translation>このESSIDを選択</translation>
+        <translation>この ESSID を選択</translation>
     </message>
     <message>
         <location filename="../../gui/src/messages.cpp" line="88"/>
@@ -1207,7 +1207,7 @@
     <message>
         <location filename="../../gui/src/messages.cpp" line="120"/>
         <source>Build date: %1</source>
-        <translation>ビルド日：%1</translation>
+        <translation>ビルド日時：%1</translation>
     </message>
     <message>
         <location filename="../../gui/src/messages.cpp" line="123"/>
@@ -1301,7 +1301,7 @@
     <message>
         <location filename="../../../build/gui/src/ui_mobilewidget.h" line="258"/>
         <source>Mobile PPP settings</source>
-        <translation>モバイルPPPの設定</translation>
+        <translation>モバイル PPP の設定</translation>
     </message>
     <message>
         <location filename="../../../build/gui/src/ui_mobilewidget.h" line="259"/>
@@ -1337,7 +1337,7 @@
     <message>
         <location filename="../../../build/gui/src/ui_mobilewidget.h" line="273"/>
         <source>If your modem requires a PIN to unlock, use this option</source>
-        <translation>モデムがPINのアンロックを要求する場合にこのオプションを使用する</translation>
+        <translation>モデムが PIN のアンロックを要求する場合にこのオプションを使用する</translation>
     </message>
     <message>
         <location filename="../../../build/gui/src/ui_mobilewidget.h" line="275"/>
@@ -1403,12 +1403,12 @@
     <message>
         <location filename="../../../build/gui/src/ui_mobilewidget.h" line="297"/>
         <source>Use the DNS provided by the peer</source>
-        <translation>ピアから提供されるDNSを使用</translation>
+        <translation>ピアから提供される DNS を使用</translation>
     </message>
     <message>
         <location filename="../../../build/gui/src/ui_mobilewidget.h" line="299"/>
         <source>Use peer DNS</source>
-        <translation>ピアDNSを使用</translation>
+        <translation>ピア DNS を使用</translation>
     </message>
     <message>
         <location filename="../../../build/gui/src/ui_mobilewidget.h" line="300"/>
@@ -1418,7 +1418,7 @@
     <message>
         <location filename="../../../build/gui/src/ui_mobilewidget.h" line="302"/>
         <source>A file to read additional pppd options from</source>
-        <translation>追加のPPPDオプションを読み込む為のファイル</translation>
+        <translation>追加の PPPD オプションを読み込む為のファイル</translation>
     </message>
     <message>
         <location filename="../../../build/gui/src/ui_mobilewidget.h" line="304"/>
@@ -1501,7 +1501,7 @@
     <message>
         <location filename="../../gui/src/netctlautowindow.cpp" line="45"/>
         <source>Ready</source>
-        <translation>レディ</translation>
+        <translation>用意</translation>
     </message>
     <message>
         <location filename="../../gui/src/netctlautowindow.cpp" line="182"/>
@@ -1517,7 +1517,7 @@
     <message>
         <location filename="../../gui/src/netctlautowindow.cpp" line="187"/>
         <source>netctl-auto is running</source>
-        <translation>netctl-autoは実行中です</translation>
+        <translation>netctl-auto は実行中です</translation>
     </message>
     <message>
         <location filename="../../gui/src/netctlautowindow.cpp" line="188"/>
@@ -1533,7 +1533,7 @@
     <message>
         <location filename="../../gui/src/netctlautowindow.cpp" line="193"/>
         <source>netctl-auto is not running</source>
-        <translation>netctl-autoは実行されていません</translation>
+        <translation>netctl-auto は実行されていません</translation>
     </message>
     <message>
         <location filename="../../gui/src/netctlautowindow.cpp" line="65"/>
@@ -1732,12 +1732,12 @@
     <message>
         <location filename="../../../build/gui/src/ui_pppoewidget.h" line="411"/>
         <source>Use the DNS provided by the peer</source>
-        <translation>ピアから提供されるDNSを使用</translation>
+        <translation>ピアから提供される DNS を使用</translation>
     </message>
     <message>
         <location filename="../../../build/gui/src/ui_pppoewidget.h" line="413"/>
         <source>Use peer DNS</source>
-        <translation>ピアDNSを使用</translation>
+        <translation>ピア DNS を使用</translation>
     </message>
     <message>
         <location filename="../../../build/gui/src/ui_pppoewidget.h" line="414"/>
@@ -1955,7 +1955,7 @@
     <message>
         <location filename="../../../build/gui/src/ui_settingswindow.h" line="814"/>
         <source>It is recommended to use systemd integration. See `man 1 netctlgui-helper` for more details.</source>
-        <translation>systemdへ統合された機能の仕様が推奨されます。詳細は `man 1 netctlgui-helper` を参照して下さい。</translation>
+        <translation>systemd へ統合された機能の仕様が推奨されます。詳細は `man 1 netctlgui-helper` を参照して下さい。</translation>
     </message>
     <message>
         <location filename="../../../build/gui/src/ui_settingswindow.h" line="815"/>
@@ -2203,7 +2203,7 @@
         <location filename="../../gui/src/trayicon.cpp" line="60"/>
         <location filename="../../gui/src/trayicon.cpp" line="76"/>
         <source>netctl status</source>
-        <translation>netctlの状態</translation>
+        <translation>netctl の状態</translation>
     </message>
     <message>
         <location filename="../../gui/src/trayicon.cpp" line="62"/>
@@ -2409,7 +2409,7 @@
     <message>
         <location filename="../../../build/gui/src/ui_tuntapwidget.h" line="119"/>
         <source>Tuntap settings</source>
-        <translation>TUN/TAP設定</translation>
+        <translation>TUN/TAP 設定</translation>
     </message>
     <message>
         <location filename="../../../build/gui/src/ui_tuntapwidget.h" line="120"/>
@@ -2439,7 +2439,7 @@
     <message>
         <location filename="../../../build/gui/src/ui_tuntapwidget.h" line="131"/>
         <source>The owning user of the tun/tap interface</source>
-        <translation>TUN/TAPインターフェースを所有するユーザ</translation>
+        <translation>TUN/TAP インターフェースを所有するユーザ</translation>
     </message>
     <message>
         <location filename="../../../build/gui/src/ui_tuntapwidget.h" line="133"/>
@@ -2449,7 +2449,7 @@
     <message>
         <location filename="../../../build/gui/src/ui_tuntapwidget.h" line="135"/>
         <source>The owning group of the tun/tap interface</source>
-        <translation>TUN/TAPインターフェースを所有するグループ</translation>
+        <translation>TUN/TAP インターフェースを所有するグループ</translation>
     </message>
 </context>
 <context>
@@ -2462,7 +2462,7 @@
     <message>
         <location filename="../../../build/gui/src/ui_vlanwidget.h" line="82"/>
         <source>vlan settings</source>
-        <translation>VLAN設定</translation>
+        <translation>VLAN 設定</translation>
     </message>
     <message>
         <location filename="../../../build/gui/src/ui_vlanwidget.h" line="83"/>
@@ -2472,7 +2472,7 @@
     <message>
         <location filename="../../../build/gui/src/ui_vlanwidget.h" line="85"/>
         <source>vlan identifier</source>
-        <translation>VLAN識別子</translation>
+        <translation>VLAN 識別子</translation>
     </message>
 </context>
 <context>
@@ -2603,7 +2603,7 @@
     <message>
         <location filename="../../../build/gui/src/ui_wirelesswidget.h" line="504"/>
         <source>A space-separated list of frequencies in MHz to scan when searching for the network</source>
-        <translation>ネットワークを検索する際に対象となる帯域(MHz)をスペースで区切ったリスト</translation>
+        <translation>ネットワークを検索する際に対象となる帯域 (MHz) をスペースで区切ったリスト</translation>
     </message>
     <message>
         <location filename="../../../build/gui/src/ui_wirelesswidget.h" line="506"/>
