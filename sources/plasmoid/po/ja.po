@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://github.com/arcan1s/netctl-gui/issues\n"
 "POT-Creation-Date: 2014-08-24 16:44+0400\n"
-"PO-Revision-Date: 2014-09-09 21:16+0900\n"
+"PO-Revision-Date: 2014-09-19 13:49+0900\n"
 "Last-Translator: NOGISAKA Sadata <ngsksdt@gmail.com>\n"
 "Language-Team: Japanese <kde-i18n-doc@kde.org>\n"
 "Language: ja\n"
@@ -19,23 +19,23 @@ msgstr ""
 
 #: netctl.cpp:270
 msgid "Set profile %1 disabled"
-msgstr "プロファイル%1を無効にする"
+msgstr "プロファイル %1 を無効にする"
 
 #: netctl.cpp:273
 msgid "Set profile %1 enabled"
-msgstr "プロファイル%1を有効にする"
+msgstr "プロファイル %1 を有効にする"
 
 #: netctl.cpp:294
 msgid "Restart profile %1"
-msgstr "プロファイル%1を再開する"
+msgstr "プロファイル %1 を再開する"
 
 #: netctl.cpp:315
 msgid "Start profile %1"
-msgstr "プロファイル%1を開始する"
+msgstr "プロファイル %1 を開始する"
 
 #: netctl.cpp:341
 msgid "Stop profile %1"
-msgstr "プロファイル%1を停止する"
+msgstr "プロファイル %1 を停止する"
 
 #: netctl.cpp:361 netctl.cpp:499
 msgid "Stop all profiles"
@@ -43,7 +43,7 @@ msgstr "全てのプロファイルを停止する"
 
 #: netctl.cpp:381
 msgid "Switch to profile %1"
-msgstr "プロファイル%1へ切り替える"
+msgstr "プロファイル %1 へ切り替える"
 
 #: netctl.cpp:454
 msgid "Start another profile"
@@ -51,19 +51,19 @@ msgstr "他のプロファイルを起動する"
 
 #: netctl.cpp:455
 msgid "Stop %1"
-msgstr "%1を停止"
+msgstr "%1 を停止"
 
 #: netctl.cpp:456
 msgid "Restart %1"
-msgstr "%1を再開する"
+msgstr "%1 を再開する"
 
 #: netctl.cpp:458
 msgid "Disable %1"
-msgstr "%1を無効にする"
+msgstr "%1 を無効にする"
 
 #: netctl.cpp:460
 msgid "Enable %1"
-msgstr "%1を有効にする"
+msgstr "%1 を有効にする"
 
 #: netctl.cpp:463 netctl.cpp:486
 msgid "Start profile"
@@ -87,27 +87,27 @@ msgstr "このプロファイルを有効にする"
 
 #: netctl.cpp:521
 msgid "Show netctl-gui"
-msgstr "netctl-guiを表示"
+msgstr "netctl-gui を表示"
 
 #: netctl.cpp:526
 msgid "Show WiFi menu"
-msgstr "WiFiメニューを表示"
+msgstr "WiFi メニューを表示"
 
 #: netctl.cpp:553
 msgid "Start GUI"
-msgstr "GUIを開始する"
+msgstr "GUI を開始する"
 
 #: netctl.cpp:564
 msgid "Start WiFi menu"
-msgstr "WiFiメニューを開始する"
+msgstr "WiFi メニューを開始する"
 
 #: netctl.cpp:604
 msgid "Network is up"
-msgstr "ネットワーク確立済み"
+msgstr "ネットワーク有効"
 
 #: netctl.cpp:608
 msgid "Network is down"
-msgstr "ネットワーク確立せず"
+msgstr "ネットワーク無効"
 
 #: netctl.cpp:798
 msgid ""
@@ -119,7 +119,7 @@ msgstr ""
 
 #: netctl.cpp:799
 msgid "KDE widget which interacts with netctl."
-msgstr "netctlと連携するKDEウィジェット"
+msgstr "netctl と連携する KDE ウィジェット"
 
 #: netctl.cpp:800
 msgid "Links:"
@@ -139,15 +139,15 @@ msgstr "バグトラッカ"
 
 #: netctl.cpp:804
 msgid "Translation issue"
-msgstr "翻訳についてのissue"
+msgstr "翻訳についての issue"
 
 #: netctl.cpp:805
 msgid "AUR packages"
-msgstr "AURパッケージ"
+msgstr "AUR パッケージ"
 
 #: netctl.cpp:807
 msgid "This software is licensed under %1"
-msgstr "このソフトウェアは%1の下で利用を許可される"
+msgstr "このソフトウェアは %1 の下で利用を許可されます"
 
 #: netctl.cpp:815
 msgid "Translators: %1"
@@ -155,11 +155,11 @@ msgstr "翻訳者：%1"
 
 #: netctl.cpp:816
 msgid "This software uses: %1"
-msgstr "このソフトウェアは次を利用している：%1"
+msgstr "このソフトウェアは次を利用しています：%1"
 
 #: netctl.cpp:818
 msgid "Netctl plasmoid"
-msgstr "netctl plasmoid"
+msgstr "Netctl plasmoid"
 
 #: netctl.cpp:819
 msgid "Appearance"
@@ -177,7 +177,7 @@ msgstr "概要"
 #. i18n: ectx: property (text), widget (QLabel, label_inactiveIcon)
 #: po/rc.cpp:3 rc.cpp:3
 msgid "Inactive icon"
-msgstr "非アクティブ時のアイコン"
+msgstr "非活性化時のアイコン"
 
 #. i18n: file: appearance.ui:63
 #. i18n: ectx: property (text), widget (QPushButton, pushButton_inactiveIcon)
@@ -299,7 +299,7 @@ msgstr "フォントを設定する"
 #. i18n: ectx: property (text), widget (QLabel, label_activeIcon)
 #: po/rc.cpp:39 rc.cpp:39
 msgid "Active icon"
-msgstr "アクティブ時のアイコン"
+msgstr "活性化時のアイコン"
 
 #. i18n: file: appearance.ui:408
 #. i18n: ectx: property (text), widget (QLabel, label_textAlign)
@@ -323,7 +323,7 @@ msgstr "テキストの位置を設定する"
 #. i18n: ectx: property (text), widget (QLabel, label_netctl)
 #: po/rc.cpp:51 po/rc.cpp:90 rc.cpp:51 rc.cpp:90
 msgid "Path to netctl"
-msgstr "netctlへのパス"
+msgstr "netctl へのパス"
 
 #. i18n: file: dataengine.ui:67
 #. i18n: ectx: property (text), widget (QLabel, label_netctlAuto)
@@ -335,19 +335,19 @@ msgstr "netctlへのパス"
 #. i18n: ectx: property (text), widget (QLabel, label_netctlAuto)
 #: po/rc.cpp:57 po/rc.cpp:96 rc.cpp:57 rc.cpp:96
 msgid "Path to netctl-auto"
-msgstr "netctl-autoへのパス"
+msgstr "netctl-auto へのパス"
 
 #. i18n: file: dataengine.ui:100
 #. i18n: ectx: property (text), widget (QCheckBox, checkBox_extIp4)
 #: po/rc.cpp:63 rc.cpp:63
 msgid "Check external IPv4"
-msgstr "グローバルIPv4アドレスを確認"
+msgstr "外部 IPv4 アドレスを確認"
 
 #. i18n: file: dataengine.ui:136
 #. i18n: ectx: property (text), widget (QCheckBox, checkBox_extIp6)
 #: po/rc.cpp:69 rc.cpp:69
 msgid "Check external IPv6"
-msgstr "グローバルIPv6アドレスを確認"
+msgstr "外部 IPv6 アドレスを確認"
 
 #. i18n: file: widget.ui:34
 #. i18n: ectx: property (text), widget (QLabel, label_autoUpdate)
@@ -371,13 +371,13 @@ msgstr "ヘルパを使う"
 #. i18n: ectx: property (text), widget (QCheckBox, checkBox_sudo)
 #: po/rc.cpp:102 rc.cpp:102
 msgid "Use sudo for netctl"
-msgstr "netctlにsudoを使う"
+msgstr "netctl にて sudo を使う"
 
 #. i18n: file: widget.ui:263
 #. i18n: ectx: property (text), widget (QCheckBox, checkBox_wifi)
 #: po/rc.cpp:108 rc.cpp:108
 msgid "Show 'Start WiFi menu'"
-msgstr "「Wifiメニューの開始」を表示"
+msgstr "「Wifi メニューの開始」を表示"
 
 #. i18n: file: widget.ui:291
 #. i18n: ectx: property (text), widget (QCheckBox, checkBox_showBigInterface)
@@ -401,11 +401,11 @@ msgid ""
 msgstr ""
 "$info - アクティブなプロファイルの情報\n"
 "$current - 現在利用中プロファイルの情報\n"
-"$extip4 - グローバルIPv4アドレス\n"
-"$extip6 - グローバルIPv6アドレス\n"
+"$extip4 - 外部 IPv4 アドレス\n"
+"$extip6 - 外部 IPv6 アドレス\n"
 "$interfaces - ネットワークインターフェースの一覧\n"
-"$intip4 - ローカルIPv4アドレス\n"
-"$intip6 - ローカルIPv6アドレス\n"
+"$intip4 - 内部 IPv4 アドレス\n"
+"$intip6 - 内部 IPv6 アドレス\n"
 "$profiles - プロファイルの一覧\n"
 "$status - 現在のプロファイルの状態（静的/有効）"
 
