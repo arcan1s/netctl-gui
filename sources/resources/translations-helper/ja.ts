@@ -7,7 +7,7 @@
         <location filename="../../helper/src/messages.cpp" line="28"/>
         <source>Unknown flag
 </source>
-        <translation>不明なフラグ</translation>
+        <translation>不明なフラグです</translation>
     </message>
     <message>
         <location filename="../../helper/src/messages.cpp" line="54"/>
@@ -52,7 +52,7 @@
     <message>
         <location filename="../../helper/src/messages.cpp" line="70"/>
         <source>Show messages:</source>
-        <translation>メッセージを表示：</translation>
+        <translation>メッセージの表示：</translation>
     </message>
     <message>
         <location filename="../../helper/src/messages.cpp" line="72"/>
@@ -77,12 +77,12 @@
     <message>
         <location filename="../../helper/src/messages.cpp" line="89"/>
         <source>cmake flags</source>
-        <translation>cmakeのフラグ</translation>
+        <translation>cmake のフラグ</translation>
     </message>
     <message>
         <location filename="../../helper/src/messages.cpp" line="91"/>
         <source>cmake properties</source>
-        <translation>cmakeのプロパティ</translation>
+        <translation>cmake のプロパティ</translation>
     </message>
     <message>
         <location filename="../../helper/src/messages.cpp" line="95"/>
@@ -102,7 +102,7 @@
     <message>
         <location filename="../../helper/src/messages.cpp" line="112"/>
         <source>DBus configuration</source>
-        <translation>DBus設定</translation>
+        <translation>DBus 設定</translation>
     </message>
     <message>
         <location filename="../../helper/src/messages.cpp" line="121"/>
@@ -127,24 +127,24 @@
     <message>
         <location filename="../../helper/src/main.cpp" line="95"/>
         <source>The helper is running with EUID %1. Some functions may not be available.</source>
-        <translation>このヘルパはEUID %1 として実行されています。いくつか利用できない機能が存在します。</translation>
+        <translation>このヘルパは EUID %1 として実行されています。いくつか利用できない機能が存在します。</translation>
     </message>
     <message>
         <location filename="../../helper/src/main.cpp" line="97"/>
         <source>See security notes for more details.</source>
-        <translation>詳細を得るためにセキュリティノートを表示する</translation>
+        <translation>詳細情報を得るにはセキュリティノートを参照して下さい。</translation>
     </message>
     <message>
         <location filename="../../helper/src/main.cpp" line="136"/>
         <location filename="../../helper/src/main.cpp" line="147"/>
         <source>Replace existing session.</source>
-        <translation>既存のセッションを置き換える</translation>
+        <translation>既存のセッションを置き換える。</translation>
     </message>
     <message>
         <location filename="../../helper/src/main.cpp" line="141"/>
         <location filename="../../helper/src/main.cpp" line="153"/>
         <source>Restore existing session.</source>
-        <translation>既存のセッションを復帰させる</translation>
+        <translation>既存のセッションを復帰させる。</translation>
     </message>
 </context>
 </TS>
