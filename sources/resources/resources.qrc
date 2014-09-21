@@ -2,6 +2,7 @@
 <qresource>
 <!--     gui translations -->
     <file>translations/en.qm</file>
+    <file>translations/ja.qm</file>
     <file>translations/ru.qm</file>
 <!--     icons -->
     <file>icon.png</file>

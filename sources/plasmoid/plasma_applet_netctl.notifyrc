@@ -1,5 +1,5 @@
 [Global]
-IconName=netctl-gui
+IconName=netctl-gui-widget
 Name=Netctl plasmoid
 Comment=Netctl plasmoid popups
 
