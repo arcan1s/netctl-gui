@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://github.com/arcan1s/netctl-gui/issues\n"
 "POT-Creation-Date: 2014-08-24 16:44+0400\n"
-"PO-Revision-Date: 2014-09-22 21:23+0900\n"
+"PO-Revision-Date: 2014-09-28 16:02+0900\n"
 "Last-Translator: NOGISAKA Sadata <ngsksdt@gmail.com>\n"
 "Language-Team: Japanese <kde-i18n-doc@kde.org>\n"
 "Language: ja\n"
@@ -103,11 +103,11 @@ msgstr "WiFi メニューを開始"
 
 #: netctl.cpp:604
 msgid "Network is up"
-msgstr "ネットワーク有効"
+msgstr "ネットワークは有効です"
 
 #: netctl.cpp:608
 msgid "Network is down"
-msgstr "ネットワーク無効"
+msgstr "ネットワークは無効です"
 
 #: netctl.cpp:798
 msgid ""
@@ -147,7 +147,7 @@ msgstr "AUR パッケージ"
 
 #: netctl.cpp:807
 msgid "This software is licensed under %1"
-msgstr "このソフトウェアは %1 の下で利用を許可されます"
+msgstr "このソフトウェアは %1 の下で許諾されます"
 
 #: netctl.cpp:815
 msgid "Translators: %1"
@@ -177,7 +177,7 @@ msgstr "概要"
 #. i18n: ectx: property (text), widget (QLabel, label_inactiveIcon)
 #: po/rc.cpp:3 rc.cpp:3
 msgid "Inactive icon"
-msgstr "非活性状態時のアイコン"
+msgstr "非活性時のアイコン"
 
 #. i18n: file: appearance.ui:63
 #. i18n: ectx: property (text), widget (QPushButton, pushButton_inactiveIcon)
@@ -299,7 +299,7 @@ msgstr "フォントを設定する"
 #. i18n: ectx: property (text), widget (QLabel, label_activeIcon)
 #: po/rc.cpp:39 rc.cpp:39
 msgid "Active icon"
-msgstr "活性状態時のアイコン"
+msgstr "活性時のアイコン"
 
 #. i18n: file: appearance.ui:408
 #. i18n: ectx: property (text), widget (QLabel, label_textAlign)
@@ -365,13 +365,13 @@ msgstr "GUIへのパス"
 #. i18n: ectx: property (text), widget (QCheckBox, checkBox_helper)
 #: po/rc.cpp:84 rc.cpp:84
 msgid "Use helper"
-msgstr "ヘルパを使う"
+msgstr "ヘルパを使用する"
 
 #. i18n: file: widget.ui:227
 #. i18n: ectx: property (text), widget (QCheckBox, checkBox_sudo)
 #: po/rc.cpp:102 rc.cpp:102
 msgid "Use sudo for netctl"
-msgstr "netctl で sudo を使う"
+msgstr "netctl に対して sudo を使用する"
 
 #. i18n: file: widget.ui:263
 #. i18n: ectx: property (text), widget (QCheckBox, checkBox_wifi)
