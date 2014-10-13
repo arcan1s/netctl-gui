@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://github.com/arcan1s/netctl-gui/issues\n"
 "POT-Creation-Date: 2014-08-24 16:44+0400\n"
-"PO-Revision-Date: 2014-09-28 16:02+0900\n"
+"PO-Revision-Date: 2014-10-13 16:37+0900\n"
 "Last-Translator: NOGISAKA Sadata <ngsksdt@gmail.com>\n"
 "Language-Team: Japanese <kde-i18n-doc@kde.org>\n"
 "Language: ja\n"
@@ -27,27 +27,27 @@ msgstr "プロファイル %1 を有効にする"
 
 #: netctl.cpp:294
 msgid "Restart profile %1"
-msgstr "プロファイル %1 を再開"
+msgstr "プロファイル %1 の利用を再開"
 
 #: netctl.cpp:315
 msgid "Start profile %1"
-msgstr "プロファイル %1 を開始"
+msgstr "プロファイル %1 の利用を開始"
 
 #: netctl.cpp:341
 msgid "Stop profile %1"
-msgstr "プロファイル %1 を停止する"
+msgstr "プロファイル %1 の利用を停止する"
 
 #: netctl.cpp:361 netctl.cpp:499
 msgid "Stop all profiles"
-msgstr "全てのプロファイルを停止する"
+msgstr "全てのプロファイルの利用を停止する"
 
 #: netctl.cpp:381
 msgid "Switch to profile %1"
-msgstr "プロファイル %1 へ切り替える"
+msgstr "プロファイルを %1 へ切り替える"
 
 #: netctl.cpp:454
 msgid "Start another profile"
-msgstr "他のプロファイルを起動"
+msgstr "他のプロファイルの利用を開始"
 
 #: netctl.cpp:455
 msgid "Stop %1"
@@ -67,23 +67,23 @@ msgstr "%1 を有効にする"
 
 #: netctl.cpp:463 netctl.cpp:486
 msgid "Start profile"
-msgstr "このプロファイルを開始"
+msgstr "プロファイルの利用を開始"
 
 #: netctl.cpp:494
 msgid "Stop profile"
-msgstr "このプロファイルを停止する"
+msgstr "プロファイルの利用を停止する"
 
 #: netctl.cpp:504
 msgid "Switch to profile"
-msgstr "このプロファイルに切り替える"
+msgstr "プロファイルを切り替える"
 
 #: netctl.cpp:512
 msgid "Restart profile"
-msgstr "プロファイルを再開"
+msgstr "プロファイルの利用を再開"
 
 #: netctl.cpp:517
 msgid "Enable profile"
-msgstr "このプロファイルを有効にする"
+msgstr "プロファイルを有効にする"
 
 #: netctl.cpp:521
 msgid "Show netctl-gui"
@@ -139,7 +139,7 @@ msgstr "バグトラッカ"
 
 #: netctl.cpp:804
 msgid "Translation issue"
-msgstr "翻訳についての issue"
+msgstr "翻訳に関する issue"
 
 #: netctl.cpp:805
 msgid "AUR packages"
@@ -177,7 +177,7 @@ msgstr "概要"
 #. i18n: ectx: property (text), widget (QLabel, label_inactiveIcon)
 #: po/rc.cpp:3 rc.cpp:3
 msgid "Inactive icon"
-msgstr "非活性時のアイコン"
+msgstr "非アクティブ時のアイコン"
 
 #. i18n: file: appearance.ui:63
 #. i18n: ectx: property (text), widget (QPushButton, pushButton_inactiveIcon)
@@ -299,7 +299,7 @@ msgstr "フォントを設定する"
 #. i18n: ectx: property (text), widget (QLabel, label_activeIcon)
 #: po/rc.cpp:39 rc.cpp:39
 msgid "Active icon"
-msgstr "活性時のアイコン"
+msgstr "アクティブ時のアイコン"
 
 #. i18n: file: appearance.ui:408
 #. i18n: ectx: property (text), widget (QLabel, label_textAlign)
@@ -399,7 +399,7 @@ msgid ""
 "$profiles - list of the netctl profiles\n"
 "$status - current profile status (static/enabled)"
 msgstr ""
-"$info - 活性状態なプロファイルの情報\n"
+"$info - アクティブなプロファイルの情報\n"
 "$current - 現在利用中プロファイルの情報\n"
 "$extip4 - 外部 IPv4 アドレス\n"
 "$extip6 - 外部 IPv6 アドレス\n"
