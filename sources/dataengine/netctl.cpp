@@ -46,6 +46,7 @@ Netctl::Netctl(QObject *parent, const QVariantList &args)
 
     setMinimumPollingInterval(333);
     readConfiguration();
+    initSources();
 }
 
 
@@ -316,6 +317,16 @@ QString Netctl::getStatus(const QString cmdNetctl, const QString cmdNetctlAuto)
         status = QString("true");
 
     return status;
+}
+
+
+void Netctl::initSources()
+{
+    if (debug) qDebug() << PDEBUG;
+
+    QStringList sourcesList = sources();
+    for (int i=0; i<sourcesList.count(); i++)
+        setData(sourcesList[i], QString("value"), QString("N\\A"));
 }
 
 

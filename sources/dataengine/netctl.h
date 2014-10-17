@@ -39,6 +39,9 @@ public:
     QString getStatus(const QString cmdNetctl, const QString cmdNetctlAuto);
     bool isNetworkActive();
 
+public slots:
+    void initSources();
+
 protected:
     bool sourceRequestEvent(const QString &name);
     bool updateSourceEvent(const QString &source);
