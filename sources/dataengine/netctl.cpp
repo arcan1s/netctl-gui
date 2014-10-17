@@ -185,6 +185,8 @@ QString Netctl::getExtIp(const QString cmd)
     if (debug) qDebug() << PDEBUG;
     if (debug) qDebug() << PDEBUG << ":" << "Cmd" << cmd;
 
+    // test network connection
+    if (!isNetworkActive()) return QString("N\\A");
     TaskResult process = runTask(cmd);
     if (debug) qDebug() << PDEBUG << ":" << "Cmd returns" << process.exitCode;
     if (process.exitCode != 0)
@@ -314,6 +316,22 @@ QString Netctl::getStatus(const QString cmdNetctl, const QString cmdNetctlAuto)
         status = QString("true");
 
     return status;
+}
+
+
+bool Netctl::isNetworkActive()
+{
+    if (debug) qDebug() << PDEBUG;
+
+    QString cmd = QString("ping -c 1 google.com");
+    if (debug) qDebug() << PDEBUG << ":" << "Cmd" << cmd;
+    TaskResult process = runTask(cmd);
+    if (debug) qDebug() << PDEBUG << ":" << "Cmd returns" << process.exitCode;
+
+    if (process.exitCode == 0)
+        return true;
+    else
+        return false;
 }
 
 

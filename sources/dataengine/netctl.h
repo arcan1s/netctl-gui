@@ -37,6 +37,7 @@ public:
     QStringList getProfileList(const QString cmdNetctl, const QString cmdNetctlAuto);
     QStringList getProfileStringStatus(const QString cmdNetctl, const QString cmdNetctlAuto);
     QString getStatus(const QString cmdNetctl, const QString cmdNetctlAuto);
+    bool isNetworkActive();
 
 protected:
     bool sourceRequestEvent(const QString &name);
