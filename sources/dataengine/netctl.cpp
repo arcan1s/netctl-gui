@@ -23,6 +23,7 @@
 #include <QFile>
 #include <QNetworkInterface>
 #include <QProcessEnvironment>
+#include <QStandardPaths>
 #include <QTextCodec>
 
 #include <pdebug/pdebug.h>
@@ -87,8 +88,7 @@ void Netctl::readConfiguration()
     rawConfig[QString("NETCTLCMD")] = QString("/usr/bin/netctl");
     rawConfig[QString("NETCTLAUTOCMD")] = QString("/usr/bin/netctl-auto");
 
-    // TODO: correct filename
-    QString fileName = QString(".config/netctl.conf");
+    QString fileName = QStandardPaths::locate(QStandardPaths::ConfigLocation, QString("netctl.conf"));
     if (debug) qDebug() << PDEBUG << ":" << "Configuration file" << fileName;
     QFile configFile(fileName);
     if (!configFile.open(QIODevice::ReadOnly)) {
