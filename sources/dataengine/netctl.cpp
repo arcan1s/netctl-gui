@@ -17,8 +17,6 @@
 
 #include "netctl.h"
 
-#include <KGlobal>
-#include <KStandardDirs>
 #include <Plasma/DataContainer>
 
 #include <QDebug>
@@ -89,7 +87,8 @@ void Netctl::readConfiguration()
     rawConfig[QString("NETCTLCMD")] = QString("/usr/bin/netctl");
     rawConfig[QString("NETCTLAUTOCMD")] = QString("/usr/bin/netctl-auto");
 
-    QString fileName = KGlobal::dirs()->findResource("config", "netctl.conf");
+    // TODO: correct filename
+    QString fileName = QString(".config/netctl.conf");
     if (debug) qDebug() << PDEBUG << ":" << "Configuration file" << fileName;
     QFile configFile(fileName);
     if (!configFile.open(QIODevice::ReadOnly)) {
