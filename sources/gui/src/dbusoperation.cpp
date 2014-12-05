@@ -30,11 +30,12 @@ QList<netctlProfileInfo> parseOutputNetctl(const QList<QVariant> raw,
     if (debug) qDebug() << PDEBUG;
 
     QList<netctlProfileInfo> profileInfo;
-    if (raw.size() == 0)
-        return profileInfo;
-    for (int i=0; i<raw[0].toStringList().count(); i++) {
+    if (raw.size() == 0) return profileInfo;
+    QStringList list = raw[0].toStringList();
+    for (int i=0; i<list.count(); i++) {
+        QStringList info = list[i].split(QChar('|'));
+        if (info.count() != 4) continue;
         netctlProfileInfo profile;
-        QStringList info = raw[0].toStringList()[i].split(QChar('|'));
         profile.name = info[0];
         profile.description = info[1];
         profile.active = info[2].toInt();
@@ -52,11 +53,12 @@ QList<netctlWifiInfo> parseOutputWifi(const QList<QVariant> raw,
     if (debug) qDebug() << PDEBUG;
 
     QList<netctlWifiInfo> wifiInfo;
-    if (raw.size() == 0)
-        return wifiInfo;
-    for (int i=0; i<raw[0].toStringList().count(); i++) {
+    if (raw.size() == 0) return wifiInfo;
+    QStringList list = raw[0].toStringList();
+    for (int i=0; i<list.count(); i++) {
+        QStringList info = list[i].split(QChar('|'));
+        if (info.count() != 5) continue;
         netctlWifiInfo wifi;
-        QStringList info = raw[0].toStringList()[i].split(QChar('|'));
         wifi.name = info[0];
         wifi.security = info[1];
         wifi.signal = info[2];
