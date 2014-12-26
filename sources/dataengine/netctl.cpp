@@ -387,6 +387,7 @@ bool Netctl::updateSourceEvent(const QString &source)
 }
 
 
-K_EXPORT_PLASMA_DATAENGINE(netctl, Netctl)
+// K_EXPORT_PLASMA_DATAENGINE(netctl, Netctl)
+K_EXPORT_PLASMA_DATAENGINE_WITH_JSON(netctl, Netctl, "plasma-dataengine-netctl.json")
 
 #include "netctl.moc"
