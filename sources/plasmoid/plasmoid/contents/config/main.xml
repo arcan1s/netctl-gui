@@ -5,8 +5,45 @@
       http://www.kde.org/standards/kcfg/1.0/kcfg.xsd" >
   <kcfgfile name=""/>
 
-<!--   appearance -->
+  <group name="Widget">
+    <!--   widget -->
+    <entry name="autoUpdateInterval" type="int">
+      <default>100</default>
+    </entry>
+    <entry name="guiPath" type="string">
+      <default>/usr/bin/netctl-gui</default>
+    </entry>
+    <entry name="helperPath" type="string">
+      <default>/usr/bin/netctlgui-helper</default>
+    </entry>
+    <entry name="netctlPath" type="string">
+      <default>/usr/bin/netctl</default>
+    </entry>
+    <entry name="netctlAutoPath" type="string">
+      <default>/usr/bin/netctl-auto</default>
+    </entry>
+    <entry name="sudoPath" type="string">
+      <default>/usr/bin/kdesu</default>
+    </entry>
+    <entry name="wifiPath" type="string">
+      <default>/usr/bin/netctl-gui -t 3</default>
+    </entry>
+    <entry name="useHelper" type="bool">
+      <default>true</default>
+    </entry>
+    <entry name="useSudo" type="bool">
+      <default>true</default>
+    </entry>
+    <entry name="useWifi" type="bool">
+      <default>false</default>
+    </entry>
+    <entry name="textPattern" type="string">
+      <default>$info\nIPv4: $intip4\nIPv6: $intip6</default>
+    </entry>
+  </group>
+
   <group name="Appearance">
+    <!--   appearance -->
     <entry name="textAlign" type="string">
       <default>center</default>
     </entry>

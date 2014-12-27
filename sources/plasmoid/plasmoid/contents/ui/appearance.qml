@@ -171,7 +171,7 @@ Item {
 
             QtDialogs.FileDialog {
                 id: activeFileDialog
-                title: "Select a path"
+                title: i18n("Select a path")
                 nameFilters: [ "Image files (*.jpeg *.jpg *.png)", "All files (*)" ]
                 selectExisting: true
                 onAccepted: activeIcon.text = activeFileDialog.fileUrl
@@ -200,7 +200,7 @@ Item {
 
             QtDialogs.FileDialog {
                 id: inactiveFileDialog
-                title: "Select a path"
+                title: i18n("Select a path")
                 nameFilters: [ "Image files (*.jpeg *.jpg *.png)", "All files (*)" ]
                 selectExisting: true
                 onAccepted: inactiveIcon.text = inactiveFileDialog.fileUrl
@@ -210,7 +210,7 @@ Item {
 
     QtDialogs.ColorDialog {
         id: colorDialog
-        title: "Select a color"
+        title: i18n("Select a color")
         color: selectColor.text
         onAccepted: {
             selectColor.text = colorDialog.color
@@ -219,7 +219,7 @@ Item {
 
     QtDialogs.FontDialog {
         id: fontDialog
-        title: "Select a font"
+        title: i18n("Select a font")
         font: Qt.font({ family: selectFont.text, pointSize: fontSize.value, weight: Font.Normal })
         onAccepted: {
             selectFont.text = fontDialog.font.family

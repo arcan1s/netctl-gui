@@ -18,14 +18,15 @@
 import QtQuick 2.0
 
 import org.kde.plasma.configuration 2.0
+import org.kde.plasma.plasmoid 2.0
 
 
 ConfigModel {
-//    ConfigCategory {
-//         name: i18n("Netctl plasmoid")
-//         icon: Plasmoid.icon
-//         source: "appearance.qml"
-//    }
+    ConfigCategory {
+         name: i18n("Netctl plasmoid")
+         icon: "/usr/share/pixmaps/netctl-gui-widget.png"
+         source: "widget.qml"
+    }
 
     ConfigCategory {
          name: i18n("Appearance")

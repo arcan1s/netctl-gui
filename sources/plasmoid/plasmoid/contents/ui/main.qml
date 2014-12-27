@@ -38,10 +38,10 @@ Item {
     }
     Text {
         id: iconPath
-        property string active: "/usr/share/icons/hicolor/64x64/apps/netctl-idle.png"
-        property string inactive: "/usr/share/icons/hicolor/64x64/apps/netctl-offline.png"
+        property string active: plasmoid.configuration.activeIconPath
+        property string inactive: plasmoid.configuration.inactiveIconPath
     }
-    property int interval: 1000
+    property int interval: plasmoid.configuration.autoUpdateInterval
     property bool status: false
 
     // init
