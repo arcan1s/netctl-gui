@@ -18,6 +18,7 @@
 import QtQuick 2.2
 import org.kde.plasma.core 2.0 as PlasmaCore
 import org.kde.plasma.components 2.0 as PlasmaComponents
+import org.kde.plasma.plasmoid 2.0
 
 
 Item {
@@ -26,6 +27,7 @@ Item {
     // variables
     Text {
         id: info
+        property string current: "N\\A"
         property string extip4: "127.0.0.1"
         property string extip6: "::1"
         property string intip4: "127.0.0.1"
@@ -41,6 +43,9 @@ Item {
     }
     property int interval: 1000
     property bool status: false
+
+    // init
+    Plasmoid.icon: icon.source
 
     PlasmaCore.DataSource {
         id: mainData
@@ -59,7 +64,8 @@ Item {
                     icon.source = iconPath.inactive
                 }
             } else if (sourceName == "current") {
-                text.text = data.value
+                info.current= data.value
+                // text update
             } else if (sourceName == "extip4") {
                 info.extip4 = data.value
             } else if (sourceName == "extip6") {
@@ -84,9 +90,11 @@ Item {
 
         Image {
             id: icon
+            source: iconPath.inactive
         }
         Text {
             id: text
+            text: "N\\A"
         }
     }
 }

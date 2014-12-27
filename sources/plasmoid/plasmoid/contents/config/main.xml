@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<kcfg xmlns="http://www.kde.org/standards/kcfg/1.0"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://www.kde.org/standards/kcfg/1.0
+      http://www.kde.org/standards/kcfg/1.0/kcfg.xsd" >
+  <kcfgfile name=""/>
+
+<!--   appearance -->
+  <group name="Appearance">
+    <entry name="textAlign" type="string">
+      <default>center</default>
+    </entry>
+    <entry name="fontFamily" type="string">
+      <default>Terminus</default>
+    </entry>
+    <entry name="fontSize" type="int">
+      <default>12</default>
+    </entry>
+    <entry name="fontColor" type="string">
+      <default>#000000</default>
+    </entry>
+    <entry name="fontWeight" type="int">
+      <default>400</default>
+    </entry>
+    <entry name="fontStyle" type="string">
+      <default>normal</default>
+    </entry>
+    <entry name="activeIconPath" type="string">
+      <default>/usr/share/icons/hicolor/64x64/apps/netctl-idle.png</default>
+    </entry>
+    <entry name="inactiveIconPath" type="string">
+      <default>/usr/share/icons/hicolor/64x64/apps/netctl-offline.png</default>
+    </entry>
+  </group>
+
+</kcfg>
