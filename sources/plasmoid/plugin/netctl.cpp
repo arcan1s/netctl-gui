@@ -15,27 +15,26 @@
  *   along with netctl-gui. If not, see http://www.gnu.org/licenses/       *
  ***************************************************************************/
 
-import QtQuick 2.0
+#include <QtQml>
 
-import org.kde.plasma.configuration 2.0
+#include <pdebug/pdebug.h>
+
+#include "netctl.h"
+#include "version.h"
 
 
-ConfigModel {
-    ConfigCategory {
-         name: i18n("Widget")
-         icon: "/usr/share/pixmaps/netctl-gui-widget.png"
-         source: "widget.qml"
-    }
+QString NetctlPlugin::parsePattern(QString pattern, const QString key, const QString value)
+{
+//    if (debug) qDebug() << PDEBUG;
 
-    ConfigCategory {
-         name: i18n("Appearance")
-         icon: "preferences-desktop-theme"
-         source: "appearance.qml"
-    }
+    return pattern.replace(QString("$") + key, value);
+}
 
-    ConfigCategory {
-         name: i18n("About")
-         icon: "help-about"
-         source: "about.qml"
-    }
+void NetctlPlugin::registerTypes(const char *uri)
+{
+    Q_ASSERT(uri == QLatin1String("org.kde.plasma.private.netctl"));
+
+//    qmlRegisterType<ProcessRunner>(uri, 1, 0, "ProcessRunner");
+//    qmlRegisterType<TimeZoneModel>(uri, 1, 0, "TimeZoneModel");
+//    qmlRegisterSingletonType<TimezonesI18n>(uri, 1, 0, "TimezonesI18n", timezonesi18n_singletontype_provider);
 }

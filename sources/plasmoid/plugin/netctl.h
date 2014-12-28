@@ -15,27 +15,24 @@
  *   along with netctl-gui. If not, see http://www.gnu.org/licenses/       *
  ***************************************************************************/
 
-import QtQuick 2.0
 
-import org.kde.plasma.configuration 2.0
+#ifndef NETCTLPLUGIN_H
+#define NETCTLPLUGIN_H
+
+#include <QQmlExtensionPlugin>
 
 
-ConfigModel {
-    ConfigCategory {
-         name: i18n("Widget")
-         icon: "/usr/share/pixmaps/netctl-gui-widget.png"
-         source: "widget.qml"
-    }
+class QQmlEngine;
 
-    ConfigCategory {
-         name: i18n("Appearance")
-         icon: "preferences-desktop-theme"
-         source: "appearance.qml"
-    }
+class NetctlPlugin : public QQmlExtensionPlugin
+{
+    Q_OBJECT
+    Q_PLUGIN_METADATA(IID "org.qt-project.Qt.QQmlExtensionInterface")
 
-    ConfigCategory {
-         name: i18n("About")
-         icon: "help-about"
-         source: "about.qml"
-    }
-}
+public:
+    void registerTypes(const char *uri);
+    static QString parsePattern(QString pattern, const QString key, const QString value);
+};
+
+
+#endif /* NETCTLPLUGIN_H */

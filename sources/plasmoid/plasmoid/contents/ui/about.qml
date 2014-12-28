@@ -16,26 +16,20 @@
  ***************************************************************************/
 
 import QtQuick 2.0
+import QtQuick.Controls 1.0 as QtControls
+import QtQuick.Layouts 1.0 as QtLayouts
 
-import org.kde.plasma.configuration 2.0
+
+Item {
+    id: aboutPage
+    width: childrenRect.width
+    height: childrenRect.height
 
 
-ConfigModel {
-    ConfigCategory {
-         name: i18n("Widget")
-         icon: "/usr/share/pixmaps/netctl-gui-widget.png"
-         source: "widget.qml"
-    }
-
-    ConfigCategory {
-         name: i18n("Appearance")
-         icon: "preferences-desktop-theme"
-         source: "appearance.qml"
-    }
-
-    ConfigCategory {
-         name: i18n("About")
-         icon: "help-about"
-         source: "about.qml"
+    QtLayouts.ColumnLayout {
+        QtControls.Label {
+            horizontalAlignment: Text.AlignHCenter
+            text: i18n("Some text")
+        }
     }
 }

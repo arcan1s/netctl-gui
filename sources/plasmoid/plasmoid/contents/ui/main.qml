@@ -20,21 +20,22 @@ import org.kde.plasma.core 2.0 as PlasmaCore
 import org.kde.plasma.components 2.0 as PlasmaComponents
 import org.kde.plasma.plasmoid 2.0
 
+import org.kde.plasma.private.netctl 1.0
+
 
 Item {
     id: main
 
     // variables
-    Text {
-        id: info
-        property string current: "N\\A"
-        property string extip4: "127.0.0.1"
-        property string extip6: "::1"
-        property string intip4: "127.0.0.1"
-        property string intip6: "::1"
-        property var interfaces: ["lo"]
-        property var profiles: []
-        property string status: "N\\A"
+    property variant info: {
+        "current": "N\\A",
+        "extip4": "127.0.0.1",
+        "extip6": "::1",
+        "intip4": "127.0.0.1",
+        "intip6": "::1",
+        "interfaces": "lo",
+        "profiles": "",
+        "status": "N\\A"
     }
     Text {
         id: iconPath
@@ -64,22 +65,25 @@ Item {
                     icon.source = iconPath.inactive
                 }
             } else if (sourceName == "current") {
-                info.current= data.value
+                info["current"] = data.value
                 // text update
+                for (var prop in info) {
+                    console.log(prop + " = " + info[prop])
+                }
             } else if (sourceName == "extip4") {
-                info.extip4 = data.value
+                info["extip4"] = data.value
             } else if (sourceName == "extip6") {
-                info.extip6 = data.value
+                info["extip6"] = data.value
             } else if (sourceName == "interfaces") {
-                info.interfaces = data.value
+                info["interfaces"] = data.value
             } else if (sourceName == "intip4") {
-                info.intip4 = data.value
+                info["intip4"] = data.value
             } else if (sourceName == "intip6") {
-                info.intip6 = data.value
+                info["intip6"] = data.value
             } else if (sourceName == "profiles") {
-                info.profiles = data.value
+                info["profiles"] = data.value
             } else if (sourceName == "status") {
-                info.status = data.value
+                info["status"] = data.value
             }
         }
     }

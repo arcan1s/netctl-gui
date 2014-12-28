@@ -40,29 +40,27 @@ message (STATUS "Subproject ${SUBPROJECT}")
 # install (FILES ${CMAKE_CURRENT_BINARY_DIR}/${SUBPROJECT_DESKTOP} DESTINATION ${SERVICES_INSTALL_DIR})
 # install (FILES ${SUBPROJECT_NOTIFY} DESTINATION ${DATA_INSTALL_DIR}/${PLUGIN_NAME})
 # plasma_install_package(plasmoid org.kde.netctl)
-find_package(ECM 0.0.12 REQUIRED NO_MODULE)
-set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${ECM_MODULE_PATH} ${ECM_KDE_MODULE_DIR} ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
+find_package (Qt5 REQUIRED COMPONENTS Core Qml Widgets)
+find_package (ECM 0.0.12 REQUIRED NO_MODULE)
+set (CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${ECM_MODULE_PATH} ${ECM_KDE_MODULE_DIR})
+find_package(KF5 REQUIRED I18n Service WidgetsAddons KIO CoreAddons Notifications Plasma)
 
-include(KDEInstallDirs)
-include(KDECMakeSettings)
-include(KDECompilerSettings)
+include (KDEInstallDirs)
+include (KDECMakeSettings)
+include (KDECompilerSettings)
+add_definitions (${Qt5Core_DEFINITIONS} ${Qt5Qml_DEFINITIONS})
 
-include(ECMPackageConfigHelpers)
-include(ECMOptionalAddSubdirectory)
-include(FeatureSummary)
+set (Qt_INCLUDE ${Qt5Core_INCLUDE_DIRS}
+                ${Qt5Qml_INCLUDE_DIRS})
+set (Kf5_INCLUDE ${ConfigCore_INCLUDE_DIR}
+                 ${CoreAddons_INCLUDE_DIR}
+                 ${I18n_INCLUDE_DIR}
+                 ${Notifications_INCLUDE_DIR}
+                 ${Plasma_INCLUDE_DIR}
+                 ${Service_INCLUDE_DIR})
 
-find_package(Qt5 ${QT_MIN_VERSION} CONFIG REQUIRED COMPONENTS
-    Core
-    DBus
-    Network
-    Quick
-    Widgets
-)
-
-find_package(KF5 REQUIRED
-    I18n WindowSystem Service Completion WidgetsAddons KIO CoreAddons Wallet ItemViews XmlGui
-    ConfigWidgets IconThemes Solid DBusAddons Notifications Plasma Declarative Init KDELibs4Support)
-
+set (PLUGIN_NAME netctlplugin)
+add_subdirectory (plugin)
 
 set(dir plasmoid)
 set(component org.kde.netctl)

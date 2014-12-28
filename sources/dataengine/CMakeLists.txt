@@ -5,7 +5,7 @@ message (STATUS "Subproject ${SUBPROJECT}")
 # find required libaries
 find_package (Qt5 REQUIRED COMPONENTS Widgets Network)
 find_package (ECM 0.0.11 REQUIRED NO_MODULE)
-set (CMAKE_MODULE_PATH ${ECM_MODULE_PATH} ${ECM_KDE_MODULE_DIR})
+set (CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${ECM_MODULE_PATH} ${ECM_KDE_MODULE_DIR})
 find_package(KF5 REQUIRED COMPONENTS Plasma Service)
 
 include (KDEInstallDirs)
@@ -45,7 +45,6 @@ kcoreaddons_desktop_to_json (${PLUGIN_NAME} ${SUBPROJECT_DESKTOP_IN})
 # kcoreaddons_desktop_to_json (${PLUGIN_NAME} ${SUBPROJECT_DESKTOP})
 
 # install
-install (TARGETS ${PLUGIN_NAME} DESTINATION lib/qt/plugins/plasma/dataengine)
-# install (TARGETS ${PLUGIN_NAME} DESTINATION ${PLUGIN_INSTALL_DIR}/plasma/dataengine)
+install (TARGETS ${PLUGIN_NAME} DESTINATION ${PLUGIN_INSTALL_DIR}/plasma/dataengine)
 install (FILES ${CMAKE_CURRENT_BINARY_DIR}/${SUBPROJECT_DESKTOP} DESTINATION ${SERVICES_INSTALL_DIR})
 install (FILES ${SUBPROJECT_CONF} DESTINATION ${CONFIG_INSTALL_DIR})

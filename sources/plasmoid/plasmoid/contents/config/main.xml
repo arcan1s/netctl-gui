@@ -38,7 +38,9 @@
       <default>false</default>
     </entry>
     <entry name="textPattern" type="string">
-      <default>$info\nIPv4: $intip4\nIPv6: $intip6</default>
+      <default>$info
+IPv4: $intip4
+IPv6: $intip6</default>
     </entry>
   </group>
 

@@ -18,33 +18,6 @@
 #ifndef NETCTL_PLASMOID_H
 #define NETCTL_PLASMOID_H
 
-#include <Plasma/DataEngine>
-#include <Plasma/PopupApplet>
-#include <QProcess>
-
-#include <ui_about.h>
-#include <ui_appearance.h>
-#include <ui_dataengine.h>
-#include <ui_widget.h>
-
-
-class Netctl;
-
-class IconLabel : public QLabel
-{
-    Q_OBJECT
-
-public:
-    IconLabel(Netctl *wid, const bool debugCmd);
-    ~IconLabel();
-
-protected:
-    void mousePressEvent(QMouseEvent *event);
-
-private:
-    bool debug;
-    Netctl *widget;
-};
 
 class Netctl : public Plasma::PopupApplet
 {
