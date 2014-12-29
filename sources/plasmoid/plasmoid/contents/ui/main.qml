@@ -27,6 +27,25 @@ Item {
     id: main
 
     // variables
+    // internal
+    property variant weight: {
+        "light": Font.Light,
+        "normal": Font.Normal,
+        "demibold": Font.DemiBold,
+        "bold": Font.Bold,
+        "black": Font.Black
+    }
+    property variant align: {
+        "left": Text.AlignLeft,
+        "center": Text.AlignHCenter,
+        "right": Text.AlignRight,
+        "justify": Text.AlignJustify
+    }
+    // external
+    property variant iconPath: {
+        "true": plasmoid.configuration.activeIconPath,
+        "false": plasmoid.configuration.inactiveIconPath
+    }
     property variant info: {
         "current": "N\\A",
         "extip4": "127.0.0.1",
@@ -37,12 +56,8 @@ Item {
         "profiles": "",
         "status": "N\\A"
     }
-    Text {
-        id: iconPath
-        property string active: plasmoid.configuration.activeIconPath
-        property string inactive: plasmoid.configuration.inactiveIconPath
-    }
     property int interval: plasmoid.configuration.autoUpdateInterval
+    property string pattern: plasmoid.configuration.textPattern
     property bool status: false
 
     // init
@@ -57,19 +72,13 @@ Item {
         onNewData: {
             if (data.isEmpty) return
             if (sourceName == "active") {
-                if (data.value == "true") {
-                    main.status = true
-                    icon.source = iconPath.active
-                } else {
-                    main.status = false
-                    icon.source = iconPath.inactive
-                }
+                main.status = data.value == "true" ? true : false
+                icon.source = iconPath[data.value]
             } else if (sourceName == "current") {
                 info["current"] = data.value
                 // text update
-                for (var prop in info) {
-                    console.log(prop + " = " + info[prop])
-                }
+                info["info"] = NetctlAdds.getInfo(info["current"], info["status"])
+                text.text = NetctlAdds.parsePattern(pattern, info)
             } else if (sourceName == "extip4") {
                 info["extip4"] = data.value
             } else if (sourceName == "extip6") {
@@ -94,10 +103,17 @@ Item {
 
         Image {
             id: icon
-            source: iconPath.inactive
+            source: iconPath["inactive"]
         }
         Text {
             id: text
+            color: plasmoid.configuration.fontColor
+            font.family: plasmoid.configuration.fontFamily
+            font.italic: plasmoid.configuration.fontStyle == "italic" ? true : false
+            font.pointSize: plasmoid.configuration.fontSize
+            font.weight: weight[plasmoid.configuration.fontWeight]
+            horizontalAlignment: align[plasmoid.configuration.textAlign]
+            textFormat: Text.RichText
             text: "N\\A"
         }
     }

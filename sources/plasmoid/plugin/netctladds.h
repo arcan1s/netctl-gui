@@ -19,10 +19,10 @@
 #ifndef NETCTLADDS_H
 #define NETCTLADDS_H
 
+#include <QMap>
 #include <QObject>
+#include <QVariant>
 
-
-class QQmlEngine;
 
 class NetctlAdds : public QObject
 {
@@ -32,7 +32,11 @@ public:
     NetctlAdds(QObject *parent = 0);
     ~NetctlAdds();
 
-    Q_INVOKABLE QString parsePattern(QString pattern, const QString key, const QString value);
+    Q_INVOKABLE QString getInfo(const QString current, const QString status);
+    Q_INVOKABLE QString parsePattern(const QString pattern, const QMap<QString, QVariant> dict);
+
+private:
+    bool debug = false;
 };
 
 

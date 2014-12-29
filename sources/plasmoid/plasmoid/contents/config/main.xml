@@ -58,8 +58,8 @@ IPv6: $intip6</default>
     <entry name="fontColor" type="string">
       <default>#000000</default>
     </entry>
-    <entry name="fontWeight" type="int">
-      <default>400</default>
+    <entry name="fontWeight" type="string">
+      <default>normal</default>
     </entry>
     <entry name="fontStyle" type="string">
       <default>normal</default>

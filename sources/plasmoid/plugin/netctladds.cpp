@@ -15,7 +15,10 @@
  *   along with netctl-gui. If not, see http://www.gnu.org/licenses/       *
  ***************************************************************************/
 
-//#include <pdebug/pdebug.h>
+#include <QDebug>
+#include <QProcessEnvironment>
+
+#include <pdebug/pdebug.h>
 
 #include "netctladds.h"
 #include "version.h"
@@ -24,19 +27,45 @@
 NetctlAdds::NetctlAdds(QObject *parent)
     : QObject(parent)
 {
+    // debug
+    QProcessEnvironment environment = QProcessEnvironment::systemEnvironment();
+    QString debugEnv = environment.value(QString("NETCTLGUI_DEBUG"), QString("no"));
+    debug = (debugEnv == QString("yes"));
 }
 
 
 NetctlAdds::~NetctlAdds()
 {
-//    if (debug) qDebug() << PDEBUG;
+    if (debug) qDebug() << PDEBUG;
 }
 
 
-QString NetctlAdds::parsePattern(QString pattern, const QString key, const QString value)
+QString NetctlAdds::getInfo(const QString current, const QString status)
 {
-//    if (debug) qDebug() << PDEBUG;
+    if (debug) qDebug() << PDEBUG;
+    if (debug) qDebug() << PDEBUG << ":" << "Current profiles" << current;
+    if (debug) qDebug() << PDEBUG << ":" << "Statuses" << status;
 
-    return pattern.replace(QString("$") + key, value);
+    QStringList profiles;
+    for (int i=0; i<current.split(QChar('|')).count(); i++)
+        profiles.append(current.split(QChar('|'))[i] +
+                QString(" (") + status.split(QChar('|'))[i] + QString(")"));
+
+    return profiles.join(QString(" | "));
+}
+
+
+QString NetctlAdds::parsePattern(const QString pattern, const QMap<QString, QVariant> dict)
+{
+    if (debug) qDebug() << PDEBUG;
+    if (debug) qDebug() << PDEBUG << ":" << "Dictionary" << dict;
+
+    QString parsed = pattern;
+    for (int i=0; i<dict.keys().count(); i++)
+        parsed.replace(QString("$") + dict.keys()[i], dict[dict.keys()[i]].toString());
+    // fix newline
+    parsed.replace(QString("\n"), QString("<br>"));
+
+    return parsed;
 }
 

@@ -17,6 +17,7 @@
 
 import QtQuick 2.0
 import QtQuick.Controls 1.0 as QtControls
+import QtQuick.Controls.Styles 1.3 as QtStyles
 import QtQuick.Dialogs 1.1 as QtDialogs
 import QtQuick.Layouts 1.0 as QtLayouts
 
@@ -26,10 +27,18 @@ Item {
     width: childrenRect.width
     height: childrenRect.height
 
+    property variant weight: {
+        25: 0,
+        50: 1,
+        63: 3,
+        75: 4,
+        87: 5
+    }
+
     property string cfg_textAlign: textAlign.currentText
     property alias cfg_fontFamily: selectFont.text
     property alias cfg_fontSize: fontSize.value
-    property alias cfg_fontWeight: fontWeight.value
+    property string cfg_fontWeight: fontWeight.currentText
     property string cfg_fontStyle: fontStyle.currentText
     property alias cfg_fontColor: selectColor.text
     property alias cfg_activeIconPath: activeIcon.text
@@ -101,12 +110,39 @@ Item {
             QtControls.Label {
                 text: i18n("Font weight")
             }
-            QtControls.SpinBox {
+            QtControls.ComboBox {
                 id: fontWeight
-                minimumValue: 100
-                maximumValue: 900
-                stepSize: 100
-                value: plasmoid.configuration.fontWeight
+                textRole: "label"
+                model: [
+                    {
+                        'label': i18n("light"),
+                        'name': "light"
+                    },
+                    {
+                        'label': i18n("normal"),
+                        'name': "normal"
+                    },
+                    {
+                        'label': i18n("demi bold"),
+                        'name': "demibold"
+                    },
+                    {
+                        'label': i18n("bold"),
+                        'name': "bold"
+                    },
+                    {
+                        'label': i18n("black"),
+                        'name': "black"
+                    }
+                ]
+                onCurrentIndexChanged: cfg_fontWeight = model[currentIndex]["name"]
+                Component.onCompleted: {
+                    for (var i = 0; i < model.length; i++) {
+                        if (model[i]["name"] == plasmoid.configuration.fontWeight) {
+                            fontWeight.currentIndex = i;
+                        }
+                    }
+                }
             }
         }
 
@@ -144,6 +180,11 @@ Item {
             }
             QtControls.Button {
                 id: selectColor
+                style: QtStyles.ButtonStyle {
+                    background: Rectangle {
+                        color: plasmoid.configuration.fontColor
+                    }
+                }
                 text: plasmoid.configuration.fontColor
                 onClicked: colorDialog.visible = true
             }
@@ -224,6 +265,8 @@ Item {
         onAccepted: {
             selectFont.text = fontDialog.font.family
             fontSize.value = fontDialog.font.pointSize
+            fontStyle.currentIndex = fontDialog.font.italic ? 1 : 0
+            fontWeight.currentIndex = weight[fontDialog.font.weight]
         }
     }
 }
