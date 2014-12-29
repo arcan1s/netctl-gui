@@ -20,21 +20,15 @@
 #include <pdebug/pdebug.h>
 
 #include "netctl.h"
+#include "netctladds.h"
 #include "version.h"
 
-
-QString NetctlPlugin::parsePattern(QString pattern, const QString key, const QString value)
-{
-//    if (debug) qDebug() << PDEBUG;
-
-    return pattern.replace(QString("$") + key, value);
-}
 
 void NetctlPlugin::registerTypes(const char *uri)
 {
     Q_ASSERT(uri == QLatin1String("org.kde.plasma.private.netctl"));
 
-//    qmlRegisterType<ProcessRunner>(uri, 1, 0, "ProcessRunner");
+    qmlRegisterType<NetctlAdds>(uri, 1, 0, "NetctlAdds");
 //    qmlRegisterType<TimeZoneModel>(uri, 1, 0, "TimeZoneModel");
 //    qmlRegisterSingletonType<TimezonesI18n>(uri, 1, 0, "TimezonesI18n", timezonesi18n_singletontype_provider);
 }

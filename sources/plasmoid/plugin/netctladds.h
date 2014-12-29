@@ -16,22 +16,24 @@
  ***************************************************************************/
 
 
-#ifndef NETCTLPLUGIN_H
-#define NETCTLPLUGIN_H
+#ifndef NETCTLADDS_H
+#define NETCTLADDS_H
 
-#include <QQmlExtensionPlugin>
+#include <QObject>
 
 
 class QQmlEngine;
 
-class NetctlPlugin : public QQmlExtensionPlugin
+class NetctlAdds : public QObject
 {
     Q_OBJECT
-    Q_PLUGIN_METADATA(IID "org.qt-project.Qt.QQmlExtensionInterface")
 
 public:
-    void registerTypes(const char *uri);
+    NetctlAdds(QObject *parent = 0);
+    ~NetctlAdds();
+
+    Q_INVOKABLE QString parsePattern(QString pattern, const QString key, const QString value);
 };
 
 
-#endif /* NETCTLPLUGIN_H */
+#endif /* NETCTLADDS_H */

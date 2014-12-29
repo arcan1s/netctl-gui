@@ -15,23 +15,28 @@
  *   along with netctl-gui. If not, see http://www.gnu.org/licenses/       *
  ***************************************************************************/
 
+//#include <pdebug/pdebug.h>
 
-#ifndef NETCTLPLUGIN_H
-#define NETCTLPLUGIN_H
-
-#include <QQmlExtensionPlugin>
+#include "netctladds.h"
+#include "version.h"
 
 
-class QQmlEngine;
-
-class NetctlPlugin : public QQmlExtensionPlugin
+NetctlAdds::NetctlAdds(QObject *parent)
+    : QObject(parent)
 {
-    Q_OBJECT
-    Q_PLUGIN_METADATA(IID "org.qt-project.Qt.QQmlExtensionInterface")
-
-public:
-    void registerTypes(const char *uri);
-};
+}
 
 
-#endif /* NETCTLPLUGIN_H */
+NetctlAdds::~NetctlAdds()
+{
+//    if (debug) qDebug() << PDEBUG;
+}
+
+
+QString NetctlAdds::parsePattern(QString pattern, const QString key, const QString value)
+{
+//    if (debug) qDebug() << PDEBUG;
+
+    return pattern.replace(QString("$") + key, value);
+}
+
