@@ -97,13 +97,14 @@ Item {
         }
     }
 
+    // ui
     Grid {
         id: mainGrid
         columns: 2
 
         Image {
             id: icon
-            source: iconPath["inactive"]
+            source: iconPath["false"]
         }
         Text {
             id: text

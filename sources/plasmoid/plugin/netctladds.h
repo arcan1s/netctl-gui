@@ -32,11 +32,42 @@ public:
     NetctlAdds(QObject *parent = 0);
     ~NetctlAdds();
 
+    Q_INVOKABLE QString getAboutText(const QString type = "header");
     Q_INVOKABLE QString getInfo(const QString current, const QString status);
     Q_INVOKABLE QString parsePattern(const QString pattern, const QMap<QString, QVariant> dict);
+    Q_INVOKABLE void runCmd(const QString cmd);
+    Q_INVOKABLE void sendNotification(const QString eventId, const QString message);
+    // context menu
+    Q_INVOKABLE void enableProfileSlot(const QMap<QString, QVariant> dict,
+                                       const bool useHelper = true,
+                                       const QString cmd = QString("/usr/bin/netctl"),
+                                       const QString sudoCmd = QString(""));
+    Q_INVOKABLE void restartProfileSlot(const QMap<QString, QVariant> dict,
+                                        const bool useHelper = true,
+                                        const QString cmd = QString("/usr/bin/netctl"),
+                                        const QString sudoCmd = QString(""));
+    Q_INVOKABLE void startProfileSlot(QString profile, const bool status,
+                                      const bool useHelper = true,
+                                      const QString cmd = QString("/usr/bin/netctl"),
+                                      const QString sudoCmd = QString(""));
+    Q_INVOKABLE void stopProfileSlot(const QMap<QString, QVariant> dict,
+                                     const bool useHelper = true,
+                                     const QString cmd = QString("/usr/bin/netctl"),
+                                     const QString sudoCmd = QString(""));
+    Q_INVOKABLE void stopAllProfilesSlot(const bool useHelper = true,
+                                         const QString cmd = QString("/usr/bin/netctl"),
+                                         const QString sudoCmd = QString(""));
+    Q_INVOKABLE void switchToProfileSlot(QString profile,
+                                         const bool useHelper = true,
+                                         const QString cmd = QString("/usr/bin/netctl-auto"));
 
 private:
     bool debug = false;
+    // helper
+    bool checkHelperStatus(const bool useHelper = true);
+    void startHelper(const QString cmd = QString("/usr/bin/netctlgui-helper"));
+    // dbus
+    QList<QVariant> sendDBusRequest(const QString cmd, const QList<QVariant> args = QList<QVariant>());
 };
 
 

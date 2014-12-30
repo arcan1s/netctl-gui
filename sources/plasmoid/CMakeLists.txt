@@ -40,21 +40,24 @@ message (STATUS "Subproject ${SUBPROJECT}")
 # install (FILES ${CMAKE_CURRENT_BINARY_DIR}/${SUBPROJECT_DESKTOP} DESTINATION ${SERVICES_INSTALL_DIR})
 # install (FILES ${SUBPROJECT_NOTIFY} DESTINATION ${DATA_INSTALL_DIR}/${PLUGIN_NAME})
 # plasma_install_package(plasmoid org.kde.plasma.netctl)
-find_package (Qt5 REQUIRED COMPONENTS Core Qml Widgets)
+find_package (Qt5 REQUIRED COMPONENTS Core DBus Qml Widgets)
 find_package (ECM 0.0.12 REQUIRED NO_MODULE)
 set (CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${ECM_MODULE_PATH} ${ECM_KDE_MODULE_DIR})
-find_package(KF5 REQUIRED I18n Service WidgetsAddons KIO CoreAddons Notifications Plasma)
+find_package(KF5 REQUIRED COMPONENTS I18n Service WidgetsAddons KIO CoreAddons Notifications Plasma)
+find_package(KF5I18n CONFIG REQUIRED)
 
 include (KDEInstallDirs)
 include (KDECMakeSettings)
 include (KDECompilerSettings)
-add_definitions (${Qt5Core_DEFINITIONS} ${Qt5Qml_DEFINITIONS})
+add_definitions (${Qt5Core_DEFINITIONS} ${Qt5DBus_DEFINITIONS} ${Qt5Qml_DEFINITIONS})
 
 set (Qt_INCLUDE ${Qt5Core_INCLUDE_DIRS}
+                ${Qt5DBus_INCLUDE_DIRS}
                 ${Qt5Qml_INCLUDE_DIRS})
 set (Kf5_INCLUDE ${ConfigCore_INCLUDE_DIR}
                  ${CoreAddons_INCLUDE_DIR}
                  ${I18n_INCLUDE_DIR}
+                 ${INTERFACE_INCLUDE_DIRECTORIES}
                  ${Notifications_INCLUDE_DIR}
                  ${Plasma_INCLUDE_DIR}
                  ${Service_INCLUDE_DIR})
@@ -62,20 +65,21 @@ set (Kf5_INCLUDE ${ConfigCore_INCLUDE_DIR}
 set (PLUGIN_NAME netctlplugin)
 add_subdirectory (plugin)
 
-set(dir plasmoid)
-set(component org.kde.plasma.netctl)
-set(root ${ARGV2})
-   set(type ${ARGV3})
-   if(NOT root)
-      set(root plasmoids)
-   endif()
-   if(NOT type)
-      set(type applet)
-   endif()
-   install(DIRECTORY ${dir}/ DESTINATION ${PLASMA_DATA_INSTALL_DIR}/${root}/${component}
-           PATTERN CMakeLists.txt EXCLUDE
-           PATTERN README.txt EXCLUDE
-           PATTERN Messages.sh EXCLUDE
-           PATTERN dummydata EXCLUDE)
-
-   install(FILES ${dir}/metadata.desktop DESTINATION ${SERVICES_INSTALL_DIR} RENAME plasma-${type}-${component}.desktop)
+# set(dir plasmoid)
+# set(component org.kde.plasma.netctl)
+# set(root ${ARGV2})
+#    set(type ${ARGV3})
+#    if(NOT root)
+#       set(root plasmoids)
+#    endif()
+#    if(NOT type)
+#       set(type applet)
+#    endif()
+#    install(DIRECTORY ${dir}/ DESTINATION ${PLASMA_DATA_INSTALL_DIR}/${root}/${component}
+#            PATTERN CMakeLists.txt EXCLUDE
+#            PATTERN README.txt EXCLUDE
+#            PATTERN Messages.sh EXCLUDE
+#            PATTERN dummydata EXCLUDE)
+#
+#    install(FILES ${dir}/metadata.desktop DESTINATION ${SERVICES_INSTALL_DIR} RENAME plasma-${type}-${component}.desktop)
+plasma_install_package (plasmoid org.kde.plasma.netctl)

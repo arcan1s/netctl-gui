@@ -16,8 +16,10 @@
  ***************************************************************************/
 
 import QtQuick 2.0
-import QtQuick.Controls 1.0 as QtControls
+import QtQuick.Controls 1.3 as QtControls
 import QtQuick.Layouts 1.0 as QtLayouts
+
+import org.kde.plasma.private.netctl 1.0
 
 
 Item {
@@ -25,11 +27,59 @@ Item {
     width: childrenRect.width
     height: childrenRect.height
 
+    Grid {
+        QtControls.TabView {
+            QtControls.Tab {
+                title: i18n("About")
 
-    QtLayouts.ColumnLayout {
-        QtControls.Label {
-            horizontalAlignment: Text.AlignHCenter
-            text: i18n("Some text")
+                QtLayouts.ColumnLayout {
+                    QtControls.Label {
+                        QtLayouts.Layout.fillWidth: true
+                        horizontalAlignment: Text.AlignHCenter
+                        text: NetctlAdds.getAboutText("header")
+                    }
+
+                    QtControls.Label {
+                        QtLayouts.Layout.fillWidth: true
+                        horizontalAlignment: Text.AlignJustify
+                        text: NetctlAdds.getAboutText("description")
+                    }
+
+                    QtControls.Label {
+                        QtLayouts.Layout.fillWidth: true
+                        horizontalAlignment: Text.AlignLeft
+                        textFormat: Text.RichText
+                        text: NetctlAdds.getAboutText("links")
+                    }
+
+                    QtControls.Label {
+                        QtLayouts.Layout.fillWidth: true
+                        font.capitalization: Font.SmallCaps
+                        horizontalAlignment: Text.AlignHCenter
+                        textFormat: Text.RichText
+                        text: NetctlAdds.getAboutText("copy")
+                    }
+                }
+            }
+
+            QtControls.Tab {
+                title: i18n("Acknowledgment")
+
+                QtLayouts.ColumnLayout {
+                    QtControls.Label {
+                        QtLayouts.Layout.fillWidth: true
+                        horizontalAlignment: Text.AlignJustify
+                        text: NetctlAdds.getAboutText("translators")
+                    }
+
+                    QtControls.Label {
+                        QtLayouts.Layout.fillWidth: true
+                        horizontalAlignment: Text.AlignJustify
+                        textFormat: Text.RichText
+                        text: NetctlAdds.getAboutText("3rdparty")
+                    }
+                }
+            }
         }
     }
 }
