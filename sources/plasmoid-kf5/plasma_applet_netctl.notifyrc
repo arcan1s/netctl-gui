@@ -1,0 +1,14 @@
+[Global]
+IconName=netctl-gui-widget
+Name=Netctl plasmoid
+Comment=Netctl plasmoid popups
+
+[Event/Error]
+Name=Error
+Comment=There is an error from netctl plasmoid
+Action=Popup
+
+[Event/Info]
+Name=Information
+Comment=There is an information from netctl plasmoid
+Action=Popup

@@ -1,14 +1,12 @@
 [Desktop Entry]
 Encoding=UTF-8
 Name=Netctl
-Comment=Data engine for netctl
-ServiceTypes=Plasma/DataEngine
+Comment=Plasmoid for netctl
 Type=Service
 Icon=netctl-gui-widget
 
-X-KDE-ServiceTypes=Plasma/DataEngine
-X-KDE-Library=plasma_engine_netctl
-X-Plasma-EngineName=netctl
+X-KDE-ServiceTypes=Plasma/Applet,Plasma/PopupApplet
+X-KDE-Library=plasma_applet_netctl
 
 X-KDE-PluginInfo-Author=Evgeniy Alekseev
 X-KDE-PluginInfo-Email=esalexeev@gmail.com
@@ -19,3 +17,4 @@ X-KDE-PluginInfo-Category=Network
 X-KDE-PluginInfo-Depends=
 X-KDE-PluginInfo-License=GPLv3
 X-KDE-PluginInfo-EnabledByDefault=true
+X-Plasma-NotificationArea=true
