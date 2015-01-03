@@ -59,12 +59,7 @@ Item {
     }
     property int interval: plasmoid.configuration.autoUpdateInterval
     property string pattern: plasmoid.configuration.textPattern
-    property variant paths: {
-        "netctl": plasmoid.configuration.netctlPath,
-        "sudo": plasmoid.configuration.sudoPath
-    }
     property bool status: false
-    property bool useHelper: plasmoid.configuration.useHelper
 
     // init
     Plasmoid.icon: icon.source
@@ -76,15 +71,17 @@ Item {
         interval: main.interval
 
         onNewData: {
-            if (data.isEmpty) return
+            if (data.value == "N\\A") return
             if (sourceName == "active") {
-                main.status = data.value == "true" ? true : false
+                status = data.value == "true"
                 icon.source = iconPath[data.value]
             } else if (sourceName == "current") {
                 info["current"] = data.value
                 // text update
                 info["info"] = NetctlAdds.getInfo(info["current"], info["status"])
                 text.text = NetctlAdds.parsePattern(pattern, info)
+                // update menus
+                menuUpdate()
             } else if (sourceName == "extip4") {
                 info["extip4"] = data.value
             } else if (sourceName == "extip6") {
@@ -125,19 +122,113 @@ Item {
         }
     }
 
-    QtControls.Action {
-        id: stopProfile
-        text: i18n("Stop profile")
-        iconSource: "dialog-close"
-        onTriggered: NetctlAdds.stopProfileSlot(info, useHelper, paths["netctl"], paths["sudo"])
+    Component.onCompleted: {
+        plasmoid.setAction("titleAction", "netctl-gui", plasmoid.icon)
+        plasmoid.setAction("startProfile", i18n("Start profile"), "dialog-apply")
+        plasmoid.setAction("stopProfile", i18n("Stop profile"), "dialog-close")
+        plasmoid.setAction("stopAllProfiles", i18n("Stop all profiles"), "dialog-close")
+        plasmoid.setAction("switchToProfile", i18n("Switch to profile"))
+        plasmoid.setAction("restartProfile", i18n("Restart profile"), "stock-refresh")
+        plasmoid.setAction("enableProfile", i18n("Enable profile"))
+        // FIXME: icon from resources
+        plasmoid.setAction("startWifi", i18n("Show WiFi menu"))
     }
 
-    Component.onCompleted: {
-        plasmoid.setAction("stopProfile", i18n("Stop profile"), "dialog-close")
-//        plasmoid.setAction("powerdevilkcm", i18n("&Configure Power Saving..."), "preferences-system-power-management");
+    function menuUpdate() {
+        var titleAction = plasmoid.action("titleAction")
+        var startAction = plasmoid.action("startProfile")
+        var stopAction = plasmoid.action("stopProfile")
+        var stopAllAction = plasmoid.action("stopAllProfiles")
+        var switchToAction = plasmoid.action("switchToProfile")
+        var restartAction = plasmoid.action("restartProfile")
+        var enableAction = plasmoid.action("enableProfile")
+        var wifiAction = plasmoid.action("startWifi")
+
+        titleAction.iconSource = plasmoid.icon
+        titleAction.text = info["current"] + " " + info["status"]
+
+        // FIXME: menu to actions
+        if (info["status"] == "(netctl-auto)") {
+            startAction.visible = false
+            stopAction.visible = false
+            stopAllAction.visible = false
+            switchToAction.visible = true
+            restartAction.visible = false
+            enableAction.visible = false
+            // MENU UPDATE
+        } else {
+            if (info["current"].indexOf("|") > -1) {
+                startAction.visible = true
+                stopAction.visible = false
+                stopAllAction.visible = true
+                switchToAction.visible = false
+                restartAction.visible = false
+                enableAction.visible = false
+            } else {
+                startAction.visible = true
+                stopAction.visible = status
+                stopAllAction.visible = false
+                switchToAction.visible = false
+                restartAction.visible = status
+                enableAction.visible = status
+            }
+            if (status) {
+                startAction.text = i18n("Start another profile")
+                stopAction.text = i18n("Stop %1", info["current"])
+                restartAction.text = i18n("Restart %1", info["current"])
+                if (info["status"].indexOf("enabled") > -1)
+                    enableAction.text = i18n("Disable %1", info["current"])
+                else
+                    enableAction.text = i18n("Enable %1", info["current"])
+            } else
+                startAction.text = i18n("Start profile")
+            // MENU UPDATE
+        }
+
+        wifiAction.visible = plasmoid.configuration.useWifi
+    }
+
+    // actions
+    function action_titleAction() {
+        NetctlAdds.startApplication(plasmoid.configuration.guiPath)
+    }
+
+    function action_startProfile() {
+//        NetctlAdds.startProfileSlot(profile, status, plasmoid.configuration.useHelper,
+//                                    plasmoid.configuration.netctlPath,
+//                                    plasmoid.configuration.sudoPath)
     }
 
     function action_stopProfile() {
-        NetctlAdds.stopProfileSlot(info, useHelper, paths["netctl"], paths["sudo"])
+        NetctlAdds.stopProfileSlot(info, plasmoid.configuration.useHelper,
+                                   plasmoid.configuration.netctlPath,
+                                   plasmoid.configuration.sudoPath)
+    }
+
+    function action_stopAllProfiles() {
+        NetctlAdds.stopAllProfilesSlot(plasmoid.configuration.useHelper,
+                                       plasmoid.configuration.netctlPath,
+                                       plasmoid.configuration.sudoPath)
+    }
+
+    function action_switchToProfile() {
+//        NetctlAdds.switchToProfileSlot(profile, plasmoid.configuration.useHelper,
+//                                       plasmoid.configuration.netctlAutoPath)
+    }
+
+    function action_restartProfile() {
+        NetctlAdds.restartProfileSlot(info, plasmoid.configuration.useHelper,
+                                      plasmoid.configuration.netctlPath,
+                                      plasmoid.configuration.sudoPath)
+    }
+
+    function action_enableProfile() {
+        NetctlAdds.enableProfileSlot(info, plasmoid.configuration.useHelper,
+                                     plasmoid.configuration.netctlPath,
+                                     plasmoid.configuration.sudoPath)
+    }
+
+    function action_startWifi() {
+        NetctlAdds.startApplication(plasmoid.configuration.wifiPath)
     }
 }

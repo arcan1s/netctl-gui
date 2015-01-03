@@ -65,7 +65,7 @@ private:
     bool debug = false;
     // helper
     bool checkHelperStatus(const bool useHelper = true);
-    void startHelper(const QString cmd = QString("/usr/bin/netctlgui-helper"));
+    void startApplication(const QString cmd = QString("/usr/bin/true"));
     // dbus
     QList<QVariant> sendDBusRequest(const QString cmd, const QList<QVariant> args = QList<QVariant>());
 };

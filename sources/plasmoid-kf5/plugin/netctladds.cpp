@@ -49,16 +49,14 @@ bool NetctlAdds::checkHelperStatus(const bool useHelper)
 {
     if (debug) qDebug() << PDEBUG;
 
-    if (useHelper)
-        return !sendDBusRequest(QString("Active"), QList<QVariant>()).isEmpty();
-    else
-        return useHelper;
+    return (useHelper && !sendDBusRequest(QString("Active"), QList<QVariant>()).isEmpty());
 }
 
 
-void NetctlAdds::startHelper(const QString cmd)
+void NetctlAdds::startApplication(const QString cmd)
 {
     if (debug) qDebug() << PDEBUG;
+    if (debug) qDebug() << PDEBUG << ":" << "cmd" << cmd;
 
     QProcess command;
 
