@@ -16,6 +16,7 @@
  ***************************************************************************/
 
 import QtQuick 2.2
+import QtQuick.Controls 1.3 as QtControls
 import org.kde.plasma.plasmoid 2.0
 import org.kde.plasma.core 2.0 as PlasmaCore
 import org.kde.plasma.components 2.0 as PlasmaComponents
@@ -58,7 +59,12 @@ Item {
     }
     property int interval: plasmoid.configuration.autoUpdateInterval
     property string pattern: plasmoid.configuration.textPattern
+    property variant paths: {
+        "netctl": plasmoid.configuration.netctlPath,
+        "sudo": plasmoid.configuration.sudoPath
+    }
     property bool status: false
+    property bool useHelper: plasmoid.configuration.useHelper
 
     // init
     Plasmoid.icon: icon.source
@@ -117,5 +123,21 @@ Item {
             textFormat: Text.RichText
             text: "N\\A"
         }
+    }
+
+    QtControls.Action {
+        id: stopProfile
+        text: i18n("Stop profile")
+        iconSource: "dialog-close"
+        onTriggered: NetctlAdds.stopProfileSlot(info, useHelper, paths["netctl"], paths["sudo"])
+    }
+
+    Component.onCompleted: {
+        plasmoid.setAction("stopProfile", i18n("Stop profile"), "dialog-close")
+//        plasmoid.setAction("powerdevilkcm", i18n("&Configure Power Saving..."), "preferences-system-power-management");
+    }
+
+    function action_stopProfile() {
+        NetctlAdds.stopProfileSlot(info, useHelper, paths["netctl"], paths["sudo"])
     }
 }
