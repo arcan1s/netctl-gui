@@ -5,16 +5,18 @@ Comment=Plasmoid for netctl
 Type=Service
 Icon=netctl-gui-widget
 
-X-KDE-ServiceTypes=Plasma/Applet,Plasma/PopupApplet
-X-KDE-Library=plasma_applet_netctl
+X-KDE-ServiceTypes=Plasma/Applet
+X-Plasma-API=declarativeappletscript
+X-Plasma-MainScript=ui/main.qml
+X-Plasma-NotificationArea=true
+X-Plasma-RemoteLocation=
 
-X-KDE-PluginInfo-Author=Evgeniy Alekseev aka arcanis
+X-KDE-PluginInfo-Author=Evgeniy Alekseev
 X-KDE-PluginInfo-Email=esalexeev@gmail.com
-X-KDE-PluginInfo-Name=netctl
+X-KDE-PluginInfo-Name=org.kde.plasma.netctl
 X-KDE-PluginInfo-Version=@PROJECT_VERSION@
-X-KDE-PluginInfo-Website=http://arcan1s.github.io/projects/netctlplasmoid
+X-KDE-PluginInfo-Website=http://arcanis.name/projects/netctl-gui
 X-KDE-PluginInfo-Category=Network
 X-KDE-PluginInfo-Depends=
 X-KDE-PluginInfo-License=GPLv3
 X-KDE-PluginInfo-EnabledByDefault=true
-X-Plasma-NotificationArea=true

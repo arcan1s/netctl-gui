@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<kcfg xmlns="http://www.kde.org/standards/kcfg/1.0"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://www.kde.org/standards/kcfg/1.0
+      http://www.kde.org/standards/kcfg/1.0/kcfg.xsd" >
+  <kcfgfile name=""/>
+
+  <group name="Widget">
+    <!--   widget -->
+    <entry name="autoUpdateInterval" type="int">
+      <default>100</default>
+    </entry>
+    <entry name="guiPath" type="string">
+      <default>/usr/bin/netctl-gui</default>
+    </entry>
+    <entry name="helperPath" type="string">
+      <default>/usr/bin/netctlgui-helper</default>
+    </entry>
+    <entry name="netctlPath" type="string">
+      <default>/usr/bin/netctl</default>
+    </entry>
+    <entry name="netctlAutoPath" type="string">
+      <default>/usr/bin/netctl-auto</default>
+    </entry>
+    <entry name="sudoPath" type="string">
+      <default>/usr/bin/kdesu</default>
+    </entry>
+    <entry name="wifiPath" type="string">
+      <default>/usr/bin/netctl-gui -t 3</default>
+    </entry>
+    <entry name="useHelper" type="bool">
+      <default>true</default>
+    </entry>
+    <entry name="useSudo" type="bool">
+      <default>true</default>
+    </entry>
+    <entry name="useWifi" type="bool">
+      <default>false</default>
+    </entry>
+    <entry name="textPattern" type="string">
+      <default>$info
+IPv4: $intip4
+IPv6: $intip6</default>
+    </entry>
+  </group>
+
+  <group name="Appearance">
+    <!--   appearance -->
+    <entry name="textAlign" type="string">
+      <default>center</default>
+    </entry>
+    <entry name="fontFamily" type="string">
+      <default>Terminus</default>
+    </entry>
+    <entry name="fontSize" type="int">
+      <default>12</default>
+    </entry>
+    <entry name="fontColor" type="string">
+      <default>#000000</default>
+    </entry>
+    <entry name="fontWeight" type="string">
+      <default>normal</default>
+    </entry>
+    <entry name="fontStyle" type="string">
+      <default>normal</default>
+    </entry>
+    <entry name="activeIconPath" type="string">
+      <default>/usr/share/icons/hicolor/64x64/apps/netctl-idle.png</default>
+    </entry>
+    <entry name="inactiveIconPath" type="string">
+      <default>/usr/share/icons/hicolor/64x64/apps/netctl-offline.png</default>
+    </entry>
+  </group>
+
+</kcfg>

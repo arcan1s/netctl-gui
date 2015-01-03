@@ -17,8 +17,6 @@
 
 #include "netctl.h"
 
-#include <KGlobal>
-#include <KStandardDirs>
 #include <Plasma/DataContainer>
 
 #include <QDebug>
@@ -29,6 +27,15 @@
 
 #include <pdebug/pdebug.h>
 #include <task/taskadds.h>
+#include <version.h>
+
+// KF5-KDE4 compability
+#ifdef BUILD_KDE4
+#include <KGlobal>
+#include <KStandardDirs>
+#else
+#include <QStandardPaths>
+#endif /* BUILD_KDE4 */
 
 
 Netctl::Netctl(QObject *parent, const QVariantList &args)
@@ -89,7 +96,12 @@ void Netctl::readConfiguration()
     rawConfig[QString("NETCTLCMD")] = QString("/usr/bin/netctl");
     rawConfig[QString("NETCTLAUTOCMD")] = QString("/usr/bin/netctl-auto");
 
-    QString fileName = KGlobal::dirs()->findResource("config", "netctl.conf");
+    QString fileName;
+#ifdef BUILD_KDE4
+    fileName = KGlobal::dirs()->findResource("config", "netctl.conf");
+#else
+    fileName = QStandardPaths::locate(QStandardPaths::ConfigLocation, QString("netctl.conf"));
+#endif /* BUILD_KDE4 */
     if (debug) qDebug() << PDEBUG << ":" << "Configuration file" << fileName;
     QFile configFile(fileName);
     if (!configFile.open(QIODevice::ReadOnly)) {
@@ -388,6 +400,10 @@ bool Netctl::updateSourceEvent(const QString &source)
 }
 
 
+#ifdef BUILD_KDE4
 K_EXPORT_PLASMA_DATAENGINE(netctl, Netctl)
+#else
+K_EXPORT_PLASMA_DATAENGINE_WITH_JSON(netctl, Netctl, "plasma-dataengine-netctl.json")
+#endif /* BUILD_KDE4 */
 
 #include "netctl.moc"
