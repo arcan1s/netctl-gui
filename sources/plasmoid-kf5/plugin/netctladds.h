@@ -34,6 +34,7 @@ public:
 
     Q_INVOKABLE QString getAboutText(const QString type = "header");
     Q_INVOKABLE QString getInfo(const QString current, const QString status);
+    Q_INVOKABLE bool isDebugEnabled();
     Q_INVOKABLE QString parsePattern(const QString pattern, const QMap<QString, QVariant> dict);
     Q_INVOKABLE void runCmd(const QString cmd);
     Q_INVOKABLE void sendNotification(const QString eventId, const QString message);
@@ -60,6 +61,9 @@ public:
     Q_INVOKABLE void switchToProfileSlot(QString profile,
                                          const bool useHelper = true,
                                          const QString cmd = QString("/usr/bin/netctl-auto"));
+    // dataengine
+    Q_INVOKABLE QMap<QString, QVariant> readDataEngineConfiguration();
+    Q_INVOKABLE void writeDataEngineConfiguration(const QMap<QString, QVariant> configuration);
 
 private:
     bool debug = false;

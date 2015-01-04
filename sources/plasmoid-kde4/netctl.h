@@ -56,8 +56,7 @@ public:
     void init();
     QString parsePattern(const QString rawLine);
     QMap<QString, QString> readDataEngineConfiguration();
-    void writeDataEngineConfiguration(const QMap<QString, QString> settings);
-    QMap<QString, QString> updateDataEngineConfiguration(const QMap<QString, QString> rawConfig);
+    void writeDataEngineConfiguration(const QMap<QString, QString> configuration);
 
 public slots:
     // events

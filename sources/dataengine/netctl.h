@@ -54,7 +54,6 @@ private:
     bool debug;
     QMap<QString, QString> configuration;
     void readConfiguration();
-    QMap<QString, QString> updateConfiguration(const QMap<QString, QString> rawConfig);
 };
 
 

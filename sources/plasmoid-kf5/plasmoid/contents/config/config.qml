@@ -34,6 +34,12 @@ ConfigModel {
     }
 
     ConfigCategory {
+         name: i18n("DataEngine")
+         icon: "/usr/share/pixmaps/netctl-gui-widget.png"
+         source: "dataengine.qml"
+    }
+
+    ConfigCategory {
          name: i18n("About")
          icon: "help-about"
          source: "about.qml"

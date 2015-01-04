@@ -7,6 +7,7 @@ include_directories (${CMAKE_SOURCE_DIR}
                      ${Kf5_INCLUDE})
 
 file (GLOB SUBPROJECT_SOURCE *.cpp)
+file (GLOB SUBPROJECT_NOTIFY *.notifyrc)
 
 add_library (${PLUGIN_NAME} SHARED ${SUBPROJECT_SOURCE})
 target_link_libraries (${PLUGIN_NAME} ${Qt5Core_LIBRARIES} ${Qt5DBus_LIBRARIES} ${Qt5Qml_LIBRARIES} ${I18n_LIBRARIES} ${Plasma_LIBRARIES}
@@ -14,3 +15,4 @@ target_link_libraries (${PLUGIN_NAME} ${Qt5Core_LIBRARIES} ${Qt5DBus_LIBRARIES} 
 
 install (TARGETS ${PLUGIN_NAME} DESTINATION ${QML_INSTALL_DIR}/org/kde/plasma/private/netctl)
 install (FILES qmldir DESTINATION ${QML_INSTALL_DIR}/org/kde/plasma/private/netctl)
+install (FILES ${SUBPROJECT_NOTIFY} DESTINATION ${KNOTIFYRC_INSTALL_DIR})

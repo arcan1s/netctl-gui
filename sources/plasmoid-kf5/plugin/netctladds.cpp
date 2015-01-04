@@ -22,6 +22,8 @@
 #include <QDBusMessage>
 #include <QDebug>
 #include <QProcessEnvironment>
+#include <QSettings>
+#include <QStandardPaths>
 
 #include <pdebug/pdebug.h>
 
@@ -132,6 +134,14 @@ QString NetctlAdds::getInfo(const QString current, const QString status)
                 QString(" (") + status.split(QChar('|'))[i] + QString(")"));
 
     return profiles.join(QString(" | "));
+}
+
+
+bool NetctlAdds::isDebugEnabled()
+{
+    if (debug) qDebug() << PDEBUG;
+
+    return debug;
 }
 
 
@@ -292,4 +302,52 @@ void NetctlAdds::switchToProfileSlot(QString profile, const bool useHelper,
         QString commandLine = cmd + QString(" switch-to ") + profile;
         command.startDetached(commandLine);
     }
+}
+
+
+QMap<QString, QVariant> NetctlAdds::readDataEngineConfiguration()
+{
+    if (debug) qDebug() << PDEBUG;
+
+    QMap<QString, QVariant> configuration;
+    QString fileName = QStandardPaths::locate(QStandardPaths::ConfigLocation, QString("netctl.conf"));
+
+    if (debug) qDebug() << PDEBUG << ":" << "Configuration file" << fileName;
+    QSettings settings(fileName, QSettings::IniFormat);
+    settings.beginGroup(QString("Netctl commands"));
+    configuration[QString("NETCTLCMD")] = settings.value(QString("NETCTLCMD"), QString("/usr/bin/netctl"));
+    configuration[QString("NETCTLAUTOCMD")] = settings.value(QString("NETCTLAUTOCMD"), QString("/usr/bin/netctl-auto"));
+    settings.endGroup();
+    settings.beginGroup(QString("External IP"));
+    configuration[QString("EXTIP4")] = settings.value(QString("EXTIP4"), QString("false"));
+    configuration[QString("EXTIP4CMD")] = settings.value(QString("EXTIP4CMD"), QString("curl ip4.telize.com"));
+    configuration[QString("EXTIP6")] = settings.value(QString("EXTIP6"), QString("false"));
+    configuration[QString("EXTIP6CMD")] = settings.value(QString("EXTIP6CMD"), QString("curl ip6.telize.com"));
+    settings.endGroup();
+
+    return configuration;
+}
+
+
+void NetctlAdds::writeDataEngineConfiguration(const QMap<QString, QVariant> configuration)
+{
+    if (debug) qDebug() << PDEBUG;
+
+    QString fileName = QStandardPaths::writableLocation(QStandardPaths::ConfigLocation) + QString("/netctl.conf");
+    QSettings settings(fileName, QSettings::IniFormat);
+    if (debug) qDebug() << PDEBUG << ":" << "Configuration file" << settings.fileName();
+
+    settings.beginGroup(QString("Netctl commands"));
+    settings.setValue(QString("NETCTLCMD"), configuration[QString("NETCTLCMD")].toString());
+    settings.setValue(QString("NETCTLAUTOCMD"), configuration[QString("NETCTLAUTOCMD")].toString());
+    settings.endGroup();
+
+    settings.beginGroup(QString("External IP"));
+    settings.setValue(QString("EXTIP4"), configuration[QString("EXTIP4")].toString());
+    settings.setValue(QString("EXTIP4CMD"), configuration[QString("EXTIP4CMD")].toString());
+    settings.setValue(QString("EXTIP6"), configuration[QString("EXTIP6")].toString());
+    settings.setValue(QString("EXTIP6CMD"), configuration[QString("EXTIP6CMD")].toString());
+    settings.endGroup();
+
+    settings.sync();
 }

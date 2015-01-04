@@ -23,6 +23,7 @@
 #include <QFile>
 #include <QNetworkInterface>
 #include <QProcessEnvironment>
+#include <QSettings>
 #include <QTextCodec>
 
 #include <pdebug/pdebug.h>
@@ -87,15 +88,6 @@ void Netctl::readConfiguration()
 {
     if (debug) qDebug() << PDEBUG;
 
-    // default configuration
-    QMap<QString, QString> rawConfig;
-    rawConfig[QString("EXTIP4")] = QString("false");
-    rawConfig[QString("EXTIP4CMD")] = QString("curl ip4.telize.com");
-    rawConfig[QString("EXTIP6")] = QString("false");
-    rawConfig[QString("EXTIP6CMD")] = QString("curl ip6.telize.com");
-    rawConfig[QString("NETCTLCMD")] = QString("/usr/bin/netctl");
-    rawConfig[QString("NETCTLAUTOCMD")] = QString("/usr/bin/netctl-auto");
-
     QString fileName;
 #ifdef BUILD_KDE4
     fileName = KGlobal::dirs()->findResource("config", "netctl.conf");
@@ -103,56 +95,19 @@ void Netctl::readConfiguration()
     fileName = QStandardPaths::locate(QStandardPaths::ConfigLocation, QString("netctl.conf"));
 #endif /* BUILD_KDE4 */
     if (debug) qDebug() << PDEBUG << ":" << "Configuration file" << fileName;
-    QFile configFile(fileName);
-    if (!configFile.open(QIODevice::ReadOnly)) {
-        configuration = updateConfiguration(rawConfig);
-        return;
-    }
-    QString fileStr;
-    QStringList value;
-    while (true) {
-        fileStr = QString(configFile.readLine()).trimmed();
-        if ((fileStr.isEmpty()) && (!configFile.atEnd())) continue;
-        if ((fileStr[0] == QChar('#')) && (!configFile.atEnd())) continue;
-        if ((fileStr[0] == QChar(';')) && (!configFile.atEnd())) continue;
-        if (fileStr.contains(QChar('='))) {
-            value.clear();
-            for (int i=1; i<fileStr.split(QChar('=')).count(); i++)
-                value.append(fileStr.split(QChar('='))[i]);
-            rawConfig[fileStr.split(QChar('='))[0]] = value.join(QChar('='));
-        }
-        if (configFile.atEnd()) break;
-    }
-    configFile.close();
-    configuration = updateConfiguration(rawConfig);
+    QSettings settings(fileName, QSettings::IniFormat);
+    settings.beginGroup(QString("Netctl commands"));
+    configuration[QString("NETCTLCMD")] = settings.value(QString("NETCTLCMD"), QString("/usr/bin/netctl")).toString();
+    configuration[QString("NETCTLAUTOCMD")] = settings.value(QString("NETCTLAUTOCMD"), QString("/usr/bin/netctl-auto")).toString();
+    settings.endGroup();
+    settings.beginGroup(QString("External IP"));
+    configuration[QString("EXTIP4")] = settings.value(QString("EXTIP4"), QString("false")).toString();
+    configuration[QString("EXTIP4CMD")] = settings.value(QString("EXTIP4CMD"), QString("curl ip4.telize.com")).toString();
+    configuration[QString("EXTIP6")] = settings.value(QString("EXTIP6"), QString("false")).toString();
+    configuration[QString("EXTIP6CMD")] = settings.value(QString("EXTIP6CMD"), QString("curl ip6.telize.com")).toString();
+    settings.endGroup();
 
     return;
-}
-
-
-QMap<QString, QString> Netctl::updateConfiguration(const QMap<QString, QString> rawConfig)
-{
-    if (debug) qDebug() << PDEBUG;
-
-    QMap<QString, QString> config;
-    QString key, value;
-    // remove spaces and copy source map
-    for (int i=0; i<rawConfig.keys().count(); i++) {
-        key = rawConfig.keys()[i];
-        value = rawConfig[key];
-        key.remove(QChar(' '));
-        if ((key != QString("EXTIP4CMD")) &&
-            (key != QString("EXTIP6CMD")) &&
-            (key != QString("NETCTLCMD")) &&
-            (key != QString("NETCTLAUTOCMD")))
-            value.remove(QChar(' '));
-        config[key] = value;
-    }
-
-    for (int i=0; i<config.keys().count(); i++)
-        if (debug) qDebug() << PDEBUG << ":" << config.keys()[i] + QString("=") + config[config.keys()[i]];
-
-    return config;
 }
 
 
