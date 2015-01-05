@@ -57,9 +57,10 @@ Item {
         "profiles": "",
         "status": "N\\A"
     }
-    property int interval: plasmoid.configuration.autoUpdateInterval
     property string pattern: plasmoid.configuration.textPattern
     property bool status: false
+    // contextual actions signals
+    signal netctlStateChanged
 
     // init
     Plasmoid.icon: icon.source
@@ -68,7 +69,7 @@ Item {
         id: mainData
         engine: "netctl"
         connectedSources: ["active", "current", "extip4", "extip6", "interfaces", "intip4", "intip6", "profiles", "status"]
-        interval: main.interval
+        interval: plasmoid.configuration.autoUpdateInterval
 
         onNewData: {
             if (data.value == "N\\A") return
@@ -77,11 +78,10 @@ Item {
                 icon.source = iconPath[data.value]
             } else if (sourceName == "current") {
                 info["current"] = data.value
-                // text update
+                // update
                 info["info"] = NetctlAdds.getInfo(info["current"], info["status"])
                 text.text = NetctlAdds.parsePattern(pattern, info)
-                // update menus
-                menuUpdate()
+                netctlStateChanged()
             } else if (sourceName == "extip4") {
                 info["extip4"] = data.value
             } else if (sourceName == "extip6") {
@@ -134,7 +134,7 @@ Item {
         plasmoid.setAction("startWifi", i18n("Show WiFi menu"))
     }
 
-    function menuUpdate() {
+    onNetctlStateChanged: {
         var titleAction = plasmoid.action("titleAction")
         var startAction = plasmoid.action("startProfile")
         var stopAction = plasmoid.action("stopProfile")
