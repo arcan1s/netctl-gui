@@ -16,7 +16,7 @@
  ***************************************************************************/
 
 import QtQuick 2.0
-import QtQuick.Controls 1.0 as QtControls
+import QtQuick.Controls 1.3 as QtControls
 import QtQuick.Dialogs 1.1 as QtDialogs
 import QtQuick.Layouts 1.0 as QtLayouts
 
@@ -43,13 +43,23 @@ Item {
     property alias cfg_textPattern: textPattern.text
 
 
-    QtLayouts.ColumnLayout {
-        QtLayouts.RowLayout {
+    Column {
+        id: pageColumn
+        width: units.gridUnit * 25
+        Row {
+            height: implicitHeight
+            width: parent.width
             QtControls.Label {
+                height: parent.height
+                width: parent.width / 3
+                horizontalAlignment: Text.AlignRight
+                verticalAlignment: Text.AlignVCenter
                 text: i18n("Auto update interval, msec")
             }
             QtControls.SpinBox {
                 id: autoUpdate
+                height: parent.height
+                width: parent.width * 2 / 3
                 minimumValue: 1000
                 maximumValue: 10000
                 stepSize: 500
@@ -57,16 +67,24 @@ Item {
             }
         }
 
-        QtLayouts.RowLayout {
+        Row {
+            height: implicitHeight
+            width: parent.width
             QtControls.Label {
+                height: parent.height
+                width: parent.width / 3
+                horizontalAlignment: Text.AlignRight
+                verticalAlignment: Text.AlignVCenter
                 text: i18n("Path to GUI")
             }
             QtControls.TextField {
                 id: guiPath
-                QtLayouts.Layout.fillWidth: true
+                height: parent.height
+                width: parent.width * 2 / 3 - guiPathButton.width
                 text: plasmoid.configuration.guiPath
             }
             QtControls.Button {
+                id: guiPathButton
                 text: i18n("Browse")
                 onClicked: guiFileDialog.visible = true
             }
@@ -81,18 +99,24 @@ Item {
             }
         }
 
-        QtLayouts.RowLayout {
+        Row {
+            height: implicitHeight
+            width: parent.width
             QtControls.CheckBox {
                 id: useHelper
+                height: parent.height
+                width: parent.width / 3
                 text: i18n("Use helper")
             }
             QtControls.TextField {
                 id: helperPath
                 enabled: useHelper.checked
-                QtLayouts.Layout.fillWidth: true
+                height: parent.height
+                width: parent.width * 2 / 3 - helperPathButton.width
                 text: plasmoid.configuration.helperPath
             }
             QtControls.Button {
+                id: helperPathButton
                 enabled: useHelper.checked
                 text: i18n("Browse")
                 onClicked: helperFileDialog.visible = true
@@ -108,16 +132,24 @@ Item {
             }
         }
 
-        QtLayouts.RowLayout {
+        Row {
+            height: implicitHeight
+            width: parent.width
             QtControls.Label {
+                height: parent.height
+                width: parent.width / 3
+                horizontalAlignment: Text.AlignRight
+                verticalAlignment: Text.AlignVCenter
                 text: i18n("Path to netctl")
             }
             QtControls.TextField {
                 id: netctlPath
-                QtLayouts.Layout.fillWidth: true
+                height: parent.height
+                width: parent.width * 2 / 3 - netctlPathButton.width
                 text: plasmoid.configuration.netctlPath
             }
             QtControls.Button {
+                id: netctlPathButton
                 text: i18n("Browse")
                 onClicked: netctlFileDialog.visible = true
             }
@@ -132,16 +164,24 @@ Item {
             }
         }
 
-        QtLayouts.RowLayout {
+        Row {
+            height: implicitHeight
+            width: parent.width
             QtControls.Label {
+                height: parent.height
+                width: parent.width / 3
+                horizontalAlignment: Text.AlignRight
+                verticalAlignment: Text.AlignVCenter
                 text: i18n("Path to netctl-auto")
             }
             QtControls.TextField {
                 id: netctlAutoPath
-                QtLayouts.Layout.fillWidth: true
+                height: parent.height
+                width: parent.width * 2 / 3 - netctlAutoPathButton.width
                 text: plasmoid.configuration.netctlAutoPath
             }
             QtControls.Button {
+                id: netctlAutoPathButton
                 text: i18n("Browse")
                 onClicked: netctlAutoFileDialog.visible = true
             }
@@ -156,18 +196,24 @@ Item {
             }
         }
 
-        QtLayouts.RowLayout {
+        Row {
+            height: implicitHeight
+            width: parent.width
             QtControls.CheckBox {
                 id: useSudo
+                height: parent.height
+                width: parent.width / 3
                 text: i18n("Use sudo for netctl")
             }
             QtControls.TextField {
                 id: sudoPath
                 enabled: useSudo.checked
-                QtLayouts.Layout.fillWidth: true
+                height: parent.height
+                width: parent.width * 2 / 3 - sudoPathButton.width
                 text: plasmoid.configuration.sudoPath
             }
             QtControls.Button {
+                id: sudoPathButton
                 enabled: useSudo.checked
                 text: i18n("Browse")
                 onClicked: sudoFileDialog.visible = true
@@ -183,18 +229,24 @@ Item {
             }
         }
 
-        QtLayouts.RowLayout {
+        Row {
+            height: implicitHeight
+            width: parent.width
             QtControls.CheckBox {
                 id: useWifi
+                height: parent.height
+                width: parent.width / 3
                 text: i18n("Show 'Start WiFi menu'")
             }
             QtControls.TextField {
                 id: wifiPath
                 enabled: useWifi.checked
-                QtLayouts.Layout.fillWidth: true
+                height: parent.height
+                width: parent.width * 2 / 3 - wifiPathButton.width
                 text: plasmoid.configuration.wifiPath
             }
             QtControls.Button {
+                id: wifiPathButton
                 enabled: useWifi.checked
                 text: i18n("Browse")
                 onClicked: wifiFileDialog.visible = true
@@ -212,7 +264,7 @@ Item {
 
         QtControls.TextArea {
             id: textPattern
-            QtLayouts.Layout.fillWidth: true
+            width: parent.width
             text: plasmoid.configuration.textPattern
         }
     }

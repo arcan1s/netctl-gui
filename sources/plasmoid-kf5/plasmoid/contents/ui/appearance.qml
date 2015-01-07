@@ -16,7 +16,7 @@
  ***************************************************************************/
 
 import QtQuick 2.0
-import QtQuick.Controls 1.0 as QtControls
+import QtQuick.Controls 1.3 as QtControls
 import QtQuick.Controls.Styles 1.3 as QtStyles
 import QtQuick.Dialogs 1.1 as QtDialogs
 import QtQuick.Layouts 1.0 as QtLayouts
@@ -28,6 +28,8 @@ Item {
     id: appearancePage
     width: childrenRect.width
     height: childrenRect.height
+    implicitWidth: pageColumn.implicitWidth
+    implicitHeight: pageColumn.implicitHeight
 
     property bool debug: NetctlAdds.isDebugEnabled()
     property variant weight: {
@@ -48,13 +50,22 @@ Item {
     property alias cfg_inactiveIconPath: inactiveIcon.text
 
 
-    QtLayouts.ColumnLayout {
-        QtLayouts.RowLayout {
+    Column {
+        id: pageColumn
+        width: units.gridUnit * 25
+        Row {
+            height: implicitHeight
+            width: parent.width
             QtControls.Label {
+                height: parent.height
+                width: parent.width / 3
+                horizontalAlignment: Text.AlignRight
+                verticalAlignment: Text.AlignVCenter
                 text: i18n("Text align")
             }
             QtControls.ComboBox {
                 id: textAlign
+                width: parent.width * 2 / 3
                 textRole: "label"
                 model: [
                     {
@@ -85,36 +96,57 @@ Item {
             }
         }
 
-        QtLayouts.RowLayout {
+        Row {
+            height: implicitHeight
+            width: parent.width
             QtControls.Label {
+                height: parent.height
+                width: parent.width / 3
+                horizontalAlignment: Text.AlignRight
+                verticalAlignment: Text.AlignVCenter
                 text: i18n("Font")
             }
             QtControls.Button {
                 id: selectFont
+                width: parent.width * 2 / 3
                 text: plasmoid.configuration.fontFamily
                 onClicked: fontDialog.visible = true
             }
         }
 
-        QtLayouts.RowLayout {
+        Row {
+            height: implicitHeight
+            width: parent.width
             QtControls.Label {
+                height: parent.height
+                width: parent.width / 3
+                horizontalAlignment: Text.AlignRight
+                verticalAlignment: Text.AlignVCenter
                 text: i18n("Font size")
             }
             QtControls.SpinBox {
                 id: fontSize
+                width: parent.width * 2 / 3
                 minimumValue: 8
-                maximumValue: 24
+                maximumValue: 32
                 stepSize: 1
                 value: plasmoid.configuration.fontSize
             }
         }
 
-        QtLayouts.RowLayout {
+        Row {
+            height: implicitHeight
+            width: parent.width
             QtControls.Label {
+                height: parent.height
+                width: parent.width / 3
+                horizontalAlignment: Text.AlignRight
+                verticalAlignment: Text.AlignVCenter
                 text: i18n("Font weight")
             }
             QtControls.ComboBox {
                 id: fontWeight
+                width: parent.width * 2 / 3
                 textRole: "label"
                 model: [
                     {
@@ -149,12 +181,19 @@ Item {
             }
         }
 
-        QtLayouts.RowLayout {
+        Row {
+            height: implicitHeight
+            width: parent.width
             QtControls.Label {
+                height: parent.height
+                width: parent.width / 3
+                horizontalAlignment: Text.AlignRight
+                verticalAlignment: Text.AlignVCenter
                 text: i18n("Font style")
             }
             QtControls.ComboBox {
                 id: fontStyle
+                width: parent.width * 2 / 3
                 textRole: "label"
                 model: [
                     {
@@ -177,12 +216,19 @@ Item {
             }
         }
 
-        QtLayouts.RowLayout {
+        Row {
+            height: implicitHeight
+            width: parent.width
             QtControls.Label {
+                height: parent.height
+                width: parent.width / 3
+                horizontalAlignment: Text.AlignRight
+                verticalAlignment: Text.AlignVCenter
                 text: i18n("Font color")
             }
             QtControls.Button {
                 id: selectColor
+                width: parent.width * 2 / 3
                 style: QtStyles.ButtonStyle {
                     background: Rectangle {
                         color: plasmoid.configuration.fontColor
@@ -193,16 +239,24 @@ Item {
             }
         }
 
-        QtLayouts.RowLayout {
+        Row {
+            height: implicitHeight
+            width: parent.width
             QtControls.Label {
+                height: parent.height
+                width: parent.width / 3
+                horizontalAlignment: Text.AlignRight
+                verticalAlignment: Text.AlignVCenter
                 text: i18n("Active icon")
             }
             QtControls.TextField {
                 id: activeIcon
-                QtLayouts.Layout.fillWidth: true
+                height: parent.height
+                width: parent.width * 2 / 3 - activeIconButton.width
                 text: plasmoid.configuration.activeIconPath
             }
             QtControls.Button {
+                id: activeIconButton
                 text: i18n("Browse")
                 onClicked: {
                     // FIXME: more clean directory definition
@@ -222,16 +276,24 @@ Item {
             }
         }
 
-        QtLayouts.RowLayout {
+        Row {
+            height: implicitHeight
+            width: parent.width
             QtControls.Label {
+                height: parent.height
+                width: parent.width / 3
+                horizontalAlignment: Text.AlignRight
+                verticalAlignment: Text.AlignVCenter
                 text: i18n("Inactive icon")
             }
             QtControls.TextField {
                 id: inactiveIcon
-                QtLayouts.Layout.fillWidth: true
+                height: parent.height
+                width: parent.width * 2 / 3 - inactiveIconButton.width
                 text: plasmoid.configuration.inactiveIconPath
             }
             QtControls.Button {
+                id: inactiveIconButton
                 text: i18n("Browse")
                 onClicked: {
                     // FIXME: more clean directory definition

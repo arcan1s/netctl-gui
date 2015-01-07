@@ -32,17 +32,27 @@ Item {
 
     property variant cfg_dataengine: NetctlAdds.readDataEngineConfiguration()
 
-    QtLayouts.ColumnLayout {
-        QtLayouts.RowLayout {
+    Column {
+        id: pageColumn
+        width: units.gridUnit * 25
+        Row {
+            height: implicitHeight
+            width: parent.width
             QtControls.Label {
+                height: parent.height
+                width: parent.width / 3
+                horizontalAlignment: Text.AlignRight
+                verticalAlignment: Text.AlignVCenter
                 text: i18n("Path to netctl")
             }
             QtControls.TextField {
                 id: netctlPath
-                QtLayouts.Layout.fillWidth: true
+                height: parent.height
+                width: parent.width * 2 / 3 - netctlPathButton.width
                 text: cfg_dataengine["NETCTLCMD"]
             }
             QtControls.Button {
+                id: netctlPathButton
                 text: i18n("Browse")
                 onClicked: netctlFileDialog.visible = true
             }
@@ -57,16 +67,24 @@ Item {
             }
         }
 
-        QtLayouts.RowLayout {
+        Row {
+            height: implicitHeight
+            width: parent.width
             QtControls.Label {
+                height: parent.height
+                width: parent.width / 3
+                horizontalAlignment: Text.AlignRight
+                verticalAlignment: Text.AlignVCenter
                 text: i18n("Path to netctl-auto")
             }
             QtControls.TextField {
                 id: netctlAutoPath
-                QtLayouts.Layout.fillWidth: true
+                height: parent.height
+                width: parent.width * 2 / 3 - netctlAutoPathButton.width
                 text: cfg_dataengine["NETCTLAUTOCMD"]
             }
             QtControls.Button {
+                id: netctlAutoPathButton
                 text: i18n("Browse")
                 onClicked: netctlAutoFileDialog.visible = true
             }
@@ -81,19 +99,25 @@ Item {
             }
         }
 
-        QtLayouts.RowLayout {
+        Row {
+            height: implicitHeight
+            width: parent.width
             QtControls.CheckBox {
                 id: extIp4
+                height: parent.height
+                width: parent.width / 3
                 text: i18n("Check external IPv4")
                 checked: cfg_dataengine["EXTIP4"] == "true"
             }
             QtControls.TextField {
                 id: extIp4Path
                 enabled: extIp4.checked
-                QtLayouts.Layout.fillWidth: true
+                height: parent.height
+                width: parent.width * 2 / 3 - extIp4PathButton.width
                 text: cfg_dataengine["EXTIP4CMD"]
             }
             QtControls.Button {
+                id: extIp4PathButton
                 enabled: extIp4.checked
                 text: i18n("Browse")
                 onClicked: extIp4FileDialog.visible = true
@@ -109,19 +133,25 @@ Item {
             }
         }
 
-        QtLayouts.RowLayout {
+        Row {
+            height: implicitHeight
+            width: parent.width
             QtControls.CheckBox {
                 id: extIp6
+                height: parent.height
+                width: parent.width / 3
                 text: i18n("Check external IPv6")
                 checked: cfg_dataengine["EXTIP6"] == "true"
             }
             QtControls.TextField {
                 id: extIp6Path
                 enabled: extIp6.checked
-                QtLayouts.Layout.fillWidth: true
+                height: parent.height
+                width: parent.width * 2 / 3 - extIp6PathButton.width
                 text: cfg_dataengine["EXTIP6CMD"]
             }
             QtControls.Button {
+                id: extIp6PathButton
                 enabled: extIp6.checked
                 text: i18n("Browse")
                 onClicked: extIp6FileDialog.visible = true

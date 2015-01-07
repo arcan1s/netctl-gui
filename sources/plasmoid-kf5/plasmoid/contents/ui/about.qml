@@ -29,8 +29,12 @@ Item {
 
     property bool debug: NetctlAdds.isDebugEnabled()
 
-    Grid {
+    Column {
+        id: pageColumn
+        width: units.gridUnit * 25
         QtControls.TabView {
+            height: parent.height
+            width: parent.width
             QtControls.Tab {
                 title: i18n("About")
 
@@ -55,6 +59,7 @@ Item {
                     }
 
                     QtControls.Label {
+                        anchors.top: parent.top
                         QtLayouts.Layout.fillWidth: true
                         font.capitalization: Font.SmallCaps
                         horizontalAlignment: Text.AlignHCenter
