@@ -27,6 +27,8 @@ Item {
     width: childrenRect.width
     height: childrenRect.height
 
+    property bool debug: NetctlAdds.isDebugEnabled()
+
     Grid {
         QtControls.TabView {
             QtControls.Tab {
@@ -81,5 +83,9 @@ Item {
                 }
             }
         }
+    }
+
+    Component.onCompleted: {
+        if (debug) console.log("[about::onCompleted]")
     }
 }

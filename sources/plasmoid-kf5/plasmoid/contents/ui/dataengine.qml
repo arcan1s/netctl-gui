@@ -28,6 +28,8 @@ Item {
     width: childrenRect.width
     height: childrenRect.height
 
+    property bool debug: NetctlAdds.isDebugEnabled()
+
     property variant cfg_dataengine: NetctlAdds.readDataEngineConfiguration()
 
     QtLayouts.ColumnLayout {
@@ -134,6 +136,10 @@ Item {
                 onAccepted: extIp6Path.text = extIp6FileDialog.fileUrl
             }
         }
+    }
+
+    Component.onCompleted: {
+        if (debug) console.log("[about::onCompleted]")
     }
 
     Component.onDestruction: {

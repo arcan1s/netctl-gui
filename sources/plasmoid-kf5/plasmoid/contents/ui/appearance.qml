@@ -21,12 +21,15 @@ import QtQuick.Controls.Styles 1.3 as QtStyles
 import QtQuick.Dialogs 1.1 as QtDialogs
 import QtQuick.Layouts 1.0 as QtLayouts
 
+import org.kde.plasma.private.netctl 1.0
+
 
 Item {
     id: appearancePage
     width: childrenRect.width
     height: childrenRect.height
 
+    property bool debug: NetctlAdds.isDebugEnabled()
     property variant weight: {
         25: 0,
         50: 1,
@@ -268,5 +271,9 @@ Item {
             fontStyle.currentIndex = fontDialog.font.italic ? 1 : 0
             fontWeight.currentIndex = weight[fontDialog.font.weight]
         }
+    }
+
+    Component.onCompleted: {
+        if (debug) console.log("[about::onCompleted]")
     }
 }

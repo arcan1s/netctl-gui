@@ -20,11 +20,15 @@ import QtQuick.Controls 1.0 as QtControls
 import QtQuick.Dialogs 1.1 as QtDialogs
 import QtQuick.Layouts 1.0 as QtLayouts
 
+import org.kde.plasma.private.netctl 1.0
+
 
 Item {
     id: widgetPage
     width: childrenRect.width
     height: childrenRect.height
+
+    property bool debug: NetctlAdds.isDebugEnabled()
 
     property alias cfg_autoUpdateInterval: autoUpdate.value
     property alias cfg_guiPath: guiPath.text
@@ -211,5 +215,9 @@ Item {
             QtLayouts.Layout.fillWidth: true
             text: plasmoid.configuration.textPattern
         }
+    }
+
+    Component.onCompleted: {
+        if (debug) console.log("[about::onCompleted]")
     }
 }

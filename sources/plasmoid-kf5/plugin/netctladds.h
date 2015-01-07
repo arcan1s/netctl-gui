@@ -32,6 +32,7 @@ public:
     NetctlAdds(QObject *parent = 0);
     ~NetctlAdds();
 
+    Q_INVOKABLE bool checkHelperStatus();
     Q_INVOKABLE QString getAboutText(const QString type = "header");
     Q_INVOKABLE QString getInfo(const QString current, const QString status);
     Q_INVOKABLE bool isDebugEnabled();
@@ -47,7 +48,7 @@ public:
                                         const bool useHelper = true,
                                         const QString cmd = QString("/usr/bin/netctl"),
                                         const QString sudoCmd = QString(""));
-    Q_INVOKABLE void startProfileSlot(QString profile, const bool status,
+    Q_INVOKABLE void startProfileSlot(const QStringList profiles, const bool status,
                                       const bool useHelper = true,
                                       const QString cmd = QString("/usr/bin/netctl"),
                                       const QString sudoCmd = QString(""));
@@ -58,7 +59,7 @@ public:
     Q_INVOKABLE void stopAllProfilesSlot(const bool useHelper = true,
                                          const QString cmd = QString("/usr/bin/netctl"),
                                          const QString sudoCmd = QString(""));
-    Q_INVOKABLE void switchToProfileSlot(QString profile,
+    Q_INVOKABLE void switchToProfileSlot(const QStringList profiles,
                                          const bool useHelper = true,
                                          const QString cmd = QString("/usr/bin/netctl-auto"));
     // dataengine
@@ -67,10 +68,6 @@ public:
 
 private:
     bool debug = false;
-    // helper
-    bool checkHelperStatus(const bool useHelper = true);
-    void startApplication(const QString cmd = QString("/usr/bin/true"));
-    // dbus
     QList<QVariant> sendDBusRequest(const QString cmd, const QList<QVariant> args = QList<QVariant>());
 };
 

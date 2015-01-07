@@ -21,6 +21,7 @@
 #include <QDBusConnection>
 #include <QDBusMessage>
 #include <QDebug>
+#include <QInputDialog>
 #include <QProcessEnvironment>
 #include <QSettings>
 #include <QStandardPaths>
@@ -47,25 +48,6 @@ NetctlAdds::~NetctlAdds()
 }
 
 
-bool NetctlAdds::checkHelperStatus(const bool useHelper)
-{
-    if (debug) qDebug() << PDEBUG;
-
-    return (useHelper && !sendDBusRequest(QString("Active"), QList<QVariant>()).isEmpty());
-}
-
-
-void NetctlAdds::startApplication(const QString cmd)
-{
-    if (debug) qDebug() << PDEBUG;
-    if (debug) qDebug() << PDEBUG << ":" << "cmd" << cmd;
-
-    QProcess command;
-
-    command.startDetached(cmd);
-}
-
-
 QList<QVariant> NetctlAdds::sendDBusRequest(const QString cmd, const QList<QVariant> args)
 {
     if (debug) qDebug() << PDEBUG;
@@ -83,6 +65,14 @@ QList<QVariant> NetctlAdds::sendDBusRequest(const QString cmd, const QList<QVari
         if (debug) qDebug() << PDEBUG << ":" << "Error message" << response.errorMessage();
 
     return arguments;
+}
+
+
+bool NetctlAdds::checkHelperStatus()
+{
+    if (debug) qDebug() << PDEBUG;
+
+    return sendDBusRequest(QString("Active"), QList<QVariant>()).isEmpty();
 }
 
 
@@ -132,6 +122,7 @@ QString NetctlAdds::getInfo(const QString current, const QString status)
     for (int i=0; i<current.split(QChar('|')).count(); i++)
         profiles.append(current.split(QChar('|'))[i] +
                 QString(" (") + status.split(QChar('|'))[i] + QString(")"));
+    if (profiles.isEmpty()) profiles.append(QString("N\\A"));
 
     return profiles.join(QString(" | "));
 }
@@ -166,6 +157,7 @@ void NetctlAdds::runCmd(const QString cmd)
     if (debug) qDebug() << PDEBUG << ":" << "Cmd" << cmd;
 
     QProcess command;
+    sendNotification(QString("Info"), i18n("Run %1", cmd));
 
     command.startDetached(cmd);
 }
@@ -177,7 +169,8 @@ void NetctlAdds::sendNotification(const QString eventId, const QString message)
     if (debug) qDebug() << PDEBUG << ":" << "Event" << eventId;
     if (debug) qDebug() << PDEBUG << ":" << "Message" << message;
 
-    KNotification::event(eventId, QString("Netctl ::: ") + eventId, message);
+    KNotification *notification = KNotification::event(eventId, QString("Netctl ::: ") + eventId, message);
+    notification->setComponentName(QString("plasma-applet-org.kde.plasma.netctl"));
 }
 
 
@@ -225,13 +218,17 @@ void NetctlAdds::restartProfileSlot(const QMap<QString, QVariant> dict, const bo
 }
 
 
-void NetctlAdds::startProfileSlot(QString profile, const bool status,
+void NetctlAdds::startProfileSlot(const QStringList profiles, const bool status,
                                   const bool useHelper, const QString cmd, const QString sudoCmd)
 {
     if (debug) qDebug() << PDEBUG;
-    if (debug) qDebug() << PDEBUG << ":" << "Profile" << profile;
+    if (debug) qDebug() << PDEBUG << ":" << "Profiles" << profiles;
 
-    profile.remove(QChar('&'));
+    bool ok;
+    QString profile = QInputDialog::getItem(0, i18n("Select profile"), i18n("Profile:"),
+                                            profiles, 0, false, &ok);
+    if (!ok || profile.isEmpty()) return;
+
     sendNotification(QString("Info"), i18n("Start profile %1", profile));
     if (useHelper) {
         QList<QVariant> args;
@@ -285,13 +282,17 @@ void NetctlAdds::stopAllProfilesSlot(const bool useHelper, const QString cmd, co
 }
 
 
-void NetctlAdds::switchToProfileSlot(QString profile, const bool useHelper,
+void NetctlAdds::switchToProfileSlot(const QStringList profiles, const bool useHelper,
                                      const QString cmd)
 {
     if (debug) qDebug() << PDEBUG;
-    if (debug) qDebug() << PDEBUG << ":" << "Profile" << profile;
+    if (debug) qDebug() << PDEBUG << ":" << "Profiles" << profiles;
 
-    profile.remove(QChar('&'));
+    bool ok;
+    QString profile = QInputDialog::getItem(0, i18n("Select profile"), i18n("Profile:"),
+                                            profiles, 0, false, &ok);
+    if (!ok || profile.isEmpty()) return;
+
     sendNotification(QString("Info"), i18n("Switch to profile %1", profile));
     if (useHelper) {
         QList<QVariant> args;

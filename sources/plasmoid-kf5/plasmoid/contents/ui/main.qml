@@ -15,7 +15,7 @@
  *   along with netctl-gui. If not, see http://www.gnu.org/licenses/       *
  ***************************************************************************/
 
-import QtQuick 2.2
+import QtQuick 2.4
 import QtQuick.Controls 1.3 as QtControls
 import org.kde.plasma.plasmoid 2.0
 import org.kde.plasma.core 2.0 as PlasmaCore
@@ -29,7 +29,8 @@ Item {
 
     // variables
     // internal
-    property variant weight: {
+    property bool debug: NetctlAdds.isDebugEnabled()
+    property variant fontWeight: {
         "light": Font.Light,
         "normal": Font.Normal,
         "demibold": Font.DemiBold,
@@ -48,6 +49,7 @@ Item {
         "false": plasmoid.configuration.inactiveIconPath
     }
     property variant info: {
+        "active": "false",
         "current": "N\\A",
         "extip4": "127.0.0.1",
         "extip6": "::1",
@@ -59,11 +61,16 @@ Item {
     }
     property string pattern: plasmoid.configuration.textPattern
     property bool status: false
-    // contextual actions signals
+    property string sudoPath: plasmoid.configuration.useSudo ? plasmoid.configuration.sudoPath : ""
+    // signals
+    signal needUpdate
     signal netctlStateChanged
 
     // init
-    Plasmoid.icon: icon.source
+    Plasmoid.icon: iconPath["false"]
+    Plasmoid.backgroundHints: "DefaultBackground"
+    Plasmoid.toolTipMainText: "Netctl"
+    Plasmoid.associatedApplication: plasmoid.configuration.guiPath
 
     PlasmaCore.DataSource {
         id: mainData
@@ -72,31 +79,23 @@ Item {
         interval: plasmoid.configuration.autoUpdateInterval
 
         onNewData: {
+            if (debug) console.log("[main::onNewData] : Update source " + sourceName)
+
+            var needToBeUpdated = false
             if (data.value == "N\\A") return
+            if (info[sourceName] != data.value) needToBeUpdated = true
             if (sourceName == "active") {
+                if (info[sourceName] != data.value)
+                    // inverterd status
+                    NetctlAdds.sendNotification("Info", i18n("Network status has been changed to '%1'",
+                                                             status ? i18n("inactive") : i18n("active")))
                 status = data.value == "true"
-                icon.source = iconPath[data.value]
             } else if (sourceName == "current") {
-                info["current"] = data.value
-                // update
-                info["info"] = NetctlAdds.getInfo(info["current"], info["status"])
-                text.text = NetctlAdds.parsePattern(pattern, info)
-                netctlStateChanged()
-            } else if (sourceName == "extip4") {
-                info["extip4"] = data.value
-            } else if (sourceName == "extip6") {
-                info["extip6"] = data.value
-            } else if (sourceName == "interfaces") {
-                info["interfaces"] = data.value
-            } else if (sourceName == "intip4") {
-                info["intip4"] = data.value
-            } else if (sourceName == "intip6") {
-                info["intip6"] = data.value
-            } else if (sourceName == "profiles") {
-                info["profiles"] = data.value
-            } else if (sourceName == "status") {
-                info["status"] = data.value
+                info["info"] = NetctlAdds.getInfo(data.value, info["status"])
             }
+            // update
+            info[sourceName] = data.value
+            if (needToBeUpdated) needUpdate()
         }
     }
 
@@ -115,7 +114,7 @@ Item {
             font.family: plasmoid.configuration.fontFamily
             font.italic: plasmoid.configuration.fontStyle == "italic" ? true : false
             font.pointSize: plasmoid.configuration.fontSize
-            font.weight: weight[plasmoid.configuration.fontWeight]
+            font.weight: fontWeight[plasmoid.configuration.fontWeight]
             horizontalAlignment: align[plasmoid.configuration.textAlign]
             textFormat: Text.RichText
             text: "N\\A"
@@ -123,6 +122,9 @@ Item {
     }
 
     Component.onCompleted: {
+        if (debug) console.log("[main::onCompleted]")
+
+        // actions
         plasmoid.setAction("titleAction", "netctl-gui", plasmoid.icon)
         plasmoid.setAction("startProfile", i18n("Start profile"), "dialog-apply")
         plasmoid.setAction("stopProfile", i18n("Stop profile"), "dialog-close")
@@ -132,9 +134,35 @@ Item {
         plasmoid.setAction("enableProfile", i18n("Enable profile"))
         // FIXME: icon from resources
         plasmoid.setAction("startWifi", i18n("Show WiFi menu"))
+        // helper
+        if (plasmoid.configuration.useHelper) {
+            NetctlAdds.runCmd(plasmoid.configuration.helperPath)
+            plasmoid.configuration.useHelper = NetctlAdds.checkHelperStatus()
+        }
+    }
+
+    onNeedUpdate: {
+        if (debug) console.log("[main::onNeedUpdate]")
+
+        icon.source = iconPath[info["active"]]
+        Plasmoid.icon = iconPath[info["active"]]
+        text.text = NetctlAdds.parsePattern(pattern, info)
+        Plasmoid.toolTipSubText = info["info"]
+        netctlStateChanged()
+        // updae geometry
+        text.update()
+        icon.height = text.contentHeight
+        icon.width = text.contentHeight
+        icon.update()
+        height = text.contentHeight
+        width = icon.paintedWidth + text.contentWidth
+        update()
+
     }
 
     onNetctlStateChanged: {
+        if (debug) console.log("[main::onNetctlStateChanged]")
+
         var titleAction = plasmoid.action("titleAction")
         var startAction = plasmoid.action("startProfile")
         var stopAction = plasmoid.action("stopProfile")
@@ -147,7 +175,6 @@ Item {
         titleAction.iconSource = plasmoid.icon
         titleAction.text = info["current"] + " " + info["status"]
 
-        // FIXME: menu to actions
         if (info["status"] == "(netctl-auto)") {
             startAction.visible = false
             stopAction.visible = false
@@ -155,7 +182,6 @@ Item {
             switchToAction.visible = true
             restartAction.visible = false
             enableAction.visible = false
-            // MENU UPDATE
         } else {
             if (info["current"].indexOf("|") > -1) {
                 startAction.visible = true
@@ -182,53 +208,69 @@ Item {
                     enableAction.text = i18n("Enable %1", info["current"])
             } else
                 startAction.text = i18n("Start profile")
-            // MENU UPDATE
         }
 
         wifiAction.visible = plasmoid.configuration.useWifi
     }
 
-    // actions
     function action_titleAction() {
-        NetctlAdds.startApplication(plasmoid.configuration.guiPath)
+        if (debug) console.log("[main::action_titleAction]")
+
+        NetctlAdds.runCmd(plasmoid.configuration.guiPath)
     }
 
     function action_startProfile() {
-//        NetctlAdds.startProfileSlot(profile, status, plasmoid.configuration.useHelper,
-//                                    plasmoid.configuration.netctlPath,
-//                                    plasmoid.configuration.sudoPath)
+        if (debug) console.log("[main::action_startProfile]")
+
+        NetctlAdds.startProfileSlot(info["profiles"].split(","), status,
+                                    plasmoid.configuration.useHelper,
+                                    plasmoid.configuration.netctlPath,
+                                    sudoPath)
     }
 
     function action_stopProfile() {
+        if (debug) console.log("[main::action_stopProfile]")
+
         NetctlAdds.stopProfileSlot(info, plasmoid.configuration.useHelper,
                                    plasmoid.configuration.netctlPath,
-                                   plasmoid.configuration.sudoPath)
+                                   sudoPath)
     }
 
     function action_stopAllProfiles() {
+        if (debug) console.log("[main::action_stopAllProfiles]")
+
         NetctlAdds.stopAllProfilesSlot(plasmoid.configuration.useHelper,
                                        plasmoid.configuration.netctlPath,
-                                       plasmoid.configuration.sudoPath)
+                                       sudoPath)
     }
 
     function action_switchToProfile() {
-//        NetctlAdds.switchToProfileSlot(profile, plasmoid.configuration.useHelper,
-//                                       plasmoid.configuration.netctlAutoPath)
+        if (debug) console.log("[main::action_switchToProfile]")
+
+        NetctlAdds.switchToProfileSlot(info["profiles"].split(","),
+                                       plasmoid.configuration.useHelper,
+                                       plasmoid.configuration.netctlAutoPath)
     }
 
     function action_restartProfile() {
+        if (debug) console.log("[main::action_restartProfile]")
+
         NetctlAdds.restartProfileSlot(info, plasmoid.configuration.useHelper,
                                       plasmoid.configuration.netctlPath,
-                                      plasmoid.configuration.sudoPath)
+                                      sudoPath)
     }
 
     function action_enableProfile() {
+        if (debug) console.log("[main::action_enableProfile]")
+
         NetctlAdds.enableProfileSlot(info, plasmoid.configuration.useHelper,
                                      plasmoid.configuration.netctlPath,
-                                     plasmoid.configuration.sudoPath)
+                                     sudoPath)
     }
 
     function action_startWifi() {
-        NetctlAdds.startApplication(plasmoid.configuration.wifiPath)
+        if (debug) console.log("[main::action_startWifi]")
+
+        NetctlAdds.runCmd(plasmoid.configuration.wifiPath)
     }
 }
