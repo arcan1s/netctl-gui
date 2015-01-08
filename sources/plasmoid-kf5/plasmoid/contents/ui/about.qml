@@ -26,6 +26,8 @@ Item {
     id: aboutPage
     width: childrenRect.width
     height: childrenRect.height
+    implicitWidth: pageColumn.implicitWidth
+    implicitHeight: pageColumn.implicitHeight
 
     property bool debug: NetctlAdds.isDebugEnabled()
 
@@ -59,7 +61,6 @@ Item {
                     }
 
                     QtControls.Label {
-                        anchors.top: parent.top
                         QtLayouts.Layout.fillWidth: true
                         font.capitalization: Font.SmallCaps
                         horizontalAlignment: Text.AlignHCenter

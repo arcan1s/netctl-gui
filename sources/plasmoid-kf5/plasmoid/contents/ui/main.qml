@@ -53,6 +53,7 @@ Item {
         "current": "N\\A",
         "extip4": "127.0.0.1",
         "extip6": "::1",
+        "info": "N\\A",
         "intip4": "127.0.0.1",
         "intip6": "::1",
         "interfaces": "lo",

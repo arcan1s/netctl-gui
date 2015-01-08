@@ -258,17 +258,12 @@ Item {
             QtControls.Button {
                 id: activeIconButton
                 text: i18n("Browse")
-                onClicked: {
-                    // FIXME: more clean directory definition
-                    var list = inactiveIcon.text.split('/')
-                    list.pop()
-                    activeFileDialog.folder = "/" + list.join('/')
-                    activeFileDialog.visible = true
-                }
+                onClicked: activeFileDialog.visible = true
             }
 
             QtDialogs.FileDialog {
                 id: activeFileDialog
+                modality: Qt.NonModal
                 title: i18n("Select a path")
                 nameFilters: [ "Image files (*.jpeg *.jpg *.png)", "All files (*)" ]
                 selectExisting: true
@@ -295,17 +290,12 @@ Item {
             QtControls.Button {
                 id: inactiveIconButton
                 text: i18n("Browse")
-                onClicked: {
-                    // FIXME: more clean directory definition
-                    var list = inactiveIcon.text.split('/')
-                    list.pop()
-                    inactiveFileDialog.folder = "/" + list.join('/')
-                    inactiveFileDialog.visible = true
-                }
+                onClicked: inactiveFileDialog.visible = true
             }
 
             QtDialogs.FileDialog {
                 id: inactiveFileDialog
+                modality: Qt.NonModal
                 title: i18n("Select a path")
                 nameFilters: [ "Image files (*.jpeg *.jpg *.png)", "All files (*)" ]
                 selectExisting: true
