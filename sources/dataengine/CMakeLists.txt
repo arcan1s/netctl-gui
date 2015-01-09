@@ -8,6 +8,7 @@ if (BUILD_KDE4)
   include (KDE4Defaults)
 
   add_definitions (${QT_DEFINITIONS} ${KDE4_DEFINITIONS})
+  set (KDE_INCLUDE ${KDE4_INCLUDES})
 else ()
   find_package (Qt5 REQUIRED COMPONENTS Widgets Network)
   find_package (ECM 0.0.11 REQUIRED NO_MODULE)

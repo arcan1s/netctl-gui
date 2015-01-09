@@ -16,8 +16,6 @@ include_directories (${CMAKE_SOURCE_DIR}
                      ${CMAKE_CURRENT_BINARY_DIR}/../
                      ${PROJECT_TRDPARTY_DIR})
 
-add_subdirectory (po)
-
 # set sources
 set (PLUGIN_NAME ${SUBPROJECT})
 file (GLOB SUBPROJECT_DESKTOP_IN *.desktop)

@@ -1,0 +1,634 @@
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+#
+# Evgeniy Alekseev <esalexeev@gmail.com>, 2014, 2015.
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: https://github.com/arcan1s/netctl-gui/issues\n"
+"POT-Creation-Date: 2015-01-09 04:54+0300\n"
+"PO-Revision-Date: 2015-01-09 04:57+0300\n"
+"Last-Translator: Evgeniy Alekseev <esalexeev@gmail.com>\n"
+"Language-Team: Russian <kde-russian@lists.kde.ru>\n"
+"Language: ru\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
+"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"X-Generator: Lokalize 1.5\n"
+
+#: plasmoid-kde4/netctl.cpp:238 plasmoid-kf5/plugin/netctladds.cpp:186
+msgid "Set profile %1 disabled"
+msgstr "Выключение автозагрузки профиля %1"
+
+#: plasmoid-kde4/netctl.cpp:241 plasmoid-kf5/plugin/netctladds.cpp:189
+msgid "Set profile %1 enabled"
+msgstr "Включение автозагрузки профиля %1"
+
+#: plasmoid-kde4/netctl.cpp:262 plasmoid-kf5/plugin/netctladds.cpp:208
+msgid "Restart profile %1"
+msgstr "Перезапуск профиля %1"
+
+#: plasmoid-kde4/netctl.cpp:283 plasmoid-kf5/plugin/netctladds.cpp:232
+msgid "Start profile %1"
+msgstr "Запуск профиля %1"
+
+#: plasmoid-kde4/netctl.cpp:309 plasmoid-kf5/plugin/netctladds.cpp:257
+msgid "Stop profile %1"
+msgstr "Остановка профиля %1"
+
+#: plasmoid-kde4/netctl.cpp:329 plasmoid-kde4/netctl.cpp:467
+#: plasmoid-kf5/plasmoid/contents/ui/main.qml:132
+#: plasmoid-kf5/plugin/netctladds.cpp:274
+msgid "Stop all profiles"
+msgstr "Остановить все профили"
+
+#: plasmoid-kde4/netctl.cpp:349 plasmoid-kf5/plugin/netctladds.cpp:296
+msgid "Switch to profile %1"
+msgstr "Переключение на профиль %1"
+
+#: plasmoid-kde4/netctl.cpp:422 plasmoid-kf5/plasmoid/contents/ui/main.qml:203
+msgid "Start another profile"
+msgstr "Запустить другой профиль"
+
+#: plasmoid-kde4/netctl.cpp:423 plasmoid-kf5/plasmoid/contents/ui/main.qml:204
+msgid "Stop %1"
+msgstr "Остановить %1"
+
+#: plasmoid-kde4/netctl.cpp:424 plasmoid-kf5/plasmoid/contents/ui/main.qml:205
+msgid "Restart %1"
+msgstr "Перезапустить %1"
+
+#: plasmoid-kde4/netctl.cpp:426 plasmoid-kf5/plasmoid/contents/ui/main.qml:207
+msgid "Disable %1"
+msgstr "Отключить %1"
+
+#: plasmoid-kde4/netctl.cpp:428 plasmoid-kf5/plasmoid/contents/ui/main.qml:209
+msgid "Enable %1"
+msgstr "Включить %1"
+
+#: plasmoid-kde4/netctl.cpp:431 plasmoid-kde4/netctl.cpp:454
+#: plasmoid-kf5/plasmoid/contents/ui/main.qml:130
+#: plasmoid-kf5/plasmoid/contents/ui/main.qml:211
+msgid "Start profile"
+msgstr "Запустить профиль"
+
+#: plasmoid-kde4/netctl.cpp:462 plasmoid-kf5/plasmoid/contents/ui/main.qml:131
+msgid "Stop profile"
+msgstr "Остановить профиль"
+
+#: plasmoid-kde4/netctl.cpp:472 plasmoid-kf5/plasmoid/contents/ui/main.qml:133
+msgid "Switch to profile"
+msgstr "Переключить профиль"
+
+#: plasmoid-kde4/netctl.cpp:480 plasmoid-kf5/plasmoid/contents/ui/main.qml:134
+msgid "Restart profile"
+msgstr "Перезапустить профиль"
+
+#: plasmoid-kde4/netctl.cpp:485 plasmoid-kf5/plasmoid/contents/ui/main.qml:135
+msgid "Enable profile"
+msgstr "Включить профиль"
+
+#: plasmoid-kde4/netctl.cpp:489
+msgid "Show netctl-gui"
+msgstr "Показать netctl-gui"
+
+#: plasmoid-kde4/netctl.cpp:494 plasmoid-kf5/plasmoid/contents/ui/main.qml:137
+msgid "Show WiFi menu"
+msgstr "Запустить WiFi-menu"
+
+#: plasmoid-kde4/netctl.cpp:521
+msgid "Start GUI"
+msgstr "Запуск GUI"
+
+#: plasmoid-kde4/netctl.cpp:532
+msgid "Start WiFi menu"
+msgstr "Запуск WiFi-menu"
+
+#: plasmoid-kde4/netctl.cpp:572
+msgid "Network is up"
+msgstr "Сеть работает"
+
+#: plasmoid-kde4/netctl.cpp:576
+msgid "Network is down"
+msgstr "Сеть не работает"
+
+#: plasmoid-kde4/netctl.cpp:766
+msgid ""
+"Version %1\n"
+"(build date %2)"
+msgstr ""
+"Версия %1\n"
+"(дата сборки %2)"
+
+#: plasmoid-kde4/netctl.cpp:767 plasmoid-kf5/plugin/netctladds.cpp:88
+msgid "KDE widget which interacts with netctl."
+msgstr "Виджет KDE, который взаимодействует с netctl."
+
+#: plasmoid-kde4/netctl.cpp:768 plasmoid-kf5/plugin/netctladds.cpp:90
+msgid "Links:"
+msgstr "Ссылки:"
+
+#: plasmoid-kde4/netctl.cpp:769 plasmoid-kf5/plugin/netctladds.cpp:91
+msgid "Homepage"
+msgstr "Домашняя страница"
+
+#: plasmoid-kde4/netctl.cpp:770 plasmoid-kf5/plugin/netctladds.cpp:92
+msgid "Repository"
+msgstr "Репозиторий"
+
+#: plasmoid-kde4/netctl.cpp:771 plasmoid-kf5/plugin/netctladds.cpp:93
+msgid "Bugtracker"
+msgstr "Багтрекер"
+
+#: plasmoid-kde4/netctl.cpp:772 plasmoid-kf5/plugin/netctladds.cpp:94
+msgid "Translation issue"
+msgstr "Тикет перевода"
+
+#: plasmoid-kde4/netctl.cpp:773 plasmoid-kf5/plugin/netctladds.cpp:95
+msgid "AUR packages"
+msgstr "Пакеты в AUR"
+
+#: plasmoid-kde4/netctl.cpp:775 plasmoid-kf5/plugin/netctladds.cpp:98
+msgid "This software is licensed under %1"
+msgstr "Данное приложение лицензировано под %1"
+
+#: plasmoid-kde4/netctl.cpp:783 plasmoid-kf5/plugin/netctladds.cpp:100
+msgid "Translators: %1"
+msgstr "Переводчики: %1"
+
+#: plasmoid-kde4/netctl.cpp:784 plasmoid-kf5/plugin/netctladds.cpp:108
+msgid "This software uses: %1"
+msgstr "Данное приложение использует: %1"
+
+#: plasmoid-kde4/netctl.cpp:786
+msgid "Netctl plasmoid"
+msgstr "Netctl plasmoid"
+
+#: plasmoid-kde4/netctl.cpp:787
+#: plasmoid-kf5/plasmoid/contents/config/config.qml:31
+msgid "Appearance"
+msgstr "Внешний вид"
+
+#: plasmoid-kde4/netctl.cpp:788
+#: plasmoid-kf5/plasmoid/contents/config/config.qml:37
+msgid "DataEngine"
+msgstr "DataEngine"
+
+#: plasmoid-kde4/netctl.cpp:789
+#: plasmoid-kf5/plasmoid/contents/config/config.qml:43
+#: plasmoid-kf5/plasmoid/contents/ui/about.qml:41
+msgid "About"
+msgstr "О программе"
+
+#: plasmoid-kf5/plasmoid/contents/config/config.qml:25
+msgid "Widget"
+msgstr "Виджет"
+
+#: plasmoid-kf5/plasmoid/contents/ui/about.qml:74
+msgid "Acknowledgment"
+msgstr "Acknowledgment"
+
+#. i18n: file: plasmoid-kde4/appearance.ui:408
+#. i18n: ectx: property (text), widget (QLabel, label_textAlign)
+#: plasmoid-kf5/plasmoid/contents/ui/appearance.qml:64 rc.cpp:45
+msgid "Text align"
+msgstr "Выравнивание текста"
+
+#: plasmoid-kf5/plasmoid/contents/ui/appearance.qml:72
+msgid "center"
+msgstr "по центру"
+
+#: plasmoid-kf5/plasmoid/contents/ui/appearance.qml:76
+msgid "right"
+msgstr "справа"
+
+#: plasmoid-kf5/plasmoid/contents/ui/appearance.qml:80
+msgid "left"
+msgstr "слева"
+
+#: plasmoid-kf5/plasmoid/contents/ui/appearance.qml:84
+msgid "justify"
+msgstr "по ширине"
+
+#. i18n: file: plasmoid-kde4/appearance.ui:326
+#. i18n: ectx: property (text), widget (QLabel, label_font)
+#: plasmoid-kf5/plasmoid/contents/ui/appearance.qml:107 rc.cpp:33
+msgid "Font"
+msgstr "Шрифт"
+
+#. i18n: file: plasmoid-kde4/appearance.ui:142
+#. i18n: ectx: property (text), widget (QLabel, label_fontSize)
+#: plasmoid-kf5/plasmoid/contents/ui/appearance.qml:125 rc.cpp:15
+msgid "Font size"
+msgstr "Размер шрифта"
+
+#. i18n: file: plasmoid-kde4/appearance.ui:203
+#. i18n: ectx: property (text), widget (QLabel, label_fontWeight)
+#: plasmoid-kf5/plasmoid/contents/ui/appearance.qml:145 rc.cpp:21
+msgid "Font weight"
+msgstr "Толщина шрифта"
+
+#: plasmoid-kf5/plasmoid/contents/ui/appearance.qml:153
+msgid "light"
+msgstr "маленький"
+
+#: plasmoid-kf5/plasmoid/contents/ui/appearance.qml:157
+#: plasmoid-kf5/plasmoid/contents/ui/appearance.qml:200
+msgid "normal"
+msgstr "нормальный"
+
+#: plasmoid-kf5/plasmoid/contents/ui/appearance.qml:161
+msgid "demi bold"
+msgstr "нежирный"
+
+#: plasmoid-kf5/plasmoid/contents/ui/appearance.qml:165
+msgid "bold"
+msgstr "жирный"
+
+#: plasmoid-kf5/plasmoid/contents/ui/appearance.qml:169
+msgid "black"
+msgstr "очень жирный"
+
+#. i18n: file: plasmoid-kde4/appearance.ui:267
+#. i18n: ectx: property (text), widget (QLabel, label_fontStyle)
+#: plasmoid-kf5/plasmoid/contents/ui/appearance.qml:192 rc.cpp:27
+msgid "Font style"
+msgstr "Стиль шрифта"
+
+#: plasmoid-kf5/plasmoid/contents/ui/appearance.qml:204
+msgid "italic"
+msgstr "italic"
+
+#. i18n: file: plasmoid-kde4/appearance.ui:80
+#. i18n: ectx: property (text), widget (QLabel, label_fontColor)
+#: plasmoid-kf5/plasmoid/contents/ui/appearance.qml:227 rc.cpp:9
+msgid "Font color"
+msgstr "Цвет шрифта"
+
+#. i18n: file: plasmoid-kde4/appearance.ui:375
+#. i18n: ectx: property (text), widget (QLabel, label_activeIcon)
+#: plasmoid-kf5/plasmoid/contents/ui/appearance.qml:250 rc.cpp:39
+msgid "Active icon"
+msgstr "Иконка активного подключения"
+
+#. i18n: file: plasmoid-kde4/appearance.ui:63
+#. i18n: ectx: property (text), widget (QPushButton, pushButton_inactiveIcon)
+#. i18n: file: plasmoid-kde4/appearance.ui:391
+#. i18n: ectx: property (text), widget (QPushButton, pushButton_activeIcon)
+#. i18n: file: plasmoid-kde4/dataengine.ui:50
+#. i18n: ectx: property (text), widget (QPushButton, pushButton_netctl)
+#. i18n: file: plasmoid-kde4/dataengine.ui:83
+#. i18n: ectx: property (text), widget (QPushButton, pushButton_netctlAuto)
+#. i18n: file: plasmoid-kde4/dataengine.ui:119
+#. i18n: ectx: property (text), widget (QPushButton, pushButton_extIp4)
+#. i18n: file: plasmoid-kde4/dataengine.ui:155
+#. i18n: ectx: property (text), widget (QPushButton, pushButton_extIp6)
+#. i18n: file: plasmoid-kde4/widget.ui:108
+#. i18n: ectx: property (text), widget (QPushButton, pushButton_gui)
+#. i18n: file: plasmoid-kde4/widget.ui:144
+#. i18n: ectx: property (text), widget (QPushButton, pushButton_helper)
+#. i18n: file: plasmoid-kde4/widget.ui:177
+#. i18n: ectx: property (text), widget (QPushButton, pushButton_netctl)
+#. i18n: file: plasmoid-kde4/widget.ui:210
+#. i18n: ectx: property (text), widget (QPushButton, pushButton_netctlAuto)
+#. i18n: file: plasmoid-kde4/widget.ui:246
+#. i18n: ectx: property (text), widget (QPushButton, pushButton_sudo)
+#. i18n: file: plasmoid-kde4/widget.ui:282
+#. i18n: ectx: property (text), widget (QPushButton, pushButton_wifi)
+#: plasmoid-kf5/plasmoid/contents/ui/appearance.qml:260
+#: plasmoid-kf5/plasmoid/contents/ui/appearance.qml:292
+#: plasmoid-kf5/plasmoid/contents/ui/dataengine.qml:59
+#: plasmoid-kf5/plasmoid/contents/ui/dataengine.qml:92
+#: plasmoid-kf5/plasmoid/contents/ui/dataengine.qml:150
+#: plasmoid-kf5/plasmoid/contents/ui/dataengine.qml:208
+#: plasmoid-kf5/plasmoid/contents/ui/widget.qml:90
+#: plasmoid-kf5/plasmoid/contents/ui/widget.qml:147
+#: plasmoid-kf5/plasmoid/contents/ui/widget.qml:181
+#: plasmoid-kf5/plasmoid/contents/ui/widget.qml:216
+#: plasmoid-kf5/plasmoid/contents/ui/widget.qml:273
+#: plasmoid-kf5/plasmoid/contents/ui/widget.qml:330 rc.cpp:6 rc.cpp:42
+#: rc.cpp:54 rc.cpp:60 rc.cpp:66 rc.cpp:72 rc.cpp:81 rc.cpp:87 rc.cpp:93
+#: rc.cpp:99 rc.cpp:105 rc.cpp:111
+msgid "Browse"
+msgstr "Обзор"
+
+#: plasmoid-kf5/plasmoid/contents/ui/appearance.qml:267
+#: plasmoid-kf5/plasmoid/contents/ui/appearance.qml:299
+#: plasmoid-kf5/plasmoid/contents/ui/dataengine.qml:66
+#: plasmoid-kf5/plasmoid/contents/ui/dataengine.qml:99
+#: plasmoid-kf5/plasmoid/contents/ui/dataengine.qml:157
+#: plasmoid-kf5/plasmoid/contents/ui/dataengine.qml:215
+#: plasmoid-kf5/plasmoid/contents/ui/widget.qml:97
+#: plasmoid-kf5/plasmoid/contents/ui/widget.qml:153
+#: plasmoid-kf5/plasmoid/contents/ui/widget.qml:188
+#: plasmoid-kf5/plasmoid/contents/ui/widget.qml:223
+#: plasmoid-kf5/plasmoid/contents/ui/widget.qml:280
+#: plasmoid-kf5/plasmoid/contents/ui/widget.qml:337
+msgid "Select a path"
+msgstr "Выберете путь"
+
+#. i18n: file: plasmoid-kde4/appearance.ui:47
+#. i18n: ectx: property (text), widget (QLabel, label_inactiveIcon)
+#: plasmoid-kf5/plasmoid/contents/ui/appearance.qml:282 rc.cpp:3
+msgid "Inactive icon"
+msgstr "Иконка неактивного подключения"
+
+#: plasmoid-kf5/plasmoid/contents/ui/appearance.qml:309
+msgid "Select a color"
+msgstr "Укажите цвет"
+
+#: plasmoid-kf5/plasmoid/contents/ui/appearance.qml:318
+msgid "Select a font"
+msgstr "Укажите шрифт"
+
+#. i18n: file: plasmoid-kde4/dataengine.ui:34
+#. i18n: ectx: property (text), widget (QLabel, label_netctl)
+#. i18n: file: plasmoid-kde4/widget.ui:161
+#. i18n: ectx: property (text), widget (QLabel, label_netctl)
+#: plasmoid-kf5/plasmoid/contents/ui/dataengine.qml:49
+#: plasmoid-kf5/plasmoid/contents/ui/widget.qml:169 rc.cpp:51 rc.cpp:90
+msgid "Path to netctl"
+msgstr "Путь к netctl"
+
+#. i18n: file: plasmoid-kde4/dataengine.ui:67
+#. i18n: ectx: property (text), widget (QLabel, label_netctlAuto)
+#. i18n: file: plasmoid-kde4/widget.ui:194
+#. i18n: ectx: property (text), widget (QLabel, label_netctlAuto)
+#: plasmoid-kf5/plasmoid/contents/ui/dataengine.qml:82
+#: plasmoid-kf5/plasmoid/contents/ui/widget.qml:204 rc.cpp:57 rc.cpp:96
+msgid "Path to netctl-auto"
+msgstr "Путь к netctl-auto"
+
+#. i18n: file: plasmoid-kde4/dataengine.ui:100
+#. i18n: ectx: property (text), widget (QCheckBox, checkBox_extIp4)
+#: plasmoid-kf5/plasmoid/contents/ui/dataengine.qml:115 rc.cpp:63
+msgid "Check external IPv4"
+msgstr "Проверять внешний IPv4"
+
+#. i18n: file: plasmoid-kde4/dataengine.ui:136
+#. i18n: ectx: property (text), widget (QCheckBox, checkBox_extIp6)
+#: plasmoid-kf5/plasmoid/contents/ui/dataengine.qml:173 rc.cpp:69
+msgid "Check external IPv6"
+msgstr "Проверять внешний IPv6"
+
+#: plasmoid-kf5/plasmoid/contents/ui/main.qml:92
+msgid "inactive"
+msgstr "неактивен"
+
+#: plasmoid-kf5/plasmoid/contents/ui/main.qml:92
+msgid "active"
+msgstr "активен"
+
+#: plasmoid-kf5/plasmoid/contents/ui/main.qml:91
+msgid "Network status has been changed to '%1'"
+msgstr "Сетевой статус был изменен на '%1'"
+
+#. i18n: file: plasmoid-kde4/widget.ui:34
+#. i18n: ectx: property (text), widget (QLabel, label_autoUpdate)
+#: plasmoid-kf5/plasmoid/contents/ui/widget.qml:60 rc.cpp:75
+msgid "Auto update interval, msec"
+msgstr "Интервал автообновления, мсек"
+
+#. i18n: file: plasmoid-kde4/widget.ui:92
+#. i18n: ectx: property (text), widget (QLabel, label_gui)
+#: plasmoid-kf5/plasmoid/contents/ui/widget.qml:80 rc.cpp:78
+msgid "Path to GUI"
+msgstr "Путь к GUI"
+
+#. i18n: file: plasmoid-kde4/widget.ui:125
+#. i18n: ectx: property (text), widget (QCheckBox, checkBox_helper)
+#: plasmoid-kf5/plasmoid/contents/ui/widget.qml:113 rc.cpp:84
+msgid "Use helper"
+msgstr "Использовать хелпер"
+
+#. i18n: file: plasmoid-kde4/widget.ui:227
+#. i18n: ectx: property (text), widget (QCheckBox, checkBox_sudo)
+#: plasmoid-kf5/plasmoid/contents/ui/widget.qml:239 rc.cpp:102
+msgid "Use sudo for netctl"
+msgstr "Использовать sudo для netctl"
+
+#. i18n: file: plasmoid-kde4/widget.ui:263
+#. i18n: ectx: property (text), widget (QCheckBox, checkBox_wifi)
+#: plasmoid-kf5/plasmoid/contents/ui/widget.qml:296 rc.cpp:108
+msgid "Show 'Start WiFi menu'"
+msgstr "Показать 'Запустить WiFi-menu'"
+
+#: plasmoid-kf5/plugin/netctladds.cpp:160
+msgid "Run %1"
+msgstr "Запуск %1"
+
+#: plasmoid-kf5/plugin/netctladds.cpp:228
+#: plasmoid-kf5/plugin/netctladds.cpp:292
+msgid "Select profile"
+msgstr "Выберете профиль"
+
+#: plasmoid-kf5/plugin/netctladds.cpp:228
+#: plasmoid-kf5/plugin/netctladds.cpp:292
+msgid "Profile:"
+msgstr "Профиль:"
+
+#. i18n: file: plasmoid-kde4/appearance.ui:112
+#. i18n: ectx: property (toolTip), widget (KColorCombo, kcolorcombo_fontColor)
+#: rc.cpp:12
+msgid "Set font color"
+msgstr "Укажите цвет шрифта"
+
+#. i18n: file: plasmoid-kde4/appearance.ui:174
+#. i18n: ectx: property (toolTip), widget (QSpinBox, spinBox_fontSize)
+#: rc.cpp:18
+msgid "Set font size"
+msgstr "Укажите размер шрифта"
+
+#. i18n: file: plasmoid-kde4/appearance.ui:235
+#. i18n: ectx: property (toolTip), widget (QSpinBox, spinBox_fontWeight)
+#: rc.cpp:24
+msgid "Set font weight"
+msgstr "Укажите ширину шрифта"
+
+#. i18n: file: plasmoid-kde4/appearance.ui:299
+#. i18n: ectx: property (toolTip), widget (QComboBox, comboBox_fontStyle)
+#: rc.cpp:30
+msgid "Set font style"
+msgstr "Укажите стиль шрифта"
+
+#. i18n: file: plasmoid-kde4/appearance.ui:358
+#. i18n: ectx: property (toolTip), widget (QFontComboBox, fontComboBox_font)
+#: rc.cpp:36
+msgid "Set font family"
+msgstr "Укажите шрифт"
+
+#. i18n: file: plasmoid-kde4/appearance.ui:440
+#. i18n: ectx: property (toolTip), widget (QComboBox, comboBox_textAlign)
+#: rc.cpp:48
+msgid "Set text align"
+msgstr "Установите выравнивание текста"
+
+#. i18n: file: plasmoid-kde4/widget.ui:291
+#. i18n: ectx: property (text), widget (QCheckBox, checkBox_showBigInterface)
+#: rc.cpp:114
+msgid "Show more detailed interface"
+msgstr "Показать более детальный интерфейс"
+
+#. i18n: file: plasmoid-kde4/widget.ui:309
+#. i18n: ectx: property (toolTip), widget (QPlainTextEdit, textEdit)
+#: rc.cpp:117
+msgid ""
+"$info - active profile information\n"
+"$current - current profile name\n"
+"$extip4 - external IPv4\n"
+"$extip6 - external IPv6\n"
+"$interfaces - list of the network interfaces\n"
+"$intip4 - internal IPv4\n"
+"$intip6 - internal IPv6\n"
+"$profiles - list of the netctl profiles\n"
+"$status - current profile status (static/enabled)"
+msgstr ""
+"$info - информация об активном профиле\n"
+"$current - имя текущего профиля\n"
+"$extip4 - внешний IPv4\n"
+"$extip6 - внешний IPv6\n"
+"$interfaces - список сетевых интерфейсов\n"
+"$intip4 - внутренний IPv4\n"
+"$intip6 - внутренний IPv6\n"
+"$profiles - список профилей netctl\n"
+"$status - статус текущего профиля (static/enabled)"
+
+#: rc.cpp:126
+msgctxt "NAME OF TRANSLATORS"
+msgid "Your names"
+msgstr "Evgeniy Alekseev"
+
+#: rc.cpp:127
+msgctxt "EMAIL OF TRANSLATORS"
+msgid "Your emails"
+msgstr "esalexeev@gmail.com"
+
+#~ msgid "Acknowledgement"
+#~ msgstr "Благодарности"
+
+#, fuzzy
+#~ msgid "Connection"
+#~ msgstr "Настройка"
+
+#, fuzzy
+#~ msgid "Binds to interfaces"
+#~ msgstr "Путь к интерфейсам"
+
+#, fuzzy
+#~ msgid "Netctl GUI"
+#~ msgstr "Запуск GUI"
+
+#, fuzzy
+#~ msgid "Actions"
+#~ msgstr "Иконка активного подключения"
+
+#, fuzzy
+#~ msgid "Connect to profile"
+#~ msgstr "Переключить профиль"
+
+#, fuzzy
+#~ msgid "Create a new profile"
+#~ msgstr "Запустить другой профиль"
+
+#, fuzzy
+#~ msgid "Profile"
+#~ msgstr "Остановить профиль"
+
+#, fuzzy
+#~ msgid "WiFi menu"
+#~ msgstr "Запустить WiFi-menu"
+
+#, fuzzy
+#~ msgid "Use peer DNS"
+#~ msgstr "Использовать хелпер"
+
+#, fuzzy
+#~ msgid "netctl-auto"
+#~ msgstr "Путь к netctl-auto"
+
+#, fuzzy
+#~ msgid "Enable"
+#~ msgstr "Включить %1"
+
+#, fuzzy
+#~ msgid "Enable all profiles"
+#~ msgstr "Включить профиль"
+
+#, fuzzy
+#~ msgid "Disable all profiles"
+#~ msgstr "Включить профиль"
+
+#, fuzzy
+#~ msgid "Start service"
+#~ msgstr "Запустить профиль"
+
+#, fuzzy
+#~ msgid "Restart service"
+#~ msgstr "Перезапустить профиль"
+
+#, fuzzy
+#~ msgid "Enable service"
+#~ msgstr "Включить профиль"
+
+#, fuzzy
+#~ msgid "LCP echo interval"
+#~ msgstr "Показать внутренний IP"
+
+#, fuzzy
+#~ msgid "Helper"
+#~ msgstr "Использовать хелпер"
+
+#, fuzzy
+#~ msgid "netctl"
+#~ msgstr "Путь к netctl"
+
+#, fuzzy
+#~ msgid "Start"
+#~ msgstr "Запуск GUI"
+
+#, fuzzy
+#~ msgid "Path to systemctl"
+#~ msgstr "Путь к netctl"
+
+#, fuzzy
+#~ msgid "netctl path"
+#~ msgstr "Netctl plasmoid"
+
+#, fuzzy
+#~ msgid "netctl-auto path"
+#~ msgstr "Путь к netctl-auto"
+
+#, fuzzy
+#~ msgid "Path to profile directory"
+#~ msgstr "Переключение на профиль %1"
+
+#, fuzzy
+#~ msgid "Path to sudo"
+#~ msgstr "Путь к ip"
+
+#, fuzzy
+#~ msgid "Path to wpa_cli"
+#~ msgstr "Путь к ip"
+
+#, fuzzy
+#~ msgid "Path to control directory"
+#~ msgstr "Путь к netctl"
+
+#~ msgid "Path to interface list"
+#~ msgstr "Путь к интерфейсам"
+
+#, fuzzy
+#~ msgid "Path to rfkill device list"
+#~ msgstr "Путь к интерфейсам"
+
+#, fuzzy
+#~ msgid "wpa-configsection"
+#~ msgstr "Настройка"
+
+#~ msgid "Show network devices"
+#~ msgstr "Показать сетевые устройства"
+
+#~ msgid "Show external IP"
+#~ msgstr "Показать внешний IP"
