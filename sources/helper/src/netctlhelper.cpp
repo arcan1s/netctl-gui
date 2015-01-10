@@ -21,6 +21,7 @@
 #include <QDBusConnection>
 #include <QDBusError>
 #include <QDebug>
+#include <QSettings>
 #include <unistd.h>
 
 #include <netctlgui/netctlgui.h>
@@ -126,70 +127,61 @@ void NetctlHelper::deleteInterface()
 }
 
 
-QMap<QString, QString> NetctlHelper::getDefault()
+QMap<QString, QString> NetctlHelper::getSettings(const QString file)
 {
     if (debug) qDebug() << PDEBUG;
 
-    QMap<QString, QString> settings;
-    settings[QString("CLOSE_HELPER")] = QString("false");
-    settings[QString("CLOSETOTRAY")] = QString("true");
-    settings[QString("CTRL_DIR")] = QString("/run/wpa_supplicant_netctl-gui");
-    settings[QString("CTRL_GROUP")] = QString("users");
-    settings[QString("FORCE_SUDO")] = QString("false");
-    settings[QString("HELPER_PATH")] = QString("/usr/bin/netctlgui-helper");
-    settings[QString("HELPER_SERVICE")] = QString("netctlgui-helper.service");
-    settings[QString("IFACE_DIR")] = QString("/sys/class/net/");
-    settings[QString("LANGUAGE")] = QString("en");
-    settings[QString("NETCTL_PATH")] = QString("/usr/bin/netctl");
-    settings[QString("NETCTLAUTO_PATH")] = QString("/usr/bin/netctl-auto");
-    settings[QString("NETCTLAUTO_SERVICE")] = QString("netctl-auto");
-    settings[QString("PID_FILE")] = QString("/run/wpa_supplicant_netctl-gui.pid");
-    settings[QString("PREFERED_IFACE")] = QString("");
-    settings[QString("PROFILE_DIR")] = QString("/etc/netctl/");
-    settings[QString("RFKILL_DIR")] = QString("/sys/class/rfkill/");
-    settings[QString("SKIPCOMPONENTS")] = QString("false");
-    settings[QString("STARTTOTRAY")] = QString("false");
-    settings[QString("SUDO_PATH")] = QString("/usr/bin/kdesu");
-    settings[QString("SYSTEMCTL_PATH")] = QString("/usr/bin/systemctl");
-    settings[QString("SYSTRAY")] = QString("true");
-    settings[QString("USE_HELPER")] = QString("true");
-    settings[QString("WPACLI_PATH")] = QString("/usr/bin/wpa_cli");
-    settings[QString("WPASUP_PATH")] = QString("/usr/bin/wpa_supplicant");
-    settings[QString("WPA_DRIVERS")] = QString("nl80211,wext");
-    for (int i=0; i<settings.keys().count(); i++)
-        if (debug) qDebug() << PDEBUG << ":" << settings.keys()[i] + QString("=") + settings[settings.keys()[i]];
+    QMap<QString, QString> config;
+    QSettings settings(file, QSettings::IniFormat);
 
-    return settings;
-}
+    settings.beginGroup(QString("General"));
+    config[QString("LANGUAGE")] = settings.value(QString("LANGUAGE"), QString("en")).toString();
+    config[QString("SYSTRAY")] = settings.value(QString("SYSTRAY"), QString("true")).toString();
+    config[QString("CLOSETOTRAY")] = settings.value(QString("CLOSETOTRAY"), QString("true")).toString();
+    config[QString("STARTTOTRAY")] = settings.value(QString("STARTTOTRAY"), QString("false")).toString();
+    config[QString("SKIPCOMPONENTS")] = settings.value(QString("SKIPCOMPONENTS"), QString("false")).toString();
+    settings.endGroup();
 
+    settings.beginGroup(QString("Helper"));
+    config[QString("USE_HELPER")] = settings.value(QString("USE_HELPER"), QString("true")).toString();
+    config[QString("FORCE_SUDO")] = settings.value(QString("FORCE_SUDO"), QString("false")).toString();
+    config[QString("CLOSE_HELPER")] = settings.value(QString("CLOSE_HELPER"), QString("false")).toString();
+    config[QString("HELPER_PATH")] = settings.value(QString("HELPER_PATH"), QString("/usr/bin/netctlgui-helper")).toString();
+    config[QString("HELPER_SERVICE")] = settings.value(QString("HELPER_SERVICE"), QString("netctlgui-helper.service")).toString();
+    settings.endGroup();
 
-QMap<QString, QString> NetctlHelper::getSettings(const QString file, const QMap<QString, QString> existing)
-{
-    if (debug) qDebug() << PDEBUG;
+    settings.beginGroup(QString("netctl"));
+    config[QString("SYSTEMCTL_PATH")] = settings.value(QString("SYSTEMCTL_PATH"), QString("/usr/bin/systemctl")).toString();
+    config[QString("NETCTL_PATH")] = settings.value(QString("NETCTL_PATH"), QString("/usr/bin/netctl")).toString();
+    config[QString("NETCTLAUTO_PATH")] = settings.value(QString("NETCTLAUTO_PATH"), QString("/usr/bin/netctl-auto")).toString();
+    config[QString("NETCTLAUTO_SERVICE")] = settings.value(QString("NETCTLAUTO_SERVICE"), QString("netctl-auto")).toString();
+    config[QString("PROFILE_DIR")] = settings.value(QString("PROFILE_DIR"), QString("/etc/netctl")).toString();
+    settings.endGroup();
 
-    QMap<QString, QString> settings;
-    if (existing.isEmpty())
-        settings = getDefault();
-    else
-        settings = existing;
-    QFile configFile(file);
-    QString fileStr;
-    if (!configFile.open(QIODevice::ReadOnly))
-        return settings;
-    while (true) {
-        fileStr = QString(configFile.readLine()).trimmed();
-        if ((fileStr.isEmpty()) && (!configFile.atEnd())) continue;
-        if ((fileStr[0] == QChar('#')) && (!configFile.atEnd())) continue;
-        if ((fileStr[0] == QChar(';')) && (!configFile.atEnd())) continue;
-        if (fileStr.contains(QChar('=')))
-            settings[fileStr.split(QChar('='))[0]] = fileStr.split(QChar('='))[1];
-        if (configFile.atEnd()) break;
-    }
-    configFile.close();
-    for (int i=0; i<settings.keys().count(); i++)
-        if (debug) qDebug() << PDEBUG << ":" << settings.keys()[i] + QString("=") + settings[settings.keys()[i]];
+    settings.beginGroup(QString("sudo"));
+    config[QString("SUDO_PATH")] = settings.value(QString("SUDO_PATH"), QString("/usr/bin/kdesu")).toString();
+    settings.endGroup();
 
-    return settings;
+    settings.beginGroup(QString("wpa_supplicant"));
+    config[QString("WPASUP_PATH")] = settings.value(QString("WPASUP_PATH"), QString("/usr/bin/wpa_supplicant")).toString();
+    config[QString("WPACLI_PATH")] = settings.value(QString("WPACLI_PATH"), QString("/usr/bin/wpa_cli")).toString();
+    config[QString("PID_FILE")] = settings.value(QString("PID_FILE"), QString("/run/wpa_supplicant_netctl-gui.pid")).toString();
+    config[QString("WPA_DRIVERS")] = settings.value(QString("WPA_DRIVERS"), QString("nl80211,wext")).toString();
+    config[QString("CTRL_DIR")] = settings.value(QString("CTRL_DIR"), QString("/run/wpa_supplicant_netctl-gui")).toString();
+    config[QString("CTRL_GROUP")] = settings.value(QString("CTRL_GROUP"), QString("users")).toString();
+    settings.endGroup();
+
+    settings.beginGroup(QString("Other"));
+    config[QString("IFACE_DIR")] = settings.value(QString("IFACE_DIR"), QString("/sys/class/net/")).toString();
+    config[QString("RFKILL_DIR")] = settings.value(QString("RFKILL_DIR"), QString("/sys/class/rfkill/")).toString();
+    config[QString("PREFERED_IFACE")] = settings.value(QString("PREFERED_IFACE"), QString("")).toString();
+    settings.endGroup();
+
+    for (int i=0; i<config.keys().count(); i++)
+        if (debug) qDebug() << PDEBUG << ":" << config.keys()[i] + QString("=") +
+                               config[config.keys()[i]];
+
+    return configuration;
 }
 
 
@@ -198,9 +190,10 @@ void NetctlHelper::updateConfiguration()
     if (debug) qDebug() << PDEBUG;
 
     deleteInterface();
-    configuration = getSettings(QString("/etc/netctl-gui.conf"));
-    if (!system)
-        configuration = getSettings(configPath, configuration);
+    if (system)
+        configuration = getSettings(QString("/etc/netctl-gui.conf"));
+    else
+        configuration = getSettings(configPath);
     createInterface();
 }
 

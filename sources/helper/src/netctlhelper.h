@@ -45,9 +45,7 @@ private:
     bool system;
     void createInterface();
     void deleteInterface();
-    QMap<QString, QString> getDefault();
-    QMap<QString, QString> getSettings(const QString file,
-                                       const QMap<QString, QString> existing = QMap<QString, QString>());
+    QMap<QString, QString> getSettings(const QString file);
 };
 
 

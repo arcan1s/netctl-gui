@@ -39,7 +39,7 @@ public:
                             const QString configFile = QString(""));
     ~SettingsWindow();
     QMap<QString, QString> getDefault();
-    QMap<QString, QString> getSettings();
+    QMap<QString, QString> getSettings(const QString fileName = file);
 
 public slots:
     void closeWindow();
@@ -65,7 +65,7 @@ private:
     // ESC pressed event
     void keyPressEvent(QKeyEvent *pressedKey);
     QMap<QString, QString> readSettings();
-    void setSettings(const QMap<QString, QString> settings);
+    void setSettings(const QMap<QString, QString> config);
 };
 
 

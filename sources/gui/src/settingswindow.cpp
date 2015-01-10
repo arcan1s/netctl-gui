@@ -22,6 +22,7 @@
 #include <QFile>
 #include <QFileDialog>
 #include <QTextStream>
+#include <QSettings>
 
 #include <language/language.h>
 #include <pdebug/pdebug.h>
@@ -96,7 +97,7 @@ void SettingsWindow::addLanguages()
 
 void SettingsWindow::changePage(QTreeWidgetItem *current, QTreeWidgetItem *previous)
 {
-    Q_UNUSED(previous)
+    Q_UNUSED(previous);
     if (debug) qDebug() << PDEBUG;
 
     for (int i=0; i<ui->treeWidget->topLevelItemCount(); i++)
@@ -121,14 +122,53 @@ void SettingsWindow::saveSettings()
 {
     if (debug) qDebug() << PDEBUG;
 
-    QMap<QString, QString> settings = readSettings();
-    QFile configFile(file);
-    if (!configFile.open(QIODevice::WriteOnly | QIODevice::Text))
-        return;
-    QTextStream out(&configFile);
-    for (int i=0; i<settings.keys().count(); i++)
-        out << settings.keys()[i] << QString("=") << settings[settings.keys()[i]] << endl;
-    configFile.close();
+    QMap<QString, QString> config = readSettings();
+    QSettings settings(file, QSettings::IniFormat);
+
+    settings.beginGroup(QString("General"));
+    settings.setValue(QString("LANGUAGE"), config[QString("LANGUAGE")]);
+    settings.setValue(QString("SYSTRAY"), config[QString("SYSTRAY")]);
+    settings.setValue(QString("CLOSETOTRAY"), config[QString("CLOSETOTRAY")]);
+    settings.setValue(QString("STARTTOTRAY"), config[QString("STARTTOTRAY")]);
+    settings.setValue(QString("SKIPCOMPONENTS"), config[QString("SKIPCOMPONENTS")]);
+    settings.endGroup();
+
+    settings.beginGroup(QString("Helper"));
+    settings.setValue(QString("USE_HELPER"), config[QString("USE_HELPER")]);
+    settings.setValue(QString("FORCE_SUDO"), config[QString("FORCE_SUDO")]);
+    settings.setValue(QString("CLOSE_HELPER"), config[QString("CLOSE_HELPER")]);
+    settings.setValue(QString("HELPER_PATH"), config[QString("HELPER_PATH")]);
+    settings.setValue(QString("HELPER_SERVICE"), config[QString("HELPER_SERVICE")]);
+    settings.endGroup();
+
+    settings.beginGroup(QString("netctl"));
+    settings.setValue(QString("SYSTEMCTL_PATH"), config[QString("SYSTEMCTL_PATH")]);
+    settings.setValue(QString("NETCTL_PATH"), config[QString("NETCTL_PATH")]);
+    settings.setValue(QString("NETCTLAUTO_PATH"), config[QString("NETCTLAUTO_PATH")]);
+    settings.setValue(QString("NETCTLAUTO_PATH"), config[QString("NETCTLAUTO_PATH")]);
+    settings.setValue(QString("PROFILE_DIR"), config[QString("PROFILE_DIR")]);
+    settings.endGroup();
+
+    settings.beginGroup(QString("sudo"));
+    settings.setValue(QString("SUDO_PATH"), config[QString("SUDO_PATH")]);
+    settings.endGroup();
+
+    settings.beginGroup(QString("wpa_supplicant"));
+    settings.setValue(QString("WPASUP_PATH"), config[QString("WPASUP_PATH")]);
+    settings.setValue(QString("WPACLI_PATH"), config[QString("WPACLI_PATH")]);
+    settings.setValue(QString("PID_FILE"), config[QString("PID_FILE")]);
+    settings.setValue(QString("WPA_DRIVERS"), config[QString("WPA_DRIVERS")]);
+    settings.setValue(QString("CTRL_DIR"), config[QString("CTRL_DIR")]);
+    settings.setValue(QString("CTRL_GROUP"), config[QString("CTRL_GROUP")]);
+    settings.endGroup();
+
+    settings.beginGroup(QString("Other"));
+    settings.setValue(QString("IFACE_DIR"), config[QString("IFACE_DIR")]);
+    settings.setValue(QString("RFKILL_DIR"), config[QString("RFKILL_DIR")]);
+    settings.setValue(QString("PREFERED_IFACE"), config[QString("PREFERED_IFACE")]);
+    settings.endGroup();
+
+    settings.sync();
 }
 
 
@@ -237,115 +277,122 @@ QMap<QString, QString> SettingsWindow::readSettings()
 {
     if (debug) qDebug() << PDEBUG;
 
-    QMap<QString, QString> settings;
-    if (ui->checkBox_helperClose->checkState() == 2)
-        settings[QString("CLOSE_HELPER")] = QString("true");
-    else
-        settings[QString("CLOSE_HELPER")] = QString("false");
-    if (ui->checkBox_closeToTray->checkState() == 2)
-        settings[QString("CLOSETOTRAY")] = QString("true");
-    else
-        settings[QString("CLOSETOTRAY")] = QString("false");
-    settings[QString("CTRL_DIR")] = ui->lineEdit_wpaDir->text();
-    settings[QString("CTRL_GROUP")] = ui->lineEdit_wpaGroup->text();
-    if (ui->checkBox_forceSudo->checkState() == 2)
-        settings[QString("FORCE_SUDO")] = QString("true");
-    else
-        settings[QString("FORCE_SUDO")] = QString("false");
-    settings[QString("HELPER_PATH")] = ui->lineEdit_helperPath->text();
-    settings[QString("HELPER_SERVICE")] = ui->lineEdit_helperService->text();
-    settings[QString("IFACE_DIR")] = ui->lineEdit_interfacesDir->text();
-    settings[QString("LANGUAGE")] = ui->comboBox_language->currentText();
-    settings[QString("NETCTL_PATH")] = ui->lineEdit_netctlPath->text();
-    settings[QString("NETCTLAUTO_PATH")] = ui->lineEdit_netctlAutoPath->text();
-    settings[QString("NETCTLAUTO_SERVICE")] = ui->lineEdit_netctlAutoService->text();
-    settings[QString("PID_FILE")] = ui->lineEdit_pid->text();
-    settings[QString("PREFERED_IFACE")] = ui->lineEdit_interface->text();
-    settings[QString("PROFILE_DIR")] = ui->lineEdit_profilePath->text();
-    settings[QString("RFKILL_DIR")] = ui->lineEdit_rfkill->text();
-    if (ui->checkBox_components->checkState() == 2)
-        settings[QString("SKIPCOMPONENTS")] = QString("true");
-    else
-        settings[QString("SKIPCOMPONENTS")] = QString("false");
-    if (ui->checkBox_startToTray->checkState() == 2)
-        settings[QString("STARTTOTRAY")] = QString("true");
-    else
-        settings[QString("STARTTOTRAY")] = QString("false");
-    settings[QString("SUDO_PATH")] = ui->lineEdit_sudo->text();
-    settings[QString("SYSTEMCTL_PATH")] = ui->lineEdit_systemctlPath->text();
-    if (ui->checkBox_enableTray->checkState() == 2)
-        settings[QString("SYSTRAY")] = QString("true");
-    else
-        settings[QString("SYSTRAY")] = QString("false");
-    if (ui->checkBox_useHelper->checkState() == 2)
-        settings[QString("USE_HELPER")] = QString("true");
-    else
-        settings[QString("USE_HELPER")] = QString("false");
-    settings[QString("WPACLI_PATH")] = ui->lineEdit_wpaCliPath->text();
-    settings[QString("WPASUP_PATH")] = ui->lineEdit_wpaSupPath->text();
-    settings[QString("WPA_DRIVERS")] = ui->lineEdit_wpaSupDrivers->text();
-    for (int i=0; i<settings.keys().count(); i++)
-        if (debug) qDebug() << PDEBUG << ":" << settings.keys()[i] + QString("=") + settings[settings.keys()[i]];
+    QMap<QString, QString> config;
 
-    return settings;
+    if (ui->checkBox_helperClose->checkState() == 2)
+        config[QString("CLOSE_HELPER")] = QString("true");
+    else
+        config[QString("CLOSE_HELPER")] = QString("false");
+    if (ui->checkBox_closeToTray->checkState() == 2)
+        config[QString("CLOSETOTRAY")] = QString("true");
+    else
+        config[QString("CLOSETOTRAY")] = QString("false");
+    config[QString("CTRL_DIR")] = ui->lineEdit_wpaDir->text();
+    config[QString("CTRL_GROUP")] = ui->lineEdit_wpaGroup->text();
+    if (ui->checkBox_forceSudo->checkState() == 2)
+        config[QString("FORCE_SUDO")] = QString("true");
+    else
+        config[QString("FORCE_SUDO")] = QString("false");
+    config[QString("HELPER_PATH")] = ui->lineEdit_helperPath->text();
+    config[QString("HELPER_SERVICE")] = ui->lineEdit_helperService->text();
+    config[QString("IFACE_DIR")] = ui->lineEdit_interfacesDir->text();
+    config[QString("LANGUAGE")] = ui->comboBox_language->currentText();
+    config[QString("NETCTL_PATH")] = ui->lineEdit_netctlPath->text();
+    config[QString("NETCTLAUTO_PATH")] = ui->lineEdit_netctlAutoPath->text();
+    config[QString("NETCTLAUTO_SERVICE")] = ui->lineEdit_netctlAutoService->text();
+    config[QString("PID_FILE")] = ui->lineEdit_pid->text();
+    config[QString("PREFERED_IFACE")] = ui->lineEdit_interface->text();
+    config[QString("PROFILE_DIR")] = ui->lineEdit_profilePath->text();
+    config[QString("RFKILL_DIR")] = ui->lineEdit_rfkill->text();
+    if (ui->checkBox_components->checkState() == 2)
+        config[QString("SKIPCOMPONENTS")] = QString("true");
+    else
+        config[QString("SKIPCOMPONENTS")] = QString("false");
+    if (ui->checkBox_startToTray->checkState() == 2)
+        config[QString("STARTTOTRAY")] = QString("true");
+    else
+        config[QString("STARTTOTRAY")] = QString("false");
+    config[QString("SUDO_PATH")] = ui->lineEdit_sudo->text();
+    config[QString("SYSTEMCTL_PATH")] = ui->lineEdit_systemctlPath->text();
+    if (ui->checkBox_enableTray->checkState() == 2)
+        config[QString("SYSTRAY")] = QString("true");
+    else
+        config[QString("SYSTRAY")] = QString("false");
+    if (ui->checkBox_useHelper->checkState() == 2)
+        config[QString("USE_HELPER")] = QString("true");
+    else
+        config[QString("USE_HELPER")] = QString("false");
+    config[QString("WPACLI_PATH")] = ui->lineEdit_wpaCliPath->text();
+    config[QString("WPASUP_PATH")] = ui->lineEdit_wpaSupPath->text();
+    config[QString("WPA_DRIVERS")] = ui->lineEdit_wpaSupDrivers->text();
+
+    for (int i=0; i<config.keys().count(); i++)
+        if (debug) qDebug() << PDEBUG << ":" << config.keys()[i] + QString("=") +
+                               config[config.keys()[i]];
+
+    return config;
 }
 
 
-void SettingsWindow::setSettings(const QMap<QString, QString> settings)
+void SettingsWindow::setSettings(const QMap<QString, QString> config)
 {
     if (debug) qDebug() << PDEBUG;
 
-    if (settings[QString("CLOSE_HELPER")] == QString("true"))
+    if (config[QString("CLOSE_HELPER")] == QString("true"))
         ui->checkBox_helperClose->setCheckState(Qt::Checked);
     else
         ui->checkBox_helperClose->setCheckState(Qt::Unchecked);
-    if (settings[QString("CLOSETOTRAY")] == QString("true"))
+    if (config[QString("CLOSETOTRAY")] == QString("true"))
         ui->checkBox_closeToTray->setCheckState(Qt::Checked);
     else
         ui->checkBox_closeToTray->setCheckState(Qt::Unchecked);
-    ui->lineEdit_wpaDir->setText(settings[QString("CTRL_DIR")]);
-    ui->lineEdit_wpaGroup->setText(settings[QString("CTRL_GROUP")]);
-    if (settings[QString("FORCE_SUDO")] == QString("true"))
+    ui->lineEdit_wpaDir->setText(config[QString("CTRL_DIR")]);
+    ui->lineEdit_wpaGroup->setText(config[QString("CTRL_GROUP")]);
+    if (config[QString("FORCE_SUDO")] == QString("true"))
         ui->checkBox_forceSudo->setCheckState(Qt::Checked);
     else
         ui->checkBox_forceSudo->setCheckState(Qt::Unchecked);
-    ui->lineEdit_helperPath->setText(settings[QString("HELPER_PATH")]);
-    ui->lineEdit_helperService->setText(settings[QString("HELPER_SERVICE")]);
-    ui->lineEdit_interfacesDir->setText(settings[QString("IFACE_DIR")]);
+    ui->lineEdit_helperPath->setText(config[QString("HELPER_PATH")]);
+    ui->lineEdit_helperService->setText(config[QString("HELPER_SERVICE")]);
+    ui->lineEdit_interfacesDir->setText(config[QString("IFACE_DIR")]);
     ui->comboBox_language->setCurrentIndex(0);
     for (int i=0; i<ui->comboBox_language->count(); i++)
-        if (ui->comboBox_language->itemText(i) == settings[QString("LANGUAGE")])
+        if (ui->comboBox_language->itemText(i) == config[QString("LANGUAGE")]) {
             ui->comboBox_language->setCurrentIndex(i);
-    ui->lineEdit_netctlPath->setText(settings[QString("NETCTL_PATH")]);
-    ui->lineEdit_netctlAutoPath->setText(settings[QString("NETCTLAUTO_PATH")]);
-    ui->lineEdit_netctlAutoService->setText(settings[QString("NETCTLAUTO_SERVICE")]);
-    ui->lineEdit_pid->setText(settings[QString("PID_FILE")]);
-    ui->lineEdit_interface->setText(settings[QString("PREFERED_IFACE")]);
-    ui->lineEdit_profilePath->setText(settings[QString("PROFILE_DIR")]);
-    ui->lineEdit_rfkill->setText(settings[QString("RFKILL_DIR")]);
-    if (settings[QString("SKIPCOMPONENTS")] == QString("true"))
+            break;
+        }
+    ui->lineEdit_netctlPath->setText(config[QString("NETCTL_PATH")]);
+    ui->lineEdit_netctlAutoPath->setText(config[QString("NETCTLAUTO_PATH")]);
+    ui->lineEdit_netctlAutoService->setText(config[QString("NETCTLAUTO_SERVICE")]);
+    ui->lineEdit_pid->setText(config[QString("PID_FILE")]);
+    ui->lineEdit_interface->setText(config[QString("PREFERED_IFACE")]);
+    ui->lineEdit_profilePath->setText(config[QString("PROFILE_DIR")]);
+    ui->lineEdit_rfkill->setText(config[QString("RFKILL_DIR")]);
+    if (config[QString("SKIPCOMPONENTS")] == QString("true"))
         ui->checkBox_components->setCheckState(Qt::Checked);
     else
         ui->checkBox_components->setCheckState(Qt::Unchecked);
-    if (settings[QString("STARTTOTRAY")] == QString("true"))
+    if (config[QString("STARTTOTRAY")] == QString("true"))
         ui->checkBox_startToTray->setCheckState(Qt::Checked);
     else
         ui->checkBox_startToTray->setCheckState(Qt::Unchecked);
-    ui->lineEdit_sudo->setText(settings[QString("SUDO_PATH")]);
-    ui->lineEdit_systemctlPath->setText(settings[QString("SYSTEMCTL_PATH")]);
-    if (settings[QString("SYSTRAY")] == QString("true"))
+    ui->lineEdit_sudo->setText(config[QString("SUDO_PATH")]);
+    ui->lineEdit_systemctlPath->setText(config[QString("SYSTEMCTL_PATH")]);
+    if (config[QString("SYSTRAY")] == QString("true"))
         ui->checkBox_enableTray->setCheckState(Qt::Checked);
     else
         ui->checkBox_enableTray->setCheckState(Qt::Unchecked);
-    if (settings[QString("USE_HELPER")] == QString("true"))
+    if (config[QString("USE_HELPER")] == QString("true"))
         ui->checkBox_useHelper->setCheckState(Qt::Checked);
     else
         ui->checkBox_useHelper->setCheckState(Qt::Unchecked);
-    ui->lineEdit_wpaCliPath->setText(settings[QString("WPACLI_PATH")]);
-    ui->lineEdit_wpaSupPath->setText(settings[QString("WPASUP_PATH")]);
-    ui->lineEdit_wpaSupDrivers->setText(settings[QString("WPA_DRIVERS")]);
-    for (int i=0; i<settings.keys().count(); i++)
-        if (debug) qDebug() << PDEBUG << ":" << settings.keys()[i] + QString("=") + settings[settings.keys()[i]];
+    ui->lineEdit_wpaCliPath->setText(config[QString("WPACLI_PATH")]);
+    ui->lineEdit_wpaSupPath->setText(config[QString("WPASUP_PATH")]);
+    ui->lineEdit_wpaSupDrivers->setText(config[QString("WPA_DRIVERS")]);
+
+    for (int i=0; i<config.keys().count(); i++)
+        if (debug) qDebug() << PDEBUG << ":" << config.keys()[i] + QString("=") +
+                               config[config.keys()[i]];
 }
 
 
@@ -353,62 +400,65 @@ QMap<QString, QString> SettingsWindow::getDefault()
 {
     if (debug) qDebug() << PDEBUG;
 
-    QMap<QString, QString> settings;
-    settings[QString("CLOSE_HELPER")] = QString("false");
-    settings[QString("CLOSETOTRAY")] = QString("true");
-    settings[QString("CTRL_DIR")] = QString("/run/wpa_supplicant_netctl-gui");
-    settings[QString("CTRL_GROUP")] = QString("users");
-    settings[QString("FORCE_SUDO")] = QString("false");
-    settings[QString("HELPER_PATH")] = QString("/usr/bin/netctlgui-helper");
-    settings[QString("HELPER_SERVICE")] = QString("netctlgui-helper.service");
-    settings[QString("IFACE_DIR")] = QString("/sys/class/net/");
-    settings[QString("LANGUAGE")] = QString("en");
-    settings[QString("NETCTL_PATH")] = QString("/usr/bin/netctl");
-    settings[QString("NETCTLAUTO_PATH")] = QString("/usr/bin/netctl-auto");
-    settings[QString("NETCTLAUTO_SERVICE")] = QString("netctl-auto");
-    settings[QString("PID_FILE")] = QString("/run/wpa_supplicant_netctl-gui.pid");
-    settings[QString("PREFERED_IFACE")] = QString("");
-    settings[QString("PROFILE_DIR")] = QString("/etc/netctl/");
-    settings[QString("RFKILL_DIR")] = QString("/sys/class/rfkill/");
-    settings[QString("SKIPCOMPONENTS")] = QString("false");
-    settings[QString("STARTTOTRAY")] = QString("false");
-    settings[QString("SUDO_PATH")] = QString("/usr/bin/kdesu");
-    settings[QString("SYSTEMCTL_PATH")] = QString("/usr/bin/systemctl");
-    settings[QString("SYSTRAY")] = QString("true");
-    settings[QString("USE_HELPER")] = QString("true");
-    settings[QString("WPACLI_PATH")] = QString("/usr/bin/wpa_cli");
-    settings[QString("WPASUP_PATH")] = QString("/usr/bin/wpa_supplicant");
-    settings[QString("WPA_DRIVERS")] = QString("nl80211,wext");
-    for (int i=0; i<settings.keys().count(); i++)
-        if (debug) qDebug() << PDEBUG << ":" << settings.keys()[i] + QString("=") + settings[settings.keys()[i]];
-
-    return settings;
+    return getSettings(QString("/dev/null"));
 }
 
 
-QMap<QString, QString> SettingsWindow::getSettings()
+QMap<QString, QString> SettingsWindow::getSettings(const QString fileName)
 {
     if (debug) qDebug() << PDEBUG;
 
-    QMap<QString, QString> settings = getDefault();
-    QFile configFile(file);
-    QString fileStr;
-    if (!configFile.open(QIODevice::ReadOnly))
-        return settings;
-    while (true) {
-        fileStr = QString(configFile.readLine()).trimmed();
-        if ((fileStr.isEmpty()) && (!configFile.atEnd())) continue;
-        if ((fileStr[0] == QChar('#')) && (!configFile.atEnd())) continue;
-        if ((fileStr[0] == QChar(';')) && (!configFile.atEnd())) continue;
-        if (fileStr.contains(QChar('=')))
-            settings[fileStr.split(QChar('='))[0]] = fileStr.split(QChar('='))[1];
-        if (configFile.atEnd()) break;
-    }
-    configFile.close();
-    for (int i=0; i<settings.keys().count(); i++)
-        if (debug) qDebug() << PDEBUG << ":" << settings.keys()[i] + QString("=") + settings[settings.keys()[i]];
+    QMap<QString, QString> config;
+    QSettings settings(fileName, QSettings::IniFormat);
 
-    return settings;
+    settings.beginGroup(QString("General"));
+    config[QString("LANGUAGE")] = settings.value(QString("LANGUAGE"), QString("en")).toString();
+    config[QString("SYSTRAY")] = settings.value(QString("SYSTRAY"), QString("true")).toString();
+    config[QString("CLOSETOTRAY")] = settings.value(QString("CLOSETOTRAY"), QString("true")).toString();
+    config[QString("STARTTOTRAY")] = settings.value(QString("STARTTOTRAY"), QString("false")).toString();
+    config[QString("SKIPCOMPONENTS")] = settings.value(QString("SKIPCOMPONENTS"), QString("false")).toString();
+    settings.endGroup();
+
+    settings.beginGroup(QString("Helper"));
+    config[QString("USE_HELPER")] = settings.value(QString("USE_HELPER"), QString("true")).toString();
+    config[QString("FORCE_SUDO")] = settings.value(QString("FORCE_SUDO"), QString("false")).toString();
+    config[QString("CLOSE_HELPER")] = settings.value(QString("CLOSE_HELPER"), QString("false")).toString();
+    config[QString("HELPER_PATH")] = settings.value(QString("HELPER_PATH"), QString("/usr/bin/netctlgui-helper")).toString();
+    config[QString("HELPER_SERVICE")] = settings.value(QString("HELPER_SERVICE"), QString("netctlgui-helper.service")).toString();
+    settings.endGroup();
+
+    settings.beginGroup(QString("netctl"));
+    config[QString("SYSTEMCTL_PATH")] = settings.value(QString("SYSTEMCTL_PATH"), QString("/usr/bin/systemctl")).toString();
+    config[QString("NETCTL_PATH")] = settings.value(QString("NETCTL_PATH"), QString("/usr/bin/netctl")).toString();
+    config[QString("NETCTLAUTO_PATH")] = settings.value(QString("NETCTLAUTO_PATH"), QString("/usr/bin/netctl-auto")).toString();
+    config[QString("NETCTLAUTO_SERVICE")] = settings.value(QString("NETCTLAUTO_SERVICE"), QString("netctl-auto")).toString();
+    config[QString("PROFILE_DIR")] = settings.value(QString("PROFILE_DIR"), QString("/etc/netctl")).toString();
+    settings.endGroup();
+
+    settings.beginGroup(QString("sudo"));
+    config[QString("SUDO_PATH")] = settings.value(QString("SUDO_PATH"), QString("/usr/bin/kdesu")).toString();
+    settings.endGroup();
+
+    settings.beginGroup(QString("wpa_supplicant"));
+    config[QString("WPASUP_PATH")] = settings.value(QString("WPASUP_PATH"), QString("/usr/bin/wpa_supplicant")).toString();
+    config[QString("WPACLI_PATH")] = settings.value(QString("WPACLI_PATH"), QString("/usr/bin/wpa_cli")).toString();
+    config[QString("PID_FILE")] = settings.value(QString("PID_FILE"), QString("/run/wpa_supplicant_netctl-gui.pid")).toString();
+    config[QString("WPA_DRIVERS")] = settings.value(QString("WPA_DRIVERS"), QString("nl80211,wext")).toString();
+    config[QString("CTRL_DIR")] = settings.value(QString("CTRL_DIR"), QString("/run/wpa_supplicant_netctl-gui")).toString();
+    config[QString("CTRL_GROUP")] = settings.value(QString("CTRL_GROUP"), QString("users")).toString();
+    settings.endGroup();
+
+    settings.beginGroup(QString("Other"));
+    config[QString("IFACE_DIR")] = settings.value(QString("IFACE_DIR"), QString("/sys/class/net/")).toString();
+    config[QString("RFKILL_DIR")] = settings.value(QString("RFKILL_DIR"), QString("/sys/class/rfkill/")).toString();
+    config[QString("PREFERED_IFACE")] = settings.value(QString("PREFERED_IFACE"), QString("")).toString();
+    settings.endGroup();
+
+    for (int i=0; i<config.keys().count(); i++)
+        if (debug) qDebug() << PDEBUG << ":" << config.keys()[i] + QString("=") +
+                               config[config.keys()[i]];
+
+    return configuration;
 }
 
 
