@@ -67,7 +67,7 @@ Netctl::Netctl(QObject *parent, const QVariantList &args)
 {
     // debug
     QProcessEnvironment environment = QProcessEnvironment::systemEnvironment();
-    QString debugEnv = environment.value(QString("NETCTLGUI_DEBUG"), QString("no"));
+    QString debugEnv = environment.value(QString("DEBUG"), QString("no"));
     if (debugEnv == QString("yes"))
         debug = true;
     else
@@ -153,13 +153,15 @@ QMap<QString, QString> Netctl::readDataEngineConfiguration()
 
     QMap<QString, QString> configuration;
     QString fileName;
-    fileName = KGlobal::dirs()->findResource("config", "netctl.conf");
+    fileName = KGlobal::dirs()->findResource("config", "plasma-dataengine-netctl.conf");
     if (debug) qDebug() << PDEBUG << ":" << "Configuration file" << fileName;
     QSettings settings(fileName, QSettings::IniFormat);
+
     settings.beginGroup(QString("Netctl commands"));
     configuration[QString("NETCTLCMD")] = settings.value(QString("NETCTLCMD"), QString("/usr/bin/netctl")).toString();
     configuration[QString("NETCTLAUTOCMD")] = settings.value(QString("NETCTLAUTOCMD"), QString("/usr/bin/netctl-auto")).toString();
     settings.endGroup();
+
     settings.beginGroup(QString("External IP"));
     configuration[QString("EXTIP4")] = settings.value(QString("EXTIP4"), QString("false")).toString();
     configuration[QString("EXTIP4CMD")] = settings.value(QString("EXTIP4CMD"), QString("curl ip4.telize.com")).toString();
@@ -175,7 +177,7 @@ void Netctl::writeDataEngineConfiguration(const QMap<QString, QString> configura
 {
     if (debug) qDebug() << PDEBUG;
 
-    QString fileName = KGlobal::dirs()->locateLocal("config", "netctl.conf");
+    QString fileName = KGlobal::dirs()->locateLocal("config", "plasma-dataengine-netctl.conf");
     QSettings settings(fileName, QSettings::IniFormat);
     if (debug) qDebug() << PDEBUG << ":" << "Configuration file" << settings.fileName();
 

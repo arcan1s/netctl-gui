@@ -39,7 +39,7 @@ public:
                             const QString configFile = QString(""));
     ~SettingsWindow();
     QMap<QString, QString> getDefault();
-    QMap<QString, QString> getSettings(const QString fileName = file);
+    QMap<QString, QString> getSettings(QString fileName = QString(""));
 
 public slots:
     void closeWindow();

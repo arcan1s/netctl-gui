@@ -25,9 +25,7 @@
 
 QString errorMessage()
 {
-    QString errorMessage = QApplication::translate("MainWindow", "Unknown flag\n");
-
-    return errorMessage;
+    return QApplication::translate("MainWindow", "Unknown flag\n");
 }
 
 
@@ -141,6 +139,7 @@ QString infoMessage()
     infoMessage += QString("\t-DDBUS_SYSTEMCONF_PATH=%1\n").arg(QString(PROJECT_DBUS_SYSTEMCONF_PATH));
     infoMessage += QString("\t-DSYSTEMD_SERVICE_PATH=%1\n").arg(QString(PROJECT_SYSTEMD_SERVICE_PATH));
     infoMessage += QString("\t-DUSE_CAPABILITIES=%1\n").arg(QString(PROJECT_USE_CAPABILITIES));
+    infoMessage += QString("\t-DUSE_KDE4=%1\n").arg(QString(PROJECT_USE_KDE4));
     infoMessage += QString("\t-DUSE_QT5=%1\n").arg(QString(PROJECT_USE_QT5));
     // transport information
     infoMessage += QString("%1:\n").arg(QApplication::translate("MainWindow", "DBus configuration"));

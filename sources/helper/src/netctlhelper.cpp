@@ -181,7 +181,7 @@ QMap<QString, QString> NetctlHelper::getSettings(const QString file)
         if (debug) qDebug() << PDEBUG << ":" << config.keys()[i] + QString("=") +
                                config[config.keys()[i]];
 
-    return configuration;
+    return config;
 }
 
 

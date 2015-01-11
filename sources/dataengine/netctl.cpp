@@ -46,7 +46,7 @@ Netctl::Netctl(QObject *parent, const QVariantList &args)
 
     // debug
     QProcessEnvironment environment = QProcessEnvironment::systemEnvironment();
-    QString debugEnv = environment.value(QString("NETCTLGUI_DEBUG"), QString("no"));
+    QString debugEnv = environment.value(QString("DEBUG"), QString("no"));
     if (debugEnv == QString("yes"))
         debug = true;
     else
@@ -90,9 +90,9 @@ void Netctl::readConfiguration()
 
     QString fileName;
 #ifdef BUILD_KDE4
-    fileName = KGlobal::dirs()->findResource("config", "netctl.conf");
+    fileName = KGlobal::dirs()->findResource("config", "plasma-dataengine-netctl.conf");
 #else
-    fileName = QStandardPaths::locate(QStandardPaths::ConfigLocation, QString("netctl.conf"));
+    fileName = QStandardPaths::locate(QStandardPaths::ConfigLocation, QString("plasma-dataengine-netctl.conf"));
 #endif /* BUILD_KDE4 */
     if (debug) qDebug() << PDEBUG << ":" << "Configuration file" << fileName;
     QSettings settings(fileName, QSettings::IniFormat);

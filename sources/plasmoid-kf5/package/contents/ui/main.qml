@@ -133,8 +133,7 @@ Item {
         plasmoid.setAction("switchToProfile", i18n("Switch to profile"))
         plasmoid.setAction("restartProfile", i18n("Restart profile"), "stock-refresh")
         plasmoid.setAction("enableProfile", i18n("Enable profile"))
-        // FIXME: icon from resources
-        plasmoid.setAction("startWifi", i18n("Show WiFi menu"))
+        plasmoid.setAction("startWifi", i18n("Show WiFi menu"), "image://netctl/wifi.png")
         // helper
         if (plasmoid.configuration.useHelper) {
             NetctlAdds.runCmd(plasmoid.configuration.helperPath)

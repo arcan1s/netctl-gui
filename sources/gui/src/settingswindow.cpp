@@ -404,9 +404,10 @@ QMap<QString, QString> SettingsWindow::getDefault()
 }
 
 
-QMap<QString, QString> SettingsWindow::getSettings(const QString fileName)
+QMap<QString, QString> SettingsWindow::getSettings(QString fileName)
 {
     if (debug) qDebug() << PDEBUG;
+    if (fileName == QString("")) fileName = file;
 
     QMap<QString, QString> config;
     QSettings settings(fileName, QSettings::IniFormat);
@@ -458,7 +459,7 @@ QMap<QString, QString> SettingsWindow::getSettings(const QString fileName)
         if (debug) qDebug() << PDEBUG << ":" << config.keys()[i] + QString("=") +
                                config[config.keys()[i]];
 
-    return configuration;
+    return config;
 }
 
 

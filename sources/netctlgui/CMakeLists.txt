@@ -15,5 +15,5 @@ add_subdirectory (${SUBPROJECT_SOURCE_DIR})
 install (DIRECTORY ${SUBPROJECT_INCLUDE_DIR}/ DESTINATION include/)
 # documentation
 if (BUILD_DOCS)
-    include (docs.cmake)
+  include (docs.cmake)
 endif ()

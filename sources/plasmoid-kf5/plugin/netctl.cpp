@@ -23,10 +23,18 @@
 
 static QObject *netctl_singletontype_provider(QQmlEngine *engine, QJSEngine *scriptEngine)
 {
-    Q_UNUSED(engine)
-    Q_UNUSED(scriptEngine)
+    Q_UNUSED(engine);
+    Q_UNUSED(scriptEngine);
 
     return new NetctlAdds();
+}
+
+
+void NetctlPlugin::initializeEngine(QQmlEngine *engine, const char *uri)
+{
+    Q_UNUSED(uri);
+
+    engine->addImageProvider("netctl", new NetctlAddsIconProvider());
 }
 
 

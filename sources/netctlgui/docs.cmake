@@ -1,9 +1,5 @@
 # doxygen documentation
 find_package (Doxygen)
-if (NOT DOXYGEN_FOUND)
-    message (STATUS "WARNING: Doxygen not found - Reference manual will not be created")
-    return ()
-endif ()
 
 configure_file (doxygen.conf.in ${CMAKE_CURRENT_BINARY_DIR}/doxygen.conf)
 add_custom_target (oxygen-docs ALL COMMAND ${DOXYGEN_EXECUTABLE} ${CMAKE_CURRENT_BINARY_DIR}/doxygen.conf)

@@ -19,9 +19,20 @@
 #ifndef NETCTLADDS_H
 #define NETCTLADDS_H
 
+#include <QImage>
 #include <QMap>
 #include <QObject>
+#include <QQuickImageProvider>
 #include <QVariant>
+
+
+class NetctlAddsIconProvider : public QQuickImageProvider
+{
+public:
+    NetctlAddsIconProvider();
+
+    virtual QPixmap requestPixmap(const QString &id, QSize *size, const QSize &requestedSize);
+};
 
 
 class NetctlAdds : public QObject

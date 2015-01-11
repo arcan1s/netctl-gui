@@ -18,8 +18,8 @@ else ()
   include (KDEInstallDirs)
   include (KDECMakeSettings)
   include (KDECompilerSettings)
-  add_definitions (${Qt5Core_DEFINITIONS} ${Qt5Network_DEFINITIONS})
 
+  add_definitions (${Qt5Core_DEFINITIONS} ${Qt5Network_DEFINITIONS})
   set (Qt_INCLUDE ${Qt5Core_INCLUDE_DIRS}
                   ${Qt5Network_INCLUDE_DIRS})
   set (KDE_INCLUDE ${ConfigCore_INCLUDE_DIR}

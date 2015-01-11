@@ -32,12 +32,27 @@
 #include "version.h"
 
 
+NetctlAddsIconProvider::NetctlAddsIconProvider()
+    : QQuickImageProvider(QQmlImageProviderBase::Pixmap)
+{
+}
+
+
+QPixmap NetctlAddsIconProvider::requestPixmap(const QString &id, QSize *size, const QSize &requestedSize)
+{
+    Q_UNUSED(size);
+    Q_UNUSED(requestedSize);
+
+    return QPixmap(QString("qrc:/") + id);
+}
+
+
 NetctlAdds::NetctlAdds(QObject *parent)
     : QObject(parent)
 {
     // debug
     QProcessEnvironment environment = QProcessEnvironment::systemEnvironment();
-    QString debugEnv = environment.value(QString("NETCTLGUI_DEBUG"), QString("no"));
+    QString debugEnv = environment.value(QString("DEBUG"), QString("no"));
     debug = (debugEnv == QString("yes"));
 }
 
@@ -311,14 +326,16 @@ QMap<QString, QVariant> NetctlAdds::readDataEngineConfiguration()
     if (debug) qDebug() << PDEBUG;
 
     QMap<QString, QVariant> configuration;
-    QString fileName = QStandardPaths::locate(QStandardPaths::ConfigLocation, QString("netctl.conf"));
+    QString fileName = QStandardPaths::locate(QStandardPaths::ConfigLocation, QString("plasma-dataengine-netctl.conf"));
 
     if (debug) qDebug() << PDEBUG << ":" << "Configuration file" << fileName;
     QSettings settings(fileName, QSettings::IniFormat);
+
     settings.beginGroup(QString("Netctl commands"));
     configuration[QString("NETCTLCMD")] = settings.value(QString("NETCTLCMD"), QString("/usr/bin/netctl"));
     configuration[QString("NETCTLAUTOCMD")] = settings.value(QString("NETCTLAUTOCMD"), QString("/usr/bin/netctl-auto"));
     settings.endGroup();
+
     settings.beginGroup(QString("External IP"));
     configuration[QString("EXTIP4")] = settings.value(QString("EXTIP4"), QString("false"));
     configuration[QString("EXTIP4CMD")] = settings.value(QString("EXTIP4CMD"), QString("curl ip4.telize.com"));
@@ -334,7 +351,7 @@ void NetctlAdds::writeDataEngineConfiguration(const QMap<QString, QVariant> conf
 {
     if (debug) qDebug() << PDEBUG;
 
-    QString fileName = QStandardPaths::writableLocation(QStandardPaths::ConfigLocation) + QString("/netctl.conf");
+    QString fileName = QStandardPaths::writableLocation(QStandardPaths::ConfigLocation) + QString("/plasma-dataengine-netctl.conf");
     QSettings settings(fileName, QSettings::IniFormat);
     if (debug) qDebug() << PDEBUG << ":" << "Configuration file" << settings.fileName();
 
