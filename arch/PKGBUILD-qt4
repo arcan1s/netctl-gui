@@ -11,7 +11,7 @@ url="http://arcanis.name/projects/netctl-gui"
 license=('GPL3')
 makedepends=('automoc4' 'cmake' 'kdelibs')
 source=("https://github.com/arcan1s/netctl-gui/releases/download/V.${pkgver}/${pkgbase}-${pkgver}-src.tar.xz")
-md5sums=('087d7af57318a9f9f5592aad097feeb5')
+md5sums=('172fff4b59c15c991b016db35971eca1')
 
 
 prepare() {

@@ -4,7 +4,7 @@ Netctl GUI
 Information
 -----------
 
-Qt4/Qt5 graphical interface for netctl. It may work with profiles and may create new profiles. Also it may create a connection to WiFi. Moreover, it provides a widget and DataEngine for KDE.
+Qt4/Qt5 graphical interface for netctl. It may work with profiles and may create new profiles. Also it may create a connection to WiFi. Moreover, it provides a widget and DataEngine for KDE4/KF5.
 
 **NOTE** [LOOKING FOR TRANSLATORS!](https://github.com/arcan1s/netctl-gui/issues/3)
 
@@ -15,8 +15,8 @@ It is recommended to use graphical interface for configuration. Configuration fi
 
 * `$HOME/.config/netctl-gui.conf` - GUI/helper user configuration
 * `/etc/netctl-gui.conf` - helper system-wide configuration
-* `$KDEHOME/share/config/netctl.conf` - DataEngine user configuration
-* `$KDESYSTEM/share/config/netctl.conf` - DataEngine system-wide configuration
+* `$HOME/.config/plasma-dataengine-netctl.conf` - DataEngine user configuration
+* `/etc/xdg/plasma-dataengine-netctl.conf` - DataEngine system-wide configuration
 
 Instruction
 ===========
@@ -30,7 +30,8 @@ Dependencies
 Optional dependencies
 ---------------------
 
-* kdebase-workspace (widget)
+* kdebase-workspace (KDE4 widget)
+* plasma-framework (KF5 widget)
 * sudo (sudo support)
 * wpa_supplicant (WiFi support)
 
@@ -68,6 +69,7 @@ Installation
         * `-DDBUS_SYSTEMCONF_PATH=/etc/dbus-1/system.d/` - path to dbus system configuration files
         * `-DSYSTEMD_SERVICE_PATH=lib/systemd/system` - path to systemd services
         * `-DUSE_CAPABILITIES:BOOL=0` - do not use setcap to get privileges to the helper
+        * `-DBUILD_KDE4:BOOL=1` - build KDE4 plasmoid instead of KF5 one
         * `-DUSE_QT5:BOOL=0` - use Qt4 instead of Qt5 for GUI
 
 Additional information
