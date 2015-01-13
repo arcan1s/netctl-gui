@@ -98,22 +98,22 @@ protected:
 
 private:
     // ui
-    QWidget *graphicsWidget;
-    QHBoxLayout *layout;
-    IconLabel *iconLabel;
-    QLabel *textLabel;
+    QWidget *graphicsWidget = nullptr;
+    QHBoxLayout *layout = nullptr;
+    IconLabel *iconLabel = nullptr;
+    QLabel *textLabel = nullptr;
     // information
-    bool status;
+    bool status = false;
     QMap<QString, QString> info;
     QStringList profileList;
     // context menu
     void createActions();
     QList<QAction*> menuActions;
-    QMenu *startProfileMenu;
-    QMenu *switchToProfileMenu;
+    QMenu *startProfileMenu = nullptr;
+    QMenu *switchToProfileMenu = nullptr;
     QMap<QString, QAction*> contextMenu;
     // data engine
-    Plasma::DataEngine *netctlEngine;
+    Plasma::DataEngine *netctlEngine = nullptr;
     void connectToEngine();
     void disconnectFromEngine();
     QList<QVariant> sendDBusRequest(const QString cmd, const QList<QVariant> args = QList<QVariant>());
@@ -123,13 +123,15 @@ private:
     Ui::ConfigWindow uiWidConfig;
     Ui::About uiAboutConfig;
     // configuration
-    int autoUpdateInterval;
-    bool bigInterface;
-    bool debug;
-    QString textPattern;
+    int autoUpdateInterval = 1000;
+    bool bigInterface = true;
+    bool debug = false;
+    QString textPattern = QString();
     QStringList formatLine;
     QMap<QString, QString> paths;
-    bool useHelper, useSudo, useWifi;
+    bool useHelper = true;
+    bool useSudo = false;
+    bool useWifi = false;
 };
 
 K_EXPORT_PLASMA_APPLET(netctl, Netctl)

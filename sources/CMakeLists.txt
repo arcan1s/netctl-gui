@@ -55,6 +55,8 @@ if (CMAKE_COMPILER_IS_GNUCXX)
   set (CMAKE_CXX_FLAGS "-Wall -std=c++11")
   set (CMAKE_CXX_FLAGS_DEBUG "-g -O0")
   set (CMAKE_CXX_FLAGS_RELEASE "-O2 -DNDEBUG")
+  # avoid newer gcc warnings
+  add_definitions (-D_DEFAULT_SOURCE)
 else ()
   message (STATUS "Unknown compiler")
 endif ()

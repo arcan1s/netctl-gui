@@ -73,7 +73,7 @@ package_libnetctlgui-qt4() {
 
 package_netctlgui-helper-qt4() {
   pkgdesc="Helper daemon for netctl-gui. A part of netctl-gui"
-  depends=('libnetctlgui-qt4')
+  depends=("libnetctlgui-qt4=${pkgver}")
   provides=('netctlgui-helper')
   conflicts=('netctlgui-helper')
   backup=('etc/netctl-gui.conf'
@@ -87,7 +87,7 @@ package_netctlgui-helper-qt4() {
 
 package_netctl-gui-qt4() {
   pkgdesc="Qt4 graphical front-end for netctl. A part of netctl-gui"
-  depends=('libnetctlgui-qt4')
+  depends=("libnetctlgui-qt4=${pkgver}")
   optdepends=('kdeplasma-applets-netctl-gui: KDE widget'
               'netctlgui-helper-qt4: DBus helper daemon')
   provides=('netctl-gui')

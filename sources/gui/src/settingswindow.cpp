@@ -114,7 +114,7 @@ void SettingsWindow::closeWindow()
 
     saveSettings();
     close();
-    ((MainWindow *)parent())->updateConfiguration();
+    dynamic_cast<MainWindow *>(parent())->updateConfiguration();
 }
 
 
@@ -467,7 +467,7 @@ void SettingsWindow::startHelper()
 {
     if (debug) qDebug() << PDEBUG;
 
-    ((MainWindow *)parent())->startHelper();
+    dynamic_cast<MainWindow *>(parent())->startHelper();
     updateHelper();
 }
 
@@ -476,12 +476,12 @@ void SettingsWindow::updateHelper()
 {
     if (debug) qDebug() << PDEBUG;
 
-    if (((MainWindow *)parent())->isHelperServiceActive()) {
+    if (dynamic_cast<MainWindow *>(parent())->isHelperServiceActive()) {
         ui->label_status->setText(QApplication::translate("SettingsWindow", "Active (systemd)"));
         ui->pushButton_status->setText(QApplication::translate("SettingsWindow", "Stop"));
         ui->pushButton_status->setIcon(QIcon::fromTheme("process-stop"));
         ui->pushButton_status->setDisabled(true);
-    } else if (((MainWindow *)parent())->isHelperActive()) {
+    } else if (dynamic_cast<MainWindow *>(parent())->isHelperActive()) {
         ui->label_status->setText(QApplication::translate("SettingsWindow", "Active"));
         ui->pushButton_status->setText(QApplication::translate("SettingsWindow", "Stop"));
         ui->pushButton_status->setIcon(QIcon::fromTheme("process-stop"));

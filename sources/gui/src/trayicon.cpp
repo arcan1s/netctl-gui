@@ -30,7 +30,7 @@ TrayIcon::TrayIcon(QObject *parent, const bool debugCmd)
     : QSystemTrayIcon(parent),
       debug(debugCmd)
 {
-    mainWindow = (MainWindow *)parent;
+    mainWindow = dynamic_cast<MainWindow *>(parent);
 
     init();
 }
