@@ -32,21 +32,6 @@
 #include "version.h"
 
 
-NetctlAddsIconProvider::NetctlAddsIconProvider()
-    : QQuickImageProvider(QQmlImageProviderBase::Pixmap)
-{
-}
-
-
-QPixmap NetctlAddsIconProvider::requestPixmap(const QString &id, QSize *size, const QSize &requestedSize)
-{
-    Q_UNUSED(size);
-    Q_UNUSED(requestedSize);
-
-    return QPixmap(QString("qrc:/") + id);
-}
-
-
 NetctlAdds::NetctlAdds(QObject *parent)
     : QObject(parent)
 {
@@ -127,22 +112,6 @@ QString NetctlAdds::getAboutText(const QString type)
 }
 
 
-QString NetctlAdds::getInfo(const QString current, const QString status)
-{
-    if (debug) qDebug() << PDEBUG;
-    if (debug) qDebug() << PDEBUG << ":" << "Current profiles" << current;
-    if (debug) qDebug() << PDEBUG << ":" << "Statuses" << status;
-
-    QStringList profiles;
-    for (int i=0; i<current.split(QChar('|')).count(); i++)
-        profiles.append(current.split(QChar('|'))[i] +
-                QString(" (") + status.split(QChar('|'))[i] + QString(")"));
-    if (profiles.isEmpty()) profiles.append(QString("N\\A"));
-
-    return profiles.join(QString(" | "));
-}
-
-
 bool NetctlAdds::isDebugEnabled()
 {
     if (debug) qDebug() << PDEBUG;
@@ -151,14 +120,13 @@ bool NetctlAdds::isDebugEnabled()
 }
 
 
-QString NetctlAdds::parsePattern(const QString pattern, const QMap<QString, QVariant> dict)
+QString NetctlAdds::parsePattern(const QString pattern)
 {
     if (debug) qDebug() << PDEBUG;
-    if (debug) qDebug() << PDEBUG << ":" << "Dictionary" << dict;
 
     QString parsed = pattern;
-    for (int i=0; i<dict.keys().count(); i++)
-        parsed.replace(QString("$") + dict.keys()[i], dict[dict.keys()[i]].toString());
+    for (int i=0; i<values.keys().count(); i++)
+        parsed.replace(QString("$") + values.keys()[i], valueByKey(values.keys()[i]));
     // fix newline
     parsed.replace(QString("\n"), QString("<br>"));
 
@@ -178,67 +146,88 @@ void NetctlAdds::runCmd(const QString cmd)
 }
 
 
-void NetctlAdds::sendNotification(const QString eventId, const QString message)
+void NetctlAdds::setDataBySource(const QString sourceName, const QMap<QString, QVariant> data)
 {
     if (debug) qDebug() << PDEBUG;
-    if (debug) qDebug() << PDEBUG << ":" << "Event" << eventId;
-    if (debug) qDebug() << PDEBUG << ":" << "Message" << message;
+    if (debug) qDebug() << PDEBUG << ":" << "Source" << sourceName;
+    if (debug) qDebug() << PDEBUG << ":" << "Data" << data;
 
+    bool needUpdate = (values[sourceName] != data[QString("value")].toString());
+    values[sourceName] = data[QString("value")].toString();
+    if ((needUpdate) && (sourceName == QString("active"))) {
+        if (values[sourceName] == QString("true"))
+            sendNotification(QString("Info"), i18n("Network status has been changed to active"));
+        else
+            sendNotification(QString("Info"), i18n("Network status has been changed to inactive"));
+    }
+
+    if (needUpdate) emit(needToBeUpdated());
+}
+
+
+void NetctlAdds::sendNotification(const QString eventId, const QString message)
+{
     KNotification *notification = KNotification::event(eventId, QString("Netctl ::: ") + eventId, message);
     notification->setComponentName(QString("plasma-applet-org.kde.plasma.netctl"));
 }
 
 
+QString NetctlAdds::valueByKey(const QString key)
+{
+    if (debug) qDebug() << PDEBUG;
+    if (debug) qDebug() << PDEBUG << ":" << "Key" << key;
+
+    return values[key];
+}
+
+
 // context menu
-void NetctlAdds::enableProfileSlot(const QMap<QString, QVariant> dict, const bool useHelper,
-                                   const QString cmd, const QString sudoCmd)
+void NetctlAdds::enableProfileSlot(const bool useHelper, const QString cmd, const QString sudoCmd)
 {
     if (debug) qDebug() << PDEBUG;
 
     QString enableStatus = QString("");
-    if (dict[QString("status")].toString().contains(QString("enabled"))) {
+    if (values[QString("status")].contains(QString("enabled"))) {
         enableStatus = QString(" disable ");
-        sendNotification(QString("Info"), i18n("Set profile %1 disabled", dict[QString("current")].toString()));
+        sendNotification(QString("Info"), i18n("Set profile %1 disabled", values[QString("current")]));
     } else {
         enableStatus = QString(" enable ");
-        sendNotification(QString("Info"), i18n("Set profile %1 enabled", dict[QString("current")].toString()));
+        sendNotification(QString("Info"), i18n("Set profile %1 enabled", values[QString("current")]));
     }
     if (useHelper) {
         QList<QVariant> args;
-        args.append(dict[QString("current")].toString());
+        args.append(values[QString("current")]);
         sendDBusRequest(QString("Enable"), args);
     } else {
         QProcess command;
-        QString commandLine = sudoCmd + QString(" ") + cmd + enableStatus + dict[QString("current")].toString();
+        QString commandLine = sudoCmd + QString(" ") + cmd + enableStatus + values[QString("current")];
         command.startDetached(commandLine);
     }
 }
 
 
-void NetctlAdds::restartProfileSlot(const QMap<QString, QVariant> dict, const bool useHelper,
-                                    const QString cmd, const QString sudoCmd)
+void NetctlAdds::restartProfileSlot(const bool useHelper, const QString cmd, const QString sudoCmd)
 {
     if (debug) qDebug() << PDEBUG;
 
-    sendNotification(QString("Info"), i18n("Restart profile %1", dict[QString("current")].toString()));
+    sendNotification(QString("Info"), i18n("Restart profile %1", values[QString("current")]));
     if (useHelper) {
         QList<QVariant> args;
-        args.append(dict[QString("current")].toString());
+        args.append(values[QString("current")]);
         sendDBusRequest(QString("Restart"), args);
     } else {
         QProcess command;
-        QString commandLine = sudoCmd + QString(" ") + cmd + QString(" restart ") + dict[QString("current")].toString();
+        QString commandLine = sudoCmd + QString(" ") + cmd + QString(" restart ") + values[QString("current")];
         command.startDetached(commandLine);
     }
 }
 
 
-void NetctlAdds::startProfileSlot(const QStringList profiles, const bool status,
-                                  const bool useHelper, const QString cmd, const QString sudoCmd)
+void NetctlAdds::startProfileSlot(const bool useHelper, const QString cmd, const QString sudoCmd)
 {
     if (debug) qDebug() << PDEBUG;
-    if (debug) qDebug() << PDEBUG << ":" << "Profiles" << profiles;
 
+    QStringList profiles = values[QString("profiles")].split(QChar(','));
     bool ok;
     QString profile = QInputDialog::getItem(0, i18n("Select profile"), i18n("Profile:"),
                                             profiles, 0, false, &ok);
@@ -248,14 +237,14 @@ void NetctlAdds::startProfileSlot(const QStringList profiles, const bool status,
     if (useHelper) {
         QList<QVariant> args;
         args.append(profile);
-        if (status)
+        if (values[QString("active")] == QString("true"))
             sendDBusRequest(QString("SwitchTo"), args);
         else
             sendDBusRequest(QString("Start"), args);
     } else {
         QProcess command;
         QString commandLine = sudoCmd + QString(" ") + cmd;
-        if (status)
+        if (values[QString("active")] == QString("true"))
             commandLine += QString(" switch-to ") + profile;
         else
             commandLine += QString(" start ") + profile;
@@ -264,19 +253,18 @@ void NetctlAdds::startProfileSlot(const QStringList profiles, const bool status,
 }
 
 
-void NetctlAdds::stopProfileSlot(const QMap<QString, QVariant> dict, const bool useHelper,
-                                 const QString cmd, const QString sudoCmd)
+void NetctlAdds::stopProfileSlot(const bool useHelper, const QString cmd, const QString sudoCmd)
 {
     if (debug) qDebug() << PDEBUG;
 
-    sendNotification(QString("Info"), i18n("Stop profile %1", dict[QString("current")].toString()));
+    sendNotification(QString("Info"), i18n("Stop profile %1", values[QString("current")]));
     if (useHelper) {
         QList<QVariant> args;
-        args.append(dict[QString("current")].toString());
+        args.append(values[QString("current")]);
         sendDBusRequest(QString("Start"), args);
     } else {
         QProcess command;
-        QString commandLine = sudoCmd + QString(" ") + cmd + QString(" stop ") + dict[QString("current")].toString();
+        QString commandLine = sudoCmd + QString(" ") + cmd + QString(" stop ") + values[QString("current")];
         command.startDetached(commandLine);
     }
 }
@@ -297,12 +285,11 @@ void NetctlAdds::stopAllProfilesSlot(const bool useHelper, const QString cmd, co
 }
 
 
-void NetctlAdds::switchToProfileSlot(const QStringList profiles, const bool useHelper,
-                                     const QString cmd)
+void NetctlAdds::switchToProfileSlot(const bool useHelper, const QString cmd)
 {
     if (debug) qDebug() << PDEBUG;
-    if (debug) qDebug() << PDEBUG << ":" << "Profiles" << profiles;
 
+    QStringList profiles = values[QString("profiles")].split(QChar(','));
     bool ok;
     QString profile = QInputDialog::getItem(0, i18n("Select profile"), i18n("Profile:"),
                                             profiles, 0, false, &ok);

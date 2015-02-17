@@ -19,20 +19,9 @@
 #ifndef NETCTLADDS_H
 #define NETCTLADDS_H
 
-#include <QImage>
 #include <QMap>
 #include <QObject>
-#include <QQuickImageProvider>
 #include <QVariant>
-
-
-class NetctlAddsIconProvider : public QQuickImageProvider
-{
-public:
-    NetctlAddsIconProvider();
-
-    virtual QPixmap requestPixmap(const QString &id, QSize *size, const QSize &requestedSize);
-};
 
 
 class NetctlAdds : public QObject
@@ -45,41 +34,41 @@ public:
 
     Q_INVOKABLE bool checkHelperStatus();
     Q_INVOKABLE QString getAboutText(const QString type = "header");
-    Q_INVOKABLE QString getInfo(const QString current, const QString status);
     Q_INVOKABLE bool isDebugEnabled();
-    Q_INVOKABLE QString parsePattern(const QString pattern, const QMap<QString, QVariant> dict);
+    Q_INVOKABLE QString parsePattern(const QString pattern);
     Q_INVOKABLE void runCmd(const QString cmd);
-    Q_INVOKABLE void sendNotification(const QString eventId, const QString message);
+    Q_INVOKABLE void setDataBySource(const QString sourceName, const QMap<QString, QVariant> data);
+    Q_INVOKABLE static void sendNotification(const QString eventId, const QString message);
+    Q_INVOKABLE QString valueByKey(const QString key);
     // context menu
-    Q_INVOKABLE void enableProfileSlot(const QMap<QString, QVariant> dict,
-                                       const bool useHelper = true,
+    Q_INVOKABLE void enableProfileSlot(const bool useHelper = true,
                                        const QString cmd = QString("/usr/bin/netctl"),
                                        const QString sudoCmd = QString(""));
-    Q_INVOKABLE void restartProfileSlot(const QMap<QString, QVariant> dict,
-                                        const bool useHelper = true,
+    Q_INVOKABLE void restartProfileSlot(const bool useHelper = true,
                                         const QString cmd = QString("/usr/bin/netctl"),
                                         const QString sudoCmd = QString(""));
-    Q_INVOKABLE void startProfileSlot(const QStringList profiles, const bool status,
-                                      const bool useHelper = true,
+    Q_INVOKABLE void startProfileSlot(const bool useHelper = true,
                                       const QString cmd = QString("/usr/bin/netctl"),
                                       const QString sudoCmd = QString(""));
-    Q_INVOKABLE void stopProfileSlot(const QMap<QString, QVariant> dict,
-                                     const bool useHelper = true,
+    Q_INVOKABLE void stopProfileSlot(const bool useHelper = true,
                                      const QString cmd = QString("/usr/bin/netctl"),
                                      const QString sudoCmd = QString(""));
     Q_INVOKABLE void stopAllProfilesSlot(const bool useHelper = true,
                                          const QString cmd = QString("/usr/bin/netctl"),
                                          const QString sudoCmd = QString(""));
-    Q_INVOKABLE void switchToProfileSlot(const QStringList profiles,
-                                         const bool useHelper = true,
+    Q_INVOKABLE void switchToProfileSlot(const bool useHelper = true,
                                          const QString cmd = QString("/usr/bin/netctl-auto"));
     // dataengine
     Q_INVOKABLE QMap<QString, QVariant> readDataEngineConfiguration();
     Q_INVOKABLE void writeDataEngineConfiguration(const QMap<QString, QVariant> configuration);
 
+signals:
+    void needToBeUpdated();
+
 private:
     bool debug = false;
     QList<QVariant> sendDBusRequest(const QString cmd, const QList<QVariant> args = QList<QVariant>());
+    QMap<QString, QString> values;
 };
 
 

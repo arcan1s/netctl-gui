@@ -68,10 +68,7 @@ Netctl::Netctl(QObject *parent, const QVariantList &args)
     // debug
     QProcessEnvironment environment = QProcessEnvironment::systemEnvironment();
     QString debugEnv = environment.value(QString("DEBUG"), QString("no"));
-    if (debugEnv == QString("yes"))
-        debug = true;
-    else
-        debug = false;
+    debug = (debugEnv == QString("yes"));
 
     setBackgroundHints(DefaultBackground);
     setAspectRatioMode(Plasma::IgnoreAspectRatio);

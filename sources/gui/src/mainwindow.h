@@ -99,6 +99,9 @@ public slots:
     void connectToUnknownEssid(const QString passwd);
     void setHiddenName(const QString name);
 
+signals:
+    void needToBeConfigured();
+
 private slots:
     void reportABug();
     // menu update slots

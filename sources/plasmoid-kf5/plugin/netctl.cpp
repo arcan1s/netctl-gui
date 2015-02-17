@@ -30,14 +30,6 @@ static QObject *netctl_singletontype_provider(QQmlEngine *engine, QJSEngine *scr
 }
 
 
-void NetctlPlugin::initializeEngine(QQmlEngine *engine, const char *uri)
-{
-    Q_UNUSED(uri);
-
-    engine->addImageProvider("netctl", new NetctlAddsIconProvider());
-}
-
-
 void NetctlPlugin::registerTypes(const char *uri)
 {
     Q_ASSERT(uri == QLatin1String("org.kde.plasma.private.netctl"));

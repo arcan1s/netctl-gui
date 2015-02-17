@@ -186,8 +186,11 @@ void MainWindow::updateToolBars()
 void MainWindow::updateMainTab()
 {
     if (debug) qDebug() << PDEBUG;
-    if (!checkExternalApps(QString("netctl")))
-        return errorWin->showWindow(1, QString(PDEBUG));
+    if (!checkExternalApps(QString("netctl"))) {
+        errorWin->showWindow(1, QString(PDEBUG));
+        emit(needToBeConfigured());
+        return;
+    }
 
     ui->tabWidget->setDisabled(true);
     QList<netctlProfileInfo> profiles;
@@ -281,8 +284,11 @@ void MainWindow::updateWifiTab()
 {
     if (debug) qDebug() << PDEBUG;
     wifiTabSetEnabled(checkExternalApps(QString("wpasup")));
-    if (!checkExternalApps(QString("wpasup")))
-        return errorWin->showWindow(1, QString(PDEBUG));
+    if (!checkExternalApps(QString("wpasup"))) {
+        errorWin->showWindow(1, QString(PDEBUG));
+        emit(needToBeConfigured());
+        return;
+    }
 
     ui->tabWidget->setDisabled(true);
     QList<netctlWifiInfo> scanResults;
@@ -436,8 +442,11 @@ void MainWindow::mainTabEditProfile()
 void MainWindow::mainTabEnableProfile()
 {
     if (debug) qDebug() << PDEBUG;
-    if (!checkExternalApps(QString("netctl")))
-        return errorWin->showWindow(1, QString(PDEBUG));
+    if (!checkExternalApps(QString("netctl"))) {
+        errorWin->showWindow(1, QString(PDEBUG));
+        emit(needToBeConfigured());
+        return;
+    }
     if (ui->tableWidget_main->currentItem() == 0) return;
 
     ui->tabWidget->setDisabled(true);
@@ -493,8 +502,11 @@ void MainWindow::mainTabRemoveProfile()
 void MainWindow::mainTabRestartProfile()
 {
     if (debug) qDebug() << PDEBUG;
-    if (!checkExternalApps(QString("netctl")))
-        return errorWin->showWindow(1, QString(PDEBUG));
+    if (!checkExternalApps(QString("netctl"))) {
+        errorWin->showWindow(1, QString(PDEBUG));
+        emit(needToBeConfigured());
+        return;
+    }
     if (ui->tableWidget_main->currentItem() == 0) return;
 
     ui->tabWidget->setDisabled(true);
@@ -512,8 +524,11 @@ void MainWindow::mainTabRestartProfile()
 void MainWindow::mainTabStartProfile()
 {
     if (debug) qDebug() << PDEBUG;
-    if (!checkExternalApps(QString("netctl")))
-        return errorWin->showWindow(1, QString(PDEBUG));
+    if (!checkExternalApps(QString("netctl"))) {
+        errorWin->showWindow(1, QString(PDEBUG));
+        emit(needToBeConfigured());
+        return;
+    }
     if (ui->tableWidget_main->currentItem() == 0) return;
 
     ui->tabWidget->setDisabled(true);
@@ -532,8 +547,11 @@ void MainWindow::mainTabStartProfile()
 void MainWindow::mainTabStopAllProfiles()
 {
     if (debug) qDebug() << PDEBUG;
-    if (!checkExternalApps(QString("netctl")))
-        return errorWin->showWindow(1, QString(PDEBUG));
+    if (!checkExternalApps(QString("netctl"))) {
+        errorWin->showWindow(1, QString(PDEBUG));
+        emit(needToBeConfigured());
+        return;
+    }
 
     ui->tabWidget->setDisabled(true);
     bool status;
@@ -555,8 +573,11 @@ void MainWindow::mainTabStopAllProfiles()
 void MainWindow::mainTabSwitchToProfile()
 {
     if (debug) qDebug() << PDEBUG;
-    if (!checkExternalApps(QString("netctl")))
-        return errorWin->showWindow(1, QString(PDEBUG));
+    if (!checkExternalApps(QString("netctl"))) {
+        errorWin->showWindow(1, QString(PDEBUG));
+        emit(needToBeConfigured());
+        return;
+    }
     if (ui->tableWidget_main->currentItem() == 0) return;
 
     ui->tabWidget->setDisabled(true);
@@ -1056,8 +1077,11 @@ void MainWindow::wifiTabSetEnabled(const bool state)
 void MainWindow::wifiTabStart()
 {
     if (debug) qDebug() << PDEBUG;
-    if (!checkExternalApps(QString("wpasup")))
-        return errorWin->showWindow(1, QString(PDEBUG));
+    if (!checkExternalApps(QString("wpasup"))) {
+        errorWin->showWindow(1, QString(PDEBUG));
+        emit(needToBeConfigured());
+        return;
+    }
     if (ui->tableWidget_wifi->currentItem() == 0) return;
 
     ui->tabWidget->setDisabled(true);

@@ -9,7 +9,7 @@ pkgdesc="Qt4/Qt5 GUI for netctl. Also provides a widget for KDE"
 arch=('i686' 'x86_64')
 url="http://arcanis.name/projects/netctl-gui"
 license=('GPL3')
-makedepends=('automoc4' 'cmake' 'extra-cmake-modules' 'plasma-framework' 'qt5-tools')
+makedepends=('cmake' 'extra-cmake-modules' 'plasma-framework' 'qt5-tools')
 source=("https://github.com/arcan1s/netctl-gui/releases/download/V.${pkgver}/${pkgbase}-${pkgver}-src.tar.xz")
 md5sums=('172fff4b59c15c991b016db35971eca1')
 

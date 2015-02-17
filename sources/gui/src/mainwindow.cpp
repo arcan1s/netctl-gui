@@ -278,18 +278,23 @@ bool MainWindow::checkExternalApps(const QString apps = QString("all"))
     if (configuration[QString("SKIPCOMPONENTS")] == QString("true")) return true;
     QStringList cmd;
     cmd.append("which");
-    cmd.append(configuration[QString("SUDO_PATH")]);
     if ((apps == QString("helper")) || (apps == QString("all"))) {
         cmd.append(configuration[QString("HELPER_PATH")]);
     }
     if ((apps == QString("netctl")) || (apps == QString("all"))) {
         cmd.append(configuration[QString("NETCTL_PATH")]);
         cmd.append(configuration[QString("NETCTLAUTO_PATH")]);
+        cmd.append(configuration[QString("SUDO_PATH")]);
+    }
+    if ((apps == QString("sudo")) || (apps == QString("all"))) {
+        cmd.append(configuration[QString("SUDO_PATH")]);
     }
     if ((apps == QString("systemctl")) || (apps == QString("all"))) {
         cmd.append(configuration[QString("SYSTEMCTL_PATH")]);
+        cmd.append(configuration[QString("SUDO_PATH")]);
     }
     if ((apps == QString("wpasup")) || (apps == QString("all"))) {
+        cmd.append(configuration[QString("SUDO_PATH")]);
         cmd.append(configuration[QString("WPACLI_PATH")]);
         cmd.append(configuration[QString("WPASUP_PATH")]);
     }
@@ -349,6 +354,7 @@ void MainWindow::createActions()
     connect(ui->pushButton_menu, SIGNAL(clicked(bool)), this, SLOT(updateToolBars()));
     connect(ui->pushButton_action, SIGNAL(clicked(bool)), this, SLOT(updateToolBars()));
     connect(ui->pushButton_help, SIGNAL(clicked(bool)), this, SLOT(updateToolBars()));
+    connect(this, SIGNAL(needToBeConfigured()), this, SLOT(showSettingsWindow()));
 
     // main tab events
     connect(ui->pushButton_netctlAuto, SIGNAL(clicked(bool)), this, SLOT(showNetctlAutoWindow()));

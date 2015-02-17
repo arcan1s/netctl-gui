@@ -27,7 +27,3 @@ usr/
 
 # temporary bckps
 *~
-
-# kdevelop files
-.kdev4
-*.kdev4

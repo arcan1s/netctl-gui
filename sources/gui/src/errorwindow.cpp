@@ -196,5 +196,4 @@ void ErrorWindow::showWindow(const int mess, const QString sender, const QString
     layout->addItem(horizontalSpacer, layout->rowCount(), 0, 1, layout->columnCount());
 
     messageBox.exec();
-    return;
 }

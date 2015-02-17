@@ -31,6 +31,7 @@ public:
     ~Netctl();
     QStringList getCurrentProfile(const QString cmdNetctl, const QString cmdNetctlAuto);
     QString getExtIp(const QString cmd);
+    QString getInfo();
     QStringList getInterfaceList();
     QString getIntIp(const QAbstractSocket::NetworkLayerProtocol protocol);
     QString getNetctlAutoStatus(const QString cmdNetctlAuto);
@@ -52,6 +53,8 @@ private:
     QString currentProfile;
     // configuration
     bool debug;
+    QString current = QString("");
+    QString status = QString("");
     QMap<QString, QString> configuration;
     void readConfiguration();
 };
