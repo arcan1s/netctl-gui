@@ -809,7 +809,7 @@ void MainWindow::profileTabCreateProfile()
             return errorWin->showWindow(12, QString(PDEBUG));
     } else if (generalWid->connectionType->currentText() == QString("mobile_ppp")) {
         if (mobileWid->isOk() == 1)
-            return errorWin->showWindow(14, QString(PDEBUG));
+            return errorWin->showWindow(15, QString(PDEBUG));
         if (mobileWid->isOk() == 2)
             return errorWin->showWindow(7, QString(PDEBUG));
     }

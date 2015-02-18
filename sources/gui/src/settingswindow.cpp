@@ -135,6 +135,7 @@ void SettingsWindow::saveSettings()
 
     settings.beginGroup(QString("Helper"));
     settings.setValue(QString("USE_HELPER"), config[QString("USE_HELPER")]);
+    settings.setValue(QString("HELPER_GROUP"), config[QString("HELPER_GROUP")]);
     settings.setValue(QString("FORCE_SUDO"), config[QString("FORCE_SUDO")]);
     settings.setValue(QString("CLOSE_HELPER"), config[QString("CLOSE_HELPER")]);
     settings.setValue(QString("HELPER_PATH"), config[QString("HELPER_PATH")]);
@@ -422,6 +423,7 @@ QMap<QString, QString> SettingsWindow::getSettings(QString fileName)
 
     settings.beginGroup(QString("Helper"));
     config[QString("USE_HELPER")] = settings.value(QString("USE_HELPER"), QString("true")).toString();
+    config[QString("HELPER_GROUP")] = settings.value(QString("HELPER_GROUP"), QString("network")).toString();
     config[QString("FORCE_SUDO")] = settings.value(QString("FORCE_SUDO"), QString("false")).toString();
     config[QString("CLOSE_HELPER")] = settings.value(QString("CLOSE_HELPER"), QString("false")).toString();
     config[QString("HELPER_PATH")] = settings.value(QString("HELPER_PATH"), QString("/usr/bin/netctlgui-helper")).toString();

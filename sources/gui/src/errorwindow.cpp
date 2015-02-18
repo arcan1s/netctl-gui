@@ -99,7 +99,7 @@ QStringList ErrorWindow::getMessage(const int mess, const QString custom)
         break;
     case 14:
         title = QApplication::translate("ErrorWindow", "Error!");
-        message = QApplication::translate("ErrorWindow", "APN is not set");
+        message = QApplication::translate("ErrorWindow", "User is not in network group, helper will not be started");
         break;
     case 15:
         title = QApplication::translate("ErrorWindow", "Error!");
