@@ -49,6 +49,7 @@ void PasswdWidget::keyPressEvent(QKeyEvent *pressedKey)
 
 void PasswdWidget::createActions()
 {
+    connect(ui->checkBox_showSymbols, SIGNAL(stateChanged(int)), this, SLOT(setEchoMode(int)));
     connect(ui->lineEdit, SIGNAL(returnPressed()), this, SLOT(passwdApply()));
     connect(ui->buttonBox->button(QDialogButtonBox::Cancel), SIGNAL(clicked(bool)), this, SLOT(cancel()));
     connect(ui->buttonBox->button(QDialogButtonBox::Ok), SIGNAL(clicked(bool)), this, SLOT(passwdApply()));
@@ -64,12 +65,14 @@ void PasswdWidget::setFocusToLineEdit()
 void PasswdWidget::setPassword(const bool mode)
 {
     if (mode) {
-        ui->lineEdit->setEchoMode(QLineEdit::Password);
+        ui->checkBox_showSymbols->setCheckState(Qt::Checked);
+        setEchoMode(ui->checkBox_showSymbols->checkState());
         ui->label->setText(QApplication::translate("PasswdWidget", "Password"));
     } else {
         ui->lineEdit->setEchoMode(QLineEdit::Normal);
         ui->label->setText(QApplication::translate("PasswdWidget", "ESSID"));
     }
+    passwdMode = mode;
 }
 
 
@@ -84,8 +87,17 @@ void PasswdWidget::cancel()
 void PasswdWidget::passwdApply()
 {
     hide();
-    if (ui->lineEdit->echoMode() == QLineEdit::Normal)
-        return parent->setHiddenName(ui->lineEdit->text());
-    else
+    if (passwdMode)
         return parent->connectToUnknownEssid(ui->lineEdit->text());
+    else
+        return parent->setHiddenName(ui->lineEdit->text());
+}
+
+
+void PasswdWidget::setEchoMode(const int mode)
+{
+    if (mode == 0)
+        ui->lineEdit->setEchoMode(QLineEdit::Normal);
+    else
+        ui->lineEdit->setEchoMode(QLineEdit::Password);
 }

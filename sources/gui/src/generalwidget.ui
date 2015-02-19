@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>425</width>
-    <height>531</height>
+    <width>550</width>
+    <height>492</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -16,6 +16,12 @@
   <layout class="QVBoxLayout" name="verticalLayout_4">
    <item>
     <widget class="QDockWidget" name="dockWidget_general">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+       <horstretch>2</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
      <property name="features">
       <set>QDockWidget::NoDockWidgetFeatures</set>
      </property>
@@ -28,21 +34,30 @@
         <layout class="QHBoxLayout" name="layout_description">
          <item>
           <widget class="QLabel" name="label_description">
-           <property name="minimumSize">
-            <size>
-             <width>150</width>
-             <height>0</height>
-            </size>
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+             <horstretch>1</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
            </property>
            <property name="text">
             <string>Description</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
            </property>
           </widget>
          </item>
          <item>
           <widget class="QLineEdit" name="lineEdit_description">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+             <horstretch>2</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
            <property name="toolTip">
-            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;A description of the profile&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+            <string>A description of the profile</string>
            </property>
           </widget>
          </item>
@@ -52,19 +67,28 @@
         <layout class="QHBoxLayout" name="layout_connection">
          <item>
           <widget class="QLabel" name="label_connection">
-           <property name="minimumSize">
-            <size>
-             <width>150</width>
-             <height>0</height>
-            </size>
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+             <horstretch>1</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
            </property>
            <property name="text">
             <string>Connection</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
            </property>
           </widget>
          </item>
          <item>
           <widget class="QComboBox" name="comboBox_connection">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+             <horstretch>2</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
            <property name="toolTip">
             <string>The connection type used by the profile</string>
            </property>
@@ -136,19 +160,28 @@
         <layout class="QHBoxLayout" name="layout_interface">
          <item>
           <widget class="QLabel" name="label_interface">
-           <property name="minimumSize">
-            <size>
-             <width>150</width>
-             <height>0</height>
-            </size>
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+             <horstretch>1</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
            </property>
            <property name="text">
             <string>Interface</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
            </property>
           </widget>
          </item>
          <item>
           <widget class="QComboBox" name="comboBox_interface">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+             <horstretch>2</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
            <property name="toolTip">
             <string>The name of the associated network interface</string>
            </property>
@@ -165,18 +198,27 @@
           <layout class="QHBoxLayout" name="layout_bindtoButton">
            <item>
             <widget class="QLabel" name="label_bindto">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+               <horstretch>7</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
              <property name="text">
               <string>Binds to interfaces</string>
+             </property>
+             <property name="alignment">
+              <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
              </property>
             </widget>
            </item>
            <item>
             <widget class="QComboBox" name="comboBox_bindto">
-             <property name="minimumSize">
-              <size>
-               <width>150</width>
-               <height>0</height>
-              </size>
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+               <horstretch>10</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
              </property>
              <property name="editable">
               <bool>true</bool>
@@ -185,6 +227,12 @@
            </item>
            <item>
             <widget class="QPushButton" name="pushButton_bindto">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+               <horstretch>4</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
              <property name="text">
               <string>Add</string>
              </property>
@@ -210,25 +258,22 @@
        <item>
         <layout class="QHBoxLayout" name="layout_generalAdvanced">
          <item>
-          <spacer name="spacer_generalAdvanced">
+          <widget class="Line" name="line">
            <property name="orientation">
             <enum>Qt::Horizontal</enum>
            </property>
-           <property name="sizeHint" stdset="0">
-            <size>
-             <width>40</width>
-             <height>20</height>
-            </size>
-           </property>
-          </spacer>
+          </widget>
          </item>
          <item>
-          <widget class="QPushButton" name="pushButton_generalAdvanced">
-           <property name="text">
-            <string>Hide advanced</string>
-           </property>
+          <widget class="QToolButton" name="pushButton_generalAdvanced">
            <property name="checkable">
             <bool>true</bool>
+           </property>
+           <property name="checked">
+            <bool>true</bool>
+           </property>
+           <property name="arrowType">
+            <enum>Qt::DownArrow</enum>
            </property>
           </widget>
          </item>
@@ -243,18 +288,27 @@
              <layout class="QHBoxLayout" name="layout_afterButton">
               <item>
                <widget class="QLabel" name="label_after">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                  <horstretch>7</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
                 <property name="text">
                  <string>After</string>
+                </property>
+                <property name="alignment">
+                 <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
                 </property>
                </widget>
               </item>
               <item>
                <widget class="QComboBox" name="comboBox_after">
-                <property name="minimumSize">
-                 <size>
-                  <width>150</width>
-                  <height>0</height>
-                 </size>
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                  <horstretch>10</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
                 </property>
                 <property name="editable">
                  <bool>true</bool>
@@ -263,6 +317,12 @@
               </item>
               <item>
                <widget class="QPushButton" name="pushButton_after">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+                  <horstretch>4</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
                 <property name="text">
                  <string>Add</string>
                 </property>
@@ -289,19 +349,28 @@
            <layout class="QHBoxLayout" name="layout_execUpPost">
             <item>
              <widget class="QLabel" name="label_execUpPost">
-              <property name="minimumSize">
-               <size>
-                <width>150</width>
-                <height>0</height>
-               </size>
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                <horstretch>7</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
               </property>
               <property name="text">
                <string>Command after starting</string>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
               </property>
              </widget>
             </item>
             <item>
              <widget class="QLineEdit" name="lineEdit_execUpPost">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                <horstretch>14</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
               <property name="toolTip">
                <string>A command that is executed after a connection is established</string>
               </property>
@@ -313,19 +382,28 @@
            <layout class="QHBoxLayout" name="layout_execDownPre">
             <item>
              <widget class="QLabel" name="label_execDownPre">
-              <property name="minimumSize">
-               <size>
-                <width>150</width>
-                <height>0</height>
-               </size>
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                <horstretch>7</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
               </property>
               <property name="text">
                <string>Command before stoping</string>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
               </property>
              </widget>
             </item>
             <item>
              <widget class="QLineEdit" name="lineEdit_execDownPre">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                <horstretch>14</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
               <property name="toolTip">
                <string>A command that is executed before a connection is brought down</string>
               </property>
@@ -334,21 +412,61 @@
            </layout>
           </item>
           <item>
-           <widget class="QCheckBox" name="checkBox_forceConnect">
-            <property name="toolTip">
-             <string>Set to ‘yes’ to force connecting even if the interface is up</string>
-            </property>
-            <property name="text">
-             <string>Force connect</string>
-            </property>
-           </widget>
+           <layout class="QHBoxLayout" name="layout_forceConnect">
+            <item>
+             <widget class="QLabel" name="label_forceConnect">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                <horstretch>7</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QCheckBox" name="checkBox_forceConnect">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+                <horstretch>14</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="toolTip">
+               <string>Set to ‘yes’ to force connecting even if the interface is up</string>
+              </property>
+              <property name="text">
+               <string>Force connect</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
           </item>
           <item>
-           <widget class="QCheckBox" name="checkBox_debug">
-            <property name="text">
-             <string>Debug mode</string>
-            </property>
-           </widget>
+           <layout class="QHBoxLayout" name="horizontalLayout">
+            <item>
+             <widget class="QLabel" name="label">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                <horstretch>7</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QCheckBox" name="checkBox_debug">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+                <horstretch>14</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="text">
+               <string>Debug mode</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
           </item>
          </layout>
         </widget>

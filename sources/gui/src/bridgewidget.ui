@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>424</width>
+    <width>550</width>
     <height>76</height>
    </rect>
   </property>
@@ -25,14 +25,34 @@
      <widget class="QWidget" name="dockWidgetContents_bridge">
       <layout class="QVBoxLayout" name="verticalLayout_2">
        <item>
-        <widget class="QCheckBox" name="checkBox_skip">
-         <property name="toolTip">
-          <string>Skip (R)STP and immediately activate all bridge members</string>
-         </property>
-         <property name="text">
-          <string>Skip forwarding delay</string>
-         </property>
-        </widget>
+        <layout class="QHBoxLayout" name="layout_skip">
+         <item>
+          <widget class="QLabel" name="labe_skip">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+             <horstretch>1</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QCheckBox" name="checkBox_skip">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+             <horstretch>2</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="toolTip">
+            <string>Skip (R)STP and immediately activate all bridge members</string>
+           </property>
+           <property name="text">
+            <string>Skip forwarding delay</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
        </item>
       </layout>
      </widget>

@@ -24,27 +24,37 @@
     <layout class="QHBoxLayout" name="layout_netctl">
      <item>
       <widget class="QLabel" name="label_netctl">
-       <property name="minimumSize">
-        <size>
-         <width>150</width>
-         <height>23</height>
-        </size>
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+         <horstretch>7</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
        </property>
        <property name="text">
         <string>Path to netctl</string>
        </property>
+       <property name="alignment">
+        <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+       </property>
       </widget>
      </item>
      <item>
-      <widget class="QLineEdit" name="lineEdit_netctl"/>
+      <widget class="QLineEdit" name="lineEdit_netctl">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+         <horstretch>10</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+      </widget>
      </item>
      <item>
       <widget class="QPushButton" name="pushButton_netctl">
-       <property name="minimumSize">
-        <size>
-         <width>100</width>
-         <height>23</height>
-        </size>
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+         <horstretch>4</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
        </property>
        <property name="text">
         <string>Browse</string>
@@ -57,27 +67,37 @@
     <layout class="QHBoxLayout" name="layout_netctlAuto">
      <item>
       <widget class="QLabel" name="label_netctlAuto">
-       <property name="minimumSize">
-        <size>
-         <width>150</width>
-         <height>23</height>
-        </size>
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+         <horstretch>7</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
        </property>
        <property name="text">
         <string>Path to netctl-auto</string>
        </property>
+       <property name="alignment">
+        <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+       </property>
       </widget>
      </item>
      <item>
-      <widget class="QLineEdit" name="lineEdit_netctlAuto"/>
+      <widget class="QLineEdit" name="lineEdit_netctlAuto">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+         <horstretch>10</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+      </widget>
      </item>
      <item>
       <widget class="QPushButton" name="pushButton_netctlAuto">
-       <property name="minimumSize">
-        <size>
-         <width>100</width>
-         <height>23</height>
-        </size>
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+         <horstretch>4</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
        </property>
        <property name="text">
         <string>Browse</string>
@@ -90,11 +110,14 @@
     <layout class="QHBoxLayout" name="layout_extIp4">
      <item>
       <widget class="QCheckBox" name="checkBox_extIp4">
-       <property name="minimumSize">
-        <size>
-         <width>150</width>
-         <height>23</height>
-        </size>
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+         <horstretch>7</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="layoutDirection">
+        <enum>Qt::RightToLeft</enum>
        </property>
        <property name="text">
         <string>Check external IPv4</string>
@@ -105,15 +128,22 @@
       </widget>
      </item>
      <item>
-      <widget class="QLineEdit" name="lineEdit_extIp4"/>
+      <widget class="QLineEdit" name="lineEdit_extIp4">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+         <horstretch>10</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+      </widget>
      </item>
      <item>
       <widget class="QPushButton" name="pushButton_extIp4">
-       <property name="minimumSize">
-        <size>
-         <width>100</width>
-         <height>23</height>
-        </size>
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+         <horstretch>4</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
        </property>
        <property name="text">
         <string>Browse</string>
@@ -126,11 +156,14 @@
     <layout class="QHBoxLayout" name="layout_extIp6">
      <item>
       <widget class="QCheckBox" name="checkBox_extIp6">
-       <property name="minimumSize">
-        <size>
-         <width>150</width>
-         <height>23</height>
-        </size>
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+         <horstretch>7</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="layoutDirection">
+        <enum>Qt::RightToLeft</enum>
        </property>
        <property name="text">
         <string>Check external IPv6</string>
@@ -141,15 +174,22 @@
       </widget>
      </item>
      <item>
-      <widget class="QLineEdit" name="lineEdit_extIp6"/>
+      <widget class="QLineEdit" name="lineEdit_extIp6">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+         <horstretch>10</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+      </widget>
      </item>
      <item>
       <widget class="QPushButton" name="pushButton_extIp6">
-       <property name="minimumSize">
-        <size>
-         <width>100</width>
-         <height>23</height>
-        </size>
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+         <horstretch>4</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
        </property>
        <property name="text">
         <string>Browse</string>

@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>469</width>
+    <width>550</width>
     <height>497</height>
    </rect>
   </property>
@@ -157,19 +157,28 @@
          <layout class="QHBoxLayout" name="layout_profile">
           <item>
            <widget class="QLabel" name="label_profile">
-            <property name="minimumSize">
-             <size>
-              <width>150</width>
-              <height>0</height>
-             </size>
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+              <horstretch>1</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
             </property>
             <property name="text">
              <string>Profile</string>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
             </property>
            </widget>
           </item>
           <item>
            <widget class="QComboBox" name="comboBox_profile">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+              <horstretch>2</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
             <property name="acceptDrops">
              <bool>true</bool>
             </property>
@@ -190,7 +199,7 @@
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>437</width>
+             <width>518</width>
              <height>368</height>
             </rect>
            </property>

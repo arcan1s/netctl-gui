@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>480</width>
+    <width>550</width>
     <height>340</height>
    </rect>
   </property>
@@ -24,43 +24,27 @@
     <layout class="QHBoxLayout" name="layout_autoUpdate">
      <item>
       <widget class="QLabel" name="label_autoUpdate">
-       <property name="minimumSize">
-        <size>
-         <width>150</width>
-         <height>23</height>
-        </size>
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+         <horstretch>1</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
        </property>
        <property name="text">
         <string>Auto update interval, msec</string>
        </property>
+       <property name="alignment">
+        <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+       </property>
       </widget>
      </item>
      <item>
-      <spacer name="horizontalSpacer_autoUpdate">
-       <property name="orientation">
-        <enum>Qt::Horizontal</enum>
-       </property>
-       <property name="sizeHint" stdset="0">
-        <size>
-         <width>40</width>
-         <height>20</height>
-        </size>
-       </property>
-      </spacer>
-     </item>
-     <item>
       <widget class="QSpinBox" name="spinBox_autoUpdate">
-       <property name="minimumSize">
-        <size>
-         <width>100</width>
-         <height>0</height>
-        </size>
-       </property>
-       <property name="layoutDirection">
-        <enum>Qt::LeftToRight</enum>
-       </property>
-       <property name="alignment">
-        <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+         <horstretch>2</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
        </property>
        <property name="minimum">
         <number>333</number>
@@ -82,27 +66,37 @@
     <layout class="QHBoxLayout" name="layout_gui">
      <item>
       <widget class="QLabel" name="label_gui">
-       <property name="minimumSize">
-        <size>
-         <width>150</width>
-         <height>23</height>
-        </size>
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+         <horstretch>7</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
        </property>
        <property name="text">
         <string>Path to GUI</string>
        </property>
+       <property name="alignment">
+        <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+       </property>
       </widget>
      </item>
      <item>
-      <widget class="QLineEdit" name="lineEdit_gui"/>
+      <widget class="QLineEdit" name="lineEdit_gui">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+         <horstretch>10</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+      </widget>
      </item>
      <item>
       <widget class="QPushButton" name="pushButton_gui">
-       <property name="minimumSize">
-        <size>
-         <width>100</width>
-         <height>23</height>
-        </size>
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+         <horstretch>4</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
        </property>
        <property name="text">
         <string>Browse</string>
@@ -115,11 +109,14 @@
     <layout class="QHBoxLayout" name="layout_helper">
      <item>
       <widget class="QCheckBox" name="checkBox_helper">
-       <property name="minimumSize">
-        <size>
-         <width>150</width>
-         <height>23</height>
-        </size>
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+         <horstretch>7</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="layoutDirection">
+        <enum>Qt::RightToLeft</enum>
        </property>
        <property name="text">
         <string>Use helper</string>
@@ -130,15 +127,22 @@
       </widget>
      </item>
      <item>
-      <widget class="QLineEdit" name="lineEdit_helper"/>
+      <widget class="QLineEdit" name="lineEdit_helper">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+         <horstretch>10</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+      </widget>
      </item>
      <item>
       <widget class="QPushButton" name="pushButton_helper">
-       <property name="minimumSize">
-        <size>
-         <width>100</width>
-         <height>23</height>
-        </size>
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+         <horstretch>4</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
        </property>
        <property name="text">
         <string>Browse</string>
@@ -151,27 +155,37 @@
     <layout class="QHBoxLayout" name="layout_netctl">
      <item>
       <widget class="QLabel" name="label_netctl">
-       <property name="minimumSize">
-        <size>
-         <width>150</width>
-         <height>23</height>
-        </size>
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+         <horstretch>7</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
        </property>
        <property name="text">
         <string>Path to netctl</string>
        </property>
+       <property name="alignment">
+        <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+       </property>
       </widget>
      </item>
      <item>
-      <widget class="QLineEdit" name="lineEdit_netctl"/>
+      <widget class="QLineEdit" name="lineEdit_netctl">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+         <horstretch>10</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+      </widget>
      </item>
      <item>
       <widget class="QPushButton" name="pushButton_netctl">
-       <property name="minimumSize">
-        <size>
-         <width>100</width>
-         <height>23</height>
-        </size>
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+         <horstretch>4</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
        </property>
        <property name="text">
         <string>Browse</string>
@@ -184,27 +198,37 @@
     <layout class="QHBoxLayout" name="layout_netctlAuto">
      <item>
       <widget class="QLabel" name="label_netctlAuto">
-       <property name="minimumSize">
-        <size>
-         <width>150</width>
-         <height>23</height>
-        </size>
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+         <horstretch>7</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
        </property>
        <property name="text">
         <string>Path to netctl-auto</string>
        </property>
+       <property name="alignment">
+        <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+       </property>
       </widget>
      </item>
      <item>
-      <widget class="QLineEdit" name="lineEdit_netctlAuto"/>
+      <widget class="QLineEdit" name="lineEdit_netctlAuto">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+         <horstretch>10</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+      </widget>
      </item>
      <item>
       <widget class="QPushButton" name="pushButton_netctlAuto">
-       <property name="minimumSize">
-        <size>
-         <width>100</width>
-         <height>23</height>
-        </size>
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+         <horstretch>4</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
        </property>
        <property name="text">
         <string>Browse</string>
@@ -217,11 +241,14 @@
     <layout class="QHBoxLayout" name="layout_sudo">
      <item>
       <widget class="QCheckBox" name="checkBox_sudo">
-       <property name="minimumSize">
-        <size>
-         <width>150</width>
-         <height>23</height>
-        </size>
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+         <horstretch>7</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="layoutDirection">
+        <enum>Qt::RightToLeft</enum>
        </property>
        <property name="text">
         <string>Use sudo for netctl</string>
@@ -232,15 +259,22 @@
       </widget>
      </item>
      <item>
-      <widget class="QLineEdit" name="lineEdit_sudo"/>
+      <widget class="QLineEdit" name="lineEdit_sudo">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+         <horstretch>10</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+      </widget>
      </item>
      <item>
       <widget class="QPushButton" name="pushButton_sudo">
-       <property name="minimumSize">
-        <size>
-         <width>100</width>
-         <height>23</height>
-        </size>
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+         <horstretch>4</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
        </property>
        <property name="text">
         <string>Browse</string>
@@ -253,11 +287,14 @@
     <layout class="QHBoxLayout" name="layout_wifi">
      <item>
       <widget class="QCheckBox" name="checkBox_wifi">
-       <property name="minimumSize">
-        <size>
-         <width>150</width>
-         <height>23</height>
-        </size>
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+         <horstretch>7</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="layoutDirection">
+        <enum>Qt::RightToLeft</enum>
        </property>
        <property name="text">
         <string>Show 'Start WiFi menu'</string>
@@ -268,15 +305,22 @@
       </widget>
      </item>
      <item>
-      <widget class="QLineEdit" name="lineEdit_wifi"/>
+      <widget class="QLineEdit" name="lineEdit_wifi">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+         <horstretch>10</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+      </widget>
      </item>
      <item>
       <widget class="QPushButton" name="pushButton_wifi">
-       <property name="minimumSize">
-        <size>
-         <width>100</width>
-         <height>23</height>
-        </size>
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+         <horstretch>4</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
        </property>
        <property name="text">
         <string>Browse</string>
@@ -286,14 +330,34 @@
     </layout>
    </item>
    <item>
-    <widget class="QCheckBox" name="checkBox_showBigInterface">
-     <property name="text">
-      <string>Show more detailed interface</string>
-     </property>
-     <property name="checked">
-      <bool>true</bool>
-     </property>
-    </widget>
+    <layout class="QHBoxLayout" name="layout_showBigInterface">
+     <item>
+      <widget class="QLabel" name="label_showBigInterface">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+         <horstretch>1</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QCheckBox" name="checkBox_showBigInterface">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+         <horstretch>2</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="text">
+        <string>Show more detailed interface</string>
+       </property>
+       <property name="checked">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+    </layout>
    </item>
    <item>
     <widget class="QPlainTextEdit" name="textEdit">

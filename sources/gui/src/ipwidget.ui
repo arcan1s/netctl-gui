@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>430</width>
-    <height>1353</height>
+    <width>550</width>
+    <height>1286</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -28,11 +28,20 @@
         <layout class="QHBoxLayout" name="layout_ip">
          <item>
           <widget class="QCheckBox" name="checkBox_ip">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+             <horstretch>1</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
            <property name="minimumSize">
             <size>
              <width>150</width>
              <height>0</height>
             </size>
+           </property>
+           <property name="layoutDirection">
+            <enum>Qt::RightToLeft</enum>
            </property>
            <property name="text">
             <string>IP</string>
@@ -44,6 +53,12 @@
          </item>
          <item>
           <widget class="QComboBox" name="comboBox_ip">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+             <horstretch>2</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
            <item>
             <property name="text">
              <string>dhcp</string>
@@ -67,22 +82,38 @@
              <layout class="QHBoxLayout" name="layout_ipAddressLine">
               <item>
                <widget class="QLabel" name="label_ipAddress">
-                <property name="minimumSize">
-                 <size>
-                  <width>150</width>
-                  <height>0</height>
-                 </size>
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                  <horstretch>7</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
                 </property>
                 <property name="text">
                  <string>Address</string>
                 </property>
+                <property name="alignment">
+                 <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+                </property>
                </widget>
               </item>
               <item>
-               <widget class="QLineEdit" name="lineEdit_ipAddress"/>
+               <widget class="QLineEdit" name="lineEdit_ipAddress">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                  <horstretch>10</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+               </widget>
               </item>
               <item>
                <widget class="QPushButton" name="pushButton_ipAddress">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+                  <horstretch>4</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
                 <property name="text">
                  <string>Add</string>
                 </property>
@@ -109,19 +140,28 @@
            <layout class="QHBoxLayout" name="layout_gateway">
             <item>
              <widget class="QLabel" name="label_gateway">
-              <property name="minimumSize">
-               <size>
-                <width>150</width>
-                <height>0</height>
-               </size>
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                <horstretch>1</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
               </property>
               <property name="text">
                <string>Gateway</string>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
               </property>
              </widget>
             </item>
             <item>
              <widget class="QLineEdit" name="lineEdit_gateway">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                <horstretch>2</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
               <property name="toolTip">
                <string>An IP routing gateway address</string>
               </property>
@@ -136,11 +176,14 @@
         <layout class="QHBoxLayout" name="layout_ip6">
          <item>
           <widget class="QCheckBox" name="checkBox_ip6">
-           <property name="minimumSize">
-            <size>
-             <width>150</width>
-             <height>0</height>
-            </size>
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+             <horstretch>1</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="layoutDirection">
+            <enum>Qt::RightToLeft</enum>
            </property>
            <property name="text">
             <string>IP6</string>
@@ -152,6 +195,12 @@
          </item>
          <item>
           <widget class="QComboBox" name="comboBox_ip6">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+             <horstretch>2</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
            <item>
             <property name="text">
              <string>dhcp</string>
@@ -185,22 +234,38 @@
              <layout class="QHBoxLayout" name="layout_ipAddress6Line">
               <item>
                <widget class="QLabel" name="label_ipAddress6">
-                <property name="minimumSize">
-                 <size>
-                  <width>150</width>
-                  <height>0</height>
-                 </size>
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                  <horstretch>7</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
                 </property>
                 <property name="text">
                  <string>Address6</string>
                 </property>
+                <property name="alignment">
+                 <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+                </property>
                </widget>
               </item>
               <item>
-               <widget class="QLineEdit" name="lineEdit_ipAddress6"/>
+               <widget class="QLineEdit" name="lineEdit_ipAddress6">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                  <horstretch>10</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+               </widget>
               </item>
               <item>
                <widget class="QPushButton" name="pushButton_ipAddress6">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+                  <horstretch>4</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
                 <property name="text">
                  <string>Add</string>
                 </property>
@@ -227,19 +292,28 @@
            <layout class="QHBoxLayout" name="layout_gateway6">
             <item>
              <widget class="QLabel" name="label_gateway6">
-              <property name="minimumSize">
-               <size>
-                <width>150</width>
-                <height>0</height>
-               </size>
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                <horstretch>1</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
               </property>
               <property name="text">
                <string>Gateway6</string>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
               </property>
              </widget>
             </item>
             <item>
              <widget class="QLineEdit" name="lineEdit_gateway6">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                <horstretch>2</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
               <property name="toolTip">
                <string>An IPv6 routing gateway address</string>
               </property>
@@ -253,25 +327,22 @@
        <item>
         <layout class="QHBoxLayout" name="layout_ipAdvanced">
          <item>
-          <spacer name="spacer_ipAdvanced">
+          <widget class="Line" name="line">
            <property name="orientation">
             <enum>Qt::Horizontal</enum>
            </property>
-           <property name="sizeHint" stdset="0">
-            <size>
-             <width>40</width>
-             <height>20</height>
-            </size>
-           </property>
-          </spacer>
+          </widget>
          </item>
          <item>
-          <widget class="QPushButton" name="pushButton_ipAdvanced">
-           <property name="text">
-            <string>Hide advanced</string>
-           </property>
+          <widget class="QToolButton" name="pushButton_ipAdvanced">
            <property name="checkable">
             <bool>true</bool>
+           </property>
+           <property name="checked">
+            <bool>true</bool>
+           </property>
+           <property name="arrowType">
+            <enum>Qt::DownArrow</enum>
            </property>
           </widget>
          </item>
@@ -287,58 +358,68 @@
               <layout class="QHBoxLayout" name="layout_ipRoutesLine">
                <item>
                 <widget class="QLabel" name="label_ipRoutes">
-                 <property name="minimumSize">
-                  <size>
-                   <width>150</width>
-                   <height>0</height>
-                  </size>
+                 <property name="sizePolicy">
+                  <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                   <horstretch>1</horstretch>
+                   <verstretch>0</verstretch>
+                  </sizepolicy>
                  </property>
                  <property name="text">
                   <string>Routes</string>
                  </property>
+                 <property name="alignment">
+                  <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+                 </property>
                 </widget>
                </item>
                <item>
-                <widget class="QLineEdit" name="lineEdit_ipRoutes"/>
+                <widget class="QLineEdit" name="lineEdit_ipRoutes">
+                 <property name="sizePolicy">
+                  <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                   <horstretch>2</horstretch>
+                   <verstretch>0</verstretch>
+                  </sizepolicy>
+                 </property>
+                </widget>
                </item>
               </layout>
              </item>
              <item>
               <layout class="QHBoxLayout" name="layout_ipRoutesLine2">
                <item>
-                <spacer name="spacer_ipRoutes">
-                 <property name="orientation">
-                  <enum>Qt::Horizontal</enum>
-                 </property>
-                 <property name="sizeType">
-                  <enum>QSizePolicy::Preferred</enum>
-                 </property>
-                 <property name="sizeHint" stdset="0">
-                  <size>
-                   <width>68</width>
-                   <height>20</height>
-                  </size>
-                 </property>
-                </spacer>
-               </item>
-               <item>
                 <widget class="QLabel" name="label_ipRoutes2">
-                 <property name="minimumSize">
-                  <size>
-                   <width>75</width>
-                   <height>0</height>
-                  </size>
+                 <property name="sizePolicy">
+                  <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                   <horstretch>7</horstretch>
+                   <verstretch>0</verstretch>
+                  </sizepolicy>
                  </property>
                  <property name="text">
                   <string>via</string>
                  </property>
+                 <property name="alignment">
+                  <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+                 </property>
                 </widget>
                </item>
                <item>
-                <widget class="QLineEdit" name="lineEdit_ipRoutes2"/>
+                <widget class="QLineEdit" name="lineEdit_ipRoutes2">
+                 <property name="sizePolicy">
+                  <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                   <horstretch>10</horstretch>
+                   <verstretch>0</verstretch>
+                  </sizepolicy>
+                 </property>
+                </widget>
                </item>
                <item>
                 <widget class="QPushButton" name="pushButton_ipRoutes">
+                 <property name="sizePolicy">
+                  <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+                   <horstretch>4</horstretch>
+                   <verstretch>0</verstretch>
+                  </sizepolicy>
+                 </property>
                  <property name="text">
                   <string>Add</string>
                  </property>
@@ -369,58 +450,68 @@
               <layout class="QHBoxLayout" name="layout_ipRoutes6Line">
                <item>
                 <widget class="QLabel" name="label_ipRoutes6">
-                 <property name="minimumSize">
-                  <size>
-                   <width>150</width>
-                   <height>0</height>
-                  </size>
+                 <property name="sizePolicy">
+                  <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                   <horstretch>1</horstretch>
+                   <verstretch>0</verstretch>
+                  </sizepolicy>
                  </property>
                  <property name="text">
                   <string>Routes6</string>
                  </property>
+                 <property name="alignment">
+                  <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+                 </property>
                 </widget>
                </item>
                <item>
-                <widget class="QLineEdit" name="lineEdit_ipRoutes6"/>
+                <widget class="QLineEdit" name="lineEdit_ipRoutes6">
+                 <property name="sizePolicy">
+                  <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                   <horstretch>2</horstretch>
+                   <verstretch>0</verstretch>
+                  </sizepolicy>
+                 </property>
+                </widget>
                </item>
               </layout>
              </item>
              <item>
               <layout class="QHBoxLayout" name="layout_ipRoutes62">
                <item>
-                <spacer name="spacer_ipRoutes6">
-                 <property name="orientation">
-                  <enum>Qt::Horizontal</enum>
-                 </property>
-                 <property name="sizeType">
-                  <enum>QSizePolicy::Preferred</enum>
-                 </property>
-                 <property name="sizeHint" stdset="0">
-                  <size>
-                   <width>68</width>
-                   <height>20</height>
-                  </size>
-                 </property>
-                </spacer>
-               </item>
-               <item>
                 <widget class="QLabel" name="label_ipRoutes62">
-                 <property name="minimumSize">
-                  <size>
-                   <width>75</width>
-                   <height>0</height>
-                  </size>
+                 <property name="sizePolicy">
+                  <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                   <horstretch>7</horstretch>
+                   <verstretch>0</verstretch>
+                  </sizepolicy>
                  </property>
                  <property name="text">
                   <string>via</string>
                  </property>
+                 <property name="alignment">
+                  <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+                 </property>
                 </widget>
                </item>
                <item>
-                <widget class="QLineEdit" name="lineEdit_ipRoutes62"/>
+                <widget class="QLineEdit" name="lineEdit_ipRoutes62">
+                 <property name="sizePolicy">
+                  <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                   <horstretch>10</horstretch>
+                   <verstretch>0</verstretch>
+                  </sizepolicy>
+                 </property>
+                </widget>
                </item>
                <item>
                 <widget class="QPushButton" name="pushButton_ipRoutes6">
+                 <property name="sizePolicy">
+                  <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+                   <horstretch>4</horstretch>
+                   <verstretch>0</verstretch>
+                  </sizepolicy>
+                 </property>
                  <property name="text">
                   <string>Add</string>
                  </property>
@@ -450,22 +541,38 @@
              <layout class="QHBoxLayout" name="layout_customLine">
               <item>
                <widget class="QLabel" name="label_custom">
-                <property name="minimumSize">
-                 <size>
-                  <width>150</width>
-                  <height>0</height>
-                 </size>
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                  <horstretch>7</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
                 </property>
                 <property name="text">
                  <string>Custom</string>
                 </property>
+                <property name="alignment">
+                 <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+                </property>
                </widget>
               </item>
               <item>
-               <widget class="QLineEdit" name="lineEdit_custom"/>
+               <widget class="QLineEdit" name="lineEdit_custom">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                  <horstretch>10</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+               </widget>
               </item>
               <item>
                <widget class="QPushButton" name="pushButton_custom">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+                  <horstretch>4</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
                 <property name="text">
                  <string>Add</string>
                 </property>
@@ -492,13 +599,28 @@
            <layout class="QHBoxLayout" name="layout_hostmane">
             <item>
              <widget class="QLabel" name="label_hostname">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                <horstretch>1</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
               <property name="text">
                <string>Hostname</string>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
               </property>
              </widget>
             </item>
             <item>
              <widget class="QLineEdit" name="lineEdit_hostname">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                <horstretch>2</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
               <property name="toolTip">
                <string>A system hostname</string>
               </property>
@@ -510,19 +632,28 @@
            <layout class="QHBoxLayout" name="layout_timeoutDad">
             <item>
              <widget class="QLabel" name="label_timeoutDad">
-              <property name="minimumSize">
-               <size>
-                <width>150</width>
-                <height>0</height>
-               </size>
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                <horstretch>1</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
               </property>
               <property name="text">
                <string>Timeout DAD</string>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
               </property>
              </widget>
             </item>
             <item>
              <widget class="QSpinBox" name="spinBox_timeoutDad">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+                <horstretch>2</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
               <property name="toolTip">
                <string>Maximum time, in seconds, to wait for IPv6’s Duplicate Address Detection to succeed</string>
               </property>
@@ -546,19 +677,28 @@
               <layout class="QHBoxLayout" name="layout_dhcp">
                <item>
                 <widget class="QLabel" name="label_dhcp">
-                 <property name="minimumSize">
-                  <size>
-                   <width>150</width>
-                   <height>0</height>
-                  </size>
+                 <property name="sizePolicy">
+                  <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                   <horstretch>1</horstretch>
+                   <verstretch>0</verstretch>
+                  </sizepolicy>
                  </property>
                  <property name="text">
                   <string>DHCP client</string>
+                 </property>
+                 <property name="alignment">
+                  <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
                  </property>
                 </widget>
                </item>
                <item>
                 <widget class="QComboBox" name="comboBox_dhcp">
+                 <property name="sizePolicy">
+                  <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                   <horstretch>2</horstretch>
+                   <verstretch>0</verstretch>
+                  </sizepolicy>
+                 </property>
                  <property name="toolTip">
                   <string>The name of the preferred DHCP client</string>
                  </property>
@@ -581,19 +721,28 @@
                <layout class="QHBoxLayout" name="horizontalLayout">
                 <item>
                  <widget class="QLabel" name="label_dhcpcdOpt">
-                  <property name="minimumSize">
-                   <size>
-                    <width>150</width>
-                    <height>0</height>
-                   </size>
+                  <property name="sizePolicy">
+                   <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                    <horstretch>1</horstretch>
+                    <verstretch>0</verstretch>
+                   </sizepolicy>
                   </property>
                   <property name="text">
                    <string>dhcpcd options</string>
+                  </property>
+                  <property name="alignment">
+                   <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
                   </property>
                  </widget>
                 </item>
                 <item>
                  <widget class="QLineEdit" name="lineEdit_dhcpcdOpt">
+                  <property name="sizePolicy">
+                   <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                    <horstretch>2</horstretch>
+                    <verstretch>0</verstretch>
+                   </sizepolicy>
+                  </property>
                   <property name="toolTip">
                    <string>Additional options to be passed to the DHCP client</string>
                   </property>
@@ -609,19 +758,28 @@
                  <layout class="QHBoxLayout" name="layout_dhclientOpt">
                   <item>
                    <widget class="QLabel" name="label_dhclientOpt">
-                    <property name="minimumSize">
-                     <size>
-                      <width>150</width>
-                      <height>0</height>
-                     </size>
+                    <property name="sizePolicy">
+                     <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                      <horstretch>1</horstretch>
+                      <verstretch>0</verstretch>
+                     </sizepolicy>
                     </property>
                     <property name="text">
                      <string>dhclient options</string>
+                    </property>
+                    <property name="alignment">
+                     <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
                     </property>
                    </widget>
                   </item>
                   <item>
                    <widget class="QLineEdit" name="lineEdit_dhclientOpt">
+                    <property name="sizePolicy">
+                     <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                      <horstretch>2</horstretch>
+                      <verstretch>0</verstretch>
+                     </sizepolicy>
+                    </property>
                     <property name="toolTip">
                      <string>Additional options to be passed to the DHCP client</string>
                     </property>
@@ -633,19 +791,28 @@
                  <layout class="QHBoxLayout" name="layout_dhclientOpt6">
                   <item>
                    <widget class="QLabel" name="label_dhclientOpt6">
-                    <property name="minimumSize">
-                     <size>
-                      <width>150</width>
-                      <height>0</height>
-                     </size>
+                    <property name="sizePolicy">
+                     <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                      <horstretch>1</horstretch>
+                      <verstretch>0</verstretch>
+                     </sizepolicy>
                     </property>
                     <property name="text">
                      <string>dhclient options (6)</string>
+                    </property>
+                    <property name="alignment">
+                     <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
                     </property>
                    </widget>
                   </item>
                   <item>
                    <widget class="QLineEdit" name="lineEdit_dhclientOpt6">
+                    <property name="sizePolicy">
+                     <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                      <horstretch>2</horstretch>
+                      <verstretch>0</verstretch>
+                     </sizepolicy>
+                    </property>
                     <property name="toolTip">
                      <string>Additional options to be passed to the DHCP client</string>
                     </property>
@@ -660,19 +827,28 @@
               <layout class="QHBoxLayout" name="layout_timeoutDhcp">
                <item>
                 <widget class="QLabel" name="label_timeoutDhcp">
-                 <property name="minimumSize">
-                  <size>
-                   <width>150</width>
-                   <height>0</height>
-                  </size>
+                 <property name="sizePolicy">
+                  <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                   <horstretch>1</horstretch>
+                   <verstretch>0</verstretch>
+                  </sizepolicy>
                  </property>
                  <property name="text">
                   <string>Timeout DHCP</string>
+                 </property>
+                 <property name="alignment">
+                  <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
                  </property>
                 </widget>
                </item>
                <item>
                 <widget class="QSpinBox" name="spinBox_timeoutDhcp">
+                 <property name="sizePolicy">
+                  <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+                   <horstretch>2</horstretch>
+                   <verstretch>0</verstretch>
+                  </sizepolicy>
+                 </property>
                  <property name="toolTip">
                   <string>Maximum time, in seconds, to wait for DHCP to be successful</string>
                  </property>
@@ -690,14 +866,34 @@
               </layout>
              </item>
              <item>
-              <widget class="QCheckBox" name="checkBox_dhcp">
-               <property name="toolTip">
-                <string>Set to ‘yes’ to release the DHCP lease when the profile is stopped</string>
-               </property>
-               <property name="text">
-                <string>DHCP release on stop</string>
-               </property>
-              </widget>
+              <layout class="QHBoxLayout" name="layout_dhcpRelease">
+               <item>
+                <widget class="QLabel" name="label_dhcpRelease">
+                 <property name="sizePolicy">
+                  <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                   <horstretch>1</horstretch>
+                   <verstretch>0</verstretch>
+                  </sizepolicy>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QCheckBox" name="checkBox_dhcp">
+                 <property name="sizePolicy">
+                  <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+                   <horstretch>2</horstretch>
+                   <verstretch>0</verstretch>
+                  </sizepolicy>
+                 </property>
+                 <property name="toolTip">
+                  <string>Set to ‘yes’ to release the DHCP lease when the profile is stopped</string>
+                 </property>
+                 <property name="text">
+                  <string>DHCP release on stop</string>
+                 </property>
+                </widget>
+               </item>
+              </layout>
              </item>
             </layout>
            </widget>
@@ -711,22 +907,38 @@
                 <layout class="QHBoxLayout" name="layout_dnsLine">
                  <item>
                   <widget class="QLabel" name="label_dns">
-                   <property name="minimumSize">
-                    <size>
-                     <width>150</width>
-                     <height>0</height>
-                    </size>
+                   <property name="sizePolicy">
+                    <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                     <horstretch>7</horstretch>
+                     <verstretch>0</verstretch>
+                    </sizepolicy>
                    </property>
                    <property name="text">
                     <string>DNS</string>
                    </property>
+                   <property name="alignment">
+                    <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+                   </property>
                   </widget>
                  </item>
                  <item>
-                  <widget class="QLineEdit" name="lineEdit_dns"/>
+                  <widget class="QLineEdit" name="lineEdit_dns">
+                   <property name="sizePolicy">
+                    <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                     <horstretch>10</horstretch>
+                     <verstretch>0</verstretch>
+                    </sizepolicy>
+                   </property>
+                  </widget>
                  </item>
                  <item>
                   <widget class="QPushButton" name="pushButton_dns">
+                   <property name="sizePolicy">
+                    <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+                     <horstretch>4</horstretch>
+                     <verstretch>0</verstretch>
+                    </sizepolicy>
+                   </property>
                    <property name="text">
                     <string>Add</string>
                    </property>
@@ -753,19 +965,28 @@
               <layout class="QHBoxLayout" name="layout_dnsDomain">
                <item>
                 <widget class="QLabel" name="label_dnsDomain">
-                 <property name="minimumSize">
-                  <size>
-                   <width>150</width>
-                   <height>0</height>
-                  </size>
+                 <property name="sizePolicy">
+                  <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                   <horstretch>1</horstretch>
+                   <verstretch>0</verstretch>
+                  </sizepolicy>
                  </property>
                  <property name="text">
                   <string>DNS domain</string>
+                 </property>
+                 <property name="alignment">
+                  <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
                  </property>
                 </widget>
                </item>
                <item>
                 <widget class="QLineEdit" name="lineEdit_dnsDomain">
+                 <property name="sizePolicy">
+                  <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                   <horstretch>2</horstretch>
+                   <verstretch>0</verstretch>
+                  </sizepolicy>
+                 </property>
                  <property name="toolTip">
                   <string>A ‘domain’ line for /etc/resolv.conf</string>
                  </property>
@@ -777,19 +998,28 @@
               <layout class="QHBoxLayout" name="layout_dnsSearch">
                <item>
                 <widget class="QLabel" name="label_dnsSearch">
-                 <property name="minimumSize">
-                  <size>
-                   <width>150</width>
-                   <height>0</height>
-                  </size>
+                 <property name="sizePolicy">
+                  <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                   <horstretch>1</horstretch>
+                   <verstretch>0</verstretch>
+                  </sizepolicy>
                  </property>
                  <property name="text">
                   <string>DNS search</string>
+                 </property>
+                 <property name="alignment">
+                  <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
                  </property>
                 </widget>
                </item>
                <item>
                 <widget class="QLineEdit" name="lineEdit_dnsSearch">
+                 <property name="sizePolicy">
+                  <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                   <horstretch>2</horstretch>
+                   <verstretch>0</verstretch>
+                  </sizepolicy>
+                 </property>
                  <property name="toolTip">
                   <string>A ‘search’ line for /etc/resolv.conf</string>
                  </property>
@@ -803,22 +1033,38 @@
                 <layout class="QHBoxLayout" name="layout_dnsOptionsLine">
                  <item>
                   <widget class="QLabel" name="label_dnsOptions">
-                   <property name="minimumSize">
-                    <size>
-                     <width>150</width>
-                     <height>0</height>
-                    </size>
+                   <property name="sizePolicy">
+                    <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                     <horstretch>7</horstretch>
+                     <verstretch>0</verstretch>
+                    </sizepolicy>
                    </property>
                    <property name="text">
                     <string>DNS options</string>
                    </property>
+                   <property name="alignment">
+                    <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+                   </property>
                   </widget>
                  </item>
                  <item>
-                  <widget class="QLineEdit" name="lineEdit_dnsOptions"/>
+                  <widget class="QLineEdit" name="lineEdit_dnsOptions">
+                   <property name="sizePolicy">
+                    <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                     <horstretch>10</horstretch>
+                     <verstretch>0</verstretch>
+                    </sizepolicy>
+                   </property>
+                  </widget>
                  </item>
                  <item>
                   <widget class="QPushButton" name="pushButton_dnsOptions">
+                   <property name="sizePolicy">
+                    <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+                     <horstretch>4</horstretch>
+                     <verstretch>0</verstretch>
+                    </sizepolicy>
+                   </property>
                    <property name="text">
                     <string>Add</string>
                    </property>
@@ -866,7 +1112,6 @@
   <tabstop>pushButton_ipAddress6</tabstop>
   <tabstop>listWidget_ipAddress6</tabstop>
   <tabstop>lineEdit_gateway6</tabstop>
-  <tabstop>pushButton_ipAdvanced</tabstop>
   <tabstop>lineEdit_ipRoutes</tabstop>
   <tabstop>lineEdit_ipRoutes2</tabstop>
   <tabstop>pushButton_ipRoutes</tabstop>
@@ -885,7 +1130,6 @@
   <tabstop>lineEdit_dhclientOpt</tabstop>
   <tabstop>lineEdit_dhclientOpt6</tabstop>
   <tabstop>spinBox_timeoutDhcp</tabstop>
-  <tabstop>checkBox_dhcp</tabstop>
   <tabstop>lineEdit_dns</tabstop>
   <tabstop>pushButton_dns</tabstop>
   <tabstop>listWidget_dns</tabstop>

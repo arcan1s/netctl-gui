@@ -17,9 +17,6 @@
    <layout class="QVBoxLayout" name="verticalLayout">
     <item>
      <widget class="QLabel" name="label_info">
-      <property name="text">
-       <string/>
-      </property>
       <property name="alignment">
        <set>Qt::AlignCenter</set>
       </property>
@@ -101,7 +98,9 @@
          <string>Enable</string>
         </property>
         <property name="icon">
-         <iconset theme="edit-add"/>
+         <iconset theme="edit-add">
+          <normaloff/>
+         </iconset>
         </property>
        </widget>
       </item>

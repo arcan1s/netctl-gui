@@ -44,6 +44,7 @@ public slots:
 private slots:
     void cancel();
     void passwdApply();
+    void setEchoMode(const int mode);
 
 private:
     MainWindow *parent;
@@ -51,6 +52,7 @@ private:
     // ESC pressed event
     void keyPressEvent(QKeyEvent *pressedKey);
     void createActions();
+    bool passwdMode = true;
 };
 
 
