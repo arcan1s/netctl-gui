@@ -15,35 +15,35 @@
  *   along with netctl-gui. If not, see http://www.gnu.org/licenses/       *
  ***************************************************************************/
 
-#ifndef TUNNELWIDGET_H
-#define TUNNELWIDGET_H
+#ifndef IPREGEXP_H
+#define IPREGEXP_H
 
-#include <QWidget>
+#include <QObject>
+#include <QRegExp>
+#include <QRegExpValidator>
 
 
-namespace Ui {
-class TunnelWidget;
-}
-
-class TunnelWidget : public QWidget
-{
+class IpRegExp : public QObject {
     Q_OBJECT
 
 public:
-    explicit TunnelWidget(QWidget *parent = 0);
-    ~TunnelWidget();
-    QMap<QString, QString> getSettings();
-    int isOk();
-    void setSettings(const QMap<QString, QString> settings);
+    explicit IpRegExp(QObject *parent = 0);
+    ~IpRegExp();
 
-public slots:
-    void clear();
-    void setShown(const bool state);
-
-private:
-    Ui::TunnelWidget *ui;
-    void createFilter();
+    // ipv4
+    static QRegExp ip4Regex();
+    static QRegExp ip4CidrRegex();
+    // ipv6
+    static QRegExp ip6Regex();
+    static QRegExp ip6CidrRegex();
+    // validators
+    static QRegExpValidator *ipv4Validator();
+    static QRegExpValidator *ipv4CidrValidator();
+    static QRegExpValidator *ipv6Validator();
+    static QRegExpValidator *ipv6CidrValidator();
+    // check
+    static bool checkString(const QString input, const QRegExp regexp);
 };
 
 
-#endif /* TUNNELWIDGET_H */
+#endif /* IPREGEXP_H */

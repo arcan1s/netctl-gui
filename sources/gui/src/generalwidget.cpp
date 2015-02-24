@@ -80,7 +80,9 @@ void GeneralWidget::createActions()
 {
     connect(ui->pushButton_generalAdvanced, SIGNAL(clicked(bool)), this, SLOT(showAdvanced()));
     connect(ui->pushButton_after, SIGNAL(clicked(bool)), this, SLOT(addAfter()));
+    connect(ui->comboBox_after->lineEdit(), SIGNAL(returnPressed()), this, SLOT(addAfter()));
     connect(ui->pushButton_bindto, SIGNAL(clicked(bool)), this, SLOT(addBindTo()));
+    connect(ui->comboBox_bindto->lineEdit(), SIGNAL(returnPressed()), this, SLOT(addBindTo()));
 }
 
 

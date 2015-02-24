@@ -218,7 +218,7 @@ void TestNetctlProfile::test_createProfile()
     profileSettings["Security"] = QString("none");
     profileSettings["User"] = QString("'example@yourprovider.com'");
     profileSettings["VLANID"] = QString("11");
-    profileSettings["WPAConfigFile"] = QString("'/etc/wpa_supplicant.conf'");
+    profileSettings["WPAConfigFile"] = QString("'/etc/wpa_supplicant/wpa_supplicant.conf'");
     profileSettings["WPAConfigSection"] = QString("\n\
 'ssid=\"University\"'\n\
 'key_mgmt=WPA-EAP'\n\
@@ -280,7 +280,7 @@ route add default via 192.168.1.1");
     original.append("Security==none");
     original.append("User==example@yourprovider.com");
     original.append("VLANID==11");
-    original.append("WPAConfigFile==/etc/wpa_supplicant.conf");
+    original.append("WPAConfigFile==/etc/wpa_supplicant/wpa_supplicant.conf");
     original.append("WPAConfigSection==ssid=\"University\"\n\
 key_mgmt=WPA-EAP\n\
 eap=TTLS\n\

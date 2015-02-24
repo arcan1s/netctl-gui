@@ -18,6 +18,8 @@
 #include "tunnelwidget.h"
 #include "ui_tunnelwidget.h"
 
+#include "ipregexp.h"
+
 
 TunnelWidget::TunnelWidget(QWidget *parent)
     : QWidget(parent),
@@ -54,32 +56,8 @@ void TunnelWidget::setShown(const bool state)
 
 void TunnelWidget::createFilter()
 {
-    // using input mask because validators is not comfortable
-    // ipv4
-    ui->lineEdit_local->setInputMask(QString("999.999.999.999"));
-    ui->lineEdit_remote->setInputMask(QString("999.999.999.999"));
-}
-
-
-QString TunnelWidget::getIp(const QString rawIp)
-{
-    QStringList ip = rawIp.split(QChar('.'));
-
-    // fix empty fields
-    if (ip[0].isEmpty())
-        ip[0] = QString("127");
-    if (ip[1].isEmpty())
-        ip[1] = QString("0");
-    if (ip[2].isEmpty())
-        ip[2] = QString("0");
-    if (ip[3].isEmpty())
-        ip[3] = QString("1");
-    // fix numbers
-    for (int i=0; i<4; i++)
-        if (ip[i].toInt() > 255)
-            ip[i] = QString("255");
-
-    return ip.join(QChar('.'));
+    ui->lineEdit_local->setValidator(IpRegExp::ipv4Validator());
+    ui->lineEdit_remote->setValidator(IpRegExp::ipv4Validator());
 }
 
 
@@ -92,9 +70,9 @@ QMap<QString, QString> TunnelWidget::getSettings()
 
     tunnelSettings[QString("Mode")] = QString("'") + ui->comboBox_mode->currentText() + QString("'");
     if (!ui->lineEdit_local->text().remove(QChar('.')).remove(QChar(' ')).isEmpty())
-        tunnelSettings[QString("Local")] = QString("'") + getIp(ui->lineEdit_local->text().remove(QChar(' '))) + QString("'");
+        tunnelSettings[QString("Local")] = QString("'") + ui->lineEdit_local->text() + QString("'");
     if (!ui->lineEdit_remote->text().remove(QChar('.')).remove(QChar(' ')).isEmpty())
-        tunnelSettings[QString("Remote")] = QString("'") + getIp(ui->lineEdit_remote->text().remove(QChar(' '))) + QString("'");
+        tunnelSettings[QString("Remote")] = QString("'") + ui->lineEdit_remote->text() + QString("'");
 
     return tunnelSettings;
 }
@@ -102,6 +80,10 @@ QMap<QString, QString> TunnelWidget::getSettings()
 
 int TunnelWidget::isOk()
 {
+    // ip is not correct
+    if ((!IpRegExp::checkString(ui->lineEdit_local->text(), IpRegExp::ip4Regex())) ||
+        (!IpRegExp::checkString(ui->lineEdit_remote->text(), IpRegExp::ip4Regex())))
+        return 1;
     // all fine
     return 0;
 }

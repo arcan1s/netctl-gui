@@ -4,7 +4,7 @@
 
 // put your languages here comma separated
 // the first language is default language
-#define LANGUAGES "en,ru"
+#define LANGUAGES "en,ja,ru"
 // language key in the configuration file
 #define LANGUAGE_KEY "LANGUAGE"
 

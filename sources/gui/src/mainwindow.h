@@ -30,7 +30,6 @@
 
 class AboutWindow;
 class BridgeWidget;
-class ErrorWindow;
 class EthernetWidget;
 class GeneralWidget;
 class IpWidget;
@@ -109,7 +108,6 @@ private slots:
     void updateMenuMain();
     void updateMenuProfile();
     void updateMenuWifi();
-    void updateToolBars();
     // tab update slots
     void updateMainTab();
     void updateProfileTab();
@@ -138,15 +136,11 @@ private slots:
 private:
     // ui
     TrayIcon *trayIcon = nullptr;
-    QMap<QString, QShortcut *> appShortcuts;
     QMap<QString, QAction *> toolBarActions;
     QToolButton *actionMenu = nullptr;
     QToolBar *actionToolBar = nullptr;
-    QToolBar *helpToolBar = nullptr;
-    QToolBar *mainToolBar = nullptr;
     Ui::MainWindow *ui = nullptr;
     AboutWindow *aboutWin = nullptr;
-    ErrorWindow *errorWin = nullptr;
     NetctlAutoWindow *netctlAutoWin = nullptr;
     PasswdWidget *passwdWid = nullptr;
     SettingsWindow *settingsWin = nullptr;

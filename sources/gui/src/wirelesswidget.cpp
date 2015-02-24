@@ -49,7 +49,7 @@ void WirelessWidget::clear()
     ui->lineEdit_wpaConfigSection->clear();
     ui->listWidget_wpaConfigSection->setCurrentRow(-1);
     ui->listWidget_wpaConfigSection->clear();
-    ui->lineEdit_wpaConfig->setText(QString("/etc/wpa_supplicant.conf"));
+    ui->lineEdit_wpaConfig->setText(QString("/etc/wpa_supplicant/wpa_supplicant.conf"));
     ui->lineEdit_key->clear();
     ui->checkBox_hidden->setCheckState(Qt::Unchecked);
     ui->checkBox_adhoc->setCheckState(Qt::Unchecked);
@@ -99,7 +99,9 @@ void WirelessWidget::createActions()
     connect(ui->pushButton_wirelessAdvanced, SIGNAL(clicked(bool)), this, SLOT(showAdvanced()));
     connect(ui->pushButton_drivers, SIGNAL(clicked(bool)), this, SLOT(addDriver()));
     connect(ui->pushButton_freq, SIGNAL(clicked(bool)), this, SLOT(addFreq()));
+    connect(ui->spinBox_freq, SIGNAL(editingFinished()), this, SLOT(addFreq()));
     connect(ui->pushButton_wpaConfigSection, SIGNAL(clicked(bool)), this, SLOT(addOption()));
+    connect(ui->lineEdit_wpaConfigSection, SIGNAL(returnPressed()), this, SLOT(addOption()));
     connect(ui->pushButton_wpaConfig, SIGNAL(clicked(bool)), this, SLOT(selectWpaConfig()));
     connect(ui->comboBox_security, SIGNAL(currentIndexChanged(QString)), this, SLOT(changeSecurity(QString)));
 }
@@ -195,10 +197,10 @@ void WirelessWidget::showAdvanced()
 {
     if (ui->pushButton_wirelessAdvanced->isChecked()) {
         ui->widget_wirelessAdvanced->setHidden(false);
-        ui->pushButton_wirelessAdvanced->setText(QApplication::translate("WirelessWidget", "Hide advanced"));
+        ui->pushButton_wirelessAdvanced->setArrowType(Qt::UpArrow);
     } else {
         ui->widget_wirelessAdvanced->setHidden(true);
-        ui->pushButton_wirelessAdvanced->setText(QApplication::translate("WirelessWidget", "Show advanced"));
+        ui->pushButton_wirelessAdvanced->setArrowType(Qt::DownArrow);
     }
 }
 

@@ -125,7 +125,7 @@ void SettingsWindow::saveSettings()
     QMap<QString, QString> config = readSettings();
     QSettings settings(file, QSettings::IniFormat);
 
-    settings.beginGroup(QString("General"));
+    settings.beginGroup(QString("Common"));
     settings.setValue(QString("LANGUAGE"), config[QString("LANGUAGE")]);
     settings.setValue(QString("SYSTRAY"), config[QString("SYSTRAY")]);
     settings.setValue(QString("CLOSETOTRAY"), config[QString("CLOSETOTRAY")]);
@@ -413,7 +413,7 @@ QMap<QString, QString> SettingsWindow::getSettings(QString fileName)
     QMap<QString, QString> config;
     QSettings settings(fileName, QSettings::IniFormat);
 
-    settings.beginGroup(QString("General"));
+    settings.beginGroup(QString("Common"));
     config[QString("LANGUAGE")] = settings.value(QString("LANGUAGE"), QString("en")).toString();
     config[QString("SYSTRAY")] = settings.value(QString("SYSTRAY"), QString("true")).toString();
     config[QString("CLOSETOTRAY")] = settings.value(QString("CLOSETOTRAY"), QString("true")).toString();

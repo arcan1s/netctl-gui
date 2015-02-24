@@ -267,7 +267,7 @@ bool MainWindow::forceStartHelper()
 {
     if (debug) qDebug() << PDEBUG;
     if (!checkExternalApps(QString("helper"))) {
-        errorWin->showWindow(1, QString(PDEBUG));
+        ErrorWindow::showWindow(1, QString(PDEBUG), debug);
         emit(needToBeConfigured());
         return false;
     }

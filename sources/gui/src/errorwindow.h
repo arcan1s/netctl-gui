@@ -32,13 +32,13 @@ public:
     ~ErrorWindow();
 
 public slots:
-    void showWindow(const int mess = 0,
-                    const QString sender = QString(),
-                    const QString custom = QString());
+    static void showWindow(const int mess = 0,
+                           const QString sender = QString(),
+                           const bool debugCmd = false);
 
 private:
     bool debug;
-    QStringList getMessage(const int mess, const QString custom = QString());
+    QStringList getMessage(const int mess);
     QMessageBox::Icon getIcon(const int mess);
 };
 

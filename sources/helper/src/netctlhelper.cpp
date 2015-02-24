@@ -134,7 +134,7 @@ QMap<QString, QString> NetctlHelper::getSettings(const QString file)
     QMap<QString, QString> config;
     QSettings settings(file, QSettings::IniFormat);
 
-    settings.beginGroup(QString("General"));
+    settings.beginGroup(QString("Common"));
     config[QString("LANGUAGE")] = settings.value(QString("LANGUAGE"), QString("en")).toString();
     config[QString("SYSTRAY")] = settings.value(QString("SYSTRAY"), QString("true")).toString();
     config[QString("CLOSETOTRAY")] = settings.value(QString("CLOSETOTRAY"), QString("true")).toString();

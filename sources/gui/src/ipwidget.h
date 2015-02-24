@@ -64,10 +64,6 @@ private:
     void createActions();
     void createFilter();
     void keyPressEvent(QKeyEvent *pressedKey);
-    QString getIp(const QString rawIp);
-    QString getPrefix(const QString rawPrefix);
-    QString getIp6(const QString rawIp);
-    QString getPrefix6(const QString rawPrefix);
 };
 
 

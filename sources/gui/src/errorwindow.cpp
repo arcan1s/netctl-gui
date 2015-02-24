@@ -37,11 +37,10 @@ ErrorWindow::~ErrorWindow()
 }
 
 
-QStringList ErrorWindow::getMessage(const int mess, const QString custom)
+QStringList ErrorWindow::getMessage(const int mess)
 {
     if (debug) qDebug() << PDEBUG;
     if (debug) qDebug() << PDEBUG << ":" << "Message" << mess;
-    if (debug) qDebug() << PDEBUG << ":" << "Custom message" << custom;
 
     QString message, title;
     switch(mess) {
@@ -121,13 +120,15 @@ QStringList ErrorWindow::getMessage(const int mess, const QString custom)
         title = QApplication::translate("ErrorWindow", "Error!");
         message = QApplication::translate("ErrorWindow", "Could not run helper");
         break;
+    case 20:
+        title = QApplication::translate("ErrorWindow", "Error!");
+        message = QApplication::translate("ErrorWindow", "IP address does not match the standard");
+        break;
     default:
         title = QApplication::translate("ErrorWindow", "Error!");
         message = QApplication::translate("ErrorWindow", "Unknown error");
         break;
     }
-    if (!custom.isEmpty())
-        message = custom;
 
     QStringList fullMessage;
     fullMessage.append(title);
@@ -162,6 +163,7 @@ QMessageBox::Icon ErrorWindow::getIcon(const int mess)
     case 17:
     case 18:
     case 19:
+    case 20:
         icon = QMessageBox::Critical;
         break;
     default:
@@ -173,21 +175,21 @@ QMessageBox::Icon ErrorWindow::getIcon(const int mess)
 }
 
 
-void ErrorWindow::showWindow(const int mess, const QString sender, const QString custom)
+void ErrorWindow::showWindow(const int mess, const QString sender, const bool debugCmd)
 {
-    if (debug) qDebug() << PDEBUG;
-    if (debug) qDebug() << PDEBUG << ":" << "Message" << mess;
-    if (debug) qDebug() << PDEBUG << ":" << "Sender" << sender;
-    if (debug) qDebug() << PDEBUG << ":" << "Custom message" << custom;
+    if (debugCmd) qDebug() << PDEBUG;
+    if (debugCmd) qDebug() << PDEBUG << ":" << "Message" << mess;
+    if (debugCmd) qDebug() << PDEBUG << ":" << "Sender" << sender;
 
-    QStringList message = getMessage(mess, custom);
+    ErrorWindow *errorWin = new ErrorWindow(0, debugCmd);
+    QStringList message = errorWin->getMessage(mess);
     QMessageBox messageBox;
     messageBox.setText(message[0]);
     messageBox.setInformativeText(message[1]);
-    if (debug)
+    if (debugCmd)
         messageBox.setDetailedText(QApplication::translate("ErrorWindow", "Sender : %1").
                                    arg(sender));
-    messageBox.setIcon(getIcon(mess));
+    messageBox.setIcon(errorWin->getIcon(mess));
     messageBox.setStandardButtons(QMessageBox::Ok);
     messageBox.setDefaultButton(QMessageBox::Ok);
 
@@ -196,4 +198,5 @@ void ErrorWindow::showWindow(const int mess, const QString sender, const QString
     layout->addItem(horizontalSpacer, layout->rowCount(), 0, 1, layout->columnCount());
 
     messageBox.exec();
+    delete errorWin;
 }

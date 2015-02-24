@@ -62,6 +62,7 @@ void MainWindow::setMenuActionsShown(const bool state)
     if (debug) qDebug() << PDEBUG << ":" << "State" << state;
 
     // main
+    toolBarActions[QString("netctlAuto")]->setVisible(state);
     toolBarActions[QString("mainRefresh")]->setVisible(state);
     toolBarActions[QString("mainStart")]->setVisible(state);
     toolBarActions[QString("mainSwitch")]->setVisible(state);
@@ -87,6 +88,7 @@ void MainWindow::updateMenuMain()
     setMenuActionsShown(false);
     actionMenu->setDefaultAction(toolBarActions[QString("mainStart")]);
 
+    toolBarActions[QString("netctlAuto")]->setVisible(true);
     toolBarActions[QString("mainRefresh")]->setVisible(true);
     if (ui->tableWidget_main->currentItem() == 0) return;
     if (!ui->tableWidget_main->item(ui->tableWidget_main->currentItem()->row(), 2)->text().isEmpty()) {
@@ -160,34 +162,12 @@ void MainWindow::updateMenuWifi()
 }
 
 
-void MainWindow::updateToolBars()
-{
-    if (debug) qDebug() << PDEBUG;
-
-    if (sender() == ui->pushButton_menu) {
-        mainToolBar->setHidden(false);
-        actionToolBar->setHidden(true);
-        helpToolBar->setHidden(true);
-    } else if (sender() == ui->pushButton_action) {
-        mainToolBar->setHidden(true);
-        actionToolBar->setHidden(false);
-        helpToolBar->setHidden(true);
-        updateMenu();
-    } else if (sender() == ui->pushButton_help) {
-        mainToolBar->setHidden(true);
-        actionToolBar->setHidden(true);
-        helpToolBar->setHidden(false);
-
-    }
-}
-
-
 // tab update slots
 void MainWindow::updateMainTab()
 {
     if (debug) qDebug() << PDEBUG;
     if (!checkExternalApps(QString("netctl"))) {
-        errorWin->showWindow(1, QString(PDEBUG));
+        ErrorWindow::showWindow(1, QString(PDEBUG), debug);
         emit(needToBeConfigured());
         return;
     }
@@ -285,7 +265,7 @@ void MainWindow::updateWifiTab()
     if (debug) qDebug() << PDEBUG;
     wifiTabSetEnabled(checkExternalApps(QString("wpasup")));
     if (!checkExternalApps(QString("wpasup"))) {
-        errorWin->showWindow(1, QString(PDEBUG));
+        ErrorWindow::showWindow(1, QString(PDEBUG), debug);
         emit(needToBeConfigured());
         return;
     }
@@ -443,7 +423,7 @@ void MainWindow::mainTabEnableProfile()
 {
     if (debug) qDebug() << PDEBUG;
     if (!checkExternalApps(QString("netctl"))) {
-        errorWin->showWindow(1, QString(PDEBUG));
+        ErrorWindow::showWindow(1, QString(PDEBUG), debug);
         emit(needToBeConfigured());
         return;
     }
@@ -503,7 +483,7 @@ void MainWindow::mainTabRestartProfile()
 {
     if (debug) qDebug() << PDEBUG;
     if (!checkExternalApps(QString("netctl"))) {
-        errorWin->showWindow(1, QString(PDEBUG));
+        ErrorWindow::showWindow(1, QString(PDEBUG), debug);
         emit(needToBeConfigured());
         return;
     }
@@ -525,7 +505,7 @@ void MainWindow::mainTabStartProfile()
 {
     if (debug) qDebug() << PDEBUG;
     if (!checkExternalApps(QString("netctl"))) {
-        errorWin->showWindow(1, QString(PDEBUG));
+        ErrorWindow::showWindow(1, QString(PDEBUG), debug);
         emit(needToBeConfigured());
         return;
     }
@@ -548,7 +528,7 @@ void MainWindow::mainTabStopAllProfiles()
 {
     if (debug) qDebug() << PDEBUG;
     if (!checkExternalApps(QString("netctl"))) {
-        errorWin->showWindow(1, QString(PDEBUG));
+        ErrorWindow::showWindow(1, QString(PDEBUG), debug);
         emit(needToBeConfigured());
         return;
     }
@@ -574,7 +554,7 @@ void MainWindow::mainTabSwitchToProfile()
 {
     if (debug) qDebug() << PDEBUG;
     if (!checkExternalApps(QString("netctl"))) {
-        errorWin->showWindow(1, QString(PDEBUG));
+        ErrorWindow::showWindow(1, QString(PDEBUG), debug);
         emit(needToBeConfigured());
         return;
     }
@@ -763,11 +743,11 @@ void MainWindow::profileTabCreateProfile()
 
     // error checking
     if (ui->comboBox_profile->currentText().isEmpty())
-        return errorWin->showWindow(3, QString(PDEBUG));
+        return ErrorWindow::showWindow(3, QString(PDEBUG), debug);
     if (generalWid->isOk() == 1)
-        return errorWin->showWindow(4, QString(PDEBUG));
+        return ErrorWindow::showWindow(4, QString(PDEBUG), debug);
     else if (generalWid->isOk() == 2)
-        return errorWin->showWindow(5, QString(PDEBUG));
+        return ErrorWindow::showWindow(5, QString(PDEBUG), debug);
     if ((generalWid->connectionType->currentText() == QString("ethernet")) ||
             (generalWid->connectionType->currentText() == QString("wireless")) ||
             (generalWid->connectionType->currentText() == QString("bond")) ||
@@ -779,55 +759,57 @@ void MainWindow::profileTabCreateProfile()
             (generalWid->connectionType->currentText() == QString("macvlan")) ||
             (generalWid->connectionType->currentText() == QString("openvswitch"))) {
         if (ipWid->isOk() == 1)
-            return errorWin->showWindow(6, QString(PDEBUG));
+            return ErrorWindow::showWindow(6, QString(PDEBUG), debug);
         else if (ipWid->isOk() == 2)
-            return errorWin->showWindow(6, QString(PDEBUG));
+            return ErrorWindow::showWindow(6, QString(PDEBUG), debug);
     }
     if (generalWid->connectionType->currentText() == QString("ethernet")) {
         if (ethernetWid->isOk() == 1)
-            return errorWin->showWindow(7, QString(PDEBUG));
+            return ErrorWindow::showWindow(7, QString(PDEBUG), debug);
     } else if (generalWid->connectionType->currentText() == QString("wireless")) {
         if (wirelessWid->isOk() == 1)
-            return errorWin->showWindow(8, QString(PDEBUG));
+            return ErrorWindow::showWindow(8, QString(PDEBUG), debug);
         else if (wirelessWid->isOk() == 2)
-            return errorWin->showWindow(9, QString(PDEBUG));
+            return ErrorWindow::showWindow(9, QString(PDEBUG), debug);
         else if (wirelessWid->isOk() == 3)
-            return errorWin->showWindow(10, QString(PDEBUG));
+            return ErrorWindow::showWindow(10, QString(PDEBUG), debug);
         else if (wirelessWid->isOk() == 4)
-            return errorWin->showWindow(7, QString(PDEBUG));
+            return ErrorWindow::showWindow(7, QString(PDEBUG), debug);
         else if (wirelessWid->isOk() == 5)
-            return errorWin->showWindow(11, QString(PDEBUG));
+            return ErrorWindow::showWindow(11, QString(PDEBUG), debug);
     } else if (generalWid->connectionType->currentText() == QString("bridge")) {
     } else if (generalWid->connectionType->currentText() == QString("pppoe")) {
         if (pppoeWid->isOk() == 1)
-            return errorWin->showWindow(7, QString(PDEBUG));
+            return ErrorWindow::showWindow(7, QString(PDEBUG), debug);
         else if (pppoeWid->isOk() == 2)
-            return errorWin->showWindow(12, QString(PDEBUG));
+            return ErrorWindow::showWindow(12, QString(PDEBUG), debug);
         else if (pppoeWid->isOk() == 3)
-            return errorWin->showWindow(13, QString(PDEBUG));
+            return ErrorWindow::showWindow(13, QString(PDEBUG), debug);
         else if (pppoeWid->isOk() == 4)
-            return errorWin->showWindow(12, QString(PDEBUG));
+            return ErrorWindow::showWindow(12, QString(PDEBUG), debug);
     } else if (generalWid->connectionType->currentText() == QString("mobile_ppp")) {
         if (mobileWid->isOk() == 1)
-            return errorWin->showWindow(15, QString(PDEBUG));
+            return ErrorWindow::showWindow(15, QString(PDEBUG), debug);
         if (mobileWid->isOk() == 2)
-            return errorWin->showWindow(7, QString(PDEBUG));
+            return ErrorWindow::showWindow(7, QString(PDEBUG), debug);
     }
     else if (generalWid->connectionType->currentText() == QString("tunnel")) {
+        if (tunnelWid->isOk() == 1)
+            return ErrorWindow::showWindow(20, QString(PDEBUG), debug);
     }
     else if (generalWid->connectionType->currentText() == QString("tuntap")) {
         if (tuntapWid->isOk() == 1)
-            return errorWin->showWindow(15, QString(PDEBUG));
+            return ErrorWindow::showWindow(15, QString(PDEBUG), debug);
         if (tuntapWid->isOk() == 2)
-            return errorWin->showWindow(15, QString(PDEBUG));
+            return ErrorWindow::showWindow(15, QString(PDEBUG), debug);
     }
     else if (generalWid->connectionType->currentText() == QString("vlan")) {
         if (ethernetWid->isOk() == 1)
-            return errorWin->showWindow(7, QString(PDEBUG));
+            return ErrorWindow::showWindow(7, QString(PDEBUG), debug);
     }
     else if (generalWid->connectionType->currentText() == QString("macvlan")) {
         if (ethernetWid->isOk() == 1)
-            return errorWin->showWindow(7, QString(PDEBUG));
+            return ErrorWindow::showWindow(7, QString(PDEBUG), debug);
     }
 
     ui->tabWidget->setDisabled(true);
@@ -954,10 +936,8 @@ void MainWindow::profileTabLoadProfile()
     } else
         settings = netctlProfile->getSettingsFromProfile(profile);
 
-
-
     if (settings.isEmpty())
-        return errorWin->showWindow(17, QString(PDEBUG));
+        return ErrorWindow::showWindow(17, QString(PDEBUG), debug);
 
     generalWid->setSettings(settings);
     if (generalWid->connectionType->currentText() == QString("ethernet")) {
@@ -1078,7 +1058,7 @@ void MainWindow::wifiTabStart()
 {
     if (debug) qDebug() << PDEBUG;
     if (!checkExternalApps(QString("wpasup"))) {
-        errorWin->showWindow(1, QString(PDEBUG));
+        ErrorWindow::showWindow(1, QString(PDEBUG), debug);
         emit(needToBeConfigured());
         return;
     }

@@ -80,7 +80,7 @@ MainWindow::MainWindow(QWidget *parent,
             if (ui->tableWidget_wifi->item(i, 0)->text() == args[QString("essid")].toString())
                 ui->tableWidget_wifi->setCurrentCell(i, 0);
         if (ui->tableWidget_wifi->currentItem() == 0)
-            errorWin->showWindow(18, QString(PDEBUG));
+            ErrorWindow::showWindow(18, QString(PDEBUG), debug);
     } else if (args[QString("open")].toString() != QString("PROFILE")) {
         ui->comboBox_profile->addItem(args[QString("open")].toString());
         ui->comboBox_profile->setCurrentIndex(ui->comboBox_profile->count()-1);
@@ -89,7 +89,7 @@ MainWindow::MainWindow(QWidget *parent,
             if (ui->tableWidget_main->item(i, 0)->text() == args[QString("select")].toString())
                 ui->tableWidget_main->setCurrentCell(i, 0);
         if (ui->tableWidget_main->currentItem() == 0)
-            errorWin->showWindow(17, QString(PDEBUG));
+            ErrorWindow::showWindow(17, QString(PDEBUG), debug);
     }
 
     // show windows
@@ -351,10 +351,16 @@ void MainWindow::createActions()
     if (debug) qDebug() << PDEBUG;
 
     connect(ui->tabWidget, SIGNAL(currentChanged(int)), this, SLOT(updateTabs(int)));
-    connect(ui->pushButton_menu, SIGNAL(clicked(bool)), this, SLOT(updateToolBars()));
-    connect(ui->pushButton_action, SIGNAL(clicked(bool)), this, SLOT(updateToolBars()));
-    connect(ui->pushButton_help, SIGNAL(clicked(bool)), this, SLOT(updateToolBars()));
     connect(this, SIGNAL(needToBeConfigured()), this, SLOT(showSettingsWindow()));
+
+    // menu
+    connect(ui->actionSettings, SIGNAL(triggered()), this, SLOT(showSettingsWindow()));
+    connect(ui->actionSecurity, SIGNAL(triggered()), this, SLOT(showSecurityNotes()));
+    connect(ui->actionDBus_API, SIGNAL(triggered()), this, SLOT(showApi()));
+    connect(ui->actionLibrary, SIGNAL(triggered()), this, SLOT(showLibrary()));
+    connect(ui->actionReport_a_bug, SIGNAL(triggered()), this, SLOT(reportABug()));
+    connect(ui->actionAbout, SIGNAL(triggered()), this, SLOT(showAboutWindow()));
+    connect(ui->actionQuit, SIGNAL(triggered()), this, SLOT(closeMainWindow()));
 
     // main tab events
     connect(ui->pushButton_netctlAuto, SIGNAL(clicked(bool)), this, SLOT(showNetctlAutoWindow()));
@@ -398,13 +404,11 @@ void MainWindow::createObjects()
 {
     if (debug) qDebug() << PDEBUG;
 
-    // error messages
-    errorWin = new ErrorWindow(this, debug);
     // backend
     createDBusSession();
     if (useHelper)
         if (!forceStartHelper()) {
-            errorWin->showWindow(19, QString(PDEBUG));
+            ErrorWindow::showWindow(19, QString(PDEBUG), debug);
             useHelper = false;
         }
     checkHelperStatus();
@@ -454,25 +458,10 @@ void MainWindow::createToolBars()
 {
     if (debug) qDebug() << PDEBUG;
 
-    mainToolBar = new QToolBar(this);
-    mainToolBar->setToolButtonStyle(Qt::ToolButtonFollowStyle);
-    toolBarActions[QString("netctlAuto")] = mainToolBar->addAction(QApplication::translate("MainWindow", "netctl-auto"),
-                                                                   this, SLOT(showNetctlAutoWindow()));
-    toolBarActions[QString("settings")] = mainToolBar->addAction(QIcon::fromTheme(QString("configure")),
-                                                                 QApplication::translate("MainWindow", "Settings"),
-                                                                 this, SLOT(showSettingsWindow()));
-    appShortcuts[QString("settingsShortcut")] = new QShortcut(QKeySequence(QApplication::translate("MainWindow", "Ctrl+S")),
-                                                              this, SLOT(showSettingsWindow()));
-    toolBarActions[QString("quit")] = mainToolBar->addAction(QIcon::fromTheme(QString("exit")),
-                                                             QApplication::translate("MainWindow", "Quit"),
-                                                             this, SLOT(closeMainWindow()));
-    appShortcuts[QString("quitShortcut")] = new QShortcut(QKeySequence(QApplication::translate("MainWindow", "Ctrl+Q")),
-                                                          this, SLOT(closeMainWindow()));
-    ui->centralLayout->insertWidget(1, mainToolBar);
-    mainToolBar->setHidden(true);
-
     actionToolBar = new QToolBar(this);
     actionToolBar->setToolButtonStyle(Qt::ToolButtonFollowStyle);
+    toolBarActions[QString("netctlAuto")] = actionToolBar->addAction(QApplication::translate("MainWindow", "netctl-auto"),
+                                                                     this, SLOT(showNetctlAutoWindow()));
     toolBarActions[QString("mainRefresh")] = actionToolBar->addAction(QIcon::fromTheme(QString("stock-refresh")),
                                                                       QApplication::translate("MainWindow", "Refresh"),
                                                                       this, SLOT(updateMainTab()));
@@ -523,29 +512,7 @@ void MainWindow::createToolBars()
     toolBarActions[QString("profileRemove")] = actionToolBar->addAction(QIcon::fromTheme(QString("edit-delete")),
                                                                         QApplication::translate("MainWindow", "Remove"),
                                                                         this, SLOT(profileTabRemoveProfile()));
-    ui->centralLayout->insertWidget(1, actionToolBar);
-    actionToolBar->setHidden(true);
-
-    helpToolBar = new QToolBar(this);
-    helpToolBar->setToolButtonStyle(Qt::ToolButtonFollowStyle);
-    toolBarActions[QString("security")] = helpToolBar->addAction(QIcon::fromTheme(QString("security-medium")),
-                                                                 QApplication::translate("MainWindow", "Security"),
-                                                                 this, SLOT(showSecurityNotes()));
-    toolBarActions[QString("api")] = helpToolBar->addAction(QApplication::translate("MainWindow", "DBus API"),
-                                                            this, SLOT(showApi()));
-    toolBarActions[QString("library")] = helpToolBar->addAction(QApplication::translate("MainWindow", "Library"),
-                                                                this, SLOT(showLibrary()));
-    helpToolBar->addSeparator();
-    toolBarActions[QString("report")] = helpToolBar->addAction(QIcon::fromTheme(QString("tools-report-bug")),
-                                                               QApplication::translate("MainWindow", "Report a bug"),
-                                                               this, SLOT(reportABug()));
-    toolBarActions[QString("about")] = helpToolBar->addAction(QIcon::fromTheme(QString("help-about")),
-                                                              QApplication::translate("MainWindow", "About"),
-                                                              this, SLOT(showAboutWindow()));
-    ui->centralLayout->insertWidget(1, helpToolBar);
-    helpToolBar->setHidden(true);
-
-    ui->pushButton_menu->click();
+    ui->centralLayout->insertWidget(0, actionToolBar);
 }
 
 
@@ -572,7 +539,6 @@ void MainWindow::deleteObjects()
     if (wirelessWid != nullptr) delete wirelessWid;
 
     if (aboutWin != nullptr) delete aboutWin;
-    if (errorWin != nullptr) delete errorWin;
     if (netctlAutoWin != nullptr) delete netctlAutoWin;
     if (settingsWin != nullptr) delete settingsWin;
     if (actionMenu != nullptr) {
@@ -582,16 +548,6 @@ void MainWindow::deleteObjects()
     if (actionToolBar != nullptr) {
         actionToolBar->clear();
         delete actionToolBar;
-    }
-    if (helpToolBar != nullptr) {
-        helpToolBar->clear();
-        delete helpToolBar;
-    }
-    if (mainToolBar != nullptr) {
-        mainToolBar->clear();
-        delete mainToolBar;
-        delete appShortcuts[QString("settingsShortcut")];
-        delete appShortcuts[QString("quitShortcut")];
     }
     if (trayIcon != nullptr) delete trayIcon;
     if (ui != nullptr) delete ui;

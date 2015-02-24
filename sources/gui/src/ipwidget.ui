@@ -104,6 +104,12 @@
                   <verstretch>0</verstretch>
                  </sizepolicy>
                 </property>
+                <property name="toolTip">
+                 <string>Should be in CIDR form according to standards</string>
+                </property>
+                <property name="placeholderText">
+                 <string notr="true">127.0.0.1/32</string>
+                </property>
                </widget>
               </item>
               <item>
@@ -163,7 +169,11 @@
                </sizepolicy>
               </property>
               <property name="toolTip">
-               <string>An IP routing gateway address</string>
+               <string>An IP routing gateway address.
+Should be according to standards</string>
+              </property>
+              <property name="placeholderText">
+               <string notr="true">192.168.0.1</string>
               </property>
              </widget>
             </item>
@@ -256,6 +266,12 @@
                   <verstretch>0</verstretch>
                  </sizepolicy>
                 </property>
+                <property name="toolTip">
+                 <string>Should be in CIDR form according to standards</string>
+                </property>
+                <property name="placeholderText">
+                 <string notr="true">::1/128</string>
+                </property>
                </widget>
               </item>
               <item>
@@ -315,7 +331,11 @@
                </sizepolicy>
               </property>
               <property name="toolTip">
-               <string>An IPv6 routing gateway address</string>
+               <string>An IPv6 routing gateway address.
+Should be according to standards</string>
+              </property>
+              <property name="placeholderText">
+               <string notr="true">2001:0db8:11a3:09d7:1f34:8a2e:07a0:765d</string>
               </property>
              </widget>
             </item>
@@ -380,6 +400,12 @@
                    <verstretch>0</verstretch>
                   </sizepolicy>
                  </property>
+                 <property name="toolTip">
+                  <string>Should be in CIDR form according to standards</string>
+                 </property>
+                 <property name="placeholderText">
+                  <string notr="true">192.168.0.1/24</string>
+                 </property>
                 </widget>
                </item>
               </layout>
@@ -409,6 +435,12 @@
                    <horstretch>10</horstretch>
                    <verstretch>0</verstretch>
                   </sizepolicy>
+                 </property>
+                 <property name="toolTip">
+                  <string>Should be according to standards</string>
+                 </property>
+                 <property name="placeholderText">
+                  <string notr="true">192.168.0.1</string>
                  </property>
                 </widget>
                </item>
@@ -472,6 +504,12 @@
                    <verstretch>0</verstretch>
                   </sizepolicy>
                  </property>
+                 <property name="toolTip">
+                  <string>Should be in CIDR form according to standards</string>
+                 </property>
+                 <property name="placeholderText">
+                  <string notr="true">2001:0db8:11a3:09d7:1f34:8a2e:07a0:765d/64</string>
+                 </property>
                 </widget>
                </item>
               </layout>
@@ -501,6 +539,12 @@
                    <horstretch>10</horstretch>
                    <verstretch>0</verstretch>
                   </sizepolicy>
+                 </property>
+                 <property name="toolTip">
+                  <string>Should be according to standards</string>
+                 </property>
+                 <property name="placeholderText">
+                  <string notr="true">2001:0db8:11a3:09d7:1f34:8a2e:07a0:765d</string>
                  </property>
                 </widget>
                </item>
@@ -928,6 +972,12 @@
                      <horstretch>10</horstretch>
                      <verstretch>0</verstretch>
                     </sizepolicy>
+                   </property>
+                   <property name="toolTip">
+                    <string>Should be according to standards</string>
+                   </property>
+                   <property name="placeholderText">
+                    <string notr="true">8.8.8.8</string>
                    </property>
                   </widget>
                  </item>

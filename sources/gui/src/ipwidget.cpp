@@ -20,6 +20,9 @@
 
 #include <QKeyEvent>
 
+#include "errorwindow.h"
+#include "ipregexp.h"
+
 
 IpWidget::IpWidget(QWidget *parent)
     : QWidget(parent),
@@ -111,32 +114,36 @@ void IpWidget::createActions()
     connect(ui->comboBox_dhcp, SIGNAL(currentIndexChanged(QString)), this, SLOT(changeDhcpClient(QString)));
     // buttons
     connect(ui->pushButton_ipAddress, SIGNAL(clicked(bool)), this, SLOT(addIp()));
+    connect(ui->lineEdit_ipAddress, SIGNAL(returnPressed()), this, SLOT(addIp()));
     connect(ui->pushButton_ipRoutes, SIGNAL(clicked(bool)), this, SLOT(addIpRoutes()));
     connect(ui->pushButton_ipAddress6, SIGNAL(clicked(bool)), this, SLOT(addIp6()));
+    connect(ui->lineEdit_ipAddress6, SIGNAL(returnPressed(bool)), this, SLOT(addIp6()));
     connect(ui->pushButton_ipRoutes6, SIGNAL(clicked(bool)), this, SLOT(addIpRoutes6()));
     connect(ui->pushButton_custom, SIGNAL(clicked(bool)), this, SLOT(addCustom()));
+    connect(ui->lineEdit_custom, SIGNAL(returnPressed()), this, SLOT(addCustom()));
     connect(ui->pushButton_dns, SIGNAL(clicked(bool)), this, SLOT(addDns()));
+    connect(ui->lineEdit_dns, SIGNAL(returnPressed()), this, SLOT(addDns()));
     connect(ui->pushButton_dnsOptions, SIGNAL(clicked(bool)), this, SLOT(addDnsOpt()));
+    connect(ui->lineEdit_dnsOptions, SIGNAL(returnPressed()), this, SLOT(addDnsOpt()));
 }
 
 
 void IpWidget::createFilter()
 {
-    // using input mask because validators is not comfortable
     // ipv4
-    ui->lineEdit_ipAddress->setInputMask(QString("999.999.999.999/99"));
-    ui->lineEdit_gateway->setInputMask(QString("999.999.999.999"));
-    ui->lineEdit_ipRoutes->setInputMask(QString("999.999.999.999/99"));
-    ui->lineEdit_ipRoutes2->setInputMask(QString("999.999.999.999"));
+    ui->lineEdit_ipAddress->setValidator(IpRegExp::ipv4CidrValidator());
+    ui->lineEdit_gateway->setValidator(IpRegExp::ipv4Validator());
+    ui->lineEdit_ipRoutes->setValidator(IpRegExp::ipv4CidrValidator());
+    ui->lineEdit_ipRoutes2->setValidator(IpRegExp::ipv4Validator());
 
     // ipv6
-    ui->lineEdit_ipAddress6->setInputMask(QString("<hhhh:hhhh:hhhh:hhhh:hhhh:hhhh:hhhh:hhhh/999"));
-    ui->lineEdit_gateway6->setInputMask(QString("<hhhh:hhhh:hhhh:hhhh:hhhh:hhhh:hhhh:hhhh"));
-    ui->lineEdit_ipRoutes6->setInputMask(QString("<hhhh:hhhh:hhhh:hhhh:hhhh:hhhh:hhhh:hhhh/999"));
-    ui->lineEdit_ipRoutes62->setInputMask(QString("<hhhh:hhhh:hhhh:hhhh:hhhh:hhhh:hhhh:hhhh"));
+    ui->lineEdit_ipAddress6->setValidator(IpRegExp::ipv6CidrValidator());
+    ui->lineEdit_gateway6->setValidator(IpRegExp::ipv6Validator());
+    ui->lineEdit_ipRoutes6->setValidator(IpRegExp::ipv6CidrValidator());
+    ui->lineEdit_ipRoutes62->setValidator(IpRegExp::ipv6Validator());
 
     // dns
-    ui->lineEdit_dns->setInputMask(QString("999.999.999.999"));
+    ui->lineEdit_dns->setValidator(IpRegExp::ipv4Validator());
 }
 
 
@@ -168,86 +175,23 @@ void IpWidget::keyPressEvent(QKeyEvent *pressedKey)
 }
 
 
-QString IpWidget::getIp(const QString rawIp)
-{
-    QStringList ip = rawIp.split(QChar('.'));
-
-    // fix empty fields
-    if (ip[0].isEmpty())
-        ip[0] = QString("127");
-    if (ip[1].isEmpty())
-        ip[1] = QString("0");
-    if (ip[2].isEmpty())
-        ip[2] = QString("0");
-    if (ip[3].isEmpty())
-        ip[3] = QString("1");
-    // fix numbers
-    for (int i=0; i<4; i++)
-        if (ip[i].toInt() > 255)
-            ip[i] = QString("255");
-
-    return ip.join(QChar('.'));
-}
-
-
-QString IpWidget::getPrefix(const QString rawPrefix)
-{
-    QString prefix;
-
-    if (rawPrefix.isEmpty())
-        prefix = QString("24");
-    else if (rawPrefix.toInt() > 32)
-        prefix = QString("32");
-    else
-        prefix = rawPrefix;
-
-    return prefix;
-}
-
-
-QString IpWidget::getIp6(const QString rawIp)
-{
-    QString ip = rawIp;
-
-    for (int i=0; i<5; i++)
-        ip.replace(QString(":::"), QString("::"));
-
-    return ip;
-}
-
-
-QString IpWidget::getPrefix6(const QString rawPrefix)
-{
-    QString prefix;
-
-    if (rawPrefix.isEmpty())
-        prefix = QString("64");
-    else if (rawPrefix.toInt() > 128)
-        prefix = QString("128");
-    else
-        prefix = rawPrefix;
-
-    return prefix;
-}
-
-
 void IpWidget::addIp()
 {
-    QString ip = getIp(ui->lineEdit_ipAddress->text().remove(QChar(' ')).split(QChar('/'))[0]);
-    QString prefix = getPrefix(ui->lineEdit_ipAddress->text().remove(QChar(' ')).split(QChar('/'))[1]);
+    if (!IpRegExp::checkString(ui->lineEdit_ipAddress->text(), IpRegExp::ip4CidrRegex()))
+        return ErrorWindow::showWindow(20, QString("[IpWidget::addIp]"));
 
-    ui->listWidget_ipAddress->addItem(ip + QString("/") + prefix);
+    ui->listWidget_ipAddress->addItem(ui->lineEdit_ipAddress->text());
     ui->lineEdit_ipAddress->clear();
 }
 
 
 void IpWidget::addIpRoutes()
 {
-    QString ip = getIp(ui->lineEdit_ipRoutes->text().remove(QChar(' ')).split(QChar('/'))[0]);
-    QString prefix = getPrefix(ui->lineEdit_ipRoutes->text().remove(QChar(' ')).split(QChar('/'))[1]);
-    QString ipVia = getIp(ui->lineEdit_ipRoutes2->text().remove(QChar(' ')));
+    if ((!IpRegExp::checkString(ui->lineEdit_ipRoutes->text(), IpRegExp::ip4CidrRegex())) ||
+        (!IpRegExp::checkString(ui->lineEdit_ipRoutes2->text(), IpRegExp::ip4Regex())))
+        return ErrorWindow::showWindow(20, QString("[IpWidget::addIpRoutes]"));
 
-    ui->listWidget_ipRoutes->addItem(ip + QString("/") + prefix + QString(" via ") + ipVia);
+    ui->listWidget_ipRoutes->addItem(ui->lineEdit_ipRoutes->text() + QString(" via ") + ui->lineEdit_ipRoutes2->text());
     ui->lineEdit_ipRoutes->clear();
     ui->lineEdit_ipRoutes2->clear();
 }
@@ -255,21 +199,21 @@ void IpWidget::addIpRoutes()
 
 void IpWidget::addIp6()
 {
-    QString ip = getIp6(ui->lineEdit_ipAddress6->text().remove(QChar(' ')).split(QChar('/'))[0]);
-    QString prefix = getPrefix6(ui->lineEdit_ipAddress6->text().remove(QChar(' ')).split(QChar('/'))[1]);
+    if (!IpRegExp::checkString(ui->lineEdit_ipAddress6->text(), IpRegExp::ip6CidrRegex()))
+        return ErrorWindow::showWindow(20, QString("[IpWidget::addIp6]"));
 
-    ui->listWidget_ipAddress6->addItem(ip + QString("/") + prefix);
+    ui->listWidget_ipAddress6->addItem(ui->lineEdit_ipAddress6->text());
     ui->lineEdit_ipAddress6->clear();
 }
 
 
 void IpWidget::addIpRoutes6()
 {
-    QString ip = getIp6(ui->lineEdit_ipRoutes6->text().remove(QChar(' ')).split(QChar('/'))[0]);
-    QString prefix = getPrefix6(ui->lineEdit_ipRoutes6->text().remove(QChar(' ')).split(QChar('/'))[1]);
-    QString ipVia = getIp6(ui->lineEdit_ipRoutes62->text().remove(QChar(' ')));
+    if ((!IpRegExp::checkString(ui->lineEdit_ipRoutes6->text(), IpRegExp::ip6CidrRegex())) ||
+        (!IpRegExp::checkString(ui->lineEdit_ipRoutes62->text(), IpRegExp::ip6Regex())))
+        return ErrorWindow::showWindow(20, QString("[IpWidget::addIp6Routes]"));
 
-    ui->listWidget_ipRoutes6->addItem(ip + QString("/") + prefix + QString(" via ") + ipVia);
+    ui->listWidget_ipRoutes6->addItem(ui->lineEdit_ipRoutes6->text() + QString(" via ") + ui->lineEdit_ipRoutes62->text());
     ui->lineEdit_ipRoutes6->clear();
     ui->lineEdit_ipRoutes62->clear();
 }
@@ -285,9 +229,10 @@ void IpWidget::addCustom()
 
 void IpWidget::addDns()
 {
-    QString ip = getIp(ui->lineEdit_dns->text().remove(QChar(' ')));
+    if (!IpRegExp::checkString(ui->lineEdit_dns->text(), IpRegExp::ip4Regex()))
+        return ErrorWindow::showWindow(20, QString("[IpWidget::addDns]"));
 
-    ui->listWidget_dns->addItem(ip);
+    ui->listWidget_dns->addItem(ui->lineEdit_dns->text());
     ui->lineEdit_dns->clear();
 }
 
@@ -364,10 +309,10 @@ void IpWidget::showAdvanced()
 {
     if (ui->pushButton_ipAdvanced->isChecked()) {
         ui->widget_ipAdvanced->setHidden(false);
-        ui->pushButton_ipAdvanced->setText(QApplication::translate("IpWidget", "Hide advanced"));
+        ui->pushButton_ipAdvanced->setArrowType(Qt::UpArrow);
     } else {
         ui->widget_ipAdvanced->setHidden(true);
-        ui->pushButton_ipAdvanced->setText(QApplication::translate("IpWidget", "Show advanced"));
+        ui->pushButton_ipAdvanced->setArrowType(Qt::DownArrow);
     }
 }
 
