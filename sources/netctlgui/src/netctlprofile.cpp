@@ -50,8 +50,7 @@ NetctlProfile::NetctlProfile(const bool debugCmd, const QMap<QString, QString> s
     if (settings.contains(QString("SUDO_PATH")))
         sudoCommand = settings[QString("SUDO_PATH")];
     if (settings.contains(QString("FORCE_SUDO")))
-        if (settings[QString("FORCE_SUDO")] == QString("true"))
-            useSuid = false;
+        useSuid = (settings[QString("FORCE_SUDO")] != QString("true"));
 
     if (useSuid)
         sudoCommand = QString("");
@@ -76,23 +75,24 @@ bool NetctlProfile::copyProfile(const QString oldPath)
 {
     if (debug) qDebug() << PDEBUG;
     if (debug) qDebug() << PDEBUG << ":" << "Path" << oldPath;
-    if (profileDirectory == 0) {
+    if (profileDirectory == nullptr) {
         if (debug) qDebug() << PDEBUG << ":" << "Could not find directory";
         return false;
     }
 
-    QString newPath = profileDirectory->absolutePath() + QDir::separator() + QFileInfo(oldPath).fileName();
-    QString cmd = sudoCommand + QString(" /usr/bin/mv \"") + oldPath + QString("\" \"") + newPath + QString("\"");
+    QString newPath = QString("%1%2%3").arg(profileDirectory->absolutePath())
+                                       .arg(QDir::separator())
+                                       .arg(QFileInfo(oldPath).fileName());
+    QString cmd = QString("%1 /usr/bin/mv \"%2\" \"%3\"").arg(sudoCommand)
+                                                         .arg(oldPath)
+                                                         .arg(newPath);
     if (debug) qDebug() << PDEBUG << ":" << "Run cmd" << cmd;
     TaskResult process = runTask(cmd, useSuid);
     if (debug) qDebug() << PDEBUG << ":" << "Cmd returns" << process.exitCode;
     if (process.exitCode != 0)
         if (debug) qDebug() << PDEBUG << ":" << "Error" << process.error;
 
-    if (process.exitCode == 0)
-        return true;
-    else
-        return false;
+    return (process.exitCode == 0);
 }
 
 
@@ -104,7 +104,9 @@ QString NetctlProfile::createProfile(const QString profile, const QMap<QString, 
     if (debug) qDebug() << PDEBUG;
     if (debug) qDebug() << PDEBUG << ":" << "Profile" << profile;
 
-    QString profileTempName = QDir::tempPath() + QDir::separator() + QFileInfo(profile).fileName();
+    QString profileTempName = QString("%1%2%3").arg(QDir::tempPath())
+                                               .arg(QDir::separator())
+                                               .arg(QFileInfo(profile).fileName());
     QFile profileFile(profileTempName);
     if (debug) qDebug() << PDEBUG << ":" << "Save to" << profileTempName;
     if (!profileFile.open(QIODevice::WriteOnly | QIODevice::Text))
@@ -123,7 +125,7 @@ QString NetctlProfile::createProfile(const QString profile, const QMap<QString, 
                 (settings.keys()[i] == QString("DNSOptions")) ||
                 (settings.keys()[i] == QString("ScanFrequencies")) ||
                 (settings.keys()[i] == QString("WPAConfigSection")))
-            out << QString("(") + settings[settings.keys()[i]] << QString(")") << endl;
+            out << QString("(%1)").arg(settings[settings.keys()[i]]) << endl;
         else
             out << settings[settings.keys()[i]] << endl;
     }
@@ -139,7 +141,6 @@ QString NetctlProfile::createProfile(const QString profile, const QMap<QString, 
 QMap<QString, QString> NetctlProfile::getRecommendedConfiguration()
 {
     QMap<QString, QString> settings;
-    QString cmd;
     TaskResult process;
     QStringList recommended;
     // force sudo
@@ -149,8 +150,7 @@ QMap<QString, QString> NetctlProfile::getRecommendedConfiguration()
     recommended.append(QString("netctlgui-helper"));
     recommended.append(QString("netctlgui-helper-suid"));
     for (int i=0; i<recommended.count(); i++) {
-        cmd = QString("which ") + recommended[i];
-        process = runTask(cmd, false);
+        process = runTask(QString("which %1").arg(recommended[i]), false);
         if (process.exitCode == 0) {
             settings[QString("FORCE_SUDO")] = QString("false");
             break;
@@ -177,8 +177,7 @@ QMap<QString, QString> NetctlProfile::getRecommendedConfiguration()
     recommended.append("kdesu");
     recommended.append("gksu");
     for (int i=0; i<recommended.count(); i++) {
-        cmd = QString("which ") + recommended[i];
-        process = runTask(cmd, false);
+        process = runTask(QString("which %1").arg(recommended[i]), false);
         if (process.exitCode == 0) {
             settings[QString("SUDO_PATH")] = process.output.trimmed();
             break;
@@ -196,7 +195,7 @@ QMap<QString, QString> NetctlProfile::getSettingsFromProfile(const QString profi
 {
     if (debug) qDebug() << PDEBUG;
     if (debug) qDebug() << PDEBUG << ":" << "Profile" << profile;
-    if (profileDirectory == 0) {
+    if (profileDirectory == nullptr) {
         if (debug) qDebug() << PDEBUG << ":" << "Could not find directory";
         return QMap<QString, QString>();
     }
@@ -216,8 +215,10 @@ QMap<QString, QString> NetctlProfile::getSettingsFromProfile(const QString profi
         systemVariables.append(output[i].split(QChar('='))[0]);
     // profile variables
     QMap<QString, QString> settings;
-    QString profileUrl = profileDirectory->absolutePath() + QDir::separator() + QFileInfo(profile).fileName();
-    cmd = QString("env -i bash -c \"source '") + profileUrl + QString("'; set\"");
+    QString profileUrl = QString("%1%2%3").arg(profileDirectory->absolutePath())
+                                          .arg(QDir::separator())
+                                          .arg(QFileInfo(profile).fileName());
+    cmd = QString("env -i bash -c \"source '%1'; set\"").arg(profileUrl);
     if (debug) qDebug() << PDEBUG << ":" << "Run cmd" << cmd;
     process = runTask(cmd, false);
     if (debug) qDebug() << PDEBUG << ":" << "Cmd returns" << process.exitCode;
@@ -231,9 +232,7 @@ QMap<QString, QString> NetctlProfile::getSettingsFromProfile(const QString profi
         if (!systemVariables.contains(output[i].split(QChar('='))[0]))
             keys.append(output[i].split(QChar('='))[0]);
     for (int i=0; i<keys.count(); i++){
-        cmd = QString("env -i bash -c \"source '") + profileUrl +
-                QString("'; for i in ${!") + keys[i] + QString("[@]}; do echo ${") +
-                keys[i] + QString("[$i]}; done\"");
+        cmd = QString("env -i bash -c \"source '%1'; for i in ${!%2[@]}; do echo ${%2[$i]}; done\"").arg(profileUrl).arg(keys[i]);
         process = runTask(cmd, false);
         settings[keys[i]] = process.output.trimmed();
         if (debug) qDebug() << PDEBUG << ":" << keys[i] << "=" << settings[keys[i]];
@@ -254,10 +253,7 @@ QString NetctlProfile::getValueFromProfile(const QString profile, const QString 
 
     QMap<QString, QString> settings = getSettingsFromProfile(profile);
 
-    if (settings.contains(key))
-        return settings[key];
-    else
-        return QString();
+    return settings[key];
 }
 
 
@@ -268,21 +264,20 @@ bool NetctlProfile::removeProfile(const QString profile)
 {
     if (debug) qDebug() << PDEBUG;
     if (debug) qDebug() << PDEBUG << ":" << "Profile" << profile;
-    if (profileDirectory == 0) {
+    if (profileDirectory == nullptr) {
         if (debug) qDebug() << PDEBUG << ":" << "Could not find directory";
         return false;
     }
 
-    QString profilePath = profileDirectory->absolutePath() + QDir::separator() + QFileInfo(profile).fileName();
-    QString cmd = sudoCommand + QString(" /usr/bin/rm \"") + profilePath + QString("\"");
+    QString profilePath = QString("%1%2%3").arg(profileDirectory->absolutePath())
+                                           .arg(QDir::separator())
+                                           .arg(QFileInfo(profile).fileName());
+    QString cmd = QString("%1 /usr/bin/rm \"%2\"").arg(sudoCommand).arg(profilePath);
     if (debug) qDebug() << PDEBUG << ":" << "Run cmd" << cmd;
     TaskResult process = runTask(cmd, useSuid);
     if (debug) qDebug() << PDEBUG << ":" << "Cmd returns" << process.exitCode;
     if (process.exitCode != 0)
         if (debug) qDebug() << PDEBUG << ":" << "Error" << process.error;
 
-    if (process.exitCode == 0)
-        return true;
-    else
-        return false;
+    return (process.exitCode == 0);
 }

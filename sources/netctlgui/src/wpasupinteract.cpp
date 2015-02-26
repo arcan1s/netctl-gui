@@ -58,8 +58,7 @@ WpaSup::WpaSup(const bool debugCmd, const QMap<QString, QString> settings)
     if (settings.contains(QString("WPASUP_PATH")))
         wpaSupPath = settings[QString("WPASUP_PATH")];
     if (settings.contains(QString("FORCE_SUDO")))
-        if (settings[QString("FORCE_SUDO")] == QString("true"))
-            useSuid = false;
+        useSuid = (settings[QString("FORCE_SUDO")] != QString("true"));
 
     if (useSuid)
         sudoCommand = QString("");
@@ -86,11 +85,11 @@ QString WpaSup::existentProfile(const QString essid)
 {
     if (debug) qDebug() << PDEBUG;
     if (debug) qDebug() << PDEBUG << ":" << "ESSID" << essid;
-    if (netctlCommand == 0) {
+    if (netctlCommand == nullptr) {
         if (debug) qDebug() << PDEBUG << ":" << "Could not find library";
         return QString();
     }
-    if (netctlProfile == 0) {
+    if (netctlProfile == nullptr) {
         if (debug) qDebug() << PDEBUG << ":" << "Could not find library";
         return QString();
     }
@@ -112,7 +111,6 @@ QMap<QString, QString> WpaSup::getRecommendedConfiguration()
 {
     QMap<QString, QString> settings;
     int size = 99;
-    QString cmd;
     TaskResult process;
     QStringList recommended;
     // ctrl directory
@@ -142,8 +140,7 @@ QMap<QString, QString> WpaSup::getRecommendedConfiguration()
     recommended.append(QString("netctlgui-helper"));
     recommended.append(QString("netctlgui-helper-suid"));
     for (int i=0; i<recommended.count(); i++) {
-        cmd = QString("which ") + recommended[i];
-        process = runTask(cmd, false);
+        process = runTask(QString("which %1").arg(recommended[i]), false);
         if (process.exitCode == 0) {
             settings[QString("FORCE_SUDO")] = QString("false");
             break;
@@ -160,8 +157,7 @@ QMap<QString, QString> WpaSup::getRecommendedConfiguration()
     recommended.append("kdesu");
     recommended.append("gksu");
     for (int i=0; i<recommended.count(); i++) {
-        cmd = QString("which ") + recommended[i];
-        process = runTask(cmd, false);
+        process = runTask(QString("which %1").arg(recommended[i]), false);
         if (process.exitCode == 0) {
             settings[QString("SUDO_PATH")] = process.output.trimmed();
             break;
@@ -173,8 +169,7 @@ QMap<QString, QString> WpaSup::getRecommendedConfiguration()
     recommended.clear();
     recommended.append("wpa_cli");
     for (int i=0; i<recommended.count(); i++) {
-        cmd = QString("which ") + recommended[i];
-        process = runTask(cmd, false);
+        process = runTask(QString("which %1").arg(recommended[i]), false);
         if (process.exitCode == 0) {
             settings[QString("WPACLI_PATH")] = process.output.trimmed();
             break;
@@ -189,8 +184,7 @@ QMap<QString, QString> WpaSup::getRecommendedConfiguration()
     recommended.clear();
     recommended.append("wpa_supplicant");
     for (int i=0; i<recommended.count(); i++) {
-        cmd = QString("which ") + recommended[i];
-        process = runTask(cmd, false);
+        process = runTask(QString("which %1").arg(recommended[i]), false);
         if (process.exitCode == 0) {
             settings[QString("WPASUP_PATH")] = process.output.trimmed();
             break;
@@ -208,11 +202,11 @@ bool WpaSup::isProfileActive(const QString essid)
 {
     if (debug) qDebug() << PDEBUG;
     if (debug) qDebug() << PDEBUG << ":" << "ESSID" << essid;
-    if (netctlCommand == 0) {
+    if (netctlCommand == nullptr) {
         if (debug) qDebug() << PDEBUG << ":" << "Could not find library";
         return false;
     }
-    if (netctlProfile == 0) {
+    if (netctlProfile == nullptr) {
         if (debug) qDebug() << PDEBUG << ":" << "Could not find library";
         return false;
     }
@@ -236,11 +230,11 @@ bool WpaSup::isProfileExists(const QString essid)
 {
     if (debug) qDebug() << PDEBUG;
     if (debug) qDebug() << PDEBUG << ":" << "ESSID" << essid;
-    if (netctlCommand == 0) {
+    if (netctlCommand == nullptr) {
         if (debug) qDebug() << PDEBUG << ":" << "Could not find library";
         return false;
     }
-    if (netctlProfile == 0) {
+    if (netctlProfile == nullptr) {
         if (debug) qDebug() << PDEBUG << ":" << "Could not find library";
         return false;
     }
@@ -269,8 +263,7 @@ QList<netctlWifiInfo> WpaSup::scanWifi()
         stopWpaSupplicant();
         return scanResults;
     }
-    if (!wpaCliCall(QString("scan")))
-        return scanResults;
+    if (!wpaCliCall(QString("scan"))) return scanResults;
     waitForProcess(3);
 
     QStringList rawOutput = getWpaCliOutput(QString("scan_results")).split(QChar('\n'), QString::SkipEmptyParts);
@@ -278,22 +271,22 @@ QList<netctlWifiInfo> WpaSup::scanWifi()
     rawOutput.removeFirst();
     // remove duplicates
     QStringList rawList;
+    QStringList names;
     for (int i=0; i<rawOutput.count(); i++) {
-        bool exist = false;
-        if (rawOutput[i].split(QChar('\t'), QString::SkipEmptyParts).count() > 4)
-            for (int j=0; j<rawList.count(); j++)
-                if (rawList[j].split(QChar('\t'), QString::SkipEmptyParts).count() > 4)
-                    if (rawOutput[i].split(QChar('\t'), QString::SkipEmptyParts)[4] ==
-                            rawList[j].split(QChar('\t'), QString::SkipEmptyParts)[4])
-                        exist = true;
-        if (!exist)
+        if (rawOutput[i].split(QChar('\t'), QString::SkipEmptyParts).count() == 4) {
             rawList.append(rawOutput[i]);
+            continue;
+        } else if (rawOutput[i].split(QChar('\t'), QString::SkipEmptyParts).count() == 5) {
+            if (names.contains(rawOutput[i].split(QChar('\t'), QString::SkipEmptyParts)[4])) continue;
+            names.append(rawOutput[i].split(QChar('\t'), QString::SkipEmptyParts)[4]);
+            rawList.append(rawOutput[i]);
+        }
     }
 
     for (int i=0; i<rawList.count(); i++) {
         netctlWifiInfo wifiPoint;
         // point name
-        if (rawList[i].split(QChar('\t'), QString::SkipEmptyParts).count() > 4)
+        if (rawList[i].split(QChar('\t'), QString::SkipEmptyParts).count() == 5)
             wifiPoint.name = rawList[i].split(QChar('\t'), QString::SkipEmptyParts)[4];
         else
             wifiPoint.name = QString("<hidden>");
@@ -327,27 +320,27 @@ QList<netctlWifiInfo> WpaSup::scanWifi()
 bool WpaSup::startWpaSupplicant()
 {
     if (debug) qDebug() << PDEBUG;
-    if (ctrlDir == 0) {
+    if (ctrlDir.isEmpty()) {
         if (debug) qDebug() << PDEBUG << ":" << "Could not find directory";
         return false;
     }
-    if (ctrlGroup == 0) {
+    if (ctrlGroup.isEmpty()) {
         if (debug) qDebug() << PDEBUG << ":" << "Could not find group";
         return false;
     }
-    if (pidFile == 0) {
+    if (pidFile.isEmpty()) {
         if (debug) qDebug() << PDEBUG << ":" << "Could not find PID file";
         return false;
     }
-    if (wpaDrivers == 0) {
+    if (wpaDrivers.isEmpty()) {
         if (debug) qDebug() << PDEBUG << ":" << "Could not find drivers";
         return false;
     }
-    if (wpaSupPath == 0) {
+    if (wpaSupPath.isEmpty()) {
         if (debug) qDebug() << PDEBUG << ":" << "Could not find wpa_supplicant";
         return false;
     }
-    if (netctlCommand == 0) {
+    if (netctlCommand == nullptr) {
         if (debug) qDebug() << PDEBUG << ":" << "Could not find library";
         return false;
     }
@@ -357,12 +350,10 @@ bool WpaSup::startWpaSupplicant()
         return false;
     }
 
-    if (QFile(pidFile).exists())
-        return true;
-    QString interface = interfaces[0];
-    QString cmd = sudoCommand + QString(" ") + wpaSupPath + QString(" -B -P ") + pidFile +
-            QString(" -i ") + interface + QString(" -D ") + wpaDrivers +
-            QString(" -C \"DIR=") + ctrlDir + QString(" GROUP=") + ctrlGroup + QString("\"");
+    if (QFile(pidFile).exists()) return true;
+    QString cmd = QString("%1 %2 -B -P \"%3\" -i %4 -D %5 -C \"DIR=%6 GROUP=%7\"")
+                    .arg(sudoCommand).arg(wpaSupPath).arg(pidFile).arg(interfaces[0])
+                    .arg(wpaDrivers).arg(ctrlDir).arg(ctrlGroup);
     if (debug) qDebug() << PDEBUG << ":" << "Run cmd" << cmd;
     TaskResult process = runTask(cmd, useSuid);
     waitForProcess(1);
@@ -370,10 +361,7 @@ bool WpaSup::startWpaSupplicant()
     if (process.exitCode != 0)
         if (debug) qDebug() << PDEBUG << ":" << "Error" << process.error;
 
-    if (process.exitCode == 0)
-        return true;
-    else
-        return false;
+    return (process.exitCode == 0);
 }
 
 
@@ -396,19 +384,19 @@ QString WpaSup::getWpaCliOutput(const QString commandLine)
 {
     if (debug) qDebug() << PDEBUG;
     if (debug) qDebug() << PDEBUG << ":" << "Command" << commandLine;
-    if (ctrlDir == 0) {
+    if (ctrlDir.isEmpty()) {
         if (debug) qDebug() << PDEBUG << ":" << "Could not find directory";
         return QString();
     }
-    if (pidFile == 0) {
+    if (pidFile.isEmpty()) {
         if (debug) qDebug() << PDEBUG << ":" << "Could not find PID file";
         return QString();
     }
-    if (wpaCliPath == 0) {
+    if (wpaCliPath.isEmpty()) {
         if (debug) qDebug() << PDEBUG << ":" << "Could not find wpa_cli";
         return QString();
     }
-    if (netctlCommand == 0) {
+    if (netctlCommand == nullptr) {
         if (debug) qDebug() << PDEBUG << ":" << "Could not find library";
         return QString();
     }
@@ -453,19 +441,19 @@ bool WpaSup::wpaCliCall(const QString commandLine)
 {
     if (debug) qDebug() << PDEBUG;
     if (debug) qDebug() << PDEBUG << ":" << "Command" << commandLine;
-    if (ctrlDir == 0) {
+    if (ctrlDir.isEmpty()) {
         if (debug) qDebug() << PDEBUG << ":" << "Could not find directory";
         return false;
     }
-    if (pidFile == 0) {
+    if (pidFile.isEmpty()) {
         if (debug) qDebug() << PDEBUG << ":" << "Could not find PID file";
         return false;
     }
-    if (wpaCliPath == 0) {
+    if (wpaCliPath.isEmpty()) {
         if (debug) qDebug() << PDEBUG << ":" << "Could not find wpa_cli";
         return false;
     }
-    if (netctlCommand == 0) {
+    if (netctlCommand == nullptr) {
         if (debug) qDebug() << PDEBUG << ":" << "Could not find library";
         return false;
     }
@@ -485,8 +473,5 @@ bool WpaSup::wpaCliCall(const QString commandLine)
     if (process.exitCode != 0)
         if (debug) qDebug() << PDEBUG << ":" << "Error" << process.error;
 
-    if (process.exitCode == 0)
-        return true;
-    else
-        return false;
+    return (process.exitCode == 0);
 }
