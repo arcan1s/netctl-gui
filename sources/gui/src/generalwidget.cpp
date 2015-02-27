@@ -67,15 +67,6 @@ void GeneralWidget::clear()
 }
 
 
-void GeneralWidget::setShown(const bool state)
-{
-    if (state)
-        show();
-    else
-        hide();
-}
-
-
 void GeneralWidget::createActions()
 {
     connect(ui->pushButton_generalAdvanced, SIGNAL(clicked(bool)), this, SLOT(showAdvanced()));
@@ -102,10 +93,10 @@ void GeneralWidget::keyPressEvent(QKeyEvent *pressedKey)
 {
     if (pressedKey->key() == Qt::Key_Delete) {
         if (ui->listWidget_bindto->hasFocus() &&
-                (ui->listWidget_bindto->currentItem() != 0))
+            (ui->listWidget_bindto->currentItem() != nullptr))
             delete ui->listWidget_bindto->currentItem();
         else if (ui->listWidget_after->hasFocus() &&
-                 (ui->listWidget_after->currentItem() != 0))
+                 (ui->listWidget_after->currentItem() != nullptr))
             delete ui->listWidget_after->currentItem();
     }
 }
@@ -125,36 +116,35 @@ void GeneralWidget::showAdvanced()
 
 QMap<QString, QString> GeneralWidget::getSettings()
 {
-    QMap<QString, QString> generalSettings;
+    QMap<QString, QString> settings;
 
-    if (isOk() != 0)
-        return generalSettings;
+    if (isOk() != 0) return settings;
 
-    generalSettings[QString("Description")] = QString("'") + ui->lineEdit_description->text() + QString("'");
-    generalSettings[QString("Connection")] = ui->comboBox_connection->currentText();
-    generalSettings[QString("Interface")] = ui->comboBox_interface->currentText();
+    settings[QString("Description")] = QString("'%1'").arg(ui->lineEdit_description->text());
+    settings[QString("Connection")] = ui->comboBox_connection->currentText();
+    settings[QString("Interface")] = ui->comboBox_interface->currentText();
     if (ui->listWidget_bindto->count() != 0) {
         QStringList interfaces;
         for (int i=0; i<ui->listWidget_bindto->count(); i++)
             interfaces.append(ui->listWidget_bindto->item(i)->text());
-        generalSettings[QString("BindsToInterfaces")] = interfaces.join(QChar(' '));
+        settings[QString("BindsToInterfaces")] = interfaces.join(QChar(' '));
     }
     if (ui->listWidget_after->count() != 0) {
         QStringList profiles;
         for (int i=0; i<ui->listWidget_after->count(); i++)
             profiles.append(ui->listWidget_after->item(i)->text());
-        generalSettings[QString("After")] = profiles.join(QChar(' '));
+        settings[QString("After")] = profiles.join(QChar(' '));
     }
     if (!ui->lineEdit_execUpPost->text().isEmpty())
-        generalSettings[QString("ExecUpPost")] = QString("'") + ui->lineEdit_execUpPost->text() + QString("'");
+        settings[QString("ExecUpPost")] = QString("'%1'").arg(ui->lineEdit_execUpPost->text());
     if (!ui->lineEdit_execDownPre->text().isEmpty())
-        generalSettings[QString("ExecDownPre")] = QString("'") + ui->lineEdit_execDownPre->text() + QString("'");
+        settings[QString("ExecDownPre")] = QString("'%1'").arg(ui->lineEdit_execDownPre->text());
     if (ui->checkBox_forceConnect->checkState() == Qt::Checked)
-        generalSettings[QString("ForceConnect")] = QString("yes");
+        settings[QString("ForceConnect")] = QString("yes");
     if (ui->checkBox_debug->checkState() == Qt::Checked)
-        generalSettings[QString("NETCTL_DEBUG")] = QString("yes");
+        settings[QString("NETCTL_DEBUG")] = QString("yes");
 
-    return generalSettings;
+    return settings;
 }
 
 
@@ -162,10 +152,10 @@ int GeneralWidget::isOk()
 {
     // bind interfaces is not set
     if ((ui->comboBox_connection->currentText() == QString("bond")) ||
-            (ui->comboBox_connection->currentText() == QString("bridge")) ||
-            (ui->comboBox_connection->currentText() == QString("vlan")) ||
-            (ui->comboBox_connection->currentText() == QString("macvlan")) ||
-            (ui->comboBox_connection->currentText() == QString("openvswitch")))
+        (ui->comboBox_connection->currentText() == QString("bridge")) ||
+        (ui->comboBox_connection->currentText() == QString("vlan")) ||
+        (ui->comboBox_connection->currentText() == QString("macvlan")) ||
+        (ui->comboBox_connection->currentText() == QString("openvswitch")))
         if (ui->listWidget_bindto->count() == 0)
             return 1;
     // empty description
@@ -179,30 +169,29 @@ int GeneralWidget::isOk()
 void GeneralWidget::setSettings(const QMap<QString, QString> settings)
 {
     clear();
-    QMap<QString, QString> generalSettings = settings;
 
-    if (generalSettings.contains(QString("Description")))
-        ui->lineEdit_description->setText(generalSettings[QString("Description")]);
-    if (generalSettings.contains(QString("Connection")))
-        for (int i=0; i<ui->comboBox_connection->count(); i++)
-            if (generalSettings[QString("Connection")] == ui->comboBox_connection->itemText(i))
-                ui->comboBox_connection->setCurrentIndex(i);
-    if (generalSettings.contains(QString("Interface"))) {
-        ui->comboBox_interface->addItem(generalSettings[QString("Interface")]);
-        ui->comboBox_interface->setCurrentIndex(ui->comboBox_interface->count()-1);
+    if (settings.contains(QString("Description")))
+        ui->lineEdit_description->setText(settings[QString("Description")]);
+    if (settings.contains(QString("Connection"))) {
+        int index = ui->comboBox_connection->findText(settings[QString("Connection")]);
+        ui->comboBox_connection->setCurrentIndex(index);
     }
-    if (generalSettings.contains(QString("BindsToInterfaces")))
-        ui->listWidget_bindto->addItems(generalSettings[QString("BindsToInterfaces")].split(QChar('\n')));
-    if (generalSettings.contains(QString("After")))
-        ui->listWidget_after->addItems(generalSettings[QString("After")].split(QChar('\n')));
-    if (generalSettings.contains(QString("ExecUpPost")))
-        ui->lineEdit_execUpPost->setText(generalSettings[QString("ExecUpPost")]);
-    if (generalSettings.contains(QString("ExecDownPre")))
-        ui->lineEdit_execDownPre->setText(generalSettings[QString("ExecDownPre")]);
-    if (generalSettings.contains(QString("ForceConnect")))
-        if (generalSettings[QString("ForceConnect")] == QString("yes"))
+    if (settings.contains(QString("Interface"))) {
+        ui->comboBox_interface->addItem(settings[QString("Interface")]);
+        ui->comboBox_interface->setCurrentIndex(ui->comboBox_interface->count() - 1);
+    }
+    if (settings.contains(QString("BindsToInterfaces")))
+        ui->listWidget_bindto->addItems(settings[QString("BindsToInterfaces")].split(QChar('\n')));
+    if (settings.contains(QString("After")))
+        ui->listWidget_after->addItems(settings[QString("After")].split(QChar('\n')));
+    if (settings.contains(QString("ExecUpPost")))
+        ui->lineEdit_execUpPost->setText(settings[QString("ExecUpPost")]);
+    if (settings.contains(QString("ExecDownPre")))
+        ui->lineEdit_execDownPre->setText(settings[QString("ExecDownPre")]);
+    if (settings.contains(QString("ForceConnect")))
+        if (settings[QString("ForceConnect")] == QString("yes"))
             ui->checkBox_forceConnect->setCheckState(Qt::Checked);
-    if (generalSettings.contains(QString("NETCTL_DEBUG")))
-        if (generalSettings[QString("NETCTL_DEBUG")] == QString("yes"))
+    if (settings.contains(QString("NETCTL_DEBUG")))
+        if (settings[QString("NETCTL_DEBUG")] == QString("yes"))
             ui->checkBox_debug->setCheckState(Qt::Checked);
 }

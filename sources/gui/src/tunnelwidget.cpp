@@ -45,15 +45,6 @@ void TunnelWidget::clear()
 }
 
 
-void TunnelWidget::setShown(const bool state)
-{
-    if (state)
-        show();
-    else
-        hide();
-}
-
-
 void TunnelWidget::createFilter()
 {
     ui->lineEdit_local->setValidator(IpRegExp::ipv4Validator());
@@ -63,26 +54,23 @@ void TunnelWidget::createFilter()
 
 QMap<QString, QString> TunnelWidget::getSettings()
 {
-    QMap<QString, QString> tunnelSettings;
+    QMap<QString, QString> settings;
 
-    if (isOk() != 0)
-        return tunnelSettings;
+    if (isOk() != 0) return settings;
 
-    tunnelSettings[QString("Mode")] = QString("'") + ui->comboBox_mode->currentText() + QString("'");
-    if (!ui->lineEdit_local->text().remove(QChar('.')).remove(QChar(' ')).isEmpty())
-        tunnelSettings[QString("Local")] = QString("'") + ui->lineEdit_local->text() + QString("'");
-    if (!ui->lineEdit_remote->text().remove(QChar('.')).remove(QChar(' ')).isEmpty())
-        tunnelSettings[QString("Remote")] = QString("'") + ui->lineEdit_remote->text() + QString("'");
+    settings[QString("Mode")] = QString("'%1'").arg(ui->comboBox_mode->currentText());
+    if (!IpRegExp::checkString(ui->lineEdit_local->text(), IpRegExp::ip4Regex()))
+        settings[QString("Local")] = QString("'%1'").arg(ui->lineEdit_local->text());
+    settings[QString("Remote")] = QString("'%1'").arg(ui->lineEdit_remote->text());
 
-    return tunnelSettings;
+    return settings;
 }
 
 
 int TunnelWidget::isOk()
 {
     // ip is not correct
-    if ((!IpRegExp::checkString(ui->lineEdit_local->text(), IpRegExp::ip4Regex())) ||
-        (!IpRegExp::checkString(ui->lineEdit_remote->text(), IpRegExp::ip4Regex())))
+    if (!IpRegExp::checkString(ui->lineEdit_remote->text(), IpRegExp::ip4Regex()))
         return 1;
     // all fine
     return 0;
@@ -92,14 +80,13 @@ int TunnelWidget::isOk()
 void TunnelWidget::setSettings(const QMap<QString, QString> settings)
 {
     clear();
-    QMap<QString, QString> tunnelSettings = settings;
 
-    if (tunnelSettings.contains(QString("Mode")))
-        for (int i=0; i<ui->comboBox_mode->count(); i++)
-            if (tunnelSettings[QString("Mode")] == ui->comboBox_mode->itemText(i))
-                ui->comboBox_mode->setCurrentIndex(i);
-    if (tunnelSettings.contains(QString("Local")))
-        ui->lineEdit_local->setText(tunnelSettings[QString("Local")]);
-    if (tunnelSettings.contains(QString("Remote")))
-        ui->lineEdit_remote->setText(tunnelSettings[QString("Remote")]);
+    if (settings.contains(QString("Mode"))) {
+        int index = ui->comboBox_mode->findText(settings[QString("Mode")]);
+        ui->comboBox_mode->setCurrentIndex(index);
+    }
+    if (settings.contains(QString("Local")))
+        ui->lineEdit_local->setText(settings[QString("Local")]);
+    if (settings.contains(QString("Remote")))
+        ui->lineEdit_remote->setText(settings[QString("Remote")]);
 }

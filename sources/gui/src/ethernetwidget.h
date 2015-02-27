@@ -39,7 +39,6 @@ public:
 
 public slots:
     void clear();
-    void setShown(const bool state);
 
 private slots:
     void selectWpaConfig();

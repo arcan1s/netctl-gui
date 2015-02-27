@@ -42,27 +42,17 @@ void TuntapWidget::clear()
 }
 
 
-void TuntapWidget::setShown(const bool state)
-{
-    if (state)
-        show();
-    else
-        hide();
-}
-
-
 QMap<QString, QString> TuntapWidget::getSettings()
 {
-    QMap<QString, QString> tuntapSettings;
+    QMap<QString, QString> settings;
 
-    if (isOk() != 0)
-        return tuntapSettings;
+    if (isOk() != 0) return settings;
 
-    tuntapSettings[QString("Mode")] = QString("'") + ui->comboBox_mode->currentText() + QString("'");
-    tuntapSettings[QString("User")] = QString("'") + ui->lineEdit_user->text() + QString("'");
-    tuntapSettings[QString("Group")] = QString("'") + ui->lineEdit_group->text() + QString("'");
+    settings[QString("Mode")] = QString("'%1'").arg(ui->comboBox_mode->currentText());
+    settings[QString("User")] = QString("'%1'").arg(ui->lineEdit_user->text());
+    settings[QString("Group")] = QString("'%1'").arg(ui->lineEdit_group->text());
 
-    return tuntapSettings;
+    return settings;
 }
 
 
@@ -82,14 +72,13 @@ int TuntapWidget::isOk()
 void TuntapWidget::setSettings(const QMap<QString, QString> settings)
 {
     clear();
-    QMap<QString, QString> tuntapSettings = settings;
 
-    if (tuntapSettings.contains(QString("Mode")))
-        for (int i=0; i<ui->comboBox_mode->count(); i++)
-            if (tuntapSettings[QString("Mode")] == ui->comboBox_mode->itemText(i))
-                ui->comboBox_mode->setCurrentIndex(i);
-    if (tuntapSettings.contains(QString("User")))
-        ui->lineEdit_user->setText(tuntapSettings[QString("User")]);
-    if (tuntapSettings.contains(QString("Group")))
-        ui->lineEdit_group->setText(tuntapSettings[QString("Group")]);
+    if (settings.contains(QString("Mode"))) {
+        int index = ui->comboBox_mode->findText(settings[QString("Mode")]);
+        ui->comboBox_mode->setCurrentIndex(index);
+    }
+    if (settings.contains(QString("User")))
+        ui->lineEdit_user->setText(settings[QString("User")]);
+    if (settings.contains(QString("Group")))
+        ui->lineEdit_group->setText(settings[QString("Group")]);
 }

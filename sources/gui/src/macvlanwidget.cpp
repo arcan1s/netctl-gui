@@ -42,34 +42,24 @@ void MacvlanWidget::clear()
 }
 
 
-void MacvlanWidget::setShown(const bool state)
-{
-    if (state)
-        show();
-    else
-        hide();
-}
-
-
 void MacvlanWidget::createFilter()
 {
     // mac
-    ui->lineEdit_mac->setInputMask(QString(">HH:HH:HH:HH:HH:HH"));
+    ui->lineEdit_mac->setInputMask(QString(">hh:hh:hh:hh:hh:hh"));
 }
 
 
 QMap<QString, QString> MacvlanWidget::getSettings()
 {
-    QMap<QString, QString> macvlanSettings;
+    QMap<QString, QString> settings;
 
-    if (isOk() != 0)
-        return macvlanSettings;
+    if (isOk() != 0) return settings;
 
-    macvlanSettings[QString("Mode")] = ui->comboBox_mode->currentText();
-    if (!ui->lineEdit_mac->text().remove(QChar(':')).remove(QChar(' ')).isEmpty())
-        macvlanSettings[QString("MACAddress")] = ui->lineEdit_mac->text();
+    settings[QString("Mode")] = ui->comboBox_mode->currentText();
+    if (!ui->lineEdit_mac->text().remove(QChar(':')).isEmpty())
+        settings[QString("MACAddress")] = ui->lineEdit_mac->text();
 
-    return macvlanSettings;
+    return settings;
 }
 
 
@@ -83,12 +73,11 @@ int MacvlanWidget::isOk()
 void MacvlanWidget::setSettings(const QMap<QString, QString> settings)
 {
     clear();
-    QMap<QString, QString> macvlanSettings = settings;
 
-    if (macvlanSettings.contains(QString("Mode")))
-        for (int i=0; i<ui->comboBox_mode->count(); i++)
-            if (macvlanSettings[QString("Mode")] == ui->comboBox_mode->itemText(i))
-                ui->comboBox_mode->setCurrentIndex(i);
-    if (macvlanSettings.contains(QString("MACAddress")))
-        ui->lineEdit_mac->setText(macvlanSettings[QString("MACAddress")]);
+    if (settings.contains(QString("Mode"))) {
+        int index = ui->comboBox_mode->findText(settings[QString("Mode")]);
+        ui->comboBox_mode->setCurrentIndex(index);
+    }
+    if (settings.contains(QString("MACAddress")))
+        ui->lineEdit_mac->setText(settings[QString("MACAddress")]);
 }

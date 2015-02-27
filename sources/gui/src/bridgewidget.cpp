@@ -40,26 +40,16 @@ void BridgeWidget::clear()
 }
 
 
-void BridgeWidget::setShown(const bool state)
-{
-    if (state)
-        show();
-    else
-        hide();
-}
-
-
 QMap<QString, QString> BridgeWidget::getSettings()
 {
-    QMap<QString, QString> bridgeSettings;
+    QMap<QString, QString> settings;
 
-    if (isOk() != 0)
-        return bridgeSettings;
+    if (isOk() != 0) return settings;
 
     if (ui->checkBox_skip->checkState() == Qt::Checked)
-        bridgeSettings[QString("SkipForwardingDelay")] = QString("yes");
+        settings[QString("SkipForwardingDelay")] = QString("yes");
 
-    return bridgeSettings;
+    return settings;
 }
 
 
@@ -73,9 +63,8 @@ int BridgeWidget::isOk()
 void BridgeWidget::setSettings(const QMap<QString, QString> settings)
 {
     clear();
-    QMap<QString, QString> bridgeSettings = settings;
 
-    if (bridgeSettings.contains(QString("SkipForwardingDelay")))
-        if (bridgeSettings[QString("SkipForwardingDelay")] == QString("yes"))
+    if (settings.contains(QString("SkipForwardingDelay")))
+        if (settings[QString("SkipForwardingDelay")] == QString("yes"))
             ui->checkBox_skip->setCheckState(Qt::Checked);
 }

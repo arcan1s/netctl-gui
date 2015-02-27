@@ -56,15 +56,6 @@ void MobileWidget::clear()
 }
 
 
-void MobileWidget::setShown(const bool state)
-{
-    if (state)
-        show();
-    else
-        hide();
-}
-
-
 void MobileWidget::createActions()
 {
     connect(ui->pushButton_mobileAdvanced, SIGNAL(clicked(bool)), this, SLOT(showAdvanced()));
@@ -74,8 +65,7 @@ void MobileWidget::createActions()
 
 void MobileWidget::selectOptionsFile()
 {
-    QString filename = QFileDialog::getOpenFileName(
-                this,
+    QString filename = QFileDialog::getOpenFileName(this,
                 QApplication::translate("MobileWidget", "Select options file"),
                 QDir::currentPath(),
                 QApplication::translate("MobileWidget", "Configuration files (*.conf)"));
@@ -98,31 +88,30 @@ void MobileWidget::showAdvanced()
 
 QMap<QString, QString> MobileWidget::getSettings()
 {
-    QMap<QString, QString> mobileSettings;
+    QMap<QString, QString> settings;
 
-    if (isOk() != 0)
-        return mobileSettings;
+    if (isOk() != 0) return settings;
 
     if (!ui->lineEdit_username->text().isEmpty())
-        mobileSettings[QString("User")] = QString("'") + ui->lineEdit_username->text() + QString("'");
+        settings[QString("User")] = QString("'%1'").arg(ui->lineEdit_username->text());
     if (!ui->lineEdit_password->text().isEmpty())
-        mobileSettings[QString("Password")] = QString("'") + ui->lineEdit_password->text() + QString("'");
-    mobileSettings[QString("AccessPointName")] = ui->lineEdit_apn->text();
+        settings[QString("Password")] = QString("'%1'").arg(ui->lineEdit_password->text());
+    settings[QString("AccessPointName")] = ui->lineEdit_apn->text();
     if (!ui->lineEdit_pin->text().isEmpty())
-        mobileSettings[QString("PIN")] = QString("'") + ui->lineEdit_pin->text() + QString("'");
+        settings[QString("PIN")] = QString("'%1'").arg(ui->lineEdit_pin->text());
     else
-        mobileSettings[QString("PIN")] = QString("None");
-    mobileSettings[QString("Mode")] = ui->comboBox_mode->currentText();
+        settings[QString("PIN")] = QString("None");
+    settings[QString("Mode")] = ui->comboBox_mode->currentText();
     if (ui->spinBox_fail->value() != 5)
-        mobileSettings[QString("MaxFail")] = QString::number(ui->spinBox_fail->value());
+        settings[QString("MaxFail")] = QString::number(ui->spinBox_fail->value());
     if (ui->checkBox_route->checkState() == Qt::Unchecked)
-        mobileSettings[QString("DefaultRoute")] = QString("false");
+        settings[QString("DefaultRoute")] = QString("false");
     if (ui->checkBox_dns->checkState() == Qt::Unchecked)
-        mobileSettings[QString("UsePeerDNS")] = QString("false");
+        settings[QString("UsePeerDNS")] = QString("false");
     if (!ui->lineEdit_options->text().isEmpty())
-        mobileSettings[QString("OptionsFile")] = QString("'") + ui->lineEdit_options->text() + QString("'");
+        settings[QString("OptionsFile")] = QString("'%1'").arg(ui->lineEdit_options->text());
 
-    return mobileSettings;
+    return settings;
 }
 
 
@@ -143,28 +132,27 @@ int MobileWidget::isOk()
 void MobileWidget::setSettings(const QMap<QString, QString> settings)
 {
     clear();
-    QMap<QString, QString> mobileSettings = settings;
 
-    if (mobileSettings.contains(QString("User")))
-        ui->lineEdit_username->setText(mobileSettings[QString("User")]);
-    if (mobileSettings.contains(QString("Password")))
-        ui->lineEdit_password->setText(mobileSettings[QString("Password")]);
-    if (mobileSettings.contains(QString("AccessPointName")))
-        ui->lineEdit_apn->setText(mobileSettings[QString("AccessPointName")]);
-    if (mobileSettings.contains(QString("PIN")))
-        ui->lineEdit_pin->setText(mobileSettings[QString("PIN")]);
-    if (mobileSettings.contains(QString("Mode")))
-        for (int i=0; i<ui->comboBox_mode->count(); i++)
-            if (mobileSettings[QString("Mode")] == ui->comboBox_mode->itemText(i))
-                ui->comboBox_mode->setCurrentIndex(i);
-    if (mobileSettings.contains(QString("MaxFail")))
-        ui->spinBox_fail->setValue(mobileSettings[QString("MaxFail")].toInt());
-    if (mobileSettings.contains(QString("DefaultRoute")))
-        if (mobileSettings[QString("DefaultRoute")] == QString("false"))
+    if (settings.contains(QString("User")))
+        ui->lineEdit_username->setText(settings[QString("User")]);
+    if (settings.contains(QString("Password")))
+        ui->lineEdit_password->setText(settings[QString("Password")]);
+    if (settings.contains(QString("AccessPointName")))
+        ui->lineEdit_apn->setText(settings[QString("AccessPointName")]);
+    if (settings.contains(QString("PIN")))
+        ui->lineEdit_pin->setText(settings[QString("PIN")]);
+    if (settings.contains(QString("Mode"))) {
+        int index = ui->comboBox_mode->findText(settings[QString("Mode")]);
+        ui->comboBox_mode->setCurrentIndex(index);
+    }
+    if (settings.contains(QString("MaxFail")))
+        ui->spinBox_fail->setValue(settings[QString("MaxFail")].toInt());
+    if (settings.contains(QString("DefaultRoute")))
+        if (settings[QString("DefaultRoute")] == QString("false"))
             ui->checkBox_route->setCheckState(Qt::Unchecked);
-    if (mobileSettings.contains(QString("UsePeerDNS")))
-        if (mobileSettings[QString("UsePeerDNS")] == QString("false"))
+    if (settings.contains(QString("UsePeerDNS")))
+        if (settings[QString("UsePeerDNS")] == QString("false"))
             ui->checkBox_dns->setCheckState(Qt::Unchecked);
-    if (mobileSettings.contains(QString("OptionsFile")))
-        ui->lineEdit_options->setText(mobileSettings[QString("OptionsFile")]);
+    if (settings.contains(QString("OptionsFile")))
+        ui->lineEdit_options->setText(settings[QString("OptionsFile")]);
 }

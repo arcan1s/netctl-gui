@@ -38,7 +38,6 @@ public:
 
 public slots:
     void clear();
-    void setShown(const bool state);
 
 private:
     Ui::MacvlanWidget *ui;

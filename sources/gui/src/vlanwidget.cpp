@@ -40,25 +40,15 @@ void VlanWidget::clear()
 }
 
 
-void VlanWidget::setShown(const bool state)
-{
-    if (state)
-        show();
-    else
-        hide();
-}
-
-
 QMap<QString, QString> VlanWidget::getSettings()
 {
-    QMap<QString, QString> vlanSettings;
+    QMap<QString, QString> settings;
 
-    if (isOk() != 0)
-        return vlanSettings;
+    if (isOk() != 0) return settings;
 
-    vlanSettings[QString("VLANID")] = QString::number(ui->spinBox_vlan->value());
+    settings[QString("VLANID")] = QString::number(ui->spinBox_vlan->value());
 
-    return vlanSettings;
+    return settings;
 }
 
 
@@ -72,8 +62,7 @@ int VlanWidget::isOk()
 void VlanWidget::setSettings(const QMap<QString, QString> settings)
 {
     clear();
-    QMap<QString, QString> vlanSettings = settings;
 
-    if (vlanSettings.contains(QString("VLANID")))
-        ui->spinBox_vlan->setValue(vlanSettings[QString("VLANID")].toInt());
+    if (settings.contains(QString("VLANID")))
+        ui->spinBox_vlan->setValue(settings[QString("VLANID")].toInt());
 }
