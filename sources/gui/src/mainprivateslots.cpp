@@ -579,129 +579,19 @@ void MainWindow::profileTabChangeState(const QString current)
     if (debug) qDebug() << PDEBUG;
     if (debug) qDebug() << PDEBUG << ":" << "Current type" << current;
 
-    if (current == QString("ethernet")) {
-        generalWid->setVisible(true);
-        ipWid->setVisible(true);
-        bridgeWid->setVisible(false);
-        ethernetWid->setVisible(true);
-        macvlanWid->setVisible(false);
-        mobileWid->setVisible(false);
-        pppoeWid->setVisible(false);
-        tunnelWid->setVisible(false);
-        tuntapWid->setVisible(false);
-        vlanWid->setVisible(false);
-        wirelessWid->setVisible(false);
-    } else if (current == QString("wireless")) {
-        generalWid->setVisible(true);
-        ipWid->setVisible(true);
-        bridgeWid->setVisible(false);
-        ethernetWid->setVisible(false);
-        macvlanWid->setVisible(false);
-        mobileWid->setVisible(false);
-        pppoeWid->setVisible(false);
-        tunnelWid->setVisible(false);
-        tuntapWid->setVisible(false);
-        vlanWid->setVisible(false);
-        wirelessWid->setVisible(true);
-    } else if ((current == QString("bond")) ||
-               (current == QString("dummy")) ||
-               (current == QString("openvswitch"))) {
-        generalWid->setVisible(true);
-        ipWid->setVisible(true);
-        bridgeWid->setVisible(false);
-        ethernetWid->setVisible(false);
-        macvlanWid->setVisible(false);
-        mobileWid->setVisible(false);
-        pppoeWid->setVisible(false);
-        tunnelWid->setVisible(false);
-        tuntapWid->setVisible(false);
-        vlanWid->setVisible(false);
-        wirelessWid->setVisible(false);
-    } else if (current == QString("bridge")) {
-        generalWid->setVisible(true);
-        ipWid->setVisible(true);
-        bridgeWid->setVisible(true);
-        ethernetWid->setVisible(false);
-        macvlanWid->setVisible(false);
-        mobileWid->setVisible(false);
-        pppoeWid->setVisible(false);
-        tunnelWid->setVisible(false);
-        tuntapWid->setVisible(false);
-        vlanWid->setVisible(false);
-        wirelessWid->setVisible(false);
-    } else if (current == QString("pppoe")) {
-        generalWid->setVisible(true);
-        ipWid->setVisible(false);
-        bridgeWid->setVisible(false);
-        ethernetWid->setVisible(false);
-        macvlanWid->setVisible(false);
-        mobileWid->setVisible(false);
-        pppoeWid->setVisible(true);
-        tunnelWid->setVisible(false);
-        tuntapWid->setVisible(false);
-        vlanWid->setVisible(false);
-        wirelessWid->setVisible(false);
-    } else if (current == QString("mobile_ppp")) {
-        generalWid->setVisible(true);
-        ipWid->setVisible(false);
-        bridgeWid->setVisible(false);
-        ethernetWid->setVisible(false);
-        macvlanWid->setVisible(false);
-        mobileWid->setVisible(true);
-        pppoeWid->setVisible(false);
-        tunnelWid->setVisible(false);
-        tuntapWid->setVisible(false);
-        vlanWid->setVisible(false);
-        wirelessWid->setVisible(false);
-    } else if (current == QString("tunnel")) {
-        generalWid->setVisible(true);
-        ipWid->setVisible(true);
-        bridgeWid->setVisible(false);
-        ethernetWid->setVisible(false);
-        macvlanWid->setVisible(false);
-        mobileWid->setVisible(false);
-        pppoeWid->setVisible(false);
-        tunnelWid->setVisible(true);
-        tuntapWid->setVisible(false);
-        vlanWid->setVisible(false);
-        wirelessWid->setVisible(false);
-    } else if (current == QString("tuntap")) {
-        generalWid->setVisible(true);
-        ipWid->setVisible(true);
-        bridgeWid->setVisible(false);
-        ethernetWid->setVisible(false);
-        macvlanWid->setVisible(false);
-        mobileWid->setVisible(false);
-        pppoeWid->setVisible(false);
-        tunnelWid->setVisible(false);
-        tuntapWid->setVisible(true);
-        vlanWid->setVisible(false);
-        wirelessWid->setVisible(false);
-    } else if (current == QString("vlan")) {
-        generalWid->setVisible(true);
-        ipWid->setVisible(true);
-        bridgeWid->setVisible(false);
-        ethernetWid->setVisible(true);
-        macvlanWid->setVisible(false);
-        mobileWid->setVisible(false);
-        pppoeWid->setVisible(false);
-        tunnelWid->setVisible(false);
-        tuntapWid->setVisible(false);
-        vlanWid->setVisible(true);
-        wirelessWid->setVisible(false);
-    } else if (current == QString("macvlan")) {
-        generalWid->setVisible(true);
-        ipWid->setVisible(true);
-        bridgeWid->setVisible(false);
-        ethernetWid->setVisible(true);
-        macvlanWid->setVisible(true);
-        mobileWid->setVisible(false);
-        pppoeWid->setVisible(false);
-        tunnelWid->setVisible(false);
-        tuntapWid->setVisible(false);
-        vlanWid->setVisible(false);
-        wirelessWid->setVisible(false);
-    }
+    generalWid->setVisible(true);
+    ipWid->setVisible((current != QString("pppoe")) && (current != QString("mobile_ppp")));
+    bridgeWid->setVisible(current == QString("bridge"));
+    ethernetWid->setVisible((current == QString("ethernet")) ||
+                            (current == QString("vlan")) ||
+                            (current == QString("macvlan")));
+    macvlanWid->setVisible(current == QString("macvlan"));
+    mobileWid->setVisible(current == QString("mobile_ppp"));
+    pppoeWid->setVisible(current == QString("pppoe"));
+    tunnelWid->setVisible(current == QString("tunnel"));
+    tuntapWid->setVisible(current == QString("tuntap"));
+    vlanWid->setVisible(current == QString("vlan"));
+    wirelessWid->setVisible(current == QString("wireless"));
 }
 
 
