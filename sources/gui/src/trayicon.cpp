@@ -202,7 +202,7 @@ void TrayIcon::createActions()
     connect(switchToProfileMenu, SIGNAL(triggered(QAction *)), this, SLOT(switchToProfileSlot(QAction *)));
     menuActions->addAction(contextMenu[QString("switch")]);
 
-    contextMenu[QString("restart")] = new QAction(QIcon::fromTheme("stock-refresh"), QApplication::translate("TrayIcon", "Restart profile"), this);
+    contextMenu[QString("restart")] = new QAction(QIcon::fromTheme("view-refresh"), QApplication::translate("TrayIcon", "Restart profile"), this);
     connect(contextMenu[QString("restart")], SIGNAL(triggered(bool)), this, SLOT(restartProfileSlot()));
     menuActions->addAction(contextMenu[QString("restart")]);
 

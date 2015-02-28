@@ -177,13 +177,8 @@ void SettingsWindow::setTray()
 {
     if (debug) qDebug() << PDEBUG;
 
-    if (ui->checkBox_enableTray->checkState() == 0) {
-        ui->checkBox_closeToTray->setDisabled(true);
-        ui->checkBox_startToTray->setDisabled(true);
-    } else if (ui->checkBox_enableTray->checkState() == 2) {
-        ui->checkBox_closeToTray->setEnabled(true);
-        ui->checkBox_startToTray->setEnabled(true);
-    }
+    ui->checkBox_closeToTray->setDisabled(ui->checkBox_enableTray->checkState() == 0);
+    ui->checkBox_startToTray->setDisabled(ui->checkBox_enableTray->checkState() == 0);
 }
 
 
@@ -328,8 +323,7 @@ QMap<QString, QString> SettingsWindow::readSettings()
     config[QString("WPA_DRIVERS")] = ui->lineEdit_wpaSupDrivers->text();
 
     for (int i=0; i<config.keys().count(); i++)
-        if (debug) qDebug() << PDEBUG << ":" << config.keys()[i] + QString("=") +
-                               config[config.keys()[i]];
+        if (debug) qDebug() << PDEBUG << ":" << QString("%1=%2").arg(config.keys()[i]).arg(config[config.keys()[i]]);
 
     return config;
 }
@@ -356,12 +350,8 @@ void SettingsWindow::setSettings(const QMap<QString, QString> config)
     ui->lineEdit_helperPath->setText(config[QString("HELPER_PATH")]);
     ui->lineEdit_helperService->setText(config[QString("HELPER_SERVICE")]);
     ui->lineEdit_interfacesDir->setText(config[QString("IFACE_DIR")]);
-    ui->comboBox_language->setCurrentIndex(0);
-    for (int i=0; i<ui->comboBox_language->count(); i++)
-        if (ui->comboBox_language->itemText(i) == config[QString("LANGUAGE")]) {
-            ui->comboBox_language->setCurrentIndex(i);
-            break;
-        }
+    int index = ui->comboBox_language->findText(config[QString("LANGUAGE")]);
+    ui->comboBox_language->setCurrentIndex(index);
     ui->lineEdit_netctlPath->setText(config[QString("NETCTL_PATH")]);
     ui->lineEdit_netctlAutoPath->setText(config[QString("NETCTLAUTO_PATH")]);
     ui->lineEdit_netctlAutoService->setText(config[QString("NETCTLAUTO_SERVICE")]);
@@ -392,8 +382,7 @@ void SettingsWindow::setSettings(const QMap<QString, QString> config)
     ui->lineEdit_wpaSupDrivers->setText(config[QString("WPA_DRIVERS")]);
 
     for (int i=0; i<config.keys().count(); i++)
-        if (debug) qDebug() << PDEBUG << ":" << config.keys()[i] + QString("=") +
-                               config[config.keys()[i]];
+        if (debug) qDebug() << PDEBUG << ":" << QString("%1=%2").arg(config.keys()[i]).arg(config[config.keys()[i]]);
 }
 
 
@@ -458,8 +447,7 @@ QMap<QString, QString> SettingsWindow::getSettings(QString fileName)
     settings.endGroup();
 
     for (int i=0; i<config.keys().count(); i++)
-        if (debug) qDebug() << PDEBUG << ":" << config.keys()[i] + QString("=") +
-                               config[config.keys()[i]];
+        if (debug) qDebug() << PDEBUG << ":" << QString("%1=%2").arg(config.keys()[i]).arg(config[config.keys()[i]]);
 
     return config;
 }

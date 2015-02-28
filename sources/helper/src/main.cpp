@@ -120,7 +120,7 @@ int main(int argc, char *argv[])
     if (args[QString("error")].toBool()) {
         cout << errorMessage().toUtf8().data() << endl;
         cout << helpMessage().toUtf8().data();
-        return 127;
+        return 11;
     } else if (args[QString("help")].toBool()) {
         cout << helpMessage().toUtf8().data();
         return 0;

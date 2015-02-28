@@ -94,9 +94,13 @@ bool MainWindow::enableProfileSlot(const QString profile)
         sendDBusRequest(DBUS_HELPER_SERVICE, DBUS_CTRL_PATH,
                         DBUS_HELPER_INTERFACE, QString("Enable"),
                         args, true, debug);
-        current = sendDBusRequest(DBUS_HELPER_SERVICE, DBUS_LIB_PATH,
-                                  DBUS_HELPER_INTERFACE, QString("isProfileEnabled"),
-                                  args, true, debug)[0].toBool();
+        QList<QVariant> responce = sendDBusRequest(DBUS_HELPER_SERVICE, DBUS_LIB_PATH,
+                                                   DBUS_HELPER_INTERFACE, QString("isProfileEnabled"),
+                                                   args, true, debug);
+        if (responce.isEmpty())
+            current = netctlCommand->isProfileEnabled(profile);
+        else
+            current = responce[0].toBool();
     } else {
         netctlCommand->enableProfile(profile);
         current = netctlCommand->isProfileEnabled(profile);
@@ -118,9 +122,13 @@ bool MainWindow::restartProfileSlot(const QString profile)
         sendDBusRequest(DBUS_HELPER_SERVICE, DBUS_CTRL_PATH,
                         DBUS_HELPER_INTERFACE, QString("Restart"),
                         args, true, debug)[0].toBool();
-        current = sendDBusRequest(DBUS_HELPER_SERVICE, DBUS_LIB_PATH,
-                                  DBUS_HELPER_INTERFACE, QString("isProfileActive"),
-                                  args, true, debug)[0].toBool();
+        QList<QVariant> responce = sendDBusRequest(DBUS_HELPER_SERVICE, DBUS_LIB_PATH,
+                                                   DBUS_HELPER_INTERFACE, QString("isProfileActive"),
+                                                   args, true, debug);
+        if (responce.isEmpty())
+            current = netctlCommand->isProfileActive(profile);
+        else
+            current = responce[0].toBool();
     } else {
         netctlCommand->restartProfile(profile);
         current = netctlCommand->isProfileActive(profile);
@@ -139,10 +147,11 @@ bool MainWindow::startProfileSlot(const QString profile)
     if (useHelper) {
         QList<QVariant> args;
         args.append(profile);
-        QStringList currentProfile = sendDBusRequest(DBUS_HELPER_SERVICE, DBUS_LIB_PATH,
-                                                     DBUS_HELPER_INTERFACE, QString("ActiveProfile"),
-                                                     QList<QVariant>(), true, debug)[0]
-                .toString().split(QChar('|'));
+        QList<QVariant> responce = sendDBusRequest(DBUS_HELPER_SERVICE, DBUS_LIB_PATH,
+                                                   DBUS_HELPER_INTERFACE, QString("ActiveProfile"),
+                                                   QList<QVariant>(), true, debug);
+        QStringList currentProfile;
+        if (!responce.isEmpty()) currentProfile = responce[0].toString().split(QChar('|'));
         if ((currentProfile.isEmpty()) || (currentProfile.contains(profile)))
             sendDBusRequest(DBUS_HELPER_SERVICE, DBUS_CTRL_PATH,
                             DBUS_HELPER_INTERFACE, QString("Start"),
@@ -151,9 +160,13 @@ bool MainWindow::startProfileSlot(const QString profile)
             sendDBusRequest(DBUS_HELPER_SERVICE, DBUS_CTRL_PATH,
                             DBUS_HELPER_INTERFACE, QString("SwitchTo"),
                             args, true, debug);
-        current = sendDBusRequest(DBUS_HELPER_SERVICE, DBUS_LIB_PATH,
-                                  DBUS_HELPER_INTERFACE, QString("isProfileActive"),
-                                  args, true, debug)[0].toBool();
+        responce = sendDBusRequest(DBUS_HELPER_SERVICE, DBUS_LIB_PATH,
+                                   DBUS_HELPER_INTERFACE, QString("isProfileActive"),
+                                   args, true, debug);
+        if (responce.isEmpty())
+            current = netctlCommand->isProfileActive(profile);
+        else
+            current = responce[0].toBool();
     } else {
         QStringList currentProfile = netctlCommand->getActiveProfile();
         if ((currentProfile.isEmpty()) || (currentProfile.contains(profile)))
@@ -188,11 +201,12 @@ bool MainWindow::switchToProfileSlot(const QString profile)
     if (debug) qDebug() << PDEBUG << ":" << "Profile" << profile;
 
     bool netctlAutoStatus = false;
-    if (useHelper)
-        netctlAutoStatus = sendDBusRequest(DBUS_HELPER_SERVICE, DBUS_LIB_PATH,
-                                           DBUS_HELPER_INTERFACE, QString("isNetctlAutoActive"),
-                                           QList<QVariant>(), true, debug)[0].toBool();
-    else
+    if (useHelper) {
+        QList<QVariant> responce = sendDBusRequest(DBUS_HELPER_SERVICE, DBUS_LIB_PATH,
+                                                   DBUS_HELPER_INTERFACE, QString("isNetctlAutoActive"),
+                                                   QList<QVariant>(), true, debug);
+        if (!responce.isEmpty()) netctlAutoStatus = responce[0].toBool();
+    } else
         netctlAutoStatus = netctlCommand->isNetctlAutoRunning();
 
     bool current;
@@ -203,9 +217,13 @@ bool MainWindow::switchToProfileSlot(const QString profile)
             sendDBusRequest(DBUS_HELPER_SERVICE, DBUS_CTRL_PATH,
                             DBUS_HELPER_INTERFACE, QString("autoStart"),
                             args, true, debug);
-            current = sendDBusRequest(DBUS_HELPER_SERVICE, DBUS_LIB_PATH,
-                                      DBUS_HELPER_INTERFACE, QString("autoIsProfileActive"),
-                                      args, true, debug)[0].toBool();
+            QList<QVariant> responce = sendDBusRequest(DBUS_HELPER_SERVICE, DBUS_LIB_PATH,
+                                                       DBUS_HELPER_INTERFACE, QString("autoIsProfileActive"),
+                                                       args, true, debug);
+            if (responce.isEmpty())
+                current = netctlCommand->autoIsProfileActive(profile);
+            else
+                current = responce[0].toBool();
         } else {
             netctlCommand->autoStartProfile(profile);
             current = netctlCommand->autoIsProfileActive(profile);
@@ -217,9 +235,13 @@ bool MainWindow::switchToProfileSlot(const QString profile)
             sendDBusRequest(DBUS_HELPER_SERVICE, DBUS_CTRL_PATH,
                             DBUS_HELPER_INTERFACE, QString("SwitchTo"),
                             args, true, debug);
-            current = sendDBusRequest(DBUS_HELPER_SERVICE, DBUS_LIB_PATH,
-                                      DBUS_HELPER_INTERFACE, QString("isProfileActive"),
-                                      args, true, debug)[0].toBool();
+            QList<QVariant> responce = sendDBusRequest(DBUS_HELPER_SERVICE, DBUS_LIB_PATH,
+                                                       DBUS_HELPER_INTERFACE, QString("isProfileActive"),
+                                                       args, true, debug);
+            if (responce.isEmpty())
+                current = netctlCommand->isProfileActive(profile);
+            else
+                current = responce[0].toBool();
         } else {
             netctlCommand->switchToProfile(profile);
             current = netctlCommand->isProfileActive(profile);
@@ -272,17 +294,14 @@ bool MainWindow::forceStartHelper()
         return false;
     }
 
-    QString cmd = configuration[QString("HELPER_PATH")] + QString(" -c ") + configPath;
+    QString cmd = QString("%1 -c %2").arg(configuration[QString("HELPER_PATH")]).arg(configPath);
     if (debug) qDebug() << PDEBUG << ":" << "Run cmd" << cmd;
     TaskResult process = runTask(cmd, false);
     if (debug) qDebug() << PDEBUG << ":" << "Cmd returns" << process.exitCode;
     if (process.exitCode != 0)
         if (debug) qDebug() << PDEBUG << ":" << "Error" << process.error;
 
-    if (process.exitCode == 0)
-        return true;
-    else
-        return false;
+    return (process.exitCode == 0);
 }
 
 
@@ -314,15 +333,7 @@ void MainWindow::setTab(int tab)
     if (debug) qDebug() << PDEBUG;
     if (debug) qDebug() << PDEBUG << ":" << "Update tab" << tab;
 
-    switch (tab) {
-    case 0:
-    case 1:
-    case 2:
-        break;
-    default:
-        tab = 0;
-        break;
-    }
+    if (tab > 2) tab = 0;
     ui->tabWidget->setCurrentIndex(tab);
 
     updateTabs(tab);
@@ -353,9 +364,8 @@ void MainWindow::updateConfiguration(const QMap<QString, QVariant> args)
 
     // update translation
     qApp->removeTranslator(translator);
-    QString language = Language::defineLanguage(configPath,
-                                                args[QString("options")].toString());
-    qtTranslator->load(QString("qt_") + language, QLibraryInfo::location(QLibraryInfo::TranslationsPath));
+    QString language = Language::defineLanguage(configPath, args[QString("options")].toString());
+    qtTranslator->load(QString("qt_%1").arg(language), QLibraryInfo::location(QLibraryInfo::TranslationsPath));
     qApp->installTranslator(qtTranslator);
     translator->load(QString(":/translations/") + language);
     qApp->installTranslator(translator);
@@ -366,7 +376,7 @@ void MainWindow::updateConfiguration(const QMap<QString, QVariant> args)
 
     // tray
     if ((QSystemTrayIcon::isSystemTrayAvailable()) &&
-            (configuration[QString("SYSTRAY")] == QString("true")))
+        (configuration[QString("SYSTRAY")] == QString("true")))
         trayIcon->setVisible(true);
     else
         trayIcon->setVisible(false);
@@ -423,14 +433,17 @@ void MainWindow::connectToUnknownEssid(const QString passwd)
 {
     if (debug) qDebug() << PDEBUG;
 
-    if (passwdWid != 0)
-        delete passwdWid;
+    if (passwdWid != nullptr) delete passwdWid;
     QStringList interfaces;
-    if (useHelper)
-        interfaces = sendDBusRequest(DBUS_HELPER_SERVICE, DBUS_LIB_PATH,
-                                     DBUS_HELPER_INTERFACE, QString("WirelessInterfaces"),
-                                     QList<QVariant>(), true, debug)[0].toStringList();
-    else
+    if (useHelper) {
+        QList<QVariant> responce = sendDBusRequest(DBUS_HELPER_SERVICE, DBUS_LIB_PATH,
+                                                   DBUS_HELPER_INTERFACE, QString("WirelessInterfaces"),
+                                                   QList<QVariant>(), true, debug);
+        if (responce.isEmpty())
+            interfaces = netctlCommand->getWirelessInterfaceList();
+        else
+            interfaces = responce[0].toStringList();
+    } else
         interfaces = netctlCommand->getWirelessInterfaceList();
     if (interfaces.isEmpty()) return;
 
@@ -445,11 +458,9 @@ void MainWindow::connectToUnknownEssid(const QString passwd)
         settings[QString("Security")] = QString("wep");
     else
         settings[QString("Security")] = QString("none");
-    settings[QString("ESSID")] = QString("'") +
-            ui->tableWidget_wifi->item(ui->tableWidget_wifi->currentItem()->row(), 0)->text() +
-            QString("'");
+    settings[QString("ESSID")] = QString("'%1'").arg(ui->tableWidget_wifi->item(ui->tableWidget_wifi->currentItem()->row(), 0)->text());
     if (!passwd.isEmpty())
-        settings[QString("Key")] = QString("'") + passwd + QString("'");
+        settings[QString("Key")] = QString("'%1'").arg(passwd);
     settings[QString("IP")] = QString("dhcp");
     if (hiddenNetwork)
         settings[QString("Hidden")] = QString("yes");
@@ -460,7 +471,7 @@ void MainWindow::connectToUnknownEssid(const QString passwd)
     if (useHelper) {
         QStringList settingsList;
         for (int i=0; i<settings.keys().count(); i++)
-            settingsList.append(settings.keys()[i] + QString("==") + settings[settings.keys()[i]]);
+            settingsList.append(QString("%1==%2").arg(settings.keys()[i]).arg(settings[settings.keys()[i]]));
         QList<QVariant> args;
         args.append(profile);
         args.append(settingsList);
@@ -472,9 +483,13 @@ void MainWindow::connectToUnknownEssid(const QString passwd)
         sendDBusRequest(DBUS_HELPER_SERVICE, DBUS_CTRL_PATH,
                         DBUS_HELPER_INTERFACE, QString("Start"),
                         args, true, debug);
-        status = sendDBusRequest(DBUS_HELPER_SERVICE, DBUS_LIB_PATH,
-                                 DBUS_HELPER_INTERFACE, QString("isProfileActive"),
-                                 args, true, debug)[0].toBool();
+        QList<QVariant> responce = sendDBusRequest(DBUS_HELPER_SERVICE, DBUS_LIB_PATH,
+                                                   DBUS_HELPER_INTERFACE, QString("isProfileActive"),
+                                                   args, true, debug);
+        if (responce.isEmpty())
+            status = netctlCommand->isProfileActive(profile);
+        else
+            status = responce[0].toBool();
     } else {
         QString profileTempName = netctlProfile->createProfile(profile, settings);
         netctlProfile->copyProfile(profileTempName);
@@ -503,7 +518,7 @@ void MainWindow::connectToUnknownEssid(const QString passwd)
             args.append(profile);
             sendDBusRequest(DBUS_HELPER_SERVICE, DBUS_CTRL_PATH,
                             DBUS_HELPER_INTERFACE, QString("Remove"),
-                            args, true, debug)[0].toBool();
+                            args, true, debug);
         } else
             netctlProfile->removeProfile(profile);
         break;

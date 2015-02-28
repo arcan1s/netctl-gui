@@ -34,7 +34,7 @@ QMap<QString, QVariant> getArgs()
     QMap<QString, QVariant> args;
     // windows
     args[QString("detached")] = false;
-    args[QString("minimized")] = (int) 0;
+    args[QString("minimized")] = static_cast<int>(0);
     args[QString("about")] = false;
     args[QString("auto")] = false;
     args[QString("settings")] = false;
@@ -43,11 +43,11 @@ QMap<QString, QVariant> getArgs()
     args[QString("open")] = QString("PROFILE");
     args[QString("select")] = QString("PROFILE");
     // additional functions
-    args[QString("config")] = QString(QDir::homePath() + QString("/.config/netctl-gui.conf"));
+    args[QString("config")] = QString("%1/.config/netctl-gui.conf").arg(QDir::homePath());
     args[QString("debug")] = false;
     args[QString("defaults")] = false;
     args[QString("options")] = QString("OPTIONS");
-    args[QString("tab")] = (int) 1;
+    args[QString("tab")] = static_cast<int>(1);
     // messages
     args[QString("error")] = false;
     args[QString("help")] = false;
@@ -66,46 +66,29 @@ QString helpMessage()
     helpMessage += QString("%1\n").arg(QApplication::translate("MainWindow", "Options:"));
     // windows
     helpMessage += QString(" %1\n").arg(QApplication::translate("MainWindow", "Open window:"));
-    helpMessage += QString("       --detached        - %1\n")
-            .arg(QApplication::translate("MainWindow", "start detached from console"));
-    helpMessage += QString("       --maximized       - %1\n")
-            .arg(QApplication::translate("MainWindow", "start maximized"));
-    helpMessage += QString("       --minimized       - %1\n")
-            .arg(QApplication::translate("MainWindow", "start minimized to tray"));
-    helpMessage += QString("       --about           - %1\n")
-            .arg(QApplication::translate("MainWindow", "show about window"));
-    helpMessage += QString("       --netctl-auto     - %1\n")
-            .arg(QApplication::translate("MainWindow", "show netctl-auto window"));
-    helpMessage += QString("       --settings        - %1\n")
-            .arg(QApplication::translate("MainWindow", "show settings window"));
+    helpMessage += QString("       --detached        - %1\n").arg(QApplication::translate("MainWindow", "start detached from console"));
+    helpMessage += QString("       --maximized       - %1\n").arg(QApplication::translate("MainWindow", "start maximized"));
+    helpMessage += QString("       --minimized       - %1\n").arg(QApplication::translate("MainWindow", "start minimized to tray"));
+    helpMessage += QString("       --about           - %1\n").arg(QApplication::translate("MainWindow", "show about window"));
+    helpMessage += QString("       --netctl-auto     - %1\n").arg(QApplication::translate("MainWindow", "show netctl-auto window"));
+    helpMessage += QString("       --settings        - %1\n").arg(QApplication::translate("MainWindow", "show settings window"));
     // main functions
     helpMessage += QString(" %1\n").arg(QApplication::translate("MainWindow", "Functions:"));
-    helpMessage += QString("   -e, --essid <arg>     - %1\n")
-            .arg(QApplication::translate("MainWindow", "select this ESSID"));
-    helpMessage += QString("   -o, --open <arg>      - %1\n")
-            .arg(QApplication::translate("MainWindow", "open this profile"));
-    helpMessage += QString("   -s, --select <arg>    - %1\n")
-            .arg(QApplication::translate("MainWindow", "select this profile"));
+    helpMessage += QString("   -e, --essid <arg>     - %1\n").arg(QApplication::translate("MainWindow", "select this ESSID"));
+    helpMessage += QString("   -o, --open <arg>      - %1\n").arg(QApplication::translate("MainWindow", "open this profile"));
+    helpMessage += QString("   -s, --select <arg>    - %1\n").arg(QApplication::translate("MainWindow", "select this profile"));
     // additional functions
     helpMessage += QString(" %1\n").arg(QApplication::translate("MainWindow", "Additional flags:"));
-    helpMessage += QString("   -c, --config <arg>    - %1\n")
-            .arg(QApplication::translate("MainWindow", "read configuration from this file"));
-    helpMessage += QString("   -d, --debug           - %1\n")
-            .arg(QApplication::translate("MainWindow", "print debug information"));
-    helpMessage += QString("       --default         - %1\n")
-            .arg(QApplication::translate("MainWindow", "start with default settings"));
-    helpMessage += QString("       --set-opts <arg>  - %1\n")
-            .arg(QApplication::translate("MainWindow", "set options for this run, comma separated"));
-    helpMessage += QString("   -t, --tab <arg>       - %1\n")
-            .arg(QApplication::translate("MainWindow", "open a tab with this number"));
+    helpMessage += QString("   -c, --config <arg>    - %1\n").arg(QApplication::translate("MainWindow", "read configuration from this file"));
+    helpMessage += QString("   -d, --debug           - %1\n").arg(QApplication::translate("MainWindow", "print debug information"));
+    helpMessage += QString("       --default         - %1\n").arg(QApplication::translate("MainWindow", "start with default settings"));
+    helpMessage += QString("       --set-opts <arg>  - %1\n").arg(QApplication::translate("MainWindow", "set options for this run, comma separated"));
+    helpMessage += QString("   -t, --tab <arg>       - %1\n").arg(QApplication::translate("MainWindow", "open a tab with this number"));
     // messages
     helpMessage += QString(" %1\n").arg(QApplication::translate("MainWindow", "Show messages:"));
-    helpMessage += QString("   -v, --version         - %1\n")
-            .arg(QApplication::translate("MainWindow", "show version and exit"));
-    helpMessage += QString("   -i, --info            - %1\n")
-            .arg(QApplication::translate("MainWindow", "show build information and exit"));
-    helpMessage += QString("   -h, --help            - %1\n")
-            .arg(QApplication::translate("MainWindow", "show this help and exit"));
+    helpMessage += QString("   -v, --version         - %1\n").arg(QApplication::translate("MainWindow", "show version and exit"));
+    helpMessage += QString("   -i, --info            - %1\n").arg(QApplication::translate("MainWindow", "show build information and exit"));
+    helpMessage += QString("   -h, --help            - %1\n").arg(QApplication::translate("MainWindow", "show this help and exit"));
 
     return helpMessage;
 }
@@ -115,8 +98,7 @@ QString infoMessage()
 {
     QString infoMessage = QString("");
     // build information
-    infoMessage += QApplication::translate("MainWindow", "Build date: %1").
-            arg(QString(BUILD_DATE));
+    infoMessage += QApplication::translate("MainWindow", "Build date: %1").arg(QString(BUILD_DATE));
     // cmake
     infoMessage += QString("\n%1:\n").arg(QApplication::translate("MainWindow", "cmake flags"));
     // cmake properties
@@ -162,15 +144,9 @@ QString versionMessage()
 {
     QString versionMessage = QString("");
     versionMessage += QString("%1\n").arg(QString(NAME));
-    versionMessage += QString("%1 : %2\n")
-            .arg(QApplication::translate("MainWindow", "Version"))
-            .arg(QString(VERSION));
-    versionMessage += QString("%1 : %2\n")
-            .arg(QApplication::translate("MainWindow", "Author"))
-            .arg(QString(AUTHOR));
-    versionMessage += QString("%1 : %2\n")
-            .arg(QApplication::translate("MainWindow", "License"))
-            .arg(QString(LICENSE));
+    versionMessage += QString("%1 : %2\n").arg(QApplication::translate("MainWindow", "Version")).arg(QString(VERSION));
+    versionMessage += QString("%1 : %2\n").arg(QApplication::translate("MainWindow", "Author")).arg(QString(AUTHOR));
+    versionMessage += QString("%1 : %2\n").arg(QApplication::translate("MainWindow", "License")).arg(QString(LICENSE));
 
     return versionMessage;
 }

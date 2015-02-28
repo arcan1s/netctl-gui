@@ -137,11 +137,11 @@ int main(int argc, char *argv[])
         (args[QString("error")].toBool()))
         args[QString("detached")] = false;
     if (args[QString("essid")].toString() != QString("ESSID"))
-        args[QString("tab")] = (int) 3;
+        args[QString("tab")] = static_cast<int>(3);
     if (args[QString("open")].toString() != QString("PROFILE"))
-        args[QString("tab")] = (int) 2;
+        args[QString("tab")] = static_cast<int>(2);
     if (args[QString("select")].toString() != QString("PROFILE"))
-        args[QString("tab")] = (int) 1;
+        args[QString("tab")] = static_cast<int>(1);
 
     // detach from console
     if (args[QString("detached")].toBool())
@@ -162,7 +162,7 @@ int main(int argc, char *argv[])
     if (args[QString("error")].toBool()) {
         cout << errorMessage().toUtf8().data() << endl;
         cout << helpMessage().toUtf8().data();
-        return 127;
+        return 1;
     } else if (args[QString("help")].toBool()) {
         cout << helpMessage().toUtf8().data();
         return 0;

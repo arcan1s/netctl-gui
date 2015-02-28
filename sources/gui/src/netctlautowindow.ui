@@ -70,7 +70,7 @@
          <string>Refresh</string>
         </property>
         <property name="icon">
-         <iconset theme="stock-refresh">
+         <iconset theme="view-refresh">
           <normaloff/>
          </iconset>
         </property>
@@ -223,7 +223,7 @@
   </action>
   <action name="actionRefresh">
    <property name="icon">
-    <iconset theme="stock-refresh">
+    <iconset theme="view-refresh">
      <normaloff/>
     </iconset>
    </property>

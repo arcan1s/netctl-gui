@@ -54,27 +54,17 @@ QString helpMessage()
     helpMessage += QString("netctlgui-helper [ options ]\n");
     helpMessage += QString("%1\n").arg(QCoreApplication::translate("NetctlHelper", "Options:"));
     // windows
-    helpMessage += QString("   -c, --config <arg>    - %1\n")
-            .arg(QCoreApplication::translate("NetctlHelper", "read configuration from this file"));
-    helpMessage += QString("   -d, --debug           - %1\n")
-            .arg(QCoreApplication::translate("NetctlHelper", "print debug information"));
-    helpMessage += QString("       --nodaemon        - %1\n")
-            .arg(QCoreApplication::translate("NetctlHelper", "do not start as daemon"));
-    helpMessage += QString("       --replace         - %1\n")
-            .arg(QCoreApplication::translate("NetctlHelper", "force replace the existing session"));
-    helpMessage += QString("       --restore         - %1\n")
-            .arg(QCoreApplication::translate("NetctlHelper", "force restore the existing session"));
-    helpMessage += QString("       --session         - %1\n")
-            .arg(QCoreApplication::translate("NetctlHelper", "force create user DBus session"));
-    helpMessage += QString("       --system          - %1\n")
-            .arg(QCoreApplication::translate("NetctlHelper", "do not read user configuration, system-wide only"));
+    helpMessage += QString("   -c, --config <arg>    - %1\n").arg(QCoreApplication::translate("NetctlHelper", "read configuration from this file"));
+    helpMessage += QString("   -d, --debug           - %1\n").arg(QCoreApplication::translate("NetctlHelper", "print debug information"));
+    helpMessage += QString("       --nodaemon        - %1\n").arg(QCoreApplication::translate("NetctlHelper", "do not start as daemon"));
+    helpMessage += QString("       --replace         - %1\n").arg(QCoreApplication::translate("NetctlHelper", "force replace the existing session"));
+    helpMessage += QString("       --restore         - %1\n").arg(QCoreApplication::translate("NetctlHelper", "force restore the existing session"));
+    helpMessage += QString("       --session         - %1\n").arg(QCoreApplication::translate("NetctlHelper", "force create user DBus session"));
+    helpMessage += QString("       --system          - %1\n").arg(QCoreApplication::translate("NetctlHelper", "do not read user configuration, system-wide only"));
     helpMessage += QString(" %1\n").arg(QCoreApplication::translate("NetctlHelper", "Show messages:"));
-    helpMessage += QString("   -v, --version         - %1\n")
-            .arg(QCoreApplication::translate("NetctlHelper", "show version and exit"));
-    helpMessage += QString("   -i, --info            - %1\n")
-            .arg(QCoreApplication::translate("NetctlHelper", "show build information and exit"));
-    helpMessage += QString("   -h, --help            - %1\n")
-            .arg(QCoreApplication::translate("NetctlHelper", "show this help and exit"));
+    helpMessage += QString("   -v, --version         - %1\n").arg(QCoreApplication::translate("NetctlHelper", "show version and exit"));
+    helpMessage += QString("   -i, --info            - %1\n").arg(QCoreApplication::translate("NetctlHelper", "show build information and exit"));
+    helpMessage += QString("   -h, --help            - %1\n").arg(QCoreApplication::translate("NetctlHelper", "show this help and exit"));
 
     return helpMessage;
 }
@@ -131,15 +121,9 @@ QString versionMessage()
 {
     QString versionMessage = QString("");
     versionMessage += QString("%1\n").arg(QString(NAME));
-    versionMessage += QString("%1 : %2\n")
-            .arg(QCoreApplication::translate("NetctlHelper", "Version"))
-            .arg(QString(VERSION));
-    versionMessage += QString("%1 : %2\n")
-            .arg(QCoreApplication::translate("NetctlHelper", "Author"))
-            .arg(QString(AUTHOR));
-    versionMessage += QString("%1 : %2\n")
-            .arg(QCoreApplication::translate("NetctlHelper", "License"))
-            .arg(QString(LICENSE));
+    versionMessage += QString("%1 : %2\n").arg(QCoreApplication::translate("NetctlHelper", "Version")).arg(QString(VERSION));
+    versionMessage += QString("%1 : %2\n").arg(QCoreApplication::translate("NetctlHelper", "Author")).arg(QString(AUTHOR));
+    versionMessage += QString("%1 : %2\n").arg(QCoreApplication::translate("NetctlHelper", "License")).arg(QString(LICENSE));
 
     return versionMessage;
 }

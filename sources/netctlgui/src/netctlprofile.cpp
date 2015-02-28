@@ -80,9 +80,7 @@ bool NetctlProfile::copyProfile(const QString oldPath)
         return false;
     }
 
-    QString newPath = QString("%1%2%3").arg(profileDirectory->absolutePath())
-                                       .arg(QDir::separator())
-                                       .arg(QFileInfo(oldPath).fileName());
+    QString newPath = QString("%1/%2").arg(profileDirectory->absolutePath()).arg(QFileInfo(oldPath).fileName());
     QString cmd = QString("%1 /usr/bin/mv \"%2\" \"%3\"").arg(sudoCommand)
                                                          .arg(oldPath)
                                                          .arg(newPath);
@@ -104,9 +102,7 @@ QString NetctlProfile::createProfile(const QString profile, const QMap<QString, 
     if (debug) qDebug() << PDEBUG;
     if (debug) qDebug() << PDEBUG << ":" << "Profile" << profile;
 
-    QString profileTempName = QString("%1%2%3").arg(QDir::tempPath())
-                                               .arg(QDir::separator())
-                                               .arg(QFileInfo(profile).fileName());
+    QString profileTempName = QString("%1/%2").arg(QDir::tempPath()).arg(QFileInfo(profile).fileName());
     QFile profileFile(profileTempName);
     if (debug) qDebug() << PDEBUG << ":" << "Save to" << profileTempName;
     if (!profileFile.open(QIODevice::WriteOnly | QIODevice::Text))
@@ -215,9 +211,7 @@ QMap<QString, QString> NetctlProfile::getSettingsFromProfile(const QString profi
         systemVariables.append(output[i].split(QChar('='))[0]);
     // profile variables
     QMap<QString, QString> settings;
-    QString profileUrl = QString("%1%2%3").arg(profileDirectory->absolutePath())
-                                          .arg(QDir::separator())
-                                          .arg(QFileInfo(profile).fileName());
+    QString profileUrl = QString("%1/%2").arg(profileDirectory->absolutePath()).arg(QFileInfo(profile).fileName());
     cmd = QString("env -i bash -c \"source '%1'; set\"").arg(profileUrl);
     if (debug) qDebug() << PDEBUG << ":" << "Run cmd" << cmd;
     process = runTask(cmd, false);
@@ -269,9 +263,7 @@ bool NetctlProfile::removeProfile(const QString profile)
         return false;
     }
 
-    QString profilePath = QString("%1%2%3").arg(profileDirectory->absolutePath())
-                                           .arg(QDir::separator())
-                                           .arg(QFileInfo(profile).fileName());
+    QString profilePath = QString("%1/%2").arg(profileDirectory->absolutePath()).arg(QFileInfo(profile).fileName());
     QString cmd = QString("%1 /usr/bin/rm \"%2\"").arg(sudoCommand).arg(profilePath);
     if (debug) qDebug() << PDEBUG << ":" << "Run cmd" << cmd;
     TaskResult process = runTask(cmd, useSuid);

@@ -494,9 +494,7 @@ QStringList Netctl::getWirelessInterfaceList()
         interfaces.append(mainInterface);
     QStringList allInterfaces = ifaceDirectory->entryList(QDir::Dirs | QDir::NoDotAndDotDot);
     for (int i=0; i<allInterfaces.count(); i++) {
-        QString dir = QString("%1%2%3%2wireless").arg(ifaceDirectory->path())
-                                                 .arg(QDir::separator())
-                                                 .arg(allInterfaces[i]);
+        QString dir = QString("%1/%2/wireless").arg(ifaceDirectory->path()).arg(allInterfaces[i]);
         if (debug) qDebug() << PDEBUG << ":" << "Check directory" << dir;
         if (QDir(dir).exists())
             interfaces.append(allInterfaces[i]);

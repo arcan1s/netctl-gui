@@ -353,15 +353,15 @@ void MainWindow::mainTabContextualMenu(const QPoint &pos)
     // create menu
     QMenu menu(this);
     QAction *refreshTable = menu.addAction(QApplication::translate("MainWindow", "Refresh"));
-    refreshTable->setIcon(QIcon::fromTheme("stock-refresh"));
+    refreshTable->setIcon(QIcon::fromTheme("view-refresh"));
     menu.addSeparator();
     QAction *startProfile = menu.addAction(QApplication::translate("MainWindow", "Start profile"));
     QAction *restartProfile = menu.addAction(QApplication::translate("MainWindow", "Restart profile"));
-    restartProfile->setIcon(QIcon::fromTheme("stock-refresh"));
+    restartProfile->setIcon(QIcon::fromTheme("view-refresh"));
     QAction *enableProfile = menu.addAction(QApplication::translate("MainWindow", "Enable profile"));
     menu.addSeparator();
     QAction *editProfile = menu.addAction(QApplication::translate("MainWindow", "Edit profile"));
-    editProfile->setIcon(QIcon::fromTheme("edit"));
+    editProfile->setIcon(QIcon::fromTheme("document-edit"));
     QAction *removeProfile = menu.addAction(QApplication::translate("MainWindow", "Remove profile"));
     removeProfile->setIcon(QIcon::fromTheme("edit-delete"));
 
@@ -899,7 +899,7 @@ void MainWindow::wifiTabContextualMenu(const QPoint &pos)
     // create menu
     QMenu menu(this);
     QAction *refreshTable = menu.addAction(QApplication::translate("MainWindow", "Refresh"));
-    refreshTable->setIcon(QIcon::fromTheme("stock-refresh"));
+    refreshTable->setIcon(QIcon::fromTheme("view-refresh"));
     menu.addSeparator();
     QAction *startWifi = menu.addAction(QApplication::translate("MainWindow", "Start WiFi"));
 

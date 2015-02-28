@@ -108,7 +108,7 @@ void IpWidget::createActions()
     connect(ui->lineEdit_ipAddress, SIGNAL(returnPressed()), this, SLOT(addIp()));
     connect(ui->pushButton_ipRoutes, SIGNAL(clicked(bool)), this, SLOT(addIpRoutes()));
     connect(ui->pushButton_ipAddress6, SIGNAL(clicked(bool)), this, SLOT(addIp6()));
-    connect(ui->lineEdit_ipAddress6, SIGNAL(returnPressed(bool)), this, SLOT(addIp6()));
+    connect(ui->lineEdit_ipAddress6, SIGNAL(returnPressed()), this, SLOT(addIp6()));
     connect(ui->pushButton_ipRoutes6, SIGNAL(clicked(bool)), this, SLOT(addIpRoutes6()));
     connect(ui->pushButton_custom, SIGNAL(clicked(bool)), this, SLOT(addCustom()));
     connect(ui->lineEdit_custom, SIGNAL(returnPressed()), this, SLOT(addCustom()));

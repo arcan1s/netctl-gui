@@ -105,7 +105,7 @@ Item {
         plasmoid.setAction("stopProfile", i18n("Stop profile"), "dialog-close")
         plasmoid.setAction("stopAllProfiles", i18n("Stop all profiles"), "dialog-close")
         plasmoid.setAction("switchToProfile", i18n("Switch to profile"))
-        plasmoid.setAction("restartProfile", i18n("Restart profile"), "stock-refresh")
+        plasmoid.setAction("restartProfile", i18n("Restart profile"), "view-refresh")
         plasmoid.setAction("enableProfile", i18n("Enable profile"))
         plasmoid.setAction("startWifi", i18n("Show WiFi menu"), "netctl-gui-wifi")
         // helper

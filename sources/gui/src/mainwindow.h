@@ -167,7 +167,6 @@ private:
     void createObjects();
     void createToolBars();
     void deleteObjects();
-    void keyPressEvent(QKeyEvent *pressedKey);
     QString configPath;
     bool debug = false;
     bool hiddenNetwork;

@@ -477,7 +477,7 @@ void Netctl::createActions()
     menuActions.append(contextMenu[QString("switch")]);
 
     contextMenu[QString("restart")] = new QAction(i18n("Restart profile"), this);
-    contextMenu[QString("restart")]->setIcon(QIcon::fromTheme("stock-refresh"));
+    contextMenu[QString("restart")]->setIcon(QIcon::fromTheme("view-refresh"));
     connect(contextMenu[QString("restart")], SIGNAL(triggered(bool)), this, SLOT(restartProfileSlot()));
     menuActions.append(contextMenu[QString("restart")]);
 

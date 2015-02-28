@@ -30,7 +30,7 @@ QList<netctlProfileInfo> parseOutputNetctl(const QList<QVariant> raw,
     if (debug) qDebug() << PDEBUG;
 
     QList<netctlProfileInfo> profileInfo;
-    if (raw.size() == 0) return profileInfo;
+    if (raw.count() == 0) return profileInfo;
     QStringList list = raw[0].toStringList();
     for (int i=0; i<list.count(); i++) {
         QStringList info = list[i].split(QChar('|'));
@@ -53,7 +53,7 @@ QList<netctlWifiInfo> parseOutputWifi(const QList<QVariant> raw,
     if (debug) qDebug() << PDEBUG;
 
     QList<netctlWifiInfo> wifiInfo;
-    if (raw.size() == 0) return wifiInfo;
+    if (raw.count() == 0) return wifiInfo;
     QStringList list = raw[0].toStringList();
     for (int i=0; i<list.count(); i++) {
         QStringList info = list[i].split(QChar('|'));
@@ -84,23 +84,14 @@ QList<QVariant> sendDBusRequest(const QString service, const QString path,
     if (debug) qDebug() << PDEBUG << ":" << "args" << args;
     if (debug) qDebug() << PDEBUG << ":" << "is system bus" << system;
 
-    QList<QVariant> arguments;
-    QDBusMessage response;
-    if (system) {
-        QDBusConnection bus = QDBusConnection::systemBus();
-        QDBusMessage request = QDBusMessage::createMethodCall(service, path, interface, cmd);
-        if (!args.isEmpty())
-            request.setArguments(args);
-        response = bus.call(request, QDBus::BlockWithGui);
-    } else {
-        QDBusConnection bus = QDBusConnection::sessionBus();
-        QDBusMessage request = QDBusMessage::createMethodCall(service, path, interface, cmd);
-        if (!args.isEmpty())
-            request.setArguments(args);
-        response = bus.call(request, QDBus::BlockWithGui);
-    }
-    arguments = response.arguments();
-    if (arguments.size() == 0)
+    QDBusConnection bus = QDBusConnection::sessionBus();
+    if (system)
+        bus = QDBusConnection::systemBus();
+    QDBusMessage request = QDBusMessage::createMethodCall(service, path, interface, cmd);
+    if (!args.isEmpty()) request.setArguments(args);
+    QDBusMessage response = bus.call(request, QDBus::BlockWithGui);
+    QList<QVariant> arguments = response.arguments();
+    if (arguments.count() == 0)
         if (debug) qDebug() << PDEBUG << ":" << "Error message" << response.errorMessage();
 
     return arguments;

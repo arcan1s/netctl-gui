@@ -70,8 +70,7 @@ QString NetctlGuiAdaptor::Pony()
 {
     QString pony;
     QFile ponyFile(QString(":pinkiepie"));
-    if (!ponyFile.open(QIODevice::ReadOnly))
-        return pony;
+    if (!ponyFile.open(QIODevice::ReadOnly)) return pony;
     pony = QTextCodec::codecForMib(106)->toUnicode(ponyFile.readAll());
     ponyFile.close();
 

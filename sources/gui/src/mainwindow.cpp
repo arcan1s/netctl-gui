@@ -21,6 +21,7 @@
 #include <QDBusConnection>
 #include <QDBusMessage>
 #include <QDebug>
+#include <QLineEdit>
 #include <QMenu>
 
 #include <pdebug/pdebug.h>
@@ -79,7 +80,7 @@ MainWindow::MainWindow(QWidget *parent,
         for (int i=0; i<ui->tableWidget_wifi->rowCount(); i++)
             if (ui->tableWidget_wifi->item(i, 0)->text() == args[QString("essid")].toString())
                 ui->tableWidget_wifi->setCurrentCell(i, 0);
-        if (ui->tableWidget_wifi->currentItem() == 0)
+        if (ui->tableWidget_wifi->currentItem() == nullptr)
             ErrorWindow::showWindow(18, QString(PDEBUG), debug);
     } else if (args[QString("open")].toString() != QString("PROFILE")) {
         ui->comboBox_profile->addItem(args[QString("open")].toString());
@@ -88,7 +89,7 @@ MainWindow::MainWindow(QWidget *parent,
         for (int i=0; i<ui->tableWidget_main->rowCount(); i++)
             if (ui->tableWidget_main->item(i, 0)->text() == args[QString("select")].toString())
                 ui->tableWidget_main->setCurrentCell(i, 0);
-        if (ui->tableWidget_main->currentItem() == 0)
+        if (ui->tableWidget_main->currentItem() == nullptr)
             ErrorWindow::showWindow(17, QString(PDEBUG), debug);
     }
 
@@ -118,30 +119,28 @@ QStringList MainWindow::printInformation()
 {
     if (debug) qDebug() << PDEBUG;
 
-    QString profile;
-    QString status;
+    QStringList output;
+    output.append(QString("none"));
+    output.append(QString("(none)"));
     if (useHelper) {
         QStringList request = sendDBusRequest(DBUS_HELPER_SERVICE, DBUS_LIB_PATH,
                                               DBUS_HELPER_INTERFACE, QString("Information"),
                                               QList<QVariant>(), true, debug)[0].toStringList();
-        profile = request[0];
-        status = request[1];
+        if (request.count() != 2) return output;
+        output = request;
     } else {
         if (netctlCommand->isNetctlAutoRunning()) {
-            profile = netctlCommand->autoGetActiveProfile();
-            status = QString("netctl-auto");
+            output[0] = netctlCommand->autoGetActiveProfile();
+            output[1] = QString("netctl-auto");
         } else {
             QStringList currentProfiles = netctlCommand->getActiveProfile();
-            profile = currentProfiles.join(QChar('|'));
+            output[0] = currentProfiles.join(QChar('|'));
             QStringList statusList;
             for (int i=0; i<currentProfiles.count(); i++)
                 statusList.append(netctlCommand->getProfileStatus(currentProfiles[i]));
-            status = statusList.join(QChar('|'));
+            output[1] = statusList.join(QChar('|'));
         }
     }
-    QStringList output;
-    output.append(profile);
-    output.append(status);
 
     return output;
 }
@@ -153,8 +152,7 @@ QStringList MainWindow::printSettings()
 
     QStringList settingsList;
     for (int i=0; i<configuration.keys().count(); i++)
-        settingsList.append(configuration.keys()[i] + QString("==") +
-                            configuration[configuration.keys()[i]]);
+        settingsList.append(QString("%1==%2").arg(configuration.keys()[i]).arg(configuration[configuration.keys()[i]]));
 
     return settingsList;
 }
@@ -243,18 +241,15 @@ bool MainWindow::isHelperServiceActive()
 {
     if (debug) qDebug() << PDEBUG;
 
-    QString cmd = configuration[QString("SYSTEMCTL_PATH")] + QString(" is-active ") +
-            configuration[QString("HELPER_SERVICE")];
+    QString cmd = QString("%1 is-active %2").arg(configuration[QString("SYSTEMCTL_PATH")])
+                                            .arg(configuration[QString("HELPER_SERVICE")]);
     if (debug) qDebug() << PDEBUG << "Run cmd" << cmd;
     TaskResult process = runTask(cmd, false);
     if (debug) qDebug() << PDEBUG << ":" << "Cmd returns" << process.exitCode;
     if (process.exitCode != 0)
         if (debug) qDebug() << PDEBUG << ":" << "Error" << process.error;
 
-    if (process.exitCode != 0)
-        return false;
-    else
-        return true;
+    return (process.exitCode == 0);
 }
 
 
@@ -262,8 +257,7 @@ void MainWindow::closeEvent(QCloseEvent *event)
 {
     if (debug) qDebug() << PDEBUG;
 
-    if ((QSystemTrayIcon::isSystemTrayAvailable()) &&
-            (configuration[QString("SYSTRAY")] == QString("true"))) {
+    if ((QSystemTrayIcon::isSystemTrayAvailable()) && (configuration[QString("SYSTRAY")] == QString("true"))) {
         hide();
         event->ignore();
     } else
@@ -305,10 +299,7 @@ bool MainWindow::checkExternalApps(const QString apps = QString("all"))
     if (process.exitCode != 0)
         if (debug) qDebug() << PDEBUG << ":" << "Error" << process.error;
 
-    if (process.exitCode != 0)
-        return false;
-    else
-        return true;
+    return (process.exitCode == 0);
 }
 
 
@@ -334,14 +325,12 @@ QString MainWindow::checkStatus(const bool statusBool, const bool nullFalse)
 {
     if (debug) qDebug() << PDEBUG;
     if (debug) qDebug() << PDEBUG << ":" << "Status" << statusBool;
-    if (debug) qDebug() << PDEBUG << ":" << "Return null false" << nullFalse;
+    if (debug) qDebug() << PDEBUG << ":" << "Return null on false" << nullFalse;
 
-    if (statusBool)
-        return QApplication::translate("MainWindow", "yes");
-    if (nullFalse)
-        return QString("");
-    else
-        return QApplication::translate("MainWindow", "no");
+    if (statusBool) return QApplication::translate("MainWindow", "yes");
+    if (!nullFalse) return QApplication::translate("MainWindow", "no");
+
+    return QString("");
 }
 
 
@@ -372,6 +361,7 @@ void MainWindow::createActions()
     // profile tab events
     connect(ui->comboBox_profile, SIGNAL(currentIndexChanged(QString)), this, SLOT(profileTabLoadProfile()));
     connect(ui->comboBox_profile, SIGNAL(editTextChanged(QString)), this, SLOT(updateMenuProfile()));
+    connect(ui->comboBox_profile->lineEdit(), SIGNAL(returnPressed()), this, SLOT(profileTabLoadProfile()));
     connect(generalWid->connectionType, SIGNAL(currentIndexChanged(QString)), this, SLOT(profileTabChangeState(QString)));
 
     // wifi tab events
@@ -406,11 +396,10 @@ void MainWindow::createObjects()
 
     // backend
     createDBusSession();
-    if (useHelper)
-        if (!forceStartHelper()) {
-            ErrorWindow::showWindow(19, QString(PDEBUG), debug);
-            useHelper = false;
-        }
+    if ((useHelper) && (!forceStartHelper())) {
+        ErrorWindow::showWindow(19, QString(PDEBUG), debug);
+        useHelper = false;
+    }
     checkHelperStatus();
 
     netctlCommand = new Netctl(debug, configuration);
@@ -462,13 +451,13 @@ void MainWindow::createToolBars()
     actionToolBar->setToolButtonStyle(Qt::ToolButtonFollowStyle);
     toolBarActions[QString("netctlAuto")] = actionToolBar->addAction(QApplication::translate("MainWindow", "netctl-auto"),
                                                                      this, SLOT(showNetctlAutoWindow()));
-    toolBarActions[QString("mainRefresh")] = actionToolBar->addAction(QIcon::fromTheme(QString("stock-refresh")),
+    toolBarActions[QString("mainRefresh")] = actionToolBar->addAction(QIcon::fromTheme(QString("view-refresh")),
                                                                       QApplication::translate("MainWindow", "Refresh"),
                                                                       this, SLOT(updateMainTab()));
     toolBarActions[QString("profileClear")] = actionToolBar->addAction(QIcon::fromTheme(QString("edit-clear")),
                                                                        QApplication::translate("MainWindow", "Clear"),
                                                                        this, SLOT(profileTabClear()));
-    toolBarActions[QString("wifiRefresh")] = actionToolBar->addAction(QIcon::fromTheme(QString("stock-refresh")),
+    toolBarActions[QString("wifiRefresh")] = actionToolBar->addAction(QIcon::fromTheme(QString("view-refresh")),
                                                                       QApplication::translate("MainWindow", "Refresh"),
                                                                       this, SLOT(updateWifiTab()));
 
@@ -482,7 +471,7 @@ void MainWindow::createToolBars()
     toolBarActions[QString("mainSwitch")] = menu->addAction(QIcon::fromTheme(QString("system-run")),
                                                             QApplication::translate("MainWindow", "Switch"),
                                                             this, SLOT(mainTabSwitchToProfile()));
-    toolBarActions[QString("mainRestart")] = menu->addAction(QIcon::fromTheme(QString("stock-refresh")),
+    toolBarActions[QString("mainRestart")] = menu->addAction(QIcon::fromTheme(QString("view-refresh")),
                                                              QApplication::translate("MainWindow", "Restart"),
                                                              this, SLOT(mainTabRestartProfile()));
     toolBarActions[QString("mainEnable")] = menu->addAction(QIcon::fromTheme(QString("edit-add")),
@@ -503,7 +492,7 @@ void MainWindow::createToolBars()
     actionMenu->setMenu(menu);
     actionToolBar->addWidget(actionMenu);
 
-    toolBarActions[QString("mainEdit")] = actionToolBar->addAction(QIcon::fromTheme(QString("edit")),
+    toolBarActions[QString("mainEdit")] = actionToolBar->addAction(QIcon::fromTheme(QString("document-edit")),
                                                                    QApplication::translate("MainWindow", "Edit"),
                                                                    this, SLOT(mainTabEditProfile()));
     toolBarActions[QString("mainRemove")] = actionToolBar->addAction(QIcon::fromTheme(QString("edit-delete")),
@@ -551,16 +540,6 @@ void MainWindow::deleteObjects()
     }
     if (trayIcon != nullptr) delete trayIcon;
     if (ui != nullptr) delete ui;
-}
-
-
-void MainWindow::keyPressEvent(QKeyEvent *pressedKey)
-{
-    if (debug) qDebug() << PDEBUG;
-
-    if (pressedKey->key() == Qt::Key_Return)
-        if (ui->comboBox_profile->hasFocus())
-            profileTabLoadProfile();
 }
 
 

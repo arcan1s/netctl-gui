@@ -68,9 +68,7 @@ void WirelessWidget::clear()
     if (rfkillDirectory->exists()) {
         QStringList rfkillDevices = rfkillDirectory->entryList(QDir::Dirs | QDir::NoDotAndDotDot);
         for (int i=0; i<rfkillDevices.count(); i++) {
-            QFile device(QString("%1%2%3%2name").arg(rfkillDirectory->absolutePath())
-                                        .arg(QDir::separator())
-                                        .arg(rfkillDevices[i]));
+            QFile device(QString("%1/%2/name").arg(rfkillDirectory->absolutePath()).arg(rfkillDevices[i]));
             if (!device.open(QIODevice::ReadOnly)) continue;
             ui->comboBox_rfkill->addItem(QString(device.readLine()).trimmed());
             device.close();
