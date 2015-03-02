@@ -30,7 +30,7 @@ QList<netctlProfileInfo> parseOutputNetctl(const QList<QVariant> raw,
     if (debug) qDebug() << PDEBUG;
 
     QList<netctlProfileInfo> profileInfo;
-    if (raw.count() == 0) return profileInfo;
+    if (raw.isEmpty()) return profileInfo;
     QStringList list = raw[0].toStringList();
     for (int i=0; i<list.count(); i++) {
         QStringList info = list[i].split(QChar('|'));
@@ -53,7 +53,7 @@ QList<netctlWifiInfo> parseOutputWifi(const QList<QVariant> raw,
     if (debug) qDebug() << PDEBUG;
 
     QList<netctlWifiInfo> wifiInfo;
-    if (raw.count() == 0) return wifiInfo;
+    if (raw.isEmpty()) return wifiInfo;
     QStringList list = raw[0].toStringList();
     for (int i=0; i<list.count(); i++) {
         QStringList info = list[i].split(QChar('|'));

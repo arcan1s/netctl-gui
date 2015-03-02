@@ -467,7 +467,6 @@ void MainWindow::connectToUnknownEssid(const QString passwd)
 
     QString profile = QString("netctl-gui-") + settings[QString("ESSID")];
     profile.remove(QChar('"')).remove(QChar('\''));
-    bool status = false;
     if (useHelper) {
         QStringList settingsList;
         for (int i=0; i<settings.keys().count(); i++)
@@ -478,26 +477,12 @@ void MainWindow::connectToUnknownEssid(const QString passwd)
         sendDBusRequest(DBUS_HELPER_SERVICE, DBUS_CTRL_PATH,
                         DBUS_HELPER_INTERFACE, QString("Create"),
                         args, true, debug);
-        args.clear();
-        args.append(profile);
-        sendDBusRequest(DBUS_HELPER_SERVICE, DBUS_CTRL_PATH,
-                        DBUS_HELPER_INTERFACE, QString("Start"),
-                        args, true, debug);
-        QList<QVariant> responce = sendDBusRequest(DBUS_HELPER_SERVICE, DBUS_LIB_PATH,
-                                                   DBUS_HELPER_INTERFACE, QString("isProfileActive"),
-                                                   args, true, debug);
-        if (responce.isEmpty())
-            status = netctlCommand->isProfileActive(profile);
-        else
-            status = responce[0].toBool();
     } else {
         QString profileTempName = netctlProfile->createProfile(profile, settings);
         netctlProfile->copyProfile(profileTempName);
-        netctlCommand->startProfile(profile);
-        status = netctlCommand->isProfileActive(profile);
     }
     QString message;
-    if (status) {
+    if (startProfileSlot(profile)) {
         message = QApplication::translate("MainWindow", "Connection is successfully.");
         ui->statusBar->showMessage(QApplication::translate("MainWindow", "Done"));
     } else {

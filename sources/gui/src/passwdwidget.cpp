@@ -97,7 +97,7 @@ void PasswdWidget::passwdApply()
 void PasswdWidget::setEchoMode(const int mode)
 {
     if (mode == 0)
-        ui->lineEdit->setEchoMode(QLineEdit::Normal);
-    else
         ui->lineEdit->setEchoMode(QLineEdit::Password);
+    else
+        ui->lineEdit->setEchoMode(QLineEdit::Normal);
 }

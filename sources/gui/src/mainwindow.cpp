@@ -268,10 +268,13 @@ void MainWindow::closeEvent(QCloseEvent *event)
 bool MainWindow::checkExternalApps(const QString apps = QString("all"))
 {
     if (debug) qDebug() << PDEBUG;
+    if (debug) qDebug() << PDEBUG << ":" << "Applications" << apps;
 
     if (configuration[QString("SKIPCOMPONENTS")] == QString("true")) return true;
     QStringList cmd;
     cmd.append("which");
+    // avoid null-lines arguments
+    cmd.append("true");
     if ((apps == QString("helper")) || (apps == QString("all"))) {
         cmd.append(configuration[QString("HELPER_PATH")]);
     }

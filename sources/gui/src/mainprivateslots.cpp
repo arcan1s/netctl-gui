@@ -90,7 +90,7 @@ void MainWindow::updateMenuMain()
 
     toolBarActions[QString("netctlAuto")]->setVisible(true);
     toolBarActions[QString("mainRefresh")]->setVisible(true);
-    if (ui->tableWidget_main->currentItem() == 0) return;
+    if (ui->tableWidget_main->currentItem() == nullptr) return;
     if (!ui->tableWidget_main->item(ui->tableWidget_main->currentItem()->row(), 2)->text().isEmpty()) {
         toolBarActions[QString("mainRestart")]->setVisible(true);
         toolBarActions[QString("mainStart")]->setText(QApplication::translate("MainWindow", "Stop"));
@@ -100,8 +100,7 @@ void MainWindow::updateMenuMain()
         toolBarActions[QString("mainStart")]->setIcon(QIcon::fromTheme("system-run"));
     }
     if (!mainTabGetActiveProfiles().isEmpty()) {
-        if (!mainTabGetActiveProfiles()
-                .contains(ui->tableWidget_main->item(ui->tableWidget_main->currentItem()->row(), 0)->text()))
+        if (!mainTabGetActiveProfiles().contains(ui->tableWidget_main->item(ui->tableWidget_main->currentItem()->row(), 0)->text()))
             toolBarActions[QString("mainSwitch")]->setVisible(true);
         toolBarActions[QString("mainStopAll")]->setVisible(true);
     }
@@ -126,15 +125,9 @@ void MainWindow::updateMenuProfile()
     actionMenu->setDefaultAction(toolBarActions[QString("profileSave")]);
 
     toolBarActions[QString("profileClear")]->setVisible(true);
-    if (ui->comboBox_profile->currentText().isEmpty()) {
-        toolBarActions[QString("profileLoad")]->setVisible(false);
-        toolBarActions[QString("profileRemove")]->setVisible(false);
-        toolBarActions[QString("profileSave")]->setVisible(false);
-    } else {
-        toolBarActions[QString("profileLoad")]->setVisible(true);
-        toolBarActions[QString("profileRemove")]->setVisible(true);
-        toolBarActions[QString("profileSave")]->setVisible(true);
-    }
+    toolBarActions[QString("profileLoad")]->setVisible(!ui->comboBox_profile->currentText().isEmpty());
+    toolBarActions[QString("profileRemove")]->setVisible(!ui->comboBox_profile->currentText().isEmpty());
+    toolBarActions[QString("profileSave")]->setVisible(!ui->comboBox_profile->currentText().isEmpty());
 }
 
 
@@ -145,7 +138,7 @@ void MainWindow::updateMenuWifi()
     actionMenu->setDefaultAction(toolBarActions[QString("wifiStart")]);
 
     toolBarActions[QString("wifiRefresh")]->setVisible(true);
-    if (ui->tableWidget_wifi->currentItem() == 0) return;
+    if (ui->tableWidget_wifi->currentItem() == nullptr) return;
     if (!ui->tableWidget_wifi->item(ui->tableWidget_wifi->currentItem()->row(), 4)->text().isEmpty()) {
         if (!ui->tableWidget_wifi->item(ui->tableWidget_wifi->currentItem()->row(), 3)->text().isEmpty()) {
             toolBarActions[QString("wifiStart")]->setText(QApplication::translate("MainWindow", "Stop"));
@@ -176,9 +169,15 @@ void MainWindow::updateMainTab()
     QList<netctlProfileInfo> profiles;
     bool netctlAutoStatus = false;
     if (useHelper) {
-        netctlAutoStatus = sendDBusRequest(DBUS_HELPER_SERVICE, DBUS_LIB_PATH,
-                                           DBUS_HELPER_INTERFACE, QString("isNetctlAutoActive"),
-                                           QList<QVariant>(), true, debug)[0].toBool();
+        QList<QVariant> responce = sendDBusRequest(DBUS_HELPER_SERVICE, DBUS_LIB_PATH,
+                                                   DBUS_HELPER_INTERFACE, QString("isNetctlAutoActive"),
+                                                   QList<QVariant>(), true, debug);
+        if (responce.isEmpty()) {
+            if (debug) qDebug() << PDEBUG << ":" << "Could not interact with helper, disable it";
+            useHelper = false;
+            return updateMainTab();
+        }
+        netctlAutoStatus = responce[0].toBool();
         profiles = parseOutputNetctl(sendDBusRequest(DBUS_HELPER_SERVICE, DBUS_LIB_PATH,
                                                      DBUS_HELPER_INTERFACE, QString("ProfileList"),
                                                      QList<QVariant>(), true, debug), debug);
@@ -214,7 +213,7 @@ void MainWindow::updateMainTab()
         toolTip += QString("%1: %2").arg(QApplication::translate("MainWindow", "Enabled")).arg(checkStatus(profiles[i].enabled));
         // name
         ui->tableWidget_main->setItem(i, 0, new QTableWidgetItem(profiles[i].name));
-        ui->tableWidget_main->item(i, 0)->setTextAlignment(Qt::AlignLeft | Qt::AlignVCenter);
+        ui->tableWidget_main->item(i, 0)->setTextAlignment(Qt::AlignRight | Qt::AlignVCenter);
         ui->tableWidget_main->item(i, 0)->setToolTip(toolTip);
         ui->tableWidget_main->item(i, 0)->setFont(font);
         // description
@@ -306,7 +305,7 @@ void MainWindow::updateWifiTab()
         toolTip += QString("%1: %2").arg(QApplication::translate("MainWindow", "Exists")).arg(checkStatus(scanResults[i].exists));
         // name
         ui->tableWidget_wifi->setItem(i, 0, new QTableWidgetItem(scanResults[i].name));
-        ui->tableWidget_wifi->item(i, 0)->setTextAlignment(Qt::AlignLeft | Qt::AlignVCenter);
+        ui->tableWidget_wifi->item(i, 0)->setTextAlignment(Qt::AlignRight | Qt::AlignVCenter);
         ui->tableWidget_wifi->item(i, 0)->setToolTip(toolTip);
         ui->tableWidget_wifi->item(i, 0)->setFont(font);
         // signal
@@ -347,8 +346,7 @@ void MainWindow::updateWifiTab()
 void MainWindow::mainTabContextualMenu(const QPoint &pos)
 {
     if (debug) qDebug() << PDEBUG;
-    if (ui->tableWidget_main->currentItem() == 0)
-        return;
+    if (ui->tableWidget_main->currentItem() == nullptr) return;
 
     // create menu
     QMenu menu(this);
@@ -410,12 +408,13 @@ void MainWindow::mainTabContextualMenu(const QPoint &pos)
 void MainWindow::mainTabEditProfile()
 {
     if (debug) qDebug() << PDEBUG;
+    if (ui->tableWidget_main->currentItem() == nullptr) return;
 
     ui->tabWidget->setDisabled(true);
     QString profile = ui->tableWidget_main->item(ui->tableWidget_main->currentItem()->row(), 0)->text();
     ui->tabWidget->setCurrentIndex(1);
     ui->comboBox_profile->addItem(profile);
-    ui->comboBox_profile->setCurrentIndex(ui->comboBox_profile->count()-1);
+    ui->comboBox_profile->setCurrentIndex(ui->comboBox_profile->count() - 1);
 }
 
 
@@ -427,13 +426,11 @@ void MainWindow::mainTabEnableProfile()
         emit(needToBeConfigured());
         return;
     }
-    if (ui->tableWidget_main->currentItem() == 0) return;
+    if (ui->tableWidget_main->currentItem() == nullptr) return;
 
     ui->tabWidget->setDisabled(true);
     QString profile = ui->tableWidget_main->item(ui->tableWidget_main->currentItem()->row(), 0)->text();
-    bool previous = !ui->tableWidget_main->item(ui->tableWidget_main->currentItem()->row(), 3)->text().isEmpty();
-    bool current = enableProfileSlot(profile);
-    if (current != previous)
+    if (enableProfileSlot(profile))
         ui->statusBar->showMessage(QApplication::translate("MainWindow", "Done"));
     else
         ui->statusBar->showMessage(QApplication::translate("MainWindow", "Error"));
@@ -447,9 +444,10 @@ QStringList MainWindow::mainTabGetActiveProfiles()
     if (debug) qDebug() << PDEBUG;
 
     QStringList profiles;
-    for (int i=0; i<ui->tableWidget_main->rowCount(); i++)
-        if (!ui->tableWidget_main->item(i, 2)->text().isEmpty())
-            profiles.append(ui->tableWidget_main->item(i, 0)->text());
+    for (int i=0; i<ui->tableWidget_main->rowCount(); i++) {
+        if (ui->tableWidget_main->item(i, 2)->text().isEmpty()) continue;
+        profiles.append(ui->tableWidget_main->item(i, 0)->text());
+    }
 
     return profiles;
 }
@@ -458,16 +456,23 @@ QStringList MainWindow::mainTabGetActiveProfiles()
 void MainWindow::mainTabRemoveProfile()
 {
     if (debug) qDebug() << PDEBUG;
+    if (ui->tableWidget_main->currentItem() == nullptr) return;
 
     ui->tabWidget->setDisabled(true);
     QString profile = ui->tableWidget_main->item(ui->tableWidget_main->currentItem()->row(), 0)->text();
-    bool status;
+    bool status = false;
     if (useHelper) {
         QList<QVariant> args;
         args.append(profile);
-        status = sendDBusRequest(DBUS_HELPER_SERVICE, DBUS_CTRL_PATH,
-                                 DBUS_HELPER_INTERFACE, QString("Remove"),
-                                 args, true, debug)[0].toBool();
+        QList<QVariant> responce = sendDBusRequest(DBUS_HELPER_SERVICE, DBUS_CTRL_PATH,
+                                                   DBUS_HELPER_INTERFACE, QString("Remove"),
+                                                   args, true, debug);
+        if (responce.isEmpty()) {
+            if (debug) qDebug() << PDEBUG << ":" << "Could not interact with helper, disable it";
+            useHelper = false;
+            return mainTabRemoveProfile();
+        }
+        status = responce[0].toBool();
     } else
         status = netctlProfile->removeProfile(profile);
     if (status)
@@ -487,12 +492,11 @@ void MainWindow::mainTabRestartProfile()
         emit(needToBeConfigured());
         return;
     }
-    if (ui->tableWidget_main->currentItem() == 0) return;
+    if (ui->tableWidget_main->currentItem() == nullptr) return;
 
     ui->tabWidget->setDisabled(true);
     QString profile = ui->tableWidget_main->item(ui->tableWidget_main->currentItem()->row(), 0)->text();
-    bool status = restartProfileSlot(profile);
-    if (status)
+    if (restartProfileSlot(profile))
         ui->statusBar->showMessage(QApplication::translate("MainWindow", "Done"));
     else
         ui->statusBar->showMessage(QApplication::translate("MainWindow", "Error"));
@@ -509,13 +513,11 @@ void MainWindow::mainTabStartProfile()
         emit(needToBeConfigured());
         return;
     }
-    if (ui->tableWidget_main->currentItem() == 0) return;
+    if (ui->tableWidget_main->currentItem() == nullptr) return;
 
     ui->tabWidget->setDisabled(true);
     QString profile = ui->tableWidget_main->item(ui->tableWidget_main->currentItem()->row(), 0)->text();
-    bool previous = !ui->tableWidget_main->item(ui->tableWidget_main->currentItem()->row(), 2)->text().isEmpty();
-    bool current = startProfileSlot(profile);
-    if (current != previous)
+    if (startProfileSlot(profile))
         ui->statusBar->showMessage(QApplication::translate("MainWindow", "Done"));
     else
         ui->statusBar->showMessage(QApplication::translate("MainWindow", "Error"));
@@ -534,12 +536,18 @@ void MainWindow::mainTabStopAllProfiles()
     }
 
     ui->tabWidget->setDisabled(true);
-    bool status;
-    if (useHelper)
-        status = sendDBusRequest(DBUS_HELPER_SERVICE, DBUS_CTRL_PATH,
-                                 DBUS_HELPER_INTERFACE, QString("StopAll"),
-                                 QList<QVariant>(), true, debug)[0].toBool();
-    else
+    bool status = false;
+    if (useHelper) {
+        QList<QVariant> responce = sendDBusRequest(DBUS_HELPER_SERVICE, DBUS_CTRL_PATH,
+                                                   DBUS_HELPER_INTERFACE, QString("StopAll"),
+                                                   QList<QVariant>(), true, debug);
+        if (responce.isEmpty()) {
+            if (debug) qDebug() << PDEBUG << ":" << "Could not interact with helper, disable it";
+            useHelper = false;
+            return mainTabStopAllProfiles();
+        }
+        status = responce[0].toBool();
+    } else
         status = netctlCommand->stopAllProfiles();
     if (status)
         ui->statusBar->showMessage(QApplication::translate("MainWindow", "Done"));
@@ -558,13 +566,11 @@ void MainWindow::mainTabSwitchToProfile()
         emit(needToBeConfigured());
         return;
     }
-    if (ui->tableWidget_main->currentItem() == 0) return;
+    if (ui->tableWidget_main->currentItem() == nullptr) return;
 
     ui->tabWidget->setDisabled(true);
     QString profile = ui->tableWidget_main->item(ui->tableWidget_main->currentItem()->row(), 0)->text();
-    bool previous = !ui->tableWidget_main->item(ui->tableWidget_main->currentItem()->row(), 2)->text().isEmpty();
-    bool current = switchToProfileSlot(profile);
-    if (current != previous)
+    if (switchToProfileSlot(profile))
         ui->statusBar->showMessage(QApplication::translate("MainWindow", "Done"));
     else
         ui->statusBar->showMessage(QApplication::translate("MainWindow", "Error"));
@@ -783,13 +789,20 @@ void MainWindow::profileTabCreateProfile()
     if (useHelper) {
         QStringList settingsList;
         for (int i=0; i<settings.keys().count(); i++)
-            settingsList.append(settings.keys()[i] + QString("==") + settings[settings.keys()[i]]);
+            settingsList.append(QString("%1==%2").arg(settings.keys()[i]).arg(settings[settings.keys()[i]]));
         QList<QVariant> args;
         args.append(profile);
         args.append(settingsList);
-        status = sendDBusRequest(DBUS_HELPER_SERVICE, DBUS_CTRL_PATH,
-                                 DBUS_HELPER_INTERFACE, QString("Create"),
-                                 args, true, debug)[0].toBool();
+        QList<QVariant> responce = sendDBusRequest(DBUS_HELPER_SERVICE, DBUS_CTRL_PATH,
+                                                   DBUS_HELPER_INTERFACE, QString("Create"),
+                                                   args, true, debug);
+        if (responce.isEmpty()) {
+            if (debug) qDebug() << PDEBUG << ":" << "Could not interact with helper, disable it";
+            useHelper = false;
+            return profileTabCreateProfile();
+        }
+        status = responce[0].toBool();
+
     } else {
         QString profileTempName = netctlProfile->createProfile(profile, settings);
         status = netctlProfile->copyProfile(profileTempName);
@@ -808,15 +821,20 @@ void MainWindow::profileTabLoadProfile()
     if (debug) qDebug() << PDEBUG;
 
     QString profile = QFileInfo(ui->comboBox_profile->currentText()).fileName();
-    if (profile.isEmpty())
-        return;
+    if (profile.isEmpty()) return;
     QMap<QString, QString> settings;
     if (useHelper) {
         QList<QVariant> args;
         args.append(profile);
-        QStringList settingsList = sendDBusRequest(DBUS_HELPER_SERVICE, DBUS_LIB_PATH,
+        QList<QVariant> responce = sendDBusRequest(DBUS_HELPER_SERVICE, DBUS_CTRL_PATH,
                                                    DBUS_HELPER_INTERFACE, QString("Profile"),
-                                                   args, true, debug)[0].toStringList();
+                                                   args, true, debug);
+        if (responce.isEmpty()) {
+            if (debug) qDebug() << PDEBUG << ":" << "Could not interact with helper, disable it";
+            useHelper = false;
+            return profileTabLoadProfile();
+        }
+        QStringList settingsList = responce[0].toStringList();
         for (int i=0; i<settingsList.count(); i++) {
             if (!settingsList[i].contains(QString("=="))) continue;
             QString key = settingsList[i].split(QString("=="))[0];
@@ -826,8 +844,7 @@ void MainWindow::profileTabLoadProfile()
     } else
         settings = netctlProfile->getSettingsFromProfile(profile);
 
-    if (settings.isEmpty())
-        return ErrorWindow::showWindow(17, QString(PDEBUG), debug);
+    if (settings.isEmpty()) return ErrorWindow::showWindow(17, QString(PDEBUG), debug);
 
     generalWid->setSettings(settings);
     if (generalWid->connectionType->currentText() == QString("ethernet")) {
@@ -870,15 +887,21 @@ void MainWindow::profileTabRemoveProfile()
     if (debug) qDebug() << PDEBUG;
 
     ui->tabWidget->setDisabled(true);
-    // call netctlprofile
     QString profile = QFileInfo(ui->comboBox_profile->currentText()).fileName();
+    if (profile.isEmpty()) return ErrorWindow::showWindow(17, QString(PDEBUG), debug);
     bool status = false;
     if (useHelper) {
         QList<QVariant> args;
         args.append(profile);
-        status = sendDBusRequest(DBUS_HELPER_SERVICE, DBUS_CTRL_PATH,
-                                 DBUS_HELPER_INTERFACE, QString("Remove"),
-                                 args, true, debug)[0].toBool();
+        QList<QVariant> responce = sendDBusRequest(DBUS_HELPER_SERVICE, DBUS_CTRL_PATH,
+                                                   DBUS_HELPER_INTERFACE, QString("Remove"),
+                                                   args, true, debug);
+        if (responce.isEmpty()) {
+            if (debug) qDebug() << PDEBUG << ":" << "Could not interact with helper, disable it";
+            useHelper = false;
+            return profileTabLoadProfile();
+        }
+        status = responce[0].toBool();
     } else
         status = netctlProfile->removeProfile(profile);
     if (status)
@@ -894,7 +917,7 @@ void MainWindow::profileTabRemoveProfile()
 void MainWindow::wifiTabContextualMenu(const QPoint &pos)
 {
     if (debug) qDebug() << PDEBUG;
-    if (ui->tableWidget_wifi->currentItem() == 0) return;
+    if (ui->tableWidget_wifi->currentItem() == nullptr) return;
 
     // create menu
     QMenu menu(this);
@@ -934,13 +957,8 @@ void MainWindow::wifiTabSetEnabled(const bool state)
     if (debug) qDebug() << PDEBUG;
     if (debug) qDebug() << PDEBUG << ":" << "State" << state;
 
-    if (state) {
-        ui->tableWidget_wifi->show();
-        ui->label_wifi->hide();
-    } else {
-        ui->tableWidget_wifi->hide();
-        ui->label_wifi->show();
-    }
+    ui->tableWidget_wifi->setHidden(!state);
+    ui->label_wifi->setHidden(state);
 }
 
 
@@ -952,7 +970,7 @@ void MainWindow::wifiTabStart()
         emit(needToBeConfigured());
         return;
     }
-    if (ui->tableWidget_wifi->currentItem() == 0) return;
+    if (ui->tableWidget_wifi->currentItem() == nullptr) return;
 
     ui->tabWidget->setDisabled(true);
     // name is hidden
@@ -960,8 +978,8 @@ void MainWindow::wifiTabStart()
         hiddenNetwork = true;
         passwdWid = new PasswdWidget(this);
         passwdWid->setPassword(false);
-        int widgetWidth = 270;
-        int widgetHeight = 86;
+        int widgetWidth = 2 * width() / 3;
+        int widgetHeight = 110;
         int x = (width() - widgetWidth) / 2;
         int y = (height() - widgetHeight) / 2;
         passwdWid->setGeometry(x, y, widgetWidth, widgetHeight);
@@ -973,41 +991,34 @@ void MainWindow::wifiTabStart()
     // name isn't hidden
     hiddenNetwork = false;
     QString profile = ui->tableWidget_wifi->item(ui->tableWidget_wifi->currentItem()->row(), 0)->text();
+    QString profileName = QString("");
     if (!ui->tableWidget_wifi->item(ui->tableWidget_wifi->currentItem()->row(), 4)->text().isEmpty()) {
-        bool previous = !ui->tableWidget_wifi->item(ui->tableWidget_wifi->currentItem()->row(), 3)->text().isEmpty();
-        bool current;
         if (useHelper) {
             QList<QVariant> args;
             args.append(profile);
-            QString profileName = sendDBusRequest(DBUS_HELPER_SERVICE, DBUS_LIB_PATH,
-                                                  DBUS_HELPER_INTERFACE, QString("ProfileByEssid"),
-                                                  args, true, debug)[0].toString();
-            args.clear();
-            args.append(profileName);
-            sendDBusRequest(DBUS_HELPER_SERVICE, DBUS_CTRL_PATH,
-                            DBUS_HELPER_INTERFACE, QString("Start"),
-                            args, true, debug);
-            current = sendDBusRequest(DBUS_HELPER_SERVICE, DBUS_LIB_PATH,
-                                      DBUS_HELPER_INTERFACE, QString("isProfileActive"),
-                                      args, true, debug)[0].toBool();
-        } else {
-            QString profileName = wpaCommand->existentProfile(profile);
-            netctlCommand->startProfile(profileName);
-            current = netctlCommand->isProfileActive(profileName);
-        }
-        if (current != previous)
+            QList<QVariant> responce = sendDBusRequest(DBUS_HELPER_SERVICE, DBUS_LIB_PATH,
+                                                       DBUS_HELPER_INTERFACE, QString("ProfileByEssid"),
+                                                       args, true, debug);
+            if (responce.isEmpty()) {
+                if (debug) qDebug() << PDEBUG << ":" << "Could not interact with helper, disable it";
+                useHelper = false;
+                return wifiTabStart();
+            }
+            profileName = responce[0].toString();
+        } else
+            profileName = wpaCommand->existentProfile(profile);
+        if (startProfileSlot(profileName))
             ui->statusBar->showMessage(QApplication::translate("MainWindow", "Done"));
         else
             ui->statusBar->showMessage(QApplication::translate("MainWindow", "Error"));
     } else {
         QString security = ui->tableWidget_wifi->item(ui->tableWidget_wifi->currentItem()->row(), 1)->text();
-        if (security.contains(QString("none")))
-            return connectToUnknownEssid(QString(""));
+        if (security == QString("none")) return connectToUnknownEssid(QString(""));
         else {
             passwdWid = new PasswdWidget(this);
             passwdWid->setPassword(true);
-            int widgetWidth = 270;
-            int widgetHeight = 86;
+            int widgetWidth = 2 * width() / 3;
+            int widgetHeight = 110;
             int x = (width() - widgetWidth) / 2;
             int y = (height() - widgetHeight) / 2;
             passwdWid->setGeometry(x, y, widgetWidth, widgetHeight);
