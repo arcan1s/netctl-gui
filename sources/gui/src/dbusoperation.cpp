@@ -23,12 +23,11 @@
 
 #include <pdebug/pdebug.h>
 
+#include "version.h"
 
-QList<netctlProfileInfo> parseOutputNetctl(const QList<QVariant> raw,
-                                           const bool debug)
+
+QList<netctlProfileInfo> parseOutputNetctl(const QList<QVariant> raw)
 {
-    if (debug) qDebug() << PDEBUG;
-
     QList<netctlProfileInfo> profileInfo;
     if (raw.isEmpty()) return profileInfo;
     QStringList list = raw[0].toStringList();
@@ -47,11 +46,8 @@ QList<netctlProfileInfo> parseOutputNetctl(const QList<QVariant> raw,
 }
 
 
-QList<netctlWifiInfo> parseOutputWifi(const QList<QVariant> raw,
-                                      const bool debug)
+QList<netctlWifiInfo> parseOutputWifi(const QList<QVariant> raw)
 {
-    if (debug) qDebug() << PDEBUG;
-
     QList<netctlWifiInfo> wifiInfo;
     if (raw.isEmpty()) return wifiInfo;
     QStringList list = raw[0].toStringList();
@@ -71,28 +67,61 @@ QList<netctlWifiInfo> parseOutputWifi(const QList<QVariant> raw,
 }
 
 
-QList<QVariant> sendDBusRequest(const QString service, const QString path,
-                                const QString interface, const QString cmd,
-                                const QList<QVariant> args, const bool system,
-                                const bool debug)
+QList<QVariant> sendRequestToHelper(const QString path, const QString cmd,
+                                    const QList<QVariant> args, const bool debug)
 {
     if (debug) qDebug() << PDEBUG;
-    if (debug) qDebug() << PDEBUG << ":" << "Service" << service;
-    if (debug) qDebug() << PDEBUG << ":" << "Path" << path;
-    if (debug) qDebug() << PDEBUG << ":" << "Interface" << interface;
     if (debug) qDebug() << PDEBUG << ":" << "cmd" << cmd;
     if (debug) qDebug() << PDEBUG << ":" << "args" << args;
-    if (debug) qDebug() << PDEBUG << ":" << "is system bus" << system;
 
-    QDBusConnection bus = QDBusConnection::sessionBus();
-    if (system)
-        bus = QDBusConnection::systemBus();
-    QDBusMessage request = QDBusMessage::createMethodCall(service, path, interface, cmd);
+    QDBusConnection bus = QDBusConnection::systemBus();
+    QDBusMessage request = QDBusMessage::createMethodCall(DBUS_HELPER_SERVICE, path,
+                                                          DBUS_HELPER_INTERFACE, cmd);
     if (!args.isEmpty()) request.setArguments(args);
     QDBusMessage response = bus.call(request, QDBus::BlockWithGui);
     QList<QVariant> arguments = response.arguments();
-    if (arguments.count() == 0)
+    if (arguments.isEmpty())
         if (debug) qDebug() << PDEBUG << ":" << "Error message" << response.errorMessage();
 
     return arguments;
+}
+
+
+QList<QVariant> sendRequestToCtrl(const QString cmd, const bool debug)
+{
+    if (debug) qDebug() << PDEBUG;
+    if (debug) qDebug() << PDEBUG << ":" << "cmd" << cmd;
+
+    return sendRequestToCtrlWithArgs(cmd, QList<QVariant>(), debug);
+}
+
+
+QList<QVariant> sendRequestToCtrlWithArgs(const QString cmd, const QList<QVariant> args,
+                                          const bool debug)
+{
+    if (debug) qDebug() << PDEBUG;
+    if (debug) qDebug() << PDEBUG << ":" << "cmd" << cmd;
+    if (debug) qDebug() << PDEBUG << ":" << "args" << args;
+
+    return sendRequestToHelper(DBUS_CTRL_PATH, cmd, args, debug);
+}
+
+
+QList<QVariant> sendRequestToLib(const QString cmd, const bool debug)
+{
+    if (debug) qDebug() << PDEBUG;
+    if (debug) qDebug() << PDEBUG << ":" << "cmd" << cmd;
+
+    return sendRequestToLibWithArgs(cmd, QList<QVariant>(), debug);
+}
+
+
+QList<QVariant> sendRequestToLibWithArgs(const QString cmd, const QList<QVariant> args,
+                                         const bool debug)
+{
+    if (debug) qDebug() << PDEBUG;
+    if (debug) qDebug() << PDEBUG << ":" << "cmd" << cmd;
+    if (debug) qDebug() << PDEBUG << ":" << "args" << args;
+
+    return sendRequestToHelper(DBUS_LIB_PATH, cmd, args, debug);
 }

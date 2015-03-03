@@ -123,11 +123,14 @@ QStringList MainWindow::printInformation()
     output.append(QString("none"));
     output.append(QString("(none)"));
     if (useHelper) {
-        QStringList request = sendDBusRequest(DBUS_HELPER_SERVICE, DBUS_LIB_PATH,
-                                              DBUS_HELPER_INTERFACE, QString("Information"),
-                                              QList<QVariant>(), true, debug)[0].toStringList();
-        if (request.count() != 2) return output;
-        output = request;
+        QList<QVariant> responce = sendRequestToLib(QString("Information"), debug);
+        if (responce.isEmpty()) {
+            if (debug) qDebug() << PDEBUG << ":" << "Could not interact with helper, disable it";
+            useHelper = false;
+            return printInformation();
+        }
+        if (responce[0].toStringList().count() != 2) return output;
+        output = responce[0].toStringList();
     } else {
         if (netctlCommand->isNetctlAutoRunning()) {
             output[0] = netctlCommand->autoGetActiveProfile();
@@ -168,31 +171,34 @@ QStringList MainWindow::printTrayInformation()
     bool netctlAutoStatus = false;
     QList<netctlProfileInfo> profiles;
     if (useHelper) {
-        current = sendDBusRequest(DBUS_HELPER_SERVICE, DBUS_LIB_PATH,
-                                  DBUS_HELPER_INTERFACE, QString("ActiveProfile"),
-                                  QList<QVariant>(), true, debug)[0].toString();
-        netctlAutoStatus = sendDBusRequest(DBUS_HELPER_SERVICE, DBUS_LIB_PATH,
-                                           DBUS_HELPER_INTERFACE, QString("isNetctlAutoActive"),
-                                           QList<QVariant>(), true, debug)[0].toBool();
-        profiles = parseOutputNetctl(sendDBusRequest(DBUS_HELPER_SERVICE, DBUS_LIB_PATH,
-                                                     DBUS_HELPER_INTERFACE, QString("ProfileList"),
-                                                     QList<QVariant>(), true, debug), debug);
+        QList<QVariant> responce = sendRequestToLib(QString("ActiveProfile"), debug);
+        if (responce.isEmpty()) {
+            if (debug) qDebug() << PDEBUG << ":" << "Could not interact with helper, disable it";
+            useHelper = false;
+            return printTrayInformation();
+        }
+        current = responce[0].toString();
+        responce = sendRequestToLib(QString("isNetctlAutoActive"), debug);
+        if (responce.isEmpty()) {
+            if (debug) qDebug() << PDEBUG << ":" << "Could not interact with helper, disable it";
+            useHelper = false;
+            return printTrayInformation();
+        }
+        netctlAutoStatus = responce[0].toBool();
+        profiles = parseOutputNetctl(sendRequestToLib(QString("ProfileList"), debug));
         if (netctlAutoStatus) {
             QList<QVariant> args;
             args.append(current);
-            enabled = QString::number(sendDBusRequest(DBUS_HELPER_SERVICE, DBUS_LIB_PATH,
-                                                      DBUS_HELPER_INTERFACE, QString("autoIsProfileEnabled"),
-                                                      args, true, debug)[0].toBool());
+            responce = sendRequestToLibWithArgs(QString("autoIsProfileEnabled"), args, debug);
+            enabled = QString::number(!responce.isEmpty() && responce[0].toBool());
         } else {
             QStringList currentProfiles = current.split(QChar('|'));
             QStringList enabledList;
             for (int i=0; i<currentProfiles.count(); i++) {
                 QList<QVariant> args;
                 args.append(currentProfiles[i]);
-                enabledList.append(QString::number(
-                                       sendDBusRequest(DBUS_HELPER_SERVICE, DBUS_LIB_PATH,
-                                                       DBUS_HELPER_INTERFACE, QString("isProfileEnabled"),
-                                                       args, true, debug)[0].toBool()));
+                responce = sendRequestToLibWithArgs(QString("isProfileEnabled"), args, debug);
+                enabledList.append(QString::number(!responce.isEmpty() && responce[0].toBool()));
                 enabled = enabledList.join(QChar('|'));
             }
         }
@@ -229,11 +235,9 @@ bool MainWindow::isHelperActive()
 {
     if (debug) qDebug() << PDEBUG;
 
-    QList<QVariant> responce = sendDBusRequest(DBUS_HELPER_SERVICE, DBUS_CTRL_PATH,
-                                               DBUS_HELPER_INTERFACE, QString("Active"),
-                                               QList<QVariant>(), true, debug);
+    QList<QVariant> responce = sendRequestToCtrl(QString("Active"), debug);
 
-    return (!responce.isEmpty() && bool(responce[0].toInt()));
+    return (!responce.isEmpty() && responce[0].toBool());
 }
 
 
@@ -312,9 +316,7 @@ bool MainWindow::checkHelperStatus()
 
     if (useHelper) useHelper = isHelperActive();
     if (useHelper)
-        sendDBusRequest(DBUS_HELPER_SERVICE, DBUS_CTRL_PATH,
-                        DBUS_HELPER_INTERFACE, QString("Update"),
-                        QList<QVariant>(), true, debug);
+        sendRequestToCtrl(QString("Update"), debug);
     else
         configuration[QString("FORCE_SUDO")] = QString("true");
     if (isHelperServiceActive())

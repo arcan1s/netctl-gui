@@ -169,18 +169,14 @@ void MainWindow::updateMainTab()
     QList<netctlProfileInfo> profiles;
     bool netctlAutoStatus = false;
     if (useHelper) {
-        QList<QVariant> responce = sendDBusRequest(DBUS_HELPER_SERVICE, DBUS_LIB_PATH,
-                                                   DBUS_HELPER_INTERFACE, QString("isNetctlAutoActive"),
-                                                   QList<QVariant>(), true, debug);
+        QList<QVariant> responce = sendRequestToLib(QString("isNetctlAutoActive"), debug);
         if (responce.isEmpty()) {
             if (debug) qDebug() << PDEBUG << ":" << "Could not interact with helper, disable it";
             useHelper = false;
             return updateMainTab();
         }
         netctlAutoStatus = responce[0].toBool();
-        profiles = parseOutputNetctl(sendDBusRequest(DBUS_HELPER_SERVICE, DBUS_LIB_PATH,
-                                                     DBUS_HELPER_INTERFACE, QString("ProfileList"),
-                                                     QList<QVariant>(), true, debug), debug);
+        profiles = parseOutputNetctl(sendRequestToLib(QString("ProfileList"), debug));
     } else {
         netctlAutoStatus = netctlCommand->isNetctlAutoRunning();
         profiles = netctlCommand->getProfileList();
@@ -272,9 +268,7 @@ void MainWindow::updateWifiTab()
     ui->tabWidget->setDisabled(true);
     QList<netctlWifiInfo> scanResults;
     if (useHelper)
-        scanResults = parseOutputWifi(sendDBusRequest(DBUS_HELPER_SERVICE, DBUS_CTRL_PATH,
-                                                      DBUS_HELPER_INTERFACE, QString("WiFi"),
-                                                      QList<QVariant>(), true, debug), debug);
+        scanResults = parseOutputWifi(sendRequestToCtrl(QString("WiFi"), debug));
     else
         scanResults = wpaCommand->scanWifi();
 
@@ -464,9 +458,7 @@ void MainWindow::mainTabRemoveProfile()
     if (useHelper) {
         QList<QVariant> args;
         args.append(profile);
-        QList<QVariant> responce = sendDBusRequest(DBUS_HELPER_SERVICE, DBUS_CTRL_PATH,
-                                                   DBUS_HELPER_INTERFACE, QString("Remove"),
-                                                   args, true, debug);
+        QList<QVariant> responce = sendRequestToCtrlWithArgs(QString("Remove"), args, debug);
         if (responce.isEmpty()) {
             if (debug) qDebug() << PDEBUG << ":" << "Could not interact with helper, disable it";
             useHelper = false;
@@ -538,9 +530,7 @@ void MainWindow::mainTabStopAllProfiles()
     ui->tabWidget->setDisabled(true);
     bool status = false;
     if (useHelper) {
-        QList<QVariant> responce = sendDBusRequest(DBUS_HELPER_SERVICE, DBUS_CTRL_PATH,
-                                                   DBUS_HELPER_INTERFACE, QString("StopAll"),
-                                                   QList<QVariant>(), true, debug);
+        QList<QVariant> responce = sendRequestToCtrl(QString("StolAll"), debug);
         if (responce.isEmpty()) {
             if (debug) qDebug() << PDEBUG << ":" << "Could not interact with helper, disable it";
             useHelper = false;
@@ -608,9 +598,7 @@ void MainWindow::profileTabClear()
     ui->comboBox_profile->clear();
     QList<netctlProfileInfo> profiles;
     if (useHelper)
-        profiles = parseOutputNetctl(sendDBusRequest(DBUS_HELPER_SERVICE, DBUS_LIB_PATH,
-                                                     DBUS_HELPER_INTERFACE, QString("ProfileList"),
-                                                     QList<QVariant>(), true, debug), debug);
+        profiles = parseOutputNetctl(sendRequestToLib(QString("ProfileList"), debug));
     else
         profiles = netctlCommand->getProfileList();
     for (int i=0; i<profiles.count(); i++)
@@ -793,9 +781,7 @@ void MainWindow::profileTabCreateProfile()
         QList<QVariant> args;
         args.append(profile);
         args.append(settingsList);
-        QList<QVariant> responce = sendDBusRequest(DBUS_HELPER_SERVICE, DBUS_CTRL_PATH,
-                                                   DBUS_HELPER_INTERFACE, QString("Create"),
-                                                   args, true, debug);
+        QList<QVariant> responce = sendRequestToCtrlWithArgs(QString("Create"), args, debug);
         if (responce.isEmpty()) {
             if (debug) qDebug() << PDEBUG << ":" << "Could not interact with helper, disable it";
             useHelper = false;
@@ -826,9 +812,7 @@ void MainWindow::profileTabLoadProfile()
     if (useHelper) {
         QList<QVariant> args;
         args.append(profile);
-        QList<QVariant> responce = sendDBusRequest(DBUS_HELPER_SERVICE, DBUS_CTRL_PATH,
-                                                   DBUS_HELPER_INTERFACE, QString("Profile"),
-                                                   args, true, debug);
+        QList<QVariant> responce = sendRequestToLibWithArgs(QString("Profile"), args, debug);
         if (responce.isEmpty()) {
             if (debug) qDebug() << PDEBUG << ":" << "Could not interact with helper, disable it";
             useHelper = false;
@@ -893,9 +877,7 @@ void MainWindow::profileTabRemoveProfile()
     if (useHelper) {
         QList<QVariant> args;
         args.append(profile);
-        QList<QVariant> responce = sendDBusRequest(DBUS_HELPER_SERVICE, DBUS_CTRL_PATH,
-                                                   DBUS_HELPER_INTERFACE, QString("Remove"),
-                                                   args, true, debug);
+        QList<QVariant> responce = sendRequestToCtrlWithArgs(QString("Remove"), args, debug);
         if (responce.isEmpty()) {
             if (debug) qDebug() << PDEBUG << ":" << "Could not interact with helper, disable it";
             useHelper = false;
@@ -996,9 +978,7 @@ void MainWindow::wifiTabStart()
         if (useHelper) {
             QList<QVariant> args;
             args.append(profile);
-            QList<QVariant> responce = sendDBusRequest(DBUS_HELPER_SERVICE, DBUS_LIB_PATH,
-                                                       DBUS_HELPER_INTERFACE, QString("ProfileByEssid"),
-                                                       args, true, debug);
+            QList<QVariant> responce = sendRequestToLibWithArgs(QString("ProfileByEssid"), args, debug);
             if (responce.isEmpty()) {
                 if (debug) qDebug() << PDEBUG << ":" << "Could not interact with helper, disable it";
                 useHelper = false;

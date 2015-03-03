@@ -23,14 +23,16 @@
 
 #include <netctlgui/netctlgui.h>
 
-QList<netctlProfileInfo> parseOutputNetctl(const QList<QVariant> raw,
-                                           const bool debug = false);
-QList<netctlWifiInfo> parseOutputWifi(const QList<QVariant> raw,
-                                      const bool debug = false);
-QList<QVariant> sendDBusRequest(const QString service, const QString path,
-                                const QString interface, const QString cmd,
-                                const QList<QVariant> args = QList<QVariant>(),
-                                const bool system = true, const bool debug = false);
+QList<netctlProfileInfo> parseOutputNetctl(const QList<QVariant> raw);
+QList<netctlWifiInfo> parseOutputWifi(const QList<QVariant> raw);
+QList<QVariant> sendRequestToHelper(const QString path, const QString cmd,
+                                    const QList<QVariant> args, const bool debug = false);
+QList<QVariant> sendRequestToCtrl(const QString cmd, const bool debug = false);
+QList<QVariant> sendRequestToCtrlWithArgs(const QString cmd, const QList<QVariant> args,
+                                          const bool debug = false);
+QList<QVariant> sendRequestToLib(const QString cmd, const bool debug = false);
+QList<QVariant> sendRequestToLibWithArgs(const QString cmd, const QList<QVariant> args,
+                                         const bool debug = false);
 
 
 #endif /* DBUSOPERATION_H */
