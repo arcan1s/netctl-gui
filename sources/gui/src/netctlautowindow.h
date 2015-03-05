@@ -21,6 +21,8 @@
 #include <QKeyEvent>
 #include <QMainWindow>
 #include <QTableWidgetItem>
+#include <QToolBar>
+#include <QToolButton>
 
 
 class Netctl;
@@ -58,12 +60,18 @@ private slots:
     void netctlAutoStartService();
 
 private:
-    Netctl *netctlCommand = nullptr;
+    // ui
+    QMap<QString, QAction *> toolBarActions;
+    QToolButton *actionMenu = nullptr;
+    QToolBar *actionToolBar = nullptr;
     Ui::NetctlAutoWindow *ui = nullptr;
-    bool debug = false;
-    bool useHelper = true;
+    // backend
+    Netctl *netctlCommand = nullptr;
     QString checkStatus(const bool statusBool, const bool nullFalse = false);
     void createActions();
+    void createToolBars();
+    bool debug = false;
+    bool useHelper = true;
 };
 
 

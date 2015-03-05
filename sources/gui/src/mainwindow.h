@@ -20,7 +20,6 @@
 
 #include <QApplication>
 #include <QMainWindow>
-#include <QShortcut>
 #include <QTableWidgetItem>
 #include <QToolBar>
 #include <QToolButton>
