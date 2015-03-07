@@ -301,12 +301,13 @@ bool MainWindow::startHelper()
 void MainWindow::setTab(int tab)
 {
     if (debug) qDebug() << PDEBUG;
-    if (debug) qDebug() << PDEBUG << ":" << "Update tab" << tab;
+    if (debug) qDebug() << PDEBUG << ":" << "Set tab" << tab;
 
     if (tab > 2) tab = 0;
-    ui->tabWidget->setCurrentIndex(tab);
-
-    updateTabs(tab);
+    if (tab == ui->tabWidget->currentIndex())
+        updateTabs(tab);
+    else
+        ui->tabWidget->setCurrentIndex(tab);
 }
 
 
@@ -325,7 +326,7 @@ void MainWindow::updateConfiguration(const QMap<QString, QVariant> args)
     for (int i=0; i<optionsDict.keys().count(); i++)
         configuration[optionsDict.keys()[i]] = optionsDict[optionsDict.keys()[i]];
     if ((configuration[QString("USE_HELPER")] == QString("true")) &&
-            (checkExternalApps(QString("helper"))))
+        (checkExternalApps(QString("helper"))))
         useHelper = true;
     else {
         useHelper = false;
@@ -337,7 +338,7 @@ void MainWindow::updateConfiguration(const QMap<QString, QVariant> args)
     QString language = Language::defineLanguage(configPath, args[QString("options")].toString());
     qtTranslator->load(QString("qt_%1").arg(language), QLibraryInfo::location(QLibraryInfo::TranslationsPath));
     qApp->installTranslator(qtTranslator);
-    translator->load(QString(":/translations/") + language);
+    translator->load(QString(":/translations/%1").arg(language));
     qApp->installTranslator(translator);
 
     createObjects();
@@ -345,11 +346,7 @@ void MainWindow::updateConfiguration(const QMap<QString, QVariant> args)
     createToolBars();
 
     // tray
-    if ((QSystemTrayIcon::isSystemTrayAvailable()) &&
-        (configuration[QString("SYSTRAY")] == QString("true")))
-        trayIcon->setVisible(true);
-    else
-        trayIcon->setVisible(false);
+    trayIcon->setVisible(QSystemTrayIcon::isSystemTrayAvailable() && (configuration[QString("SYSTRAY")] == QString("true")));
     if (trayIcon->isVisible()) {
         if (configuration[QString("STARTTOTRAY")] == QString("true"))
             hide();
@@ -375,12 +372,18 @@ void MainWindow::updateMenu()
     int tab = ui->tabWidget->currentIndex();
     setMenuActionsShown(false);
 
-    if (tab == 0)
-        updateMenuMain();
-    else if (tab == 1)
+    switch (tab) {
+    case 1:
         updateMenuProfile();
-    else if (tab == 2)
+        break;
+    case 2:
         updateMenuWifi();
+        break;
+    case 0:
+    default:
+        updateMenuMain();
+        break;
+    }
 }
 
 
@@ -389,12 +392,18 @@ void MainWindow::updateTabs(const int tab)
     if (debug) qDebug() << PDEBUG;
     if (debug) qDebug() << PDEBUG << ":" << "Update tab" << tab;
 
-    if (tab == 0)
-        updateMainTab();
-    else if (tab == 1)
+    switch (tab) {
+    case 1:
         updateProfileTab();
-    else if (tab == 2)
+        break;
+    case 2:
         updateWifiTab();
+        break;
+    case 0:
+    default:
+        updateMainTab();
+        break;
+    }
     updateMenu();
 }
 

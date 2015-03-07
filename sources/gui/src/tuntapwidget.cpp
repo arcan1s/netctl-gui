@@ -59,11 +59,9 @@ QMap<QString, QString> TuntapWidget::getSettings()
 int TuntapWidget::isOk()
 {
     // empty username
-    if (ui->lineEdit_user->text().isEmpty())
-        return 1;
+    if (ui->lineEdit_user->text().isEmpty()) return 1;
     // empty group name
-    if (ui->lineEdit_group->text().isEmpty())
-        return 2;
+    if (ui->lineEdit_group->text().isEmpty()) return 2;
     // all fine
     return 0;
 }

@@ -198,7 +198,7 @@ small {
   <!-- wpa_supplicant actions -->
   <tr>
     <td>QStringList WiFi()</td>
-    <td>returns available WiFi points in format <code>NAME|SECURITY|SIGNAL|ACTIVE|EXISTS</code></td>
+    <td>returns available WiFi points in format <code>NAME|SECURITY|FREQS|MACS|SIGNAL|ACTIVE|EXISTS</code></td>
     <td>yes</td>
   </tr>
   <!-- /netctl path -->
@@ -223,7 +223,7 @@ small {
   </tr>
   <tr>
     <td>QStringList ProfileList()</td>
-    <td>returns available profiles in format <code>NAME|DESCRIPTION|ACTIVE|ENABLED</code></td>
+    <td>returns available profiles in format <code>NAME|DESCRIPTION|ESSID|ACTIVE|ENABLED</code></td>
     <td>no</td>
   </tr>
   <tr>
@@ -277,6 +277,11 @@ small {
   <tr>
     <td>QString ProfileValue(QString profile, QString key)</td>
     <td>returns value of the key by the given profile or empty line</td>
+    <td>no</td>
+  </tr>
+  <tr>
+    <td>QStringList ProfileValues(QString profile, QStringList keys)</td>
+    <td>returns values of the keys by the given profile or empty lines</td>
     <td>no</td>
   </tr>
   <!-- gui service -->

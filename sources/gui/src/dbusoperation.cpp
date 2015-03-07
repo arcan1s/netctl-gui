@@ -33,12 +33,13 @@ QList<netctlProfileInfo> parseOutputNetctl(const QList<QVariant> raw)
     QStringList list = raw[0].toStringList();
     for (int i=0; i<list.count(); i++) {
         QStringList info = list[i].split(QChar('|'));
-        if (info.count() != 4) continue;
+        if (info.count() != 5) continue;
         netctlProfileInfo profile;
         profile.name = info[0];
         profile.description = info[1];
-        profile.active = info[2].toInt();
-        profile.enabled = info[3].toInt();
+        profile.essid = info[2];
+        profile.active = info[3].toInt();
+        profile.enabled = info[4].toInt();
         profileInfo.append(profile);
     }
 
@@ -53,13 +54,15 @@ QList<netctlWifiInfo> parseOutputWifi(const QList<QVariant> raw)
     QStringList list = raw[0].toStringList();
     for (int i=0; i<list.count(); i++) {
         QStringList info = list[i].split(QChar('|'));
-        if (info.count() != 5) continue;
+        if (info.count() != 7) continue;
         netctlWifiInfo wifi;
         wifi.name = info[0];
         wifi.security = info[1];
-        wifi.signal = info[2];
-        wifi.active = info[3].toInt();
-        wifi.exists = info[4].toInt();
+        wifi.frequencies = info[2].split(QChar(','));
+        wifi.macs = info[3].split(QChar(','));
+        wifi.signal = info[4].toInt();
+        wifi.active = info[5].toInt();
+        wifi.exists = info[6].toInt();
         wifiInfo.append(wifi);
     }
 

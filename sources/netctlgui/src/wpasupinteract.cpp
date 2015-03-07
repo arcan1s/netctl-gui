@@ -264,39 +264,51 @@ QList<netctlWifiInfo> WpaSup::scanWifi()
         return scanResults;
     }
     if (!wpaCliCall(QString("scan"))) return scanResults;
-    waitForProcess(3);
+    waitForProcess(1);
 
-    QStringList rawOutput = getWpaCliOutput(QString("scan_results")).split(QChar('\n'), QString::SkipEmptyParts);
+    QStringList rawList = getWpaCliOutput(QString("scan_results")).split(QChar('\n'), QString::SkipEmptyParts);
     // remove table header
-    rawOutput.removeFirst();
-    // remove duplicates
-    QStringList rawList;
+    rawList.removeFirst();
     QStringList names;
-    for (int i=0; i<rawOutput.count(); i++) {
-        if (rawOutput[i].split(QChar('\t'), QString::SkipEmptyParts).count() == 4) {
-            rawList.append(rawOutput[i]);
-            continue;
-        } else if (rawOutput[i].split(QChar('\t'), QString::SkipEmptyParts).count() == 5) {
-            if (names.contains(rawOutput[i].split(QChar('\t'), QString::SkipEmptyParts)[4])) continue;
-            names.append(rawOutput[i].split(QChar('\t'), QString::SkipEmptyParts)[4]);
-            rawList.append(rawOutput[i]);
-        }
-    }
 
+    QList<netctlProfileInfo> profiles = netctlCommand->getProfileList();
     for (int i=0; i<rawList.count(); i++) {
-        netctlWifiInfo wifiPoint;
+        QStringList line = rawList[i].split(QChar('\t'));
+        if (line.count() != 5) continue;
+        QString name = line[4];
+        if (name.isEmpty()) name = QString("<hidden>");
+        // append mac and frequency if exists
+        int index = names.indexOf(name);
+        if ((name != QString("<hidden>")) && (index > -1)) {
+            scanResults[index].frequencies.append(line[1]);
+            scanResults[index].macs.append(line[0]);
+            if (scanResults[index].signal < line[2].toInt())
+                scanResults[index].signal = line[2].toInt();
+            continue;
+        }
+
         // point name
-        if (rawList[i].split(QChar('\t'), QString::SkipEmptyParts).count() == 5)
-            wifiPoint.name = rawList[i].split(QChar('\t'), QString::SkipEmptyParts)[4];
-        else
-            wifiPoint.name = QString("<hidden>");
+        netctlWifiInfo wifiPoint;
+        wifiPoint.name = name;
         // profile status
-        wifiPoint.active = isProfileActive(wifiPoint.name);
-        wifiPoint.exists = isProfileExists(wifiPoint.name);
+        netctlProfileInfo profile;
+        profile.name = QString("");
+        profile.active = false;
+        for (int j=0; j<profiles.count(); j++) {
+            if (wifiPoint.name != profiles[j].essid) continue;
+            profile = profiles[j];
+            break;
+        }
+        wifiPoint.active = profile.active;
+        wifiPoint.exists = (!profile.name.isEmpty());
+        // mac
+        wifiPoint.macs.append(line[0]);
+        // frequencies
+        wifiPoint.frequencies.append(line[1]);
         // point signal
-        wifiPoint.signal = rawList[i].split(QChar('\t'), QString::SkipEmptyParts)[2];
+        wifiPoint.signal = line[2].toInt();
         // point security
-        QString security = rawList[i].split(QChar('\t'), QString::SkipEmptyParts)[3];
+        QString security = line[3];
         if (security.contains(QString("WPA2")))
             security = QString("WPA2");
         else if (security.contains(QString("WPA")))
@@ -306,6 +318,9 @@ QList<netctlWifiInfo> WpaSup::scanWifi()
         else
             security = QString("none");
         wifiPoint.security = security;
+
+        // append
+        names.append(name);
         scanResults.append(wifiPoint);
     }
     stopWpaSupplicant();

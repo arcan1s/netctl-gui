@@ -259,7 +259,9 @@ QStringList ControlAdaptor::WiFi()
         QStringList point;
         point.append(wifiPoints[i].name);
         point.append(wifiPoints[i].security);
-        point.append(wifiPoints[i].signal);
+        point.append(wifiPoints[i].frequencies.join(QChar(',')));
+        point.append(wifiPoints[i].macs.join(QChar(',')));
+        point.append(QString::number(wifiPoints[i].signal));
         point.append(QString::number(wifiPoints[i].active));
         point.append(QString::number(wifiPoints[i].exists));
         info.append(point.join(QChar('|')));

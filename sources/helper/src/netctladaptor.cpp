@@ -118,6 +118,7 @@ QStringList NetctlAdaptor::ProfileList()
         QStringList profileInfo;
         profileInfo.append(profilesInfo[i].name);
         profileInfo.append(profilesInfo[i].description);
+        profileInfo.append(profilesInfo[i].essid);
         profileInfo.append(QString::number(profilesInfo[i].active));
         profileInfo.append(QString::number(profilesInfo[i].enabled));
         info.append(profileInfo.join(QChar('|')));
@@ -143,6 +144,12 @@ QStringList NetctlAdaptor::Profile(const QString profile)
 QString NetctlAdaptor::ProfileValue(const QString profile, const QString key)
 {
     return netctlProfile->getValueFromProfile(profile, key);
+}
+
+
+QStringList NetctlAdaptor::ProfileValues(const QString profile, const QStringList keys)
+{
+    return netctlProfile->getValuesFromProfile(profile, keys);
 }
 
 

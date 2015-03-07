@@ -145,24 +145,18 @@ void NetctlAutoWindow::netctlAutoContextualMenu(const QPoint &pos)
     QAction *enableProfile = menu.addAction(QApplication::translate("NetctlAutoWindow", "Enable profile"));
     menu.addSeparator();
     QAction *enableAllProfiles = menu.addAction(QApplication::translate("NetctlAutoWindow", "Enable all profiles"));
-    enableAllProfiles->setIcon(QIcon::fromTheme("edit-add"));
+    enableAllProfiles->setIcon(QIcon::fromTheme("list-add"));
     QAction *disableAllProfiles = menu.addAction(QApplication::translate("NetctlAutoWindow", "Disable all profiles"));
     disableAllProfiles->setIcon(QIcon::fromTheme("edit-delete"));
 
     // set text
-    if (!ui->tableWidget->item(ui->tableWidget->currentItem()->row(), 2)->text().isEmpty()) {
-        enableProfile->setVisible(false);
-        startProfile->setVisible(false);
+    startProfile->setVisible(ui->tableWidget->item(ui->tableWidget->currentItem()->row(), 2)->text().isEmpty());
+    if (!ui->tableWidget->item(ui->tableWidget->currentItem()->row(), 3)->text().isEmpty()) {
+        enableProfile->setText(QApplication::translate("NetctlAutoWindow", "Enable"));
+        enableProfile->setIcon(QIcon::fromTheme("list-add"));
     } else {
-        enableProfile->setVisible(true);
-        startProfile->setVisible(true);
-        if (!ui->tableWidget->item(ui->tableWidget->currentItem()->row(), 3)->text().isEmpty()) {
-            enableProfile->setText(QApplication::translate("NetctlAutoWindow", "Enable"));
-            enableProfile->setIcon(QIcon::fromTheme("edit-add"));
-        } else {
-            enableProfile->setText(QApplication::translate("NetctlAutoWindow", "Disable"));
-            enableProfile->setIcon(QIcon::fromTheme("edit-delete"));
-        }
+        enableProfile->setText(QApplication::translate("NetctlAutoWindow", "Disable"));
+        enableProfile->setIcon(QIcon::fromTheme("edit-delete"));
     }
 
     // actions
@@ -227,7 +221,7 @@ void NetctlAutoWindow::netctlAutoUpdateTable()
         ui->actionDisableAll->setVisible(false);
         ui->actionEnableAll->setVisible(false);
         ui->actionRestartService->setVisible(false);
-        netctlAutoRefreshButtons(0, 0);
+        netctlAutoRefreshButtons(nullptr, nullptr);
         return;
     }
     QList<netctlProfileInfo> profiles;
@@ -288,10 +282,11 @@ void NetctlAutoWindow::netctlAutoUpdateTable()
     ui->tableWidget->horizontalHeader()->setResizeMode(QHeaderView::ResizeToContents);
 #endif
 
+    ui->tableWidget->setCurrentCell(-1, -1);
     ui->tableWidget->setEnabled(true);
     ui->statusBar->showMessage(QApplication::translate("NetctlAutoWindow", "Updated"));
 
-    netctlAutoRefreshButtons(0, 0);
+    netctlAutoRefreshButtons(nullptr, nullptr);
     update();
 }
 
@@ -325,8 +320,7 @@ void NetctlAutoWindow::netctlAutoEnableProfile()
 {
     if (debug) qDebug() << PDEBUG;
 
-    if (ui->tableWidget->currentItem() == 0)
-        return;
+    if (ui->tableWidget->currentItem() == nullptr) return;
     ui->tableWidget->setDisabled(true);
     QString profile = ui->tableWidget->item(ui->tableWidget->currentItem()->row(), 0)->text();
     bool status = false;
@@ -380,8 +374,7 @@ void NetctlAutoWindow::netctlAutoStartProfile()
 {
     if (debug) qDebug() << PDEBUG;
 
-    if (ui->tableWidget->currentItem() == nullptr)
-        return;
+    if (ui->tableWidget->currentItem() == nullptr) return;
     ui->tableWidget->setDisabled(true);
     QString profile = ui->tableWidget->item(ui->tableWidget->currentItem()->row(), 0)->text();
     bool status = false;
@@ -492,34 +485,23 @@ void NetctlAutoWindow::netctlAutoRefreshButtons(QTableWidgetItem *current, QTabl
         ui->actionSwitch->setVisible(false);
         return;
     }
-    if (!ui->tableWidget->item(current->row(), 2)->text().isEmpty()) {
+    toolBarActions[QString("switch")]->setEnabled(ui->tableWidget->item(current->row(), 2)->text().isEmpty());
+    ui->actionSwitch->setVisible(ui->tableWidget->item(current->row(), 2)->text().isEmpty());
+    toolBarActions[QString("enable")]->setEnabled(true);
+    ui->actionEnable->setVisible(true);
+    if (!ui->tableWidget->item(current->row(), 3)->text().isEmpty()) {
         // buttons
-        toolBarActions[QString("enable")]->setDisabled(true);
-        toolBarActions[QString("switch")]->setDisabled(true);
+        toolBarActions[QString("enable")]->setText(QApplication::translate("NetctlAutoWindow", "Enable"));
+        toolBarActions[QString("enable")]->setIcon(QIcon::fromTheme("list-add"));
         // menu
-        ui->actionEnable->setVisible(false);
-        ui->actionSwitch->setVisible(false);
+        ui->actionEnable->setText(QApplication::translate("NetctlAutoWindow", "Enable profile"));
+        ui->actionEnable->setIcon(QIcon::fromTheme("list-add"));
     } else {
         // buttons
-        toolBarActions[QString("enable")]->setEnabled(true);
-        toolBarActions[QString("switch")]->setEnabled(true);
+        toolBarActions[QString("enable")]->setText(QApplication::translate("NetctlAutoWindow", "Disable"));
+        toolBarActions[QString("enable")]->setIcon(QIcon::fromTheme("edit-delete"));
         // menu
-        ui->actionEnable->setVisible(true);
-        ui->actionSwitch->setVisible(true);
-        if (!ui->tableWidget->item(current->row(), 3)->text().isEmpty()) {
-            // buttons
-            toolBarActions[QString("enable")]->setText(QApplication::translate("NetctlAutoWindow", "Enable"));
-            toolBarActions[QString("enable")]->setIcon(QIcon::fromTheme("edit-add"));
-            // menu
-            ui->actionEnable->setText(QApplication::translate("NetctlAutoWindow", "Enable profile"));
-            ui->actionEnable->setIcon(QIcon::fromTheme("edit-add"));
-        } else {
-            // buttons
-            toolBarActions[QString("enable")]->setText(QApplication::translate("NetctlAutoWindow", "Disable"));
-            toolBarActions[QString("enable")]->setIcon(QIcon::fromTheme("edit-delete"));
-            // menu
-            ui->actionEnable->setText(QApplication::translate("NetctlAutoWindow", "Disable profile"));
-            ui->actionEnable->setIcon(QIcon::fromTheme("edit-delete"));
-        }
+        ui->actionEnable->setText(QApplication::translate("NetctlAutoWindow", "Disable profile"));
+        ui->actionEnable->setIcon(QIcon::fromTheme("edit-delete"));
     }
 }

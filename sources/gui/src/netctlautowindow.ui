@@ -94,7 +94,7 @@
   <widget class="QStatusBar" name="statusBar"/>
   <action name="actionEnable">
    <property name="icon">
-    <iconset theme="edit-add">
+    <iconset theme="list-add">
      <normaloff/>
     </iconset>
    </property>
@@ -127,7 +127,7 @@
   </action>
   <action name="actionEnableAll">
    <property name="icon">
-    <iconset theme="edit-add">
+    <iconset theme="list-add">
      <normaloff/>
     </iconset>
    </property>

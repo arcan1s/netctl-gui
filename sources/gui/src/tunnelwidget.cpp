@@ -70,8 +70,7 @@ QMap<QString, QString> TunnelWidget::getSettings()
 int TunnelWidget::isOk()
 {
     // ip is not correct
-    if (!IpRegExp::checkString(ui->lineEdit_remote->text(), IpRegExp::ip4Regex()))
-        return 1;
+    if (!IpRegExp::checkString(ui->lineEdit_remote->text(), IpRegExp::ip4Regex())) return 1;
     // all fine
     return 0;
 }

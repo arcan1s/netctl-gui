@@ -237,7 +237,7 @@ QMap<QString, QString> NetctlProfile::getSettingsFromProfile(const QString profi
 
 
 /**
- * @fn ValueFromProfile
+ * @fn getValueFromProfile
  */
 QString NetctlProfile::getValueFromProfile(const QString profile, const QString key)
 {
@@ -248,6 +248,24 @@ QString NetctlProfile::getValueFromProfile(const QString profile, const QString 
     QMap<QString, QString> settings = getSettingsFromProfile(profile);
 
     return settings[key];
+}
+
+
+/**
+ * @fn getValuesFromProfile
+ */
+QStringList NetctlProfile::getValuesFromProfile(const QString profile, const QStringList keys)
+{
+    if (debug) qDebug() << PDEBUG;
+    if (debug) qDebug() << PDEBUG << ":" << "Profile" << profile;
+    if (debug) qDebug() << PDEBUG << ":" << "Keys" << keys;
+
+    QMap<QString, QString> settings = getSettingsFromProfile(profile);
+    QStringList values;
+    for (int i=0; i<keys.count(); i++)
+        values.append(settings[keys[i]]);
+
+    return values;
 }
 
 

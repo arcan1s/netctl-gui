@@ -86,6 +86,13 @@ public:
      */
     QString getValueFromProfile(const QString profile, const QString key);
     /**
+     * @brief method which return values from profile by keys
+     * @param profile        profile name
+     * @param keys           required keys
+     * @return values by keys
+     */
+    QStringList getValuesFromProfile(const QString profile, const QStringList keys);
+    /**
      * @brief method which removes profile
      * @param profile        profile name
      * @return false if components are not found or command exit code is not equal to 0

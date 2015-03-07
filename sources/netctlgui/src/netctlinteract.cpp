@@ -189,9 +189,16 @@ QList<netctlProfileInfo> Netctl::getProfileList()
     for (int i=0; i<output.count(); i++) {
         netctlProfileInfo profileInfo;
         profileInfo.name = output[i].mid(2, -1);
-        profileInfo.description = getProfileDescription(profileInfo.name);
         profileInfo.active = (output[i][0] == QChar('*'));
         profileInfo.enabled = isProfileEnabled(profileInfo.name);
+        // external
+        QStringList keys;
+        keys.append(QString("Description"));
+        keys.append(QString("ESSID"));
+        QStringList profileValues = netctlProfile->getValuesFromProfile(profileInfo.name,
+                                                                        keys);
+        profileInfo.description = profileValues[0];
+        profileInfo.essid = profileValues[1];
         fullProfilesInfo.append(profileInfo);
     }
 
@@ -212,9 +219,16 @@ QList<netctlProfileInfo> Netctl::getProfileListFromNetctlAuto()
     for (int i=0; i<output.count(); i++) {
         netctlProfileInfo profileInfo;
         profileInfo.name = output[i].mid(2, -1);
-        profileInfo.description = getProfileDescription(profileInfo.name);
         profileInfo.active = (output[i][0] == QChar('*'));
         profileInfo.enabled = (output[i][0] != QChar('!'));
+        // external
+        QStringList keys;
+        keys.append(QString("Description"));
+        keys.append(QString("ESSID"));
+        QStringList profileValues = netctlProfile->getValuesFromProfile(profileInfo.name,
+                                                                        keys);
+        profileInfo.description = profileValues[0];
+        profileInfo.essid = profileValues[1];
         fullProfilesInfo.append(profileInfo);
     }
 

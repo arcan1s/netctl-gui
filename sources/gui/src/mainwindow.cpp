@@ -479,7 +479,7 @@ void MainWindow::createToolBars()
     toolBarActions[QString("mainRestart")] = menu->addAction(QIcon::fromTheme(QString("view-refresh")),
                                                              QApplication::translate("MainWindow", "Restart"),
                                                              this, SLOT(mainTabRestartProfile()));
-    toolBarActions[QString("mainEnable")] = menu->addAction(QIcon::fromTheme(QString("edit-add")),
+    toolBarActions[QString("mainEnable")] = menu->addAction(QIcon::fromTheme(QString("list-add")),
                                                             QApplication::translate("MainWindow", "Enable"),
                                                             this, SLOT(mainTabEnableProfile()));
     toolBarActions[QString("mainStopAll")] = menu->addAction(QIcon::fromTheme(QString("process-stop")),

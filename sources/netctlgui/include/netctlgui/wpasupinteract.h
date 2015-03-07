@@ -43,6 +43,10 @@ class NetctlProfile;
  * may be "WPA2", "WEP", "WEP", "none"
  * @var netctlWifiInfo::signal
  * Wifi point signal
+ * @var netctlWifiInfo::macs
+ * point MAC addresses
+ * @var netctlWifiInfo::frequencies
+ * point frequencies
  * @var netctlWifiInfo::active
  * whether associated profile is active
  * @var netctlWifiInfo::exists
@@ -50,9 +54,11 @@ class NetctlProfile;
  */
 typedef struct
 {
+    QStringList frequencies;
+    QStringList macs;
     QString name;
     QString security;
-    QString signal;
+    int signal;
     bool active;
     bool exists;
 } netctlWifiInfo;

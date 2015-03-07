@@ -117,8 +117,7 @@ int EthernetWidget::isOk()
 {
     // file wpa_supplicant doesn't exists
     if (!ui->lineEdit_wpaConfig->text().isEmpty())
-        if (!QFile(ui->lineEdit_wpaConfig->text()).exists())
-            return 1;
+        if (!QFile(ui->lineEdit_wpaConfig->text()).exists()) return 1;
     // all fine
     return 0;
 }

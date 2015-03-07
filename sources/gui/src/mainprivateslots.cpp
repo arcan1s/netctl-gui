@@ -85,7 +85,6 @@ void MainWindow::setMenuActionsShown(const bool state)
 void MainWindow::updateMenuMain()
 {
     if (debug) qDebug() << PDEBUG;
-    setMenuActionsShown(false);
     actionMenu->setDefaultAction(toolBarActions[QString("mainStart")]);
 
     toolBarActions[QString("netctlAuto")]->setVisible(true);
@@ -110,7 +109,7 @@ void MainWindow::updateMenuMain()
         toolBarActions[QString("mainEnable")]->setIcon(QIcon::fromTheme("edit-remove"));
     } else {
         toolBarActions[QString("mainEnable")]->setText(QApplication::translate("MainWindow", "Enable"));
-        toolBarActions[QString("mainEnable")]->setIcon(QIcon::fromTheme("edit-add"));
+        toolBarActions[QString("mainEnable")]->setIcon(QIcon::fromTheme("list-add"));
     }
     toolBarActions[QString("mainEnable")]->setVisible(true);
     toolBarActions[QString("mainEdit")]->setVisible(true);
@@ -121,7 +120,6 @@ void MainWindow::updateMenuMain()
 void MainWindow::updateMenuProfile()
 {
     if (debug) qDebug() << PDEBUG;
-    setMenuActionsShown(false);
     actionMenu->setDefaultAction(toolBarActions[QString("profileSave")]);
 
     toolBarActions[QString("profileClear")]->setVisible(true);
@@ -134,7 +132,6 @@ void MainWindow::updateMenuProfile()
 void MainWindow::updateMenuWifi()
 {
     if (debug) qDebug() << PDEBUG;
-    setMenuActionsShown(false);
     actionMenu->setDefaultAction(toolBarActions[QString("wifiStart")]);
 
     toolBarActions[QString("wifiRefresh")]->setVisible(true);
@@ -204,9 +201,9 @@ void MainWindow::updateMainTab()
         font.setItalic(profiles[i].enabled);
         // tooltip
         QString toolTip = QString("");
-        toolTip += QString("%1: %2\n").arg(QApplication::translate("MainWindow", "Profile")).arg(profiles[i].name);
         toolTip += QString("%1: %2\n").arg(QApplication::translate("MainWindow", "Active")).arg(checkStatus(profiles[i].active));
-        toolTip += QString("%1: %2").arg(QApplication::translate("MainWindow", "Enabled")).arg(checkStatus(profiles[i].enabled));
+        toolTip += QString("%1: %2\n").arg(QApplication::translate("MainWindow", "Enabled")).arg(checkStatus(profiles[i].enabled));
+        toolTip += QString("%1: %2").arg(QApplication::translate("MainWindow", "Is wireless")).arg(checkStatus(!profiles[i].essid.isEmpty()));
         // name
         ui->tableWidget_main->setItem(i, 0, new QTableWidgetItem(profiles[i].name));
         ui->tableWidget_main->item(i, 0)->setTextAlignment(Qt::AlignRight | Qt::AlignVCenter);
@@ -294,7 +291,8 @@ void MainWindow::updateWifiTab()
         font.setItalic(scanResults[i].exists);
         // tooltip
         QString toolTip = QString("");
-        toolTip += QString("%1: %2\n").arg(QApplication::translate("MainWindow", "ESSID")).arg(scanResults[i].name);
+        toolTip += QString("%1: %2\n").arg(QApplication::translate("MainWindow", "MAC")).arg(scanResults[i].macs.join(QString(", ")));
+        toolTip += QString("%1: %2\n").arg(QApplication::translate("MainWindow", "Frequency")).arg(scanResults[i].frequencies.join(QString(", ")));
         toolTip += QString("%1: %2\n").arg(QApplication::translate("MainWindow", "Active")).arg(checkStatus(scanResults[i].active));
         toolTip += QString("%1: %2").arg(QApplication::translate("MainWindow", "Exists")).arg(checkStatus(scanResults[i].exists));
         // name
@@ -303,7 +301,7 @@ void MainWindow::updateWifiTab()
         ui->tableWidget_wifi->item(i, 0)->setToolTip(toolTip);
         ui->tableWidget_wifi->item(i, 0)->setFont(font);
         // signal
-        ui->tableWidget_wifi->setItem(i, 1, new QTableWidgetItem(scanResults[i].signal));
+        ui->tableWidget_wifi->setItem(i, 1, new QTableWidgetItem(QString::number(scanResults[i].signal)));
         ui->tableWidget_wifi->item(i, 1)->setTextAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
         ui->tableWidget_wifi->item(i, 1)->setToolTip(toolTip);
         // security
@@ -372,7 +370,7 @@ void MainWindow::mainTabContextualMenu(const QPoint &pos)
         enableProfile->setIcon(QIcon::fromTheme("edit-remove"));
     } else {
         enableProfile->setText(QApplication::translate("MainWindow", "Enable profile"));
-        enableProfile->setIcon(QIcon::fromTheme("edit-add"));
+        enableProfile->setIcon(QIcon::fromTheme("list-add"));
     }
 
     // actions

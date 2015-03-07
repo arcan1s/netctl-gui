@@ -375,15 +375,13 @@ int IpWidget::isOk()
     if ((ui->checkBox_ip->checkState() == Qt::Checked) &&
         (ui->comboBox_ip->currentText() == QString("static")))
         if ((ui->listWidget_ipAddress->count() == 0) ||
-            (ui->lineEdit_gateway->text().isEmpty()))
-            return 1;
+            (ui->lineEdit_gateway->text().isEmpty())) return 1;
     // ipv6 settings is not set
     if ((ui->checkBox_ip6->checkState() == Qt::Checked) &&
         ((ui->comboBox_ip6->currentText() == QString("static")) ||
          (ui->comboBox_ip6->currentText() == QString("stateless"))))
         if ((ui->listWidget_ipAddress6->count() == 0) ||
-            (ui->lineEdit_gateway6->text().isEmpty()))
-            return 2;
+            (ui->lineEdit_gateway6->text().isEmpty())) return 2;
     // all fine
     return 0;
 }

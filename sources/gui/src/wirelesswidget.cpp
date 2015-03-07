@@ -232,26 +232,21 @@ int WirelessWidget::isOk()
     // empty key
     if ((ui->comboBox_security->currentText() == QString("wep")) ||
         (ui->comboBox_security->currentText() == QString("wpa")))
-        if (ui->lineEdit_key->text().isEmpty())
-            return 1;
+        if (ui->lineEdit_key->text().isEmpty()) return 1;
     // empty settings
     if (ui->comboBox_security->currentText() == QString("wpa-configsection"))
-        if (ui->listWidget_wpaConfigSection->count() == 0)
-            return 2;
+        if (ui->listWidget_wpaConfigSection->count() == 0) return 2;
     // file is not set
     if (ui->comboBox_security->currentText() == QString("wpa-config"))
-        if (ui->lineEdit_wpaConfig->text().isEmpty())
-            return 3;
+        if (ui->lineEdit_wpaConfig->text().isEmpty()) return 3;
     // file wpa_supplicant doesn't exists
     if (ui->comboBox_security->currentText() == QString("wpa-config"))
-        if (!QFile(ui->lineEdit_wpaConfig->text()).exists())
-            return 4;
+        if (!QFile(ui->lineEdit_wpaConfig->text()).exists()) return 4;
     // essid is not set
     if ((ui->comboBox_security->currentText() == QString("none")) ||
         (ui->comboBox_security->currentText() == QString("wep")) ||
         (ui->comboBox_security->currentText() == QString("wpa")))
-        if (ui->lineEdit_essid->text().isEmpty())
-            return 5;
+        if (ui->lineEdit_essid->text().isEmpty()) return 5;
     // all fine
     return 0;
 }

@@ -156,11 +156,9 @@ int GeneralWidget::isOk()
         (ui->comboBox_connection->currentText() == QString("vlan")) ||
         (ui->comboBox_connection->currentText() == QString("macvlan")) ||
         (ui->comboBox_connection->currentText() == QString("openvswitch")))
-        if (ui->listWidget_bindto->count() == 0)
-            return 1;
+        if (ui->listWidget_bindto->count() == 0) return 1;
     // empty description
-    if (ui->lineEdit_description->text().isEmpty())
-        return 2;
+    if (ui->lineEdit_description->text().isEmpty()) return 2;
     // all fine
     return 0;
 }

@@ -118,12 +118,10 @@ QMap<QString, QString> MobileWidget::getSettings()
 int MobileWidget::isOk()
 {
     // APN is not set
-    if (ui->lineEdit_apn->text().isEmpty())
-        return 1;
+    if (ui->lineEdit_apn->text().isEmpty()) return 1;
     // config file doesn't exist
     if (!ui->lineEdit_options->text().isEmpty())
-        if (!QFile(ui->lineEdit_options->text()).exists())
-            return 2;
+        if (!QFile(ui->lineEdit_options->text()).exists()) return 2;
     // all fine
     return 0;
 }

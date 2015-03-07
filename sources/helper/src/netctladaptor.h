@@ -50,6 +50,7 @@ public slots:
     // netctlProfile
     QStringList Profile(const QString profile);
     QString ProfileValue(const QString profile, const QString key);
+    QStringList ProfileValues(const QString profile, const QStringList keys);
     // wpaCommand
     QString ProfileByEssid(const QString essid);
     QStringList WirelessInterfaces();

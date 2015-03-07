@@ -157,22 +157,18 @@ int PppoeWidget::isOk()
 {
     // config file doesn't exist
     if (!ui->lineEdit_options->text().isEmpty())
-        if (!QFile(ui->lineEdit_options->text()).exists())
-            return 1;
+        if (!QFile(ui->lineEdit_options->text()).exists()) return 1;
     // mac address
     if (!ui->lineEdit_mac->text().remove(QChar(':')).isEmpty())
-        if (ui->lineEdit_mac->text().length() != (6 * 2 + 5))
-            return 2;
+        if (ui->lineEdit_mac->text().length() != (6 * 2 + 5)) return 2;
     // session id is not set
     if (!ui->lineEdit_session->text().remove(QChar(':')).isEmpty())
-        if (ui->lineEdit_session->text().split(QChar(':'))[0].isEmpty())
-            return 3;
+        if (ui->lineEdit_session->text().split(QChar(':'))[0].isEmpty()) return 3;
     // session mac address
     if (!ui->lineEdit_session->text().remove(QChar(':')).isEmpty()) {
         QStringList item = ui->lineEdit_session->text().split(QChar(':'));
         item.removeFirst();
-        if (item.join(QChar(':')).length() != (6 * 2 + 5))
-            return 4;
+        if (item.join(QChar(':')).length() != (6 * 2 + 5)) return 4;
     }
     // all fine
     return 0;
