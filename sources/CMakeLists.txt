@@ -1,4 +1,4 @@
-wcmake_minimum_required (VERSION 2.8.12)
+cmake_minimum_required (VERSION 2.8.12)
 
 cmake_policy (SET CMP0003 OLD)
 cmake_policy (SET CMP0002 OLD)

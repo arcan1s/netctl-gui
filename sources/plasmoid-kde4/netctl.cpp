@@ -135,10 +135,7 @@ QString Netctl::parsePattern(const QString rawLine)
 
     QString line = rawLine;
     for (int i=0; i<info.keys().count(); i++)
-        if (line.contains(QString("$") + info.keys()[i]))
-            line = line.split(QString("$") + info.keys()[i])[0] +
-                    info[info.keys()[i]] +
-                    line.split(QString("$") + info.keys()[i])[1];
+        line.replace(QString("$%1").arg(info.keys()[i]), info[info.keys()[i]]);
 
     return line;
 }
@@ -222,7 +219,7 @@ void Netctl::updateInterface(bool setShown)
     else
         layout->removeWidget(textLabel);
     graphicsWidget->adjustSize();
-    resize(1, 1);
+    resize(0, 0);
 }
 
 
@@ -506,7 +503,7 @@ void Netctl::sendNotification(const QString eventId, const QString message)
 
     KNotification *notification = new KNotification(eventId);
     notification->setComponentData(KComponentData("plasma_applet_netctl"));
-    notification->setTitle(QString("Netctl ::: ") + eventId);
+    notification->setTitle(QString("Netctl ::: %1").arg(eventId));
     notification->setText(message);
     notification->sendEvent();
     delete notification;
@@ -544,6 +541,7 @@ void Netctl::connectToEngine()
     netctlEngine->connectSource(QString("current"), this, autoUpdateInterval);
     netctlEngine->connectSource(QString("extip4"), this, autoUpdateInterval);
     netctlEngine->connectSource(QString("extip6"), this, autoUpdateInterval);
+    netctlEngine->connectSource(QString("info"), this, autoUpdateInterval);
     netctlEngine->connectSource(QString("interfaces"), this, autoUpdateInterval);
     netctlEngine->connectSource(QString("intip4"), this, autoUpdateInterval);
     netctlEngine->connectSource(QString("intip6"), this, autoUpdateInterval);
@@ -578,18 +576,15 @@ void Netctl::dataUpdated(const QString &sourceName, const Plasma::DataEngine::Da
         updateIcon();
     } else if (sourceName == QString("current")) {
         info[QString("current")] = value;
-        QStringList profiles;
-        for (int i=0; i<info[QString("current")].split(QChar('|')).count(); i++)
-            profiles.append(info[QString("current")].split(QChar('|'))[i] +
-                    QString(" (") + info[QString("status")].split(QChar('|'))[i] + QString(")"));
-        info[QString("info")] = profiles.join(QString(" | "));
-        // update text
-        if (bigInterface)
-            textLabel->setText(formatLine[0] + parsePattern(textPattern) + formatLine[1]);
     } else if (sourceName == QString("extip4")) {
         info[QString("extip4")] = value;
     } else if (sourceName == QString("extip6")) {
         info[QString("extip6")] = value;
+    } else if (sourceName == QString("info")) {
+        info[QString("info")] = value;
+        // update text
+        if (bigInterface)
+            textLabel->setText(formatLine[0] + parsePattern(textPattern) + formatLine[1]);
     } else if (sourceName == QString("interfaces")) {
         info[QString("interfaces")] = value;
     } else if (sourceName == QString("intip4")) {
@@ -614,6 +609,7 @@ void Netctl::disconnectFromEngine()
     netctlEngine->disconnectSource(QString("currentProfile"), this);
     netctlEngine->disconnectSource(QString("extIp4"), this);
     netctlEngine->disconnectSource(QString("extIp6"), this);
+    netctlEngine->disconnectSource(QString("info"), this);
     netctlEngine->disconnectSource(QString("interfaces"), this);
     netctlEngine->disconnectSource(QString("intIp4"), this);
     netctlEngine->disconnectSource(QString("intIp6"), this);
@@ -634,11 +630,10 @@ QList<QVariant> Netctl::sendDBusRequest(const QString cmd, const QList<QVariant>
     QDBusConnection bus = QDBusConnection::systemBus();
     QDBusMessage request = QDBusMessage::createMethodCall(DBUS_HELPER_SERVICE, DBUS_CTRL_PATH,
                                                           DBUS_HELPER_INTERFACE, cmd);
-    if (!args.isEmpty())
-        request.setArguments(args);
+    if (!args.isEmpty()) request.setArguments(args);
     QDBusMessage response = bus.call(request, QDBus::BlockWithGui);
     QList<QVariant> arguments = response.arguments();
-    if (arguments.size() == 0)
+    if (arguments.isEmpty())
         if (debug) qDebug() << PDEBUG << ":" << "Error message" << response.errorMessage();
 
     return arguments;
@@ -822,27 +817,15 @@ void Netctl::configAccepted()
 
     cg.writeEntry("autoUpdateInterval", uiWidConfig.spinBox_autoUpdate->value());
     cg.writeEntry("guiPath", uiWidConfig.lineEdit_gui->text());
-    if (uiWidConfig.checkBox_helper->checkState() == 0)
-        cg.writeEntry("useHelper", false);
-    else
-        cg.writeEntry("useHelper", true);
+    cg.writeEntry("useHelper", (uiWidConfig.checkBox_helper->checkState() != 0));
     cg.writeEntry("helperPath", uiWidConfig.lineEdit_helper->text());
     cg.writeEntry("netctlPath", uiWidConfig.lineEdit_netctl->text());
     cg.writeEntry("netctlAutoPath", uiWidConfig.lineEdit_netctlAuto->text());
-    if (uiWidConfig.checkBox_sudo->checkState() == 0)
-        cg.writeEntry("useSudo", false);
-    else
-        cg.writeEntry("useSudo", true);
+    cg.writeEntry("useSudo", (uiWidConfig.checkBox_sudo->checkState() != 0));
     cg.writeEntry("sudoPath", uiWidConfig.lineEdit_sudo->text());
-    if (uiWidConfig.checkBox_wifi->checkState() == 0)
-        cg.writeEntry("useWifi", false);
-    else
-        cg.writeEntry("useWifi", true);
+    cg.writeEntry("useWifi", (uiWidConfig.checkBox_wifi->checkState() != 0));
     cg.writeEntry("wifiPath", uiWidConfig.lineEdit_wifi->text());
-    if (uiWidConfig.checkBox_showBigInterface->checkState() == 0)
-        cg.writeEntry("showBigInterface", false);
-    else
-        cg.writeEntry("showBigInterface", true);
+    cg.writeEntry("showBigInterface", (uiWidConfig.checkBox_showBigInterface->checkState() != 0));
     QString pattern = uiWidConfig.textEdit->toPlainText();
     pattern.replace(QString("\n"), QString("<br>"));
     cg.writeEntry("textPattern", pattern);
@@ -924,10 +907,7 @@ void Netctl::setBigInterface()
 {
     if (debug) qDebug() << PDEBUG;
 
-    if (uiWidConfig.checkBox_showBigInterface->checkState() == 0)
-        uiWidConfig.textEdit->setDisabled(true);
-    else if (uiWidConfig.checkBox_showBigInterface->checkState() == 2)
-        uiWidConfig.textEdit->setDisabled(false);
+    uiWidConfig.textEdit->setDisabled(uiWidConfig.checkBox_showBigInterface->checkState() == 0);
 }
 
 
@@ -935,13 +915,8 @@ void Netctl::setDataEngineExternalIp4()
 {
     if (debug) qDebug() << PDEBUG;
 
-    if (uiDEConfig.checkBox_extIp4->checkState() == 0) {
-        uiDEConfig.lineEdit_extIp4->setDisabled(true);
-        uiDEConfig.pushButton_extIp4->setDisabled(true);
-    } else if (uiDEConfig.checkBox_extIp4->checkState() == 2) {
-        uiDEConfig.lineEdit_extIp4->setEnabled(true);
-        uiDEConfig.pushButton_extIp4->setEnabled(true);
-    }
+    uiDEConfig.lineEdit_extIp4->setDisabled(uiDEConfig.checkBox_extIp4->checkState() == 0);
+    uiDEConfig.pushButton_extIp4->setDisabled(uiDEConfig.checkBox_extIp4->checkState() == 0);
 }
 
 
@@ -949,25 +924,15 @@ void Netctl::setDataEngineExternalIp6()
 {
     if (debug) qDebug() << PDEBUG;
 
-    if (uiDEConfig.checkBox_extIp6->checkState() == 0) {
-        uiDEConfig.lineEdit_extIp6->setDisabled(true);
-        uiDEConfig.pushButton_extIp6->setDisabled(true);
-    } else if (uiDEConfig.checkBox_extIp6->checkState() == 2) {
-        uiDEConfig.lineEdit_extIp6->setEnabled(true);
-        uiDEConfig.pushButton_extIp6->setEnabled(true);
-    }
+    uiDEConfig.lineEdit_extIp6->setDisabled(uiDEConfig.checkBox_extIp6->checkState() == 0);
+    uiDEConfig.pushButton_extIp6->setDisabled(uiDEConfig.checkBox_extIp6->checkState() == 0);
 }
 
 
 void Netctl::setHelper()
 {
-    if (uiWidConfig.checkBox_helper->checkState() == 0) {
-        uiWidConfig.lineEdit_helper->setDisabled(true);
-        uiWidConfig.pushButton_helper->setDisabled(true);
-    } else if (uiWidConfig.checkBox_helper->checkState() == 2) {
-        uiWidConfig.lineEdit_helper->setEnabled(true);
-        uiWidConfig.pushButton_helper->setEnabled(true);
-    }
+    uiWidConfig.lineEdit_helper->setDisabled(uiWidConfig.checkBox_helper->checkState() == 0);
+    uiWidConfig.pushButton_helper->setDisabled(uiWidConfig.checkBox_helper->checkState() == 0);
 }
 
 
@@ -975,13 +940,8 @@ void Netctl::setSudo()
 {
     if (debug) qDebug() << PDEBUG;
 
-    if (uiWidConfig.checkBox_sudo->checkState() == 0) {
-        uiWidConfig.lineEdit_sudo->setDisabled(true);
-        uiWidConfig.pushButton_sudo->setDisabled(true);
-    } else if (uiWidConfig.checkBox_sudo->checkState() == 2) {
-        uiWidConfig.lineEdit_sudo->setEnabled(true);
-        uiWidConfig.pushButton_sudo->setEnabled(true);
-    }
+    uiWidConfig.lineEdit_sudo->setDisabled(uiWidConfig.checkBox_sudo->checkState() == 0);
+    uiWidConfig.pushButton_sudo->setDisabled(uiWidConfig.checkBox_sudo->checkState() == 0);
 }
 
 
@@ -989,13 +949,8 @@ void Netctl::setWifi()
 {
     if (debug) qDebug() << PDEBUG;
 
-    if (uiWidConfig.checkBox_wifi->checkState() == 0) {
-        uiWidConfig.lineEdit_wifi->setDisabled(true);
-        uiWidConfig.pushButton_wifi->setDisabled(true);
-    } else if (uiWidConfig.checkBox_wifi->checkState() == 2) {
-        uiWidConfig.lineEdit_wifi->setEnabled(true);
-        uiWidConfig.pushButton_wifi->setEnabled(true);
-    }
+    uiWidConfig.lineEdit_wifi->setDisabled(uiWidConfig.checkBox_wifi->checkState() == 0);
+    uiWidConfig.pushButton_wifi->setDisabled(uiWidConfig.checkBox_wifi->checkState() == 0);
 }
 
 
