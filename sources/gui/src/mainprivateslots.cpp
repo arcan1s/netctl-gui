@@ -181,9 +181,14 @@ void MainWindow::updateMainTab()
         font.setItalic(profiles[i].enabled);
         // tooltip
         QString toolTip = QString("");
-        toolTip += QString("%1: %2\n").arg(QApplication::translate("MainWindow", "Active")).arg(checkStatus(profiles[i].active));
-        toolTip += QString("%1: %2\n").arg(QApplication::translate("MainWindow", "Enabled")).arg(checkStatus(profiles[i].enabled));
-        toolTip += QString("%1: %2").arg(QApplication::translate("MainWindow", "Is wireless")).arg(checkStatus(!profiles[i].essid.isEmpty()));
+        toolTip += QString("%1: %2@%3\n").arg(QApplication::translate("MainWindow", "Type"))
+                                         .arg(profiles[i].type).arg(profiles[i].interface);
+        toolTip += QString("%1: %2\n").arg(QApplication::translate("MainWindow", "Active"))
+                                      .arg(checkStatus(profiles[i].active));
+        toolTip += QString("%1: %2\n").arg(QApplication::translate("MainWindow", "Enabled"))
+                                      .arg(checkStatus(profiles[i].enabled));
+        toolTip += QString("%1: %2").arg(QApplication::translate("MainWindow", "Is wireless"))
+                                    .arg(checkStatus(!profiles[i].essid.isEmpty()));
         // name
         ui->tableWidget_main->setItem(i, 0, new QTableWidgetItem(profiles[i].name));
         ui->tableWidget_main->item(i, 0)->setTextAlignment(Qt::AlignRight | Qt::AlignVCenter);
@@ -296,9 +301,12 @@ void MainWindow::updateWifiTab()
                                                      .arg(scanResults[i].macs[j])
                                                      .arg(scanResults[i].frequencies[j])
                                                      .arg(QApplication::translate("MainWindow", "MHz"));
-        toolTip += QString("%1: %2\n").arg(QApplication::translate("MainWindow", "Type")).arg(type);
-        toolTip += QString("%1: %2\n").arg(QApplication::translate("MainWindow", "Active")).arg(checkStatus(scanResults[i].active));
-        toolTip += QString("%1: %2").arg(QApplication::translate("MainWindow", "Exists")).arg(checkStatus(scanResults[i].exists));
+        toolTip += QString("%1: %2\n").arg(QApplication::translate("MainWindow", "Type"))
+                                      .arg(type);
+        toolTip += QString("%1: %2\n").arg(QApplication::translate("MainWindow", "Active"))
+                                      .arg(checkStatus(scanResults[i].active));
+        toolTip += QString("%1: %2").arg(QApplication::translate("MainWindow", "Exists"))
+                                    .arg(checkStatus(scanResults[i].exists));
         // name
         ui->tableWidget_wifi->setItem(i, 0, new QTableWidgetItem(scanResults[i].name));
         ui->tableWidget_wifi->item(i, 0)->setTextAlignment(Qt::AlignRight | Qt::AlignVCenter);

@@ -245,9 +245,7 @@ QString NetctlProfile::getValueFromProfile(const QString profile, const QString 
     if (debug) qDebug() << PDEBUG << ":" << "Profile" << profile;
     if (debug) qDebug() << PDEBUG << ":" << "Key" << key;
 
-    QMap<QString, QString> settings = getSettingsFromProfile(profile);
-
-    return settings[key];
+    return getValuesFromProfile(profile, QStringList() << key)[0];
 }
 
 

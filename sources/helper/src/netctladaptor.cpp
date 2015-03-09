@@ -137,6 +137,8 @@ QStringList NetctlAdaptor::netctlVerboseProfileList()
         QStringList profileInfo;
         profileInfo.append(profilesInfo[i].name);
         profileInfo.append(profilesInfo[i].description);
+        profileInfo.append(profilesInfo[i].type);
+        profileInfo.append(profilesInfo[i].interface);
         profileInfo.append(profilesInfo[i].essid);
         profileInfo.append(QString::number(profilesInfo[i].active));
         profileInfo.append(QString::number(profilesInfo[i].enabled));

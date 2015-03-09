@@ -81,8 +81,8 @@ typedef struct
     QString security;
     int signal;
     PointType type = PointType::None;
-    bool active;
-    bool exists;
+    bool active = false;
+    bool exists = false;
 } netctlWifiInfo;
 
 /**
@@ -142,6 +142,11 @@ public:
 public slots:
     // functions
     /**
+     * @brief method which returns active point information
+     * @return current point information
+     */
+    netctlWifiInfo current();
+    /**
      * @brief method which scans WiFi networks
      * @return list of essids
      */
@@ -177,17 +182,17 @@ private:
      */
     bool useSuid = true;
     /**
-     * @brief path to ctrl_directory. Defaults is "/run/wpa_supplicant_netctl-gui"
+     * @brief path to ctrl_directory. Defaults is "/run/wpa_supplicant"
      */
-    QString ctrlDir = QString("/run/wpa_supplicant_netctl-gui");
+    QString ctrlDir = QString("/run/wpa_supplicant");
     /**
      * @brief group which is owner of CTRL_DIR. Default is "users"
      */
     QString ctrlGroup = QString("users");
     /**
-     * @brief wpa_supplicant PID file. Default is "/run/wpa_supplicant_netctl-gui.pid"
+     * @brief wpa_supplicant PID file. $i is interface. Default is "/run/wpa_supplicant_$i.pid"
      */
-    QString pidFile = QString("/run/wpa_supplicant_netctl-gui.pid");
+    QString pidFile = QString("/run/wpa_supplicant_$i.pid");
     /**
      * @brief path to sudo command. Default is "/usr/bin/kdesu"
      */

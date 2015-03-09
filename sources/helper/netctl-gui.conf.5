@@ -20,7 +20,7 @@ close helper after GUI application quit. This option is not recognized by
 .IP "CLOSETOTRAY=true"
 hide application to tray on exit if tray is available. This option is not recognized by
 .BR netctlgui-helper (1)
-.IP "CTRL_DIR=/run/wpa_supplicant_netctl-gui"
+.IP "CTRL_DIR=/run/wpa_supplicant"
 path to control directory which is required by
 .BR wpa_supplicant (8)
 .IP "CTRL_GROUP=users"
@@ -56,7 +56,7 @@ path to
 service name without
 .I .service
 suffix
-.IP "PID_FILE=/run/wpa_supplicant_netctl-gui.pid"
+.IP "PID_FILE=/run/wpa_supplicant_$i.pid"
 .BR wpa_supplicant (8)
 PID file
 .IP "PREFERED_IFACE="

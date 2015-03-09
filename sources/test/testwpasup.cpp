@@ -74,10 +74,10 @@ void TestWpaSup::cleanupTestCase()
 void TestWpaSup::test_getRecommendedConfiguration()
 {
     QStringList original;
-    original.append(QString("CTRL_DIR==/run/wpa_supplicant_netctl-gui"));
+    original.append(QString("CTRL_DIR==/run/wpa_supplicant"));
     original.append(QString("CTRL_GROUP==network"));
     original.append(QString("FORCE_SUDO==false"));
-    original.append(QString("PID_FILE==/run/wpa_supplicant_netctl-gui.pid"));
+    original.append(QString("PID_FILE==/run/wpa_supplicant_$i.pid"));
     original.append(QString("SUDO_PATH==/usr/bin/sudo"));
     original.append(QString("WPACLI_PATH==/usr/bin/wpa_cli"));
     original.append(QString("WPASUP_PATH==/usr/bin/wpa_supplicant"));

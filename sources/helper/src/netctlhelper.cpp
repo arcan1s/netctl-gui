@@ -164,9 +164,9 @@ QMap<QString, QString> NetctlHelper::getSettings(const QString file)
     settings.beginGroup(QString("wpa_supplicant"));
     config[QString("WPASUP_PATH")] = settings.value(QString("WPASUP_PATH"), QString("/usr/bin/wpa_supplicant")).toString();
     config[QString("WPACLI_PATH")] = settings.value(QString("WPACLI_PATH"), QString("/usr/bin/wpa_cli")).toString();
-    config[QString("PID_FILE")] = settings.value(QString("PID_FILE"), QString("/run/wpa_supplicant_netctl-gui.pid")).toString();
+    config[QString("PID_FILE")] = settings.value(QString("PID_FILE"), QString("/run/wpa_supplicant_$i.pid")).toString();
     config[QString("WPA_DRIVERS")] = settings.value(QString("WPA_DRIVERS"), QString("nl80211,wext")).toString();
-    config[QString("CTRL_DIR")] = settings.value(QString("CTRL_DIR"), QString("/run/wpa_supplicant_netctl-gui")).toString();
+    config[QString("CTRL_DIR")] = settings.value(QString("CTRL_DIR"), QString("/run/wpa_supplicant")).toString();
     config[QString("CTRL_GROUP")] = settings.value(QString("CTRL_GROUP"), QString("users")).toString();
     settings.endGroup();
 

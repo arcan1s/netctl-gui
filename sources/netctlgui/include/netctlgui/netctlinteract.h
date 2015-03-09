@@ -42,6 +42,10 @@ class NetctlProfile;
  * profile description
  * @var netctlProfileInfo::essid
  * ESSID if any
+ * @var netctlProfileInfo::interface
+ * profile interface
+ * @var netctlProfileInfo::type
+ * profile type
  * @var netctlProfileInfo::active
  * whether profile is active
  * @var netctlProfileInfo::enabled
@@ -52,8 +56,10 @@ typedef struct
     QString name;
     QString description;
     QString essid;
-    bool active;
-    bool enabled;
+    QString interface;
+    QString type;
+    bool active = false;
+    bool enabled = false;
 } netctlProfileInfo;
 
 /**

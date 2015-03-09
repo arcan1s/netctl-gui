@@ -193,12 +193,16 @@ QList<netctlProfileInfo> Netctl::getProfileList()
         profileInfo.enabled = isProfileEnabled(profileInfo.name);
         // external
         QStringList keys;
+        keys.append(QString("Connection"));
         keys.append(QString("Description"));
         keys.append(QString("ESSID"));
+        keys.append(QString("Interface"));
         QStringList profileValues = netctlProfile->getValuesFromProfile(profileInfo.name,
                                                                         keys);
-        profileInfo.description = profileValues[0];
-        profileInfo.essid = profileValues[1];
+        profileInfo.description = profileValues[1];
+        profileInfo.essid = profileValues[2];
+        profileInfo.interface = profileValues[3];
+        profileInfo.type = profileValues[0];
         fullProfilesInfo.append(profileInfo);
     }
 

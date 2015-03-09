@@ -90,7 +90,7 @@ QStringList ControlAdaptor::FindSettings()
 
 QString ControlAdaptor::LibraryDocs()
 {
-    return (QString("html/index.html").arg(QString(DOCS_PATH)));
+    return (QString("%1html/index.html").arg(QString(DOCS_PATH)));
 }
 
 
@@ -249,6 +249,26 @@ bool ControlAdaptor::Remove(const QString profile)
 
 
 // wpaCommand
+QString ControlAdaptor::CurrentWiFi()
+{
+    netctlWifiInfo wifiPoint = wpaCommand->current();
+    QStringList point;
+    point.append(wifiPoint.name);
+    point.append(wifiPoint.security);
+    point.append(QString::number(wifiPoint.type));
+    QStringList freqList;
+    for (int j=0; j<wifiPoint.frequencies.count(); j++)
+        freqList.append(QString::number(wifiPoint.frequencies[j]));
+    point.append(freqList.join(QChar(',')));
+    point.append(wifiPoint.macs.join(QChar(',')));
+    point.append(QString::number(wifiPoint.signal));
+    point.append(QString::number(wifiPoint.active));
+    point.append(QString::number(wifiPoint.exists));
+
+    return point.join(QChar('|'));
+}
+
+
 QStringList ControlAdaptor::VerboseWiFi()
 {
     QList<netctlWifiInfo> wifiPoints = wpaCommand->scanWifi();
