@@ -43,8 +43,7 @@ QList<QVariant> TestWpaSup::sendDBusRequest(const QString path, const QString cm
     QDBusConnection bus = QDBusConnection::systemBus();
     QDBusMessage request = QDBusMessage::createMethodCall(DBUS_HELPER_SERVICE, path,
                                                           DBUS_HELPER_INTERFACE, cmd);
-    if (!args.isEmpty())
-        request.setArguments(args);
+    if (!args.isEmpty()) request.setArguments(args);
     QDBusMessage response = bus.call(request);
     QList<QVariant> arguments = response.arguments();
 
@@ -86,7 +85,7 @@ void TestWpaSup::test_getRecommendedConfiguration()
     QMap<QString, QString> resultMap = WpaSup::getRecommendedConfiguration();
     QStringList result;
     for (int i=0; i<resultMap.keys().count(); i++)
-        result.append(resultMap.keys()[i] + QString("==") + resultMap[resultMap.keys()[i]]);
+        result.append(QString("%1==%2").arg(resultMap.keys()[i]).arg(resultMap[resultMap.keys()[i]]));
 
     QWARN("This test may fail on other configuration");
     QCOMPARE(result, original);

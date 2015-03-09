@@ -32,7 +32,7 @@ QString errorMessage()
 QMap<QString, QVariant> getArgs()
 {
     QMap<QString, QVariant> args;
-    args[QString("config")] = QString(QDir::homePath() + QString("/.config/netctl-gui.conf"));
+    args[QString("config")] = QString("%1/.config/netctl-gui.conf").arg(QDir::homePath());
     args[QString("debug")] = false;
     args[QString("nodaemon")] = false;
     args[QString("session")] = false;

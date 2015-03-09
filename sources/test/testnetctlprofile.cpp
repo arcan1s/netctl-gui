@@ -68,8 +68,7 @@ QList<QVariant> TestNetctlProfile::sendDBusRequest(const QString path, const QSt
     QDBusConnection bus = QDBusConnection::systemBus();
     QDBusMessage request = QDBusMessage::createMethodCall(DBUS_HELPER_SERVICE, path,
                                                           DBUS_HELPER_INTERFACE, cmd);
-    if (!args.isEmpty())
-        request.setArguments(args);
+    if (!args.isEmpty()) request.setArguments(args);
     QDBusMessage response = bus.call(request);
     QList<QVariant> arguments = response.arguments();
 
@@ -110,7 +109,7 @@ void TestNetctlProfile::test_getRecommendedConfiguration()
     QMap<QString, QString> resultMap = NetctlProfile::getRecommendedConfiguration();
     QStringList result;
     for (int i=0; i<resultMap.keys().count(); i++)
-        result.append(resultMap.keys()[i] + QString("==") + resultMap[resultMap.keys()[i]]);
+        result.append(QString("%1==%2").arg(resultMap.keys()[i]).arg(resultMap[resultMap.keys()[i]]));
 
     QWARN("This test may fail on other configuration");
     QCOMPARE(result, original);
@@ -237,7 +236,7 @@ void TestNetctlProfile::test_createProfile()
         args.append(QString("netctlgui-test-full"));
         QStringList profileSettingsList;
         for (int i=0; i<profileSettings.keys().count(); i++)
-            profileSettingsList.append(profileSettings.keys()[i] + QString("==") + profileSettings[profileSettings.keys()[i]]);
+            profileSettingsList.append(QString("%1==%2").arg(profileSettings.keys()[i]).arg(profileSettings[profileSettings.keys()[i]]));
         args.append(profileSettingsList);
         QVERIFY(sendDBusRequest(QString("/ctrl"), QString("Create"), args)[0].toBool());
     }
@@ -300,7 +299,7 @@ phase2=\"auth=PAP\"\
     }
     QMap<QString, QString> resultMap = netctl->getSettingsFromProfile(QString("netctlgui-test-full"));
     for (int i=0; i<resultMap.keys().count(); i++)
-        result.append(resultMap.keys()[i] + QString("==") + resultMap[resultMap.keys()[i]]);
+        result.append(QString("%1==%2").arg(resultMap.keys()[i]).arg(resultMap[resultMap.keys()[i]]));
     netctl->removeProfile(QString("netctlgui-test-full"));
     delete netctl;
 

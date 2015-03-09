@@ -54,15 +54,17 @@ QList<netctlWifiInfo> parseOutputWifi(const QList<QVariant> raw)
     QStringList list = raw[0].toStringList();
     for (int i=0; i<list.count(); i++) {
         QStringList info = list[i].split(QChar('|'));
-        if (info.count() != 7) continue;
+        if (info.count() != 8) continue;
         netctlWifiInfo wifi;
         wifi.name = info[0];
         wifi.security = info[1];
-        wifi.frequencies = info[2].split(QChar(','));
-        wifi.macs = info[3].split(QChar(','));
-        wifi.signal = info[4].toInt();
-        wifi.active = info[5].toInt();
-        wifi.exists = info[6].toInt();
+        wifi.type = static_cast<PointType>(info[2].toInt());
+        for (int j=0; j<info[3].split(QChar(',')).count(); j++)
+            wifi.frequencies.append(info[3].split(QChar(','))[j].toInt());
+        wifi.macs = info[4].split(QChar(','));
+        wifi.signal = info[5].toInt();
+        wifi.active = info[6].toInt();
+        wifi.exists = info[7].toInt();
         wifiInfo.append(wifi);
     }
 

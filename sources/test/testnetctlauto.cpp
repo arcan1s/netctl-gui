@@ -82,8 +82,7 @@ QList<QVariant> TestNetctlAuto::sendDBusRequest(const QString path, const QStrin
     QDBusConnection bus = QDBusConnection::systemBus();
     QDBusMessage request = QDBusMessage::createMethodCall(DBUS_HELPER_SERVICE, path,
                                                           DBUS_HELPER_INTERFACE, cmd);
-    if (!args.isEmpty())
-        request.setArguments(args);
+    if (!args.isEmpty()) request.setArguments(args);
     QDBusMessage response = bus.call(request);
     QList<QVariant> arguments = response.arguments();
 

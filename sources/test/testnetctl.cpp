@@ -121,7 +121,7 @@ void TestNetctl::test_getRecommendedConfiguration()
     QMap<QString, QString> resultMap = Netctl::getRecommendedConfiguration();
     QStringList result;
     for (int i=0; i<resultMap.keys().count(); i++)
-        result.append(resultMap.keys()[i] + QString("==") + resultMap[resultMap.keys()[i]]);
+        result.append(QString("%1==%2").arg(resultMap.keys()[i]).arg(resultMap[resultMap.keys()[i]]));
 
     QWARN("This test may fail on other configuration");
     QCOMPARE(result, original);
@@ -135,8 +135,7 @@ void TestNetctl::test_getActiveProfile()
     QStringList result = netctl->getActiveProfile();
     QStringList dbus;
     if (helper)
-        dbus = sendDBusRequest(QString("/netctl"), QString("ActiveProfile"))
-                [0].toString().split(QChar('|'));
+        dbus = sendDBusRequest(QString("/netctl"), QString("netctlActiveProfile"))[0].toString().split(QChar('|'));
     netctl->startProfile(QString("netctlgui-test-dummy"));
     delete netctl;
 

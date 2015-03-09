@@ -185,7 +185,7 @@ QStringList MainWindow::printTrayInformation()
             return printTrayInformation();
         }
         netctlAutoStatus = responce[0].toBool();
-        profiles = parseOutputNetctl(sendRequestToLib(QString("ProfileList"), debug));
+        profiles = parseOutputNetctl(sendRequestToLib(QString("VerboseProfileList"), debug));
         if (netctlAutoStatus) {
             QList<QVariant> args;
             args.append(current);
@@ -263,6 +263,8 @@ void MainWindow::closeEvent(QCloseEvent *event)
 
     if ((QSystemTrayIcon::isSystemTrayAvailable()) && (configuration[QString("SYSTRAY")] == QString("true"))) {
         hide();
+        trayIcon->showMessage(QApplication::translate("MainWindow", "Information"),
+                              QApplication::translate("MainWindow", "Application has been hidden to tray"));
         event->ignore();
     } else
         closeMainWindow();
@@ -287,15 +289,14 @@ bool MainWindow::checkExternalApps(const QString apps = QString("all"))
         cmd.append(configuration[QString("NETCTLAUTO_PATH")]);
         cmd.append(configuration[QString("SUDO_PATH")]);
     }
-    if ((apps == QString("sudo")) || (apps == QString("all"))) {
+    if ((apps == QString("sudo")) || (apps == QString("wpasup")) || (apps == QString("all"))) {
         cmd.append(configuration[QString("SUDO_PATH")]);
     }
     if ((apps == QString("systemctl")) || (apps == QString("all"))) {
         cmd.append(configuration[QString("SYSTEMCTL_PATH")]);
         cmd.append(configuration[QString("SUDO_PATH")]);
     }
-    if ((apps == QString("wpasup")) || (apps == QString("all"))) {
-        cmd.append(configuration[QString("SUDO_PATH")]);
+    if ((apps == QString("wpasup")) || (apps == QString("wpasup-only")) || (apps == QString("all"))) {
         cmd.append(configuration[QString("WPACLI_PATH")]);
         cmd.append(configuration[QString("WPASUP_PATH")]);
     }
@@ -417,8 +418,8 @@ void MainWindow::createObjects()
     ui->setupUi(this);
     ui->tableWidget_main->setColumnHidden(2, true);
     ui->tableWidget_main->setColumnHidden(3, true);
-    ui->tableWidget_wifi->setColumnHidden(3, true);
-    ui->tableWidget_wifi->setColumnHidden(4, true);
+    ui->tableWidget_wifi->setColumnHidden(5, true);
+    ui->tableWidget_wifi->setColumnHidden(6, true);
     aboutWin = new AboutWindow(this, debug);
     netctlAutoWin = new NetctlAutoWindow(this, debug, configuration);
     settingsWin = new SettingsWindow(this, debug, configPath);
@@ -506,6 +507,8 @@ void MainWindow::createToolBars()
     toolBarActions[QString("profileRemove")] = actionToolBar->addAction(QIcon::fromTheme(QString("edit-delete")),
                                                                         QApplication::translate("MainWindow", "Remove"),
                                                                         this, SLOT(profileTabRemoveProfile()));
+
+    setMenuActionsShown(false);
     ui->centralLayout->insertWidget(0, actionToolBar);
 }
 
@@ -559,7 +562,7 @@ QMap<QString, QString> MainWindow::parseOptions(const QString options)
                 options.split(QChar(','))[i].split(QChar('='))[1];
     }
     for (int i=0; i<settings.keys().count(); i++)
-        if (debug) qDebug() << PDEBUG << ":" << settings.keys()[i] + QString("=") + settings[settings.keys()[i]];
+        if (debug) qDebug() << PDEBUG << ":" << QString("%1=%2").arg(settings.keys()[i]).arg(settings[settings.keys()[i]]);
 
     return settings;
 }

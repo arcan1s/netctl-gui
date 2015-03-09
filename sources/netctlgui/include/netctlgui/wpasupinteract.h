@@ -35,18 +35,39 @@ class Netctl;
 class NetctlProfile;
 
 /**
+ * @enum PointType
+ * @brief WiFi point type
+ * @var PointType::None
+ * type is not defined
+ * @var PointType::TwoG
+ * point is only 2 GHz
+ * @var PointType::FiveG
+ * point is only 5 GHz
+ * @var PointType::TwoAndFiveG
+ * point has 2 and 5 GHz
+ */
+enum PointType {
+    None = 0,
+    TwoG,
+    FiveG,
+    TwoAndFiveG
+};
+
+/**
  * @struct netctlWifiInfo
  * @brief WiFi information structure
+ * @var netctlWifiInfo::frequencies
+ * point frequencies
+ * @var netctlWifiInfo::macs
+ * point MAC addresses
  * @var netctlWifiInfo::name
  * ESSID
  * @var netctlWifiInfo::security
  * may be "WPA2", "WEP", "WEP", "none"
  * @var netctlWifiInfo::signal
  * Wifi point signal
- * @var netctlWifiInfo::macs
- * point MAC addresses
- * @var netctlWifiInfo::frequencies
- * point frequencies
+ * @var netctlWifiInfo::type
+ * WiFi point type
  * @var netctlWifiInfo::active
  * whether associated profile is active
  * @var netctlWifiInfo::exists
@@ -54,11 +75,12 @@ class NetctlProfile;
  */
 typedef struct
 {
-    QStringList frequencies;
+    QList<int> frequencies;
     QStringList macs;
     QString name;
     QString security;
     int signal;
+    PointType type = PointType::None;
     bool active;
     bool exists;
 } netctlWifiInfo;

@@ -280,10 +280,23 @@ QList<netctlWifiInfo> WpaSup::scanWifi()
         // append mac and frequency if exists
         int index = names.indexOf(name);
         if ((name != QString("<hidden>")) && (index > -1)) {
-            scanResults[index].frequencies.append(line[1]);
+            scanResults[index].frequencies.append(line[1].toInt());
             scanResults[index].macs.append(line[0]);
             if (scanResults[index].signal < line[2].toInt())
                 scanResults[index].signal = line[2].toInt();
+            // check type
+            if ((line[1].toInt() >= 5000) && (line[1].toInt() < 6000)) {
+                if (scanResults[index].type == PointType::None)
+                    scanResults[index].type = PointType::FiveG;
+                else if (scanResults[index].type == PointType::TwoG)
+                    scanResults[index].type = PointType::TwoAndFiveG;
+            } else if ((line[1].toInt() < 5000) && (line[1].toInt() > 2000)) {
+                if (scanResults[index].type == PointType::None)
+                    scanResults[index].type = PointType::TwoG;
+                else if (scanResults[index].type == PointType::FiveG)
+                    scanResults[index].type = PointType::TwoAndFiveG;
+            }
+
             continue;
         }
 
@@ -304,7 +317,14 @@ QList<netctlWifiInfo> WpaSup::scanWifi()
         // mac
         wifiPoint.macs.append(line[0]);
         // frequencies
-        wifiPoint.frequencies.append(line[1]);
+        wifiPoint.frequencies.append(line[1].toInt());
+        // type
+        // check type
+        if ((line[1].toInt() >= 5000) && (line[1].toInt() < 6000)) {
+            wifiPoint.type = PointType::FiveG;
+        } else if ((line[1].toInt() < 5000) && (line[1].toInt() > 2000)) {
+            wifiPoint.type = PointType::TwoG;
+        }
         // point signal
         wifiPoint.signal = line[2].toInt();
         // point security
@@ -422,8 +442,8 @@ QString WpaSup::getWpaCliOutput(const QString commandLine)
     }
 
     QString interface = interfaces[0];
-    QString cmd = wpaCliPath + QString(" -i ") + interface + QString(" -p ") + ctrlDir +
-            QString(" -P ") + pidFile + QString(" ") + commandLine;
+    QString cmd = QString("%1 -i %2 -p %3 -P %4 %5").arg(wpaCliPath).arg(interface)
+                                                    .arg(ctrlDir).arg(pidFile).arg(commandLine);
     if (debug) qDebug() << PDEBUG << ":" << "Run cmd" << cmd;
     TaskResult process = runTask(cmd);
     if (debug) qDebug() << PDEBUG << ":" << "Cmd returns" << process.exitCode;
@@ -479,8 +499,8 @@ bool WpaSup::wpaCliCall(const QString commandLine)
     }
 
     QString interface = interfaces[0];
-    QString cmd = wpaCliPath + QString(" -i ") + interface + QString(" -p ") + ctrlDir +
-            QString(" -P ") + pidFile + QString(" ") + commandLine;
+    QString cmd = QString("%1 -i %2 -p %3 -P %4 %5").arg(wpaCliPath).arg(interface)
+                                                    .arg(ctrlDir).arg(pidFile).arg(commandLine);
     if (debug) qDebug() << PDEBUG << ":" << "Run cmd" << cmd;
     TaskResult process = runTask(cmd);
     waitForProcess(1);

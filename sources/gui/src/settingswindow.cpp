@@ -397,11 +397,12 @@ QMap<QString, QString> SettingsWindow::getDefault()
 QMap<QString, QString> SettingsWindow::getSettings(QString fileName)
 {
     if (debug) qDebug() << PDEBUG;
-    if (fileName == QString("")) fileName = file;
+    if (fileName.isEmpty()) fileName = file;
 
     QMap<QString, QString> config;
     QSettings settings(fileName, QSettings::IniFormat);
 
+    config[QString("LANGUAGE")] = Language::defineLanguage(fileName, QString());
     settings.beginGroup(QString("Common"));
     config[QString("LANGUAGE")] = settings.value(QString("LANGUAGE"), QString("en")).toString();
     config[QString("SYSTRAY")] = settings.value(QString("SYSTRAY"), QString("true")).toString();

@@ -46,7 +46,11 @@ public slots:
     bool isNetctlAutoEnabled();
     bool isProfileActive(const QString profile);
     bool isProfileEnabled(const QString profile);
+    QString netctlActiveProfile();
+    QStringList netctlProfileList();
+    QStringList netctlVerboseProfileList();
     QStringList ProfileList();
+    QStringList VerboseProfileList();
     // netctlProfile
     QStringList Profile(const QString profile);
     QString ProfileValue(const QString profile, const QString key);

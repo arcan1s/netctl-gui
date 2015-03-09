@@ -243,8 +243,7 @@ void Netctl::enableProfileSlot()
     } else {
         QProcess command;
         QString commandLine = QString("");
-        if (useSudo)
-            commandLine = paths[QString("sudo")] + QString(" ");
+        if (useSudo) commandLine = QString("%1 ").arg(paths[QString("sudo")]);
         commandLine += paths[QString("netctl")] + enableStatus + info[QString("current")];
         command.startDetached(commandLine);
     }
@@ -263,9 +262,8 @@ void Netctl::restartProfileSlot()
     } else {
         QProcess command;
         QString commandLine = QString("");
-        if (useSudo)
-            commandLine = paths[QString("sudo")] + QString(" ");
-        commandLine += paths[QString("netctl")] + QString(" restart ") + info[QString("current")];
+        if (useSudo) commandLine = QString("%1 ").arg(paths[QString("sudo")]);
+        commandLine += QString("%1 restart %2").arg(paths[QString("netctl")]).arg(info[QString("current")]);
         command.startDetached(commandLine);
     }
 }
@@ -287,12 +285,11 @@ void Netctl::startProfileSlot(QAction *profile)
     } else {
         QProcess command;
         QString commandLine = QString("");
-        if (useSudo)
-            commandLine = paths[QString("sudo")] + QString(" ");
+        if (useSudo) commandLine = QString("%1 ").arg(paths[QString("sudo")]);
         if (status)
-            commandLine += paths[QString("netctl")] + QString(" switch-to ") + profile->text().remove(QChar('&'));
+            commandLine += QString("%1 switch-to %2").arg(paths[QString("netctl")]).arg(profile->text().remove(QChar('&')));
         else
-            commandLine += paths[QString("netctl")] + QString(" start ") + profile->text().remove(QChar('&'));
+            commandLine += QString("%1 start %2").arg(paths[QString("netctl")]).arg(profile->text().remove(QChar('&')));
         command.startDetached(commandLine);
     }
 }
@@ -310,9 +307,8 @@ void Netctl::stopProfileSlot()
     } else {
         QProcess command;
         QString commandLine = QString("");
-        if (useSudo)
-            commandLine = paths[QString("sudo")] + QString(" ");
-        commandLine += paths[QString("netctl")] + QString(" stop ") + info[QString("current")];
+        if (useSudo) commandLine = QString("%1 ").arg(paths[QString("sudo")]);
+        commandLine += QString("%1 stop %2").arg(paths[QString("netctl")]).arg(info[QString("current")]);
         command.startDetached(commandLine);
     }
 }
@@ -328,9 +324,8 @@ void Netctl::stopAllProfilesSlot()
     else {
         QProcess command;
         QString commandLine = QString("");
-        if (useSudo)
-            commandLine = paths[QString("sudo")] + QString(" ");
-        commandLine += paths[QString("netctl")] + QString(" stop-all ");
+        if (useSudo) commandLine = QString("%1 ").arg(paths[QString("sudo")]);
+        commandLine += QString("%1 stop-all").arg(paths[QString("netctl")]);
         command.startDetached(commandLine);
     }
 }
@@ -349,8 +344,7 @@ void Netctl::switchToProfileSlot(QAction *profile)
         sendDBusRequest(QString("autoStart"), args);
     } else {
         QProcess command;
-        QString commandLine = paths[QString("netctlAuto")] + QString(" switch-to ") +
-                profile->text().remove(QChar('&'));
+        QString commandLine = QString("%1 switch-to %2").arg(paths[QString("netctlAuto")]).arg(profile->text().remove(QChar('&')));
         command.startDetached(commandLine);
     }
 }
@@ -384,7 +378,7 @@ QList<QAction*> Netctl::contextualActions()
         contextMenu[QString("title")]->setIcon(QIcon(paths[QString("active")]));
     else
         contextMenu[QString("title")]->setIcon(QIcon(paths[QString("inactive")]));
-    contextMenu[QString("title")]->setText(info[QString("current")] + QString(" ") + info[QString("status")]);
+    contextMenu[QString("title")]->setText(info[QString("info")]);
 
     if (info[QString("status")] == QString("(netctl-auto)")) {
         contextMenu[QString("start")]->setVisible(false);
@@ -760,13 +754,20 @@ void Netctl::createConfigurationInterface(KConfigDialog *parent)
     uiAboutConfig.label_version->setText(i18n("Version %1\n(build date %2)", QString(VERSION), QString(BUILD_DATE)));
     uiAboutConfig.label_description->setText(i18n("KDE widget which interacts with netctl."));
     uiAboutConfig.label_links->setText(i18n("Links:") + QString("<br>") +
-                                       QString("<a href=\"%1\">%2</a><br>").arg(QString(HOMEPAGE)).arg(i18n("Homepage")) +
-                                       QString("<a href=\"%1\">%2</a><br>").arg(QString(REPOSITORY)).arg(i18n("Repository")) +
-                                       QString("<a href=\"%1\">%2</a><br>").arg(QString(BUGTRACKER)).arg(i18n("Bugtracker")) +
-                                       QString("<a href=\"%1\">%2</a><br>").arg(QString(TRANSLATION)).arg(i18n("Translation issue")) +
-                                       QString("<a href=\"%1\">%2</a>").arg(QString(AUR_PACKAGES)).arg(i18n("AUR packages")));
-    uiAboutConfig.label_license->setText(QString("<small>&copy; %1 <a href=\"mailto:%2\">%3</a><br>").arg(QString(DATE)).arg(QString(EMAIL)).arg(QString(AUTHOR)) +
-                                         i18n("This software is licensed under %1", QString(LICENSE)) + QString("</small>"));
+                                       QString("<a href=\"%1\">%2</a><br>").arg(QString(HOMEPAGE))
+                                       .arg(QApplication::translate("AboutWindow", "Homepage")) +
+                                       QString("<a href=\"%1\">%2</a><br>").arg(QString(REPOSITORY))
+                                       .arg(QApplication::translate("AboutWindow", "Repository")) +
+                                       QString("<a href=\"%1\">%2</a><br>").arg(QString(BUGTRACKER))
+                                       .arg(QApplication::translate("AboutWindow", "Bugtracker")) +
+                                       QString("<a href=\"%1\">%2</a><br>").arg(QString(TRANSLATION))
+                                       .arg(QApplication::translate("AboutWindow", "Translation issue")) +\
+                                       QString("<a href=\"%1\">%2</a>").arg(QString(AUR_PACKAGES))
+                                       .arg(QApplication::translate("AboutWindow", "AUR packages")));
+    uiAboutConfig.label_license->setText(QString("<small>&copy; %1 <a href=\"mailto:%2\">%3</a><br>")
+                                         .arg(QString(DATE)).arg(QString(EMAIL)).arg(QString(AUTHOR)) +
+                                         i18n("This software is licensed under %1", QString(LICENSE)) +
+                                         QString("</small>"));
     // 2nd tab
     QStringList trdPartyList = QString(TRDPARTY_LICENSE).split(QChar(';'), QString::SkipEmptyParts);
     for (int i=0; i<trdPartyList.count(); i++)

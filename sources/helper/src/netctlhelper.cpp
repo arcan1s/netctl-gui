@@ -40,8 +40,7 @@ NetctlHelper::NetctlHelper(QObject *parent, QMap<QString, QVariant> args)
       system(args[QString("system")].toBool())
 {
     updateConfiguration();
-    if (!args[QString("nodaemon")].toBool())
-        daemon(0, 0);
+    if (!args[QString("nodaemon")].toBool()) daemon(0, 0);
 }
 
 
@@ -59,8 +58,7 @@ QStringList NetctlHelper::printSettings()
 
     QStringList settingsList;
     for (int i=0; i<configuration.keys().count(); i++)
-        settingsList.append(configuration.keys()[i] + QString("==") +
-                            configuration[configuration.keys()[i]]);
+        settingsList.append(QString("%1==%2").arg(configuration.keys()[i]).arg(configuration[configuration.keys()[i]]));
 
     return settingsList;
 }
@@ -179,8 +177,7 @@ QMap<QString, QString> NetctlHelper::getSettings(const QString file)
     settings.endGroup();
 
     for (int i=0; i<config.keys().count(); i++)
-        if (debug) qDebug() << PDEBUG << ":" << config.keys()[i] + QString("=") +
-                               config[config.keys()[i]];
+        if (debug) qDebug() << PDEBUG << ":" << QString("%1=%2").arg(config.keys()[i]).arg(config[config.keys()[i]]);
 
     return config;
 }

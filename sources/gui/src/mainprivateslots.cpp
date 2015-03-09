@@ -61,24 +61,9 @@ void MainWindow::setMenuActionsShown(const bool state)
     if (debug) qDebug() << PDEBUG;
     if (debug) qDebug() << PDEBUG << ":" << "State" << state;
 
-    // main
-    toolBarActions[QString("netctlAuto")]->setVisible(state);
-    toolBarActions[QString("mainRefresh")]->setVisible(state);
-    toolBarActions[QString("mainStart")]->setVisible(state);
-    toolBarActions[QString("mainSwitch")]->setVisible(state);
-    toolBarActions[QString("mainRestart")]->setVisible(state);
-    toolBarActions[QString("mainEnable")]->setVisible(state);
-    toolBarActions[QString("mainStopAll")]->setVisible(state);
-    toolBarActions[QString("mainEdit")]->setVisible(state);
-    toolBarActions[QString("mainRemove")]->setVisible(state);
-    // profile
-    toolBarActions[QString("profileClear")]->setVisible(state);
-    toolBarActions[QString("profileLoad")]->setVisible(state);
-    toolBarActions[QString("profileSave")]->setVisible(state);
-    toolBarActions[QString("profileRemove")]->setVisible(state);
-    // wifi
-    toolBarActions[QString("wifiRefresh")]->setVisible(state);
-    toolBarActions[QString("wifiStart")]->setVisible(state);
+    QStringList keys = toolBarActions.keys();
+    for (int i=0; i<keys.count(); i++)
+        toolBarActions[keys[i]]->setVisible(state);
 }
 
 
@@ -136,17 +121,12 @@ void MainWindow::updateMenuWifi()
 
     toolBarActions[QString("wifiRefresh")]->setVisible(true);
     if (ui->tableWidget_wifi->currentItem() == nullptr) return;
-    if (!ui->tableWidget_wifi->item(ui->tableWidget_wifi->currentItem()->row(), 4)->text().isEmpty()) {
-        if (!ui->tableWidget_wifi->item(ui->tableWidget_wifi->currentItem()->row(), 3)->text().isEmpty()) {
-            toolBarActions[QString("wifiStart")]->setText(QApplication::translate("MainWindow", "Stop"));
-            toolBarActions[QString("wifiStart")]->setIcon(QIcon::fromTheme("process-stop"));
-        } else {
-            toolBarActions[QString("wifiStart")]->setText(QApplication::translate("MainWindow", "Start"));
-            toolBarActions[QString("wifiStart")]->setIcon(QIcon::fromTheme("system-run"));
-        }
-    } else {
+    if (ui->tableWidget_wifi->item(ui->tableWidget_wifi->currentItem()->row(), 5)->text().isEmpty()) {
         toolBarActions[QString("wifiStart")]->setText(QApplication::translate("MainWindow", "Start"));
         toolBarActions[QString("wifiStart")]->setIcon(QIcon::fromTheme("system-run"));
+    } else {
+        toolBarActions[QString("wifiStart")]->setText(QApplication::translate("MainWindow", "Stop"));
+        toolBarActions[QString("wifiStart")]->setIcon(QIcon::fromTheme("process-stop"));
     }
     toolBarActions[QString("wifiStart")]->setVisible(true);
 }
@@ -173,7 +153,7 @@ void MainWindow::updateMainTab()
             return updateMainTab();
         }
         netctlAutoStatus = responce[0].toBool();
-        profiles = parseOutputNetctl(sendRequestToLib(QString("ProfileList"), debug));
+        profiles = parseOutputNetctl(sendRequestToLib(QString("netctlVerboseProfileList"), debug));
     } else {
         netctlAutoStatus = netctlCommand->isNetctlAutoRunning();
         profiles = netctlCommand->getProfileList();
@@ -255,7 +235,7 @@ void MainWindow::updateProfileTab()
 void MainWindow::updateWifiTab()
 {
     if (debug) qDebug() << PDEBUG;
-    wifiTabSetEnabled(checkExternalApps(QString("wpasup")));
+    wifiTabSetEnabled(checkExternalApps(QString("wpasup-only")));
     if (!checkExternalApps(QString("wpasup"))) {
         ErrorWindow::showWindow(1, QString(PDEBUG), debug);
         emit(needToBeConfigured());
@@ -265,19 +245,21 @@ void MainWindow::updateWifiTab()
     ui->tabWidget->setDisabled(true);
     QList<netctlWifiInfo> scanResults;
     if (useHelper)
-        scanResults = parseOutputWifi(sendRequestToCtrl(QString("WiFi"), debug));
+        scanResults = parseOutputWifi(sendRequestToCtrl(QString("VerboseWiFi"), debug));
     else
         scanResults = wpaCommand->scanWifi();
 
     ui->tableWidget_wifi->setSortingEnabled(false);
     ui->tableWidget_wifi->selectRow(-1);
-    ui->tableWidget_wifi->sortByColumn(0, Qt::AscendingOrder);
+    ui->tableWidget_wifi->sortByColumn(3, Qt::AscendingOrder);
     ui->tableWidget_wifi->clear();
     ui->tableWidget_wifi->setRowCount(scanResults.count());
 
     // create header
     QStringList headerList;
     headerList.append(QApplication::translate("MainWindow", "Name"));
+    headerList.append(QApplication::translate("MainWindow", "Type"));
+    headerList.append(QApplication::translate("MainWindow", "# of points"));
     headerList.append(QApplication::translate("MainWindow", "Signal"));
     headerList.append(QApplication::translate("MainWindow", "Security"));
     headerList.append(QApplication::translate("MainWindow", "Active"));
@@ -289,10 +271,32 @@ void MainWindow::updateWifiTab()
         QFont font;
         font.setBold(scanResults[i].active);
         font.setItalic(scanResults[i].exists);
+        // type
+        QString type;
+        switch (scanResults[i].type) {
+        case PointType::TwoG:
+            type = QApplication::translate("MainWindow", "2G");
+            break;
+        case PointType::FiveG:
+            type = QApplication::translate("MainWindow", "5G");
+            break;
+        case PointType::TwoAndFiveG:
+            type = QApplication::translate("MainWindow", "2G and 5G");
+            break;
+        case PointType::None:
+        default:
+            type = QApplication::translate("MainWindow", "N\\A");
+            break;
+        }
         // tooltip
         QString toolTip = QString("");
-        toolTip += QString("%1: %2\n").arg(QApplication::translate("MainWindow", "MAC")).arg(scanResults[i].macs.join(QString(", ")));
-        toolTip += QString("%1: %2\n").arg(QApplication::translate("MainWindow", "Frequency")).arg(scanResults[i].frequencies.join(QString(", ")));
+        for (int j=0; j<scanResults[i].macs.count(); j++)
+            toolTip += QString("%1 %2: %3 (%4 %5)\n").arg(QApplication::translate("MainWindow", "Point"))
+                                                     .arg(j + 1)
+                                                     .arg(scanResults[i].macs[j])
+                                                     .arg(scanResults[i].frequencies[j])
+                                                     .arg(QApplication::translate("MainWindow", "MHz"));
+        toolTip += QString("%1: %2\n").arg(QApplication::translate("MainWindow", "Type")).arg(type);
         toolTip += QString("%1: %2\n").arg(QApplication::translate("MainWindow", "Active")).arg(checkStatus(scanResults[i].active));
         toolTip += QString("%1: %2").arg(QApplication::translate("MainWindow", "Exists")).arg(checkStatus(scanResults[i].exists));
         // name
@@ -300,20 +304,28 @@ void MainWindow::updateWifiTab()
         ui->tableWidget_wifi->item(i, 0)->setTextAlignment(Qt::AlignRight | Qt::AlignVCenter);
         ui->tableWidget_wifi->item(i, 0)->setToolTip(toolTip);
         ui->tableWidget_wifi->item(i, 0)->setFont(font);
-        // signal
-        ui->tableWidget_wifi->setItem(i, 1, new QTableWidgetItem(QString::number(scanResults[i].signal)));
+        // type
+        ui->tableWidget_wifi->setItem(i, 1, new QTableWidgetItem(type));
         ui->tableWidget_wifi->item(i, 1)->setTextAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
         ui->tableWidget_wifi->item(i, 1)->setToolTip(toolTip);
-        // security
-        ui->tableWidget_wifi->setItem(i, 2, new QTableWidgetItem(scanResults[i].security));
+        // count
+        ui->tableWidget_wifi->setItem(i, 2, new QTableWidgetItem(QString::number(scanResults[i].frequencies.count())));
         ui->tableWidget_wifi->item(i, 2)->setTextAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
         ui->tableWidget_wifi->item(i, 2)->setToolTip(toolTip);
-        // active
-        ui->tableWidget_wifi->setItem(i, 3, new QTableWidgetItem(checkStatus(scanResults[i].active, true)));
+        // signal
+        ui->tableWidget_wifi->setItem(i, 3, new QTableWidgetItem(QString::number(scanResults[i].signal)));
         ui->tableWidget_wifi->item(i, 3)->setTextAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
-        // exists
-        ui->tableWidget_wifi->setItem(i, 4, new QTableWidgetItem(checkStatus(scanResults[i].exists, true)));
+        ui->tableWidget_wifi->item(i, 3)->setToolTip(toolTip);
+        // security
+        ui->tableWidget_wifi->setItem(i, 4, new QTableWidgetItem(scanResults[i].security));
         ui->tableWidget_wifi->item(i, 4)->setTextAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
+        ui->tableWidget_wifi->item(i, 4)->setToolTip(toolTip);
+        // active
+        ui->tableWidget_wifi->setItem(i, 5, new QTableWidgetItem(checkStatus(scanResults[i].active, true)));
+        ui->tableWidget_wifi->item(i, 5)->setTextAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
+        // exists
+        ui->tableWidget_wifi->setItem(i, 6, new QTableWidgetItem(checkStatus(scanResults[i].exists, true)));
+        ui->tableWidget_wifi->item(i, 6)->setTextAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
     }
 
     ui->tableWidget_wifi->setSortingEnabled(true);
@@ -596,7 +608,7 @@ void MainWindow::profileTabClear()
     ui->comboBox_profile->clear();
     QList<netctlProfileInfo> profiles;
     if (useHelper)
-        profiles = parseOutputNetctl(sendRequestToLib(QString("ProfileList"), debug));
+        profiles = parseOutputNetctl(sendRequestToLib(QString("netctlVerboseProfileList"), debug));
     else
         profiles = netctlCommand->getProfileList();
     for (int i=0; i<profiles.count(); i++)
@@ -907,17 +919,13 @@ void MainWindow::wifiTabContextualMenu(const QPoint &pos)
     QAction *startWifi = menu.addAction(QApplication::translate("MainWindow", "Start WiFi"));
 
     // set text
-    if (!ui->tableWidget_wifi->item(ui->tableWidget_wifi->currentItem()->row(), 4)->text().isEmpty()) {
-        if (!ui->tableWidget_wifi->item(ui->tableWidget_wifi->currentItem()->row(), 3)->text().isEmpty()) {
-            startWifi->setText(QApplication::translate("MainWindow", "Stop WiFi"));
-            startWifi->setIcon(QIcon::fromTheme("process-stop"));
-        } else {
-            startWifi->setText(QApplication::translate("MainWindow", "Start WiFi"));
-            startWifi->setIcon(QIcon::fromTheme("system-run"));
-        }
-    } else {
+    if (ui->tableWidget_wifi->item(ui->tableWidget_wifi->currentItem()->row(), 5)->text().isEmpty()) {
         startWifi->setText(QApplication::translate("MainWindow", "Start WiFi"));
         startWifi->setIcon(QIcon::fromTheme("system-run"));
+
+    } else {
+        startWifi->setText(QApplication::translate("MainWindow", "Stop WiFi"));
+        startWifi->setIcon(QIcon::fromTheme("process-stop"));
     }
 
     // actions
@@ -972,7 +980,7 @@ void MainWindow::wifiTabStart()
     hiddenNetwork = false;
     QString profile = ui->tableWidget_wifi->item(ui->tableWidget_wifi->currentItem()->row(), 0)->text();
     QString profileName = QString("");
-    if (!ui->tableWidget_wifi->item(ui->tableWidget_wifi->currentItem()->row(), 4)->text().isEmpty()) {
+    if (!ui->tableWidget_wifi->item(ui->tableWidget_wifi->currentItem()->row(), 6)->text().isEmpty()) {
         if (useHelper) {
             QList<QVariant> args;
             args.append(profile);

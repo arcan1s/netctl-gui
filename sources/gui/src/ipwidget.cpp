@@ -182,7 +182,7 @@ void IpWidget::addIpRoutes()
         (!IpRegExp::checkString(ui->lineEdit_ipRoutes2->text(), IpRegExp::ip4Regex())))
         return ErrorWindow::showWindow(20, QString("[IpWidget::addIpRoutes]"));
 
-    ui->listWidget_ipRoutes->addItem(ui->lineEdit_ipRoutes->text() + QString(" via ") + ui->lineEdit_ipRoutes2->text());
+    ui->listWidget_ipRoutes->addItem(QString("%1 via %2").arg(ui->lineEdit_ipRoutes->text()).arg(ui->lineEdit_ipRoutes2->text()));
     ui->lineEdit_ipRoutes->clear();
     ui->lineEdit_ipRoutes2->clear();
 }
@@ -204,7 +204,7 @@ void IpWidget::addIpRoutes6()
         (!IpRegExp::checkString(ui->lineEdit_ipRoutes62->text(), IpRegExp::ip6Regex())))
         return ErrorWindow::showWindow(20, QString("[IpWidget::addIp6Routes]"));
 
-    ui->listWidget_ipRoutes6->addItem(ui->lineEdit_ipRoutes6->text() + QString(" via ") + ui->lineEdit_ipRoutes62->text());
+    ui->listWidget_ipRoutes6->addItem(QString("%1 via %2").arg(ui->lineEdit_ipRoutes6->text()).arg(ui->lineEdit_ipRoutes62->text()));
     ui->lineEdit_ipRoutes6->clear();
     ui->lineEdit_ipRoutes62->clear();
 }

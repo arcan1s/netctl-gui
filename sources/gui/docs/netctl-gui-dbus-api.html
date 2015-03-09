@@ -197,8 +197,13 @@ small {
   </tr>
   <!-- wpa_supplicant actions -->
   <tr>
+    <td>QStringList VerboseWiFi()</td>
+    <td>returns available WiFi points in format <code>NAME|SECURITY|TYPE|FREQS|MACS|SIGNAL|ACTIVE|EXISTS</code></td>
+    <td>yes</td>
+  </tr>
+  <tr>
     <td>QStringList WiFi()</td>
-    <td>returns available WiFi points in format <code>NAME|SECURITY|FREQS|MACS|SIGNAL|ACTIVE|EXISTS</code></td>
+    <td>returns available WiFi points in format <code>NAME|SECURITY|SIGNAL|ACTIVE|EXISTS</code></td>
     <td>yes</td>
   </tr>
   <!-- /netctl path -->
@@ -222,7 +227,27 @@ small {
     <td>no</td>
   </tr>
   <tr>
+    <td>QString netctlActiveProfile()</td>
+    <td>returns active profile from netctl even if netctl-auto is running</td>
+    <td>no</td>
+  </tr>
+  <tr>
+    <td>QStringList netctlProfileList()</td>
+    <td>returns available profiles in format <code>NAME|DESCRIPTION|ACTIVE|ENABLED</code> from netctl even if netctl-auto is running</td>
+    <td>no</td>
+  </tr>
+  <tr>
+    <td>QStringList netctlVerboseProfileList()</td>
+    <td>returns available profiles in format <code>NAME|DESCRIPTION|ESSID|ACTIVE|ENABLED</code> from netctl even if netctl-auto is running</td>
+    <td>no</td>
+  </tr>
+  <tr>
     <td>QStringList ProfileList()</td>
+    <td>returns available profiles in format <code>NAME|DESCRIPTION|ACTIVE|ENABLED</code></td>
+    <td>no</td>
+  </tr>
+  <tr>
+    <td>QStringList VerboseProfileList()</td>
     <td>returns available profiles in format <code>NAME|DESCRIPTION|ESSID|ACTIVE|ENABLED</code></td>
     <td>no</td>
   </tr>

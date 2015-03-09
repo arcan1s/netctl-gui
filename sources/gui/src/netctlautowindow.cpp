@@ -226,7 +226,7 @@ void NetctlAutoWindow::netctlAutoUpdateTable()
     }
     QList<netctlProfileInfo> profiles;
     if (useHelper)
-        profiles = parseOutputNetctl(sendRequestToLib(QString("ProfileList"), debug));
+        profiles = parseOutputNetctl(sendRequestToLib(QString("VerboseProfileList"), debug));
     else
         profiles = netctlCommand->getProfileListFromNetctlAuto();
 

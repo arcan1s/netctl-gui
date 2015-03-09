@@ -110,10 +110,10 @@ int main(int argc, char *argv[])
     QString language = Language::defineLanguage(args[QString("config")].toString(),
             args[QString("options")].toString());
     QTranslator qtTranslator;
-    qtTranslator.load(QString("qt_") + language, QLibraryInfo::location(QLibraryInfo::TranslationsPath));
+    qtTranslator.load(QString("qt_%1").arg(language), QLibraryInfo::location(QLibraryInfo::TranslationsPath));
     a.installTranslator(&qtTranslator);
     QTranslator translator;
-    translator.load(QString(":/translations-helper/") + language);
+    translator.load(QString(":/translations-helper/%1").arg(language));
     a.installTranslator(&translator);
 
     // running

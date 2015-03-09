@@ -94,8 +94,10 @@ QString NetctlAdds::getAboutText(const QString type)
                QString("<a href=\"%1\">%2</a><br>").arg(QString(TRANSLATION)).arg(i18n("Translation issue")) +
                QString("<a href=\"%1\">%2</a>").arg(QString(AUR_PACKAGES)).arg(i18n("AUR packages"));
     else if (type == QString("copy"))
-        text = QString("<small>&copy; %1 <a href=\"mailto:%2\">%3</a><br>").arg(QString(DATE)).arg(QString(EMAIL)).arg(QString(AUTHOR)) +
-               i18n("This software is licensed under %1", QString(LICENSE)) + QString("</small>");
+        text = QString("<small>&copy; %1 <a href=\"mailto:%2\">%3</a><br>")
+               .arg(QString(DATE)).arg(QString(EMAIL)).arg(QString(AUTHOR)) +
+               i18n("This software is licensed under %1", QString(LICENSE)) +
+               QString("</small>");
     else if (type == QString("translators"))
         text = i18n("Translators: %1", QString(TRANSLATORS));
     else if (type == QString("3rdparty")) {
@@ -126,7 +128,7 @@ QString NetctlAdds::parsePattern(const QString pattern)
 
     QString parsed = pattern;
     for (int i=0; i<values.keys().count(); i++)
-        parsed.replace(QString("$") + values.keys()[i], valueByKey(values.keys()[i]));
+        parsed.replace(QString("$%1").arg(values.keys()[i]), valueByKey(values.keys()[i]));
     // fix newline
     parsed.replace(QString("\n"), QString("<br>"));
 
@@ -167,7 +169,7 @@ void NetctlAdds::setDataBySource(const QString sourceName, const QMap<QString, Q
 
 void NetctlAdds::sendNotification(const QString eventId, const QString message)
 {
-    KNotification *notification = KNotification::event(eventId, QString("Netctl ::: ") + eventId, message);
+    KNotification *notification = KNotification::event(eventId, QString("Netctl ::: %1").arg(eventId), message);
     notification->setComponentName(QString("plasma-applet-org.kde.plasma.netctl"));
 }
 
@@ -200,7 +202,7 @@ void NetctlAdds::enableProfileSlot(const bool useHelper, const QString cmd, cons
         sendDBusRequest(QString("Enable"), args);
     } else {
         QProcess command;
-        QString commandLine = sudoCmd + QString(" ") + cmd + enableStatus + values[QString("current")];
+        QString commandLine = QString("%1 %2%3%4").arg(sudoCmd).arg(cmd).arg(enableStatus).arg(values[QString("current")]);
         command.startDetached(commandLine);
     }
 }
@@ -217,7 +219,7 @@ void NetctlAdds::restartProfileSlot(const bool useHelper, const QString cmd, con
         sendDBusRequest(QString("Restart"), args);
     } else {
         QProcess command;
-        QString commandLine = sudoCmd + QString(" ") + cmd + QString(" restart ") + values[QString("current")];
+        QString commandLine = QString("%1 %2 restart %3").arg(sudoCmd).arg(cmd).arg(values[QString("current")]);
         command.startDetached(commandLine);
     }
 }
@@ -243,11 +245,11 @@ void NetctlAdds::startProfileSlot(const bool useHelper, const QString cmd, const
             sendDBusRequest(QString("Start"), args);
     } else {
         QProcess command;
-        QString commandLine = sudoCmd + QString(" ") + cmd;
+        QString commandLine = QString("%1 %2").arg(sudoCmd).arg(cmd);
         if (values[QString("active")] == QString("true"))
-            commandLine += QString(" switch-to ") + profile;
+            commandLine += QString(" switch-to %1").arg(profile);
         else
-            commandLine += QString(" start ") + profile;
+            commandLine += QString(" start %1").arg(profile);
         command.startDetached(commandLine);
     }
 }
@@ -264,7 +266,7 @@ void NetctlAdds::stopProfileSlot(const bool useHelper, const QString cmd, const 
         sendDBusRequest(QString("Start"), args);
     } else {
         QProcess command;
-        QString commandLine = sudoCmd + QString(" ") + cmd + QString(" stop ") + values[QString("current")];
+        QString commandLine = QString("%1 %2 stop %3").arg(sudoCmd).arg(cmd).arg(values[QString("current")]);
         command.startDetached(commandLine);
     }
 }
@@ -279,7 +281,7 @@ void NetctlAdds::stopAllProfilesSlot(const bool useHelper, const QString cmd, co
         sendDBusRequest(QString("StopAll"), QList<QVariant>());
     else {
         QProcess command;
-        QString commandLine = sudoCmd + QString(" ") + cmd + QString(" stop-all");
+        QString commandLine = QString("%1 %2 stop-all").arg(sudoCmd).arg(cmd);
         command.startDetached(commandLine);
     }
 }
@@ -302,7 +304,7 @@ void NetctlAdds::switchToProfileSlot(const bool useHelper, const QString cmd)
         sendDBusRequest(QString("autoStart"), args);
     } else {
         QProcess command;
-        QString commandLine = cmd + QString(" switch-to ") + profile;
+        QString commandLine = QString("%1 switch-to %2").arg(cmd).arg(profile);
         command.startDetached(commandLine);
     }
 }
@@ -338,7 +340,7 @@ void NetctlAdds::writeDataEngineConfiguration(const QMap<QString, QVariant> conf
 {
     if (debug) qDebug() << PDEBUG;
 
-    QString fileName = QStandardPaths::writableLocation(QStandardPaths::ConfigLocation) + QString("/plasma-dataengine-netctl.conf");
+    QString fileName = QString("%1/plasma-dataengine-netctl.conf").arg(QStandardPaths::writableLocation(QStandardPaths::ConfigLocation));
     QSettings settings(fileName, QSettings::IniFormat);
     if (debug) qDebug() << PDEBUG << ":" << "Configuration file" << settings.fileName();
 

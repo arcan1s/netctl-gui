@@ -228,7 +228,7 @@ void MainWindow::showApi()
 {
     if (debug) qDebug() << PDEBUG;
 
-    if (QDesktopServices::openUrl(QUrl(QString(DOCS_PATH) + QString("netctl-gui-dbus-api.html"))))
+    if (QDesktopServices::openUrl(QUrl(QString("%1netctl-gui-dbus-api.html").arg(QString(DOCS_PATH)))))
         ui->statusBar->showMessage(QApplication::translate("MainWindow", "Done"));
     else
         ui->statusBar->showMessage(QApplication::translate("MainWindow", "Error"));
@@ -239,7 +239,7 @@ void MainWindow::showLibrary()
 {
     if (debug) qDebug() << PDEBUG;
 
-    if (QDesktopServices::openUrl(QUrl(QString(DOCS_PATH) + QString("html/index.html"))))
+    if (QDesktopServices::openUrl(QUrl(QString("%1html/index.html").arg(QString(DOCS_PATH)))))
         ui->statusBar->showMessage(QApplication::translate("MainWindow", "Done"));
     else
         ui->statusBar->showMessage(QApplication::translate("MainWindow", "Error"));
@@ -250,7 +250,7 @@ void MainWindow::showSecurityNotes()
 {
     if (debug) qDebug() << PDEBUG;
 
-    if (QDesktopServices::openUrl(QUrl(QString(DOCS_PATH) + QString("netctl-gui-security-notes.html"))))
+    if (QDesktopServices::openUrl(QUrl(QString("%1netctl-gui-security-notes.html").arg(QString(DOCS_PATH)))))
         ui->statusBar->showMessage(QApplication::translate("MainWindow", "Done"));
     else
         ui->statusBar->showMessage(QApplication::translate("MainWindow", "Error"));
@@ -303,7 +303,7 @@ void MainWindow::setTab(int tab)
     if (debug) qDebug() << PDEBUG;
     if (debug) qDebug() << PDEBUG << ":" << "Set tab" << tab;
 
-    if (tab > 2) tab = 0;
+    if ((tab > 2) || (tab < 0)) tab = 0;
     if (tab == ui->tabWidget->currentIndex())
         updateTabs(tab);
     else
@@ -336,6 +336,7 @@ void MainWindow::updateConfiguration(const QMap<QString, QVariant> args)
     // update translation
     qApp->removeTranslator(translator);
     QString language = Language::defineLanguage(configPath, args[QString("options")].toString());
+    if (debug) qDebug() << PDEBUG << ":" << "Language is" << language;
     qtTranslator->load(QString("qt_%1").arg(language), QLibraryInfo::location(QLibraryInfo::TranslationsPath));
     qApp->installTranslator(qtTranslator);
     translator->load(QString(":/translations/%1").arg(language));
@@ -348,10 +349,7 @@ void MainWindow::updateConfiguration(const QMap<QString, QVariant> args)
     // tray
     trayIcon->setVisible(QSystemTrayIcon::isSystemTrayAvailable() && (configuration[QString("SYSTRAY")] == QString("true")));
     if (trayIcon->isVisible()) {
-        if (configuration[QString("STARTTOTRAY")] == QString("true"))
-            hide();
-        else
-            show();
+        setHidden(configuration[QString("STARTTOTRAY")] == QString("true"));
         if (args[QString("minimized")].toInt() == 1)
             show();
         else if (args[QString("minimized")].toInt() == 2)
@@ -442,7 +440,7 @@ void MainWindow::connectToUnknownEssid(const QString passwd)
     if (hiddenNetwork)
         settings[QString("Hidden")] = QString("yes");
 
-    QString profile = QString("netctl-gui-") + settings[QString("ESSID")];
+    QString profile = QString("netctl-gui-%1").arg(settings[QString("ESSID")]);
     profile.remove(QChar('"')).remove(QChar('\''));
     if (useHelper) {
         QStringList settingsList;

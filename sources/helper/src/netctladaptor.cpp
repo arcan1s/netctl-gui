@@ -106,7 +106,69 @@ bool NetctlAdaptor::isProfileEnabled(const QString profile)
 }
 
 
+QString NetctlAdaptor::netctlActiveProfile()
+{
+    return netctlCommand->getActiveProfile().join(QChar('|'));
+}
+
+
+QStringList NetctlAdaptor::netctlProfileList()
+{
+    QList<netctlProfileInfo> profilesInfo = netctlCommand->getProfileList();
+    QStringList info;
+    for (int i=0; i<profilesInfo.count(); i++) {
+        QStringList profileInfo;
+        profileInfo.append(profilesInfo[i].name);
+        profileInfo.append(profilesInfo[i].description);
+        profileInfo.append(QString::number(profilesInfo[i].active));
+        profileInfo.append(QString::number(profilesInfo[i].enabled));
+        info.append(profileInfo.join(QChar('|')));
+    }
+
+    return info;
+}
+
+
+QStringList NetctlAdaptor::netctlVerboseProfileList()
+{
+    QList<netctlProfileInfo> profilesInfo = netctlCommand->getProfileList();
+    QStringList info;
+    for (int i=0; i<profilesInfo.count(); i++) {
+        QStringList profileInfo;
+        profileInfo.append(profilesInfo[i].name);
+        profileInfo.append(profilesInfo[i].description);
+        profileInfo.append(profilesInfo[i].essid);
+        profileInfo.append(QString::number(profilesInfo[i].active));
+        profileInfo.append(QString::number(profilesInfo[i].enabled));
+        info.append(profileInfo.join(QChar('|')));
+    }
+
+    return info;
+}
+
+
 QStringList NetctlAdaptor::ProfileList()
+{
+    QList<netctlProfileInfo> profilesInfo;
+    if (isNetctlAutoActive())
+        profilesInfo = netctlCommand->getProfileListFromNetctlAuto();
+    else
+        profilesInfo = netctlCommand->getProfileList();
+    QStringList info;
+    for (int i=0; i<profilesInfo.count(); i++) {
+        QStringList profileInfo;
+        profileInfo.append(profilesInfo[i].name);
+        profileInfo.append(profilesInfo[i].description);
+        profileInfo.append(QString::number(profilesInfo[i].active));
+        profileInfo.append(QString::number(profilesInfo[i].enabled));
+        info.append(profileInfo.join(QChar('|')));
+    }
+
+    return info;
+}
+
+
+QStringList NetctlAdaptor::VerboseProfileList()
 {
     QList<netctlProfileInfo> profilesInfo;
     if (isNetctlAutoActive())
@@ -134,8 +196,7 @@ QStringList NetctlAdaptor::Profile(const QString profile)
     QMap<QString, QString> settings = netctlProfile->getSettingsFromProfile(profile);
     QStringList settingsList;
     for (int i=0; i<settings.keys().count(); i++)
-        settingsList.append(settings.keys()[i] + QString("==") +
-                            settings[settings.keys()[i]]);
+        settingsList.append(QString("%1==%2").arg(settings.keys()[i]).arg(settings[settings.keys()[i]]));
 
     return settingsList;
 }

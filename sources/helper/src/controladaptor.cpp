@@ -53,7 +53,7 @@ bool ControlAdaptor::Active()
 
 QString ControlAdaptor::ApiDocs()
 {
-    return (QString(DOCS_PATH) + QString("netctl-gui-dbus-api.html"));
+    return (QString("%1netctl-gui-dbus-api.html").arg(QString(DOCS_PATH)));
 }
 
 
@@ -82,8 +82,7 @@ QStringList ControlAdaptor::FindSettings()
 
     QStringList settingsList;
     for (int i=0; i<configuration.keys().count(); i++)
-        settingsList.append(configuration.keys()[i] + QString("==") +
-                            configuration[configuration.keys()[i]]);
+        settingsList.append(QString("%1==%2").arg(configuration.keys()[i]).arg(configuration[configuration.keys()[i]]));
 
     return settingsList;
 }
@@ -91,7 +90,7 @@ QStringList ControlAdaptor::FindSettings()
 
 QString ControlAdaptor::LibraryDocs()
 {
-    return (QString(DOCS_PATH) + QString("html/index.html"));
+    return (QString("html/index.html").arg(QString(DOCS_PATH)));
 }
 
 
@@ -99,8 +98,7 @@ QString ControlAdaptor::Pony()
 {
     QString pony;
     QFile ponyFile(QString(":pinkiepie"));
-    if (!ponyFile.open(QIODevice::ReadOnly))
-        return pony;
+    if (!ponyFile.open(QIODevice::ReadOnly)) return pony;
     pony = QTextCodec::codecForMib(106)->toUnicode(ponyFile.readAll());
     ponyFile.close();
 
@@ -110,7 +108,7 @@ QString ControlAdaptor::Pony()
 
 QString ControlAdaptor::SecurityDocs()
 {
-    return (QString(DOCS_PATH) + QString("netctl-gui-security-notes.html"));
+    return (QString("%1netctl-gui-security-notes.html").arg(QString(DOCS_PATH)));
 }
 
 
@@ -251,6 +249,30 @@ bool ControlAdaptor::Remove(const QString profile)
 
 
 // wpaCommand
+QStringList ControlAdaptor::VerboseWiFi()
+{
+    QList<netctlWifiInfo> wifiPoints = wpaCommand->scanWifi();
+    QStringList info;
+    for (int i=0; i<wifiPoints.count(); i++) {
+        QStringList point;
+        point.append(wifiPoints[i].name);
+        point.append(wifiPoints[i].security);
+        point.append(QString::number(wifiPoints[i].type));
+        QStringList freqList;
+        for (int j=0; j<wifiPoints[i].frequencies.count(); j++)
+            freqList.append(QString::number(wifiPoints[i].frequencies[j]));
+        point.append(freqList.join(QChar(',')));
+        point.append(wifiPoints[i].macs.join(QChar(',')));
+        point.append(QString::number(wifiPoints[i].signal));
+        point.append(QString::number(wifiPoints[i].active));
+        point.append(QString::number(wifiPoints[i].exists));
+        info.append(point.join(QChar('|')));
+    }
+
+    return info;
+}
+
+
 QStringList ControlAdaptor::WiFi()
 {
     QList<netctlWifiInfo> wifiPoints = wpaCommand->scanWifi();
@@ -259,8 +281,6 @@ QStringList ControlAdaptor::WiFi()
         QStringList point;
         point.append(wifiPoints[i].name);
         point.append(wifiPoints[i].security);
-        point.append(wifiPoints[i].frequencies.join(QChar(',')));
-        point.append(wifiPoints[i].macs.join(QChar(',')));
         point.append(QString::number(wifiPoints[i].signal));
         point.append(QString::number(wifiPoints[i].active));
         point.append(QString::number(wifiPoints[i].exists));

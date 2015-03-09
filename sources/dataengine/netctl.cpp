@@ -129,7 +129,7 @@ QStringList Netctl::getCurrentProfile(const QString cmdNetctl, const QString cmd
     else
         cmd = cmdNetctl;
     if (debug) qDebug() << PDEBUG << ":" << "Cmd" << cmd;
-    TaskResult process = runTask(cmd + QString(" list"));
+    TaskResult process = runTask(QString("%1 list").arg(cmd));
     if (debug) qDebug() << PDEBUG << ":" << "Cmd returns" << process.exitCode;
     if (process.exitCode != 0)
         if (debug) qDebug() << PDEBUG << ":" << "Error" << process.error;
@@ -217,7 +217,7 @@ QString Netctl::getNetctlAutoStatus(const QString cmdNetctlAuto)
 {
     if (debug) qDebug() << PDEBUG;
 
-    TaskResult process = runTask(cmdNetctlAuto + QString(" list"));
+    TaskResult process = runTask(QString("%1 list").arg(cmdNetctlAuto));
     if (debug) qDebug() << PDEBUG << ":" << "Cmd returns" << process.exitCode;
     if (process.exitCode != 0)
         if (debug) qDebug() << PDEBUG << ":" << "Error" << process.error;
@@ -246,7 +246,7 @@ QStringList Netctl::getProfileList(const QString cmdNetctl, const QString cmdNet
     else
         cmd = cmdNetctl;
     if (debug) qDebug() << PDEBUG << ":" << "Cmd" << cmd;
-    TaskResult process = runTask(cmd + QString(" list"));
+    TaskResult process = runTask(QString("%1 list").arg(cmd));
     if (debug) qDebug() << PDEBUG << ":" << "Cmd returns" << process.exitCode;
     if (process.exitCode != 0)
         if (debug) qDebug() << PDEBUG << ":" << "Error" << process.error;
@@ -270,7 +270,7 @@ QStringList Netctl::getProfileStringStatus(const QString cmdNetctl, const QStrin
     else {
         QStringList profiles = getCurrentProfile(cmdNetctl, cmdNetctlAuto);
         for (int i=0; i<profiles.count(); i++) {
-            TaskResult process = runTask(cmdNetctl + QString(" is-enabled ") + profiles[i]);
+            TaskResult process = runTask(QString("%1 is-enabled %2").arg(cmdNetctl).arg(profiles[i]));
             if (debug) qDebug() << PDEBUG << ":" << "Cmd returns" << process.exitCode;
             if (process.exitCode != 0)
                 if (debug) qDebug() << PDEBUG << ":" << "Error" << process.error;

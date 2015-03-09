@@ -68,6 +68,7 @@ public slots:
     bool Create(const QString profile, const QStringList settingsList);
     bool Remove(const QString profile);
     // wpaCommand
+    QStringList VerboseWiFi();
     QStringList WiFi();
 
 private:
