@@ -270,12 +270,8 @@ netctlWifiInfo WpaSup::current()
     _pidFile.replace(QString("$i"), interfaces[0]);
     if (debug) qDebug() << PDEBUG << ":" << "PID file" << _pidFile << QFile(_pidFile).exists();
 
-    bool terminateOnExit = (!QFile(_pidFile).exists());
     netctlWifiInfo current;
-    if (!startWpaSupplicant()) {
-        if (terminateOnExit) stopWpaSupplicant();
-        return current;
-    }
+    if (!QFile(_pidFile).exists()) return current;
 
     QStringList rawList = getWpaCliOutput(QString("status")).split(QChar('\n'), QString::SkipEmptyParts);
     for (int i=0; i<rawList.count(); i++) {
@@ -305,7 +301,6 @@ netctlWifiInfo WpaSup::current()
         }
     }
     current.signal = 0;
-    if (terminateOnExit) stopWpaSupplicant();
 
     // status
     current.active = true;
@@ -470,7 +465,7 @@ bool WpaSup::startWpaSupplicant()
     _pidFile.replace(QString("$i"), interfaces[0]);
     if (debug) qDebug() << PDEBUG << ":" << "PID file" << _pidFile << QFile(_pidFile).exists();
 
-    if (QFile(_pidFile).exists()) return true;
+    if (QFile(_pidFile).exists()) return (QFileInfo(ctrlDir).group() == ctrlGroup);
     QString cmd = QString("%1 %2 -B -P \"%3\" -i %4 -D %5 -C \"DIR=%6 GROUP=%7\"")
                     .arg(sudoCommand).arg(wpaSupPath).arg(_pidFile).arg(interfaces[0])
                     .arg(wpaDrivers).arg(ctrlDir).arg(ctrlGroup);
@@ -512,8 +507,13 @@ QString WpaSup::getWpaCliOutput(const QString commandLine)
         if (debug) qDebug() << PDEBUG << ":" << "Could not find wpa_cli";
         return QString();
     }
+    QStringList interfaces = netctlCommand->getWirelessInterfaceList();
+    if (interfaces.isEmpty()) {
+        if (debug) qDebug() << PDEBUG << ":" << "Could not find interfaces";
+        return false;
+    }
 
-    QString cmd = QString("%1 -p %2 %3").arg(wpaCliPath).arg(ctrlDir).arg(commandLine);
+    QString cmd = QString("%1 -i %2 -p %3 %4").arg(wpaCliPath).arg(interfaces[0]).arg(ctrlDir).arg(commandLine);
     if (debug) qDebug() << PDEBUG << ":" << "Run cmd" << cmd;
     TaskResult process = runTask(cmd);
     if (debug) qDebug() << PDEBUG << ":" << "Cmd returns" << process.exitCode;
@@ -554,8 +554,13 @@ bool WpaSup::wpaCliCall(const QString commandLine)
         if (debug) qDebug() << PDEBUG << ":" << "Could not find wpa_cli";
         return false;
     }
+    QStringList interfaces = netctlCommand->getWirelessInterfaceList();
+    if (interfaces.isEmpty()) {
+        if (debug) qDebug() << PDEBUG << ":" << "Could not find interfaces";
+        return false;
+    }
 
-    QString cmd = QString("%1 -p %2 %3").arg(wpaCliPath).arg(ctrlDir).arg(commandLine);
+    QString cmd = QString("%1 -i %2 -p %3 %4").arg(wpaCliPath).arg(interfaces[0]).arg(ctrlDir).arg(commandLine);
     if (debug) qDebug() << PDEBUG << ":" << "Run cmd" << cmd;
     TaskResult process = runTask(cmd);
     waitForProcess(1);
