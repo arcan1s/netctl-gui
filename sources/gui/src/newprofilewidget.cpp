@@ -42,7 +42,7 @@
 
 
 NewProfileWidget::NewProfileWidget(QWidget *parent, const QMap<QString, QString> settings, const bool debugCmd)
-    : QWidget(parent),
+    : QMainWindow(parent),
       debug(debugCmd),
       configuration(settings)
 {
@@ -50,7 +50,6 @@ NewProfileWidget::NewProfileWidget(QWidget *parent, const QMap<QString, QString>
     useHelper = (configuration[QString("USE_HELPER")] == QString("true"));
 
     createObjects();
-    createToolBars();
     createActions();
 }
 
@@ -63,7 +62,7 @@ NewProfileWidget::~NewProfileWidget()
 }
 
 
-void NewProfileWidget::profileTabOpenProfile(const QString profile)
+void NewProfileWidget::profileTabOpenProfileSlot(const QString profile)
 {
     if (debug) qDebug() << PDEBUG;
 
@@ -84,12 +83,11 @@ void NewProfileWidget::update()
 void NewProfileWidget::updateMenuProfile()
 {
     if (debug) qDebug() << PDEBUG;
-    actionMenu->setDefaultAction(toolBarActions[QString("profileSave")]);
 
     bool selected = !ui->comboBox_profile->currentText().isEmpty();
-    toolBarActions[QString("profileLoad")]->setVisible(selected);
-    toolBarActions[QString("profileRemove")]->setVisible(selected);
-    toolBarActions[QString("profileSave")]->setVisible(selected);
+    ui->actionLoad->setEnabled(selected);
+    ui->actionRemove->setEnabled(selected);
+    ui->actionSave->setEnabled(selected);
 }
 
 
@@ -427,6 +425,11 @@ void NewProfileWidget::createActions()
 {
     if (debug) qDebug() << PDEBUG;
 
+    // menu actions
+    connect(ui->actionClear, SIGNAL(triggered(bool)), this, SLOT(profileTabClear()));
+    connect(ui->actionLoad, SIGNAL(triggered(bool)), this, SLOT(profileTabLoadProfile()));
+    connect(ui->actionRemove, SIGNAL(triggered(bool)), this, SLOT(profileTabRemoveProfile()));
+    connect(ui->actionSave, SIGNAL(triggered(bool)), this, SLOT(profileTabCreateProfile()));
     // main tab events
     connect(ui->comboBox_profile, SIGNAL(currentIndexChanged(QString)), this, SLOT(profileTabLoadProfile()));
     connect(ui->comboBox_profile, SIGNAL(editTextChanged(QString)), this, SLOT(updateMenuProfile()));
@@ -471,38 +474,6 @@ void NewProfileWidget::createObjects()
 }
 
 
-void NewProfileWidget::createToolBars()
-{
-    if (debug) qDebug() << PDEBUG;
-
-    actionToolBar = new QToolBar(this);
-    actionToolBar->setToolButtonStyle(Qt::ToolButtonFollowStyle);
-    toolBarActions[QString("profileClear")] = actionToolBar->addAction(QIcon::fromTheme(QString("edit-clear")),
-                                                                       QApplication::translate("NewProfileWidget", "Clear"),
-                                                                       this, SLOT(profileTabClear()));
-
-    actionMenu = new QToolButton(this);
-    actionMenu->setPopupMode(QToolButton::DelayedPopup);
-    actionMenu->setToolButtonStyle(Qt::ToolButtonFollowStyle);
-    QMenu *menu = new QMenu(actionMenu);
-    toolBarActions[QString("profileLoad")] = menu->addAction(QIcon::fromTheme(QString("document-open")),
-                                                             QApplication::translate("NewProfileWidget", "Load"),
-                                                             this, SLOT(profileTabLoadProfile()));
-    toolBarActions[QString("profileSave")] = menu->addAction(QIcon::fromTheme(QString("document-save")),
-                                                             QApplication::translate("NewProfileWidget", "Save"),
-                                                             this, SLOT(profileTabCreateProfile()));
-    actionMenu->setMenu(menu);
-    actionToolBar->addWidget(actionMenu);
-
-    toolBarActions[QString("profileRemove")] = actionToolBar->addAction(QIcon::fromTheme(QString("edit-delete")),
-                                                                        QApplication::translate("NewProfileWidget", "Remove"),
-                                                                        this, SLOT(profileTabRemoveProfile()));
-
-    actionMenu->setDefaultAction(toolBarActions[QString("profileSave")]);
-    ui->verticalLayout->insertWidget(0, actionToolBar);
-}
-
-
 void NewProfileWidget::deleteObjects()
 {
     if (debug) qDebug() << PDEBUG;
@@ -522,13 +493,5 @@ void NewProfileWidget::deleteObjects()
     if (vlanWid != nullptr) delete vlanWid;
     if (wirelessWid != nullptr) delete wirelessWid;
 
-    if (actionMenu != nullptr) {
-        actionMenu->menu()->clear();
-        delete actionMenu;
-    }
-    if (actionToolBar != nullptr) {
-        actionToolBar->clear();
-        delete actionToolBar;
-    }
     if (ui != nullptr) delete ui;
 }

@@ -66,8 +66,8 @@
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
   <widget class="QToolBar" name="toolBar">
-   <property name="movable">
-    <bool>false</bool>
+   <property name="windowTitle">
+    <string>Toolbar</string>
    </property>
    <property name="toolButtonStyle">
     <enum>Qt::ToolButtonFollowStyle</enum>
@@ -79,6 +79,7 @@
     <bool>false</bool>
    </attribute>
    <addaction name="actionRefresh"/>
+   <addaction name="separator"/>
    <addaction name="actionSwitch"/>
    <addaction name="actionEnable"/>
   </widget>
@@ -143,6 +144,9 @@
    <property name="text">
     <string>Start service</string>
    </property>
+   <property name="toolTip">
+    <string>Start or stop service</string>
+   </property>
   </action>
   <action name="actionRestartService">
    <property name="text">
@@ -153,6 +157,9 @@
    <property name="text">
     <string>Enable service</string>
    </property>
+   <property name="toolTip">
+    <string>Enable or disable service</string>
+   </property>
   </action>
   <action name="actionRefresh">
    <property name="icon">
@@ -162,6 +169,9 @@
    </property>
    <property name="text">
     <string>Refresh</string>
+   </property>
+   <property name="toolTip">
+    <string>Refresh table</string>
    </property>
    <property name="shortcut">
     <string>Ctrl+R</string>
@@ -176,6 +186,9 @@
    <property name="text">
     <string>Enable</string>
    </property>
+   <property name="toolTip">
+    <string>Enable or disable profile</string>
+   </property>
   </action>
   <action name="actionSwitch">
    <property name="icon">
@@ -185,6 +198,9 @@
    </property>
    <property name="text">
     <string>Switch</string>
+   </property>
+   <property name="toolTip">
+    <string>Switch to profile</string>
    </property>
   </action>
  </widget>

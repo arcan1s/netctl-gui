@@ -21,6 +21,7 @@
 #include <QDBusMessage>
 #include <QDir>
 #include <QLibraryInfo>
+#include <QProcessEnvironment>
 #include <QTranslator>
 #include <iostream>
 #include <unistd.h>
@@ -87,6 +88,9 @@ int main(int argc, char *argv[])
             args[QString("error")] = true;
         }
     }
+    QProcessEnvironment environment = QProcessEnvironment::systemEnvironment();
+    QString debugEnv = environment.value(QString("DEBUG"), QString("no"));
+    if (!args[QString("debug")].toBool()) args[QString("debug")] = (debugEnv == QString("yes"));
     if ((args[QString("debug")].toBool()) ||
             (args[QString("help")].toBool()) ||
             (args[QString("info")].toBool()) ||
@@ -100,6 +104,13 @@ int main(int argc, char *argv[])
         cout << QCoreApplication::translate("NetctlHelper", "See security notes for more details.")
                 .toUtf8().data() << endl;
         args[QString("session")] = true;
+    }
+
+    // check
+    QString robotEnv = environment.value(QString("SKYNET"), QString(""));
+    if (!robotEnv.isEmpty()) {
+        cout << "Sorry, this software is only for humans" << endl;
+        return 2;
     }
 
 #if QT_VERSION >= 0x050000

@@ -7,13 +7,13 @@
     <x>0</x>
     <y>0</y>
     <width>550</width>
-    <height>1286</height>
+    <height>1154</height>
    </rect>
   </property>
-  <property name="windowTitle">
-   <string>Form</string>
-  </property>
   <layout class="QVBoxLayout" name="verticalLayout_7">
+   <property name="margin">
+    <number>0</number>
+   </property>
    <item>
     <widget class="QDockWidget" name="dockWidget_ip">
      <property name="features">
@@ -24,6 +24,9 @@
      </property>
      <widget class="QWidget" name="dockWidgetContents_ip">
       <layout class="QVBoxLayout" name="verticalLayout_5">
+       <property name="margin">
+        <number>0</number>
+       </property>
        <item>
         <layout class="QHBoxLayout" name="layout_ip">
          <item>
@@ -76,6 +79,9 @@
        <item>
         <widget class="QWidget" name="widget_ip" native="true">
          <layout class="QVBoxLayout" name="verticalLayout_2">
+          <property name="margin">
+           <number>0</number>
+          </property>
           <item>
            <layout class="QVBoxLayout" name="layout_ipAddress">
             <item>
@@ -238,6 +244,9 @@ Should be according to standards</string>
        <item>
         <widget class="QWidget" name="widget_ip6" native="true">
          <layout class="QVBoxLayout" name="verticalLayout_3">
+          <property name="margin">
+           <number>0</number>
+          </property>
           <item>
            <layout class="QVBoxLayout" name="layout_ipAddress6">
             <item>
@@ -371,9 +380,15 @@ Should be according to standards</string>
        <item>
         <widget class="QWidget" name="widget_ipAdvanced" native="true">
          <layout class="QVBoxLayout" name="verticalLayout_6">
+          <property name="margin">
+           <number>0</number>
+          </property>
           <item>
            <widget class="QWidget" name="widget_ipRoutes" native="true">
             <layout class="QVBoxLayout" name="layout_ipRoutes">
+             <property name="margin">
+              <number>0</number>
+             </property>
              <item>
               <layout class="QHBoxLayout" name="layout_ipRoutesLine">
                <item>
@@ -478,6 +493,9 @@ Should be according to standards</string>
           <item>
            <widget class="QWidget" name="widget_ipRoutes6" native="true">
             <layout class="QVBoxLayout" name="layout_ipRoutes6">
+             <property name="margin">
+              <number>0</number>
+             </property>
              <item>
               <layout class="QHBoxLayout" name="layout_ipRoutes6Line">
                <item>
@@ -717,6 +735,9 @@ Should be according to standards</string>
           <item>
            <widget class="QWidget" name="widget_dhcp" native="true">
             <layout class="QVBoxLayout" name="verticalLayout">
+             <property name="margin">
+              <number>0</number>
+             </property>
              <item>
               <layout class="QHBoxLayout" name="layout_dhcp">
                <item>
@@ -763,6 +784,9 @@ Should be according to standards</string>
              <item>
               <widget class="QWidget" name="widget_dhcpcdOpt" native="true">
                <layout class="QHBoxLayout" name="horizontalLayout">
+                <property name="margin">
+                 <number>0</number>
+                </property>
                 <item>
                  <widget class="QLabel" name="label_dhcpcdOpt">
                   <property name="sizePolicy">
@@ -798,6 +822,9 @@ Should be according to standards</string>
              <item>
               <widget class="QWidget" name="widget_dhclientOpt" native="true">
                <layout class="QVBoxLayout" name="verticalLayout_8">
+                <property name="margin">
+                 <number>0</number>
+                </property>
                 <item>
                  <layout class="QHBoxLayout" name="layout_dhclientOpt">
                   <item>
@@ -945,6 +972,9 @@ Should be according to standards</string>
           <item>
            <widget class="QWidget" name="widget_dns" native="true">
             <layout class="QVBoxLayout" name="verticalLayout_4">
+             <property name="margin">
+              <number>0</number>
+             </property>
              <item>
               <layout class="QVBoxLayout" name="layout_dns">
                <item>

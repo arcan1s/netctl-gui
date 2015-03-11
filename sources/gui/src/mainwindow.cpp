@@ -25,6 +25,7 @@
 #include <QFileDialog>
 #include <QFileInfo>
 #include <QLibraryInfo>
+#include <QProcessEnvironment>
 #include <QTranslator>
 #include <QUrl>
 
@@ -73,22 +74,15 @@ MainWindow::MainWindow(QWidget *parent,
     updateConfiguration(args);
 
     // main actions
-//     if (args[QString("essid")].toString() != QString("ESSID")) {
-//         for (int i=0; i<ui->tableWidget_wifi->rowCount(); i++)
-//             if (ui->tableWidget_wifi->item(i, 0)->text() == args[QString("essid")].toString())
-//                 ui->tableWidget_wifi->setCurrentCell(i, 0);
-//         if (ui->tableWidget_wifi->currentItem() == nullptr)
-//             ErrorWindow::showWindow(18, QString(PDEBUG), debug);
-//     } else if (args[QString("open")].toString() != QString("PROFILE")) {
-//         ui->comboBox_profile->addItem(args[QString("open")].toString());
-//         ui->comboBox_profile->setCurrentIndex(ui->comboBox_profile->count()-1);
-//     } else if (args[QString("select")].toString() != QString("PROFILE")) {
-//         for (int i=0; i<ui->tableWidget_main->rowCount(); i++)
-//             if (ui->tableWidget_main->item(i, 0)->text() == args[QString("select")].toString())
-//                 ui->tableWidget_main->setCurrentCell(i, 0);
-//         if (ui->tableWidget_main->currentItem() == nullptr)
-//             ErrorWindow::showWindow(17, QString(PDEBUG), debug);
-//     }
+    if (args[QString("essid")].toString() != QString("ESSID")) {
+        if (!wifiMenuWidget->wifiTabSelectEssidSlot(args[QString("essid")].toString()))
+            ErrorWindow::showWindow(18, QString(PDEBUG), debug);
+    } else if (args[QString("open")].toString() != QString("PROFILE")) {
+        newProfileWidget->profileTabOpenProfileSlot(args[QString("open")].toString());
+    } else if (args[QString("select")].toString() != QString("PROFILE")) {
+        if (!mainWidget->mainTabSelectProfileSlot(args[QString("select")].toString()))
+            ErrorWindow::showWindow(17, QString(PDEBUG), debug);
+    }
 
     // show windows
     if (args[QString("about")].toBool())
@@ -341,7 +335,7 @@ void MainWindow::openProfileSlot(const QString profile)
 {
     if (debug) qDebug() << PDEBUG;
 
-    newProfileWidget->profileTabOpenProfile(profile);
+    newProfileWidget->profileTabOpenProfileSlot(profile);
 }
 
 
@@ -687,8 +681,8 @@ void MainWindow::createActions()
 {
     if (debug) qDebug() << PDEBUG;
 
-    connect(ui->actionConnect_to_profile, SIGNAL(triggered()), this, SLOT(setMainTab()));
-    connect(ui->actionCreate_a_new_profile, SIGNAL(triggered()), this, SLOT(setProfileTab()));
+    connect(ui->actionNetctl, SIGNAL(triggered()), this, SLOT(setMainTab()));
+    connect(ui->actionProfiles, SIGNAL(triggered()), this, SLOT(setProfileTab()));
     connect(ui->actionWiFi_menu, SIGNAL(triggered()), this, SLOT(setWifiTab()));
     connect(ui->stackedWidget, SIGNAL(currentChanged(int)), this, SLOT(setTab(int)));
     connect(this, SIGNAL(needToBeConfigured()), this, SLOT(showSettingsWindow()));
@@ -775,9 +769,9 @@ QMap<QString, QString> MainWindow::parseOptions(const QString options)
 
     QMap<QString, QString> settings;
     for (int i=0; i<options.split(QChar(',')).count(); i++) {
-        if (options.split(QChar(','))[i].split(QChar('=')).count() < 2) continue;
-        settings[options.split(QChar(','))[i].split(QChar('='))[0]] =
-                options.split(QChar(','))[i].split(QChar('='))[1];
+        QStringList option = options.split(QChar(','))[i].split(QChar('='));
+        if (option.count() != 2) continue;
+        settings[option[0]] = option[1];
     }
     for (int i=0; i<settings.keys().count(); i++)
         if (debug) qDebug() << PDEBUG << ":" << QString("%1=%2").arg(settings.keys()[i]).arg(settings[settings.keys()[i]]);

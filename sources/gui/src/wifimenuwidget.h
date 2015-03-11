@@ -19,9 +19,7 @@
 #define WIFIMENUWIDGET_H
 
 #include <QApplication>
-#include <QToolBar>
-#include <QToolButton>
-#include <QWidget>
+#include <QMainWindow>
 
 #include <netctlgui/netctlgui.h>
 
@@ -33,7 +31,7 @@ namespace Ui {
 class WiFiMenuWidget;
 }
 
-class WiFiMenuWidget : public QWidget
+class WiFiMenuWidget : public QMainWindow
 {
     Q_OBJECT
 
@@ -45,6 +43,7 @@ public:
 
 public slots:
     void update();
+    bool wifiTabSelectEssidSlot(const QString essid);
     // wifi tab slots
     void connectToUnknownEssid(const QString passwd);
     void setHiddenName(const QString name);
@@ -60,8 +59,6 @@ private slots:
 
 private:
     // ui
-    QMap<QString, QAction *> toolBarActions;
-    QToolBar *actionToolBar = nullptr;
     MainWindow *mainWindow = nullptr;
     Ui::WiFiMenuWidget *ui = nullptr;
     PasswdWidget *passwdWid = nullptr;
@@ -71,7 +68,6 @@ private:
     WpaSup *wpaCommand = nullptr;
     void createActions();
     void createObjects();
-    void createToolBars();
     void deleteObjects();
     bool debug = false;
     bool hiddenNetwork;

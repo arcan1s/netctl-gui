@@ -169,23 +169,19 @@ void NetctlAutoWindow::netctlAutoUpdateTable()
         enabled = netctlCommand->isNetctlAutoEnabled();
         running = netctlCommand->isNetctlAutoRunning();
     }
+    ui->actionDisableAll->setEnabled(running);
+    ui->actionEnableAll->setEnabled(running);
+    ui->actionRestartService->setEnabled(running);
     if (enabled)
         ui->actionEnableService->setText(QApplication::translate("NetctlAutoWindow", "Disable service"));
     else
         ui->actionEnableService->setText(QApplication::translate("NetctlAutoWindow", "Enable service"));
-    ui->actionEnableService->setVisible(true);
     if (running) {
         ui->label_info->setText(QApplication::translate("NetctlAutoWindow", "netctl-auto is running"));
         ui->actionStartService->setText(QApplication::translate("NetctlAutoWindow", "Stop service"));
-        ui->actionDisableAll->setVisible(true);
-        ui->actionEnableAll->setVisible(true);
-        ui->actionRestartService->setVisible(true);
     } else {
         ui->label_info->setText(QApplication::translate("NetctlAutoWindow", "netctl-auto is not running"));
         ui->actionStartService->setText(QApplication::translate("NetctlAutoWindow", "Start service"));
-        ui->actionDisableAll->setVisible(false);
-        ui->actionEnableAll->setVisible(false);
-        ui->actionRestartService->setVisible(false);
         netctlAutoRefreshButtons(nullptr, nullptr);
         return;
     }
@@ -441,15 +437,10 @@ void NetctlAutoWindow::netctlAutoRefreshButtons(QTableWidgetItem *current, QTabl
     Q_UNUSED(previous);
     if (debug) qDebug() << PDEBUG;
 
-    if (current == nullptr) {
-        // menu
-        ui->actionEnable->setEnabled(false);
-        ui->actionSwitch->setEnabled(false);
-        return;
-    }
-    ui->actionSwitch->setEnabled(ui->tableWidget->item(current->row(), 2)->text().isEmpty());
-    ui->actionEnable->setEnabled(true);
-    if (!ui->tableWidget->item(current->row(), 3)->text().isEmpty()) {
+    bool selected = (current != nullptr);
+    ui->actionEnable->setEnabled(selected);
+    ui->actionSwitch->setEnabled(selected && ui->tableWidget->item(current->row(), 2)->text().isEmpty());
+    if (selected && !ui->tableWidget->item(current->row(), 3)->text().isEmpty()) {
         ui->actionEnable->setText(QApplication::translate("NetctlAutoWindow", "Enable"));
         ui->actionEnable->setIcon(QIcon::fromTheme("list-add"));
     } else {

@@ -47,6 +47,7 @@ private slots:
     void addFreq();
     void addOption();
     void changeSecurity(const QString currentText);
+    void setKeyEchoMode(const int mode);
     void showAdvanced();
     void selectWpaConfig();
 

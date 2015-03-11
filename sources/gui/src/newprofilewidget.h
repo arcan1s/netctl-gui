@@ -18,9 +18,7 @@
 #ifndef NEWPROFILEWIDGET_H
 #define NEWPROFILEWIDGET_H
 
-#include <QToolBar>
-#include <QToolButton>
-#include <QWidget>
+#include <QMainWindow>
 
 #include <netctlgui/netctlgui.h>
 
@@ -42,7 +40,7 @@ namespace Ui {
 class NewProfileWidget;
 }
 
-class NewProfileWidget : public QWidget
+class NewProfileWidget : public QMainWindow
 {
     Q_OBJECT
 
@@ -53,7 +51,7 @@ public:
     ~NewProfileWidget();
 
 public slots:
-    void profileTabOpenProfile(const QString profile);
+    void profileTabOpenProfileSlot(const QString profile);
     void update();
 
 private slots:
@@ -69,9 +67,6 @@ private slots:
 
 private:
     // ui
-    QMap<QString, QAction *> toolBarActions;
-    QToolButton *actionMenu = nullptr;
-    QToolBar *actionToolBar = nullptr;
     MainWindow *mainWindow;
     Ui::NewProfileWidget *ui = nullptr;
     BridgeWidget *bridgeWid = nullptr;
@@ -90,7 +85,6 @@ private:
     NetctlProfile *netctlProfile = nullptr;
     void createActions();
     void createObjects();
-    void createToolBars();
     void deleteObjects();
     bool debug = false;
     bool useHelper = true;

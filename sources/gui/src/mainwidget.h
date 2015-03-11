@@ -18,10 +18,8 @@
 #ifndef MAINWIDGET_H
 #define MAINWIDGET_H
 
+#include <QMainWindow>
 #include <QTableWidgetItem>
-#include <QToolBar>
-#include <QToolButton>
-#include <QWidget>
 
 #include <netctlgui/netctlgui.h>
 
@@ -33,7 +31,7 @@ namespace Ui {
 class MainWidget;
 }
 
-class MainWidget : public QWidget
+class MainWidget : public QMainWindow
 {
     Q_OBJECT
 
@@ -44,6 +42,7 @@ public:
     ~MainWidget();
 
 public slots:
+    bool mainTabSelectProfileSlot(const QString profile);
     void showNetctlAutoWindow();
     void update();
 
@@ -55,7 +54,6 @@ private slots:
     void mainTabContextualMenu(const QPoint &pos);
     void mainTabEditProfile();
     void mainTabEnableProfile();
-    QStringList mainTabGetActiveProfiles();
     void mainTabRemoveProfile();
     void mainTabRestartProfile();
     void mainTabStartProfile();
@@ -64,9 +62,6 @@ private slots:
 
 private:
     // ui
-    QMap<QString, QAction *> toolBarActions;
-    QToolButton *actionMenu = nullptr;
-    QToolBar *actionToolBar = nullptr;
     MainWindow *mainWindow = nullptr;
     Ui::MainWidget *ui = nullptr;
     NetctlAutoWindow *netctlAutoWin = nullptr;
@@ -75,7 +70,6 @@ private:
     NetctlProfile *netctlProfile = nullptr;
     void createActions();
     void createObjects();
-    void createToolBars();
     void deleteObjects();
     QString configPath;
     bool debug = false;

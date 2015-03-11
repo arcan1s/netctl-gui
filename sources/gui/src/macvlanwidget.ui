@@ -7,13 +7,13 @@
     <x>0</x>
     <y>0</y>
     <width>396</width>
-    <height>103</height>
+    <height>79</height>
    </rect>
   </property>
-  <property name="windowTitle">
-   <string>Form</string>
-  </property>
   <layout class="QVBoxLayout" name="verticalLayout">
+   <property name="margin">
+    <number>0</number>
+   </property>
    <item>
     <widget class="QDockWidget" name="dockWidget_macvlan">
      <property name="features">
@@ -24,6 +24,9 @@
      </property>
      <widget class="QWidget" name="dockWidgetContents_macvlan">
       <layout class="QGridLayout" name="gridLayout_2">
+       <property name="margin">
+        <number>0</number>
+       </property>
        <item row="0" column="0">
         <layout class="QHBoxLayout" name="layout_mode">
          <item>

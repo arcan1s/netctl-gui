@@ -31,7 +31,7 @@
 
 
 WiFiMenuWidget::WiFiMenuWidget(QWidget *parent, const QMap<QString, QString> settings, const bool debugCmd)
-    : QWidget(parent),
+    : QMainWindow(parent),
       debug(debugCmd),
       configuration(settings)
 {
@@ -39,7 +39,6 @@ WiFiMenuWidget::WiFiMenuWidget(QWidget *parent, const QMap<QString, QString> set
     useHelper = (configuration[QString("USE_HELPER")] == QString("true"));
 
     createObjects();
-    createToolBars();
     createActions();
 }
 
@@ -58,6 +57,19 @@ void WiFiMenuWidget::update()
 
     updateWifiTab();
     updateMenuWifi();
+}
+
+
+bool WiFiMenuWidget::wifiTabSelectEssidSlot(const QString essid)
+{
+    if (debug) qDebug() << PDEBUG;
+    if (debug) qDebug() << PDEBUG << ":" << "Essid" << essid;
+
+    for (int i=0; i<ui->tableWidget_wifi->rowCount(); i++) {
+        if (ui->tableWidget_wifi->item(i, 0)->text() != essid) continue;
+        ui->tableWidget_wifi->setCurrentCell(i, 0);
+    }
+    return (ui->tableWidget_wifi->currentItem() != nullptr);
 }
 
 
@@ -155,13 +167,13 @@ void WiFiMenuWidget::updateMenuWifi()
     if (debug) qDebug() << PDEBUG;
 
     bool selected = (ui->tableWidget_wifi->currentItem() != nullptr);
-    toolBarActions[QString("wifiStart")]->setVisible(selected);
+    ui->actionStart->setEnabled(selected);
     if (selected && ui->tableWidget_wifi->item(ui->tableWidget_wifi->currentItem()->row(), 5)->text().isEmpty()) {
-        toolBarActions[QString("wifiStart")]->setText(QApplication::translate("WiFiMenuWidget", "Start"));
-        toolBarActions[QString("wifiStart")]->setIcon(QIcon::fromTheme("system-run"));
+        ui->actionStart->setText(QApplication::translate("WiFiMenuWidget", "Start"));
+        ui->actionStart->setIcon(QIcon::fromTheme("system-run"));
     } else {
-        toolBarActions[QString("wifiStart")]->setText(QApplication::translate("WiFiMenuWidget", "Stop"));
-        toolBarActions[QString("wifiStart")]->setIcon(QIcon::fromTheme("process-stop"));
+        ui->actionStart->setText(QApplication::translate("WiFiMenuWidget", "Stop"));
+        ui->actionStart->setIcon(QIcon::fromTheme("process-stop"));
     }
 }
 
@@ -394,6 +406,9 @@ void WiFiMenuWidget::createActions()
 {
     if (debug) qDebug() << PDEBUG;
 
+    // menu actions
+    connect(ui->actionRefresh, SIGNAL(triggered(bool)), this, SLOT(updateWifiTab()));
+    connect(ui->actionStart, SIGNAL(triggered(bool)), this, SLOT(wifiTabStart()));
     // wifi tab events
     connect(ui->tableWidget_wifi, SIGNAL(itemActivated(QTableWidgetItem *)), this, SLOT(wifiTabStart()));
     connect(ui->tableWidget_wifi, SIGNAL(currentItemChanged(QTableWidgetItem *, QTableWidgetItem *)),
@@ -418,23 +433,6 @@ void WiFiMenuWidget::createObjects()
 }
 
 
-void WiFiMenuWidget::createToolBars()
-{
-    if (debug) qDebug() << PDEBUG;
-
-    actionToolBar = new QToolBar(this);
-    actionToolBar->setToolButtonStyle(Qt::ToolButtonFollowStyle);
-    toolBarActions[QString("wifiRefresh")] = actionToolBar->addAction(QIcon::fromTheme(QString("view-refresh")),
-                                                                      QApplication::translate("WiFiMenuWidget", "Refresh"),
-                                                                      this, SLOT(updateWifiTab()));
-    toolBarActions[QString("wifiStart")] = actionToolBar->addAction(QIcon::fromTheme(QString("system-run")),
-                                                                    QApplication::translate("WiFiMenuWidget", "Start"),
-                                                                    this, SLOT(wifiTabStart()));
-
-    ui->verticalLayout->insertWidget(0, actionToolBar);
-}
-
-
 void WiFiMenuWidget::deleteObjects()
 {
     if (debug) qDebug() << PDEBUG;
@@ -443,9 +441,5 @@ void WiFiMenuWidget::deleteObjects()
     if (netctlProfile != nullptr) delete netctlProfile;
     if (wpaCommand != nullptr) delete wpaCommand;
 
-    if (actionToolBar != nullptr) {
-        actionToolBar->clear();
-        delete actionToolBar;
-    }
     if (ui != nullptr) delete ui;
 }

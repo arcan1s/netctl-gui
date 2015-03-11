@@ -21,6 +21,7 @@
 #include <QDBusMessage>
 #include <QDir>
 #include <QLibraryInfo>
+#include <QProcessEnvironment>
 #include <QTranslator>
 #include <iostream>
 #include <unistd.h>
@@ -130,6 +131,9 @@ int main(int argc, char *argv[])
             args[QString("error")] = true;
         }
     }
+    QProcessEnvironment environment = QProcessEnvironment::systemEnvironment();
+    QString debugEnv = environment.value(QString("DEBUG"), QString("no"));
+    if (!args[QString("debug")].toBool()) args[QString("debug")] = (debugEnv == QString("yes"));
     if ((args[QString("debug")].toBool()) ||
         (args[QString("help")].toBool()) ||
         (args[QString("info")].toBool()) ||
@@ -142,6 +146,13 @@ int main(int argc, char *argv[])
         args[QString("tab")] = static_cast<int>(2);
     if (args[QString("select")].toString() != QString("PROFILE"))
         args[QString("tab")] = static_cast<int>(1);
+
+    // check
+    QString robotEnv = environment.value(QString("SKYNET"), QString(""));
+    if (!robotEnv.isEmpty()) {
+        cout << "Sorry, this software is only for humans" << endl;
+        return 2;
+    }
 
     // detach from console
     if (args[QString("detached")].toBool())

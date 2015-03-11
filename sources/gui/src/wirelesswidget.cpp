@@ -50,6 +50,7 @@ void WirelessWidget::clear()
     ui->listWidget_wpaConfigSection->setCurrentRow(-1);
     ui->listWidget_wpaConfigSection->clear();
     ui->lineEdit_wpaConfig->setText(QString("/etc/wpa_supplicant/wpa_supplicant.conf"));
+    ui->checkBox_key->setCheckState(Qt::Unchecked);
     ui->lineEdit_key->clear();
     ui->checkBox_hidden->setCheckState(Qt::Unchecked);
     ui->checkBox_adhoc->setCheckState(Qt::Unchecked);
@@ -93,6 +94,7 @@ void WirelessWidget::createActions()
     connect(ui->lineEdit_wpaConfigSection, SIGNAL(returnPressed()), this, SLOT(addOption()));
     connect(ui->pushButton_wpaConfig, SIGNAL(clicked(bool)), this, SLOT(selectWpaConfig()));
     connect(ui->comboBox_security, SIGNAL(currentIndexChanged(QString)), this, SLOT(changeSecurity(QString)));
+    connect(ui->checkBox_key, SIGNAL(stateChanged(int)), this, SLOT(setKeyEchoMode(int)));
 }
 
 
@@ -154,6 +156,15 @@ void WirelessWidget::selectWpaConfig()
                 QApplication::translate("EthernetWidget", "Configuration files (*.conf)"));
     if (!filename.isEmpty())
         ui->lineEdit_wpaConfig->setText(filename);
+}
+
+
+void WirelessWidget::setKeyEchoMode(const int mode)
+{
+    if (mode == 0)
+        ui->lineEdit_key->setEchoMode(QLineEdit::Password);
+    else
+        ui->lineEdit_key->setEchoMode(QLineEdit::Normal);
 }
 
 

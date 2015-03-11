@@ -24,13 +24,25 @@
        </sizepolicy>
       </property>
       <widget class="QWidget" name="page_main">
-       <layout class="QVBoxLayout" name="layout_main"/>
+       <layout class="QVBoxLayout" name="layout_main">
+        <property name="margin">
+         <number>0</number>
+        </property>
+       </layout>
       </widget>
       <widget class="QWidget" name="page_new">
-       <layout class="QVBoxLayout" name="layout_new"/>
+       <layout class="QVBoxLayout" name="layout_new">
+        <property name="margin">
+         <number>0</number>
+        </property>
+       </layout>
       </widget>
       <widget class="QWidget" name="page_wifi">
-       <layout class="QVBoxLayout" name="layout_wifi"/>
+       <layout class="QVBoxLayout" name="layout_wifi">
+        <property name="margin">
+         <number>0</number>
+        </property>
+       </layout>
       </widget>
      </widget>
     </item>
@@ -64,8 +76,8 @@
    <addaction name="menuMenu"/>
   </widget>
   <widget class="QToolBar" name="toolBar">
-   <property name="movable">
-    <bool>false</bool>
+   <property name="windowTitle">
+    <string>Toolbar</string>
    </property>
    <property name="toolButtonStyle">
     <enum>Qt::ToolButtonFollowStyle</enum>
@@ -76,8 +88,8 @@
    <attribute name="toolBarBreak">
     <bool>false</bool>
    </attribute>
-   <addaction name="actionConnect_to_profile"/>
-   <addaction name="actionCreate_a_new_profile"/>
+   <addaction name="actionNetctl"/>
+   <addaction name="actionProfiles"/>
    <addaction name="actionWiFi_menu"/>
   </widget>
   <action name="actionSecurity">
@@ -89,15 +101,24 @@
    <property name="text">
     <string>Security</string>
    </property>
+   <property name="toolTip">
+    <string>Show security notes</string>
+   </property>
   </action>
   <action name="actionDBus_API">
    <property name="text">
     <string>DBus API</string>
    </property>
+   <property name="toolTip">
+    <string>Show DBus API</string>
+   </property>
   </action>
   <action name="actionLibrary">
    <property name="text">
     <string>Library</string>
+   </property>
+   <property name="toolTip">
+    <string>Show library docs</string>
    </property>
   </action>
   <action name="actionReport_a_bug">
@@ -118,6 +139,9 @@
    </property>
    <property name="text">
     <string>About</string>
+   </property>
+   <property name="toolTip">
+    <string>About this application</string>
    </property>
   </action>
   <action name="actionQuit">
@@ -146,30 +170,35 @@
     <string>Ctrl+S</string>
    </property>
   </action>
-  <action name="actionConnect_to_profile">
+  <action name="actionNetctl">
    <property name="icon">
     <iconset resource="../../resources/resources.qrc">
      <normaloff>:/icon.png</normaloff>:/icon.png</iconset>
    </property>
    <property name="text">
-    <string>Connect to profile</string>
-   </property>
-   <property name="shortcut">
-    <string>Ctrl+P</string>
-   </property>
-  </action>
-  <action name="actionCreate_a_new_profile">
-   <property name="icon">
-    <iconset theme="document-new"/>
-   </property>
-   <property name="text">
-    <string>Create a new profile</string>
+    <string>netctl control</string>
    </property>
    <property name="toolTip">
-    <string>Create a new profile</string>
+    <string>netctl control</string>
    </property>
    <property name="shortcut">
     <string>Ctrl+N</string>
+   </property>
+  </action>
+  <action name="actionProfiles">
+   <property name="icon">
+    <iconset theme="document-new">
+     <normaloff/>
+    </iconset>
+   </property>
+   <property name="text">
+    <string>Profiles</string>
+   </property>
+   <property name="toolTip">
+    <string>Profiles</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+P</string>
    </property>
   </action>
   <action name="actionWiFi_menu">
