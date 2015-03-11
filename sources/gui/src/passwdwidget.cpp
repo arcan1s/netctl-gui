@@ -20,10 +20,10 @@
 
 #include <QLineEdit>
 
-#include "mainwindow.h"
+#include "wifimenuwidget.h"
 
 
-PasswdWidget::PasswdWidget(MainWindow *wid)
+PasswdWidget::PasswdWidget(WiFiMenuWidget *wid)
     : QWidget(wid),
       parent(wid),
       ui(new Ui::PasswdWidget)
@@ -79,7 +79,7 @@ void PasswdWidget::setPassword(const bool mode)
 void PasswdWidget::cancel()
 {
     hide();
-    parent->updateTabs(2);
+    parent->update();
     this->~PasswdWidget();
 }
 

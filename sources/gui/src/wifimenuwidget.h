@@ -15,57 +15,70 @@
  *   along with netctl-gui. If not, see http://www.gnu.org/licenses/       *
  ***************************************************************************/
 
-#ifndef NETCTLAUTOWINDOW_H
-#define NETCTLAUTOWINDOW_H
+#ifndef WIFIMENUWIDGET_H
+#define WIFIMENUWIDGET_H
 
-#include <QMainWindow>
-#include <QTableWidgetItem>
+#include <QApplication>
+#include <QToolBar>
+#include <QToolButton>
+#include <QWidget>
+
+#include <netctlgui/netctlgui.h>
 
 
-class Netctl;
+class MainWindow;
+class PasswdWidget;
 
 namespace Ui {
-class NetctlAutoWindow;
+class WiFiMenuWidget;
 }
 
-class NetctlAutoWindow : public QMainWindow
+class WiFiMenuWidget : public QWidget
 {
     Q_OBJECT
 
 public:
-    explicit NetctlAutoWindow(QWidget *parent = 0,
-                              const bool debugCmd = false,
-                              const QMap<QString, QString> settings = QMap<QString, QString>());
-    ~NetctlAutoWindow();
+    explicit WiFiMenuWidget(QWidget *parent = 0,
+                            const QMap<QString,QString> settings = QMap<QString,QString>(),
+                            const bool debugCmd = false);
+    ~WiFiMenuWidget();
 
 public slots:
-    void showWindow();
+    void update();
+    // wifi tab slots
+    void connectToUnknownEssid(const QString passwd);
+    void setHiddenName(const QString name);
 
 private slots:
-    // table
-    void netctlAutoContextualMenu(const QPoint &pos);
-    void netctlAutoUpdateTable();
-    // netctl-auto
-    void netctlAutoDisableAllProfiles();
-    void netctlAutoEnableProfile();
-    void netctlAutoEnableAllProfiles();
-    void netctlAutoStartProfile();
-    void netctlAutoRefreshButtons(QTableWidgetItem *current, QTableWidgetItem *previous);
-    // service
-    void netctlAutoEnableService();
-    void netctlAutoRestartService();
-    void netctlAutoStartService();
+    // update slots
+    void updateMenuWifi();
+    void updateWifiTab();
+    // wifi tab slots
+    void wifiTabContextualMenu(const QPoint &pos);
+    void wifiTabSetEnabled(const bool state);
+    void wifiTabStart();
 
 private:
     // ui
-    Ui::NetctlAutoWindow *ui = nullptr;
+    QMap<QString, QAction *> toolBarActions;
+    QToolBar *actionToolBar = nullptr;
+    MainWindow *mainWindow = nullptr;
+    Ui::WiFiMenuWidget *ui = nullptr;
+    PasswdWidget *passwdWid = nullptr;
     // backend
     Netctl *netctlCommand = nullptr;
-    QString checkStatus(const bool statusBool, const bool nullFalse = false);
+    NetctlProfile *netctlProfile = nullptr;
+    WpaSup *wpaCommand = nullptr;
     void createActions();
+    void createObjects();
+    void createToolBars();
+    void deleteObjects();
     bool debug = false;
+    bool hiddenNetwork;
     bool useHelper = true;
+    // configuration
+    QMap<QString, QString> configuration;
 };
 
 
-#endif /* NETCTLAUTOWINDOW_H */
+#endif /* WIFIMENUWIDGET_H */

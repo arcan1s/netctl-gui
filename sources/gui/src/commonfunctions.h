@@ -15,45 +15,17 @@
  *   along with netctl-gui. If not, see http://www.gnu.org/licenses/       *
  ***************************************************************************/
 
-#ifndef PASSWDWIDGET_H
-#define PASSWDWIDGET_H
+#ifndef COMMONFUNCTIONS_H
+#define COMMONFUNCTIONS_H
 
-#include <QKeyEvent>
-#include <QPushButton>
-#include <QWidget>
-
-
-class WiFiMenuWidget;
-
-namespace Ui {
-class PasswdWidget;
-}
-
-class PasswdWidget : public QWidget
-{
-    Q_OBJECT
-
-public:
-    explicit PasswdWidget(WiFiMenuWidget *wid = 0);
-    ~PasswdWidget();
-
-public slots:
-    void setFocusToLineEdit();
-    void setPassword(const bool mode = true);
-
-private slots:
-    void cancel();
-    void passwdApply();
-    void setEchoMode(const int mode);
-
-private:
-    WiFiMenuWidget *parent;
-    Ui::PasswdWidget *ui;
-    // ESC pressed event
-    void keyPressEvent(QKeyEvent *pressedKey);
-    void createActions();
-    bool passwdMode = true;
-};
+#include <QMap>
+#include <QString>
 
 
-#endif /* PASSWDWIDGET_H */
+bool checkExternalApps(const QString apps = QString("all"),
+                       const QMap<QString, QString> configuration = QMap<QString, QString>(),
+                       const bool debug = false);
+QString checkStatus(const bool statusBool, const bool nullFalse = false);
+
+
+#endif /* COMMONFUNCTIONS_H */

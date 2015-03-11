@@ -16,261 +16,21 @@
   <widget class="QWidget" name="centralWidget">
    <layout class="QVBoxLayout" name="centralLayout">
     <item>
-     <widget class="QTabWidget" name="tabWidget">
-      <property name="currentIndex">
-       <number>0</number>
+     <widget class="QStackedWidget" name="stackedWidget">
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
       </property>
-      <widget class="QWidget" name="tab_main">
-       <attribute name="icon">
-        <iconset resource="../../resources/resources.qrc">
-         <normaloff>:/icon.png</normaloff>:/icon.png</iconset>
-       </attribute>
-       <attribute name="title">
-        <string>Connect to profile</string>
-       </attribute>
-       <layout class="QVBoxLayout" name="verticalLayout">
-        <item>
-         <widget class="QWidget" name="widget_netctlAuto" native="true">
-          <layout class="QHBoxLayout" name="layout_netctlAuto">
-           <item>
-            <widget class="QLabel" name="label_netctlAuto">
-             <property name="sizePolicy">
-              <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
-               <horstretch>0</horstretch>
-               <verstretch>0</verstretch>
-              </sizepolicy>
-             </property>
-             <property name="text">
-              <string>netctl-auto is running</string>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QPushButton" name="pushButton_netctlAuto">
-             <property name="text">
-              <string>Show</string>
-             </property>
-            </widget>
-           </item>
-          </layout>
-         </widget>
-        </item>
-        <item>
-         <widget class="QTableWidget" name="tableWidget_main">
-          <property name="contextMenuPolicy">
-           <enum>Qt::CustomContextMenu</enum>
-          </property>
-          <property name="editTriggers">
-           <set>QAbstractItemView::NoEditTriggers</set>
-          </property>
-          <property name="selectionMode">
-           <enum>QAbstractItemView::SingleSelection</enum>
-          </property>
-          <property name="selectionBehavior">
-           <enum>QAbstractItemView::SelectRows</enum>
-          </property>
-          <property name="sortingEnabled">
-           <bool>true</bool>
-          </property>
-          <property name="columnCount">
-           <number>4</number>
-          </property>
-          <attribute name="horizontalHeaderStretchLastSection">
-           <bool>true</bool>
-          </attribute>
-          <attribute name="verticalHeaderVisible">
-           <bool>false</bool>
-          </attribute>
-          <column>
-           <property name="text">
-            <string>Name</string>
-           </property>
-           <property name="textAlignment">
-            <set>AlignHCenter|AlignVCenter|AlignCenter</set>
-           </property>
-          </column>
-          <column>
-           <property name="text">
-            <string>Description</string>
-           </property>
-           <property name="textAlignment">
-            <set>AlignHCenter|AlignVCenter|AlignCenter</set>
-           </property>
-          </column>
-          <column/>
-          <column/>
-         </widget>
-        </item>
-       </layout>
+      <widget class="QWidget" name="page_main">
+       <layout class="QVBoxLayout" name="layout_main"/>
       </widget>
-      <widget class="QWidget" name="tab_new">
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
-       <attribute name="icon">
-        <iconset theme="document-new">
-         <normaloff/>
-        </iconset>
-       </attribute>
-       <attribute name="title">
-        <string>Create a new profile</string>
-       </attribute>
-       <layout class="QVBoxLayout" name="verticalLayout_6">
-        <item>
-         <layout class="QHBoxLayout" name="layout_profile">
-          <item>
-           <widget class="QLabel" name="label_profile">
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-              <horstretch>1</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
-            </property>
-            <property name="text">
-             <string>Profile</string>
-            </property>
-            <property name="alignment">
-             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QComboBox" name="comboBox_profile">
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-              <horstretch>2</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
-            </property>
-            <property name="acceptDrops">
-             <bool>true</bool>
-            </property>
-            <property name="editable">
-             <bool>true</bool>
-            </property>
-           </widget>
-          </item>
-         </layout>
-        </item>
-        <item>
-         <widget class="QScrollArea" name="scrollArea">
-          <property name="widgetResizable">
-           <bool>true</bool>
-          </property>
-          <widget class="QWidget" name="scrollAreaWidgetContents">
-           <property name="geometry">
-            <rect>
-             <x>0</x>
-             <y>0</y>
-             <width>518</width>
-             <height>369</height>
-            </rect>
-           </property>
-           <property name="sizePolicy">
-            <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-             <horstretch>0</horstretch>
-             <verstretch>0</verstretch>
-            </sizepolicy>
-           </property>
-           <layout class="QVBoxLayout" name="scrollArea_layout"/>
-          </widget>
-         </widget>
-        </item>
-       </layout>
+      <widget class="QWidget" name="page_new">
+       <layout class="QVBoxLayout" name="layout_new"/>
       </widget>
-      <widget class="QWidget" name="tab_wifi">
-       <attribute name="icon">
-        <iconset resource="../../resources/resources.qrc">
-         <normaloff>:/wifi.png</normaloff>:/wifi.png</iconset>
-       </attribute>
-       <attribute name="title">
-        <string>WiFi menu</string>
-       </attribute>
-       <layout class="QVBoxLayout" name="verticalLayout_2">
-        <item>
-         <widget class="QLabel" name="label_wifi">
-          <property name="text">
-           <string>Please install 'wpa_supplicant' before using it</string>
-          </property>
-          <property name="alignment">
-           <set>Qt::AlignCenter</set>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QTableWidget" name="tableWidget_wifi">
-          <property name="contextMenuPolicy">
-           <enum>Qt::CustomContextMenu</enum>
-          </property>
-          <property name="editTriggers">
-           <set>QAbstractItemView::NoEditTriggers</set>
-          </property>
-          <property name="selectionMode">
-           <enum>QAbstractItemView::SingleSelection</enum>
-          </property>
-          <property name="selectionBehavior">
-           <enum>QAbstractItemView::SelectRows</enum>
-          </property>
-          <property name="sortingEnabled">
-           <bool>true</bool>
-          </property>
-          <property name="columnCount">
-           <number>7</number>
-          </property>
-          <attribute name="horizontalHeaderStretchLastSection">
-           <bool>true</bool>
-          </attribute>
-          <attribute name="verticalHeaderVisible">
-           <bool>false</bool>
-          </attribute>
-          <column>
-           <property name="text">
-            <string>Name</string>
-           </property>
-           <property name="textAlignment">
-            <set>AlignHCenter|AlignVCenter|AlignCenter</set>
-           </property>
-          </column>
-          <column>
-           <property name="text">
-            <string>Type</string>
-           </property>
-           <property name="textAlignment">
-            <set>AlignHCenter|AlignVCenter|AlignCenter</set>
-           </property>
-          </column>
-          <column>
-           <property name="text">
-            <string># of points</string>
-           </property>
-           <property name="textAlignment">
-            <set>AlignHCenter|AlignVCenter|AlignCenter</set>
-           </property>
-          </column>
-          <column>
-           <property name="text">
-            <string>Signal</string>
-           </property>
-           <property name="textAlignment">
-            <set>AlignHCenter|AlignVCenter|AlignCenter</set>
-           </property>
-          </column>
-          <column>
-           <property name="text">
-            <string>Security</string>
-           </property>
-           <property name="textAlignment">
-            <set>AlignHCenter|AlignVCenter|AlignCenter</set>
-           </property>
-          </column>
-          <column/>
-          <column/>
-         </widget>
-        </item>
-       </layout>
+      <widget class="QWidget" name="page_wifi">
+       <layout class="QVBoxLayout" name="layout_wifi"/>
       </widget>
      </widget>
     </item>
@@ -302,6 +62,23 @@
     <addaction name="actionQuit"/>
    </widget>
    <addaction name="menuMenu"/>
+  </widget>
+  <widget class="QToolBar" name="toolBar">
+   <property name="movable">
+    <bool>false</bool>
+   </property>
+   <property name="toolButtonStyle">
+    <enum>Qt::ToolButtonFollowStyle</enum>
+   </property>
+   <attribute name="toolBarArea">
+    <enum>TopToolBarArea</enum>
+   </attribute>
+   <attribute name="toolBarBreak">
+    <bool>false</bool>
+   </attribute>
+   <addaction name="actionConnect_to_profile"/>
+   <addaction name="actionCreate_a_new_profile"/>
+   <addaction name="actionWiFi_menu"/>
   </widget>
   <action name="actionSecurity">
    <property name="icon">
@@ -369,13 +146,45 @@
     <string>Ctrl+S</string>
    </property>
   </action>
+  <action name="actionConnect_to_profile">
+   <property name="icon">
+    <iconset resource="../../resources/resources.qrc">
+     <normaloff>:/icon.png</normaloff>:/icon.png</iconset>
+   </property>
+   <property name="text">
+    <string>Connect to profile</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+P</string>
+   </property>
+  </action>
+  <action name="actionCreate_a_new_profile">
+   <property name="icon">
+    <iconset theme="document-new"/>
+   </property>
+   <property name="text">
+    <string>Create a new profile</string>
+   </property>
+   <property name="toolTip">
+    <string>Create a new profile</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+N</string>
+   </property>
+  </action>
+  <action name="actionWiFi_menu">
+   <property name="icon">
+    <iconset resource="../../resources/resources.qrc">
+     <normaloff>:/wifi.png</normaloff>:/wifi.png</iconset>
+   </property>
+   <property name="text">
+    <string>WiFi menu</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+W</string>
+   </property>
+  </action>
  </widget>
- <tabstops>
-  <tabstop>tabWidget</tabstop>
-  <tabstop>tableWidget_main</tabstop>
-  <tabstop>scrollArea</tabstop>
-  <tabstop>tableWidget_wifi</tabstop>
- </tabstops>
  <resources>
   <include location="../../resources/resources.qrc"/>
  </resources>

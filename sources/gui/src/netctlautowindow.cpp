@@ -24,7 +24,6 @@
 #include <pdebug/pdebug.h>
 
 #include "dbusoperation.h"
-// #include "version.h"
 
 
 NetctlAutoWindow::NetctlAutoWindow(QWidget *parent, const bool debugCmd, const QMap<QString, QString> settings)
@@ -38,7 +37,6 @@ NetctlAutoWindow::NetctlAutoWindow(QWidget *parent, const bool debugCmd, const Q
     ui->tableWidget->setColumnHidden(3, true);
     netctlCommand = new Netctl(debug, settings);
 
-    createToolBars();
     createActions();
     ui->statusBar->showMessage(QApplication::translate("NetctlAutoWindow", "Ready"));
 }
@@ -50,14 +48,6 @@ NetctlAutoWindow::~NetctlAutoWindow()
 
     delete netctlCommand;
 
-    if (actionMenu != nullptr) {
-        actionMenu->menu()->clear();
-        delete actionMenu;
-    }
-    if (actionToolBar != nullptr) {
-        actionToolBar->clear();
-        delete actionToolBar;
-    }
     delete ui;
 }
 
@@ -85,6 +75,7 @@ void NetctlAutoWindow::createActions()
     connect(ui->actionEnable, SIGNAL(triggered(bool)), this, SLOT(netctlAutoEnableProfile()));
     connect(ui->actionEnableAll, SIGNAL(triggered(bool)), this, SLOT(netctlAutoEnableAllProfiles()));
     connect(ui->actionSwitch, SIGNAL(triggered(bool)), this, SLOT(netctlAutoStartProfile()));
+    connect(ui->actionRefresh, SIGNAL(triggered(bool)), this, SLOT(netctlAutoUpdateTable()));
     // service
     connect(ui->actionEnableService, SIGNAL(triggered(bool)), this, SLOT(netctlAutoEnableService()));
     connect(ui->actionRestartService, SIGNAL(triggered(bool)), this, SLOT(netctlAutoRestartService()));
@@ -94,32 +85,6 @@ void NetctlAutoWindow::createActions()
     connect(ui->tableWidget, SIGNAL(itemActivated(QTableWidgetItem *)), this, SLOT(netctlAutoStartProfile()));
     connect(ui->tableWidget, SIGNAL(currentItemChanged(QTableWidgetItem *, QTableWidgetItem *)), this, SLOT(netctlAutoRefreshButtons(QTableWidgetItem *, QTableWidgetItem *)));
     connect(ui->tableWidget, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(netctlAutoContextualMenu(QPoint)));
-}
-
-
-void NetctlAutoWindow::createToolBars()
-{
-    if (debug) qDebug() << PDEBUG;
-
-    actionToolBar = new QToolBar(this);
-    actionToolBar->setToolButtonStyle(Qt::ToolButtonFollowStyle);
-    toolBarActions[QString("refresh")] = actionToolBar->addAction(QIcon::fromTheme(QString("view-refresh")),
-                                                                  QApplication::translate("NetctlAutoWindow", "Refresh"),
-                                                                  this, SLOT(netctlAutoUpdateTable()));
-
-    actionMenu = new QToolButton(this);
-    actionMenu->setPopupMode(QToolButton::DelayedPopup);
-    actionMenu->setToolButtonStyle(Qt::ToolButtonFollowStyle);
-    QMenu *menu = new QMenu(actionMenu);
-    toolBarActions[QString("enable")] = menu->addAction(QApplication::translate("NetctlAutoWindow", "Enable"),
-                                                        this, SLOT(netctlAutoEnableProfile()));
-    toolBarActions[QString("switch")] = menu->addAction(QIcon::fromTheme(QString("system-run")),
-                                                        QApplication::translate("NetctlAutoWindow", "Switch"),
-                                                        this, SLOT(netctlAutoStartProfile()));
-    actionMenu->setDefaultAction(toolBarActions[QString("switch")]);
-    actionMenu->setMenu(menu);
-    actionToolBar->addWidget(actionMenu);
-    ui->centralLayout->insertWidget(0, actionToolBar);
 }
 
 
@@ -477,31 +442,18 @@ void NetctlAutoWindow::netctlAutoRefreshButtons(QTableWidgetItem *current, QTabl
     if (debug) qDebug() << PDEBUG;
 
     if (current == nullptr) {
-        // buttons
-        toolBarActions[QString("enable")]->setDisabled(true);
-        toolBarActions[QString("switch")]->setDisabled(true);
         // menu
-        ui->actionEnable->setVisible(false);
-        ui->actionSwitch->setVisible(false);
+        ui->actionEnable->setEnabled(false);
+        ui->actionSwitch->setEnabled(false);
         return;
     }
-    toolBarActions[QString("switch")]->setEnabled(ui->tableWidget->item(current->row(), 2)->text().isEmpty());
-    ui->actionSwitch->setVisible(ui->tableWidget->item(current->row(), 2)->text().isEmpty());
-    toolBarActions[QString("enable")]->setEnabled(true);
-    ui->actionEnable->setVisible(true);
+    ui->actionSwitch->setEnabled(ui->tableWidget->item(current->row(), 2)->text().isEmpty());
+    ui->actionEnable->setEnabled(true);
     if (!ui->tableWidget->item(current->row(), 3)->text().isEmpty()) {
-        // buttons
-        toolBarActions[QString("enable")]->setText(QApplication::translate("NetctlAutoWindow", "Enable"));
-        toolBarActions[QString("enable")]->setIcon(QIcon::fromTheme("list-add"));
-        // menu
-        ui->actionEnable->setText(QApplication::translate("NetctlAutoWindow", "Enable profile"));
+        ui->actionEnable->setText(QApplication::translate("NetctlAutoWindow", "Enable"));
         ui->actionEnable->setIcon(QIcon::fromTheme("list-add"));
     } else {
-        // buttons
-        toolBarActions[QString("enable")]->setText(QApplication::translate("NetctlAutoWindow", "Disable"));
-        toolBarActions[QString("enable")]->setIcon(QIcon::fromTheme("edit-delete"));
-        // menu
-        ui->actionEnable->setText(QApplication::translate("NetctlAutoWindow", "Disable profile"));
+        ui->actionEnable->setText(QApplication::translate("NetctlAutoWindow", "Disable"));
         ui->actionEnable->setIcon(QIcon::fromTheme("edit-delete"));
     }
 }

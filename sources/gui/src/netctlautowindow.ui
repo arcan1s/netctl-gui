@@ -64,6 +64,24 @@
     </item>
    </layout>
   </widget>
+  <widget class="QStatusBar" name="statusBar"/>
+  <widget class="QToolBar" name="toolBar">
+   <property name="movable">
+    <bool>false</bool>
+   </property>
+   <property name="toolButtonStyle">
+    <enum>Qt::ToolButtonFollowStyle</enum>
+   </property>
+   <attribute name="toolBarArea">
+    <enum>TopToolBarArea</enum>
+   </attribute>
+   <attribute name="toolBarBreak">
+    <bool>false</bool>
+   </attribute>
+   <addaction name="actionRefresh"/>
+   <addaction name="actionSwitch"/>
+   <addaction name="actionEnable"/>
+  </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
     <rect>
@@ -77,9 +95,6 @@
     <property name="title">
      <string>Menu</string>
     </property>
-    <addaction name="actionSwitch"/>
-    <addaction name="actionEnable"/>
-    <addaction name="separator"/>
     <addaction name="actionEnableAll"/>
     <addaction name="actionDisableAll"/>
     <addaction name="separator"/>
@@ -91,27 +106,6 @@
    </widget>
    <addaction name="menuMenu"/>
   </widget>
-  <widget class="QStatusBar" name="statusBar"/>
-  <action name="actionEnable">
-   <property name="icon">
-    <iconset theme="list-add">
-     <normaloff/>
-    </iconset>
-   </property>
-   <property name="text">
-    <string>Enable profile</string>
-   </property>
-  </action>
-  <action name="actionSwitch">
-   <property name="icon">
-    <iconset theme="system-run">
-     <normaloff/>
-    </iconset>
-   </property>
-   <property name="text">
-    <string>Switch to profile</string>
-   </property>
-  </action>
   <action name="actionClose">
    <property name="icon">
     <iconset theme="exit">
@@ -158,6 +152,39 @@
   <action name="actionEnableService">
    <property name="text">
     <string>Enable service</string>
+   </property>
+  </action>
+  <action name="actionRefresh">
+   <property name="icon">
+    <iconset theme="view-refresh">
+     <normaloff/>
+    </iconset>
+   </property>
+   <property name="text">
+    <string>Refresh</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+R</string>
+   </property>
+  </action>
+  <action name="actionEnable">
+   <property name="icon">
+    <iconset theme="list-add">
+     <normaloff/>
+    </iconset>
+   </property>
+   <property name="text">
+    <string>Enable</string>
+   </property>
+  </action>
+  <action name="actionSwitch">
+   <property name="icon">
+    <iconset theme="system-run">
+     <normaloff/>
+    </iconset>
+   </property>
+   <property name="text">
+    <string>Switch</string>
    </property>
   </action>
  </widget>

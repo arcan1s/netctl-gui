@@ -112,7 +112,7 @@ void TrayIcon::updateMenu()
         }
         QStringList profiles;
         for (int i=0; i<currentProfiles.count(); i++)
-            profiles.append(QString("%1 (%2)").arg(currentProfiles[i]).arg(status[i]));
+            profiles.append(QString("%1 %2").arg(currentProfiles[i]).arg(status[i]));
         contextMenu[QString("title")]->setText(profiles.join(QString(" | ")));
     }
 
