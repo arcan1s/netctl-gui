@@ -16,32 +16,16 @@
      <number>0</number>
     </property>
     <item>
-     <widget class="QWidget" name="widget_netctlAuto" native="true">
-      <layout class="QHBoxLayout" name="layout_netctlAuto">
-       <property name="margin">
-        <number>0</number>
-       </property>
-       <item>
-        <widget class="QLabel" name="label_netctlAuto">
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
-         <property name="text">
-          <string>netctl-auto is running</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QPushButton" name="pushButton_netctlAuto">
-         <property name="text">
-          <string>Show</string>
-         </property>
-        </widget>
-       </item>
-      </layout>
+     <widget class="QLabel" name="label_netctlAuto">
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
+      <property name="text">
+       <string>netctl-auto is running</string>
+      </property>
      </widget>
     </item>
     <item>
@@ -105,7 +89,6 @@
    <attribute name="toolBarBreak">
     <bool>false</bool>
    </attribute>
-   <addaction name="actionNetctl_auto"/>
    <addaction name="actionRefresh"/>
    <addaction name="separator"/>
    <addaction name="actionStart"/>
@@ -114,14 +97,6 @@
    <addaction name="actionEdit"/>
    <addaction name="actionRemove"/>
   </widget>
-  <action name="actionNetctl_auto">
-   <property name="text">
-    <string>netctl-auto</string>
-   </property>
-   <property name="toolTip">
-    <string>Show netctl-auto window</string>
-   </property>
-  </action>
   <action name="actionRefresh">
    <property name="icon">
     <iconset theme="view-refresh">

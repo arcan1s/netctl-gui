@@ -51,12 +51,33 @@ WiFiMenuWidget::~WiFiMenuWidget()
 }
 
 
+Qt::ToolBarArea WiFiMenuWidget::getToolBarArea()
+{
+    if (debug) qDebug() << PDEBUG;
+
+    return toolBarArea(ui->toolBar);
+}
+
+
 void WiFiMenuWidget::update()
 {
     if (debug) qDebug() << PDEBUG;
 
     updateWifiTab();
     updateMenuWifi();
+}
+
+
+void WiFiMenuWidget::updateToolBarState(const Qt::ToolBarArea area)
+{
+    if (debug) qDebug() << PDEBUG;
+    if (debug) qDebug() << PDEBUG << ":" << "Toolbar area" << area;
+
+    removeToolBar(ui->toolBar);
+    if (area != Qt::NoToolBarArea) {
+        addToolBar(area, ui->toolBar);
+        ui->toolBar->show();
+    }
 }
 
 
@@ -82,11 +103,11 @@ void WiFiMenuWidget::connectToUnknownEssid(const QString passwd)
     if (useHelper) {
         QList<QVariant> responce = sendRequestToLib(QString("WirelessInterfaces"), debug);
         if (responce.isEmpty())
-            interfaces = netctlCommand->getWirelessInterfaceList();
+            interfaces = mainWindow->netctlCommand->getWirelessInterfaceList();
         else
             interfaces = responce[0].toStringList();
     } else
-        interfaces = netctlCommand->getWirelessInterfaceList();
+        interfaces = mainWindow->netctlCommand->getWirelessInterfaceList();
     if (interfaces.isEmpty()) return;
 
     QMap<QString, QString> settings;
@@ -118,8 +139,8 @@ void WiFiMenuWidget::connectToUnknownEssid(const QString passwd)
         args.append(settingsList);
         sendRequestToCtrlWithArgs(QString("Create"), args, debug);
     } else {
-        QString profileTempName = netctlProfile->createProfile(profile, settings);
-        netctlProfile->copyProfile(profileTempName);
+        QString profileTempName = mainWindow->netctlProfile->createProfile(profile, settings);
+        mainWindow->netctlProfile->copyProfile(profileTempName);
     }
     QString message;
     if (mainWindow->startProfileSlot(profile)) {
@@ -143,7 +164,7 @@ void WiFiMenuWidget::connectToUnknownEssid(const QString passwd)
             args.append(profile);
             sendRequestToCtrlWithArgs(QString("Remove"), args, debug);
         } else
-            netctlProfile->removeProfile(profile);
+            mainWindow->netctlProfile->removeProfile(profile);
         break;
     }
 
@@ -178,6 +199,32 @@ void WiFiMenuWidget::updateMenuWifi()
 }
 
 
+void WiFiMenuWidget::updateText()
+{
+    if (debug) qDebug() << PDEBUG;
+    wifiTabSetEnabled(checkExternalApps(QString("wpasup-only"), configuration, debug));
+    if (!checkExternalApps(QString("wpasup"), configuration, debug)) {
+        ErrorWindow::showWindow(1, QString(PDEBUG), debug);
+        emit(mainWindow->needToBeConfigured());
+        return;
+    }
+    ui->label_wifi->setText(QApplication::translate("WiFiMenuWidget", "Processing..."));
+
+    netctlWifiInfo current;
+    if (useHelper)
+        current = parseOutputWifi(sendRequestToCtrl(QString("CurrentWiFi"), debug))[0];
+    else
+        current = mainWindow->wpaCommand->scanWifi()[0];
+    if (current.name.isEmpty()) return;
+
+    QString text = QString("");
+    text += QString("%1 - %2 - %3 ").arg(current.name).arg(current.security).arg(current.macs[0]);
+    text += QString("(%1 %2)").arg(current.frequencies[0]).arg(QApplication::translate("WiFiMenuWidget", "MHz"));
+
+    ui->label_wifi->setText(text);
+}
+
+
 void WiFiMenuWidget::updateWifiTab()
 {
     if (debug) qDebug() << PDEBUG;
@@ -193,7 +240,7 @@ void WiFiMenuWidget::updateWifiTab()
     if (useHelper)
         scanResults = parseOutputWifi(sendRequestToCtrl(QString("VerboseWiFi"), debug));
     else
-        scanResults = wpaCommand->scanWifi();
+        scanResults = mainWindow->wpaCommand->scanWifi();
 
     ui->tableWidget_wifi->setSortingEnabled(false);
     ui->tableWidget_wifi->selectRow(-1);
@@ -288,6 +335,7 @@ void WiFiMenuWidget::updateWifiTab()
     ui->tableWidget_wifi->horizontalHeader()->setResizeMode(QHeaderView::ResizeToContents);
 #endif
 
+    updateText();
     mainWindow->setDisabled(false);
     mainWindow->showMessage(true);
 }
@@ -333,7 +381,7 @@ void WiFiMenuWidget::wifiTabSetEnabled(const bool state)
     if (debug) qDebug() << PDEBUG << ":" << "State" << state;
 
     ui->tableWidget_wifi->setHidden(!state);
-    ui->label_wifi->setHidden(state);
+    if (!state) ui->label_wifi->setText(QApplication::translate("WiFiMenuWidget", "Please install 'wpa_supplicant' before using it"));
 }
 
 
@@ -379,7 +427,7 @@ void WiFiMenuWidget::wifiTabStart()
             }
             profileName = responce[0].toString();
         } else
-            profileName = wpaCommand->existentProfile(profile);
+            profileName = mainWindow->wpaCommand->existentProfile(profile);
         mainWindow->showMessage(mainWindow->startProfileSlot(profileName));
     } else {
         QString security = ui->tableWidget_wifi->item(ui->tableWidget_wifi->currentItem()->row(), 1)->text();
@@ -421,25 +469,18 @@ void WiFiMenuWidget::createObjects()
 {
     if (debug) qDebug() << PDEBUG;
 
-    // backend
-    netctlCommand = new Netctl(debug, configuration);
-    netctlProfile = new NetctlProfile(debug, configuration);
-    wpaCommand = new WpaSup(debug, configuration);
     // windows
     ui = new Ui::WiFiMenuWidget;
     ui->setupUi(this);
     ui->tableWidget_wifi->setColumnHidden(5, true);
     ui->tableWidget_wifi->setColumnHidden(6, true);
+    updateToolBarState(static_cast<Qt::ToolBarArea>(configuration[QString("WIFI_TOOLBAR")].toInt()));
 }
 
 
 void WiFiMenuWidget::deleteObjects()
 {
     if (debug) qDebug() << PDEBUG;
-
-    if (netctlCommand != nullptr) delete netctlCommand;
-    if (netctlProfile != nullptr) delete netctlProfile;
-    if (wpaCommand != nullptr) delete wpaCommand;
 
     if (ui != nullptr) delete ui;
 }

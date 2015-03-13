@@ -96,9 +96,11 @@ QString WpaSup::existentProfile(const QString essid)
 
     QString profileFile = QString("");
     QList<netctlProfileInfo> profileList = netctlCommand->getProfileList();
-    for (int i=0; i<profileList.count(); i++)
-        if (essid == netctlProfile->getValueFromProfile(profileList[i].name, QString("ESSID")))
-            profileFile = profileList[i].name;
+    for (int i=0; i<profileList.count(); i++) {
+        if (essid != profileList[i].essid) continue;
+        profileFile = profileList[i].name;
+        break;
+    }
 
     return profileFile;
 }
@@ -213,11 +215,11 @@ bool WpaSup::isProfileActive(const QString essid)
 
     QString profileFile;
     QList<netctlProfileInfo> profileList = netctlCommand->getProfileList();
-    for (int i=0; i<profileList.count(); i++)
-        if (essid == netctlProfile->getValueFromProfile(profileList[i].name, QString("ESSID"))) {
-            profileFile = profileList[i].name;
-            break;
-        }
+    for (int i=0; i<profileList.count(); i++) {
+        if (essid != profileList[i].essid) continue;
+        profileFile = profileList[i].name;
+        break;
+    }
 
     return netctlCommand->isProfileActive(profileFile);
 }
@@ -241,11 +243,11 @@ bool WpaSup::isProfileExists(const QString essid)
 
     bool exists = false;
     QList<netctlProfileInfo> profileList = netctlCommand->getProfileList();
-    for (int i=0; i<profileList.count(); i++)
-        if (essid == netctlProfile->getValueFromProfile(profileList[i].name, QString("ESSID"))) {
-            exists = true;
-            break;
-        }
+    for (int i=0; i<profileList.count(); i++) {
+        if (essid != profileList[i].essid) continue;
+        exists = true;
+        break;
+    }
 
     return exists;
 }
@@ -272,8 +274,10 @@ netctlWifiInfo WpaSup::current()
 
     netctlWifiInfo current;
     if (!QFile(_pidFile).exists()) return current;
+    QString rawText = getWpaCliOutput(QString("status"));
+    if (!rawText.contains(QString("wpa_state=COMPLETED\n"))) return current;
 
-    QStringList rawList = getWpaCliOutput(QString("status")).split(QChar('\n'), QString::SkipEmptyParts);
+    QStringList rawList = rawText.split(QChar('\n'), QString::SkipEmptyParts);
     for (int i=0; i<rawList.count(); i++) {
         QStringList line = rawList[i].split(QChar('='));
         if (line.count() != 2) continue;
@@ -300,16 +304,10 @@ netctlWifiInfo WpaSup::current()
             current.security = security;
         }
     }
-    current.signal = 0;
 
     // status
     current.active = true;
-    QList<netctlProfileInfo> profiles = netctlCommand->getProfileList();
-    for (int j=0; j<profiles.count(); j++) {
-        if (current.name != profiles[j].essid) continue;
-        current.exists = true;
-        break;
-    }
+    current.exists = (!existentProfile(current.name).isEmpty());
 
     return current;
 }

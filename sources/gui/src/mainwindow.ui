@@ -88,6 +88,7 @@
    <attribute name="toolBarBreak">
     <bool>false</bool>
    </attribute>
+   <addaction name="actionNetctl_auto"/>
    <addaction name="actionNetctl"/>
    <addaction name="actionProfiles"/>
    <addaction name="actionWiFi_menu"/>
@@ -211,6 +212,11 @@
    </property>
    <property name="shortcut">
     <string>Ctrl+W</string>
+   </property>
+  </action>
+  <action name="actionNetctl_auto">
+   <property name="text">
+    <string>netctl-auto</string>
    </property>
   </action>
  </widget>

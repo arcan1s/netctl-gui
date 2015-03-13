@@ -79,7 +79,7 @@ typedef struct
     QStringList macs;
     QString name;
     QString security;
-    int signal;
+    int signal = 0;
     PointType type = PointType::None;
     bool active = false;
     bool exists = false;
@@ -137,7 +137,7 @@ public:
      * @return false if profile does not exist
      * @return true if profile exists
      */
-    bool isProfileExists(const QString essid);
+    Q_DECL_DEPRECATED bool isProfileExists(const QString essid);
 
 public slots:
     // functions

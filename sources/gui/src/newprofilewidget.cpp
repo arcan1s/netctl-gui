@@ -62,6 +62,14 @@ NewProfileWidget::~NewProfileWidget()
 }
 
 
+Qt::ToolBarArea NewProfileWidget::getToolBarArea()
+{
+    if (debug) qDebug() << PDEBUG;
+
+    return toolBarArea(ui->toolBar);
+}
+
+
 void NewProfileWidget::profileTabOpenProfileSlot(const QString profile)
 {
     if (debug) qDebug() << PDEBUG;
@@ -77,6 +85,19 @@ void NewProfileWidget::update()
 
     updateProfileTab();
     updateMenuProfile();
+}
+
+
+void NewProfileWidget::updateToolBarState(const Qt::ToolBarArea area)
+{
+    if (debug) qDebug() << PDEBUG;
+    if (debug) qDebug() << PDEBUG << ":" << "Toolbar area" << area;
+
+    removeToolBar(ui->toolBar);
+    if (area != Qt::NoToolBarArea) {
+        addToolBar(area, ui->toolBar);
+        ui->toolBar->show();
+    }
 }
 
 
@@ -132,7 +153,7 @@ void NewProfileWidget::profileTabClear()
     if (useHelper)
         profiles = parseOutputNetctl(sendRequestToLib(QString("netctlVerboseProfileList"), debug));
     else
-        profiles = netctlCommand->getProfileList();
+        profiles = mainWindow->netctlCommand->getProfileList();
     for (int i=0; i<profiles.count(); i++)
         ui->comboBox_profile->addItem(profiles[i].name);
     ui->comboBox_profile->setCurrentIndex(-1);
@@ -322,8 +343,8 @@ void NewProfileWidget::profileTabCreateProfile()
         status = responce[0].toBool();
 
     } else {
-        QString profileTempName = netctlProfile->createProfile(profile, settings);
-        status = netctlProfile->copyProfile(profileTempName);
+        QString profileTempName = mainWindow->netctlProfile->createProfile(profile, settings);
+        status = mainWindow->netctlProfile->copyProfile(profileTempName);
     }
     mainWindow->showMessage(status);
 
@@ -355,7 +376,7 @@ void NewProfileWidget::profileTabLoadProfile()
             settings[key] = value;
         }
     } else
-        settings = netctlProfile->getSettingsFromProfile(profile);
+        settings = mainWindow->netctlProfile->getSettingsFromProfile(profile);
 
     if (settings.isEmpty()) return ErrorWindow::showWindow(17, QString(PDEBUG), debug);
 
@@ -414,7 +435,7 @@ void NewProfileWidget::profileTabRemoveProfile()
         }
         status = responce[0].toBool();
     } else
-        status = netctlProfile->removeProfile(profile);
+        status = mainWindow->netctlProfile->removeProfile(profile);
     mainWindow->showMessage(status);
 
     updateProfileTab();
@@ -442,12 +463,10 @@ void NewProfileWidget::createObjects()
 {
     if (debug) qDebug() << PDEBUG;
 
-    // backend
-    netctlCommand = new Netctl(debug, configuration);
-    netctlProfile = new NetctlProfile(debug, configuration);
     // windows
     ui = new Ui::NewProfileWidget;
     ui->setupUi(this);
+    updateToolBarState(static_cast<Qt::ToolBarArea>(configuration[QString("PROFILE_TOOLBAR")].toInt()));
     // profile widgets
     generalWid = new GeneralWidget(this, configuration);
     ui->scrollAreaWidgetContents->layout()->addWidget(generalWid);
@@ -477,9 +496,6 @@ void NewProfileWidget::createObjects()
 void NewProfileWidget::deleteObjects()
 {
     if (debug) qDebug() << PDEBUG;
-
-    if (netctlCommand != nullptr) delete netctlCommand;
-    if (netctlProfile != nullptr) delete netctlProfile;
 
     if (bridgeWid != nullptr) delete bridgeWid;
     if (ethernetWid != nullptr) delete ethernetWid;

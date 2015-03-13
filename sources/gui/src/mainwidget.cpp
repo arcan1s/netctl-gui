@@ -51,6 +51,14 @@ MainWidget::~MainWidget()
 }
 
 
+Qt::ToolBarArea MainWidget::getToolBarArea()
+{
+    if (debug) qDebug() << PDEBUG;
+
+    return toolBarArea(ui->toolBar);
+}
+
+
 bool MainWidget::mainTabSelectProfileSlot(const QString profile)
 {
     if (debug) qDebug() << PDEBUG;
@@ -65,20 +73,25 @@ bool MainWidget::mainTabSelectProfileSlot(const QString profile)
 }
 
 
-void MainWidget::showNetctlAutoWindow()
-{
-    if (debug) qDebug() << PDEBUG;
-
-    netctlAutoWin->showWindow();
-}
-
-
 void MainWidget::update()
 {
     if (debug) qDebug() << PDEBUG;
 
     updateMainTab();
     updateMenuMain();
+}
+
+
+void MainWidget::updateToolBarState(const Qt::ToolBarArea area)
+{
+    if (debug) qDebug() << PDEBUG;
+    if (debug) qDebug() << PDEBUG << ":" << "Toolbar area" << area;
+
+    removeToolBar(ui->toolBar);
+    if (area != Qt::NoToolBarArea) {
+        addToolBar(area, ui->toolBar);
+        ui->toolBar->show();
+    }
 }
 
 
@@ -139,10 +152,10 @@ void MainWidget::updateMainTab()
         netctlAutoStatus = responce[0].toBool();
         profiles = parseOutputNetctl(sendRequestToLib(QString("netctlVerboseProfileList"), debug));
     } else {
-        netctlAutoStatus = netctlCommand->isNetctlAutoRunning();
-        profiles = netctlCommand->getProfileList();
+        netctlAutoStatus = mainWindow->netctlCommand->isNetctlAutoRunning();
+        profiles = mainWindow->netctlCommand->getProfileList();
     }
-    ui->widget_netctlAuto->setHidden(!netctlAutoStatus);
+    ui->label_netctlAuto->setHidden(!netctlAutoStatus);
 
     ui->tableWidget_main->setSortingEnabled(false);
     ui->tableWidget_main->selectRow(-1);
@@ -317,7 +330,7 @@ void MainWidget::mainTabRemoveProfile()
         }
         status = responce[0].toBool();
     } else
-        status = netctlProfile->removeProfile(profile);
+        status = mainWindow->netctlProfile->removeProfile(profile);
     mainWindow->showMessage(status);
 
     updateMainTab();
@@ -380,7 +393,7 @@ void MainWidget::mainTabStopAllProfiles()
         }
         status = responce[0].toBool();
     } else
-        status = netctlCommand->stopAllProfiles();
+        status = mainWindow->netctlCommand->stopAllProfiles();
     mainWindow->showMessage(status);
 
     updateMainTab();
@@ -412,7 +425,6 @@ void MainWidget::createActions()
     // menu actions
     connect(ui->actionEnable, SIGNAL(triggered(bool)), this, SLOT(mainTabEnableProfile()));
     connect(ui->actionEdit, SIGNAL(triggered(bool)), this, SLOT(mainTabEditProfile()));
-    connect(ui->actionNetctl_auto, SIGNAL(triggered(bool)), this, SLOT(showNetctlAutoWindow()));
     connect(ui->actionRefresh, SIGNAL(triggered(bool)), this, SLOT(updateMainTab()));
     connect(ui->actionRemove, SIGNAL(triggered(bool)), this, SLOT(mainTabRemoveProfile()));
     connect(ui->actionRestart, SIGNAL(triggered(bool)), this, SLOT(mainTabRestartProfile()));
@@ -420,7 +432,6 @@ void MainWidget::createActions()
     connect(ui->actionStop_all, SIGNAL(triggered(bool)), this, SLOT(mainTabStopAllProfiles()));
     connect(ui->actionSwitch, SIGNAL(triggered(bool)), this, SLOT(mainTabSwitchToProfile()));
     // main tab events
-    connect(ui->pushButton_netctlAuto, SIGNAL(clicked(bool)), this, SLOT(showNetctlAutoWindow()));
     connect(ui->tableWidget_main, SIGNAL(itemActivated(QTableWidgetItem *)), this, SLOT(mainTabStartProfile()));
     connect(ui->tableWidget_main, SIGNAL(currentItemChanged(QTableWidgetItem *, QTableWidgetItem *)),
             this, SLOT(updateMenuMain()));
@@ -432,15 +443,13 @@ void MainWidget::createObjects()
 {
     if (debug) qDebug() << PDEBUG;
 
-    // backend
-    netctlCommand = new Netctl(debug, configuration);
-    netctlProfile = new NetctlProfile(debug, configuration);
     // windows
     ui = new Ui::MainWidget;
     ui->setupUi(this);
     ui->tableWidget_main->setColumnHidden(2, true);
     ui->tableWidget_main->setColumnHidden(3, true);
-    netctlAutoWin = new NetctlAutoWindow(this, debug, configuration);
+    updateToolBarState(static_cast<Qt::ToolBarArea>(configuration[QString("NETCTL_TOOLBAR")].toInt()));
+    netctlAutoWin = new NetctlAutoWindow(mainWindow, debug, configuration);
 
     // append toolbar
     QMenu *actionMenu = new QMenu(this);
@@ -454,9 +463,6 @@ void MainWidget::createObjects()
 void MainWidget::deleteObjects()
 {
     if (debug) qDebug() << PDEBUG;
-
-    if (netctlCommand != nullptr) delete netctlCommand;
-    if (netctlProfile != nullptr) delete netctlProfile;
 
     if (netctlAutoWin != nullptr) delete netctlAutoWin;
     if (ui != nullptr) delete ui;

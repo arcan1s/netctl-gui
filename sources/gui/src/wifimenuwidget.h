@@ -40,9 +40,11 @@ public:
                             const QMap<QString,QString> settings = QMap<QString,QString>(),
                             const bool debugCmd = false);
     ~WiFiMenuWidget();
+    Qt::ToolBarArea getToolBarArea();
 
 public slots:
     void update();
+    void updateToolBarState(const Qt::ToolBarArea area = Qt::TopToolBarArea);
     bool wifiTabSelectEssidSlot(const QString essid);
     // wifi tab slots
     void connectToUnknownEssid(const QString passwd);
@@ -51,6 +53,7 @@ public slots:
 private slots:
     // update slots
     void updateMenuWifi();
+    void updateText();
     void updateWifiTab();
     // wifi tab slots
     void wifiTabContextualMenu(const QPoint &pos);
@@ -63,9 +66,6 @@ private:
     Ui::WiFiMenuWidget *ui = nullptr;
     PasswdWidget *passwdWid = nullptr;
     // backend
-    Netctl *netctlCommand = nullptr;
-    NetctlProfile *netctlProfile = nullptr;
-    WpaSup *wpaCommand = nullptr;
     void createActions();
     void createObjects();
     void deleteObjects();

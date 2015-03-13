@@ -14,21 +14,18 @@
  *   You should have received a copy of the GNU General Public License     *
  *   along with netctl-gui. If not, see http://www.gnu.org/licenses/       *
  ***************************************************************************/
-/**
- * @file netctlgui.h
- * Header of netctlgui library
- * @author Evgeniy Alekseev
- * @copyright GPLv3
- * @bug https://github.com/arcan1s/netctl-gui/issues
- */
+
+#ifndef CALLS_H
+#define CALLS_H
+
+#include <QMap>
+#include <QString>
+
+#include <netctlgui/netctlgui.h>
 
 
-#ifndef NETCTLGUI_H
-#define NETCTLGUI_H
+bool enableProfileSlot(const QString profile, Netctl *netctlCommand,
+                       const bool useHelper, const bool debug = false);
 
-#include "netctlinterface.h"
-#include "netctlinteract.h"
-#include "netctlprofile.h"
-#include "wpasupinteract.h"
 
-#endif /* NETCTLGUI_H */
+#endif /* CALLS_H */

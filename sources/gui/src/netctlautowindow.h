@@ -22,7 +22,7 @@
 #include <QTableWidgetItem>
 
 
-class Netctl;
+class MainWindow;
 
 namespace Ui {
 class NetctlAutoWindow;
@@ -37,9 +37,11 @@ public:
                               const bool debugCmd = false,
                               const QMap<QString, QString> settings = QMap<QString, QString>());
     ~NetctlAutoWindow();
+    Qt::ToolBarArea getToolBarArea();
 
 public slots:
     void showWindow();
+    void updateToolBarState(const Qt::ToolBarArea area = Qt::TopToolBarArea);
 
 private slots:
     // table
@@ -59,8 +61,8 @@ private slots:
 private:
     // ui
     Ui::NetctlAutoWindow *ui = nullptr;
+    MainWindow *mainWindow = nullptr;
     // backend
-    Netctl *netctlCommand = nullptr;
     QString checkStatus(const bool statusBool, const bool nullFalse = false);
     void createActions();
     bool debug = false;

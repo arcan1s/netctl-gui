@@ -271,7 +271,9 @@ QString ControlAdaptor::CurrentWiFi()
 
 QStringList ControlAdaptor::VerboseWiFi()
 {
-    QList<netctlWifiInfo> wifiPoints = wpaCommand->scanWifi();
+    QList<netctlWifiInfo> wifiPoints;
+    wifiPoints.append(wpaCommand->current());
+    wifiPoints.append(wpaCommand->scanWifi());
     QStringList info;
     for (int i=0; i<wifiPoints.count(); i++) {
         QStringList point;

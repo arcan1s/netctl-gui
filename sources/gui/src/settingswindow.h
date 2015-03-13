@@ -62,6 +62,8 @@ private:
     QString file;
     Ui::SettingsWindow *ui;
     void createActions();
+    int indexByToolBarPosition(const Qt::ToolBarArea area);
+    Qt::ToolBarArea indexToToolBarPosition(const int index);
     // ESC pressed event
     void keyPressEvent(QKeyEvent *pressedKey);
     QMap<QString, QString> readSettings();

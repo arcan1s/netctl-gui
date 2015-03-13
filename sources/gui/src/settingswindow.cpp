@@ -76,6 +76,48 @@ void SettingsWindow::createActions()
 }
 
 
+int SettingsWindow::indexByToolBarPosition(const Qt::ToolBarArea area)
+{
+    if (debug) qDebug() << PDEBUG;
+    if (debug) qDebug() << PDEBUG << ":" << "Area" << area;
+
+    switch (area) {
+    case Qt::LeftToolBarArea:
+        return 0;
+    case Qt::RightToolBarArea:
+        return 1;
+    case Qt::TopToolBarArea:
+        return 2;
+    case Qt::BottomToolBarArea:
+        return 3;
+    case Qt::NoToolBarArea:
+    default:
+        return 4;
+    }
+}
+
+
+Qt::ToolBarArea SettingsWindow::indexToToolBarPosition(const int index)
+{
+    if (debug) qDebug() << PDEBUG;
+    if (debug) qDebug() << PDEBUG << ":" << "Index" << index;
+
+    switch (index) {
+    case 0:
+        return Qt::LeftToolBarArea;
+    case 1:
+        return Qt::RightToolBarArea;
+    case 2:
+        return Qt::TopToolBarArea;
+    case 3:
+        return Qt::BottomToolBarArea;
+    case 4:
+    default:
+        return Qt::NoToolBarArea;
+    }
+}
+
+
 // ESC press event
 void SettingsWindow::keyPressEvent(QKeyEvent *pressedKey)
 {
@@ -167,6 +209,14 @@ void SettingsWindow::saveSettings()
     settings.setValue(QString("IFACE_DIR"), config[QString("IFACE_DIR")]);
     settings.setValue(QString("RFKILL_DIR"), config[QString("RFKILL_DIR")]);
     settings.setValue(QString("PREFERED_IFACE"), config[QString("PREFERED_IFACE")]);
+    settings.endGroup();
+
+    settings.beginGroup(QString("Toolbars"));
+    settings.setValue(QString("MAIN_TOOLBAR"), config[QString("MAIN_TOOLBAR")]);
+    settings.setValue(QString("NETCTL_TOOLBAR"), config[QString("NETCTL_TOOLBAR")]);
+    settings.setValue(QString("NETCTLAUTO_TOOLBAR"), config[QString("NETCTLAUTO_TOOLBAR")]);
+    settings.setValue(QString("PROFILE_TOOLBAR"), config[QString("PROFILE_TOOLBAR")]);
+    settings.setValue(QString("WIFI_TOOLBAR"), config[QString("WIFI_TOOLBAR")]);
     settings.endGroup();
 
     settings.sync();
@@ -293,12 +343,16 @@ QMap<QString, QString> SettingsWindow::readSettings()
     config[QString("HELPER_SERVICE")] = ui->lineEdit_helperService->text();
     config[QString("IFACE_DIR")] = ui->lineEdit_interfacesDir->text();
     config[QString("LANGUAGE")] = ui->comboBox_language->currentText();
+    config[QString("MAIN_TOOLBAR")] = QString::number(indexToToolBarPosition(ui->comboBox_mainToolbar->currentIndex()));
     config[QString("NETCTL_PATH")] = ui->lineEdit_netctlPath->text();
+    config[QString("NETCTL_TOOLBAR")] = QString::number(indexToToolBarPosition(ui->comboBox_netctlToolbar->currentIndex()));
     config[QString("NETCTLAUTO_PATH")] = ui->lineEdit_netctlAutoPath->text();
     config[QString("NETCTLAUTO_SERVICE")] = ui->lineEdit_netctlAutoService->text();
+    config[QString("NETCTLAUTO_TOOLBAR")] = QString::number(indexToToolBarPosition(ui->comboBox_netctlAutoToolbar->currentIndex()));
     config[QString("PID_FILE")] = ui->lineEdit_pid->text();
     config[QString("PREFERED_IFACE")] = ui->lineEdit_interface->text();
     config[QString("PROFILE_DIR")] = ui->lineEdit_profilePath->text();
+    config[QString("PROFILE_TOOLBAR")] = QString::number(indexToToolBarPosition(ui->comboBox_profilesToolbar->currentIndex()));
     config[QString("RFKILL_DIR")] = ui->lineEdit_rfkill->text();
     if (ui->checkBox_components->checkState() == 2)
         config[QString("SKIPCOMPONENTS")] = QString("true");
@@ -318,6 +372,7 @@ QMap<QString, QString> SettingsWindow::readSettings()
         config[QString("USE_HELPER")] = QString("true");
     else
         config[QString("USE_HELPER")] = QString("false");
+    config[QString("WIFI_TOOLBAR")] = QString::number(indexToToolBarPosition(ui->comboBox_wifiToolbar->currentIndex()));
     config[QString("WPACLI_PATH")] = ui->lineEdit_wpaCliPath->text();
     config[QString("WPASUP_PATH")] = ui->lineEdit_wpaSupPath->text();
     config[QString("WPA_DRIVERS")] = ui->lineEdit_wpaSupDrivers->text();
@@ -352,11 +407,19 @@ void SettingsWindow::setSettings(const QMap<QString, QString> config)
     ui->lineEdit_interfacesDir->setText(config[QString("IFACE_DIR")]);
     int index = ui->comboBox_language->findText(config[QString("LANGUAGE")]);
     ui->comboBox_language->setCurrentIndex(index);
+    index = indexByToolBarPosition(static_cast<Qt::ToolBarArea>(config[QString("MAIN_TOOLBAR")].toInt()));
+    ui->comboBox_mainToolbar->setCurrentIndex(index);
     ui->lineEdit_netctlPath->setText(config[QString("NETCTL_PATH")]);
+    index = indexByToolBarPosition(static_cast<Qt::ToolBarArea>(config[QString("NETCTL_TOOLBAR")].toInt()));
+    ui->comboBox_netctlToolbar->setCurrentIndex(index);
     ui->lineEdit_netctlAutoPath->setText(config[QString("NETCTLAUTO_PATH")]);
     ui->lineEdit_netctlAutoService->setText(config[QString("NETCTLAUTO_SERVICE")]);
+    index = indexByToolBarPosition(static_cast<Qt::ToolBarArea>(config[QString("NETCTLAUTO_TOOLBAR")].toInt()));
+    ui->comboBox_netctlAutoToolbar->setCurrentIndex(index);
     ui->lineEdit_pid->setText(config[QString("PID_FILE")]);
     ui->lineEdit_interface->setText(config[QString("PREFERED_IFACE")]);
+    index = indexByToolBarPosition(static_cast<Qt::ToolBarArea>(config[QString("PROFILE_TOOLBAR")].toInt()));
+    ui->comboBox_profilesToolbar->setCurrentIndex(index);
     ui->lineEdit_profilePath->setText(config[QString("PROFILE_DIR")]);
     ui->lineEdit_rfkill->setText(config[QString("RFKILL_DIR")]);
     if (config[QString("SKIPCOMPONENTS")] == QString("true"))
@@ -377,6 +440,8 @@ void SettingsWindow::setSettings(const QMap<QString, QString> config)
         ui->checkBox_useHelper->setCheckState(Qt::Checked);
     else
         ui->checkBox_useHelper->setCheckState(Qt::Unchecked);
+    index = indexByToolBarPosition(static_cast<Qt::ToolBarArea>(config[QString("WIFI_TOOLBAR")].toInt()));
+    ui->comboBox_wifiToolbar->setCurrentIndex(index);
     ui->lineEdit_wpaCliPath->setText(config[QString("WPACLI_PATH")]);
     ui->lineEdit_wpaSupPath->setText(config[QString("WPASUP_PATH")]);
     ui->lineEdit_wpaSupDrivers->setText(config[QString("WPA_DRIVERS")]);
@@ -445,6 +510,14 @@ QMap<QString, QString> SettingsWindow::getSettings(QString fileName)
     config[QString("IFACE_DIR")] = settings.value(QString("IFACE_DIR"), QString("/sys/class/net/")).toString();
     config[QString("RFKILL_DIR")] = settings.value(QString("RFKILL_DIR"), QString("/sys/class/rfkill/")).toString();
     config[QString("PREFERED_IFACE")] = settings.value(QString("PREFERED_IFACE"), QString("")).toString();
+    settings.endGroup();
+
+    settings.beginGroup(QString("Toolbars"));
+    config[QString("MAIN_TOOLBAR")] = settings.value(QString("MAIN_TOOLBAR"), Qt::TopToolBarArea).toString();
+    config[QString("NETCTL_TOOLBAR")] = settings.value(QString("NETCTL_TOOLBAR"), Qt::TopToolBarArea).toString();
+    config[QString("NETCTLAUTO_TOOLBAR")] = settings.value(QString("NETCTLAUTO_TOOLBAR"), Qt::TopToolBarArea).toString();
+    config[QString("PROFILE_TOOLBAR")] = settings.value(QString("PROFILE_TOOLBAR"), Qt::TopToolBarArea).toString();
+    config[QString("WIFI_TOOLBAR")] = settings.value(QString("WIFI_TOOLBAR"), Qt::TopToolBarArea).toString();
     settings.endGroup();
 
     for (int i=0; i<config.keys().count(); i++)

@@ -20,10 +20,10 @@
 
 #include <QDebug>
 
-#include <netctlgui/netctlgui.h>
 #include <pdebug/pdebug.h>
 
 #include "dbusoperation.h"
+#include "mainwindow.h"
 
 
 NetctlAutoWindow::NetctlAutoWindow(QWidget *parent, const bool debugCmd, const QMap<QString, QString> settings)
@@ -31,11 +31,12 @@ NetctlAutoWindow::NetctlAutoWindow(QWidget *parent, const bool debugCmd, const Q
       ui(new Ui::NetctlAutoWindow),
       debug(debugCmd)
 {
+    mainWindow = dynamic_cast<MainWindow *>(parent);
     useHelper = (settings[QString("USE_HELPER")] == QString("true"));
     ui->setupUi(this);
     ui->tableWidget->setColumnHidden(2, true);
     ui->tableWidget->setColumnHidden(3, true);
-    netctlCommand = new Netctl(debug, settings);
+    updateToolBarState(static_cast<Qt::ToolBarArea>(settings[QString("NETCTLAUTO_TOOLBAR")].toInt()));
 
     createActions();
     ui->statusBar->showMessage(QApplication::translate("NetctlAutoWindow", "Ready"));
@@ -46,9 +47,15 @@ NetctlAutoWindow::~NetctlAutoWindow()
 {
     if (debug) qDebug() << PDEBUG;
 
-    delete netctlCommand;
-
     delete ui;
+}
+
+
+Qt::ToolBarArea NetctlAutoWindow::getToolBarArea()
+{
+    if (debug) qDebug() << PDEBUG;
+
+    return toolBarArea(ui->toolBar);
 }
 
 
@@ -95,6 +102,19 @@ void NetctlAutoWindow::showWindow()
     netctlAutoUpdateTable();
 
     show();
+}
+
+
+void NetctlAutoWindow::updateToolBarState(const Qt::ToolBarArea area)
+{
+    if (debug) qDebug() << PDEBUG;
+    if (debug) qDebug() << PDEBUG << ":" << "Toolbar area" << area;
+
+    removeToolBar(ui->toolBar);
+    if (area != Qt::NoToolBarArea) {
+        addToolBar(area, ui->toolBar);
+        ui->toolBar->show();
+    }
 }
 
 
@@ -166,8 +186,8 @@ void NetctlAutoWindow::netctlAutoUpdateTable()
         }
         running = responce[0].toBool();
     } else {
-        enabled = netctlCommand->isNetctlAutoEnabled();
-        running = netctlCommand->isNetctlAutoRunning();
+        enabled = mainWindow->netctlCommand->isNetctlAutoEnabled();
+        running = mainWindow->netctlCommand->isNetctlAutoRunning();
     }
     ui->actionDisableAll->setEnabled(running);
     ui->actionEnableAll->setEnabled(running);
@@ -189,7 +209,7 @@ void NetctlAutoWindow::netctlAutoUpdateTable()
     if (useHelper)
         profiles = parseOutputNetctl(sendRequestToLib(QString("VerboseProfileList"), debug));
     else
-        profiles = netctlCommand->getProfileListFromNetctlAuto();
+        profiles = mainWindow->netctlCommand->getProfileListFromNetctlAuto();
 
     ui->tableWidget->setSortingEnabled(false);
     ui->tableWidget->selectRow(-1);
@@ -267,7 +287,7 @@ void NetctlAutoWindow::netctlAutoDisableAllProfiles()
         }
         status = responce[0].toBool();
     } else
-        status = netctlCommand->autoDisableAllProfiles();
+        status = mainWindow->netctlCommand->autoDisableAllProfiles();
     if (status)
         ui->statusBar->showMessage(QApplication::translate("NetctlAutoWindow", "Done"));
     else
@@ -296,7 +316,7 @@ void NetctlAutoWindow::netctlAutoEnableProfile()
         }
         status = responce[0].toBool();
     } else
-        status = netctlCommand->autoEnableProfile(profile);
+        status = mainWindow->netctlCommand->autoEnableProfile(profile);
     if (status)
         ui->statusBar->showMessage(QApplication::translate("NetctlAutoWindow", "Done"));
     else
@@ -321,7 +341,7 @@ void NetctlAutoWindow::netctlAutoEnableAllProfiles()
         }
         status = responce[0].toBool();
     } else
-        status = netctlCommand->autoEnableAllProfiles();
+        status = mainWindow->netctlCommand->autoEnableAllProfiles();
     if (status)
         ui->statusBar->showMessage(QApplication::translate("NetctlAutoWindow", "Done"));
     else
@@ -350,7 +370,7 @@ void NetctlAutoWindow::netctlAutoStartProfile()
         }
         status = responce[0].toBool();
     } else
-        status = netctlCommand->autoStartProfile(profile);
+        status = mainWindow->netctlCommand->autoStartProfile(profile);
     if (status)
         ui->statusBar->showMessage(QApplication::translate("NetctlAutoWindow", "Done"));
     else
@@ -374,7 +394,7 @@ void NetctlAutoWindow::netctlAutoEnableService()
         }
         status = responce[0].toBool();
     } else
-        status = netctlCommand->autoEnableService();
+        status = mainWindow->netctlCommand->autoEnableService();
     if (status)
         ui->statusBar->showMessage(QApplication::translate("NetctlAutoWindow", "Done"));
     else
@@ -398,7 +418,7 @@ void NetctlAutoWindow::netctlAutoRestartService()
         }
         status = responce[0].toBool();
     } else
-        status = netctlCommand->autoRestartService();
+        status = mainWindow->netctlCommand->autoRestartService();
     if (status)
         ui->statusBar->showMessage(QApplication::translate("NetctlAutoWindow", "Done"));
     else
@@ -422,7 +442,7 @@ void NetctlAutoWindow::netctlAutoStartService()
         }
         status = responce[0].toBool();
     } else
-        status = netctlCommand->autoStartService();
+        status = mainWindow->netctlCommand->autoStartService();
     if (status)
         ui->statusBar->showMessage(QApplication::translate("NetctlAutoWindow", "Done"));
     else

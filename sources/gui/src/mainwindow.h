@@ -27,6 +27,7 @@
 
 class AboutWindow;
 class MainWidget;
+class NetctlAutoWindow;
 class NewProfileWidget;
 class SettingsWindow;
 class TrayIcon;
@@ -46,11 +47,16 @@ public:
                         QTranslator *qtAppTranslator = 0,
                         QTranslator *appTranslator = 0);
     ~MainWindow();
+    Qt::ToolBarArea getToolBarArea();
     QStringList printInformation();
     QStringList printSettings();
     QStringList printTrayInformation();
     bool isHelperActive();
     bool isHelperServiceActive();
+    // library interfaces
+    Netctl *netctlCommand = nullptr;
+    NetctlProfile *netctlProfile = nullptr;
+    WpaSup *wpaCommand = nullptr;
 
 protected:
     void closeEvent(QCloseEvent *event);
@@ -58,17 +64,11 @@ protected:
 public slots:
     // actions from trayicon
     void closeMainWindow();
+    void openProfileSlot(const QString profile);
     void showAboutWindow();
     void showMainWindow();
     void showNetctlAutoWindow();
     void showSettingsWindow();
-    // trayicon control slots
-    bool enableProfileSlot(const QString profile);
-    void openProfileSlot(const QString profile);
-    bool startProfileSlot(const QString profile);
-    bool stopAllProfilesSlot();
-    bool switchToProfileSlot(const QString profile);
-    bool restartProfileSlot(const QString profile);
     // open docs
     void showApi();
     void showLibrary();
@@ -81,8 +81,10 @@ public slots:
     void setDisabled(const bool disabled = true);
     void setTab(int tab);
     void showMessage(const bool status);
+    void storeToolBars();
     void updateConfiguration(const QMap<QString, QVariant> args = QMap<QString, QVariant>());
     void updateTabs(const int tab);
+    void updateToolBarState(const Qt::ToolBarArea area = Qt::TopToolBarArea);
 
 signals:
     void needToBeConfigured();
@@ -99,11 +101,11 @@ private:
     Ui::MainWindow *ui = nullptr;
     AboutWindow *aboutWin = nullptr;
     MainWidget *mainWidget = nullptr;
+    NetctlAutoWindow *netctlAutoWin = nullptr;
     NewProfileWidget *newProfileWidget = nullptr;
     SettingsWindow *settingsWin = nullptr;
     WiFiMenuWidget *wifiMenuWidget = nullptr;
     // backend
-    Netctl *netctlCommand = nullptr;
     bool checkHelperStatus();
     void createActions();
     void createDBusSession();

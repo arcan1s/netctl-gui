@@ -37,11 +37,11 @@
           <height>32</height>
          </size>
         </property>
-        <property name="indentation">
-         <number>0</number>
-        </property>
         <property name="rootIsDecorated">
          <bool>false</bool>
+        </property>
+        <property name="uniformRowHeights">
+         <bool>true</bool>
         </property>
         <property name="itemsExpandable">
          <bool>false</bool>
@@ -112,6 +112,14 @@
           <iconset theme="configure">
            <normaloff/>
           </iconset>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Toolbars</string>
+         </property>
+         <property name="icon">
+          <iconset theme="configure-toolbars"/>
          </property>
         </item>
        </widget>
@@ -314,7 +322,7 @@
             <property name="widgetResizable">
              <bool>true</bool>
             </property>
-            <widget class="QWidget" name="scrollAreaWidgetContents">
+            <widget class="QWidget" name="scrollAreaWidgetContents_helper">
              <property name="geometry">
               <rect>
                <x>0</x>
@@ -612,8 +620,8 @@
               <rect>
                <x>0</x>
                <y>0</y>
-               <width>542</width>
-               <height>330</height>
+               <width>436</width>
+               <height>173</height>
               </rect>
              </property>
              <layout class="QVBoxLayout" name="verticalLayout_2">
@@ -868,8 +876,8 @@
               <rect>
                <x>0</x>
                <y>0</y>
-               <width>542</width>
-               <height>330</height>
+               <width>436</width>
+               <height>45</height>
               </rect>
              </property>
              <layout class="QVBoxLayout" name="verticalLayout_9">
@@ -953,8 +961,8 @@
               <rect>
                <x>0</x>
                <y>0</y>
-               <width>542</width>
-               <height>330</height>
+               <width>239</width>
+               <height>194</height>
               </rect>
              </property>
              <layout class="QVBoxLayout" name="verticalLayout_10">
@@ -1361,6 +1369,317 @@
                  <size>
                   <width>424</width>
                   <height>184</height>
+                 </size>
+                </property>
+               </spacer>
+              </item>
+             </layout>
+            </widget>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+        <widget class="QWidget" name="page_toolbars">
+         <layout class="QVBoxLayout" name="verticalLayout_14">
+          <item>
+           <widget class="QScrollArea" name="scrollArea_toolbars">
+            <property name="widgetResizable">
+             <bool>true</bool>
+            </property>
+            <widget class="QWidget" name="scrollAreaWidgetContents_toolbars">
+             <property name="geometry">
+              <rect>
+               <x>0</x>
+               <y>0</y>
+               <width>542</width>
+               <height>330</height>
+              </rect>
+             </property>
+             <layout class="QVBoxLayout" name="verticalLayout_15">
+              <item>
+               <layout class="QHBoxLayout" name="layout_mainToolbar">
+                <item>
+                 <widget class="QLabel" name="label_mainToolbar">
+                  <property name="sizePolicy">
+                   <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                    <horstretch>1</horstretch>
+                    <verstretch>0</verstretch>
+                   </sizepolicy>
+                  </property>
+                  <property name="text">
+                   <string>Main toolbar</string>
+                  </property>
+                  <property name="alignment">
+                   <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QComboBox" name="comboBox_mainToolbar">
+                  <property name="sizePolicy">
+                   <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                    <horstretch>2</horstretch>
+                    <verstretch>0</verstretch>
+                   </sizepolicy>
+                  </property>
+                  <item>
+                   <property name="text">
+                    <string>Left</string>
+                   </property>
+                  </item>
+                  <item>
+                   <property name="text">
+                    <string>Right</string>
+                   </property>
+                  </item>
+                  <item>
+                   <property name="text">
+                    <string>Top</string>
+                   </property>
+                  </item>
+                  <item>
+                   <property name="text">
+                    <string>Bottom</string>
+                   </property>
+                  </item>
+                  <item>
+                   <property name="text">
+                    <string>Disabled</string>
+                   </property>
+                  </item>
+                 </widget>
+                </item>
+               </layout>
+              </item>
+              <item>
+               <layout class="QHBoxLayout" name="layout_netctlToolbar">
+                <item>
+                 <widget class="QLabel" name="label_netctlToolbar">
+                  <property name="sizePolicy">
+                   <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                    <horstretch>1</horstretch>
+                    <verstretch>0</verstretch>
+                   </sizepolicy>
+                  </property>
+                  <property name="text">
+                   <string>netctl toolbar</string>
+                  </property>
+                  <property name="alignment">
+                   <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QComboBox" name="comboBox_netctlToolbar">
+                  <property name="sizePolicy">
+                   <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                    <horstretch>2</horstretch>
+                    <verstretch>0</verstretch>
+                   </sizepolicy>
+                  </property>
+                  <item>
+                   <property name="text">
+                    <string>Left</string>
+                   </property>
+                  </item>
+                  <item>
+                   <property name="text">
+                    <string>Right</string>
+                   </property>
+                  </item>
+                  <item>
+                   <property name="text">
+                    <string>Top</string>
+                   </property>
+                  </item>
+                  <item>
+                   <property name="text">
+                    <string>Bottom</string>
+                   </property>
+                  </item>
+                  <item>
+                   <property name="text">
+                    <string>Disabled</string>
+                   </property>
+                  </item>
+                 </widget>
+                </item>
+               </layout>
+              </item>
+              <item>
+               <layout class="QHBoxLayout" name="layout_netctlAutoToolbar">
+                <item>
+                 <widget class="QLabel" name="label_netctlAutoToolbar">
+                  <property name="sizePolicy">
+                   <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                    <horstretch>1</horstretch>
+                    <verstretch>0</verstretch>
+                   </sizepolicy>
+                  </property>
+                  <property name="text">
+                   <string>netctl-auto toolbar</string>
+                  </property>
+                  <property name="alignment">
+                   <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QComboBox" name="comboBox_netctlAutoToolbar">
+                  <property name="sizePolicy">
+                   <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                    <horstretch>2</horstretch>
+                    <verstretch>0</verstretch>
+                   </sizepolicy>
+                  </property>
+                  <item>
+                   <property name="text">
+                    <string>Left</string>
+                   </property>
+                  </item>
+                  <item>
+                   <property name="text">
+                    <string>Right</string>
+                   </property>
+                  </item>
+                  <item>
+                   <property name="text">
+                    <string>Top</string>
+                   </property>
+                  </item>
+                  <item>
+                   <property name="text">
+                    <string>Bottom</string>
+                   </property>
+                  </item>
+                  <item>
+                   <property name="text">
+                    <string>Disabled</string>
+                   </property>
+                  </item>
+                 </widget>
+                </item>
+               </layout>
+              </item>
+              <item>
+               <layout class="QHBoxLayout" name="layout_profilesToolbar">
+                <item>
+                 <widget class="QLabel" name="label_profilesToolbar">
+                  <property name="sizePolicy">
+                   <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                    <horstretch>1</horstretch>
+                    <verstretch>0</verstretch>
+                   </sizepolicy>
+                  </property>
+                  <property name="text">
+                   <string>Profiles toolbar</string>
+                  </property>
+                  <property name="alignment">
+                   <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QComboBox" name="comboBox_profilesToolbar">
+                  <property name="sizePolicy">
+                   <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                    <horstretch>2</horstretch>
+                    <verstretch>0</verstretch>
+                   </sizepolicy>
+                  </property>
+                  <item>
+                   <property name="text">
+                    <string>Left</string>
+                   </property>
+                  </item>
+                  <item>
+                   <property name="text">
+                    <string>Right</string>
+                   </property>
+                  </item>
+                  <item>
+                   <property name="text">
+                    <string>Top</string>
+                   </property>
+                  </item>
+                  <item>
+                   <property name="text">
+                    <string>Bottom</string>
+                   </property>
+                  </item>
+                  <item>
+                   <property name="text">
+                    <string>Disabled</string>
+                   </property>
+                  </item>
+                 </widget>
+                </item>
+               </layout>
+              </item>
+              <item>
+               <layout class="QHBoxLayout" name="layout_wifiToolbar">
+                <item>
+                 <widget class="QLabel" name="label_wifiToolbar">
+                  <property name="sizePolicy">
+                   <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                    <horstretch>1</horstretch>
+                    <verstretch>0</verstretch>
+                   </sizepolicy>
+                  </property>
+                  <property name="text">
+                   <string>WiFi toolbar</string>
+                  </property>
+                  <property name="alignment">
+                   <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QComboBox" name="comboBox_wifiToolbar">
+                  <property name="sizePolicy">
+                   <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                    <horstretch>2</horstretch>
+                    <verstretch>0</verstretch>
+                   </sizepolicy>
+                  </property>
+                  <item>
+                   <property name="text">
+                    <string>Left</string>
+                   </property>
+                  </item>
+                  <item>
+                   <property name="text">
+                    <string>Right</string>
+                   </property>
+                  </item>
+                  <item>
+                   <property name="text">
+                    <string>Top</string>
+                   </property>
+                  </item>
+                  <item>
+                   <property name="text">
+                    <string>Bottom</string>
+                   </property>
+                  </item>
+                  <item>
+                   <property name="text">
+                    <string>Disabled</string>
+                   </property>
+                  </item>
+                 </widget>
+                </item>
+               </layout>
+              </item>
+              <item>
+               <spacer name="spacer_toolbars">
+                <property name="orientation">
+                 <enum>Qt::Vertical</enum>
+                </property>
+                <property name="sizeHint" stdset="0">
+                 <size>
+                  <width>20</width>
+                  <height>150</height>
                  </size>
                 </property>
                </spacer>

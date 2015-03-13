@@ -49,10 +49,12 @@ public:
                               const QMap<QString,QString> settings = QMap<QString,QString>(),
                               const bool debugCmd = false);
     ~NewProfileWidget();
+    Qt::ToolBarArea getToolBarArea();
 
 public slots:
     void profileTabOpenProfileSlot(const QString profile);
     void update();
+    void updateToolBarState(const Qt::ToolBarArea area = Qt::TopToolBarArea);
 
 private slots:
     // update slots
@@ -81,8 +83,6 @@ private:
     VlanWidget *vlanWid = nullptr;
     WirelessWidget *wirelessWid = nullptr;
     // backend
-    Netctl *netctlCommand = nullptr;
-    NetctlProfile *netctlProfile = nullptr;
     void createActions();
     void createObjects();
     void deleteObjects();

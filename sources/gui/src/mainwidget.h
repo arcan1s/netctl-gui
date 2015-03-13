@@ -40,11 +40,13 @@ public:
                         const QMap<QString,QString> settings = QMap<QString,QString>(),
                         const bool debugCmd = false);
     ~MainWidget();
+    NetctlAutoWindow *netctlAutoWin = nullptr;
+    Qt::ToolBarArea getToolBarArea();
 
 public slots:
     bool mainTabSelectProfileSlot(const QString profile);
-    void showNetctlAutoWindow();
     void update();
+    void updateToolBarState(const Qt::ToolBarArea area = Qt::TopToolBarArea);
 
 private slots:
     // update slots
@@ -64,10 +66,7 @@ private:
     // ui
     MainWindow *mainWindow = nullptr;
     Ui::MainWidget *ui = nullptr;
-    NetctlAutoWindow *netctlAutoWin = nullptr;
     // backend
-    Netctl *netctlCommand = nullptr;
-    NetctlProfile *netctlProfile = nullptr;
     void createActions();
     void createObjects();
     void deleteObjects();

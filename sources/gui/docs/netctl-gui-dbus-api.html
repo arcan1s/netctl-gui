@@ -198,12 +198,12 @@ small {
   <!-- wpa_supplicant actions -->
   <tr>
     <td>QStringList CurrentWiFi()</td>
-    <td>returns current WiFi point in format <code>NAME|SECURITY|TYPE|FREQS|MACS|SIGNAL|ACTIVE|EXISTS</code></td>
+    <td>returns current WiFi point in format <code>NAME|SECURITY|TYPE|FREQ|MAC|SIGNAL|ACTIVE|EXISTS</code></td>
     <td>yes</td>
   </tr>
   <tr>
     <td>QStringList VerboseWiFi()</td>
-    <td>returns available WiFi points in format <code>NAME|SECURITY|TYPE|FREQS|MACS|SIGNAL|ACTIVE|EXISTS</code></td>
+    <td>returns available WiFi points in format <code>NAME|SECURITY|TYPE|FREQS|MACS|SIGNAL|ACTIVE|EXISTS</code>. First line is always active connection (see <code>CurrentWiFi()</code>)</td>
     <td>yes</td>
   </tr>
   <tr>
