@@ -146,6 +146,13 @@ public:
      */
     InterfaceAnswer startProfile(const QString profile);
     /**
+     * @brief method which stops all profiles
+     * @remark netctl only
+     * @return InterfaceAnswer::True if there are no errors
+     * @return InterfaceAnswer::Error if an error occurs
+     */
+    InterfaceAnswer stopAllProfiles();
+    /**
      * @brief method which switchs to selected profile and returns its status
      * @remark both netctl and netctl-auto
      * @param profile         profile name

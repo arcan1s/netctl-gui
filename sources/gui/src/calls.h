@@ -24,8 +24,16 @@
 #include <netctlgui/netctlgui.h>
 
 
-bool enableProfileSlot(const QString profile, Netctl *netctlCommand,
-                       const bool useHelper, const bool debug = false);
+InterfaceAnswer enableProfileSlot(const QString profile, NetctlInterface *interface,
+                                  const bool useHelper, const bool debug = false);
+InterfaceAnswer restartProfileSlot(const QString profile, NetctlInterface *interface,
+                                   const bool useHelper, const bool debug = false);
+InterfaceAnswer startProfileSlot(const QString profile, NetctlInterface *interface,
+                                 const bool useHelper, const bool debug = false);
+InterfaceAnswer stopAllProfilesSlot(NetctlInterface *interface, const bool useHelper,
+                                    const bool debug);
+InterfaceAnswer switchToProfileSlot(const QString profile, NetctlInterface *interface,
+                                    const bool useHelper, const bool debug);
 
 
 #endif /* CALLS_H */

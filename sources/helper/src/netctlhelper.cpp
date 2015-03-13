@@ -28,6 +28,7 @@
 #include <pdebug/pdebug.h>
 
 #include "controladaptor.h"
+#include "interfaceadaptor.h"
 #include "netctladaptor.h"
 #include "version.h"
 
@@ -88,6 +89,13 @@ void NetctlHelper::createInterface()
         if (debug) qDebug() << PDEBUG << ":" << bus.lastError().message();
         return quitHelper();
     }
+    if (!bus.registerObject(DBUS_INTERFACE_PATH,
+                            new InterfaceAdaptor(this, debug, configuration),
+                            QDBusConnection::ExportAllContents)) {
+        if (debug) qDebug() << PDEBUG << ":" << "Could not register interface object";
+        if (debug) qDebug() << PDEBUG << ":" << bus.lastError().message();
+        return quitHelper();
+    }
     // session bus
     if (!session) return;
     QDBusConnection sessionBus = QDBusConnection::sessionBus();
@@ -107,6 +115,13 @@ void NetctlHelper::createInterface()
         if (debug) qDebug() << PDEBUG << ":" << "Could not register session control object";
         if (debug) qDebug() << PDEBUG << ":" << sessionBus.lastError().message();
     }
+    if (!sessionBus.registerObject(DBUS_INTERFACE_PATH,
+                                   new InterfaceAdaptor(this, debug, configuration),
+                                   QDBusConnection::ExportAllContents)) {
+        if (debug) qDebug() << PDEBUG << ":" << "Could not register session interface object";
+        if (debug) qDebug() << PDEBUG << ":" << bus.lastError().message();
+        return quitHelper();
+    }
 }
 
 
@@ -116,11 +131,13 @@ void NetctlHelper::deleteInterface()
 
     QDBusConnection::systemBus().unregisterObject(DBUS_LIB_PATH);
     QDBusConnection::systemBus().unregisterObject(DBUS_CTRL_PATH);
+    QDBusConnection::systemBus().unregisterObject(DBUS_INTERFACE_PATH);
     QDBusConnection::systemBus().unregisterService(DBUS_HELPER_SERVICE);
     // session bus
     if (!session) return;
     QDBusConnection::sessionBus().unregisterObject(DBUS_LIB_PATH);
     QDBusConnection::sessionBus().unregisterObject(DBUS_CTRL_PATH);
+    QDBusConnection::sessionBus().unregisterObject(DBUS_INTERFACE_PATH);
     QDBusConnection::sessionBus().unregisterService(DBUS_HELPER_SERVICE);
 }
 
@@ -174,6 +191,14 @@ QMap<QString, QString> NetctlHelper::getSettings(const QString file)
     config[QString("IFACE_DIR")] = settings.value(QString("IFACE_DIR"), QString("/sys/class/net/")).toString();
     config[QString("RFKILL_DIR")] = settings.value(QString("RFKILL_DIR"), QString("/sys/class/rfkill/")).toString();
     config[QString("PREFERED_IFACE")] = settings.value(QString("PREFERED_IFACE"), QString("")).toString();
+    settings.endGroup();
+
+    settings.beginGroup(QString("Toolbars"));
+    config[QString("MAIN_TOOLBAR")] = settings.value(QString("MAIN_TOOLBAR"), Qt::TopToolBarArea).toString();
+    config[QString("NETCTL_TOOLBAR")] = settings.value(QString("NETCTL_TOOLBAR"), Qt::TopToolBarArea).toString();
+    config[QString("NETCTLAUTO_TOOLBAR")] = settings.value(QString("NETCTLAUTO_TOOLBAR"), Qt::TopToolBarArea).toString();
+    config[QString("PROFILE_TOOLBAR")] = settings.value(QString("PROFILE_TOOLBAR"), Qt::TopToolBarArea).toString();
+    config[QString("WIFI_TOOLBAR")] = settings.value(QString("WIFI_TOOLBAR"), Qt::TopToolBarArea).toString();
     settings.endGroup();
 
     for (int i=0; i<config.keys().count(); i++)

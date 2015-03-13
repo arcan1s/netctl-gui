@@ -15,27 +15,42 @@
  *   along with netctl-gui. If not, see http://www.gnu.org/licenses/       *
  ***************************************************************************/
 
-#ifndef DBUSOPERATION_H
-#define DBUSOPERATION_H
+#ifndef INTERFACEADAPTOR_H
+#define INTERFACEADAPTOR_H
 
-#include <QList>
-#include <QVariant>
+#include <QDBusAbstractAdaptor>
 
 #include <netctlgui/netctlgui.h>
 
-QList<netctlProfileInfo> parseOutputNetctl(const QList<QVariant> raw);
-QList<netctlWifiInfo> parseOutputWifi(const QList<QVariant> raw);
-QList<QVariant> sendRequestToHelper(const QString path, const QString cmd,
-                                    const QList<QVariant> args, const bool debug = false);
-QList<QVariant> sendRequestToCtrl(const QString cmd, const bool debug = false);
-QList<QVariant> sendRequestToCtrlWithArgs(const QString cmd, const QList<QVariant> args,
-                                          const bool debug = false);
-QList<QVariant> sendRequestToInterface(const QString cmd, const bool debug = false);
-QList<QVariant> sendRequestToInterfaceWithArgs(const QString cmd, const QList<QVariant> args,
-                                               const bool debug = false);
-QList<QVariant> sendRequestToLib(const QString cmd, const bool debug = false);
-QList<QVariant> sendRequestToLibWithArgs(const QString cmd, const QList<QVariant> args,
-                                         const bool debug = false);
+
+class InterfaceAdaptor : public QDBusAbstractAdaptor
+{
+    Q_OBJECT
+    Q_CLASSINFO("D-Bus Interface", "org.netctlgui.helper")
+
+public:
+    explicit InterfaceAdaptor(QObject *parent = 0,
+                              const bool debugCmd = false,
+                              const QMap<QString, QString> configuration = QMap<QString, QString>());
+    ~InterfaceAdaptor();
+
+public slots:
+    // interface
+    int autoEnable(const QString profile);
+    int Create(const QString profile, const QStringList settingsList);
+    int Enable(const QString profile);
+    int Essid(const QString essid, QStringList settingsList);
+    int KnownEssid(const QString essid);
+    int Restart(const QString profile);
+    int Start(const QString profile);
+    int StopAll();
+    int SwitchTo(const QString profile);
+    int UnknownEssid(const QString essid, QStringList settingsList);
+
+private:
+    bool debug;
+    NetctlInterface *netctlInterface = nullptr;
+};
 
 
-#endif /* DBUSOPERATION_H */
+#endif /* INTERFACEADAPTOR_H */

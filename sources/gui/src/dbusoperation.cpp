@@ -114,6 +114,26 @@ QList<QVariant> sendRequestToCtrlWithArgs(const QString cmd, const QList<QVarian
 }
 
 
+QList< QVariant > sendRequestToInterface(const QString cmd, const bool debug)
+{
+    if (debug) qDebug() << PDEBUG;
+    if (debug) qDebug() << PDEBUG << ":" << "cmd" << cmd;
+
+    return sendRequestToInterfaceWithArgs(cmd, QList<QVariant>(), debug);
+}
+
+
+QList<QVariant> sendRequestToInterfaceWithArgs(const QString cmd, const QList<QVariant> args,
+                                               const bool debug)
+{
+    if (debug) qDebug() << PDEBUG;
+    if (debug) qDebug() << PDEBUG << ":" << "cmd" << cmd;
+    if (debug) qDebug() << PDEBUG << ":" << "args" << args;
+
+    return sendRequestToHelper(DBUS_INTERFACE_PATH, cmd, args, debug);
+}
+
+
 QList<QVariant> sendRequestToLib(const QString cmd, const bool debug)
 {
     if (debug) qDebug() << PDEBUG;

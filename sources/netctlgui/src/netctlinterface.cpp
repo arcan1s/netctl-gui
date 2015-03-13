@@ -226,6 +226,24 @@ InterfaceAnswer NetctlInterface::startProfile(const QString profile)
 
 
 /**
+ * @fn stopAllProfiles
+ */
+InterfaceAnswer NetctlInterface::stopAllProfiles()
+{
+    if (debug) qDebug() << PDEBUG;
+    if (netctlCommand == nullptr) {
+        if (debug) qDebug() << PDEBUG << ":" << "Could not find library";
+        return InterfaceAnswer::Error;
+    }
+
+    if (netctlCommand->stopAllProfiles())
+        return InterfaceAnswer::True;
+    else
+        return InterfaceAnswer::Error;
+}
+
+
+/**
  * @fn switchToProfile
  */
 InterfaceAnswer NetctlInterface::switchToProfile(const QString profile)
