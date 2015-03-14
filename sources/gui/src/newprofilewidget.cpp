@@ -24,6 +24,7 @@
 
 #include <pdebug/pdebug.h>
 
+#include "calls.h"
 #include "bridgewidget.h"
 #include "commonfunctions.h"
 #include "dbusoperation.h"
@@ -149,11 +150,8 @@ void NewProfileWidget::profileTabClear()
     if (debug) qDebug() << PDEBUG;
 
     ui->comboBox_profile->clear();
-    QList<netctlProfileInfo> profiles;
-    if (useHelper)
-        profiles = parseOutputNetctl(sendRequestToLib(QString("netctlVerboseProfileList"), debug));
-    else
-        profiles = mainWindow->netctlCommand->getProfileList();
+    QList<netctlProfileInfo> profiles = generalInformation(mainWindow->netctlInterface,
+                                                           useHelper, debug).netctlProfiles;
     for (int i=0; i<profiles.count(); i++)
         ui->comboBox_profile->addItem(profiles[i].name);
     ui->comboBox_profile->setCurrentIndex(-1);
@@ -326,27 +324,9 @@ void NewProfileWidget::profileTabCreateProfile()
     }
 
     // call netctlprofile
-    bool status = false;
-    if (useHelper) {
-        QStringList settingsList;
-        for (int i=0; i<settings.keys().count(); i++)
-            settingsList.append(QString("%1==%2").arg(settings.keys()[i]).arg(settings[settings.keys()[i]]));
-        QList<QVariant> args;
-        args.append(profile);
-        args.append(settingsList);
-        QList<QVariant> responce = sendRequestToCtrlWithArgs(QString("Create"), args, debug);
-        if (responce.isEmpty()) {
-            if (debug) qDebug() << PDEBUG << ":" << "Could not interact with helper, disable it";
-            useHelper = false;
-            return profileTabCreateProfile();
-        }
-        status = responce[0].toBool();
-
-    } else {
-        QString profileTempName = mainWindow->netctlProfile->createProfile(profile, settings);
-        status = mainWindow->netctlProfile->copyProfile(profileTempName);
-    }
-    mainWindow->showMessage(status);
+    InterfaceAnswer answer = createProfileSlot(profile, settings, mainWindow->netctlInterface,
+                                               useHelper, debug);
+    mainWindow->showMessage(answer == InterfaceAnswer::True);
 
     updateProfileTab();
 }
@@ -358,25 +338,8 @@ void NewProfileWidget::profileTabLoadProfile()
 
     QString profile = QFileInfo(ui->comboBox_profile->currentText()).fileName();
     if (profile.isEmpty()) return;
-    QMap<QString, QString> settings;
-    if (useHelper) {
-        QList<QVariant> args;
-        args.append(profile);
-        QList<QVariant> responce = sendRequestToLibWithArgs(QString("Profile"), args, debug);
-        if (responce.isEmpty()) {
-            if (debug) qDebug() << PDEBUG << ":" << "Could not interact with helper, disable it";
-            useHelper = false;
-            return profileTabLoadProfile();
-        }
-        QStringList settingsList = responce[0].toStringList();
-        for (int i=0; i<settingsList.count(); i++) {
-            if (!settingsList[i].contains(QString("=="))) continue;
-            QString key = settingsList[i].split(QString("=="))[0];
-            QString value = settingsList[i].split(QString("=="))[1];
-            settings[key] = value;
-        }
-    } else
-        settings = mainWindow->netctlProfile->getSettingsFromProfile(profile);
+    QMap<QString, QString> settings = profileInformation(profile, mainWindow->netctlInterface,
+                                                         useHelper, debug);
 
     if (settings.isEmpty()) return ErrorWindow::showWindow(17, QString(PDEBUG), debug);
 
@@ -422,21 +385,9 @@ void NewProfileWidget::profileTabRemoveProfile()
 
     mainWindow->setDisabled(true);
     QString profile = QFileInfo(ui->comboBox_profile->currentText()).fileName();
-    if (profile.isEmpty()) return ErrorWindow::showWindow(17, QString(PDEBUG), debug);
-    bool status = false;
-    if (useHelper) {
-        QList<QVariant> args;
-        args.append(profile);
-        QList<QVariant> responce = sendRequestToCtrlWithArgs(QString("Remove"), args, debug);
-        if (responce.isEmpty()) {
-            if (debug) qDebug() << PDEBUG << ":" << "Could not interact with helper, disable it";
-            useHelper = false;
-            return profileTabLoadProfile();
-        }
-        status = responce[0].toBool();
-    } else
-        status = mainWindow->netctlProfile->removeProfile(profile);
-    mainWindow->showMessage(status);
+    InterfaceAnswer answer = removeProfileSlot(profile, mainWindow->netctlInterface,
+                                               useHelper, debug);
+    mainWindow->showMessage(answer == InterfaceAnswer::True);
 
     updateProfileTab();
 }

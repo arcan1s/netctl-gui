@@ -53,11 +53,11 @@ public slots:
 private slots:
     // update slots
     void updateMenuWifi();
-    void updateText();
+    void updateText(const netctlWifiInfo current);
     void updateWifiTab();
     // wifi tab slots
     void wifiTabContextualMenu(const QPoint &pos);
-    void wifiTabSetEnabled(const bool state);
+    bool wifiTabSetEnabled(const bool state);
     void wifiTabStart();
 
 private:
@@ -70,7 +70,7 @@ private:
     void createObjects();
     void deleteObjects();
     bool debug = false;
-    bool hiddenNetwork;
+    bool hiddenNetwork = false;
     bool useHelper = true;
     // configuration
     QMap<QString, QString> configuration;

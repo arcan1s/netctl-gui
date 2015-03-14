@@ -243,7 +243,7 @@ small {
   </tr>
   <tr>
     <td>QStringList netctlVerboseProfileList()</td>
-    <td>returns available profiles in format <code>NAME|DESCRIPTION|TYPE|INTERFACE|ESSID|ACTIVE|ENABLED</code> from netctl even if netctl-auto is running</td>
+    <td>returns available profiles in format <code>NAME|DESCRIPTION|TYPE|INTERFACE|ESSID|ACTIVE|ENABLED|NETCTL-AUTO</code> from netctl even if netctl-auto is running</td>
     <td>no</td>
   </tr>
   <tr>
@@ -253,7 +253,7 @@ small {
   </tr>
   <tr>
     <td>QStringList VerboseProfileList()</td>
-    <td>returns available profiles in format <code>NAME|DESCRIPTION|TYPE|INTERFACE|ESSID|ACTIVE|ENABLED</code></td>
+    <td>returns available profiles in format <code>NAME|DESCRIPTION|TYPE|INTERFACE|ESSID|ACTIVE|ENABLED|NETCTL-AUTO</code></td>
     <td>no</td>
   </tr>
   <tr>
@@ -391,11 +391,6 @@ small {
   <tr>
     <td>QStringList UIDs()</td>
     <td>returns the application process UIDs <code>[UID, EUID]</code></td>
-    <td>no</td>
-  </tr>
-  <tr>
-    <td>QStringList VerboseInformation()</td>
-    <td>returns information in format <code>[isNetctlAutoActive, ProfileList, ActiveProfile, isProfileEnabled/autoIsProfileEnabled]</code></td>
     <td>no</td>
   </tr>
 </table>

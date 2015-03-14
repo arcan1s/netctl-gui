@@ -49,7 +49,7 @@ public slots:
     QString netctlActiveProfile();
     QStringList netctlProfileList();
     QStringList netctlVerboseProfileList();
-    Q_DECL_DEPRECATED QStringList ProfileList();
+    QStringList ProfileList();
     QStringList VerboseProfileList();
     // netctlProfile
     QStringList Profile(const QString profile);

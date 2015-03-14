@@ -26,7 +26,7 @@
 #include "mainwindow.h"
 
 
-NetctlAutoWindow::NetctlAutoWindow(QWidget *parent, const bool debugCmd, const QMap<QString, QString> settings)
+NetctlAutoWindow::NetctlAutoWindow(QWidget *parent, const QMap<QString, QString> settings, const bool debugCmd)
     : QMainWindow(parent),
       ui(new Ui::NetctlAutoWindow),
       debug(debugCmd)

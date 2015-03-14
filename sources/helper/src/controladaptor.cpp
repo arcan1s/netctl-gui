@@ -20,6 +20,8 @@
 #include <QTextCodec>
 #include <unistd.h>
 
+#include <listmap/listmap.h>
+
 #include "netctlhelper.h"
 #include "version.h"
 
@@ -80,11 +82,7 @@ QStringList ControlAdaptor::FindSettings()
     for (int i=0; i<librarySettings.keys().count(); i++)
         configuration[librarySettings.keys()[i]] = librarySettings[librarySettings.keys()[i]];
 
-    QStringList settingsList;
-    for (int i=0; i<configuration.keys().count(); i++)
-        settingsList.append(QString("%1==%2").arg(configuration.keys()[i]).arg(configuration[configuration.keys()[i]]));
-
-    return settingsList;
+    return mapToList(configuration);
 }
 
 
@@ -229,14 +227,7 @@ bool ControlAdaptor::SwitchTo(const QString profile)
 // netctlProfile
 bool ControlAdaptor::Create(const QString profile, const QStringList settingsList)
 {
-    QMap<QString, QString> settings;
-    for (int i=0; i<settingsList.count(); i++) {
-        if (!settingsList[i].contains(QString("=="))) continue;
-        QString key = settingsList[i].split(QString("=="))[0];
-        QString value = settingsList[i].split(QString("=="))[1];
-        settings[key] = value;
-    }
-    QString temporaryProfile = netctlProfile->createProfile(profile, settings);
+    QString temporaryProfile = netctlProfile->createProfile(profile, listToMap(settingsList));
 
     return netctlProfile->copyProfile(temporaryProfile);
 }

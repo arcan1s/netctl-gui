@@ -30,10 +30,10 @@
 #include <QMap>
 #include <QObject>
 
+#include "netctlinteract.h"
+#include "netctlprofile.h"
+#include "wpasupinteract.h"
 
-class Netctl;
-class NetctlProfile;
-class WpaSup;
 
 /**
  * @enum InterfaceAnswer
@@ -50,6 +50,43 @@ enum InterfaceAnswer {
     True,
     Error
 };
+
+/**
+ * @struct netctlCurrent
+ * @brief current status structure
+ * @var netctlCurrent::current
+ * current profiles
+ * @var netctlCurrent::enables
+ * are current profiles enabled
+ * @var netctlCurrent::netctlAuto
+ * is netctl-auto active
+ * @var netctlCurrent::profiles
+ * list of profiles
+ */
+typedef struct
+{
+    QStringList current;
+    QList<bool> enables;
+    QStringList profiles;
+    bool netctlAuto = false;
+} netctlCurrent;
+
+/**
+ * @struct netctlInformation
+ * @brief general information structure
+ * @var netctlCurrent::netctlProfiles
+ * list of profiles
+ * @var netctlCurrent::netctlAutoProfiles
+ * list of netctl-auto profiles
+ * @var netctlCurrent::netctlAuto
+ * is netctl-auto active
+ */
+typedef struct
+{
+    QList<netctlProfileInfo> netctlProfiles;
+    QList<netctlProfileInfo> netctlAutoProfiles;
+    bool netctlAuto = false;
+} netctlInformation;
 
 /**
  * @brief The NetctlInterface class provides complex methods to get access to library
@@ -70,6 +107,7 @@ public:
      * @brief NetctlInterface class destructor
      */
     ~NetctlInterface();
+    // control methods
     /**
      * @brief method which enables or disables selected profile and returns its status
      * @remark netctl-auto only
@@ -128,6 +166,14 @@ public:
      */
     InterfaceAnswer enableProfile(const QString profile);
     /**
+     * @brief method which removes selected profile
+     * @remark netctl independ
+     * @param profile         profile name
+     * @return InterfaceAnswer::True if profile does not exists anymore
+     * @return InterfaceAnswer::Error if an error occurs
+     */
+    InterfaceAnswer removeProfile(const QString profile);
+    /**
      * @brief method which restarts selected profile and returns its status
      * @remark netctl only
      * @param profile         profile name
@@ -161,6 +207,25 @@ public:
      * @return InterfaceAnswer::Error if an error occurs
      */
     InterfaceAnswer switchToProfile(const QString profile);
+    // information
+    /**
+     * @brief method which returns general information
+     * @remark both netctl and netctl-auto
+     * @return netctlInformation structure
+     */
+    netctlInformation information();
+    /**
+     * @brief method which reads settings from profile
+     * @param profile         profile name
+     * @return settings from profile
+     */
+    QMap<QString, QString> profileSettings(const QString profile);
+    /**
+     * @brief method which returns current status
+     * @remark both netctl and netctl-auto
+     * @return netctlCurrent structure
+     */
+    netctlCurrent status();
 
 private:
     /**

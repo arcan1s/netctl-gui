@@ -34,8 +34,8 @@ class NetctlAutoWindow : public QMainWindow
 
 public:
     explicit NetctlAutoWindow(QWidget *parent = 0,
-                              const bool debugCmd = false,
-                              const QMap<QString, QString> settings = QMap<QString, QString>());
+                              const QMap<QString, QString> settings = QMap<QString, QString>(),
+                              const bool debugCmd = false);
     ~NetctlAutoWindow();
     Qt::ToolBarArea getToolBarArea();
 

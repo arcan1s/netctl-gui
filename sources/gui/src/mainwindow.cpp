@@ -31,10 +31,12 @@
 #include <QUrl>
 
 #include <language/language.h>
+#include <listmap/listmap.h>
 #include <pdebug/pdebug.h>
 #include <task/taskadds.h>
 
 #include "aboutwindow.h"
+#include "calls.h"
 #include "commonfunctions.h"
 #include "dbusoperation.h"
 #include "errorwindow.h"
@@ -124,29 +126,21 @@ QStringList MainWindow::printInformation()
     if (debug) qDebug() << PDEBUG;
 
     QStringList output;
-    output.append(QString("none"));
-    output.append(QString("(none)"));
-    if (useHelper) {
-        QList<QVariant> responce = sendRequestToLib(QString("Information"), debug);
-        if (responce.isEmpty()) {
-            if (debug) qDebug() << PDEBUG << ":" << "Could not interact with helper, disable it";
-            useHelper = false;
-            return printInformation();
-        }
-        if (responce[0].toStringList().count() != 2) return output;
-        output = responce[0].toStringList();
-    } else {
-        if (netctlCommand->isNetctlAutoRunning()) {
-            output[0] = netctlCommand->autoGetActiveProfile();
-            output[1] = QString("netctl-auto");
-        } else {
-            QStringList currentProfiles = netctlCommand->getActiveProfile();
-            output[0] = currentProfiles.join(QChar('|'));
-            QStringList statusList;
-            for (int i=0; i<currentProfiles.count(); i++)
-                statusList.append(netctlCommand->getProfileStatus(currentProfiles[i]));
-            output[1] = statusList.join(QChar('|'));
-        }
+    output.append(QApplication::translate("MainWindow", "none"));
+    output.append(QApplication::translate("MainWindow", "(none)"));
+    netctlCurrent current = printTrayInformation();
+    if (current.current.isEmpty()) return output;
+
+    QStringList profiles;
+    for (int i=0; i<current.current.count(); i++) {
+        QString status;
+        if (current.netctlAuto)
+            status = QApplication::translate("MainWindow", "(netctl-auto)");
+        else if (current.enables[i])
+            status = QApplication::translate("MainWindow", "(enabled)");
+        else
+            status = QApplication::translate("MainWindow", "(static)");
+        profiles.append(QString("%1 %2").arg(current.current[i]).arg(status));
     }
 
     return output;
@@ -157,81 +151,15 @@ QStringList MainWindow::printSettings()
 {
     if (debug) qDebug() << PDEBUG;
 
-    QStringList settingsList;
-    for (int i=0; i<configuration.keys().count(); i++)
-        settingsList.append(QString("%1==%2").arg(configuration.keys()[i]).arg(configuration[configuration.keys()[i]]));
-
-    return settingsList;
+    return mapToList(configuration);
 }
 
 
-QStringList MainWindow::printTrayInformation()
+netctlCurrent MainWindow::printTrayInformation()
 {
     if (debug) qDebug() << PDEBUG;
 
-    QStringList information;
-    QString current;
-    QString enabled;
-    bool netctlAutoStatus = false;
-    QList<netctlProfileInfo> profiles;
-    if (useHelper) {
-        QList<QVariant> responce = sendRequestToLib(QString("ActiveProfile"), debug);
-        if (responce.isEmpty()) {
-            if (debug) qDebug() << PDEBUG << ":" << "Could not interact with helper, disable it";
-            useHelper = false;
-            return printTrayInformation();
-        }
-        current = responce[0].toString();
-        responce = sendRequestToLib(QString("isNetctlAutoActive"), debug);
-        if (responce.isEmpty()) {
-            if (debug) qDebug() << PDEBUG << ":" << "Could not interact with helper, disable it";
-            useHelper = false;
-            return printTrayInformation();
-        }
-        netctlAutoStatus = responce[0].toBool();
-        profiles = parseOutputNetctl(sendRequestToLib(QString("VerboseProfileList"), debug));
-        if (netctlAutoStatus) {
-            QList<QVariant> args;
-            args.append(current);
-            responce = sendRequestToLibWithArgs(QString("autoIsProfileEnabled"), args, debug);
-            enabled = QString::number(!responce.isEmpty() && responce[0].toBool());
-        } else {
-            QStringList currentProfiles = current.split(QChar('|'));
-            QStringList enabledList;
-            for (int i=0; i<currentProfiles.count(); i++) {
-                QList<QVariant> args;
-                args.append(currentProfiles[i]);
-                responce = sendRequestToLibWithArgs(QString("isProfileEnabled"), args, debug);
-                enabledList.append(QString::number(!responce.isEmpty() && responce[0].toBool()));
-                enabled = enabledList.join(QChar('|'));
-            }
-        }
-    } else {
-        netctlAutoStatus = netctlCommand->isNetctlAutoRunning();
-        if (netctlAutoStatus) {
-            current = netctlCommand->autoGetActiveProfile();
-            enabled = QString::number(netctlCommand->autoIsProfileEnabled(current));
-            profiles = netctlCommand->getProfileListFromNetctlAuto();
-        } else {
-            QStringList currentProfiles = netctlCommand->getActiveProfile();
-            current = currentProfiles.join(QChar('|'));
-            QStringList enabledList;
-            for (int i=0; i<currentProfiles.count(); i++)
-                enabledList.append(QString::number(netctlCommand->isProfileEnabled(currentProfiles[i])));
-            enabled = enabledList.join(QChar('|'));
-            profiles = netctlCommand->getProfileList();
-        }
-    }
-
-    information.append(QString::number(netctlAutoStatus));
-    QStringList profileList;
-    for (int i=0; i<profiles.count(); i++)
-        profileList.append(profiles[i].name);
-    information.append(profileList.join(QChar('|')));
-    information.append(current);
-    information.append(enabled);
-
-    return information;
+    return trayInformation(netctlInterface, useHelper, debug);
 }
 
 
@@ -241,7 +169,7 @@ bool MainWindow::isHelperActive()
 
     QList<QVariant> responce = sendRequestToCtrl(QString("Active"), debug);
 
-    return (!responce.isEmpty() && responce[0].toBool());
+    return (!responce.isEmpty());
 }
 
 
@@ -380,7 +308,7 @@ bool MainWindow::forceStopHelper()
 
     QList<QVariant> responce = sendRequestToCtrl(QString("Close"), debug);
 
-    return !responce.isEmpty();
+    return (!responce.isEmpty());
 }
 
 
@@ -528,8 +456,6 @@ void MainWindow::updateToolBarState(const Qt::ToolBarArea area)
         addToolBar(area, ui->toolBar);
         ui->toolBar->show();
     }
-
-    qDebug() << findChildren<QToolBar *>().count();
 }
 
 
@@ -636,14 +562,15 @@ void MainWindow::createObjects()
     checkHelperStatus();
 
     netctlCommand = new Netctl(debug, configuration);
+    netctlInterface = new NetctlInterface(debug, configuration);
     netctlProfile = new NetctlProfile(debug, configuration);
     wpaCommand = new WpaSup(debug, configuration);
     // frontend
     mainWidget = new MainWidget(this, configuration, debug);
-    netctlAutoWin = mainWidget->netctlAutoWin;
+    netctlAutoWin = new NetctlAutoWindow(this, configuration, debug);
     newProfileWidget = new NewProfileWidget(this, configuration, debug);
     wifiMenuWidget = new WiFiMenuWidget(this, configuration, debug);
-    trayIcon = new TrayIcon(this, debug);
+    trayIcon = new TrayIcon(this, configuration, debug);
     // windows
     ui->retranslateUi(this);
     ui->layout_main->addWidget(mainWidget);
@@ -662,6 +589,7 @@ void MainWindow::deleteObjects()
     QDBusConnection::sessionBus().unregisterObject(DBUS_OBJECT_PATH);
     QDBusConnection::sessionBus().unregisterService(DBUS_SERVICE);
     if (netctlCommand != nullptr) delete netctlCommand;
+    if (netctlInterface != nullptr) delete netctlInterface;
     if (netctlProfile != nullptr) delete netctlProfile;
     if (wpaCommand != nullptr) delete wpaCommand;
 
@@ -669,6 +597,7 @@ void MainWindow::deleteObjects()
     if (settingsWin != nullptr) delete settingsWin;
     if (trayIcon != nullptr) delete trayIcon;
     if (mainWidget != nullptr) delete mainWidget;
+    if (netctlAutoWin != nullptr) delete netctlAutoWin;
     if (newProfileWidget != nullptr) delete newProfileWidget;
     if (wifiMenuWidget != nullptr) delete wifiMenuWidget;
 }

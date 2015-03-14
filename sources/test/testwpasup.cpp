@@ -22,6 +22,7 @@
 #include <QDBusMessage>
 #include <QtTest>
 
+#include <listmap/listmap.h>
 #include <netctlgui/netctlgui.h>
 
 #include "version.h"
@@ -83,12 +84,9 @@ void TestWpaSup::test_getRecommendedConfiguration()
     original.append(QString("WPASUP_PATH==/usr/bin/wpa_supplicant"));
     original.append(QString("WPA_DRIVERS==nl80211,wext"));
     QMap<QString, QString> resultMap = WpaSup::getRecommendedConfiguration();
-    QStringList result;
-    for (int i=0; i<resultMap.keys().count(); i++)
-        result.append(QString("%1==%2").arg(resultMap.keys()[i]).arg(resultMap[resultMap.keys()[i]]));
 
     QWARN("This test may fail on other configuration");
-    QCOMPARE(result, original);
+    QCOMPARE(mapToList(resultMap), original);
 }
 
 

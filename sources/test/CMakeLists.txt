@@ -11,23 +11,24 @@ set (TARGETS "")
 # set files
 # netctl
 set (NETCTL_HEADERS testnetctl.h)
-set (NETCTL_SOURCES testnetctl.cpp)
+set (NETCTL_SOURCES testnetctl.cpp ${PROJECT_TRDPARTY_DIR}/listmap/listmap.cpp)
 # netctl-auto
 set (NETCTLAUTO_HEADERS testnetctlauto.h)
-set (NETCTLAUTO_SOURCES testnetctlauto.cpp)
+set (NETCTLAUTO_SOURCES testnetctlauto.cpp ${PROJECT_TRDPARTY_DIR}/listmap/listmap.cpp)
 # netctl profile
 set (PROFILE_HEADERS testnetctlprofile.h)
-set (PROFILE_SOURCES testnetctlprofile.cpp)
+set (PROFILE_SOURCES testnetctlprofile.cpp ${PROJECT_TRDPARTY_DIR}/listmap/listmap.cpp)
 # wpa_supplicant
 set (WPASUP_HEADERS testwpasup.h)
-set (WPASUP_SOURCES testwpasup.cpp)
+set (WPASUP_SOURCES testwpasup.cpp ${PROJECT_TRDPARTY_DIR}/listmap/listmap.cpp)
 
 # include_path
 include_directories (${CMAKE_CURRENT_SOURCE_DIR}/../${PROJECT_LIBRARY}/include/
                      ${CMAKE_CURRENT_BINARY_DIR}/../
                      ${CMAKE_SOURCE_DIR}
                      ${CMAKE_BINARY_DIR}
-                     ${CMAKE_CURRENT_BINARY_DIR})
+                     ${CMAKE_CURRENT_BINARY_DIR}
+                     ${PROJECT_TRDPARTY_DIR})
 link_directories (${PROJECT_LIBRARY}/src/lib)
 
 if (USE_QT5)

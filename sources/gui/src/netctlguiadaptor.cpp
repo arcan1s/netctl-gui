@@ -133,9 +133,3 @@ QStringList NetctlGuiAdaptor::UIDs()
 
     return uids;
 }
-
-
-QStringList NetctlGuiAdaptor::VerboseInformation()
-{
-    return mainWindow->printTrayInformation();
-}

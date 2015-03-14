@@ -1,6 +1,7 @@
 # set files
 file (GLOB_RECURSE SOURCES *.cpp ${PROJECT_TRDPARTY_DIR}/task/*.cpp
-                                 ${PROJECT_TRDPARTY_DIR}/language/*.cpp)
+                                 ${PROJECT_TRDPARTY_DIR}/language/*.cpp
+                                 ${PROJECT_TRDPARTY_DIR}/listmap/*.cpp)
 file (GLOB_RECURSE HEADERS *.h ${PROJECT_TRDPARTY_DIR}/task/*.h
                                ${PROJECT_TRDPARTY_DIR}/language/*.h)
 file (GLOB_RECURSE FORMS *.ui ${PROJECT_TRDPARTY_DIR}/about/*.ui)

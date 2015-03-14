@@ -25,7 +25,6 @@
 
 
 class MainWindow;
-class NetctlAutoWindow;
 
 namespace Ui {
 class MainWidget;
@@ -40,7 +39,6 @@ public:
                         const QMap<QString,QString> settings = QMap<QString,QString>(),
                         const bool debugCmd = false);
     ~MainWidget();
-    NetctlAutoWindow *netctlAutoWin = nullptr;
     Qt::ToolBarArea getToolBarArea();
 
 public slots:

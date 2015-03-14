@@ -14,18 +14,28 @@
  *   You should have received a copy of the GNU General Public License     *
  *   along with netctl-gui. If not, see http://www.gnu.org/licenses/       *
  ***************************************************************************/
-/**
- * @file netctlgui.h
- * Header of netctlgui library
- * @author Evgeniy Alekseev
- * @copyright GPLv3
- * @bug https://github.com/arcan1s/netctl-gui/issues
- */
+
+#include "listmap.h"
 
 
-#ifndef NETCTLGUI_H
-#define NETCTLGUI_H
+QMap<QString, QString> listToMap(const QStringList list)
+{
+    QMap<QString, QString> map;
+    for (int i=0; i<list.count(); i++) {
+        QStringList str = list[i].split(QString("=="));
+        if (str.count() != 2) continue;
+        map[str[0]] = str[1];
+    }
 
-#include "netctlinterface.h"
+    return map;
+}
 
-#endif /* NETCTLGUI_H */
+
+QStringList mapToList(const QMap<QString, QString> map)
+{
+    QStringList list;
+    for (int i=0; i<map.keys().count(); i++)
+        list.append(QString("%1==X2").arg(map.keys()[i]).arg(map[map.keys()[i]]));
+
+    return list;
+}

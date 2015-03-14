@@ -19,18 +19,19 @@
 
 #include <QDebug>
 #include <QMenu>
-#include <QMessageBox>
 
 #include <pdebug/pdebug.h>
 
+#include "calls.h"
 #include "mainwindow.h"
 
 
-TrayIcon::TrayIcon(QObject *parent, const bool debugCmd)
+TrayIcon::TrayIcon(QObject *parent, const QMap<QString, QString> settings, const bool debugCmd)
     : QSystemTrayIcon(parent),
       debug(debugCmd)
 {
     mainWindow = dynamic_cast<MainWindow *>(parent);
+    useHelper = (settings[QString("USE_HELPER")] == QString("true"));
 
     init();
 }
@@ -44,41 +45,7 @@ TrayIcon::~TrayIcon()
     startProfileMenu->clear();
     switchToProfileMenu->clear();
     menuActions->clear();
-    delete startProfileMenu;
-    delete switchToProfileMenu;
     delete menuActions;
-    for (int i=0; i<contextMenu.keys().count(); i++)
-        delete contextMenu[contextMenu.keys()[i]];
-}
-
-
-int TrayIcon::showInformation()
-{
-    if (debug) qDebug() << PDEBUG;
-
-    if (supportsMessages()) {
-        QString title = QApplication::translate("TrayIcon", "netctl status");
-        QStringList info = mainWindow->printInformation();
-        QString message = QString("%1: %2\n").arg(QApplication::translate("TrayIcon", "Profile")).arg(info[0]);
-        message += QString("%1: %2").arg(QApplication::translate("TrayIcon", "Status")).arg(info[1]);
-        showMessage(title, message, QSystemTrayIcon::Information);
-    }
-    else
-        return showInformationInWindow();
-    return 0;
-}
-
-
-int TrayIcon::showInformationInWindow()
-{
-    if (debug) qDebug() << PDEBUG;
-
-    QString title = QApplication::translate("TrayIcon", "netctl status");
-    QStringList info = mainWindow->printInformation();
-    QString message = QString("%1: %2\n").arg(QApplication::translate("TrayIcon", "Profile")).arg(info[0]);
-    message += QString("%1: %2").arg(QApplication::translate("TrayIcon", "Status")).arg(info[1]);
-
-    return QMessageBox::information(0, title, message);
 }
 
 
@@ -86,79 +53,52 @@ void TrayIcon::updateMenu()
 {
     if (debug) qDebug() << PDEBUG;
 
-    QStringList info = mainWindow->printTrayInformation();
-    bool netctlAutoStatus = info[0].toInt();
-    QStringList profiles = info[1].split(QChar('|'));
-    QString current = info[2];
-    QString enabled = info[3];
+    netctlCurrent info = mainWindow->printTrayInformation();
 
-    if (current.isEmpty()) {
+    if (info.current.isEmpty()) {
         contextMenu[QString("title")]->setIcon(QIcon(QString(":network-offline-64x64")));
         contextMenu[QString("title")]->setText(QApplication::translate("TrayIcon", "(inactive)"));
     } else {
         contextMenu[QString("title")]->setIcon(QIcon(QString(":network-idle-64x64")));
-        QStringList currentProfiles, status;
-        if (netctlAutoStatus) {
-            currentProfiles.append(current);
-            status.append(QApplication::translate("TrayIcon", "(netctl-auto)"));
-        } else {
-            for (int i=0; i<enabled.split(QChar('|')).count(); i++) {
-                currentProfiles.append(current.split(QChar('|'))[i]);
-                if (enabled.split(QChar('|'))[i] == QString("0"))
-                    status.append(QApplication::translate("TrayIcon", "static"));
-                else
-                    status.append(QApplication::translate("TrayIcon", "enabled"));
-            }
-        }
         QStringList profiles;
-        for (int i=0; i<currentProfiles.count(); i++)
-            profiles.append(QString("%1 %2").arg(currentProfiles[i]).arg(status[i]));
+        if (info.netctlAuto)
+            profiles.append(QString("%1 (%2)").arg(info.current[0])
+                                              .arg(QApplication::translate("TrayIcon", "netctl-auto")));
+        else
+            for (int i=0; i<info.current.count(); i++) {
+                QString status;
+                if (info.enables[i])
+                    status = QApplication::translate("TrayIcon", "enabled");
+                else
+                    status = QApplication::translate("TrayIcon", "static");
+                profiles.append(QString("%1 (%2)").arg(info.current[i]).arg(status));
+            }
         contextMenu[QString("title")]->setText(profiles.join(QString(" | ")));
     }
 
-    if (netctlAutoStatus) {
-        contextMenu[QString("start")]->setVisible(false);
-        contextMenu[QString("stop")]->setVisible(false);
-        contextMenu[QString("stopall")]->setVisible(false);
-        contextMenu[QString("switch")]->setVisible(true);
-        contextMenu[QString("restart")]->setVisible(false);
-        contextMenu[QString("enable")]->setVisible(false);
+    startProfileMenu->setVisible(!info.netctlAuto);
+    contextMenu[QString("stop")]->setVisible(!info.netctlAuto && (info.current.count() == 1));
+    contextMenu[QString("stopall")]->setVisible(!info.netctlAuto && (info.current.count() > 1));
+    switchToProfileMenu->setVisible(info.netctlAuto);
+    contextMenu[QString("restart")]->setVisible(!info.netctlAuto && (info.current.count() == 1));
+    contextMenu[QString("enable")]->setVisible(!info.netctlAuto && (info.current.count() == 1));
+
+    if (info.netctlAuto) {
         switchToProfileMenu->clear();
-        for (int i=0; i<profiles.count(); i++) {
-            QAction *profile = new QAction(profiles[i], this);
-            switchToProfileMenu->addAction(profile);
-        }
+        for (int i=0; i<info.current.count(); i++)
+            switchToProfileMenu->addAction(info.current[i]);
     } else {
-        if (current.contains(QChar('|'))) {
-            contextMenu[QString("start")]->setVisible(true);
-            contextMenu[QString("stop")]->setVisible(false);
-            contextMenu[QString("stopall")]->setVisible(true);
-            contextMenu[QString("switch")]->setVisible(false);
-            contextMenu[QString("restart")]->setVisible(false);
-            contextMenu[QString("enable")]->setVisible(false);
-        } else {
-            contextMenu[QString("start")]->setVisible(true);
-            contextMenu[QString("stop")]->setVisible(!current.isEmpty());
-            contextMenu[QString("switch")]->setVisible(false);
-            contextMenu[QString("stopall")]->setVisible(false);
-            contextMenu[QString("restart")]->setVisible(!current.isEmpty());
-            contextMenu[QString("enable")]->setVisible(!current.isEmpty());
-        }
-        if (!current.isEmpty()) {
-            contextMenu[QString("start")]->setText(QApplication::translate("TrayIcon", "Start another profile"));
-            contextMenu[QString("stop")]->setText(QApplication::translate("TrayIcon", "Stop %1").arg(current));
-            contextMenu[QString("restart")]->setText(QApplication::translate("TrayIcon", "Restart %1").arg(current));
-            if (enabled.split(QChar('|'))[0].toInt())
-                contextMenu[QString("enable")]->setText(QApplication::translate("TrayIcon", "Disable %1").arg(current));
+        if (info.current.count() == 1) {
+            contextMenu[QString("stop")]->setText(QApplication::translate("TrayIcon", "Stop %1").arg(info.current[0]));
+            contextMenu[QString("restart")]->setText(QApplication::translate("TrayIcon", "Restart %1").arg(info.current[0]));
+            if (info.enables[0])
+                contextMenu[QString("enable")]->setText(QApplication::translate("TrayIcon", "Disable %1").arg(info.current[0]));
             else
-                contextMenu[QString("enable")]->setText(QApplication::translate("TrayIcon", "Enable %1").arg(current));
-        } else
-            contextMenu[QString("start")]->setText(QApplication::translate("TrayIcon", "Start profile"));
-        startProfileMenu->clear();
-        for (int i=0; i<profiles.count(); i++) {
-            QAction *profile = new QAction(profiles[i], this);
-            startProfileMenu->addAction(profile);
+                contextMenu[QString("enable")]->setText(QApplication::translate("TrayIcon", "Enable %1").arg(info.current[0]));
         }
+        startProfileMenu->clear();
+        for (int i=0; i<info.current.count(); i++)
+            startProfileMenu->addAction(info.current[i]);
     }
 
     if (mainWindow->isHidden())
@@ -176,55 +116,43 @@ void TrayIcon::createActions()
 
     menuActions = new QMenu();
 
-    contextMenu[QString("title")] = new QAction(QIcon(":icon"), QApplication::translate("TrayIcon", "Status"), this);
-    menuActions->addAction(contextMenu[QString("title")]);
-    connect(contextMenu[QString("title")], SIGNAL(triggered(bool)), this, SLOT(showInformationInWindow()));
-
+    contextMenu[QString("title")] = menuActions->addAction(QIcon(":icon"),
+                                                           QApplication::translate("TrayIcon", "Status"),
+                                                           mainWindow,
+                                                           SLOT(showMainWindow()));
     menuActions->addSeparator();
 
-    contextMenu[QString("start")] = new QAction(QIcon::fromTheme("system-run"), QApplication::translate("TrayIcon", "Start profile"), this);
-    startProfileMenu = new QMenu();
-    contextMenu[QString("start")]->setMenu(startProfileMenu);
-    connect(startProfileMenu, SIGNAL(triggered(QAction *)), this, SLOT(startProfileSlot(QAction *)));
-    menuActions->addAction(contextMenu[QString("start")]);
+    startProfileMenu = menuActions->addMenu(QIcon::fromTheme("system-run"),
+                                            QApplication::translate("TrayIcon", "Start profile"));
+    connect(startProfileMenu, SIGNAL(triggered(QAction *)), this, SLOT(startProfileTraySlot(QAction *)));
 
-    contextMenu[QString("stop")] = new QAction(QIcon::fromTheme("process-stop"), QApplication::translate("TrayIcon", "Stop profile"), this);
-    connect(contextMenu[QString("stop")], SIGNAL(triggered(bool)), this, SLOT(stopProfileSlot()));
-    menuActions->addAction(contextMenu[QString("stop")]);
+    contextMenu[QString("stop")] = menuActions->addAction(QIcon::fromTheme("process-stop"),
+                                                          QApplication::translate("TrayIcon", "Stop profile"),
+                                                          this,
+                                                          SLOT(startProfileTraySlot()));
+    contextMenu[QString("stopall")] = menuActions->addAction(QIcon::fromTheme("process-stop"),
+                                                             QApplication::translate("TrayIcon", "Stop all profiles"),
+                                                             this,
+                                                             SLOT(stopAllProfilesTraySlot()));
 
-    contextMenu[QString("stopall")] = new QAction(QIcon::fromTheme("process-stop"), QApplication::translate("TrayIcon", "Stop all profiles"), this);
-    connect(contextMenu[QString("stopall")], SIGNAL(triggered(bool)), this, SLOT(stopAllProfilesSlot()));
-    menuActions->addAction(contextMenu[QString("stopall")]);
+    switchToProfileMenu = menuActions->addMenu(QIcon::fromTheme("system-run"),
+                                               QApplication::translate("TrayIcon", "Switch to profile"));
+    connect(switchToProfileMenu, SIGNAL(triggered(QAction *)), this, SLOT(switchToProfileTraySlot(QAction *)));
 
-    contextMenu[QString("switch")] = new QAction(QIcon::fromTheme("system-run"), QApplication::translate("TrayIcon", "Switch to profile"), this);
-    switchToProfileMenu = new QMenu();
-    contextMenu[QString("switch")]->setMenu(switchToProfileMenu);
-    connect(switchToProfileMenu, SIGNAL(triggered(QAction *)), this, SLOT(switchToProfileSlot(QAction *)));
-    menuActions->addAction(contextMenu[QString("switch")]);
-
-    contextMenu[QString("restart")] = new QAction(QIcon::fromTheme("view-refresh"), QApplication::translate("TrayIcon", "Restart profile"), this);
-    connect(contextMenu[QString("restart")], SIGNAL(triggered(bool)), this, SLOT(restartProfileSlot()));
-    menuActions->addAction(contextMenu[QString("restart")]);
-
-    contextMenu[QString("enable")] = new QAction(QApplication::translate("TrayIcon", "Enable profile"), this);
-    connect(contextMenu[QString("enable")], SIGNAL(triggered(bool)), this, SLOT(enableProfileSlot()));
-    menuActions->addAction(contextMenu[QString("enable")]);
-
+    contextMenu[QString("restart")] = menuActions->addAction(QIcon::fromTheme("view-refresh"),
+                                                             QApplication::translate("TrayIcon", "Restart profile"),
+                                                             this,
+                                                             SLOT(restartProfileTraySlot()));
+    contextMenu[QString("enable")] = menuActions->addAction(QIcon::fromTheme("list-add"),
+                                                            QApplication::translate("TrayIcon", "Enable profile"),
+                                                            this,
+                                                            SLOT(enableProfileTraySlot()));
     menuActions->addSeparator();
 
-    contextMenu[QString("gui")] = new QAction(QApplication::translate("TrayIcon", "Show"), this);
-    connect(contextMenu[QString("gui")], SIGNAL(triggered(bool)), mainWindow, SLOT(showMainWindow()));
-    menuActions->addAction(contextMenu[QString("gui")]);
-
-    contextMenu[QString("auto")] = new QAction(QApplication::translate("TrayIcon", "Show netctl-auto"), this);
-    connect(contextMenu[QString("auto")], SIGNAL(triggered(bool)), mainWindow, SLOT(showNetctlAutoWindow()));
-    menuActions->addAction(contextMenu[QString("auto")]);
-
-    menuActions->addSeparator();
-
-    contextMenu[QString("quit")] = new QAction(QApplication::translate("TrayIcon", "Quit"), this);
-    connect(contextMenu[QString("quit")], SIGNAL(triggered(bool)), mainWindow, SLOT(closeMainWindow()));
-    menuActions->addAction(contextMenu[QString("quit")]);
+    contextMenu[QString("quit")] = menuActions->addAction(QIcon::fromTheme("application-exit"),
+                                                          QApplication::translate("TrayIcon", "Quit"),
+                                                          mainWindow,
+                                                          SLOT(closeMainWindow()));
 }
 
 
@@ -249,9 +177,6 @@ void TrayIcon::itemActivated(const QSystemTrayIcon::ActivationReason reason)
 
     switch (reason) {
     case QSystemTrayIcon::Trigger:
-        showInformation();
-        break;
-    case QSystemTrayIcon::DoubleClick:
         mainWindow->showMainWindow();
         break;
     case QSystemTrayIcon::Context:
@@ -265,59 +190,49 @@ void TrayIcon::itemActivated(const QSystemTrayIcon::ActivationReason reason)
 }
 
 
-bool TrayIcon::enableProfileSlot()
+void TrayIcon::enableProfileTraySlot()
 {
     if (debug) qDebug() << PDEBUG;
 
     QString profile = mainWindow->printInformation()[0];
 
-    return mainWindow->enableProfileSlot(profile);
+    enableProfileSlot(profile, mainWindow->netctlInterface, useHelper, debug);
 }
 
 
-bool TrayIcon::restartProfileSlot()
+void TrayIcon::restartProfileTraySlot()
 {
     if (debug) qDebug() << PDEBUG;
 
     QString profile = mainWindow->printInformation()[0];
 
-    return mainWindow->restartProfileSlot(profile);
+    restartProfileSlot(profile, mainWindow->netctlInterface, useHelper, debug);
 }
 
 
-bool TrayIcon::startProfileSlot(QAction *action)
+void TrayIcon::startProfileTraySlot(QAction *action)
 {
     if (debug) qDebug() << PDEBUG;
 
     QString profile = action->text().remove(QChar('&'));
 
-    return mainWindow->switchToProfileSlot(profile);
+    startProfileSlot(profile, mainWindow->netctlInterface, useHelper, debug);
 }
 
 
-bool TrayIcon::stopProfileSlot()
+void TrayIcon::stopAllProfilesTraySlot()
 {
     if (debug) qDebug() << PDEBUG;
 
-    QString profile = mainWindow->printInformation()[0];
-
-    return mainWindow->startProfileSlot(profile);
+    stopAllProfilesSlot(mainWindow->netctlInterface, useHelper, debug);
 }
 
 
-bool TrayIcon::stopAllProfilesSlot()
-{
-    if (debug) qDebug() << PDEBUG;
-
-    return mainWindow->stopAllProfilesSlot();
-}
-
-
-bool TrayIcon::switchToProfileSlot(QAction *action)
+void TrayIcon::switchToProfileTraySlot(QAction *action)
 {
     if (debug) qDebug() << PDEBUG;
 
     QString profile = action->text().remove(QChar('&'));
 
-    return mainWindow->switchToProfileSlot(profile);
+    switchToProfileSlot(profile, mainWindow->netctlInterface, useHelper, debug);
 }

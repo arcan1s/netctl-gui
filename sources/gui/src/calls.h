@@ -18,22 +18,38 @@
 #ifndef CALLS_H
 #define CALLS_H
 
-#include <QMap>
 #include <QString>
 
 #include <netctlgui/netctlgui.h>
 
 
+// control
+InterfaceAnswer createProfileSlot(const QString profile, const QMap<QString,QString> settings,
+                                  NetctlInterface *interface, const bool useHelper,
+                                  const bool debug = false);
 InterfaceAnswer enableProfileSlot(const QString profile, NetctlInterface *interface,
+                                  const bool useHelper, const bool debug = false);
+InterfaceAnswer removeProfileSlot(const QString profile, NetctlInterface *interface,
                                   const bool useHelper, const bool debug = false);
 InterfaceAnswer restartProfileSlot(const QString profile, NetctlInterface *interface,
                                    const bool useHelper, const bool debug = false);
 InterfaceAnswer startProfileSlot(const QString profile, NetctlInterface *interface,
                                  const bool useHelper, const bool debug = false);
 InterfaceAnswer stopAllProfilesSlot(NetctlInterface *interface, const bool useHelper,
-                                    const bool debug);
+                                    const bool debug = false);
 InterfaceAnswer switchToProfileSlot(const QString profile, NetctlInterface *interface,
-                                    const bool useHelper, const bool debug);
+                                    const bool useHelper, const bool debug = false);
+// wireless connection
+InterfaceAnswer connectToEssid(const QString essid, QMap<QString,QString> settings,
+                               NetctlInterface *interface, const bool useHelper,
+                               const bool debug = false);
+// information
+netctlInformation generalInformation(NetctlInterface *interface, const bool useHelper,
+                                     const bool debug = false);
+QMap<QString, QString> profileInformation(const QString profile, NetctlInterface *interface,
+                                          const bool useHelper, const bool debug = false);
+netctlCurrent trayInformation(NetctlInterface *interface, const bool useHelper,
+                              const bool debug = false);
 
 
 #endif /* CALLS_H */

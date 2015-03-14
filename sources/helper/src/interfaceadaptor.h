@@ -35,17 +35,22 @@ public:
     ~InterfaceAdaptor();
 
 public slots:
-    // interface
+    // control slots
     int autoEnable(const QString profile);
     int Create(const QString profile, const QStringList settingsList);
     int Enable(const QString profile);
     int Essid(const QString essid, QStringList settingsList);
     int KnownEssid(const QString essid);
+    int Remove(const QString profile);
     int Restart(const QString profile);
     int Start(const QString profile);
     int StopAll();
     int SwitchTo(const QString profile);
     int UnknownEssid(const QString essid, QStringList settingsList);
+    // information
+    QStringList Information();
+    QStringList Profile(const QString profile);
+    QStringList Status();
 
 private:
     bool debug;

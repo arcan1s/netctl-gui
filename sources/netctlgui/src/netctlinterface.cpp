@@ -25,7 +25,7 @@
 
 #include <QDebug>
 
-#include <netctlgui/netctlgui.h>
+#include <netctlgui/netctlinterface.h>
 #include <pdebug/pdebug.h>
 
 
@@ -89,10 +89,11 @@ InterfaceAnswer NetctlInterface::connectToEssid(const QString essid, QMap<QStrin
         return InterfaceAnswer::Error;
     }
 
-    if (wpaCommand->existentProfile(essid).isEmpty())
+    QString profile = wpaCommand->existentProfile(essid);
+    if (profile.isEmpty())
         return connectToUnknownEssid(essid, settings);
     else
-        return connectToKnownEssid(essid);
+        return startProfile(profile);
 }
 
 
@@ -188,6 +189,24 @@ InterfaceAnswer NetctlInterface::enableProfile(const QString profile)
 
 
 /**
+ * @fn removeProfile
+ */
+InterfaceAnswer NetctlInterface::removeProfile(const QString profile)
+{
+    if (debug) qDebug() << PDEBUG;
+    if (netctlProfile == nullptr) {
+        if (debug) qDebug() << PDEBUG << ":" << "Could not find library";
+        return InterfaceAnswer::Error;
+    }
+
+    if (netctlProfile->removeProfile(profile))
+        return InterfaceAnswer::True;
+    else
+        return InterfaceAnswer::Error;
+}
+
+
+/**
  * @fn restartProfile
  */
 InterfaceAnswer NetctlInterface::restartProfile(const QString profile)
@@ -265,4 +284,68 @@ InterfaceAnswer NetctlInterface::switchToProfile(const QString profile)
     }
 
     return status;
+}
+
+
+/**
+ * @fn information
+ */
+netctlInformation NetctlInterface::information()
+{
+    if (debug) qDebug() << PDEBUG;
+    if (netctlCommand == nullptr) {
+        if (debug) qDebug() << PDEBUG << ":" << "Could not find library";
+        return netctlInformation();
+    }
+
+    netctlInformation info;
+    info.netctlAuto = netctlCommand->isNetctlAutoRunning();
+    info.netctlProfiles = netctlCommand->getProfileList();
+    if (info.netctlAuto) info.netctlAutoProfiles = netctlCommand->getProfileListFromNetctlAuto();
+
+    return info;
+}
+
+
+/**
+ * @fn profileSettings
+ */
+QMap<QString, QString> NetctlInterface::profileSettings(const QString profile)
+{
+    if (debug) qDebug() << PDEBUG;
+    if (netctlProfile == nullptr) {
+        if (debug) qDebug() << PDEBUG << ":" << "Could not find library";
+        return QMap<QString, QString>();
+    }
+
+    return netctlProfile->getSettingsFromProfile(profile);
+}
+
+
+/**
+ * @fn status
+ */
+netctlCurrent NetctlInterface::status()
+{
+    if (debug) qDebug() << PDEBUG;
+    if (netctlCommand == nullptr) {
+        if (debug) qDebug() << PDEBUG << ":" << "Could not find library";
+        return netctlCurrent();
+    }
+
+    netctlCurrent current;
+    current.netctlAuto = netctlCommand->isNetctlAutoRunning();
+    QList<netctlProfileInfo> profiles;
+    if (current.netctlAuto)
+        profiles = netctlCommand->getProfileListFromNetctlAuto();
+    else
+        profiles = netctlCommand->getProfileList();
+    for (int i=0; i<profiles.count(); i++) {
+        current.profiles.append(profiles[i].name);
+        if (!profiles[i].active) continue;
+        current.current.append(profiles[i].name);
+        current.enables.append(profiles[i].enabled);
+    }
+
+    return current;
 }

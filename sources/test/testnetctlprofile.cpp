@@ -22,6 +22,7 @@
 #include <QDBusMessage>
 #include <QtTest>
 
+#include <listmap/listmap.h>
 #include <netctlgui/netctlgui.h>
 
 #include "version.h"
@@ -107,12 +108,9 @@ void TestNetctlProfile::test_getRecommendedConfiguration()
     original.append(QString("PROFILE_DIR==/etc/netctl"));
     original.append(QString("SUDO_PATH==/usr/bin/sudo"));
     QMap<QString, QString> resultMap = NetctlProfile::getRecommendedConfiguration();
-    QStringList result;
-    for (int i=0; i<resultMap.keys().count(); i++)
-        result.append(QString("%1==%2").arg(resultMap.keys()[i]).arg(resultMap[resultMap.keys()[i]]));
 
     QWARN("This test may fail on other configuration");
-    QCOMPARE(result, original);
+    QCOMPARE(mapToList(resultMap), original);
 }
 
 
@@ -234,10 +232,7 @@ void TestNetctlProfile::test_createProfile()
     if (helper) {
         QList<QVariant> args;
         args.append(QString("netctlgui-test-full"));
-        QStringList profileSettingsList;
-        for (int i=0; i<profileSettings.keys().count(); i++)
-            profileSettingsList.append(QString("%1==%2").arg(profileSettings.keys()[i]).arg(profileSettings[profileSettings.keys()[i]]));
-        args.append(profileSettingsList);
+        args.append(mapToList(profileSettings));
         QVERIFY(sendDBusRequest(QString("/ctrl"), QString("Create"), args)[0].toBool());
     }
     delete netctl;
@@ -298,13 +293,11 @@ phase2=\"auth=PAP\"\
         dbus = sendDBusRequest(QString("/netctl"), QString("Profile"), args)[0].toStringList();
     }
     QMap<QString, QString> resultMap = netctl->getSettingsFromProfile(QString("netctlgui-test-full"));
-    for (int i=0; i<resultMap.keys().count(); i++)
-        result.append(QString("%1==%2").arg(resultMap.keys()[i]).arg(resultMap[resultMap.keys()[i]]));
     netctl->removeProfile(QString("netctlgui-test-full"));
     delete netctl;
 
-    QCOMPARE(result, original);
-    if (helper) QCOMPARE(dbus, result);
+    QCOMPARE(mapToList(resultMap), original);
+    if (helper) QCOMPARE(dbus, mapToList(resultMap));
 }
 
 

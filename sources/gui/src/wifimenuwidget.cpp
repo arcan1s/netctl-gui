@@ -23,6 +23,7 @@
 
 #include <pdebug/pdebug.h>
 
+#include "calls.h"
 #include "commonfunctions.h"
 #include "dbusoperation.h"
 #include "errorwindow.h"
@@ -97,23 +98,10 @@ bool WiFiMenuWidget::wifiTabSelectEssidSlot(const QString essid)
 void WiFiMenuWidget::connectToUnknownEssid(const QString passwd)
 {
     if (debug) qDebug() << PDEBUG;
-
+    if (ui->tableWidget_wifi->currentItem() == nullptr) return;
     if (passwdWid != nullptr) delete passwdWid;
-    QStringList interfaces;
-    if (useHelper) {
-        QList<QVariant> responce = sendRequestToLib(QString("WirelessInterfaces"), debug);
-        if (responce.isEmpty())
-            interfaces = mainWindow->netctlCommand->getWirelessInterfaceList();
-        else
-            interfaces = responce[0].toStringList();
-    } else
-        interfaces = mainWindow->netctlCommand->getWirelessInterfaceList();
-    if (interfaces.isEmpty()) return;
 
     QMap<QString, QString> settings;
-    settings[QString("Description")] = QString("'Automatically generated profile by Netctl GUI'");
-    settings[QString("Interface")] = interfaces[0];
-    settings[QString("Connection")] = QString("wireless");
     QString security = ui->tableWidget_wifi->item(ui->tableWidget_wifi->currentItem()->row(), 2)->text();
     if (security.contains(QString("WPA")))
         settings[QString("Security")] = QString("wpa");
@@ -121,50 +109,35 @@ void WiFiMenuWidget::connectToUnknownEssid(const QString passwd)
         settings[QString("Security")] = QString("wep");
     else
         settings[QString("Security")] = QString("none");
-    settings[QString("ESSID")] = QString("'%1'").arg(ui->tableWidget_wifi->item(ui->tableWidget_wifi->currentItem()->row(), 0)->text());
     if (!passwd.isEmpty())
         settings[QString("Key")] = QString("'%1'").arg(passwd);
-    settings[QString("IP")] = QString("dhcp");
     if (hiddenNetwork)
         settings[QString("Hidden")] = QString("yes");
+    QString essid = QString("'%1'").arg(ui->tableWidget_wifi->item(ui->tableWidget_wifi->currentItem()->row(), 0)->text());
+    InterfaceAnswer answer = connectToEssid(essid, settings, mainWindow->netctlInterface,
+                                            useHelper, debug);
 
-    QString profile = QString("netctl-gui-%1").arg(settings[QString("ESSID")]);
+    QString profile = QString("netctl-gui-%1").arg(essid);
     profile.remove(QChar('"')).remove(QChar('\''));
-    if (useHelper) {
-        QStringList settingsList;
-        for (int i=0; i<settings.keys().count(); i++)
-            settingsList.append(QString("%1==%2").arg(settings.keys()[i]).arg(settings[settings.keys()[i]]));
-        QList<QVariant> args;
-        args.append(profile);
-        args.append(settingsList);
-        sendRequestToCtrlWithArgs(QString("Create"), args, debug);
-    } else {
-        QString profileTempName = mainWindow->netctlProfile->createProfile(profile, settings);
-        mainWindow->netctlProfile->copyProfile(profileTempName);
-    }
     QString message;
-    if (mainWindow->startProfileSlot(profile)) {
-        message = QApplication::translate("MainWindow", "Connection is successfully.");
+    if (answer == InterfaceAnswer::True) {
+        message = QApplication::translate("MainWindow", "Connection is successfully");
         mainWindow->showMessage(true);
     } else {
-        message = QApplication::translate("MainWindow", "Connection failed.");
+        message = QApplication::translate("MainWindow", "Connection failed");
         mainWindow->showMessage(false);
     }
     message += QString("\n");
     message += QApplication::translate("MainWindow", "Do you want to save profile %1?").arg(profile);
     int select = QMessageBox::question(this, QApplication::translate("MainWindow", "WiFi menu"),
                                        message, QMessageBox::Save | QMessageBox::Discard, QMessageBox::Save);
+
     switch (select) {
     case QMessageBox::Save:
         break;
     case QMessageBox::Discard:
     default:
-        if (useHelper) {
-            QList<QVariant> args;
-            args.append(profile);
-            sendRequestToCtrlWithArgs(QString("Remove"), args, debug);
-        } else
-            mainWindow->netctlProfile->removeProfile(profile);
+        removeProfileSlot(profile, mainWindow->netctlInterface, useHelper, debug);
         break;
     }
 
@@ -199,23 +172,16 @@ void WiFiMenuWidget::updateMenuWifi()
 }
 
 
-void WiFiMenuWidget::updateText()
+void WiFiMenuWidget::updateText(const netctlWifiInfo current)
 {
     if (debug) qDebug() << PDEBUG;
-    wifiTabSetEnabled(checkExternalApps(QString("wpasup-only"), configuration, debug));
+    if (wifiTabSetEnabled(checkExternalApps(QString("wpasup-only"), configuration, debug))) return;
     if (!checkExternalApps(QString("wpasup"), configuration, debug)) {
         ErrorWindow::showWindow(1, QString(PDEBUG), debug);
         emit(mainWindow->needToBeConfigured());
         return;
     }
     ui->label_wifi->setText(QApplication::translate("WiFiMenuWidget", "Processing..."));
-
-    netctlWifiInfo current;
-    if (useHelper)
-        current = parseOutputWifi(sendRequestToCtrl(QString("CurrentWiFi"), debug))[0];
-    else
-        current = mainWindow->wpaCommand->scanWifi()[0];
-    if (current.name.isEmpty()) return;
 
     QString text = QString("");
     text += QString("%1 - %2 - %3 ").arg(current.name).arg(current.security).arg(current.macs[0]);
@@ -228,7 +194,7 @@ void WiFiMenuWidget::updateText()
 void WiFiMenuWidget::updateWifiTab()
 {
     if (debug) qDebug() << PDEBUG;
-    wifiTabSetEnabled(checkExternalApps(QString("wpasup-only"), configuration, debug));
+    if (wifiTabSetEnabled(checkExternalApps(QString("wpasup-only"), configuration, debug))) return;
     if (!checkExternalApps(QString("wpasup"), configuration, debug)) {
         ErrorWindow::showWindow(1, QString(PDEBUG), debug);
         emit(mainWindow->needToBeConfigured());
@@ -259,6 +225,7 @@ void WiFiMenuWidget::updateWifiTab()
     headerList.append(QApplication::translate("WiFiMenuWidget", "Exists"));
     ui->tableWidget_wifi->setHorizontalHeaderLabels(headerList);
     // create items
+    netctlWifiInfo current = scanResults.isEmpty() ? netctlWifiInfo() : scanResults.takeFirst();
     for (int i=0; i<scanResults.count(); i++) {
         // font
         QFont font;
@@ -335,7 +302,7 @@ void WiFiMenuWidget::updateWifiTab()
     ui->tableWidget_wifi->horizontalHeader()->setResizeMode(QHeaderView::ResizeToContents);
 #endif
 
-    updateText();
+    updateText(current);
     mainWindow->setDisabled(false);
     mainWindow->showMessage(true);
 }
@@ -375,13 +342,15 @@ void WiFiMenuWidget::wifiTabContextualMenu(const QPoint &pos)
 }
 
 
-void WiFiMenuWidget::wifiTabSetEnabled(const bool state)
+bool WiFiMenuWidget::wifiTabSetEnabled(const bool state)
 {
     if (debug) qDebug() << PDEBUG;
     if (debug) qDebug() << PDEBUG << ":" << "State" << state;
 
-    ui->tableWidget_wifi->setHidden(!state);
-    if (!state) ui->label_wifi->setText(QApplication::translate("WiFiMenuWidget", "Please install 'wpa_supplicant' before using it"));
+    ui->tableWidget_wifi->setEnabled(state);
+    if (!state) ui->label_wifi->setText(QApplication::translate("WiFiMenuWidget", "Please install 'wpa_supplicant' before use it"));
+
+    return state;
 }
 
 
@@ -396,6 +365,7 @@ void WiFiMenuWidget::wifiTabStart()
     if (ui->tableWidget_wifi->currentItem() == nullptr) return;
 
     mainWindow->setDisabled(true);
+
     // name is hidden
     if (ui->tableWidget_wifi->item(ui->tableWidget_wifi->currentItem()->row(), 0)->text() == QString("<hidden>")) {
         hiddenNetwork = true;
@@ -414,21 +384,10 @@ void WiFiMenuWidget::wifiTabStart()
     // name isn't hidden
     hiddenNetwork = false;
     QString profile = ui->tableWidget_wifi->item(ui->tableWidget_wifi->currentItem()->row(), 0)->text();
-    QString profileName = QString("");
     if (!ui->tableWidget_wifi->item(ui->tableWidget_wifi->currentItem()->row(), 6)->text().isEmpty()) {
-        if (useHelper) {
-            QList<QVariant> args;
-            args.append(profile);
-            QList<QVariant> responce = sendRequestToLibWithArgs(QString("ProfileByEssid"), args, debug);
-            if (responce.isEmpty()) {
-                if (debug) qDebug() << PDEBUG << ":" << "Could not interact with helper, disable it";
-                useHelper = false;
-                return wifiTabStart();
-            }
-            profileName = responce[0].toString();
-        } else
-            profileName = mainWindow->wpaCommand->existentProfile(profile);
-        mainWindow->showMessage(mainWindow->startProfileSlot(profileName));
+        InterfaceAnswer answer = startProfileSlot(profile, mainWindow->netctlInterface,
+                                                  useHelper, debug);
+        mainWindow->showMessage(answer == InterfaceAnswer::True);
     } else {
         QString security = ui->tableWidget_wifi->item(ui->tableWidget_wifi->currentItem()->row(), 1)->text();
         if (security == QString("none")) return connectToUnknownEssid(QString(""));

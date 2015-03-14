@@ -31,25 +31,24 @@ class TrayIcon : public QSystemTrayIcon
 
 public:
     explicit TrayIcon(QObject *parent = 0,
+                      const QMap<QString,QString> settings = QMap<QString,QString>(),
                       const bool debugCmd = false);
     ~TrayIcon();
 
 public slots:
-    int showInformation();
-    int showInformationInWindow();
     void updateMenu();
 
 private slots:
     void itemActivated(const QSystemTrayIcon::ActivationReason reason);
-    bool enableProfileSlot();
-    bool restartProfileSlot();
-    bool startProfileSlot(QAction *action);
-    bool stopProfileSlot();
-    bool stopAllProfilesSlot();
-    bool switchToProfileSlot(QAction *action);
+    void enableProfileTraySlot();
+    void restartProfileTraySlot();
+    void startProfileTraySlot(QAction *action);
+    void stopAllProfilesTraySlot();
+    void switchToProfileTraySlot(QAction *action);
 
 private:
     bool debug;
+    bool useHelper = true;
     MainWindow *mainWindow;
     // contextual actions
     QMenu *menuActions;

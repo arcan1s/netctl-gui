@@ -33,7 +33,7 @@ QList<netctlProfileInfo> parseOutputNetctl(const QList<QVariant> raw)
     QStringList list = raw[0].toStringList();
     for (int i=0; i<list.count(); i++) {
         QStringList info = list[i].split(QChar('|'));
-        if (info.count() != 7) continue;
+        if (info.count() != 8) continue;
         netctlProfileInfo profile;
         profile.name = info[0];
         profile.description = info[1];
@@ -42,6 +42,7 @@ QList<netctlProfileInfo> parseOutputNetctl(const QList<QVariant> raw)
         profile.essid = info[4];
         profile.active = info[5].toInt();
         profile.enabled = info[6].toInt();
+        profile.netctlAuto = info[7].toInt();
         profileInfo.append(profile);
     }
 

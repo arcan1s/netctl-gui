@@ -70,7 +70,7 @@ public slots:
     // wpaCommand
     QString CurrentWiFi();
     QStringList VerboseWiFi();
-    Q_DECL_DEPRECATED QStringList WiFi();
+    QStringList WiFi();
 
 private:
     bool debug;

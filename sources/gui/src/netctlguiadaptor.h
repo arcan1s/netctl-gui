@@ -48,7 +48,6 @@ public slots:
     bool ShowNetctlAuto();
     bool ShowSettings();
     QStringList UIDs();
-    QStringList VerboseInformation();
 
 private:
     MainWindow *mainWindow;

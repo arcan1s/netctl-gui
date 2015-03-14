@@ -23,11 +23,11 @@
 
 #include <pdebug/pdebug.h>
 
+#include "calls.h"
 #include "commonfunctions.h"
 #include "dbusoperation.h"
 #include "errorwindow.h"
 #include "mainwindow.h"
-#include "netctlautowindow.h"
 
 
 MainWidget::MainWidget(QWidget *parent, const QMap<QString, QString> settings, const bool debugCmd)
@@ -140,28 +140,15 @@ void MainWidget::updateMainTab()
     }
 
     mainWindow->setDisabled(true);
-    QList<netctlProfileInfo> profiles;
-    bool netctlAutoStatus = false;
-    if (useHelper) {
-        QList<QVariant> responce = sendRequestToLib(QString("isNetctlAutoActive"), debug);
-        if (responce.isEmpty()) {
-            if (debug) qDebug() << PDEBUG << ":" << "Could not interact with helper, disable it";
-            useHelper = false;
-            return updateMainTab();
-        }
-        netctlAutoStatus = responce[0].toBool();
-        profiles = parseOutputNetctl(sendRequestToLib(QString("netctlVerboseProfileList"), debug));
-    } else {
-        netctlAutoStatus = mainWindow->netctlCommand->isNetctlAutoRunning();
-        profiles = mainWindow->netctlCommand->getProfileList();
-    }
-    ui->label_netctlAuto->setHidden(!netctlAutoStatus);
+    netctlInformation info = generalInformation(mainWindow->netctlInterface,
+                                                useHelper, debug);
+    ui->label_netctlAuto->setHidden(!info.netctlAuto);
 
     ui->tableWidget_main->setSortingEnabled(false);
     ui->tableWidget_main->selectRow(-1);
     ui->tableWidget_main->sortByColumn(0, Qt::AscendingOrder);
     ui->tableWidget_main->clear();
-    ui->tableWidget_main->setRowCount(profiles.count());
+    ui->tableWidget_main->setRowCount(info.netctlProfiles.count());
 
     // create header
     QStringList headerList;
@@ -171,35 +158,36 @@ void MainWidget::updateMainTab()
     headerList.append(QApplication::translate("MainWidget", "Enabled"));
     ui->tableWidget_main->setHorizontalHeaderLabels(headerList);
     // create items
-    for (int i=0; i<profiles.count(); i++) {
+    for (int i=0; i<info.netctlProfiles.count(); i++) {
         // font
         QFont font;
-        font.setBold(profiles[i].active);
-        font.setItalic(profiles[i].enabled);
+        font.setBold(info.netctlProfiles[i].active);
+        font.setItalic(info.netctlProfiles[i].enabled);
         // tooltip
         QString toolTip = QString("");
         toolTip += QString("%1: %2@%3\n").arg(QApplication::translate("MainWidget", "Type"))
-                                         .arg(profiles[i].type).arg(profiles[i].interface);
+                                         .arg(info.netctlProfiles[i].type)
+                                         .arg(info.netctlProfiles[i].interface);
         toolTip += QString("%1: %2\n").arg(QApplication::translate("MainWidget", "Active"))
-                                      .arg(checkStatus(profiles[i].active));
+                                      .arg(checkStatus(info.netctlProfiles[i].active));
         toolTip += QString("%1: %2\n").arg(QApplication::translate("MainWidget", "Enabled"))
-                                      .arg(checkStatus(profiles[i].enabled));
+                                      .arg(checkStatus(info.netctlProfiles[i].enabled));
         toolTip += QString("%1: %2").arg(QApplication::translate("MainWidget", "Is wireless"))
-                                    .arg(checkStatus(!profiles[i].essid.isEmpty()));
+                                    .arg(checkStatus(!info.netctlProfiles[i].essid.isEmpty()));
         // name
-        ui->tableWidget_main->setItem(i, 0, new QTableWidgetItem(profiles[i].name));
+        ui->tableWidget_main->setItem(i, 0, new QTableWidgetItem(info.netctlProfiles[i].name));
         ui->tableWidget_main->item(i, 0)->setTextAlignment(Qt::AlignRight | Qt::AlignVCenter);
         ui->tableWidget_main->item(i, 0)->setToolTip(toolTip);
         ui->tableWidget_main->item(i, 0)->setFont(font);
         // description
-        ui->tableWidget_main->setItem(i, 1, new QTableWidgetItem(profiles[i].description));
+        ui->tableWidget_main->setItem(i, 1, new QTableWidgetItem(info.netctlProfiles[i].description));
         ui->tableWidget_main->item(i, 1)->setTextAlignment(Qt::AlignJustify | Qt::AlignVCenter);
         ui->tableWidget_main->item(i, 1)->setToolTip(toolTip);
         // active
-        ui->tableWidget_main->setItem(i, 2, new QTableWidgetItem(checkStatus(profiles[i].active, true)));
+        ui->tableWidget_main->setItem(i, 2, new QTableWidgetItem(checkStatus(info.netctlProfiles[i].active, true)));
         ui->tableWidget_main->item(i, 2)->setTextAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
         // enabled
-        ui->tableWidget_main->setItem(i, 3, new QTableWidgetItem(checkStatus(profiles[i].enabled, true)));
+        ui->tableWidget_main->setItem(i, 3, new QTableWidgetItem(checkStatus(info.netctlProfiles[i].enabled, true)));
         ui->tableWidget_main->item(i, 3)->setTextAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
     }
 
@@ -305,7 +293,10 @@ void MainWidget::mainTabEnableProfile()
 
     mainWindow->setDisabled(true);
     QString profile = ui->tableWidget_main->item(ui->tableWidget_main->currentItem()->row(), 0)->text();
-    mainWindow->showMessage(mainWindow->enableProfileSlot(profile));
+    InterfaceAnswer answer = enableProfileSlot(profile, mainWindow->netctlInterface,
+                                               useHelper, debug);
+    // TODO check if status has been changed?
+    mainWindow->showMessage(answer != InterfaceAnswer::Error);
 
     updateMainTab();
 }
@@ -318,20 +309,9 @@ void MainWidget::mainTabRemoveProfile()
 
     mainWindow->setDisabled(true);
     QString profile = ui->tableWidget_main->item(ui->tableWidget_main->currentItem()->row(), 0)->text();
-    bool status = false;
-    if (useHelper) {
-        QList<QVariant> args;
-        args.append(profile);
-        QList<QVariant> responce = sendRequestToCtrlWithArgs(QString("Remove"), args, debug);
-        if (responce.isEmpty()) {
-            if (debug) qDebug() << PDEBUG << ":" << "Could not interact with helper, disable it";
-            useHelper = false;
-            return mainTabRemoveProfile();
-        }
-        status = responce[0].toBool();
-    } else
-        status = mainWindow->netctlProfile->removeProfile(profile);
-    mainWindow->showMessage(status);
+    InterfaceAnswer answer = removeProfileSlot(profile, mainWindow->netctlInterface,
+                                               useHelper, debug);
+    mainWindow->showMessage(answer == InterfaceAnswer::True);
 
     updateMainTab();
 }
@@ -349,7 +329,9 @@ void MainWidget::mainTabRestartProfile()
 
     mainWindow->setDisabled(true);
     QString profile = ui->tableWidget_main->item(ui->tableWidget_main->currentItem()->row(), 0)->text();
-    mainWindow->showMessage(mainWindow->restartProfileSlot(profile));
+    InterfaceAnswer answer = restartProfileSlot(profile, mainWindow->netctlInterface,
+                                               useHelper, debug);
+    mainWindow->showMessage(answer == InterfaceAnswer::True);
 
     updateMainTab();
 }
@@ -367,7 +349,9 @@ void MainWidget::mainTabStartProfile()
 
     mainWindow->setDisabled(true);
     QString profile = ui->tableWidget_main->item(ui->tableWidget_main->currentItem()->row(), 0)->text();
-    mainWindow->showMessage(mainWindow->startProfileSlot(profile));
+    InterfaceAnswer answer = startProfileSlot(profile, mainWindow->netctlInterface,
+                                              useHelper, debug);
+    mainWindow->showMessage(answer == InterfaceAnswer::True);
 
     updateMainTab();
 }
@@ -383,18 +367,9 @@ void MainWidget::mainTabStopAllProfiles()
     }
 
     mainWindow->setDisabled(true);
-    bool status = false;
-    if (useHelper) {
-        QList<QVariant> responce = sendRequestToCtrl(QString("StolAll"), debug);
-        if (responce.isEmpty()) {
-            if (debug) qDebug() << PDEBUG << ":" << "Could not interact with helper, disable it";
-            useHelper = false;
-            return mainTabStopAllProfiles();
-        }
-        status = responce[0].toBool();
-    } else
-        status = mainWindow->netctlCommand->stopAllProfiles();
-    mainWindow->showMessage(status);
+    InterfaceAnswer answer = stopAllProfilesSlot(mainWindow->netctlInterface,
+                                                 useHelper, debug);
+    mainWindow->showMessage(answer == InterfaceAnswer::True);
 
     updateMainTab();
 }
@@ -412,7 +387,9 @@ void MainWidget::mainTabSwitchToProfile()
 
     mainWindow->setDisabled(true);
     QString profile = ui->tableWidget_main->item(ui->tableWidget_main->currentItem()->row(), 0)->text();
-    mainWindow->showMessage(mainWindow->switchToProfileSlot(profile));
+    InterfaceAnswer answer = switchToProfileSlot(profile, mainWindow->netctlInterface,
+                                                 useHelper, debug);
+    mainWindow->showMessage(answer == InterfaceAnswer::True);
 
     updateMainTab();
 }
@@ -449,7 +426,6 @@ void MainWidget::createObjects()
     ui->tableWidget_main->setColumnHidden(2, true);
     ui->tableWidget_main->setColumnHidden(3, true);
     updateToolBarState(static_cast<Qt::ToolBarArea>(configuration[QString("NETCTL_TOOLBAR")].toInt()));
-    netctlAutoWin = new NetctlAutoWindow(mainWindow, debug, configuration);
 
     // append toolbar
     QMenu *actionMenu = new QMenu(this);
@@ -464,6 +440,5 @@ void MainWidget::deleteObjects()
 {
     if (debug) qDebug() << PDEBUG;
 
-    if (netctlAutoWin != nullptr) delete netctlAutoWin;
     if (ui != nullptr) delete ui;
 }

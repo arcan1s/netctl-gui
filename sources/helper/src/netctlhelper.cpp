@@ -24,6 +24,7 @@
 #include <QSettings>
 #include <unistd.h>
 
+#include <listmap/listmap.h>
 #include <netctlgui/netctlgui.h>
 #include <pdebug/pdebug.h>
 
@@ -57,11 +58,7 @@ QStringList NetctlHelper::printSettings()
 {
     if (debug) qDebug() << PDEBUG;
 
-    QStringList settingsList;
-    for (int i=0; i<configuration.keys().count(); i++)
-        settingsList.append(QString("%1==%2").arg(configuration.keys()[i]).arg(configuration[configuration.keys()[i]]));
-
-    return settingsList;
+    return mapToList(configuration);
 }
 
 

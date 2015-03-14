@@ -50,11 +50,12 @@ public:
     Qt::ToolBarArea getToolBarArea();
     QStringList printInformation();
     QStringList printSettings();
-    QStringList printTrayInformation();
+    netctlCurrent printTrayInformation();
     bool isHelperActive();
     bool isHelperServiceActive();
     // library interfaces
     Netctl *netctlCommand = nullptr;
+    NetctlInterface *netctlInterface = nullptr;
     NetctlProfile *netctlProfile = nullptr;
     WpaSup *wpaCommand = nullptr;
 

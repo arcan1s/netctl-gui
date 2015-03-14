@@ -20,6 +20,8 @@
 #include <QTextCodec>
 #include <unistd.h>
 
+#include <listmap/listmap.h>
+
 #include "netctlhelper.h"
 #include "version.h"
 
@@ -38,6 +40,7 @@ InterfaceAdaptor::~InterfaceAdaptor()
 }
 
 
+// control slots
 int InterfaceAdaptor::autoEnable(const QString profile)
 {
     return netctlInterface->autoEnableProfile(profile);
@@ -46,15 +49,7 @@ int InterfaceAdaptor::autoEnable(const QString profile)
 
 int InterfaceAdaptor::Create(const QString profile, const QStringList settingsList)
 {
-    QMap<QString, QString> settings;
-    for (int i=0; i<settingsList.count(); i++) {
-        if (!settingsList[i].contains(QString("=="))) continue;
-        QString key = settingsList[i].split(QString("=="))[0];
-        QString value = settingsList[i].split(QString("=="))[1];
-        settings[key] = value;
-    }
-
-    return netctlInterface->createProfile(profile, settings);
+    return netctlInterface->createProfile(profile, listToMap(settingsList));
 }
 
 
@@ -66,21 +61,19 @@ int InterfaceAdaptor::Enable(const QString profile)
 
 int InterfaceAdaptor::Essid(const QString essid, QStringList settingsList)
 {
-    QMap<QString, QString> settings;
-    for (int i=0; i<settingsList.count(); i++) {
-        if (!settingsList[i].contains(QString("=="))) continue;
-        QString key = settingsList[i].split(QString("=="))[0];
-        QString value = settingsList[i].split(QString("=="))[1];
-        settings[key] = value;
-    }
-
-    return netctlInterface->connectToEssid(essid, settings);
+    return netctlInterface->connectToEssid(essid, listToMap(settingsList));
 }
 
 
 int InterfaceAdaptor::KnownEssid(const QString essid)
 {
     return netctlInterface->connectToKnownEssid(essid);
+}
+
+
+int InterfaceAdaptor::Remove(const QString profile)
+{
+    return netctlInterface->removeProfile(profile);
 }
 
 
@@ -110,13 +103,55 @@ int InterfaceAdaptor::SwitchTo(const QString profile)
 
 int InterfaceAdaptor::UnknownEssid(const QString essid, QStringList settingsList)
 {
-    QMap<QString, QString> settings;
-    for (int i=0; i<settingsList.count(); i++) {
-        if (!settingsList[i].contains(QString("=="))) continue;
-        QString key = settingsList[i].split(QString("=="))[0];
-        QString value = settingsList[i].split(QString("=="))[1];
-        settings[key] = value;
+    return netctlInterface->connectToUnknownEssid(essid, listToMap(settingsList));
+}
+
+
+// information
+QStringList InterfaceAdaptor::Information()
+{
+    netctlInformation information = netctlInterface->information();
+    QStringList info;
+    info.append(QString::number(information.netctlAuto));
+
+    QList<netctlProfileInfo> profiles = information.netctlProfiles;
+    profiles.append(information.netctlAutoProfiles);
+    for (int i=0; i<profiles.count(); i++) {
+        QStringList profileInfo;
+        profileInfo.append(profiles[i].name);
+        profileInfo.append(profiles[i].description);
+        profileInfo.append(profiles[i].type);
+        profileInfo.append(profiles[i].interface);
+        profileInfo.append(profiles[i].essid);
+        profileInfo.append(QString::number(profiles[i].active));
+        profileInfo.append(QString::number(profiles[i].enabled));
+        profileInfo.append(QString::number(profiles[i].netctlAuto));
+        info.append(profileInfo.join(QChar('|')));
     }
 
-    return netctlInterface->connectToUnknownEssid(essid, settings);
+    return info;
+}
+
+
+QStringList InterfaceAdaptor::Profile(const QString profile)
+{
+    QMap<QString, QString> settings = netctlInterface->profileSettings(profile);
+
+    return mapToList(settings);
+}
+
+
+QStringList InterfaceAdaptor::Status()
+{
+    netctlCurrent current = netctlInterface->status();
+    QStringList info;
+    info.append(QString::number(current.netctlAuto));
+    info.append(current.profiles.join(QChar('|')));
+    info.append(current.current.join(QChar('|')));
+    QStringList enables;
+    for (int i=0; i<current.enables.count(); i++)
+        enables.append(QString::number(current.enables[i]));
+    info.append(enables.join(QChar('|')));
+
+    return info;
 }

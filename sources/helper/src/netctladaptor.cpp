@@ -17,6 +17,8 @@
 
 #include "netctladaptor.h"
 
+#include <listmap/listmap.h>
+
 
 NetctlAdaptor::NetctlAdaptor(QObject *parent, const bool debugCmd, const QMap<QString, QString> configuration)
     : QDBusAbstractAdaptor(parent),
@@ -142,6 +144,7 @@ QStringList NetctlAdaptor::netctlVerboseProfileList()
         profileInfo.append(profilesInfo[i].essid);
         profileInfo.append(QString::number(profilesInfo[i].active));
         profileInfo.append(QString::number(profilesInfo[i].enabled));
+        profileInfo.append(QString::number(profilesInfo[i].netctlAuto));
         info.append(profileInfo.join(QChar('|')));
     }
 
@@ -187,6 +190,7 @@ QStringList NetctlAdaptor::VerboseProfileList()
         profileInfo.append(profilesInfo[i].essid);
         profileInfo.append(QString::number(profilesInfo[i].active));
         profileInfo.append(QString::number(profilesInfo[i].enabled));
+        profileInfo.append(QString::number(profilesInfo[i].netctlAuto));
         info.append(profileInfo.join(QChar('|')));
     }
 
@@ -198,11 +202,8 @@ QStringList NetctlAdaptor::VerboseProfileList()
 QStringList NetctlAdaptor::Profile(const QString profile)
 {
     QMap<QString, QString> settings = netctlProfile->getSettingsFromProfile(profile);
-    QStringList settingsList;
-    for (int i=0; i<settings.keys().count(); i++)
-        settingsList.append(QString("%1==%2").arg(settings.keys()[i]).arg(settings[settings.keys()[i]]));
 
-    return settingsList;
+    return mapToList(settings);
 }
 
 

@@ -50,6 +50,8 @@ class NetctlProfile;
  * whether profile is active
  * @var netctlProfileInfo::enabled
  * whether profile is enabled
+ * @var netctlProfileInfo::netctlAuto
+ * whether profile is from netctl-auto
  */
 typedef struct
 {
@@ -60,6 +62,7 @@ typedef struct
     QString type;
     bool active = false;
     bool enabled = false;
+    bool netctlAuto = false;
 } netctlProfileInfo;
 
 /**
