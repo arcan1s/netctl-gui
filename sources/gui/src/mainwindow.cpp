@@ -563,7 +563,6 @@ void MainWindow::createObjects()
 
     netctlCommand = new Netctl(debug, configuration);
     netctlInterface = new NetctlInterface(debug, configuration);
-    netctlProfile = new NetctlProfile(debug, configuration);
     wpaCommand = new WpaSup(debug, configuration);
     // frontend
     mainWidget = new MainWidget(this, configuration, debug);
@@ -590,7 +589,6 @@ void MainWindow::deleteObjects()
     QDBusConnection::sessionBus().unregisterService(DBUS_SERVICE);
     if (netctlCommand != nullptr) delete netctlCommand;
     if (netctlInterface != nullptr) delete netctlInterface;
-    if (netctlProfile != nullptr) delete netctlProfile;
     if (wpaCommand != nullptr) delete wpaCommand;
 
     if (aboutWin != nullptr) delete aboutWin;

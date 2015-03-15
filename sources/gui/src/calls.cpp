@@ -188,6 +188,7 @@ netctlInformation generalInformation(NetctlInterface* interface, const bool useH
         // main
         netctlInformation info;
         info.netctlAuto = responce[0].toStringList().takeFirst().toInt();
+        info.netctlAutoEnabled = responce[0].toStringList().takeFirst().toInt();
         QList<netctlProfileInfo> profiles = parseOutputNetctl(responce);
         for (int i=0; i<profiles.count(); i++) {
             if (profiles[i].netctlAuto)
@@ -240,6 +241,3 @@ netctlCurrent trayInformation(NetctlInterface *interface, const bool useHelper,
         return netctlCurrent();
     }
 }
-
-
-

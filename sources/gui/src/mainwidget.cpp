@@ -38,7 +38,20 @@ MainWidget::MainWidget(QWidget *parent, const QMap<QString, QString> settings, c
     mainWindow = dynamic_cast<MainWindow *>(parent);
     useHelper = (configuration[QString("USE_HELPER")] == QString("true"));
 
-    createObjects();
+    // windows
+    ui = new Ui::MainWidget;
+    ui->setupUi(this);
+    ui->tableWidget_main->setColumnHidden(2, true);
+    ui->tableWidget_main->setColumnHidden(3, true);
+    updateToolBarState(static_cast<Qt::ToolBarArea>(configuration[QString("NETCTL_TOOLBAR")].toInt()));
+
+    // append toolbar
+    QMenu *actionMenu = new QMenu(this);
+    actionMenu->addAction(ui->actionSwitch);
+    actionMenu->addAction(ui->actionRestart);
+    actionMenu->addAction(ui->actionEnable);
+    ui->actionStart->setMenu(actionMenu);
+
     createActions();
 }
 
@@ -47,7 +60,7 @@ MainWidget::~MainWidget()
 {
     if (debug) qDebug() << PDEBUG;
 
-    deleteObjects();
+    if (ui != nullptr) delete ui;
 }
 
 
@@ -413,32 +426,4 @@ void MainWidget::createActions()
     connect(ui->tableWidget_main, SIGNAL(currentItemChanged(QTableWidgetItem *, QTableWidgetItem *)),
             this, SLOT(updateMenuMain()));
     connect(ui->tableWidget_main, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(mainTabContextualMenu(QPoint)));
-}
-
-
-void MainWidget::createObjects()
-{
-    if (debug) qDebug() << PDEBUG;
-
-    // windows
-    ui = new Ui::MainWidget;
-    ui->setupUi(this);
-    ui->tableWidget_main->setColumnHidden(2, true);
-    ui->tableWidget_main->setColumnHidden(3, true);
-    updateToolBarState(static_cast<Qt::ToolBarArea>(configuration[QString("NETCTL_TOOLBAR")].toInt()));
-
-    // append toolbar
-    QMenu *actionMenu = new QMenu(this);
-    actionMenu->addAction(ui->actionSwitch);
-    actionMenu->addAction(ui->actionRestart);
-    actionMenu->addAction(ui->actionEnable);
-    ui->actionStart->setMenu(actionMenu);
-}
-
-
-void MainWidget::deleteObjects()
-{
-    if (debug) qDebug() << PDEBUG;
-
-    if (ui != nullptr) delete ui;
 }

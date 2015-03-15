@@ -66,8 +66,6 @@ private:
     Ui::MainWidget *ui = nullptr;
     // backend
     void createActions();
-    void createObjects();
-    void deleteObjects();
     QString configPath;
     bool debug = false;
     bool useHelper = true;

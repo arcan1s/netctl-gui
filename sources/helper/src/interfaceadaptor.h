@@ -36,7 +36,6 @@ public:
 
 public slots:
     // control slots
-    int autoEnable(const QString profile);
     int Create(const QString profile, const QStringList settingsList);
     int Enable(const QString profile);
     int Essid(const QString essid, QStringList settingsList);

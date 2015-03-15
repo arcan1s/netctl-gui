@@ -56,7 +56,6 @@ public:
     // library interfaces
     Netctl *netctlCommand = nullptr;
     NetctlInterface *netctlInterface = nullptr;
-    NetctlProfile *netctlProfile = nullptr;
     WpaSup *wpaCommand = nullptr;
 
 protected:

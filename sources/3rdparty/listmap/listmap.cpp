@@ -35,7 +35,7 @@ QStringList mapToList(const QMap<QString, QString> map)
 {
     QStringList list;
     for (int i=0; i<map.keys().count(); i++)
-        list.append(QString("%1==X2").arg(map.keys()[i]).arg(map[map.keys()[i]]));
+        list.append(QString("%1==%2").arg(map.keys()[i]).arg(map[map.keys()[i]]));
 
     return list;
 }

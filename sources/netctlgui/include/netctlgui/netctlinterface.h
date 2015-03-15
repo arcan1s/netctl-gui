@@ -74,18 +74,21 @@ typedef struct
 /**
  * @struct netctlInformation
  * @brief general information structure
- * @var netctlCurrent::netctlProfiles
+ * @var netctlInformation::netctlProfiles
  * list of profiles
- * @var netctlCurrent::netctlAutoProfiles
+ * @var netctlInformation::netctlAutoProfiles
  * list of netctl-auto profiles
- * @var netctlCurrent::netctlAuto
+ * @var netctlInformation::netctlAuto
  * is netctl-auto active
+ * @var netctlInformation::netctlAutoEnabled
+ * is netctl-auto enabled
  */
 typedef struct
 {
     QList<netctlProfileInfo> netctlProfiles;
     QList<netctlProfileInfo> netctlAutoProfiles;
     bool netctlAuto = false;
+    bool netctlAutoEnabled = false;
 } netctlInformation;
 
 /**
@@ -108,15 +111,6 @@ public:
      */
     ~NetctlInterface();
     // control methods
-    /**
-     * @brief method which enables or disables selected profile and returns its status
-     * @remark netctl-auto only
-     * @param profile         profile name
-     * @return InterfaceAnswer::False if profile is disabled
-     * @return InterfaceAnswer::True if profile is enabled
-     * @return InterfaceAnswer::Error if an error occurs
-     */
-    InterfaceAnswer autoEnableProfile(const QString profile);
     /**
      * @brief method which creates and copies profile
      * @remark netctl independ

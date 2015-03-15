@@ -42,7 +42,7 @@ private slots:
     void itemActivated(const QSystemTrayIcon::ActivationReason reason);
     void enableProfileTraySlot();
     void restartProfileTraySlot();
-    void startProfileTraySlot(QAction *action);
+    void startProfileTraySlot(QAction *action = nullptr);
     void stopAllProfilesTraySlot();
     void switchToProfileTraySlot(QAction *action);
 

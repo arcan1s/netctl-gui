@@ -39,7 +39,13 @@ WiFiMenuWidget::WiFiMenuWidget(QWidget *parent, const QMap<QString, QString> set
     mainWindow = dynamic_cast<MainWindow *>(parent);
     useHelper = (configuration[QString("USE_HELPER")] == QString("true"));
 
-    createObjects();
+    // windows
+    ui = new Ui::WiFiMenuWidget;
+    ui->setupUi(this);
+    ui->tableWidget_wifi->setColumnHidden(5, true);
+    ui->tableWidget_wifi->setColumnHidden(6, true);
+    updateToolBarState(static_cast<Qt::ToolBarArea>(configuration[QString("WIFI_TOOLBAR")].toInt()));
+
     createActions();
 }
 
@@ -48,7 +54,7 @@ WiFiMenuWidget::~WiFiMenuWidget()
 {
     if (debug) qDebug() << PDEBUG;
 
-    deleteObjects();
+    if (ui != nullptr) delete ui;
 }
 
 
@@ -175,7 +181,7 @@ void WiFiMenuWidget::updateMenuWifi()
 void WiFiMenuWidget::updateText(const netctlWifiInfo current)
 {
     if (debug) qDebug() << PDEBUG;
-    if (wifiTabSetEnabled(checkExternalApps(QString("wpasup-only"), configuration, debug))) return;
+    if (!wifiTabSetEnabled(checkExternalApps(QString("wpasup-only"), configuration, debug))) return;
     if (!checkExternalApps(QString("wpasup"), configuration, debug)) {
         ErrorWindow::showWindow(1, QString(PDEBUG), debug);
         emit(mainWindow->needToBeConfigured());
@@ -194,7 +200,7 @@ void WiFiMenuWidget::updateText(const netctlWifiInfo current)
 void WiFiMenuWidget::updateWifiTab()
 {
     if (debug) qDebug() << PDEBUG;
-    if (wifiTabSetEnabled(checkExternalApps(QString("wpasup-only"), configuration, debug))) return;
+    if (!wifiTabSetEnabled(checkExternalApps(QString("wpasup-only"), configuration, debug))) return;
     if (!checkExternalApps(QString("wpasup"), configuration, debug)) {
         ErrorWindow::showWindow(1, QString(PDEBUG), debug);
         emit(mainWindow->needToBeConfigured());
@@ -212,7 +218,8 @@ void WiFiMenuWidget::updateWifiTab()
     ui->tableWidget_wifi->selectRow(-1);
     ui->tableWidget_wifi->sortByColumn(3, Qt::AscendingOrder);
     ui->tableWidget_wifi->clear();
-    ui->tableWidget_wifi->setRowCount(scanResults.count());
+    // -1 because the first is always current point
+    ui->tableWidget_wifi->setRowCount(scanResults.count() - 1);
 
     // create header
     QStringList headerList;
@@ -421,25 +428,4 @@ void WiFiMenuWidget::createActions()
     connect(ui->tableWidget_wifi, SIGNAL(currentItemChanged(QTableWidgetItem *, QTableWidgetItem *)),
             this, SLOT(updateMenuWifi()));
     connect(ui->tableWidget_wifi, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(wifiTabContextualMenu(QPoint)));
-}
-
-
-void WiFiMenuWidget::createObjects()
-{
-    if (debug) qDebug() << PDEBUG;
-
-    // windows
-    ui = new Ui::WiFiMenuWidget;
-    ui->setupUi(this);
-    ui->tableWidget_wifi->setColumnHidden(5, true);
-    ui->tableWidget_wifi->setColumnHidden(6, true);
-    updateToolBarState(static_cast<Qt::ToolBarArea>(configuration[QString("WIFI_TOOLBAR")].toInt()));
-}
-
-
-void WiFiMenuWidget::deleteObjects()
-{
-    if (debug) qDebug() << PDEBUG;
-
-    if (ui != nullptr) delete ui;
 }

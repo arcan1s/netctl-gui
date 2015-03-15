@@ -50,7 +50,34 @@ NewProfileWidget::NewProfileWidget(QWidget *parent, const QMap<QString, QString>
     mainWindow = dynamic_cast<MainWindow *>(parent);
     useHelper = (configuration[QString("USE_HELPER")] == QString("true"));
 
-    createObjects();
+    // windows
+    ui = new Ui::NewProfileWidget;
+    ui->setupUi(this);
+    updateToolBarState(static_cast<Qt::ToolBarArea>(configuration[QString("PROFILE_TOOLBAR")].toInt()));
+    // profile widgets
+    generalWid = new GeneralWidget(this, configuration);
+    ui->scrollAreaWidgetContents->layout()->addWidget(generalWid);
+    ipWid = new IpWidget(this);
+    ui->scrollAreaWidgetContents->layout()->addWidget(ipWid);
+    bridgeWid = new BridgeWidget(this);
+    ui->scrollAreaWidgetContents->layout()->addWidget(bridgeWid);
+    ethernetWid = new EthernetWidget(this);
+    ui->scrollAreaWidgetContents->layout()->addWidget(ethernetWid);
+    macvlanWid = new MacvlanWidget(this);
+    ui->scrollAreaWidgetContents->layout()->addWidget(macvlanWid);
+    mobileWid = new MobileWidget(this);
+    ui->scrollAreaWidgetContents->layout()->addWidget(mobileWid);
+    pppoeWid = new PppoeWidget(this);
+    ui->scrollAreaWidgetContents->layout()->addWidget(pppoeWid);
+    tunnelWid = new TunnelWidget(this);
+    ui->scrollAreaWidgetContents->layout()->addWidget(tunnelWid);
+    tuntapWid = new TuntapWidget(this);
+    ui->scrollAreaWidgetContents->layout()->addWidget(tuntapWid);
+    vlanWid = new VlanWidget(this);
+    ui->scrollAreaWidgetContents->layout()->addWidget(vlanWid);
+    wirelessWid = new WirelessWidget(this, configuration);
+    ui->scrollAreaWidgetContents->layout()->addWidget(wirelessWid);
+
     createActions();
 }
 
@@ -59,7 +86,19 @@ NewProfileWidget::~NewProfileWidget()
 {
     if (debug) qDebug() << PDEBUG;
 
-    deleteObjects();
+    if (bridgeWid != nullptr) delete bridgeWid;
+    if (ethernetWid != nullptr) delete ethernetWid;
+    if (generalWid != nullptr) delete generalWid;
+    if (ipWid != nullptr) delete ipWid;
+    if (macvlanWid != nullptr) delete macvlanWid;
+    if (mobileWid != nullptr) delete mobileWid;
+    if (pppoeWid != nullptr) delete pppoeWid;
+    if (tunnelWid != nullptr) delete tunnelWid;
+    if (tuntapWid != nullptr) delete tuntapWid;
+    if (vlanWid != nullptr) delete vlanWid;
+    if (wirelessWid != nullptr) delete wirelessWid;
+
+    if (ui != nullptr) delete ui;
 }
 
 
@@ -118,9 +157,29 @@ void NewProfileWidget::updateProfileTab()
     if (debug) qDebug() << PDEBUG;
 
     mainWindow->setDisabled(true);
-    profileTabClear();
+    ui->comboBox_profile->clear();
+    QList<netctlProfileInfo> profiles = generalInformation(mainWindow->netctlInterface,
+                                                           useHelper, debug).netctlProfiles;
+    for (int i=0; i<profiles.count(); i++)
+        ui->comboBox_profile->addItem(profiles[i].name);
+    ui->comboBox_profile->setCurrentIndex(-1);
+
+    generalWid->clear();
+    ipWid->clear();
+    bridgeWid->clear();
+    ethernetWid->clear();
+    macvlanWid->clear();
+    mobileWid->clear();
+    pppoeWid->clear();
+    tunnelWid->clear();
+    tuntapWid->clear();
+    vlanWid->clear();
+    wirelessWid->clear();
+
+    profileTabChangeState(generalWid->connectionType->currentText());
     mainWindow->setDisabled(false);
     mainWindow->showMessage(true);
+
 }
 
 
@@ -142,33 +201,6 @@ void NewProfileWidget::profileTabChangeState(const QString current)
     tuntapWid->setVisible(current == QString("tuntap"));
     vlanWid->setVisible(current == QString("vlan"));
     wirelessWid->setVisible(current == QString("wireless"));
-}
-
-
-void NewProfileWidget::profileTabClear()
-{
-    if (debug) qDebug() << PDEBUG;
-
-    ui->comboBox_profile->clear();
-    QList<netctlProfileInfo> profiles = generalInformation(mainWindow->netctlInterface,
-                                                           useHelper, debug).netctlProfiles;
-    for (int i=0; i<profiles.count(); i++)
-        ui->comboBox_profile->addItem(profiles[i].name);
-    ui->comboBox_profile->setCurrentIndex(-1);
-
-    generalWid->clear();
-    ipWid->clear();
-    bridgeWid->clear();
-    ethernetWid->clear();
-    macvlanWid->clear();
-    mobileWid->clear();
-    pppoeWid->clear();
-    tunnelWid->clear();
-    tuntapWid->clear();
-    vlanWid->clear();
-    wirelessWid->clear();
-
-    profileTabChangeState(generalWid->connectionType->currentText());
 }
 
 
@@ -398,7 +430,7 @@ void NewProfileWidget::createActions()
     if (debug) qDebug() << PDEBUG;
 
     // menu actions
-    connect(ui->actionClear, SIGNAL(triggered(bool)), this, SLOT(profileTabClear()));
+    connect(ui->actionClear, SIGNAL(triggered(bool)), this, SLOT(updateProfileTab()));
     connect(ui->actionLoad, SIGNAL(triggered(bool)), this, SLOT(profileTabLoadProfile()));
     connect(ui->actionRemove, SIGNAL(triggered(bool)), this, SLOT(profileTabRemoveProfile()));
     connect(ui->actionSave, SIGNAL(triggered(bool)), this, SLOT(profileTabCreateProfile()));
@@ -407,58 +439,4 @@ void NewProfileWidget::createActions()
     connect(ui->comboBox_profile, SIGNAL(editTextChanged(QString)), this, SLOT(updateMenuProfile()));
     connect(ui->comboBox_profile->lineEdit(), SIGNAL(returnPressed()), this, SLOT(profileTabLoadProfile()));
     connect(generalWid->connectionType, SIGNAL(currentIndexChanged(QString)), this, SLOT(profileTabChangeState(QString)));
-}
-
-
-void NewProfileWidget::createObjects()
-{
-    if (debug) qDebug() << PDEBUG;
-
-    // windows
-    ui = new Ui::NewProfileWidget;
-    ui->setupUi(this);
-    updateToolBarState(static_cast<Qt::ToolBarArea>(configuration[QString("PROFILE_TOOLBAR")].toInt()));
-    // profile widgets
-    generalWid = new GeneralWidget(this, configuration);
-    ui->scrollAreaWidgetContents->layout()->addWidget(generalWid);
-    ipWid = new IpWidget(this);
-    ui->scrollAreaWidgetContents->layout()->addWidget(ipWid);
-    bridgeWid = new BridgeWidget(this);
-    ui->scrollAreaWidgetContents->layout()->addWidget(bridgeWid);
-    ethernetWid = new EthernetWidget(this);
-    ui->scrollAreaWidgetContents->layout()->addWidget(ethernetWid);
-    macvlanWid = new MacvlanWidget(this);
-    ui->scrollAreaWidgetContents->layout()->addWidget(macvlanWid);
-    mobileWid = new MobileWidget(this);
-    ui->scrollAreaWidgetContents->layout()->addWidget(mobileWid);
-    pppoeWid = new PppoeWidget(this);
-    ui->scrollAreaWidgetContents->layout()->addWidget(pppoeWid);
-    tunnelWid = new TunnelWidget(this);
-    ui->scrollAreaWidgetContents->layout()->addWidget(tunnelWid);
-    tuntapWid = new TuntapWidget(this);
-    ui->scrollAreaWidgetContents->layout()->addWidget(tuntapWid);
-    vlanWid = new VlanWidget(this);
-    ui->scrollAreaWidgetContents->layout()->addWidget(vlanWid);
-    wirelessWid = new WirelessWidget(this, configuration);
-    ui->scrollAreaWidgetContents->layout()->addWidget(wirelessWid);
-}
-
-
-void NewProfileWidget::deleteObjects()
-{
-    if (debug) qDebug() << PDEBUG;
-
-    if (bridgeWid != nullptr) delete bridgeWid;
-    if (ethernetWid != nullptr) delete ethernetWid;
-    if (generalWid != nullptr) delete generalWid;
-    if (ipWid != nullptr) delete ipWid;
-    if (macvlanWid != nullptr) delete macvlanWid;
-    if (mobileWid != nullptr) delete mobileWid;
-    if (pppoeWid != nullptr) delete pppoeWid;
-    if (tunnelWid != nullptr) delete tunnelWid;
-    if (tuntapWid != nullptr) delete tuntapWid;
-    if (vlanWid != nullptr) delete vlanWid;
-    if (wirelessWid != nullptr) delete wirelessWid;
-
-    if (ui != nullptr) delete ui;
 }

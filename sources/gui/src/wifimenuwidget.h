@@ -67,8 +67,6 @@ private:
     PasswdWidget *passwdWid = nullptr;
     // backend
     void createActions();
-    void createObjects();
-    void deleteObjects();
     bool debug = false;
     bool hiddenNetwork = false;
     bool useHelper = true;

@@ -76,17 +76,17 @@ void TrayIcon::updateMenu()
         contextMenu[QString("title")]->setText(profiles.join(QString(" | ")));
     }
 
-    startProfileMenu->setVisible(!info.netctlAuto);
+    startProfileMenu->menuAction()->setVisible(!info.netctlAuto);
     contextMenu[QString("stop")]->setVisible(!info.netctlAuto && (info.current.count() == 1));
     contextMenu[QString("stopall")]->setVisible(!info.netctlAuto && (info.current.count() > 1));
-    switchToProfileMenu->setVisible(info.netctlAuto);
+    switchToProfileMenu->menuAction()->setVisible(info.netctlAuto);
     contextMenu[QString("restart")]->setVisible(!info.netctlAuto && (info.current.count() == 1));
     contextMenu[QString("enable")]->setVisible(!info.netctlAuto && (info.current.count() == 1));
 
     if (info.netctlAuto) {
         switchToProfileMenu->clear();
-        for (int i=0; i<info.current.count(); i++)
-            switchToProfileMenu->addAction(info.current[i]);
+        for (int i=0; i<info.profiles.count(); i++)
+            switchToProfileMenu->addAction(info.profiles[i]);
     } else {
         if (info.current.count() == 1) {
             contextMenu[QString("stop")]->setText(QApplication::translate("TrayIcon", "Stop %1").arg(info.current[0]));
@@ -97,16 +97,11 @@ void TrayIcon::updateMenu()
                 contextMenu[QString("enable")]->setText(QApplication::translate("TrayIcon", "Enable %1").arg(info.current[0]));
         }
         startProfileMenu->clear();
-        for (int i=0; i<info.current.count(); i++)
-            startProfileMenu->addAction(info.current[i]);
+        for (int i=0; i<info.profiles.count(); i++)
+            startProfileMenu->addAction(info.profiles[i]);
     }
 
-    if (mainWindow->isHidden())
-        contextMenu[QString("gui")]->setText(QApplication::translate("TrayIcon", "Show"));
-    else
-        contextMenu[QString("gui")]->setText(QApplication::translate("TrayIcon", "Hide"));
-
-    setContextMenu(menuActions);
+//     setContextMenu(menuActions);
 }
 
 
@@ -164,6 +159,7 @@ void TrayIcon::init()
     setToolTip(QString("netctl-gui"));
 
     createActions();
+    setContextMenu(menuActions);
 
     connect(this, SIGNAL(activated(QSystemTrayIcon::ActivationReason)),
             this, SLOT(itemActivated(QSystemTrayIcon::ActivationReason)));
@@ -180,8 +176,6 @@ void TrayIcon::itemActivated(const QSystemTrayIcon::ActivationReason reason)
         mainWindow->showMainWindow();
         break;
     case QSystemTrayIcon::Context:
-        // clear menu before update
-        setContextMenu(0);
         updateMenu();
         break;
     default:
@@ -214,7 +208,7 @@ void TrayIcon::startProfileTraySlot(QAction *action)
 {
     if (debug) qDebug() << PDEBUG;
 
-    QString profile = action->text().remove(QChar('&'));
+    QString profile = action == nullptr ? mainWindow->printInformation()[0] : action->text().remove(QChar('&'));
 
     startProfileSlot(profile, mainWindow->netctlInterface, useHelper, debug);
 }
@@ -231,6 +225,7 @@ void TrayIcon::stopAllProfilesTraySlot()
 void TrayIcon::switchToProfileTraySlot(QAction *action)
 {
     if (debug) qDebug() << PDEBUG;
+    if (action == nullptr) return;
 
     QString profile = action->text().remove(QChar('&'));
 

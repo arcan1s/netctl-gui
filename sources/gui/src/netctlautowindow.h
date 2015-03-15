@@ -40,6 +40,7 @@ public:
     Qt::ToolBarArea getToolBarArea();
 
 public slots:
+    void showMessage(const bool status);
     void showWindow();
     void updateToolBarState(const Qt::ToolBarArea area = Qt::TopToolBarArea);
 
@@ -63,7 +64,6 @@ private:
     Ui::NetctlAutoWindow *ui = nullptr;
     MainWindow *mainWindow = nullptr;
     // backend
-    QString checkStatus(const bool statusBool, const bool nullFalse = false);
     void createActions();
     bool debug = false;
     bool useHelper = true;

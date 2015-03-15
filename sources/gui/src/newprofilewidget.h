@@ -62,7 +62,6 @@ private slots:
     void updateProfileTab();
     // profile tab slots
     void profileTabChangeState(const QString current);
-    void profileTabClear();
     void profileTabCreateProfile();
     void profileTabLoadProfile();
     void profileTabRemoveProfile();
@@ -84,8 +83,6 @@ private:
     WirelessWidget *wirelessWid = nullptr;
     // backend
     void createActions();
-    void createObjects();
-    void deleteObjects();
     bool debug = false;
     bool useHelper = true;
     // configuration

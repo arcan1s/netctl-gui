@@ -41,12 +41,6 @@ InterfaceAdaptor::~InterfaceAdaptor()
 
 
 // control slots
-int InterfaceAdaptor::autoEnable(const QString profile)
-{
-    return netctlInterface->autoEnableProfile(profile);
-}
-
-
 int InterfaceAdaptor::Create(const QString profile, const QStringList settingsList)
 {
     return netctlInterface->createProfile(profile, listToMap(settingsList));
@@ -113,6 +107,7 @@ QStringList InterfaceAdaptor::Information()
     netctlInformation information = netctlInterface->information();
     QStringList info;
     info.append(QString::number(information.netctlAuto));
+    info.append(QString::number(information.netctlAutoEnabled));
 
     QList<netctlProfileInfo> profiles = information.netctlProfiles;
     profiles.append(information.netctlAutoProfiles);

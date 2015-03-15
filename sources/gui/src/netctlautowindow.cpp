@@ -22,6 +22,8 @@
 
 #include <pdebug/pdebug.h>
 
+#include "calls.h"
+#include "commonfunctions.h"
 #include "dbusoperation.h"
 #include "mainwindow.h"
 
@@ -59,19 +61,6 @@ Qt::ToolBarArea NetctlAutoWindow::getToolBarArea()
 }
 
 
-QString NetctlAutoWindow::checkStatus(const bool statusBool, const bool nullFalse)
-{
-    if (debug) qDebug() << PDEBUG;
-    if (debug) qDebug() << PDEBUG << ":" << "Status" << statusBool;
-    if (debug) qDebug() << PDEBUG << ":" << "Return null false" << nullFalse;
-
-    if (statusBool) return QApplication::translate("NetctlAutoWindow", "yes");
-    if (!nullFalse) return QApplication::translate("NetctlAutoWindow", "no");
-
-    return QString("");
-}
-
-
 void NetctlAutoWindow::createActions()
 {
     if (debug) qDebug() << PDEBUG;
@@ -92,6 +81,17 @@ void NetctlAutoWindow::createActions()
     connect(ui->tableWidget, SIGNAL(itemActivated(QTableWidgetItem *)), this, SLOT(netctlAutoStartProfile()));
     connect(ui->tableWidget, SIGNAL(currentItemChanged(QTableWidgetItem *, QTableWidgetItem *)), this, SLOT(netctlAutoRefreshButtons(QTableWidgetItem *, QTableWidgetItem *)));
     connect(ui->tableWidget, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(netctlAutoContextualMenu(QPoint)));
+}
+
+
+void NetctlAutoWindow::showMessage(const bool status)
+{
+    if (debug) qDebug() << PDEBUG;
+
+    if (status)
+        ui->statusBar->showMessage(QApplication::translate("NetctlAutoWindow", "Done"));
+    else
+        ui->statusBar->showMessage(QApplication::translate("NetctlAutoWindow", "Error"));
 }
 
 
@@ -137,10 +137,10 @@ void NetctlAutoWindow::netctlAutoContextualMenu(const QPoint &pos)
     // set text
     startProfile->setVisible(ui->tableWidget->item(ui->tableWidget->currentItem()->row(), 2)->text().isEmpty());
     if (!ui->tableWidget->item(ui->tableWidget->currentItem()->row(), 3)->text().isEmpty()) {
-        enableProfile->setText(QApplication::translate("NetctlAutoWindow", "Enable"));
+        enableProfile->setText(QApplication::translate("NetctlAutoWindow", "Disable"));
         enableProfile->setIcon(QIcon::fromTheme("list-add"));
     } else {
-        enableProfile->setText(QApplication::translate("NetctlAutoWindow", "Disable"));
+        enableProfile->setText(QApplication::translate("NetctlAutoWindow", "Enable"));
         enableProfile->setIcon(QIcon::fromTheme("edit-delete"));
     }
 
@@ -167,36 +167,18 @@ void NetctlAutoWindow::netctlAutoUpdateTable()
     if (debug) qDebug() << PDEBUG;
 
     ui->tableWidget->setDisabled(true);
+    netctlInformation info = generalInformation(mainWindow->netctlInterface,
+                                                useHelper, debug);
+
     // actions
-    bool enabled = false;
-    bool running = false;
-    if (useHelper) {
-        QList<QVariant> responce = sendRequestToLib(QString("isNetctlAutoActive"), debug);
-        if (responce.isEmpty()) {
-            if (debug) qDebug() << PDEBUG << ":" << "Could not interact with helper, disable it";
-            useHelper = false;
-            return netctlAutoUpdateTable();
-        }
-        enabled = responce[0].toBool();
-        responce = sendRequestToLib(QString("isNetctlAutoActive"), debug);
-        if (responce.isEmpty()) {
-            if (debug) qDebug() << PDEBUG << ":" << "Could not interact with helper, disable it";
-            useHelper = false;
-            return netctlAutoUpdateTable();
-        }
-        running = responce[0].toBool();
-    } else {
-        enabled = mainWindow->netctlCommand->isNetctlAutoEnabled();
-        running = mainWindow->netctlCommand->isNetctlAutoRunning();
-    }
-    ui->actionDisableAll->setEnabled(running);
-    ui->actionEnableAll->setEnabled(running);
-    ui->actionRestartService->setEnabled(running);
-    if (enabled)
+    ui->actionDisableAll->setEnabled(info.netctlAuto);
+    ui->actionEnableAll->setEnabled(info.netctlAuto);
+    ui->actionRestartService->setEnabled(info.netctlAuto);
+    if (info.netctlAutoEnabled)
         ui->actionEnableService->setText(QApplication::translate("NetctlAutoWindow", "Disable service"));
     else
         ui->actionEnableService->setText(QApplication::translate("NetctlAutoWindow", "Enable service"));
-    if (running) {
+    if (info.netctlAuto) {
         ui->label_info->setText(QApplication::translate("NetctlAutoWindow", "netctl-auto is running"));
         ui->actionStartService->setText(QApplication::translate("NetctlAutoWindow", "Stop service"));
     } else {
@@ -205,50 +187,48 @@ void NetctlAutoWindow::netctlAutoUpdateTable()
         netctlAutoRefreshButtons(nullptr, nullptr);
         return;
     }
-    QList<netctlProfileInfo> profiles;
-    if (useHelper)
-        profiles = parseOutputNetctl(sendRequestToLib(QString("VerboseProfileList"), debug));
-    else
-        profiles = mainWindow->netctlCommand->getProfileListFromNetctlAuto();
 
     ui->tableWidget->setSortingEnabled(false);
     ui->tableWidget->selectRow(-1);
     ui->tableWidget->sortByColumn(0, Qt::AscendingOrder);
     ui->tableWidget->clear();
-    ui->tableWidget->setRowCount(profiles.count());
+    ui->tableWidget->setRowCount(info.netctlAutoProfiles.count());
 
     // create header
     QStringList headerList;
     headerList.append(QApplication::translate("NetctlAutoWindow", "Name"));
     headerList.append(QApplication::translate("NetctlAutoWindow", "Description"));
     headerList.append(QApplication::translate("NetctlAutoWindow", "Active"));
-    headerList.append(QApplication::translate("NetctlAutoWindow", "Disabled"));
+    headerList.append(QApplication::translate("NetctlAutoWindow", "Enabled"));
     ui->tableWidget->setHorizontalHeaderLabels(headerList);
     // create items
-    for (int i=0; i<profiles.count(); i++) {
+    for (int i=0; i<info.netctlAutoProfiles.count(); i++) {
         // font
         QFont font;
-        font.setBold(profiles[i].active);
-        font.setItalic(profiles[i].enabled);
+        font.setBold(info.netctlAutoProfiles[i].active);
+        font.setItalic(info.netctlAutoProfiles[i].enabled);
         // tooltip
         QString toolTip = QString("");
-        toolTip += QString("%1: %2\n").arg(QApplication::translate("NetctlAutoWindow", "Profile")).arg(profiles[i].name);
-        toolTip += QString("%1: %2\n").arg(QApplication::translate("NetctlAutoWindow", "Active")).arg(checkStatus(profiles[i].active));
-        toolTip += QString("%1: %2").arg(QApplication::translate("NetctlAutoWindow", "Disabled")).arg(checkStatus(!profiles[i].enabled));
+        toolTip += QString("%1: %2\n").arg(QApplication::translate("NetctlAutoWindow", "Profile"))
+                                      .arg(info.netctlAutoProfiles[i].name);
+        toolTip += QString("%1: %2\n").arg(QApplication::translate("NetctlAutoWindow", "Active"))
+                                      .arg(checkStatus(info.netctlAutoProfiles[i].active));
+        toolTip += QString("%1: %2").arg(QApplication::translate("NetctlAutoWindow", "Disabled"))
+                                     .arg(checkStatus(!info.netctlAutoProfiles[i].enabled));
         // name
-        ui->tableWidget->setItem(i, 0, new QTableWidgetItem(profiles[i].name));
+        ui->tableWidget->setItem(i, 0, new QTableWidgetItem(info.netctlAutoProfiles[i].name));
         ui->tableWidget->item(i, 0)->setTextAlignment(Qt::AlignLeft | Qt::AlignVCenter);
         ui->tableWidget->item(i, 0)->setToolTip(toolTip);
         ui->tableWidget->item(i, 0)->setFont(font);
         // description
-        ui->tableWidget->setItem(i, 1, new QTableWidgetItem(profiles[i].description));
+        ui->tableWidget->setItem(i, 1, new QTableWidgetItem(info.netctlAutoProfiles[i].description));
         ui->tableWidget->item(i, 1)->setTextAlignment(Qt::AlignJustify | Qt::AlignVCenter);
         ui->tableWidget->item(i, 1)->setToolTip(toolTip);
         // active
-        ui->tableWidget->setItem(i, 2, new QTableWidgetItem(checkStatus(profiles[i].active, true)));
+        ui->tableWidget->setItem(i, 2, new QTableWidgetItem(checkStatus(info.netctlAutoProfiles[i].active, true)));
         ui->tableWidget->item(i, 2)->setTextAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
         // enabled
-        ui->tableWidget->setItem(i, 3, new QTableWidgetItem(checkStatus(!profiles[i].enabled, true)));
+        ui->tableWidget->setItem(i, 3, new QTableWidgetItem(checkStatus(info.netctlAutoProfiles[i].enabled, true)));
         ui->tableWidget->item(i, 3)->setTextAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
     }
 
@@ -264,8 +244,8 @@ void NetctlAutoWindow::netctlAutoUpdateTable()
 #endif
 
     ui->tableWidget->setCurrentCell(-1, -1);
-    ui->tableWidget->setEnabled(true);
-    ui->statusBar->showMessage(QApplication::translate("NetctlAutoWindow", "Updated"));
+    ui->tableWidget->setDisabled(false);
+    showMessage(true);
 
     netctlAutoRefreshButtons(nullptr, nullptr);
     update();
@@ -277,21 +257,15 @@ void NetctlAutoWindow::netctlAutoDisableAllProfiles()
     if (debug) qDebug() << PDEBUG;
 
     ui->tableWidget->setDisabled(true);
-    bool status = false;
-    if (useHelper) {
-        QList<QVariant> responce = sendRequestToCtrl(QString("autoDisableAll"), debug);
-        if (responce.isEmpty()) {
-            if (debug) qDebug() << PDEBUG << ":" << "Could not interact with helper, disable it";
-            useHelper = false;
-            return netctlAutoDisableAllProfiles();
-        }
-        status = responce[0].toBool();
-    } else
-        status = mainWindow->netctlCommand->autoDisableAllProfiles();
-    if (status)
-        ui->statusBar->showMessage(QApplication::translate("NetctlAutoWindow", "Done"));
-    else
-        ui->statusBar->showMessage(QApplication::translate("NetctlAutoWindow", "Error"));
+    bool responce = false;
+    if (!useHelper)
+        responce = mainWindow->netctlCommand->autoDisableAllProfiles();
+    else try {
+        responce = sendRequestToCtrl(QString("autoDisableAll"), debug)[0].toBool();
+    } catch (...) {
+        if (debug) qDebug() << PDEBUG << ":" << "An exception recevied";
+    }
+    showMessage(responce);
 
     netctlAutoUpdateTable();
 }
@@ -300,27 +274,21 @@ void NetctlAutoWindow::netctlAutoDisableAllProfiles()
 void NetctlAutoWindow::netctlAutoEnableProfile()
 {
     if (debug) qDebug() << PDEBUG;
-
     if (ui->tableWidget->currentItem() == nullptr) return;
+
     ui->tableWidget->setDisabled(true);
     QString profile = ui->tableWidget->item(ui->tableWidget->currentItem()->row(), 0)->text();
-    bool status = false;
-    if (useHelper) {
+    bool responce = false;
+    if (!useHelper)
+        responce = mainWindow->netctlCommand->autoEnableProfile(profile);
+    else try {
         QList<QVariant> args;
         args.append(profile);
-        QList<QVariant> responce = sendRequestToCtrlWithArgs(QString("autoEnable"), args, debug);
-        if (responce.isEmpty()) {
-            if (debug) qDebug() << PDEBUG << ":" << "Could not interact with helper, disable it";
-            useHelper = false;
-            return netctlAutoEnableProfile();
-        }
-        status = responce[0].toBool();
-    } else
-        status = mainWindow->netctlCommand->autoEnableProfile(profile);
-    if (status)
-        ui->statusBar->showMessage(QApplication::translate("NetctlAutoWindow", "Done"));
-    else
-        ui->statusBar->showMessage(QApplication::translate("NetctlAutoWindow", "Error"));
+        responce = sendRequestToCtrlWithArgs(QString("autoEnable"), args, debug)[0].toBool();
+    } catch (...) {
+        if (debug) qDebug() << PDEBUG << ":" << "An exception recevied";
+    }
+    showMessage(responce);
 
     netctlAutoUpdateTable();
 }
@@ -331,21 +299,15 @@ void NetctlAutoWindow::netctlAutoEnableAllProfiles()
     if (debug) qDebug() << PDEBUG;
 
     ui->tableWidget->setDisabled(true);
-    bool status = false;
-    if (useHelper) {
-        QList<QVariant> responce = sendRequestToCtrl(QString("autoEnableAll"), debug);
-        if (responce.isEmpty()) {
-            if (debug) qDebug() << PDEBUG << ":" << "Could not interact with helper, disable it";
-            useHelper = false;
-            return netctlAutoEnableAllProfiles();
-        }
-        status = responce[0].toBool();
-    } else
-        status = mainWindow->netctlCommand->autoEnableAllProfiles();
-    if (status)
-        ui->statusBar->showMessage(QApplication::translate("NetctlAutoWindow", "Done"));
-    else
-        ui->statusBar->showMessage(QApplication::translate("NetctlAutoWindow", "Error"));
+    bool responce = false;
+    if (!useHelper)
+        responce = mainWindow->netctlCommand->autoEnableAllProfiles();
+    else try {
+        responce = sendRequestToCtrl(QString("autoEnableAll"), debug)[0].toBool();
+    } catch (...) {
+        if (debug) qDebug() << PDEBUG << ":" << "An exception recevied";
+    }
+    showMessage(responce);
 
     netctlAutoUpdateTable();
 }
@@ -354,27 +316,21 @@ void NetctlAutoWindow::netctlAutoEnableAllProfiles()
 void NetctlAutoWindow::netctlAutoStartProfile()
 {
     if (debug) qDebug() << PDEBUG;
-
     if (ui->tableWidget->currentItem() == nullptr) return;
+
     ui->tableWidget->setDisabled(true);
     QString profile = ui->tableWidget->item(ui->tableWidget->currentItem()->row(), 0)->text();
-    bool status = false;
-    if (useHelper) {
+    bool responce = false;
+    if (!useHelper)
+        responce = mainWindow->netctlCommand->autoStartProfile(profile);
+    else try {
         QList<QVariant> args;
         args.append(profile);
-        QList<QVariant> responce = sendRequestToCtrlWithArgs(QString("autoStart"), args, debug);
-        if (responce.isEmpty()) {
-            if (debug) qDebug() << PDEBUG << ":" << "Could not interact with helper, disable it";
-            useHelper = false;
-            return netctlAutoStartProfile();
-        }
-        status = responce[0].toBool();
-    } else
-        status = mainWindow->netctlCommand->autoStartProfile(profile);
-    if (status)
-        ui->statusBar->showMessage(QApplication::translate("NetctlAutoWindow", "Done"));
-    else
-        ui->statusBar->showMessage(QApplication::translate("NetctlAutoWindow", "Error"));
+        responce = sendRequestToCtrlWithArgs(QString("autoStart"), args, debug)[0].toBool();
+    } catch (...) {
+        if (debug) qDebug() << PDEBUG << ":" << "An exception recevied";
+    }
+    showMessage(responce);
 
     netctlAutoUpdateTable();
 }
@@ -384,21 +340,15 @@ void NetctlAutoWindow::netctlAutoEnableService()
 {
     if (debug) qDebug() << PDEBUG;
 
-    bool status = false;
-    if (useHelper) {
-        QList<QVariant> responce = sendRequestToCtrl(QString("autoServiceEnable"), debug);
-        if (responce.isEmpty()) {
-            if (debug) qDebug() << PDEBUG << ":" << "Could not interact with helper, disable it";
-            useHelper = false;
-            return netctlAutoEnableService();
-        }
-        status = responce[0].toBool();
-    } else
-        status = mainWindow->netctlCommand->autoEnableService();
-    if (status)
-        ui->statusBar->showMessage(QApplication::translate("NetctlAutoWindow", "Done"));
-    else
-        ui->statusBar->showMessage(QApplication::translate("NetctlAutoWindow", "Error"));
+    bool responce = false;
+    if (!useHelper)
+        responce = mainWindow->netctlCommand->autoEnableService();
+    else try {
+        responce = sendRequestToCtrl(QString("autoServiceEnable"), debug)[0].toBool();
+    } catch (...) {
+        if (debug) qDebug() << PDEBUG << ":" << "An exception recevied";
+    }
+    showMessage(responce);
 
     netctlAutoUpdateTable();
 }
@@ -408,21 +358,15 @@ void NetctlAutoWindow::netctlAutoRestartService()
 {
     if (debug) qDebug() << PDEBUG;
 
-    bool status = false;
-    if (useHelper) {
-        QList<QVariant> responce = sendRequestToCtrl(QString("autoServiceRestart"), debug);
-        if (responce.isEmpty()) {
-            if (debug) qDebug() << PDEBUG << ":" << "Could not interact with helper, disable it";
-            useHelper = false;
-            return netctlAutoRestartService();
-        }
-        status = responce[0].toBool();
-    } else
-        status = mainWindow->netctlCommand->autoRestartService();
-    if (status)
-        ui->statusBar->showMessage(QApplication::translate("NetctlAutoWindow", "Done"));
-    else
-        ui->statusBar->showMessage(QApplication::translate("NetctlAutoWindow", "Error"));
+    bool responce = false;
+    if (!useHelper)
+        responce = mainWindow->netctlCommand->autoRestartService();
+    else try {
+        responce = sendRequestToCtrl(QString("autoServiceRestart"), debug)[0].toBool();
+    } catch (...) {
+        if (debug) qDebug() << PDEBUG << ":" << "An exception recevied";
+    }
+    showMessage(responce);
 
     netctlAutoUpdateTable();
 }
@@ -432,21 +376,15 @@ void NetctlAutoWindow::netctlAutoStartService()
 {
     if (debug) qDebug() << PDEBUG;
 
-    bool status = false;
-    if (useHelper) {
-        QList<QVariant> responce = sendRequestToCtrl(QString("autoServiceStart"), debug);
-        if (responce.isEmpty()) {
-            if (debug) qDebug() << PDEBUG << ":" << "Could not interact with helper, disable it";
-            useHelper = false;
-            return netctlAutoStartService();
-        }
-        status = responce[0].toBool();
-    } else
-        status = mainWindow->netctlCommand->autoStartService();
-    if (status)
-        ui->statusBar->showMessage(QApplication::translate("NetctlAutoWindow", "Done"));
-    else
-        ui->statusBar->showMessage(QApplication::translate("NetctlAutoWindow", "Error"));
+    bool responce = false;
+    if (!useHelper)
+        responce = mainWindow->netctlCommand->autoStartService();
+    else try {
+        responce = sendRequestToCtrl(QString("autoServiceStart"), debug)[0].toBool();
+    } catch (...) {
+        if (debug) qDebug() << PDEBUG << ":" << "An exception recevied";
+    }
+    showMessage(responce);
 
     netctlAutoUpdateTable();
 }
@@ -461,10 +399,10 @@ void NetctlAutoWindow::netctlAutoRefreshButtons(QTableWidgetItem *current, QTabl
     ui->actionEnable->setEnabled(selected);
     ui->actionSwitch->setEnabled(selected && ui->tableWidget->item(current->row(), 2)->text().isEmpty());
     if (selected && !ui->tableWidget->item(current->row(), 3)->text().isEmpty()) {
-        ui->actionEnable->setText(QApplication::translate("NetctlAutoWindow", "Enable"));
+        ui->actionEnable->setText(QApplication::translate("NetctlAutoWindow", "Disable"));
         ui->actionEnable->setIcon(QIcon::fromTheme("list-add"));
     } else {
-        ui->actionEnable->setText(QApplication::translate("NetctlAutoWindow", "Disable"));
+        ui->actionEnable->setText(QApplication::translate("NetctlAutoWindow", "Enable"));
         ui->actionEnable->setIcon(QIcon::fromTheme("edit-delete"));
     }
 }

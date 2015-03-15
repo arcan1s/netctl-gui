@@ -58,23 +58,6 @@ NetctlInterface::~NetctlInterface()
 
 
 /**
- * @fn autoEnableProfile
- */
-InterfaceAnswer NetctlInterface::autoEnableProfile(const QString profile)
-{
-    if (debug) qDebug() << PDEBUG;
-    if (netctlCommand == nullptr) {
-        if (debug) qDebug() << PDEBUG << ":" << "Could not find library";
-        return InterfaceAnswer::Error;
-    }
-
-    netctlCommand->autoEnableProfile(profile);
-
-    return static_cast<InterfaceAnswer>(netctlCommand->autoIsProfileEnabled(profile));
-}
-
-
-/**
  * @fn connectToEssid
  */
 InterfaceAnswer NetctlInterface::connectToEssid(const QString essid, QMap<QString, QString> settings)
@@ -300,6 +283,7 @@ netctlInformation NetctlInterface::information()
 
     netctlInformation info;
     info.netctlAuto = netctlCommand->isNetctlAutoRunning();
+    info.netctlAutoEnabled = netctlCommand->isNetctlAutoEnabled();
     info.netctlProfiles = netctlCommand->getProfileList();
     if (info.netctlAuto) info.netctlAutoProfiles = netctlCommand->getProfileListFromNetctlAuto();
 
