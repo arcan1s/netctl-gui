@@ -48,6 +48,7 @@ public:
                         QTranslator *appTranslator = 0);
     ~MainWindow();
     Qt::ToolBarArea getToolBarArea();
+    void emitNeedToBeConfigured();
     QStringList printSettings();
     netctlCurrent printTrayInformation();
     bool isHelperActive();
@@ -86,9 +87,6 @@ public slots:
 
 signals:
     void needToBeConfigured();
-    void needShowAboutWindow();
-    void needShowNetctlAutoWindow();
-    void needShowSettingsWindow();
 
 private slots:
     void setTabByAction(QAction *action);

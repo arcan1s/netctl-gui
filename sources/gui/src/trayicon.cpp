@@ -41,11 +41,10 @@ TrayIcon::~TrayIcon()
 {
     if (debug) qDebug() << PDEBUG;
 
-    setContextMenu(0);
+    setContextMenu(nullptr);
     startProfileMenu->clear();
     switchToProfileMenu->clear();
     menuActions->clear();
-    delete menuActions;
 }
 
 
@@ -100,8 +99,6 @@ void TrayIcon::updateMenu()
         for (int i=0; i<info.profiles.count(); i++)
             startProfileMenu->addAction(info.profiles[i]);
     }
-
-//     setContextMenu(menuActions);
 }
 
 

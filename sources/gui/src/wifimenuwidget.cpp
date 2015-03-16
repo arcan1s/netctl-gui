@@ -184,8 +184,7 @@ void WiFiMenuWidget::updateText(const netctlWifiInfo current)
     if (!wifiTabSetEnabled(checkExternalApps(QString("wpasup-only"), configuration, debug))) return;
     if (!checkExternalApps(QString("wpasup"), configuration, debug)) {
         ErrorWindow::showWindow(1, QString(PDEBUG), debug);
-        emit(mainWindow->needToBeConfigured());
-        return;
+        return mainWindow->emitNeedToBeConfigured();
     }
     ui->label_wifi->setText(QApplication::translate("WiFiMenuWidget", "Processing..."));
 
@@ -203,8 +202,7 @@ void WiFiMenuWidget::updateWifiTab()
     if (!wifiTabSetEnabled(checkExternalApps(QString("wpasup-only"), configuration, debug))) return;
     if (!checkExternalApps(QString("wpasup"), configuration, debug)) {
         ErrorWindow::showWindow(1, QString(PDEBUG), debug);
-        emit(mainWindow->needToBeConfigured());
-        return;
+        return mainWindow->emitNeedToBeConfigured();
     }
 
     mainWindow->setDisabled(true);
@@ -366,8 +364,7 @@ void WiFiMenuWidget::wifiTabStart()
     if (debug) qDebug() << PDEBUG;
     if (!checkExternalApps(QString("wpasup"), configuration, debug)) {
         ErrorWindow::showWindow(1, QString(PDEBUG), debug);
-        emit(mainWindow->needToBeConfigured());
-        return;
+        return mainWindow->emitNeedToBeConfigured();
     }
     if (ui->tableWidget_wifi->currentItem() == nullptr) return;
 

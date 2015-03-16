@@ -121,6 +121,14 @@ Qt::ToolBarArea MainWindow::getToolBarArea()
 }
 
 
+void MainWindow::emitNeedToBeConfigured()
+{
+    if (debug) qDebug() << PDEBUG;
+
+    emit(needToBeConfigured());
+}
+
+
 QStringList MainWindow::printSettings()
 {
     if (debug) qDebug() << PDEBUG;
