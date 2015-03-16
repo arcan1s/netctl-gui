@@ -119,7 +119,7 @@ public:
      * @param profile        profile name
      * @return profile description or ""
      */
-    QString getProfileDescription(const QString profile);
+    Q_DECL_DEPRECATED QString getProfileDescription(const QString profile);
     /**
      * @brief method which gets profile status
      * @param profile        profile name

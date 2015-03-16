@@ -188,9 +188,10 @@ void TrayIcon::enableProfileTraySlot()
 {
     if (debug) qDebug() << PDEBUG;
 
-    QString profile = mainWindow->printInformation()[0];
+    QStringList profiles = mainWindow->printTrayInformation().current;
+    if (profiles.isEmpty()) return;
 
-    enableProfileSlot(profile, mainWindow->netctlInterface, useHelper, debug);
+    enableProfileSlot(profiles[0], mainWindow->netctlInterface, useHelper, debug);
 }
 
 
@@ -198,9 +199,10 @@ void TrayIcon::restartProfileTraySlot()
 {
     if (debug) qDebug() << PDEBUG;
 
-    QString profile = mainWindow->printInformation()[0];
+    QStringList profiles = mainWindow->printTrayInformation().current;
+    if (profiles.isEmpty()) return;
 
-    restartProfileSlot(profile, mainWindow->netctlInterface, useHelper, debug);
+    restartProfileSlot(profiles[0], mainWindow->netctlInterface, useHelper, debug);
 }
 
 
@@ -208,7 +210,13 @@ void TrayIcon::startProfileTraySlot(QAction *action)
 {
     if (debug) qDebug() << PDEBUG;
 
-    QString profile = action == nullptr ? mainWindow->printInformation()[0] : action->text().remove(QChar('&'));
+    QString profile;
+    if (action == nullptr) {
+        QStringList profiles = mainWindow->printTrayInformation().current;
+        if (profiles.isEmpty()) return;
+        profile = profiles[0];
+    } else
+        profile = action->text().remove(QChar('&'));
 
     startProfileSlot(profile, mainWindow->netctlInterface, useHelper, debug);
 }
@@ -227,7 +235,8 @@ void TrayIcon::switchToProfileTraySlot(QAction *action)
     if (debug) qDebug() << PDEBUG;
     if (action == nullptr) return;
 
-    QString profile = action->text().remove(QChar('&'));
+    QStringList profiles = mainWindow->printTrayInformation().current;
+    if (profiles.isEmpty()) return;
 
-    switchToProfileSlot(profile, mainWindow->netctlInterface, useHelper, debug);
+    switchToProfileSlot(profiles[0], mainWindow->netctlInterface, useHelper, debug);
 }

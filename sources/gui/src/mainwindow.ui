@@ -23,27 +23,6 @@
         <verstretch>0</verstretch>
        </sizepolicy>
       </property>
-      <widget class="QWidget" name="page_main">
-       <layout class="QVBoxLayout" name="layout_main">
-        <property name="margin">
-         <number>0</number>
-        </property>
-       </layout>
-      </widget>
-      <widget class="QWidget" name="page_new">
-       <layout class="QVBoxLayout" name="layout_new">
-        <property name="margin">
-         <number>0</number>
-        </property>
-       </layout>
-      </widget>
-      <widget class="QWidget" name="page_wifi">
-       <layout class="QVBoxLayout" name="layout_wifi">
-        <property name="margin">
-         <number>0</number>
-        </property>
-       </layout>
-      </widget>
      </widget>
     </item>
    </layout>

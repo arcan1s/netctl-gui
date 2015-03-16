@@ -48,7 +48,6 @@ public:
                         QTranslator *appTranslator = 0);
     ~MainWindow();
     Qt::ToolBarArea getToolBarArea();
-    QStringList printInformation();
     QStringList printSettings();
     netctlCurrent printTrayInformation();
     bool isHelperActive();
@@ -83,16 +82,16 @@ public slots:
     void showMessage(const bool status);
     void storeToolBars();
     void updateConfiguration(const QMap<QString, QVariant> args = QMap<QString, QVariant>());
-    void updateTabs(const int tab);
     void updateToolBarState(const Qt::ToolBarArea area = Qt::TopToolBarArea);
 
 signals:
     void needToBeConfigured();
+    void needShowAboutWindow();
+    void needShowNetctlAutoWindow();
+    void needShowSettingsWindow();
 
 private slots:
-    void setMainTab();
-    void setProfileTab();
-    void setWifiTab();
+    void setTabByAction(QAction *action);
     void reportABug();
 
 private:

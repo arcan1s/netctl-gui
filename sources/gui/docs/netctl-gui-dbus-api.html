@@ -35,6 +35,7 @@ small {
   <li><a href="#api">DBus API</a></li>
   <li><a href="#helper">Helper API</a></li>
   <li><a href="#ctrl">Helper ctrl API</a></li>
+  <li><a href="#interface">Helper interface API</a></li>
   <li><a href="#netctl">Helper netctl API</a></li>
   <li><a href="#gui">GUI API</a></li>
   <li><a href="#netctlgui">GUI netctlgui API</a></li>
@@ -74,7 +75,7 @@ small {
   </tr>
   <tr>
     <td>QStringList FindSettings()</td>
-    <td>scans system and suggests the recommended configuration which will be used by the library</td>
+    <td>scans system and suggests the recommended configuration which may be used by the library</td>
     <td>no</td>
   </tr>
   <tr>
@@ -211,6 +212,78 @@ small {
     <td>returns available WiFi points in format <code>NAME|SECURITY|SIGNAL|ACTIVE|EXISTS</code></td>
     <td>yes</td>
   </tr>
+  <!-- /interface path -->
+  <tr>
+    <th colspan="3" class="sub"><a href="#interface" class="anchor" id="interface"></a><code>/interface</code> path</th>
+  </tr>
+  <!-- netctl control -->
+  <tr>
+    <td>int Enable(QString profile)</td>
+    <td>enables or disables the profile. Returns is the profile enabled or <code>2</code> if there was an another error</td>
+    <td>yes</td>
+  </tr>
+  <tr>
+    <td>int Restart(QString profile)</td>
+    <td>restarts the profile. Returns is the profile active or <code>2</code> if there was an error</td>
+    <td>yes</td>
+  </tr>
+  <tr>
+    <td>int Start(QString profile)</td>
+    <td>starts or stops the profile. Returns is the profile active or <code>2</code> if there was an error</td>
+    <td>yes</td>
+  </tr>
+  <tr>
+    <td>bool StopAll()</td>
+    <td>synonym of <code>/ctlr/StopAll()</code></td>
+    <td>yes</td>
+  </tr>
+  <tr>
+    <td>bool SwitchTo(QString profile)</td>
+    <td>switchs to the profile (works with netctl and netctl-auto). Returns is the profile active or <code>2</code> if there was an error</td>
+    <td>yes</td>
+  </tr>
+  <tr>
+    <td>int Create(QString profile, QStringList settingsList)</td>
+    <td>>creates the profile with specified settings. Settings should be given in the format <code>KEY==VALUE</code>. Returns <code>1</code> if action has been performed successfully, <code>0</code> if there was an error in the profile copying and <code>2</code> if there was an another error</td>
+    <td>yes</td>
+  </tr>
+  <tr>
+    <td>QStringList Profile(QString profile)</td>
+    <td>synonym of <code>/netctl/Profile()</code></td>
+    <td>no</td>
+  </tr>
+  <tr>
+    <td>int Remove(QString profile)</td>
+    <td>synonym of <code>/ctrl/Remove()</code></td>
+    <td>yes</td>
+  </tr>
+  <!-- information -->
+  <tr>
+    <td>QStringList Information()</td>
+    <td>returns general information in format <code>[IsNetctlAutoActive, NetctlProfiles, NetctlAutoProfiles]</code></td>
+    <td>no</td>
+  </tr>
+  <tr>
+    <td>QStringList Status()</td>
+    <td>returns actual information in format <code>[IsNetctlAutoActive, ProfilesNames, ActiveProfile, ActiveProfileEnables]</code></td>
+    <td>no</td>
+  </tr>
+  <!-- wpa_supplicant actions -->
+  <tr>
+    <td>int Essid(QString essid, QStringList settingsList)</td>
+    <td>connects to WiFi point with the given ESSID, calls KnownEssid or UnknownESSID depending on whether there is a profile. Settings may be empty. To get return codes refer to <code>KnownEssid()</code> and <code>UnknownEssid()</code></td>
+    <td>yes</td>
+  </tr>
+  <tr>
+    <td>int KnownEssid(QString essid)</td>
+    <td>connects to WiFi point with the given ESSID with existent profile. Returns <code>Start()</code> if ok, in other cases returns <code>2</code></td>
+    <td>yes</td>
+  </tr>
+  <tr>
+    <td>int UnknownEssid(QString essid, QStringList settingsList)</td>
+    <td>creates a profile and connects to WiFi point with the given ESSID. Returns <code>Start()</code> if ok, in other cases returns <code>2</code></td>
+    <td>yes</td>
+  </tr>
   <!-- /netctl path -->
   <tr>
     <th colspan="3" class="sub"><a href="#netctl" class="anchor" id="netctl"></a><code>/netctl</code> path</th>
@@ -318,7 +391,6 @@ small {
   <tr>
     <th colspan="3"><a href="#gui" class="anchor" id="gui"></a><code>org.netctlgui.netctlgui</code> service (session bus)</th>
   </tr>
-  <!-- /netctlgui path -->
   <tr>
     <th colspan="3" class="sub"><a href="#netctlgui" class="anchor" id="netctlgui"></a><code>/netctlgui</code> path</th>
   </tr>
@@ -336,11 +408,6 @@ small {
   <tr>
     <td>bool Close()</td>
     <td><code>true</code> and closes the application</td>
-    <td>no</td>
-  </tr>
-  <tr>
-    <td>QString Information()</td>
-    <td>returns general information in format <code>[ActiveProfile, ActiveProfileStatus]</code></td>
     <td>no</td>
   </tr>
   <tr>

@@ -37,7 +37,6 @@ public slots:
     bool Active();
     void ApiDocs();
     bool Close();
-    QStringList Information();
     void LibraryDocs();
     QString Pony();
     bool Restore();

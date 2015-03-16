@@ -45,6 +45,7 @@ public slots:
     QString LibraryDocs();
     QString Pony();
     QString SecurityDocs();
+    bool SelfDestruct();
     QStringList Settings();
     QStringList UIDs();
     bool Update();

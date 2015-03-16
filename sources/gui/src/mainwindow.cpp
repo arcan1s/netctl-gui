@@ -121,32 +121,6 @@ Qt::ToolBarArea MainWindow::getToolBarArea()
 }
 
 
-QStringList MainWindow::printInformation()
-{
-    if (debug) qDebug() << PDEBUG;
-
-    QStringList output;
-    output.append(QApplication::translate("MainWindow", "none"));
-    output.append(QApplication::translate("MainWindow", "(none)"));
-    netctlCurrent current = printTrayInformation();
-    if (current.current.isEmpty()) return output;
-
-    QStringList profiles;
-    for (int i=0; i<current.current.count(); i++) {
-        QString status;
-        if (current.netctlAuto)
-            status = QApplication::translate("MainWindow", "(netctl-auto)");
-        else if (current.enables[i])
-            status = QApplication::translate("MainWindow", "(enabled)");
-        else
-            status = QApplication::translate("MainWindow", "(static)");
-        profiles.append(QString("%1 %2").arg(current.current[i]).arg(status));
-    }
-
-    return output;
-}
-
-
 QStringList MainWindow::printSettings()
 {
     if (debug) qDebug() << PDEBUG;
@@ -234,7 +208,7 @@ void MainWindow::showMainWindow()
     if (debug) qDebug() << PDEBUG;
 
     if (isHidden()) {
-        updateTabs(ui->stackedWidget->currentIndex());
+        setTab(ui->stackedWidget->currentIndex());
         show();
     } else
         hide();
@@ -336,12 +310,24 @@ void MainWindow::setTab(int tab)
 {
     if (debug) qDebug() << PDEBUG;
     if (debug) qDebug() << PDEBUG << ":" << "Set tab" << tab;
+    if (ui->stackedWidget->currentWidget() == nullptr) return;
 
     if ((tab > 2) || (tab < 0)) tab = 0;
-    if (tab == ui->stackedWidget->currentIndex())
-        updateTabs(tab);
-    else
-        ui->stackedWidget->setCurrentIndex(tab);
+    if (tab != ui->stackedWidget->currentIndex())
+        return ui->stackedWidget->setCurrentIndex(tab);
+
+    switch (tab) {
+    case 1:
+        newProfileWidget->update();
+        break;
+    case 2:
+        wifiMenuWidget->update();
+        break;
+    case 0:
+    default:
+        mainWidget->update();
+        break;
+    }
 }
 
 
@@ -426,26 +412,6 @@ void MainWindow::updateConfiguration(const QMap<QString, QVariant> args)
 }
 
 
-void MainWindow::updateTabs(const int tab)
-{
-    if (debug) qDebug() << PDEBUG;
-    if (debug) qDebug() << PDEBUG << ":" << "Update tab" << tab;
-
-    switch (tab) {
-    case 1:
-        newProfileWidget->update();
-        break;
-    case 2:
-        wifiMenuWidget->update();
-        break;
-    case 0:
-    default:
-        mainWidget->update();
-        break;
-    }
-}
-
-
 void MainWindow::updateToolBarState(const Qt::ToolBarArea area)
 {
     if (debug) qDebug() << PDEBUG;
@@ -460,27 +426,17 @@ void MainWindow::updateToolBarState(const Qt::ToolBarArea area)
 
 
 // private slots
-void MainWindow::setMainTab()
+void MainWindow::setTabByAction(QAction *action)
 {
     if (debug) qDebug() << PDEBUG;
+    if (action == nullptr) return;
 
-    return setTab(0);
-}
-
-
-void MainWindow::setProfileTab()
-{
-    if (debug) qDebug() << PDEBUG;
-
-    return setTab(1);
-}
-
-
-void MainWindow::setWifiTab()
-{
-    if (debug) qDebug() << PDEBUG;
-
-    return setTab(2);
+    if (action == ui->actionNetctl)
+        setTab(0);
+    else if (action == ui->actionProfiles)
+        setTab(1);
+    else if (action == ui->actionWiFi_menu)
+        setTab(2);
 }
 
 
@@ -513,10 +469,8 @@ void MainWindow::createActions()
 {
     if (debug) qDebug() << PDEBUG;
 
+    connect(ui->toolBar, SIGNAL(actionTriggered(QAction *)), this, SLOT(setTabByAction(QAction *)));
     connect(ui->actionNetctl_auto, SIGNAL(triggered()), this, SLOT(showNetctlAutoWindow()));
-    connect(ui->actionNetctl, SIGNAL(triggered()), this, SLOT(setMainTab()));
-    connect(ui->actionProfiles, SIGNAL(triggered()), this, SLOT(setProfileTab()));
-    connect(ui->actionWiFi_menu, SIGNAL(triggered()), this, SLOT(setWifiTab()));
     connect(ui->stackedWidget, SIGNAL(currentChanged(int)), this, SLOT(setTab(int)));
     connect(this, SIGNAL(needToBeConfigured()), this, SLOT(showSettingsWindow()));
 
@@ -572,9 +526,9 @@ void MainWindow::createObjects()
     trayIcon = new TrayIcon(this, configuration, debug);
     // windows
     ui->retranslateUi(this);
-    ui->layout_main->addWidget(mainWidget);
-    ui->layout_new->addWidget(newProfileWidget);
-    ui->layout_wifi->addWidget(wifiMenuWidget);
+    ui->stackedWidget->addWidget(mainWidget);
+    ui->stackedWidget->addWidget(newProfileWidget);
+    ui->stackedWidget->addWidget(wifiMenuWidget);
     updateToolBarState(static_cast<Qt::ToolBarArea>(configuration[QString("MAIN_TOOLBAR")].toInt()));
     aboutWin = new AboutWindow(this, debug);
     settingsWin = new SettingsWindow(this, debug, configPath);
@@ -584,6 +538,9 @@ void MainWindow::createObjects()
 void MainWindow::deleteObjects()
 {
     if (debug) qDebug() << PDEBUG;
+
+    // workaround to avoid crash on window closing
+    disconnect(ui->stackedWidget, SIGNAL(currentChanged(int)), this, SLOT(setTab(int)));
 
     QDBusConnection::sessionBus().unregisterObject(DBUS_OBJECT_PATH);
     QDBusConnection::sessionBus().unregisterService(DBUS_SERVICE);

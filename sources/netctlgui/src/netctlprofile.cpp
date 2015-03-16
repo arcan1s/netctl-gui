@@ -111,16 +111,16 @@ QString NetctlProfile::createProfile(const QString profile, const QMap<QString, 
     for (int i=0; i<settings.keys().count(); i++) {
         out << settings.keys()[i] << QString("=");
         if ((settings.keys()[i] == QString("BindsToInterfaces")) ||
-                (settings.keys()[i] == QString("After")) ||
-                (settings.keys()[i] == QString("Address")) ||
-                (settings.keys()[i] == QString("Routes")) ||
-                (settings.keys()[i] == QString("Address6")) ||
-                (settings.keys()[i] == QString("Routes6")) ||
-                (settings.keys()[i] == QString("IPCustom")) ||
-                (settings.keys()[i] == QString("DNS")) ||
-                (settings.keys()[i] == QString("DNSOptions")) ||
-                (settings.keys()[i] == QString("ScanFrequencies")) ||
-                (settings.keys()[i] == QString("WPAConfigSection")))
+            (settings.keys()[i] == QString("After")) ||
+            (settings.keys()[i] == QString("Address")) ||
+            (settings.keys()[i] == QString("Routes")) ||
+            (settings.keys()[i] == QString("Address6")) ||
+            (settings.keys()[i] == QString("Routes6")) ||
+            (settings.keys()[i] == QString("IPCustom")) ||
+            (settings.keys()[i] == QString("DNS")) ||
+            (settings.keys()[i] == QString("DNSOptions")) ||
+            (settings.keys()[i] == QString("ScanFrequencies")) ||
+            (settings.keys()[i] == QString("WPAConfigSection")))
             out << QString("(%1)").arg(settings[settings.keys()[i]]) << endl;
         else
             out << settings[settings.keys()[i]] << endl;
@@ -220,7 +220,7 @@ QMap<QString, QString> NetctlProfile::getSettingsFromProfile(const QString profi
         if (debug) qDebug() << PDEBUG << ":" << "Error" << process.error;
     output = QString(process.output).trimmed().split(QChar('\n'));
 
-    // gettings variables
+    // read variables
     QStringList keys;
     for (int i=0; i<output.count(); i++)
         if (!systemVariables.contains(output[i].split(QChar('='))[0]))

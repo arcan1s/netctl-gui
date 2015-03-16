@@ -182,10 +182,7 @@ InterfaceAnswer NetctlInterface::removeProfile(const QString profile)
         return InterfaceAnswer::Error;
     }
 
-    if (netctlProfile->removeProfile(profile))
-        return InterfaceAnswer::True;
-    else
-        return InterfaceAnswer::Error;
+    return static_cast<InterfaceAnswer>(netctlProfile->removeProfile(profile));
 }
 
 
@@ -238,10 +235,7 @@ InterfaceAnswer NetctlInterface::stopAllProfiles()
         return InterfaceAnswer::Error;
     }
 
-    if (netctlCommand->stopAllProfiles())
-        return InterfaceAnswer::True;
-    else
-        return InterfaceAnswer::Error;
+    return static_cast<InterfaceAnswer>(netctlCommand->stopAllProfiles());
 }
 
 

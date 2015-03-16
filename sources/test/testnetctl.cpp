@@ -142,26 +142,6 @@ void TestNetctl::test_getActiveProfile()
 }
 
 
-void TestNetctl::test_getProfileDescription()
-{
-    Netctl *netctl = createNetctlObj();
-    QString original = QString("Simple test profile");
-    QString result = netctl->getProfileDescription(QString("netctlgui-test-dummy"));
-    QString dbus;
-    if (helper) {
-        QList<QVariant> args;
-        args.append(QString("netctlgui-test-dummy"));
-        args.append(QString("Description"));
-        dbus = sendDBusRequest(QString("/netctl"), QString("ProfileValue"), args)
-                [0].toString();
-    }
-    delete netctl;
-
-    QCOMPARE(result, original);
-    if (helper) QCOMPARE(dbus, result);
-}
-
-
 void TestNetctl::test_getProfileStatus()
 {
     Netctl *netctl = createNetctlObj();

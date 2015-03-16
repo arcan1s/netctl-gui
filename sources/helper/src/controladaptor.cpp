@@ -110,6 +110,12 @@ QString ControlAdaptor::SecurityDocs()
 }
 
 
+bool ControlAdaptor::SelfDestruct()
+{
+    return SelfDestruct();
+}
+
+
 QStringList ControlAdaptor::Settings()
 {
     return helper->printSettings();

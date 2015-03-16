@@ -36,7 +36,6 @@ private slots:
     // netctl
     void test_getRecommendedConfiguration();
     void test_getActiveProfile();
-    void test_getProfileDescription();
     void test_getProfileStatus();
     void test_isProfileActive();
     void test_isProfileEnabled();

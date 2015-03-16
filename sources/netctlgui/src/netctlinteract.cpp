@@ -321,11 +321,11 @@ bool Netctl::autoIsProfileActive(const QString profile)
 
     bool status = false;
     QList<netctlProfileInfo> profiles = getProfileListFromNetctlAuto();
-    for (int i=0; i<profiles.count(); i++)
-        if ((profiles[i].name == profile) && (profiles[i].active)) {
-            status = true;
-            break;
-        }
+    for (int i=0; i<profiles.count(); i++) {
+        if (profiles[i].name == profile) continue;
+        status = profiles[i].active;
+        break;
+    }
 
     return status;
 }
@@ -341,11 +341,11 @@ bool Netctl::autoIsProfileEnabled(const QString profile)
 
     bool status = false;
     QList<netctlProfileInfo> profiles = getProfileListFromNetctlAuto();
-    for (int i=0; i<profiles.count(); i++)
-        if ((profiles[i].name == profile) && (profiles[i].enabled)) {
-            status = true;
-            break;
-        }
+    for (int i=0; i<profiles.count(); i++) {
+        if (profiles[i].name == profile) continue;
+        status = profiles[i].enabled;
+        break;
+    }
 
     return status;
 }

@@ -54,12 +54,6 @@ bool NetctlGuiAdaptor::Close()
 }
 
 
-QStringList NetctlGuiAdaptor::Information()
-{
-    return mainWindow->printInformation();
-}
-
-
 void NetctlGuiAdaptor::LibraryDocs()
 {
     return mainWindow->showLibrary();
