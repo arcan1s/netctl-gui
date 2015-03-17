@@ -19,13 +19,15 @@
 #define COMMONFUNCTIONS_H
 
 #include <QMap>
-#include <QString>
+#include <QStringList>
 
 
 bool checkExternalApps(const QString apps = QString("all"),
                        const QMap<QString, QString> configuration = QMap<QString, QString>(),
                        const bool debug = false);
 QString checkStatus(const bool statusBool, const bool nullFalse = false);
+QStringList externalApps(const QString apps,
+                         const QMap<QString, QString> configuration = QMap<QString, QString>());
 
 
 #endif /* COMMONFUNCTIONS_H */

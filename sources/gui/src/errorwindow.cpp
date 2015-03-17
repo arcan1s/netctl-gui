@@ -186,9 +186,10 @@ void ErrorWindow::showWindow(const int mess, const QString sender, const bool de
     QMessageBox messageBox;
     messageBox.setText(message[0]);
     messageBox.setInformativeText(message[1]);
-    if (debugCmd)
-        messageBox.setDetailedText(QApplication::translate("ErrorWindow", "Sender : %1").
-                                   arg(sender));
+    if (mess == 1)
+        messageBox.setDetailedText(sender);
+    else if (debugCmd)
+        messageBox.setDetailedText(QApplication::translate("ErrorWindow", "Sender : %1").arg(sender));
     messageBox.setIcon(errorWin->getIcon(mess));
     messageBox.setStandardButtons(QMessageBox::Ok);
     messageBox.setDefaultButton(QMessageBox::Ok);

@@ -147,7 +147,7 @@ void MainWidget::updateMainTab()
 {
     if (debug) qDebug() << PDEBUG;
     if (!checkExternalApps(QString("netctl"), configuration, debug)) {
-        ErrorWindow::showWindow(1, QString(PDEBUG), debug);
+        ErrorWindow::showWindow(1, externalApps(QString("netctl"), configuration).join(QChar('\n')), debug);
         return mainWindow->emitNeedToBeConfigured();
     }
 
@@ -297,7 +297,7 @@ void MainWidget::mainTabEnableProfile()
 {
     if (debug) qDebug() << PDEBUG;
     if (!checkExternalApps(QString("netctl"), configuration, debug)) {
-        ErrorWindow::showWindow(1, QString(PDEBUG), debug);
+        ErrorWindow::showWindow(1, externalApps(QString("netctl"), configuration).join(QChar('\n')), debug);
         return mainWindow->emitNeedToBeConfigured();
     }
     if (ui->tableWidget_main->currentItem() == nullptr) return;
@@ -332,7 +332,7 @@ void MainWidget::mainTabRestartProfile()
 {
     if (debug) qDebug() << PDEBUG;
     if (!checkExternalApps(QString("netctl"), configuration, debug)) {
-        ErrorWindow::showWindow(1, QString(PDEBUG), debug);
+        ErrorWindow::showWindow(1, externalApps(QString("netctl"), configuration).join(QChar('\n')), debug);
         return mainWindow->emitNeedToBeConfigured();
     }
     if (ui->tableWidget_main->currentItem() == nullptr) return;
@@ -351,7 +351,7 @@ void MainWidget::mainTabStartProfile()
 {
     if (debug) qDebug() << PDEBUG;
     if (!checkExternalApps(QString("netctl"), configuration, debug)) {
-        ErrorWindow::showWindow(1, QString(PDEBUG), debug);
+        ErrorWindow::showWindow(1, externalApps(QString("netctl"), configuration).join(QChar('\n')), debug);
         return mainWindow->emitNeedToBeConfigured();
     }
     if (ui->tableWidget_main->currentItem() == nullptr) return;
@@ -370,7 +370,7 @@ void MainWidget::mainTabStopAllProfiles()
 {
     if (debug) qDebug() << PDEBUG;
     if (!checkExternalApps(QString("netctl"), configuration, debug)) {
-        ErrorWindow::showWindow(1, QString(PDEBUG), debug);
+        ErrorWindow::showWindow(1, externalApps(QString("netctl"), configuration).join(QChar('\n')), debug);
         return mainWindow->emitNeedToBeConfigured();
     }
 
@@ -387,7 +387,7 @@ void MainWidget::mainTabSwitchToProfile()
 {
     if (debug) qDebug() << PDEBUG;
     if (!checkExternalApps(QString("netctl"), configuration, debug)) {
-        ErrorWindow::showWindow(1, QString(PDEBUG), debug);
+        ErrorWindow::showWindow(1, externalApps(QString("netctl"), configuration).join(QChar('\n')), debug);
         return mainWindow->emitNeedToBeConfigured();
     }
     if (ui->tableWidget_main->currentItem() == nullptr) return;

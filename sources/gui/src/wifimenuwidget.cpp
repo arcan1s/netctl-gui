@@ -184,7 +184,7 @@ void WiFiMenuWidget::updateText(const netctlWifiInfo current)
     if (debug) qDebug() << PDEBUG;
     if (!wifiTabSetEnabled(checkExternalApps(QString("wpasup-only"), configuration, debug))) return;
     if (!checkExternalApps(QString("wpasup"), configuration, debug)) {
-        ErrorWindow::showWindow(1, QString(PDEBUG), debug);
+        ErrorWindow::showWindow(1, externalApps(QString("wpasup"), configuration).join(QChar('\n')), debug);
         return mainWindow->emitNeedToBeConfigured();
     }
     ui->label_wifi->setText(QApplication::translate("WiFiMenuWidget", "Processing..."));
@@ -202,7 +202,7 @@ void WiFiMenuWidget::updateWifiTab()
     if (debug) qDebug() << PDEBUG;
     if (!wifiTabSetEnabled(checkExternalApps(QString("wpasup-only"), configuration, debug))) return;
     if (!checkExternalApps(QString("wpasup"), configuration, debug)) {
-        ErrorWindow::showWindow(1, QString(PDEBUG), debug);
+        ErrorWindow::showWindow(1, externalApps(QString("wpasup"), configuration).join(QChar('\n')), debug);
         return mainWindow->emitNeedToBeConfigured();
     }
 
@@ -374,7 +374,7 @@ void WiFiMenuWidget::wifiTabStart()
 {
     if (debug) qDebug() << PDEBUG;
     if (!checkExternalApps(QString("wpasup"), configuration, debug)) {
-        ErrorWindow::showWindow(1, QString(PDEBUG), debug);
+        ErrorWindow::showWindow(1, externalApps(QString("wpasup"), configuration).join(QChar('\n')), debug);
         return mainWindow->emitNeedToBeConfigured();
     }
     if (ui->tableWidget_wifi->currentItem() == nullptr) return;

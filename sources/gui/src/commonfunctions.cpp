@@ -72,3 +72,30 @@ QString checkStatus(const bool statusBool, const bool nullFalse)
 
     return QString("");
 }
+
+
+QStringList externalApps(const QString apps, const QMap<QString, QString> configuration)
+{
+    QStringList app;
+    if ((apps == QString("helper")) || (apps == QString("all"))) {
+        app.append(configuration[QString("HELPER_PATH")]);
+    }
+    if ((apps == QString("netctl")) || (apps == QString("all"))) {
+        app.append(configuration[QString("NETCTL_PATH")]);
+        app.append(configuration[QString("NETCTLAUTO_PATH")]);
+        app.append(configuration[QString("SUDO_PATH")]);
+    }
+    if ((apps == QString("sudo")) || (apps == QString("wpasup")) || (apps == QString("all"))) {
+        app.append(configuration[QString("SUDO_PATH")]);
+    }
+    if ((apps == QString("systemctl")) || (apps == QString("all"))) {
+        app.append(configuration[QString("SYSTEMCTL_PATH")]);
+        app.append(configuration[QString("SUDO_PATH")]);
+    }
+    if ((apps == QString("wpasup")) || (apps == QString("wpasup-only")) || (apps == QString("all"))) {
+        app.append(configuration[QString("WPACLI_PATH")]);
+        app.append(configuration[QString("WPASUP_PATH")]);
+    }
+
+    return app;
+}
