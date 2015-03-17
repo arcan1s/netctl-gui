@@ -69,7 +69,7 @@
     <name>BridgeWidget</name>
     <message>
         <source>Form</source>
-        <translation>Form</translation>
+        <translation type="obsolete">Form</translation>
     </message>
     <message>
         <source>Bridge settings</source>
@@ -182,6 +182,14 @@
         <source>Could not run helper</source>
         <translation>Не могу запустить хелпер</translation>
     </message>
+    <message>
+        <source>User is not in network group, helper will not be started</source>
+        <translation>Пользователь не в группе network, хелпер не будет запущен</translation>
+    </message>
+    <message>
+        <source>IP address does not match the standard</source>
+        <translation>IP адрес не соответствует стандартам</translation>
+    </message>
 </context>
 <context>
     <name>EthernetWidget</name>
@@ -195,15 +203,15 @@
     </message>
     <message>
         <source>Hide advanced</source>
-        <translation>Скрыть расширенные</translation>
+        <translation type="obsolete">Скрыть расширенные</translation>
     </message>
     <message>
         <source>Show advanced</source>
-        <translation>Показать расширенные</translation>
+        <translation type="obsolete">Показать расширенные</translation>
     </message>
     <message>
         <source>Form</source>
-        <translation>Form</translation>
+        <translation type="obsolete">Form</translation>
     </message>
     <message>
         <source>Ethernet options</source>
@@ -286,7 +294,7 @@
     </message>
     <message>
         <source>Form</source>
-        <translation>Form</translation>
+        <translation type="obsolete">Form</translation>
     </message>
     <message>
         <source>General</source>
@@ -298,7 +306,7 @@
     </message>
     <message>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;A description of the profile&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation>Описание профиля</translation>
+        <translation type="obsolete">Описание профиля</translation>
     </message>
     <message>
         <source>Connection</source>
@@ -364,20 +372,24 @@
         <source>Debug mode</source>
         <translation>Режим отладки</translation>
     </message>
+    <message>
+        <source>A description of the profile</source>
+        <translation>Описание профиля</translation>
+    </message>
 </context>
 <context>
     <name>IpWidget</name>
     <message>
         <source>Hide advanced</source>
-        <translation>Скрыть расширенные</translation>
+        <translation type="obsolete">Скрыть расширенные</translation>
     </message>
     <message>
         <source>Show advanced</source>
-        <translation>Показать расширенные</translation>
+        <translation type="obsolete">Показать расширенные</translation>
     </message>
     <message>
         <source>Form</source>
-        <translation>Form</translation>
+        <translation type="obsolete">Form</translation>
     </message>
     <message>
         <source>IP options</source>
@@ -413,7 +425,7 @@
     </message>
     <message>
         <source>An IP routing gateway address</source>
-        <translation>Адрес IP шлюза</translation>
+        <translation type="obsolete">Адрес IP шлюза</translation>
     </message>
     <message>
         <source>IP6</source>
@@ -441,7 +453,7 @@
     </message>
     <message>
         <source>An IPv6 routing gateway address</source>
-        <translation>Адрес IPv6 шлюза</translation>
+        <translation type="obsolete">Адрес IPv6 шлюза</translation>
     </message>
     <message>
         <source>Routes</source>
@@ -567,12 +579,32 @@
         <source>Maximum time, in seconds, to wait for IPv6’s Duplicate Address Detection to succeed</source>
         <translation>Максимальное время в секундах для ожидания выполнения детектирования дубликации IPv6 адресов</translation>
     </message>
+    <message>
+        <source>Should be in CIDR form according to standards</source>
+        <translation>Должно быть в формате CIDR согласно стандартам</translation>
+    </message>
+    <message>
+        <source>An IP routing gateway address.
+Should be according to standards</source>
+        <translation>IP адрес шлюза.
+Должен соответствовать стандартам</translation>
+    </message>
+    <message>
+        <source>An IPv6 routing gateway address.
+Should be according to standards</source>
+        <translation>IPv6 адрес шлюза.
+Должен соответствовать стандартам</translation>
+    </message>
+    <message>
+        <source>Should be according to standards</source>
+        <translation>Должен соответствовать стандартам</translation>
+    </message>
 </context>
 <context>
     <name>MacvlanWidget</name>
     <message>
         <source>Form</source>
-        <translation>Form</translation>
+        <translation type="obsolete">Form</translation>
     </message>
     <message>
         <source>macvlan settings</source>
@@ -596,23 +628,7 @@
     </message>
 </context>
 <context>
-    <name>MainWindow</name>
-    <message>
-        <source>Ready</source>
-        <translation>Готов</translation>
-    </message>
-    <message>
-        <source>Updated</source>
-        <translation>Обновлено</translation>
-    </message>
-    <message>
-        <source>Error</source>
-        <translation>Ошибка</translation>
-    </message>
-    <message>
-        <source>Done</source>
-        <translation>Выполнено</translation>
-    </message>
+    <name>MainWidget</name>
     <message>
         <source>Stop</source>
         <translation>Стоп</translation>
@@ -628,6 +644,161 @@
     <message>
         <source>Enable</source>
         <translation>Включить</translation>
+    </message>
+    <message>
+        <source>Name</source>
+        <translation>Имя</translation>
+    </message>
+    <message>
+        <source>Description</source>
+        <translation>Описание</translation>
+    </message>
+    <message>
+        <source>Active</source>
+        <translation>Активен</translation>
+    </message>
+    <message>
+        <source>Enabled</source>
+        <translation>Включен</translation>
+    </message>
+    <message>
+        <source>Type</source>
+        <translation>Тип</translation>
+    </message>
+    <message>
+        <source>Is wireless</source>
+        <translation>Беспроводной</translation>
+    </message>
+    <message>
+        <source>Refresh</source>
+        <translation>Обновить</translation>
+    </message>
+    <message>
+        <source>Start profile</source>
+        <translation>Запустить профиль</translation>
+    </message>
+    <message>
+        <source>Restart profile</source>
+        <translation>Перезапустить профиль</translation>
+    </message>
+    <message>
+        <source>Enable profile</source>
+        <translation>Включить профиль</translation>
+    </message>
+    <message>
+        <source>Edit profile</source>
+        <translation>Отредактировать профиль</translation>
+    </message>
+    <message>
+        <source>Remove profile</source>
+        <translation>Удалить профиль</translation>
+    </message>
+    <message>
+        <source>Stop profile</source>
+        <translation>Остановить профиль</translation>
+    </message>
+    <message>
+        <source>Disable profile</source>
+        <translation>Отключить профиль</translation>
+    </message>
+    <message>
+        <source>Refresh table</source>
+        <translation>Обновить таблицу</translation>
+    </message>
+    <message>
+        <source>Ctrl+R</source>
+        <translation>Ctrl+R</translation>
+    </message>
+    <message>
+        <source>Start or stop selected profile</source>
+        <translation>Остановить или запустить выбранный профиль</translation>
+    </message>
+    <message>
+        <source>Switch</source>
+        <translation>Переключить</translation>
+    </message>
+    <message>
+        <source>Switch to selected profile</source>
+        <translation>Переключить на выбранный профиль</translation>
+    </message>
+    <message>
+        <source>Restart</source>
+        <translation>Перезапуск</translation>
+    </message>
+    <message>
+        <source>Restart selected profile</source>
+        <translation>Перезапустить выбранный профиль</translation>
+    </message>
+    <message>
+        <source>Enable or disable selected profile</source>
+        <translation>Отключить или включить выбранный профиль</translation>
+    </message>
+    <message>
+        <source>Stop all</source>
+        <translation>Остановить все</translation>
+    </message>
+    <message>
+        <source>Stop all profiles</source>
+        <translation>Остановить все профили</translation>
+    </message>
+    <message>
+        <source>Edit</source>
+        <translation>Редактировать</translation>
+    </message>
+    <message>
+        <source>Edit selected profile</source>
+        <translation>Редактировать выбранный профиль</translation>
+    </message>
+    <message>
+        <source>Remove</source>
+        <translation>Удалить</translation>
+    </message>
+    <message>
+        <source>Remove selected profile</source>
+        <translation>Удалить выбранный профиль</translation>
+    </message>
+    <message>
+        <source>netctl-auto is running</source>
+        <translation>netctl-auto запущен</translation>
+    </message>
+    <message>
+        <source>Main actions toolbar</source>
+        <translation>Основные действия</translation>
+    </message>
+</context>
+<context>
+    <name>MainWindow</name>
+    <message>
+        <source>Ready</source>
+        <translation>Готов</translation>
+    </message>
+    <message>
+        <source>Updated</source>
+        <translation type="obsolete">Обновлено</translation>
+    </message>
+    <message>
+        <source>Error</source>
+        <translation>Ошибка</translation>
+    </message>
+    <message>
+        <source>Done</source>
+        <translation>Выполнено</translation>
+    </message>
+    <message>
+        <source>Stop</source>
+        <translation type="obsolete">Стоп</translation>
+    </message>
+    <message>
+        <source>Start</source>
+        <translation type="obsolete">Старт</translation>
+    </message>
+    <message>
+        <source>Disable</source>
+        <translation type="obsolete">Отключить</translation>
+    </message>
+    <message>
+        <source>Enable</source>
+        <translation type="obsolete">Включить</translation>
     </message>
     <message>
         <source>Save profile as...</source>
@@ -723,35 +894,35 @@
     </message>
     <message>
         <source>Name</source>
-        <translation>Имя</translation>
+        <translation type="obsolete">Имя</translation>
     </message>
     <message>
         <source>Description</source>
-        <translation>Описание</translation>
+        <translation type="obsolete">Описание</translation>
     </message>
     <message>
         <source>Status</source>
-        <translation type="vanished">Статус</translation>
+        <translation type="obsolete">Статус</translation>
     </message>
     <message>
         <source>Refresh</source>
-        <translation>Обновить</translation>
+        <translation type="obsolete">Обновить</translation>
     </message>
     <message>
         <source>Ctrl+R</source>
-        <translation type="vanished">Ctrl+R</translation>
+        <translation type="obsolete">Ctrl+R</translation>
     </message>
     <message>
         <source>Restart</source>
-        <translation>Перезапуск</translation>
+        <translation type="obsolete">Перезапуск</translation>
     </message>
     <message>
         <source>Connect to profile</source>
-        <translation>Включить профиль</translation>
+        <translation type="obsolete">Включить профиль</translation>
     </message>
     <message>
         <source>Profile</source>
-        <translation>Профиль</translation>
+        <translation type="obsolete">Профиль</translation>
     </message>
     <message>
         <source>Browse</source>
@@ -759,27 +930,27 @@
     </message>
     <message>
         <source>Clear</source>
-        <translation>Очистить</translation>
+        <translation type="obsolete">Очистить</translation>
     </message>
     <message>
         <source>Load</source>
-        <translation>Загрузить</translation>
+        <translation type="obsolete">Загрузить</translation>
     </message>
     <message>
         <source>Save</source>
-        <translation>Сохранить</translation>
+        <translation type="obsolete">Сохранить</translation>
     </message>
     <message>
         <source>Create a new profile</source>
-        <translation>Создать новый профиль</translation>
+        <translation type="obsolete">Создать новый профиль</translation>
     </message>
     <message>
         <source>Please install &apos;wpa_supplicant&apos; before using it</source>
-        <translation>Установите &apos;wpa_supplicant&apos; для использования этого модуля</translation>
+        <translation type="obsolete">Установите &apos;wpa_supplicant&apos; для использования этого модуля</translation>
     </message>
     <message>
         <source>Signal</source>
-        <translation>Сигнал</translation>
+        <translation type="obsolete">Сигнал</translation>
     </message>
     <message>
         <source>Security</source>
@@ -787,7 +958,7 @@
     </message>
     <message>
         <source>Connect to Wi-Fi</source>
-        <translation type="vanished">Подключиться к Wi-Fi</translation>
+        <translation type="obsolete">Подключиться к Wi-Fi</translation>
     </message>
     <message>
         <source>Menu</source>
@@ -803,55 +974,55 @@
     </message>
     <message>
         <source>Remove</source>
-        <translation>Удалить</translation>
+        <translation type="obsolete">Удалить</translation>
     </message>
     <message>
         <source>Stop profile</source>
-        <translation>Остановить профиль</translation>
+        <translation type="obsolete">Остановить профиль</translation>
     </message>
     <message>
         <source>Start profile</source>
-        <translation>Запустить профиль</translation>
+        <translation type="obsolete">Запустить профиль</translation>
     </message>
     <message>
         <source>Disable profile</source>
-        <translation>Отключить профиль</translation>
+        <translation type="obsolete">Отключить профиль</translation>
     </message>
     <message>
         <source>Enable profile</source>
-        <translation>Включить профиль</translation>
+        <translation type="obsolete">Включить профиль</translation>
     </message>
     <message>
         <source>Stop WiFi</source>
-        <translation>Остановить WiFi</translation>
+        <translation type="obsolete">Остановить WiFi</translation>
     </message>
     <message>
         <source>Start WiFi</source>
-        <translation>Подключить WiFi</translation>
+        <translation type="obsolete">Подключить WiFi</translation>
     </message>
     <message>
         <source>Restart profile</source>
-        <translation>Перезапустить профиль</translation>
+        <translation type="obsolete">Перезапустить профиль</translation>
     </message>
     <message>
         <source>Edit profile</source>
-        <translation>Отредактировать профиль</translation>
+        <translation type="obsolete">Отредактировать профиль</translation>
     </message>
     <message>
         <source>Remove profile</source>
-        <translation>Удалить профиль</translation>
+        <translation type="obsolete">Удалить профиль</translation>
     </message>
     <message>
         <source>Load profile</source>
-        <translation type="vanished">Загрузить профиль</translation>
+        <translation type="obsolete">Загрузить профиль</translation>
     </message>
     <message>
         <source>Save profile</source>
-        <translation type="vanished">Сохранить профиль</translation>
+        <translation type="obsolete">Сохранить профиль</translation>
     </message>
     <message>
         <source>Start Wi-Fi</source>
-        <translation type="vanished">Подключить WiFi</translation>
+        <translation type="obsolete">Подключить WiFi</translation>
     </message>
     <message>
         <source>netctl-auto</source>
@@ -859,7 +1030,7 @@
     </message>
     <message>
         <source>Actions</source>
-        <translation>Действия</translation>
+        <translation type="obsolete">Действия</translation>
     </message>
     <message>
         <source>Name==Description==Status</source>
@@ -880,7 +1051,7 @@
     </message>
     <message>
         <source>Parametrs:</source>
-        <translation type="vanished">Параметры:</translation>
+        <translation type="obsolete">Параметры:</translation>
     </message>
     <message>
         <source>Open window:</source>
@@ -904,15 +1075,15 @@
     </message>
     <message>
         <source>select ESSID %1</source>
-        <translation type="vanished">выбрать ESSID %1</translation>
+        <translation type="obsolete">выбрать ESSID %1</translation>
     </message>
     <message>
         <source>open profile %1</source>
-        <translation type="vanished">открыть профиль %1</translation>
+        <translation type="obsolete">открыть профиль %1</translation>
     </message>
     <message>
         <source>select profile %1</source>
-        <translation type="vanished">выбрать профиль %1</translation>
+        <translation type="obsolete">выбрать профиль %1</translation>
     </message>
     <message>
         <source>Additional flags:</source>
@@ -932,7 +1103,7 @@
     </message>
     <message>
         <source>open a tab with number %1</source>
-        <translation type="vanished">открыть вкладку с номером %1</translation>
+        <translation type="obsolete">открыть вкладку с номером %1</translation>
     </message>
     <message>
         <source>Show messages:</source>
@@ -956,7 +1127,7 @@
     </message>
     <message>
         <source>cmake flags:</source>
-        <translation type="vanished">Флаги cmake:</translation>
+        <translation type="obsolete">Флаги cmake:</translation>
     </message>
     <message>
         <source>Version : %1
@@ -982,15 +1153,15 @@
     </message>
     <message>
         <source>netctl-auto is running</source>
-        <translation>netctl-auto запущен</translation>
+        <translation type="obsolete">netctl-auto запущен</translation>
     </message>
     <message>
         <source>Show</source>
-        <translation>Показать</translation>
+        <translation type="obsolete">Показать</translation>
     </message>
     <message>
         <source>Help</source>
-        <translation>Справка</translation>
+        <translation type="obsolete">Справка</translation>
     </message>
     <message>
         <source>read configuration from file %1</source>
@@ -1026,19 +1197,19 @@
     </message>
     <message>
         <source>Active</source>
-        <translation>Активен</translation>
+        <translation type="obsolete">Активен</translation>
     </message>
     <message>
         <source>Enabled</source>
-        <translation>Включен</translation>
+        <translation type="obsolete">Включен</translation>
     </message>
     <message>
         <source>Exists</source>
-        <translation>Существует</translation>
+        <translation type="obsolete">Существует</translation>
     </message>
     <message>
         <source>ESSID</source>
-        <translation>ESSID</translation>
+        <translation type="obsolete">ESSID</translation>
     </message>
     <message>
         <source>start maximized</source>
@@ -1046,7 +1217,7 @@
     </message>
     <message>
         <source>start minimized</source>
-        <translation type="vanished">запустить свернутым</translation>
+        <translation type="obsolete">запустить свернутым</translation>
     </message>
     <message>
         <source>Options:</source>
@@ -1054,7 +1225,7 @@
     </message>
     <message>
         <source>start as daemon</source>
-        <translation type="vanished">запустить, как демон</translation>
+        <translation type="obsolete">запустить, как демон</translation>
     </message>
     <message>
         <source>start minimized to tray</source>
@@ -1086,15 +1257,15 @@
     </message>
     <message>
         <source>DBus API reference</source>
-        <translation type="vanished">Описание DBus API</translation>
+        <translation type="obsolete">Описание DBus API</translation>
     </message>
     <message>
         <source>Security notes</source>
-        <translation type="vanished">Примечания о безопасности</translation>
+        <translation type="obsolete">Примечания о безопасности</translation>
     </message>
     <message>
         <source>Library documentation</source>
-        <translation type="vanished">Документация</translation>
+        <translation type="obsolete">Документация</translation>
     </message>
     <message>
         <source>Documentation</source>
@@ -1110,11 +1281,11 @@
     </message>
     <message>
         <source>Switch to profile</source>
-        <translation type="vanished">Переключиться на профиль</translation>
+        <translation type="obsolete">Переключиться на профиль</translation>
     </message>
     <message>
         <source>Stop all profiles</source>
-        <translation type="vanished">Остановить все профили</translation>
+        <translation type="obsolete">Остановить все профили</translation>
     </message>
     <message>
         <source>start detached from console</source>
@@ -1122,11 +1293,11 @@
     </message>
     <message>
         <source>Connection is successfully.</source>
-        <translation>Соединение установлено.</translation>
+        <translation type="obsolete">Соединение установлено.</translation>
     </message>
     <message>
         <source>Connection failed.</source>
-        <translation>Соединение не установлено.</translation>
+        <translation type="obsolete">Соединение не установлено.</translation>
     </message>
     <message>
         <source>Do you want to save profile %1?</source>
@@ -1138,15 +1309,15 @@
     </message>
     <message>
         <source>Switch</source>
-        <translation>Переключить</translation>
+        <translation type="obsolete">Переключить</translation>
     </message>
     <message>
         <source>Stop all</source>
-        <translation>Остановить все</translation>
+        <translation type="obsolete">Остановить все</translation>
     </message>
     <message>
         <source>Edit</source>
-        <translation>Редактировать</translation>
+        <translation type="obsolete">Редактировать</translation>
     </message>
     <message>
         <source>DBus API</source>
@@ -1172,6 +1343,62 @@
         <source>Project properties</source>
         <translation>Свойства проекта</translation>
     </message>
+    <message>
+        <source>Connection is successfully</source>
+        <translation>Соединение установлено</translation>
+    </message>
+    <message>
+        <source>Connection failed</source>
+        <translation>Соединение не установлено</translation>
+    </message>
+    <message>
+        <source>Information</source>
+        <translation>Информация</translation>
+    </message>
+    <message>
+        <source>Application has been hidden to tray</source>
+        <translation>Приложение было скрыто в трей</translation>
+    </message>
+    <message>
+        <source>Show security notes</source>
+        <translation>Показать примечания о безопасности</translation>
+    </message>
+    <message>
+        <source>Show DBus API</source>
+        <translation>Показать DBus API</translation>
+    </message>
+    <message>
+        <source>Show library docs</source>
+        <translation>Показать документацию к библиотеке</translation>
+    </message>
+    <message>
+        <source>About this application</source>
+        <translation>О приложении</translation>
+    </message>
+    <message>
+        <source>netctl control</source>
+        <translation>Управление netctl</translation>
+    </message>
+    <message>
+        <source>Ctrl+N</source>
+        <translation>Ctrl+N</translation>
+    </message>
+    <message>
+        <source>Profiles</source>
+        <translation>Профили</translation>
+    </message>
+    <message>
+        <source>Ctrl+P</source>
+        <translation>Ctrl+P</translation>
+    </message>
+    <message>
+        <source>Ctrl+W</source>
+        <translation>Ctrl+W</translation>
+    </message>
+    <message>
+        <source>Toolbar</source>
+        <translation>Панель инструментов</translation>
+    </message>
 </context>
 <context>
     <name>MobileWidget</name>
@@ -1185,15 +1412,15 @@
     </message>
     <message>
         <source>Hide advanced</source>
-        <translation>Скрыть расширенные</translation>
+        <translation type="obsolete">Скрыть расширенные</translation>
     </message>
     <message>
         <source>Show advanced</source>
-        <translation>Показать расширенные</translation>
+        <translation type="obsolete">Показать расширенные</translation>
     </message>
     <message>
         <source>Form</source>
-        <translation>Form</translation>
+        <translation type="obsolete">Form</translation>
     </message>
     <message>
         <source>Mobile PPP settings</source>
@@ -1348,11 +1575,11 @@
     </message>
     <message>
         <source>yes</source>
-        <translation>да</translation>
+        <translation type="obsolete">да</translation>
     </message>
     <message>
         <source>Updated</source>
-        <translation>Обновлено</translation>
+        <translation type="obsolete">Обновлено</translation>
     </message>
     <message>
         <source>Enable all profiles</source>
@@ -1380,7 +1607,7 @@
     </message>
     <message>
         <source>Disable profile</source>
-        <translation>Отключить профиль</translation>
+        <translation type="obsolete">Отключить профиль</translation>
     </message>
     <message>
         <source>Esc</source>
@@ -1420,37 +1647,112 @@
     </message>
     <message>
         <source>no</source>
-        <translation>нет</translation>
+        <translation type="obsolete">нет</translation>
     </message>
     <message>
         <source>Profile</source>
         <translation>Профиль</translation>
+    </message>
+    <message>
+        <source>Enabled</source>
+        <translation>Включен</translation>
+    </message>
+    <message>
+        <source>Start or stop service</source>
+        <translation>Запустить или остановить сервис</translation>
+    </message>
+    <message>
+        <source>Enable or disable service</source>
+        <translation>Включить или отключить сервис</translation>
+    </message>
+    <message>
+        <source>Refresh table</source>
+        <translation>Обновить таблицу</translation>
+    </message>
+    <message>
+        <source>Ctrl+R</source>
+        <translation>Ctrl+R</translation>
+    </message>
+    <message>
+        <source>Enable or disable profile</source>
+        <translation>Отключить или включить выбранный профиль</translation>
+    </message>
+    <message>
+        <source>Toolbar</source>
+        <translation>Панель инструментов</translation>
     </message>
 </context>
 <context>
     <name>NetctlHelper</name>
     <message>
         <source>Build date: %1</source>
-        <translation type="vanished">Дата сборки: %1</translation>
+        <translation type="obsolete">Дата сборки: %1</translation>
     </message>
     <message>
         <source>cmake flags</source>
-        <translation type="vanished">Флаги cmake</translation>
+        <translation type="obsolete">Флаги cmake</translation>
     </message>
     <message>
         <source>DBus configuration</source>
-        <translation type="vanished">Настройка DBus</translation>
+        <translation type="obsolete">Настройка DBus</translation>
     </message>
     <message>
         <source>Documentation</source>
-        <translation type="vanished">Документация</translation>
+        <translation type="obsolete">Документация</translation>
+    </message>
+</context>
+<context>
+    <name>NewProfileWidget</name>
+    <message>
+        <source>Clear</source>
+        <translation>Очистить</translation>
+    </message>
+    <message>
+        <source>Clear data</source>
+        <translation>Очистить данные</translation>
+    </message>
+    <message>
+        <source>Ctrl+R</source>
+        <translation>Ctrl+R</translation>
+    </message>
+    <message>
+        <source>Load</source>
+        <translation>Загрузить</translation>
+    </message>
+    <message>
+        <source>Load selected profile</source>
+        <translation>Загрузить выбранный профиль</translation>
+    </message>
+    <message>
+        <source>Save</source>
+        <translation>Сохранить</translation>
+    </message>
+    <message>
+        <source>Save selected profile</source>
+        <translation>Сохранить выбранный профиль</translation>
+    </message>
+    <message>
+        <source>Remove</source>
+        <translation>Удалить</translation>
+    </message>
+    <message>
+        <source>Remove selected profile</source>
+        <translation>Удалить выбранный профиль</translation>
+    </message>
+    <message>
+        <source>Profile</source>
+        <translation>Профиль</translation>
+    </message>
+    <message>
+        <source>New profile toolbar</source>
+        <translation>Управление профилями</translation>
     </message>
 </context>
 <context>
     <name>PasswdWidget</name>
     <message>
         <source>Form</source>
-        <translation>Form</translation>
+        <translation type="obsolete">Form</translation>
     </message>
     <message>
         <source>Password</source>
@@ -1459,6 +1761,10 @@
     <message>
         <source>ESSID</source>
         <translation>ESSID</translation>
+    </message>
+    <message>
+        <source>Show symbols</source>
+        <translation>Показать символы</translation>
     </message>
 </context>
 <context>
@@ -1473,15 +1779,15 @@
     </message>
     <message>
         <source>Hide advanced</source>
-        <translation>Скрыть расширенные</translation>
+        <translation type="obsolete">Скрыть расширенные</translation>
     </message>
     <message>
         <source>Show advanced</source>
-        <translation>Показать расширенные</translation>
+        <translation type="obsolete">Показать расширенные</translation>
     </message>
     <message>
         <source>Form</source>
-        <translation>Form</translation>
+        <translation type="obsolete">Form</translation>
     </message>
     <message>
         <source>PPPoE settings</source>
@@ -1668,7 +1974,7 @@
     </message>
     <message>
         <source>You will need to restart the application</source>
-        <translation type="vanished">You will need to restart the application</translation>
+        <translation type="obsolete">You will need to restart the application</translation>
     </message>
     <message>
         <source>General</source>
@@ -1824,11 +2130,11 @@
     </message>
     <message>
         <source>wpa_actiond path</source>
-        <translation type="vanished">Путь к wpa_actiond</translation>
+        <translation type="obsolete">Путь к wpa_actiond</translation>
     </message>
     <message>
         <source>Path to wpa_actiond</source>
-        <translation type="vanished">Путь к wpa_actiond</translation>
+        <translation type="obsolete">Путь к wpa_actiond</translation>
     </message>
     <message>
         <source>Enable system tray</source>
@@ -1880,7 +2186,7 @@
     </message>
     <message>
         <source>Close helper after exit</source>
-        <translation type="vanished">Закрыть хелпер после выхода</translation>
+        <translation>Закрыть хелпер после выхода</translation>
     </message>
     <message>
         <source>Helper command</source>
@@ -1904,22 +2210,70 @@
     </message>
     <message>
         <source>Close helper after exit (doesn&apos;t work while systemd service is active)</source>
-        <translation>Закрыть хелпер после выхода (не работает, если запущен сервис systemd)</translation>
+        <translation type="obsolete">Закрыть хелпер после выхода (не работает, если запущен сервис systemd)</translation>
     </message>
     <message>
         <source>There are too binaries. `netctlgui-helper` should be running as root (for example from systemd), otherwise interface `/ctrl` will not be available. `netctlgui-helper-suid` may be running as normal user, but you should keep it in mind that it has SUID bit.</source>
-        <translation type="vanished">Существует два бинарных файла. `netctlgui-helper` должен быть запущен от root&apos;а (например, через systemd), в противном случае интерфейс `/ctrl` не будет доступен. `netctlgui-helper-suid` может быть запущен от обычного пользователя, однако Вы должны иметь в виду, что он имеет SUID бит.</translation>
+        <translation type="obsolete">Существует два бинарных файла. `netctlgui-helper` должен быть запущен от root&apos;а (например, через systemd), в противном случае интерфейс `/ctrl` не будет доступен. `netctlgui-helper-suid` может быть запущен от обычного пользователя, однако Вы должны иметь в виду, что он имеет SUID бит.</translation>
     </message>
     <message>
         <source>Skip components checking</source>
         <translation>Пропустить проверку компонентов</translation>
+    </message>
+    <message>
+        <source>Toolbars</source>
+        <translation>Панели инструментов</translation>
+    </message>
+    <message>
+        <source>Control group</source>
+        <translation>Управляющая группа</translation>
+    </message>
+    <message>
+        <source>Main toolbar</source>
+        <translation>Основная панель инструментов</translation>
+    </message>
+    <message>
+        <source>Left</source>
+        <translation>Слева</translation>
+    </message>
+    <message>
+        <source>Right</source>
+        <translation>Справа</translation>
+    </message>
+    <message>
+        <source>Top</source>
+        <translation>Сверху</translation>
+    </message>
+    <message>
+        <source>Bottom</source>
+        <translation>Снизу</translation>
+    </message>
+    <message>
+        <source>Disabled</source>
+        <translation>Отключен</translation>
+    </message>
+    <message>
+        <source>netctl toolbar</source>
+        <translation>Управление netctl</translation>
+    </message>
+    <message>
+        <source>netctl-auto toolbar</source>
+        <translation>Управление netctl-auto</translation>
+    </message>
+    <message>
+        <source>Profiles toolbar</source>
+        <translation>Управление профилями</translation>
+    </message>
+    <message>
+        <source>WiFi toolbar</source>
+        <translation>Управление WiFi</translation>
     </message>
 </context>
 <context>
     <name>TrayIcon</name>
     <message>
         <source>netctl status</source>
-        <translation>Статус netctl</translation>
+        <translation type="obsolete">Статус netctl</translation>
     </message>
     <message>
         <source>Quit</source>
@@ -1927,11 +2281,11 @@
     </message>
     <message>
         <source>Show</source>
-        <translation>Показать</translation>
+        <translation type="obsolete">Показать</translation>
     </message>
     <message>
         <source>Show netctl-auto</source>
-        <translation>Показать netctl-auto</translation>
+        <translation type="obsolete">Показать netctl-auto</translation>
     </message>
     <message>
         <source>Status</source>
@@ -1939,15 +2293,15 @@
     </message>
     <message>
         <source>Hide</source>
-        <translation>Свернуть</translation>
+        <translation type="obsolete">Свернуть</translation>
     </message>
     <message>
         <source>Hide netctl-auto</source>
-        <translation type="vanished">Свернуть netctl-auto</translation>
+        <translation type="obsolete">Свернуть netctl-auto</translation>
     </message>
     <message>
         <source>Profile</source>
-        <translation>Профиль</translation>
+        <translation type="obsolete">Профиль</translation>
     </message>
     <message>
         <source>(inactive)</source>
@@ -1955,19 +2309,19 @@
     </message>
     <message>
         <source>(netctl-auto)</source>
-        <translation>(netctl-auto)</translation>
+        <translation type="obsolete">(netctl-auto)</translation>
     </message>
     <message>
         <source>(enabled)</source>
-        <translation type="vanished">(включен)</translation>
+        <translation type="obsolete">(включен)</translation>
     </message>
     <message>
         <source>(static)</source>
-        <translation type="vanished">(статический)</translation>
+        <translation type="obsolete">(статический)</translation>
     </message>
     <message>
         <source>Start another profile</source>
-        <translation>Запустить другой профиль</translation>
+        <translation type="obsolete">Запустить другой профиль</translation>
     </message>
     <message>
         <source>Stop %1</source>
@@ -2017,12 +2371,16 @@
         <source>Stop all profiles</source>
         <translation>Остановить все профили</translation>
     </message>
+    <message>
+        <source>netctl-auto</source>
+        <translation>netctl-auto</translation>
+    </message>
 </context>
 <context>
     <name>TunnelWidget</name>
     <message>
         <source>Form</source>
-        <translation>Form</translation>
+        <translation type="obsolete">Form</translation>
     </message>
     <message>
         <source>Tunnel settings</source>
@@ -2089,7 +2447,7 @@
     <name>TuntapWidget</name>
     <message>
         <source>Form</source>
-        <translation>Form</translation>
+        <translation type="obsolete">Form</translation>
     </message>
     <message>
         <source>Tuntap settings</source>
@@ -2132,7 +2490,7 @@
     <name>VlanWidget</name>
     <message>
         <source>Form</source>
-        <translation>Form</translation>
+        <translation type="obsolete">Form</translation>
     </message>
     <message>
         <source>vlan settings</source>
@@ -2148,18 +2506,129 @@
     </message>
 </context>
 <context>
+    <name>WiFiMenuWidget</name>
+    <message>
+        <source>Start</source>
+        <translation>Старт</translation>
+    </message>
+    <message>
+        <source>Stop</source>
+        <translation>Стоп</translation>
+    </message>
+    <message>
+        <source>Processing...</source>
+        <translation>Обработка</translation>
+    </message>
+    <message>
+        <source>MHz</source>
+        <translation>МГц</translation>
+    </message>
+    <message>
+        <source>Name</source>
+        <translation>Имя</translation>
+    </message>
+    <message>
+        <source>Type</source>
+        <translation>Тип</translation>
+    </message>
+    <message>
+        <source># of points</source>
+        <translation>Число точек</translation>
+    </message>
+    <message>
+        <source>Signal</source>
+        <translation>Сигнал</translation>
+    </message>
+    <message>
+        <source>Security</source>
+        <translation>Безопасность</translation>
+    </message>
+    <message>
+        <source>Active</source>
+        <translation>Активен</translation>
+    </message>
+    <message>
+        <source>Exists</source>
+        <translation>Существует</translation>
+    </message>
+    <message>
+        <source>2GHz</source>
+        <translation>2ГГц</translation>
+    </message>
+    <message>
+        <source>5GHz</source>
+        <translation>5ГГц</translation>
+    </message>
+    <message>
+        <source>2GHz and 5GHz</source>
+        <translation>2ГГц и 5ГГц</translation>
+    </message>
+    <message>
+        <source>N\A</source>
+        <translation>N\A</translation>
+    </message>
+    <message>
+        <source>Point</source>
+        <translation>Точка</translation>
+    </message>
+    <message>
+        <source>Refresh</source>
+        <translation>Обновить</translation>
+    </message>
+    <message>
+        <source>Start WiFi</source>
+        <translation>Подключить WiFi</translation>
+    </message>
+    <message>
+        <source>Stop WiFi</source>
+        <translation>Остановить WiFi</translation>
+    </message>
+    <message>
+        <source>Please install &apos;wpa_supplicant&apos; before use it</source>
+        <translation>Установите &apos;wpa_supplicant&apos; для использования этого модуля</translation>
+    </message>
+    <message>
+        <source>Information</source>
+        <translation>Информация</translation>
+    </message>
+    <message>
+        <source>This isn&apos;t the functionality you&apos;re looking for</source>
+        <translation>Это не та функциональность, которую вы ищите</translation>
+    </message>
+    <message>
+        <source>Refresh table</source>
+        <translation>Обновить таблицу</translation>
+    </message>
+    <message>
+        <source>Ctrl+R</source>
+        <translation>Ctrl+R</translation>
+    </message>
+    <message>
+        <source>Connect or disconnect from selected ESSID</source>
+        <translation>Подключиться или отключиться к выбранному ESSID</translation>
+    </message>
+    <message>
+        <source>Please install &apos;wpa_supplicant&apos; before using it</source>
+        <translation>Установите &apos;wpa_supplicant&apos; для использования этого модуля</translation>
+    </message>
+    <message>
+        <source>WiFi menu toolbar</source>
+        <translation>Панель инструментов WiFi</translation>
+    </message>
+</context>
+<context>
     <name>WirelessWidget</name>
     <message>
         <source>Hide advanced</source>
-        <translation>Скрыть расширенные</translation>
+        <translation type="obsolete">Скрыть расширенные</translation>
     </message>
     <message>
         <source>Show advanced</source>
-        <translation>Показать расширенные</translation>
+        <translation type="obsolete">Показать расширенные</translation>
     </message>
     <message>
         <source>Form</source>
-        <translation>Form</translation>
+        <translation type="obsolete">Form</translation>
     </message>
     <message>
         <source>Wireless options</source>

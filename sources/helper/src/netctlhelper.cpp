@@ -156,7 +156,6 @@ QMap<QString, QString> NetctlHelper::getSettings(const QString file)
 
     settings.beginGroup(QString("Helper"));
     config[QString("USE_HELPER")] = settings.value(QString("USE_HELPER"), QString("true")).toString();
-    config[QString("HELPER_GROUP")] = settings.value(QString("HELPER_GROUP"), QString("network")).toString();
     config[QString("FORCE_SUDO")] = settings.value(QString("FORCE_SUDO"), QString("false")).toString();
     config[QString("CLOSE_HELPER")] = settings.value(QString("CLOSE_HELPER"), QString("false")).toString();
     config[QString("HELPER_PATH")] = settings.value(QString("HELPER_PATH"), QString("/usr/bin/netctlgui-helper")).toString();

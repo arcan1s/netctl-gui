@@ -110,9 +110,11 @@ QString ControlAdaptor::SecurityDocs()
 }
 
 
-bool ControlAdaptor::SelfDestruct()
+bool ControlAdaptor::SelfDestruct(const QString approve)
 {
-    return SelfDestruct();
+    if (approve == QString("Yes, please")) return SelfDestruct(approve);
+
+    return false;
 }
 
 

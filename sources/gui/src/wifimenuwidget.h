@@ -58,6 +58,7 @@ private slots:
     // wifi tab slots
     void wifiTabContextualMenu(const QPoint &pos);
     bool wifiTabSetEnabled(const bool state);
+    int wifiTabShowInfo();
     void wifiTabStart();
 
 private:

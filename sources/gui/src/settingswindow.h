@@ -48,9 +48,12 @@ public slots:
     void showWindow();
 
 private slots:
+    void addGroups();
     void addLanguages();
+    void applyHelperGroup();
     void changePage(QTreeWidgetItem *current, QTreeWidgetItem *previous);
     void saveSettings();
+    void setHelperGroup();
     void setTray();
     void updateHelper();
     // buttons

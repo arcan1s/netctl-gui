@@ -113,6 +113,7 @@
    <addaction name="actionRefresh"/>
    <addaction name="separator"/>
    <addaction name="actionStart"/>
+   <addaction name="actionFunc"/>
   </widget>
   <action name="actionRefresh">
    <property name="icon">
@@ -143,6 +144,7 @@
     <string>Connect or disconnect from selected ESSID</string>
    </property>
   </action>
+  <action name="actionFunc"/>
  </widget>
  <resources/>
  <connections/>

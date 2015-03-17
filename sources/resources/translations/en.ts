@@ -69,7 +69,7 @@
     <name>BridgeWidget</name>
     <message>
         <source>Form</source>
-        <translation>Form</translation>
+        <translation type="obsolete">Form</translation>
     </message>
     <message>
         <source>Bridge settings</source>
@@ -182,6 +182,14 @@
         <source>Could not run helper</source>
         <translation>Could not run helper</translation>
     </message>
+    <message>
+        <source>User is not in network group, helper will not be started</source>
+        <translation>User is not in network group, helper will not be started</translation>
+    </message>
+    <message>
+        <source>IP address does not match the standard</source>
+        <translation>IP address does not match the standard</translation>
+    </message>
 </context>
 <context>
     <name>EthernetWidget</name>
@@ -195,15 +203,15 @@
     </message>
     <message>
         <source>Hide advanced</source>
-        <translation>Hide advanced</translation>
+        <translation type="obsolete">Hide advanced</translation>
     </message>
     <message>
         <source>Show advanced</source>
-        <translation>Show advanced</translation>
+        <translation type="obsolete">Show advanced</translation>
     </message>
     <message>
         <source>Form</source>
-        <translation>Form</translation>
+        <translation type="obsolete">Form</translation>
     </message>
     <message>
         <source>Ethernet options</source>
@@ -286,7 +294,7 @@
     </message>
     <message>
         <source>Form</source>
-        <translation>Form</translation>
+        <translation type="obsolete">Form</translation>
     </message>
     <message>
         <source>General</source>
@@ -298,7 +306,7 @@
     </message>
     <message>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;A description of the profile&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation>A description of the profile</translation>
+        <translation type="obsolete">A description of the profile</translation>
     </message>
     <message>
         <source>Connection</source>
@@ -364,20 +372,24 @@
         <source>Debug mode</source>
         <translation>Debug mode</translation>
     </message>
+    <message>
+        <source>A description of the profile</source>
+        <translation>A description of the profile</translation>
+    </message>
 </context>
 <context>
     <name>IpWidget</name>
     <message>
         <source>Hide advanced</source>
-        <translation>Hide advanced</translation>
+        <translation type="obsolete">Hide advanced</translation>
     </message>
     <message>
         <source>Show advanced</source>
-        <translation>Show advanced</translation>
+        <translation type="obsolete">Show advanced</translation>
     </message>
     <message>
         <source>Form</source>
-        <translation>Form</translation>
+        <translation type="obsolete">Form</translation>
     </message>
     <message>
         <source>IP options</source>
@@ -413,7 +425,7 @@
     </message>
     <message>
         <source>An IP routing gateway address</source>
-        <translation>An IP routing gateway address</translation>
+        <translation type="obsolete">An IP routing gateway address</translation>
     </message>
     <message>
         <source>IP6</source>
@@ -441,7 +453,7 @@
     </message>
     <message>
         <source>An IPv6 routing gateway address</source>
-        <translation>An IPv6 routing gateway address</translation>
+        <translation type="obsolete">An IPv6 routing gateway address</translation>
     </message>
     <message>
         <source>Routes</source>
@@ -567,12 +579,32 @@
         <source>Maximum time, in seconds, to wait for IPv6’s Duplicate Address Detection to succeed</source>
         <translation>Maximum time, in seconds, to wait for IPv6’s Duplicate Address Detection to succeed</translation>
     </message>
+    <message>
+        <source>Should be in CIDR form according to standards</source>
+        <translation>Should be in CIDR form according to standards</translation>
+    </message>
+    <message>
+        <source>An IP routing gateway address.
+Should be according to standards</source>
+        <translation>An IP routing gateway address.
+Should be according to standards</translation>
+    </message>
+    <message>
+        <source>An IPv6 routing gateway address.
+Should be according to standards</source>
+        <translation>An IPv6 routing gateway address.
+Should be according to standards</translation>
+    </message>
+    <message>
+        <source>Should be according to standards</source>
+        <translation>Should be according to standards</translation>
+    </message>
 </context>
 <context>
     <name>MacvlanWidget</name>
     <message>
         <source>Form</source>
-        <translation>Form</translation>
+        <translation type="obsolete">Form</translation>
     </message>
     <message>
         <source>macvlan settings</source>
@@ -596,23 +628,7 @@
     </message>
 </context>
 <context>
-    <name>MainWindow</name>
-    <message>
-        <source>Ready</source>
-        <translation>Ready</translation>
-    </message>
-    <message>
-        <source>Updated</source>
-        <translation>Updated</translation>
-    </message>
-    <message>
-        <source>Error</source>
-        <translation>Error</translation>
-    </message>
-    <message>
-        <source>Done</source>
-        <translation>Done</translation>
-    </message>
+    <name>MainWidget</name>
     <message>
         <source>Stop</source>
         <translation>Stop</translation>
@@ -628,6 +644,161 @@
     <message>
         <source>Enable</source>
         <translation>Enable</translation>
+    </message>
+    <message>
+        <source>Name</source>
+        <translation>Name</translation>
+    </message>
+    <message>
+        <source>Description</source>
+        <translation>Description</translation>
+    </message>
+    <message>
+        <source>Active</source>
+        <translation>Active</translation>
+    </message>
+    <message>
+        <source>Enabled</source>
+        <translation>Enabled</translation>
+    </message>
+    <message>
+        <source>Type</source>
+        <translation>Type</translation>
+    </message>
+    <message>
+        <source>Is wireless</source>
+        <translation>Is wireless</translation>
+    </message>
+    <message>
+        <source>Refresh</source>
+        <translation>Refresh</translation>
+    </message>
+    <message>
+        <source>Start profile</source>
+        <translation>Start profile</translation>
+    </message>
+    <message>
+        <source>Restart profile</source>
+        <translation>Restart profile</translation>
+    </message>
+    <message>
+        <source>Enable profile</source>
+        <translation>Enable profile</translation>
+    </message>
+    <message>
+        <source>Edit profile</source>
+        <translation>Edit profile</translation>
+    </message>
+    <message>
+        <source>Remove profile</source>
+        <translation>Remove profile</translation>
+    </message>
+    <message>
+        <source>Stop profile</source>
+        <translation>Stop profile</translation>
+    </message>
+    <message>
+        <source>Disable profile</source>
+        <translation>Disable profile</translation>
+    </message>
+    <message>
+        <source>Refresh table</source>
+        <translation>Refresh table</translation>
+    </message>
+    <message>
+        <source>Ctrl+R</source>
+        <translation>Ctrl+R</translation>
+    </message>
+    <message>
+        <source>Start or stop selected profile</source>
+        <translation>Start or stop selected profile</translation>
+    </message>
+    <message>
+        <source>Switch</source>
+        <translation>Switch</translation>
+    </message>
+    <message>
+        <source>Switch to selected profile</source>
+        <translation>Switch to selected profile</translation>
+    </message>
+    <message>
+        <source>Restart</source>
+        <translation>Restart</translation>
+    </message>
+    <message>
+        <source>Restart selected profile</source>
+        <translation>Restart selected profile</translation>
+    </message>
+    <message>
+        <source>Enable or disable selected profile</source>
+        <translation>Enable or disable selected profile</translation>
+    </message>
+    <message>
+        <source>Stop all</source>
+        <translation>Stop all</translation>
+    </message>
+    <message>
+        <source>Stop all profiles</source>
+        <translation>Stop all profiles</translation>
+    </message>
+    <message>
+        <source>Edit</source>
+        <translation>Edit</translation>
+    </message>
+    <message>
+        <source>Edit selected profile</source>
+        <translation>Edit selected profile</translation>
+    </message>
+    <message>
+        <source>Remove</source>
+        <translation>Remove</translation>
+    </message>
+    <message>
+        <source>Remove selected profile</source>
+        <translation>Remove selected profile</translation>
+    </message>
+    <message>
+        <source>netctl-auto is running</source>
+        <translation>netctl-auto is running</translation>
+    </message>
+    <message>
+        <source>Main actions toolbar</source>
+        <translation>Main actions toolbar</translation>
+    </message>
+</context>
+<context>
+    <name>MainWindow</name>
+    <message>
+        <source>Ready</source>
+        <translation>Ready</translation>
+    </message>
+    <message>
+        <source>Updated</source>
+        <translation type="obsolete">Updated</translation>
+    </message>
+    <message>
+        <source>Error</source>
+        <translation>Error</translation>
+    </message>
+    <message>
+        <source>Done</source>
+        <translation>Done</translation>
+    </message>
+    <message>
+        <source>Stop</source>
+        <translation type="obsolete">Stop</translation>
+    </message>
+    <message>
+        <source>Start</source>
+        <translation type="obsolete">Start</translation>
+    </message>
+    <message>
+        <source>Disable</source>
+        <translation type="obsolete">Disable</translation>
+    </message>
+    <message>
+        <source>Enable</source>
+        <translation type="obsolete">Enable</translation>
     </message>
     <message>
         <source>Save profile as...</source>
@@ -723,35 +894,35 @@
     </message>
     <message>
         <source>Name</source>
-        <translation>Name</translation>
+        <translation type="obsolete">Name</translation>
     </message>
     <message>
         <source>Description</source>
-        <translation>Description</translation>
+        <translation type="obsolete">Description</translation>
     </message>
     <message>
         <source>Status</source>
-        <translation type="vanished">Status</translation>
+        <translation type="obsolete">Status</translation>
     </message>
     <message>
         <source>Refresh</source>
-        <translation>Refresh</translation>
+        <translation type="obsolete">Refresh</translation>
     </message>
     <message>
         <source>Ctrl+R</source>
-        <translation type="vanished">Ctrl+R</translation>
+        <translation type="obsolete">Ctrl+R</translation>
     </message>
     <message>
         <source>Restart</source>
-        <translation>Restart</translation>
+        <translation type="obsolete">Restart</translation>
     </message>
     <message>
         <source>Connect to profile</source>
-        <translation>Connect to profile</translation>
+        <translation type="obsolete">Connect to profile</translation>
     </message>
     <message>
         <source>Profile</source>
-        <translation>Profile</translation>
+        <translation type="obsolete">Profile</translation>
     </message>
     <message>
         <source>Browse</source>
@@ -759,27 +930,27 @@
     </message>
     <message>
         <source>Clear</source>
-        <translation>Clear</translation>
+        <translation type="obsolete">Clear</translation>
     </message>
     <message>
         <source>Load</source>
-        <translation>Load</translation>
+        <translation type="obsolete">Load</translation>
     </message>
     <message>
         <source>Save</source>
-        <translation>Save</translation>
+        <translation type="obsolete">Save</translation>
     </message>
     <message>
         <source>Create a new profile</source>
-        <translation>Create a new profile</translation>
+        <translation type="obsolete">Create a new profile</translation>
     </message>
     <message>
         <source>Please install &apos;wpa_supplicant&apos; before using it</source>
-        <translation>Please install &apos;wpa_supplicant&apos; before using it</translation>
+        <translation type="obsolete">Please install &apos;wpa_supplicant&apos; before using it</translation>
     </message>
     <message>
         <source>Signal</source>
-        <translation>Signal</translation>
+        <translation type="obsolete">Signal</translation>
     </message>
     <message>
         <source>Security</source>
@@ -787,7 +958,7 @@
     </message>
     <message>
         <source>Connect to Wi-Fi</source>
-        <translation type="vanished">Connect to Wi-Fi</translation>
+        <translation type="obsolete">Connect to Wi-Fi</translation>
     </message>
     <message>
         <source>Menu</source>
@@ -803,55 +974,55 @@
     </message>
     <message>
         <source>Remove</source>
-        <translation>Remove</translation>
+        <translation type="obsolete">Remove</translation>
     </message>
     <message>
         <source>Stop profile</source>
-        <translation>Stop profile</translation>
+        <translation type="obsolete">Stop profile</translation>
     </message>
     <message>
         <source>Start profile</source>
-        <translation>Start profile</translation>
+        <translation type="obsolete">Start profile</translation>
     </message>
     <message>
         <source>Disable profile</source>
-        <translation>Disable profile</translation>
+        <translation type="obsolete">Disable profile</translation>
     </message>
     <message>
         <source>Enable profile</source>
-        <translation>Enable profile</translation>
+        <translation type="obsolete">Enable profile</translation>
     </message>
     <message>
         <source>Stop WiFi</source>
-        <translation>Stop WiFi</translation>
+        <translation type="obsolete">Stop WiFi</translation>
     </message>
     <message>
         <source>Start WiFi</source>
-        <translation>Start WiFi</translation>
+        <translation type="obsolete">Start WiFi</translation>
     </message>
     <message>
         <source>Restart profile</source>
-        <translation>Restart profile</translation>
+        <translation type="obsolete">Restart profile</translation>
     </message>
     <message>
         <source>Edit profile</source>
-        <translation>Edit profile</translation>
+        <translation type="obsolete">Edit profile</translation>
     </message>
     <message>
         <source>Remove profile</source>
-        <translation>Remove profile</translation>
+        <translation type="obsolete">Remove profile</translation>
     </message>
     <message>
         <source>Load profile</source>
-        <translation type="vanished">Load profile</translation>
+        <translation type="obsolete">Load profile</translation>
     </message>
     <message>
         <source>Save profile</source>
-        <translation type="vanished">Save profile</translation>
+        <translation type="obsolete">Save profile</translation>
     </message>
     <message>
         <source>Start Wi-Fi</source>
-        <translation type="vanished">Start Wi-Fi</translation>
+        <translation type="obsolete">Start Wi-Fi</translation>
     </message>
     <message>
         <source>netctl-auto</source>
@@ -859,7 +1030,7 @@
     </message>
     <message>
         <source>Actions</source>
-        <translation>Actions</translation>
+        <translation type="obsolete">Actions</translation>
     </message>
     <message>
         <source>Name==Description==Status</source>
@@ -881,7 +1052,7 @@
     </message>
     <message>
         <source>Parametrs:</source>
-        <translation type="vanished">Parametrs:</translation>
+        <translation type="obsolete">Parametrs:</translation>
     </message>
     <message>
         <source>Open window:</source>
@@ -905,15 +1076,15 @@
     </message>
     <message>
         <source>select ESSID %1</source>
-        <translation type="vanished">select ESSID %1</translation>
+        <translation type="obsolete">select ESSID %1</translation>
     </message>
     <message>
         <source>open profile %1</source>
-        <translation type="vanished">open profile %1</translation>
+        <translation type="obsolete">open profile %1</translation>
     </message>
     <message>
         <source>select profile %1</source>
-        <translation type="vanished">select profile %1</translation>
+        <translation type="obsolete">select profile %1</translation>
     </message>
     <message>
         <source>Additional flags:</source>
@@ -933,7 +1104,7 @@
     </message>
     <message>
         <source>open a tab with number %1</source>
-        <translation type="vanished">open a tab with number %1</translation>
+        <translation type="obsolete">open a tab with number %1</translation>
     </message>
     <message>
         <source>Show messages:</source>
@@ -957,7 +1128,7 @@
     </message>
     <message>
         <source>cmake flags:</source>
-        <translation type="vanished">cmake flags:</translation>
+        <translation type="obsolete">cmake flags:</translation>
     </message>
     <message>
         <source>Version : %1
@@ -983,15 +1154,15 @@
     </message>
     <message>
         <source>netctl-auto is running</source>
-        <translation>netctl-auto is running</translation>
+        <translation type="obsolete">netctl-auto is running</translation>
     </message>
     <message>
         <source>Show</source>
-        <translation>Show</translation>
+        <translation type="obsolete">Show</translation>
     </message>
     <message>
         <source>Help</source>
-        <translation>Help</translation>
+        <translation type="obsolete">Help</translation>
     </message>
     <message>
         <source>read configuration from file %1</source>
@@ -1027,19 +1198,19 @@
     </message>
     <message>
         <source>Active</source>
-        <translation>Active</translation>
+        <translation type="obsolete">Active</translation>
     </message>
     <message>
         <source>Enabled</source>
-        <translation>Enabled</translation>
+        <translation type="obsolete">Enabled</translation>
     </message>
     <message>
         <source>Exists</source>
-        <translation>Exists</translation>
+        <translation type="obsolete">Exists</translation>
     </message>
     <message>
         <source>ESSID</source>
-        <translation>ESSID</translation>
+        <translation type="obsolete">ESSID</translation>
     </message>
     <message>
         <source>start maximized</source>
@@ -1047,7 +1218,7 @@
     </message>
     <message>
         <source>start minimized</source>
-        <translation type="vanished">start minimized</translation>
+        <translation type="obsolete">start minimized</translation>
     </message>
     <message>
         <source>Options:</source>
@@ -1055,7 +1226,7 @@
     </message>
     <message>
         <source>start as daemon</source>
-        <translation type="vanished">start as daemon</translation>
+        <translation type="obsolete">start as daemon</translation>
     </message>
     <message>
         <source>start minimized to tray</source>
@@ -1087,15 +1258,15 @@
     </message>
     <message>
         <source>DBus API reference</source>
-        <translation type="vanished">DBus API reference</translation>
+        <translation type="obsolete">DBus API reference</translation>
     </message>
     <message>
         <source>Security notes</source>
-        <translation type="vanished">Security notes</translation>
+        <translation type="obsolete">Security notes</translation>
     </message>
     <message>
         <source>Library documentation</source>
-        <translation type="vanished">Library documentation</translation>
+        <translation type="obsolete">Library documentation</translation>
     </message>
     <message>
         <source>Documentation</source>
@@ -1111,11 +1282,11 @@
     </message>
     <message>
         <source>Switch to profile</source>
-        <translation type="vanished">Switch to profile</translation>
+        <translation type="obsolete">Switch to profile</translation>
     </message>
     <message>
         <source>Stop all profiles</source>
-        <translation type="vanished">Stop all profiles</translation>
+        <translation type="obsolete">Stop all profiles</translation>
     </message>
     <message>
         <source>start detached from console</source>
@@ -1123,11 +1294,11 @@
     </message>
     <message>
         <source>Connection is successfully.</source>
-        <translation>Connection is successfully.</translation>
+        <translation type="obsolete">Connection is successfully.</translation>
     </message>
     <message>
         <source>Connection failed.</source>
-        <translation>Connection failed.</translation>
+        <translation type="obsolete">Connection failed.</translation>
     </message>
     <message>
         <source>Do you want to save profile %1?</source>
@@ -1139,15 +1310,15 @@
     </message>
     <message>
         <source>Switch</source>
-        <translation>Switch</translation>
+        <translation type="obsolete">Switch</translation>
     </message>
     <message>
         <source>Stop all</source>
-        <translation>Stop all</translation>
+        <translation type="obsolete">Stop all</translation>
     </message>
     <message>
         <source>Edit</source>
-        <translation>Edit</translation>
+        <translation type="obsolete">Edit</translation>
     </message>
     <message>
         <source>DBus API</source>
@@ -1173,6 +1344,62 @@
         <source>Project properties</source>
         <translation>Project properties</translation>
     </message>
+    <message>
+        <source>Connection is successfully</source>
+        <translation>Connection is successfully</translation>
+    </message>
+    <message>
+        <source>Connection failed</source>
+        <translation>Connection failed</translation>
+    </message>
+    <message>
+        <source>Information</source>
+        <translation>Information</translation>
+    </message>
+    <message>
+        <source>Application has been hidden to tray</source>
+        <translation>Application has been hidden to tray</translation>
+    </message>
+    <message>
+        <source>Show security notes</source>
+        <translation>Show security notes</translation>
+    </message>
+    <message>
+        <source>Show DBus API</source>
+        <translation>Show DBus API</translation>
+    </message>
+    <message>
+        <source>Show library docs</source>
+        <translation>Show library docs</translation>
+    </message>
+    <message>
+        <source>About this application</source>
+        <translation>About this application</translation>
+    </message>
+    <message>
+        <source>netctl control</source>
+        <translation>netctl control</translation>
+    </message>
+    <message>
+        <source>Ctrl+N</source>
+        <translation>Ctrl+N</translation>
+    </message>
+    <message>
+        <source>Profiles</source>
+        <translation>Profiles</translation>
+    </message>
+    <message>
+        <source>Ctrl+P</source>
+        <translation>Ctrl+P</translation>
+    </message>
+    <message>
+        <source>Ctrl+W</source>
+        <translation>Ctrl+W</translation>
+    </message>
+    <message>
+        <source>Toolbar</source>
+        <translation>Toolbar</translation>
+    </message>
 </context>
 <context>
     <name>MobileWidget</name>
@@ -1186,15 +1413,15 @@
     </message>
     <message>
         <source>Hide advanced</source>
-        <translation>Hide advanced</translation>
+        <translation type="obsolete">Hide advanced</translation>
     </message>
     <message>
         <source>Show advanced</source>
-        <translation>Show advanced</translation>
+        <translation type="obsolete">Show advanced</translation>
     </message>
     <message>
         <source>Form</source>
-        <translation>Form</translation>
+        <translation type="obsolete">Form</translation>
     </message>
     <message>
         <source>Mobile PPP settings</source>
@@ -1349,11 +1576,11 @@
     </message>
     <message>
         <source>yes</source>
-        <translation>yes</translation>
+        <translation type="obsolete">yes</translation>
     </message>
     <message>
         <source>Updated</source>
-        <translation>Updated</translation>
+        <translation type="obsolete">Updated</translation>
     </message>
     <message>
         <source>Enable all profiles</source>
@@ -1381,7 +1608,7 @@
     </message>
     <message>
         <source>Disable profile</source>
-        <translation>Disable profile</translation>
+        <translation type="obsolete">Disable profile</translation>
     </message>
     <message>
         <source>Esc</source>
@@ -1421,37 +1648,112 @@
     </message>
     <message>
         <source>no</source>
-        <translation>no</translation>
+        <translation type="obsolete">no</translation>
     </message>
     <message>
         <source>Profile</source>
         <translation>Profile</translation>
+    </message>
+    <message>
+        <source>Enabled</source>
+        <translation>Enabled</translation>
+    </message>
+    <message>
+        <source>Start or stop service</source>
+        <translation>Start or stop service</translation>
+    </message>
+    <message>
+        <source>Enable or disable service</source>
+        <translation>Enable or disable service</translation>
+    </message>
+    <message>
+        <source>Refresh table</source>
+        <translation>Refresh table</translation>
+    </message>
+    <message>
+        <source>Ctrl+R</source>
+        <translation>Ctrl+R</translation>
+    </message>
+    <message>
+        <source>Enable or disable profile</source>
+        <translation>Enable or disable profile</translation>
+    </message>
+    <message>
+        <source>Toolbar</source>
+        <translation>Toolbar</translation>
     </message>
 </context>
 <context>
     <name>NetctlHelper</name>
     <message>
         <source>Build date: %1</source>
-        <translation type="vanished">Build date: %1</translation>
+        <translation type="obsolete">Build date: %1</translation>
     </message>
     <message>
         <source>cmake flags</source>
-        <translation type="vanished">cmake flags</translation>
+        <translation type="obsolete">cmake flags</translation>
     </message>
     <message>
         <source>DBus configuration</source>
-        <translation type="vanished">DBus configuration</translation>
+        <translation type="obsolete">DBus configuration</translation>
     </message>
     <message>
         <source>Documentation</source>
-        <translation type="vanished">Documentation</translation>
+        <translation type="obsolete">Documentation</translation>
+    </message>
+</context>
+<context>
+    <name>NewProfileWidget</name>
+    <message>
+        <source>Clear</source>
+        <translation>Clear</translation>
+    </message>
+    <message>
+        <source>Clear data</source>
+        <translation>Clear data</translation>
+    </message>
+    <message>
+        <source>Ctrl+R</source>
+        <translation>Ctrl+R</translation>
+    </message>
+    <message>
+        <source>Load</source>
+        <translation>Load</translation>
+    </message>
+    <message>
+        <source>Load selected profile</source>
+        <translation>Load selected profile</translation>
+    </message>
+    <message>
+        <source>Save</source>
+        <translation>Save</translation>
+    </message>
+    <message>
+        <source>Save selected profile</source>
+        <translation>Save selected profile</translation>
+    </message>
+    <message>
+        <source>Remove</source>
+        <translation>Remove</translation>
+    </message>
+    <message>
+        <source>Remove selected profile</source>
+        <translation>Remove selected profile</translation>
+    </message>
+    <message>
+        <source>Profile</source>
+        <translation>Profile</translation>
+    </message>
+    <message>
+        <source>New profile toolbar</source>
+        <translation>New profile toolbar</translation>
     </message>
 </context>
 <context>
     <name>PasswdWidget</name>
     <message>
         <source>Form</source>
-        <translation>Form</translation>
+        <translation type="obsolete">Form</translation>
     </message>
     <message>
         <source>Password</source>
@@ -1460,6 +1762,10 @@
     <message>
         <source>ESSID</source>
         <translation>ESSID</translation>
+    </message>
+    <message>
+        <source>Show symbols</source>
+        <translation>Show symbols</translation>
     </message>
 </context>
 <context>
@@ -1474,15 +1780,15 @@
     </message>
     <message>
         <source>Hide advanced</source>
-        <translation>Hide advanced</translation>
+        <translation type="obsolete">Hide advanced</translation>
     </message>
     <message>
         <source>Show advanced</source>
-        <translation>Show advanced</translation>
+        <translation type="obsolete">Show advanced</translation>
     </message>
     <message>
         <source>Form</source>
-        <translation>Form</translation>
+        <translation type="obsolete">Form</translation>
     </message>
     <message>
         <source>PPPoE settings</source>
@@ -1669,7 +1975,7 @@
     </message>
     <message>
         <source>You will need to restart the application</source>
-        <translation type="vanished">You will need to restart the application</translation>
+        <translation type="obsolete">You will need to restart the application</translation>
     </message>
     <message>
         <source>General</source>
@@ -1825,11 +2131,11 @@
     </message>
     <message>
         <source>wpa_actiond path</source>
-        <translation type="vanished">wpa_actiond path</translation>
+        <translation type="obsolete">wpa_actiond path</translation>
     </message>
     <message>
         <source>Path to wpa_actiond</source>
-        <translation type="vanished">Path to wpa_actiond</translation>
+        <translation type="obsolete">Path to wpa_actiond</translation>
     </message>
     <message>
         <source>Enable system tray</source>
@@ -1881,7 +2187,7 @@
     </message>
     <message>
         <source>Close helper after exit</source>
-        <translation type="vanished">Close helper after exit</translation>
+        <translation>Close helper after exit</translation>
     </message>
     <message>
         <source>Helper command</source>
@@ -1905,22 +2211,70 @@
     </message>
     <message>
         <source>Close helper after exit (doesn&apos;t work while systemd service is active)</source>
-        <translation>Close helper after exit (doesn&apos;t work while systemd service is active)</translation>
+        <translation type="obsolete">Close helper after exit (doesn&apos;t work while systemd service is active)</translation>
     </message>
     <message>
         <source>There are too binaries. `netctlgui-helper` should be running as root (for example from systemd), otherwise interface `/ctrl` will not be available. `netctlgui-helper-suid` may be running as normal user, but you should keep it in mind that it has SUID bit.</source>
-        <translation type="vanished">There are too binaries. `netctlgui-helper` should be running as root (for example from systemd), otherwise interface `/ctrl` will not be available. `netctlgui-helper-suid` may be running as normal user, but you should keep it in mind that it has SUID bit.</translation>
+        <translation type="obsolete">There are too binaries. `netctlgui-helper` should be running as root (for example from systemd), otherwise interface `/ctrl` will not be available. `netctlgui-helper-suid` may be running as normal user, but you should keep it in mind that it has SUID bit.</translation>
     </message>
     <message>
         <source>Skip components checking</source>
         <translation>Skip components checking</translation>
+    </message>
+    <message>
+        <source>Toolbars</source>
+        <translation>Toolbars</translation>
+    </message>
+    <message>
+        <source>Control group</source>
+        <translation>Control group</translation>
+    </message>
+    <message>
+        <source>Main toolbar</source>
+        <translation>Main toolbar</translation>
+    </message>
+    <message>
+        <source>Left</source>
+        <translation>Left</translation>
+    </message>
+    <message>
+        <source>Right</source>
+        <translation>Right</translation>
+    </message>
+    <message>
+        <source>Top</source>
+        <translation>Top</translation>
+    </message>
+    <message>
+        <source>Bottom</source>
+        <translation>Bottom</translation>
+    </message>
+    <message>
+        <source>Disabled</source>
+        <translation>Disabled</translation>
+    </message>
+    <message>
+        <source>netctl toolbar</source>
+        <translation>netctl toolbar</translation>
+    </message>
+    <message>
+        <source>netctl-auto toolbar</source>
+        <translation>netctl-auto toolbar</translation>
+    </message>
+    <message>
+        <source>Profiles toolbar</source>
+        <translation>Profiles toolbar</translation>
+    </message>
+    <message>
+        <source>WiFi toolbar</source>
+        <translation>WiFi toolbar</translation>
     </message>
 </context>
 <context>
     <name>TrayIcon</name>
     <message>
         <source>netctl status</source>
-        <translation>netctl status</translation>
+        <translation type="obsolete">netctl status</translation>
     </message>
     <message>
         <source>Quit</source>
@@ -1928,11 +2282,11 @@
     </message>
     <message>
         <source>Show</source>
-        <translation>Show</translation>
+        <translation type="obsolete">Show</translation>
     </message>
     <message>
         <source>Show netctl-auto</source>
-        <translation>Show netctl-auto</translation>
+        <translation type="obsolete">Show netctl-auto</translation>
     </message>
     <message>
         <source>Status</source>
@@ -1940,15 +2294,15 @@
     </message>
     <message>
         <source>Hide</source>
-        <translation>Hide</translation>
+        <translation type="obsolete">Hide</translation>
     </message>
     <message>
         <source>Hide netctl-auto</source>
-        <translation type="vanished">Hide netctl-auto</translation>
+        <translation type="obsolete">Hide netctl-auto</translation>
     </message>
     <message>
         <source>Profile</source>
-        <translation>Profile</translation>
+        <translation type="obsolete">Profile</translation>
     </message>
     <message>
         <source>(inactive)</source>
@@ -1956,19 +2310,19 @@
     </message>
     <message>
         <source>(netctl-auto)</source>
-        <translation>(netctl-auto)</translation>
+        <translation type="obsolete">(netctl-auto)</translation>
     </message>
     <message>
         <source>(enabled)</source>
-        <translation type="vanished">(enabled)</translation>
+        <translation type="obsolete">(enabled)</translation>
     </message>
     <message>
         <source>(static)</source>
-        <translation type="vanished">(static)</translation>
+        <translation type="obsolete">(static)</translation>
     </message>
     <message>
         <source>Start another profile</source>
-        <translation>Start another profile</translation>
+        <translation type="obsolete">Start another profile</translation>
     </message>
     <message>
         <source>Stop %1</source>
@@ -2018,12 +2372,16 @@
         <source>Stop all profiles</source>
         <translation>Stop all profiles</translation>
     </message>
+    <message>
+        <source>netctl-auto</source>
+        <translation>netctl-auto</translation>
+    </message>
 </context>
 <context>
     <name>TunnelWidget</name>
     <message>
         <source>Form</source>
-        <translation>Form</translation>
+        <translation type="obsolete">Form</translation>
     </message>
     <message>
         <source>Tunnel settings</source>
@@ -2090,7 +2448,7 @@
     <name>TuntapWidget</name>
     <message>
         <source>Form</source>
-        <translation>Form</translation>
+        <translation type="obsolete">Form</translation>
     </message>
     <message>
         <source>Tuntap settings</source>
@@ -2133,7 +2491,7 @@
     <name>VlanWidget</name>
     <message>
         <source>Form</source>
-        <translation>Form</translation>
+        <translation type="obsolete">Form</translation>
     </message>
     <message>
         <source>vlan settings</source>
@@ -2149,18 +2507,129 @@
     </message>
 </context>
 <context>
+    <name>WiFiMenuWidget</name>
+    <message>
+        <source>Start</source>
+        <translation>Start</translation>
+    </message>
+    <message>
+        <source>Stop</source>
+        <translation>Stop</translation>
+    </message>
+    <message>
+        <source>Processing...</source>
+        <translation>Processing...</translation>
+    </message>
+    <message>
+        <source>MHz</source>
+        <translation>MHz</translation>
+    </message>
+    <message>
+        <source>Name</source>
+        <translation>Name</translation>
+    </message>
+    <message>
+        <source>Type</source>
+        <translation>Type</translation>
+    </message>
+    <message>
+        <source># of points</source>
+        <translation># of points</translation>
+    </message>
+    <message>
+        <source>Signal</source>
+        <translation>Signal</translation>
+    </message>
+    <message>
+        <source>Security</source>
+        <translation>Security</translation>
+    </message>
+    <message>
+        <source>Active</source>
+        <translation>Active</translation>
+    </message>
+    <message>
+        <source>Exists</source>
+        <translation>Exists</translation>
+    </message>
+    <message>
+        <source>2GHz</source>
+        <translation>2GHz</translation>
+    </message>
+    <message>
+        <source>5GHz</source>
+        <translation>5GHz</translation>
+    </message>
+    <message>
+        <source>2GHz and 5GHz</source>
+        <translation>2GHz and 5GHz</translation>
+    </message>
+    <message>
+        <source>N\A</source>
+        <translation>N\A</translation>
+    </message>
+    <message>
+        <source>Point</source>
+        <translation>Point</translation>
+    </message>
+    <message>
+        <source>Refresh</source>
+        <translation>Refresh</translation>
+    </message>
+    <message>
+        <source>Start WiFi</source>
+        <translation>Start WiFi</translation>
+    </message>
+    <message>
+        <source>Stop WiFi</source>
+        <translation>Stop WiFi</translation>
+    </message>
+    <message>
+        <source>Please install &apos;wpa_supplicant&apos; before use it</source>
+        <translation>Please install &apos;wpa_supplicant&apos; before use it</translation>
+    </message>
+    <message>
+        <source>Information</source>
+        <translation>Information</translation>
+    </message>
+    <message>
+        <source>This isn&apos;t the functionality you&apos;re looking for</source>
+        <translation>This isn&apos;t the functionality you&apos;re looking for</translation>
+    </message>
+    <message>
+        <source>Refresh table</source>
+        <translation>Refresh table</translation>
+    </message>
+    <message>
+        <source>Ctrl+R</source>
+        <translation>Ctrl+R</translation>
+    </message>
+    <message>
+        <source>Connect or disconnect from selected ESSID</source>
+        <translation>Connect or disconnect from selected ESSID</translation>
+    </message>
+    <message>
+        <source>Please install &apos;wpa_supplicant&apos; before using it</source>
+        <translation>Please install &apos;wpa_supplicant&apos; before using it</translation>
+    </message>
+    <message>
+        <source>WiFi menu toolbar</source>
+        <translation>WiFi menu toolbar</translation>
+    </message>
+</context>
+<context>
     <name>WirelessWidget</name>
     <message>
         <source>Hide advanced</source>
-        <translation>Hide advanced</translation>
+        <translation type="obsolete">Hide advanced</translation>
     </message>
     <message>
         <source>Show advanced</source>
-        <translation>Show advanced</translation>
+        <translation type="obsolete">Show advanced</translation>
     </message>
     <message>
         <source>Form</source>
-        <translation>Form</translation>
+        <translation type="obsolete">Form</translation>
     </message>
     <message>
         <source>Wireless options</source>

@@ -23,11 +23,14 @@
 #include <QFileDialog>
 #include <QTextStream>
 #include <QSettings>
+#include <grp.h>
 
 #include <language/language.h>
 #include <pdebug/pdebug.h>
+#include <task/taskadds.h>
 
 #include "mainwindow.h"
+#include "version.h"
 
 
 SettingsWindow::SettingsWindow(QWidget *parent, const bool debugCmd, const QString configFile)
@@ -38,6 +41,7 @@ SettingsWindow::SettingsWindow(QWidget *parent, const bool debugCmd, const QStri
 {
     ui->setupUi(this);
     addLanguages();
+    addGroups();
     createActions();
 }
 
@@ -58,6 +62,7 @@ void SettingsWindow::createActions()
     connect(ui->buttonBox->button(QDialogButtonBox::Ok), SIGNAL(clicked(bool)), this, SLOT(closeWindow()));
     connect(ui->buttonBox->button(QDialogButtonBox::Reset), SIGNAL(clicked(bool)), this, SLOT(restoreSettings()));
     connect(ui->buttonBox->button(QDialogButtonBox::RestoreDefaults), SIGNAL(clicked(bool)), this, SLOT(setDefault()));
+    connect(ui->buttonBox_applyGroup->button(QDialogButtonBox::Apply), SIGNAL(clicked(bool)), this, SLOT(applyHelperGroup()));
     connect(ui->checkBox_enableTray, SIGNAL(stateChanged(int)), this, SLOT(setTray()));
     connect(ui->treeWidget, SIGNAL(currentItemChanged(QTreeWidgetItem *, QTreeWidgetItem *)),
             this, SLOT(changePage(QTreeWidgetItem *, QTreeWidgetItem *)));
@@ -137,6 +142,78 @@ void SettingsWindow::addLanguages()
 }
 
 
+void SettingsWindow::applyHelperGroup()
+{
+    if (debug) qDebug() << PDEBUG;
+
+    QString group = ui->comboBox_group->currentText();
+    if (debug) qDebug() << PDEBUG << ":" << "Group" << group;
+    if (group.isEmpty()) return;
+
+    // create
+    QFile policyFile(QString("%1/org.netctlgui.helper.conf").arg(QDir::tempPath()));
+    if (debug) qDebug() << PDEBUG << ":" << "Save to" << policyFile.fileName();
+    if (!policyFile.open(QIODevice::WriteOnly | QIODevice::Text)) return;
+
+    // write
+    QTextStream out(&policyFile);
+    // header
+    out << "<!DOCTYPE busconfig PUBLIC" << endl;
+    out << "          \"-//freedesktop//DTD D-BUS Bus Configuration 1.0//EN\"" << endl;
+    out << "          \"http://www.freedesktop.org/standards/dbus/1.0/busconfig.dtd\">" << endl;
+    out << "<busconfig>" << endl;
+    // group body
+    out << "  <policy group=\"" << group << "\">" << endl;
+    out << "    <allow own=\"org.netctlgui.helper\"/>" << endl;
+    out << "    <allow send_destination=\"org.netctlgui.helper\"/>" << endl;
+    out << "    <allow receive_sender=\"org.netctlgui.helper\"/>" << endl;
+    out << "  </policy>" << endl;
+    // root body
+    out << "  <policy user=\"root\">" << endl;
+    out << "    <allow own=\"org.netctlgui.helper\"/>" << endl;
+    out << "    <allow send_destination=\"org.netctlgui.helper\"/>" << endl;
+    out << "    <allow receive_sender=\"org.netctlgui.helper\"/>" << endl;
+    out << "  </policy>" << endl;
+    // footer
+    out << "</busconfig>" << endl;
+    policyFile.close();
+
+    // copy
+    QString newPath = QString("%1/org.netctlgui.helper.conf").arg(PROJECT_DBUS_SYSTEMCONF_PATH);
+    QString cmd = QString("%1 /usr/bin/mv \"%2\" \"%3\"").arg(ui->lineEdit_sudo->text())
+                                                         .arg(policyFile.fileName())
+                                                         .arg(newPath);
+    if (debug) qDebug() << PDEBUG << ":" << "Run cmd" << cmd;
+    TaskResult process = runTask(cmd, false);
+    if (debug) qDebug() << PDEBUG << ":" << "Cmd returns" << process.exitCode;
+    if (process.exitCode != 0)
+        if (debug) qDebug() << PDEBUG << ":" << "Error" << process.error;
+
+    // update
+    setHelperGroup();
+}
+
+
+void SettingsWindow::addGroups()
+{
+    if (debug) qDebug() << PDEBUG;
+
+    ui->comboBox_group->clear();
+
+    QFile groupFile(QString("/etc/group"));
+    if (!groupFile.open(QIODevice::ReadOnly)) return;
+    while (true) {
+        QString fileStr = QString(groupFile.readLine()).trimmed();
+        if ((fileStr.isEmpty()) && (!groupFile.atEnd())) continue;
+        if ((fileStr[0] == QChar('#')) && (!groupFile.atEnd())) continue;
+        if ((fileStr[0] == QChar(';')) && (!groupFile.atEnd())) continue;
+        if (fileStr.contains(QChar(':'))) ui->comboBox_group->addItem(fileStr.split(QChar(':'))[0]);
+        if (groupFile.atEnd()) break;
+    }
+    groupFile.close();
+}
+
+
 void SettingsWindow::changePage(QTreeWidgetItem *current, QTreeWidgetItem *previous)
 {
     Q_UNUSED(previous);
@@ -177,7 +254,6 @@ void SettingsWindow::saveSettings()
 
     settings.beginGroup(QString("Helper"));
     settings.setValue(QString("USE_HELPER"), config[QString("USE_HELPER")]);
-    settings.setValue(QString("HELPER_GROUP"), config[QString("HELPER_GROUP")]);
     settings.setValue(QString("FORCE_SUDO"), config[QString("FORCE_SUDO")]);
     settings.setValue(QString("CLOSE_HELPER"), config[QString("CLOSE_HELPER")]);
     settings.setValue(QString("HELPER_PATH"), config[QString("HELPER_PATH")]);
@@ -220,6 +296,38 @@ void SettingsWindow::saveSettings()
     settings.endGroup();
 
     settings.sync();
+}
+
+
+void SettingsWindow::setHelperGroup()
+{
+    if (debug) qDebug() << PDEBUG;
+
+    QString group;
+    QFile policyFile(QString("%1/org.netctlgui.helper.conf").arg(QString(PROJECT_DBUS_SYSTEMCONF_PATH)));
+    if (!policyFile.open(QIODevice::ReadOnly)) return;
+    while (true) {
+        QString fileStr = QString(policyFile.readLine()).trimmed();
+        if ((fileStr.isEmpty()) && (!policyFile.atEnd())) continue;
+        if ((fileStr[0] == QChar('#')) && (!policyFile.atEnd())) continue;
+        if ((fileStr[0] == QChar(';')) && (!policyFile.atEnd())) continue;
+        if (fileStr.contains(QString("policy group"))) try {
+            // line is '  <policy group="network">'
+            QStringList fields = fileStr.split(QChar(' '), QString::SkipEmptyParts);
+            group = fields[1].split(QChar('='))[1];
+            group.remove(QChar('<')).remove(QChar('>')).remove(QChar('\'')).remove(QChar('"'));
+            if (debug) qDebug() << PDEBUG << ":" << "Group detected" << group;
+        } catch (...) {
+            if (debug) qDebug() << PDEBUG << ":" << "An exception recevied";
+            return;
+        }
+        if (policyFile.atEnd()) break;
+    }
+    policyFile.close();
+
+    if (group.isEmpty()) return;
+    int index = ui->comboBox_group->findText(group);
+    ui->comboBox_group->setCurrentIndex(index);
 }
 
 
@@ -311,6 +419,7 @@ void SettingsWindow::showWindow()
 {
     if (debug) qDebug() << PDEBUG;
 
+    setHelperGroup();
     setSettings(getSettings());
     setTray();
     updateHelper();
@@ -478,7 +587,6 @@ QMap<QString, QString> SettingsWindow::getSettings(QString fileName)
 
     settings.beginGroup(QString("Helper"));
     config[QString("USE_HELPER")] = settings.value(QString("USE_HELPER"), QString("true")).toString();
-    config[QString("HELPER_GROUP")] = settings.value(QString("HELPER_GROUP"), QString("network")).toString();
     config[QString("FORCE_SUDO")] = settings.value(QString("FORCE_SUDO"), QString("false")).toString();
     config[QString("CLOSE_HELPER")] = settings.value(QString("CLOSE_HELPER"), QString("false")).toString();
     config[QString("HELPER_PATH")] = settings.value(QString("HELPER_PATH"), QString("/usr/bin/netctlgui-helper")).toString();

@@ -20,6 +20,7 @@
 
 #include <QDebug>
 #include <QMenu>
+#include <QMessageBox>
 
 #include <pdebug/pdebug.h>
 
@@ -352,10 +353,20 @@ bool WiFiMenuWidget::wifiTabSetEnabled(const bool state)
     if (debug) qDebug() << PDEBUG;
     if (debug) qDebug() << PDEBUG << ":" << "State" << state;
 
+    ui->actionFunc->setEnabled(!state);
     ui->tableWidget_wifi->setEnabled(state);
     if (!state) ui->label_wifi->setText(QApplication::translate("WiFiMenuWidget", "Please install 'wpa_supplicant' before use it"));
 
     return state;
+}
+
+
+int WiFiMenuWidget::wifiTabShowInfo()
+{
+    if (debug) qDebug() << PDEBUG;
+
+    return QMessageBox::information(this, QApplication::translate("WiFiMenuWidget", "Information"),
+                                    QApplication::translate("WiFiMenuWidget", "This isn't the functionality you're looking for"));
 }
 
 
@@ -418,6 +429,7 @@ void WiFiMenuWidget::createActions()
     if (debug) qDebug() << PDEBUG;
 
     // menu actions
+    connect(ui->actionFunc, SIGNAL(triggered(bool)), this, SLOT(wifiTabShowInfo()));
     connect(ui->actionRefresh, SIGNAL(triggered(bool)), this, SLOT(updateWifiTab()));
     connect(ui->actionStart, SIGNAL(triggered(bool)), this, SLOT(wifiTabStart()));
     // wifi tab events
