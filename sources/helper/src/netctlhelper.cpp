@@ -184,6 +184,7 @@ QMap<QString, QString> NetctlHelper::getSettings(const QString file)
     settings.endGroup();
 
     settings.beginGroup(QString("Other"));
+    config[QString("EDITOR_PATH")] = settings.value(QString("EDITOR_PATH"), QString("/usr/bin/gvim")).toString();
     config[QString("IFACE_DIR")] = settings.value(QString("IFACE_DIR"), QString("/sys/class/net/")).toString();
     config[QString("RFKILL_DIR")] = settings.value(QString("RFKILL_DIR"), QString("/sys/class/rfkill/")).toString();
     config[QString("PREFERED_IFACE")] = settings.value(QString("PREFERED_IFACE"), QString("")).toString();

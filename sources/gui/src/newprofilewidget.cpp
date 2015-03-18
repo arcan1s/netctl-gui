@@ -23,6 +23,7 @@
 #include <QMenu>
 
 #include <pdebug/pdebug.h>
+#include <task/taskadds.h>
 
 #include "calls.h"
 #include "bridgewidget.h"
@@ -149,6 +150,7 @@ void NewProfileWidget::updateMenuProfile()
     ui->actionLoad->setEnabled(selected);
     ui->actionRemove->setEnabled(selected);
     ui->actionSave->setEnabled(selected);
+    ui->actionEditor->setEnabled(selected);
 }
 
 
@@ -207,6 +209,10 @@ void NewProfileWidget::profileTabChangeState(const QString current)
 void NewProfileWidget::profileTabCreateProfile()
 {
     if (debug) qDebug() << PDEBUG;
+    if (!checkExternalApps(QString("sudo"), configuration, debug)) {
+        ErrorWindow::showWindow(1, externalApps(QString("sudo"), configuration).join(QChar('\n')), debug);
+        return mainWindow->emitNeedToBeConfigured();
+    }
 
     // error checking
     if (ui->comboBox_profile->currentText().isEmpty())
@@ -411,9 +417,35 @@ void NewProfileWidget::profileTabLoadProfile()
 }
 
 
+void NewProfileWidget::profileTabOpenInEditor()
+{
+    if (debug) qDebug() << PDEBUG;
+    if (!checkExternalApps(QString("editor"), configuration, debug)) {
+        ErrorWindow::showWindow(1, externalApps(QString("editor"), configuration).join(QChar('\n')), debug);
+        return mainWindow->emitNeedToBeConfigured();
+    }
+
+    QString profile = QFileInfo(ui->comboBox_profile->currentText()).fileName();
+    QString cmd = QString("%1 %2 %3").arg(configuration[QString("SUDO_PATH")])
+                                     .arg(configuration[QString("EDITOR_PATH")])
+                                     .arg(profile);
+
+    if (debug) qDebug() << PDEBUG << ":" << "Run cmd" << cmd;
+    TaskResult process = runTask(cmd, false);
+    if (debug) qDebug() << PDEBUG << ":" << "Cmd returns" << process.exitCode;
+    if (process.exitCode != 0)
+        if (debug) qDebug() << PDEBUG << ":" << "Error" << process.error;
+    mainWindow->showMessage(process.exitCode == 0);
+}
+
+
 void NewProfileWidget::profileTabRemoveProfile()
 {
     if (debug) qDebug() << PDEBUG;
+    if (!checkExternalApps(QString("sudo"), configuration, debug)) {
+        ErrorWindow::showWindow(1, externalApps(QString("sudo"), configuration).join(QChar('\n')), debug);
+        return mainWindow->emitNeedToBeConfigured();
+    }
 
     mainWindow->setDisabled(true);
     QString profile = QFileInfo(ui->comboBox_profile->currentText()).fileName();
@@ -431,6 +463,7 @@ void NewProfileWidget::createActions()
 
     // menu actions
     connect(ui->actionClear, SIGNAL(triggered(bool)), this, SLOT(updateProfileTab()));
+    connect(ui->actionEditor, SIGNAL(triggered(bool)), this, SLOT(profileTabOpenInEditor()));
     connect(ui->actionLoad, SIGNAL(triggered(bool)), this, SLOT(profileTabLoadProfile()));
     connect(ui->actionRemove, SIGNAL(triggered(bool)), this, SLOT(profileTabRemoveProfile()));
     connect(ui->actionSave, SIGNAL(triggered(bool)), this, SLOT(profileTabCreateProfile()));

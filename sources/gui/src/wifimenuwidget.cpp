@@ -105,6 +105,10 @@ bool WiFiMenuWidget::wifiTabSelectEssidSlot(const QString essid)
 void WiFiMenuWidget::connectToUnknownEssid(const QString passwd)
 {
     if (debug) qDebug() << PDEBUG;
+    if (!checkExternalApps(QString("netctl"), configuration, debug)) {
+        ErrorWindow::showWindow(1, externalApps(QString("netctl"), configuration).join(QChar('\n')), debug);
+        return mainWindow->emitNeedToBeConfigured();
+    }
     if (ui->tableWidget_wifi->currentItem() == nullptr) return;
     if (passwdWid != nullptr) delete passwdWid;
 
@@ -183,11 +187,6 @@ void WiFiMenuWidget::updateText(const netctlWifiInfo current)
 {
     if (debug) qDebug() << PDEBUG;
     if (!wifiTabSetEnabled(checkExternalApps(QString("wpasup-only"), configuration, debug))) return;
-    if (!checkExternalApps(QString("wpasup"), configuration, debug)) {
-        ErrorWindow::showWindow(1, externalApps(QString("wpasup"), configuration).join(QChar('\n')), debug);
-        return mainWindow->emitNeedToBeConfigured();
-    }
-    ui->label_wifi->setText(QApplication::translate("WiFiMenuWidget", "Processing..."));
 
     QString text = QString("");
     text += QString("%1 - %2 - %3 ").arg(current.name).arg(current.security).arg(current.macs[0]);
@@ -373,8 +372,8 @@ int WiFiMenuWidget::wifiTabShowInfo()
 void WiFiMenuWidget::wifiTabStart()
 {
     if (debug) qDebug() << PDEBUG;
-    if (!checkExternalApps(QString("wpasup"), configuration, debug)) {
-        ErrorWindow::showWindow(1, externalApps(QString("wpasup"), configuration).join(QChar('\n')), debug);
+    if (!checkExternalApps(QString("netctl"), configuration, debug)) {
+        ErrorWindow::showWindow(1, externalApps(QString("netctl"), configuration).join(QChar('\n')), debug);
         return mainWindow->emitNeedToBeConfigured();
     }
     if (ui->tableWidget_wifi->currentItem() == nullptr) return;

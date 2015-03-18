@@ -64,6 +64,7 @@ private slots:
     void profileTabChangeState(const QString current);
     void profileTabCreateProfile();
     void profileTabLoadProfile();
+    void profileTabOpenInEditor();
     void profileTabRemoveProfile();
 
 private:

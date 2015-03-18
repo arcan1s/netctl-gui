@@ -464,8 +464,10 @@ bool MainWindow::checkHelperStatus()
     if (useHelper) useHelper = isHelperActive();
     if (useHelper)
         sendRequestToCtrl(QString("Update"), debug);
-    else
+    else {
         configuration[QString("FORCE_SUDO")] = QString("true");
+        configuration[QString("USE_HELPER")] = QString("false");
+    }
     if (isHelperServiceActive())
         configuration[QString("CLOSE_HELPER")] = QString("false");
 

@@ -64,7 +64,7 @@
         <rect>
          <x>0</x>
          <y>0</y>
-         <width>461</width>
+         <width>459</width>
          <height>342</height>
         </rect>
        </property>
@@ -103,6 +103,7 @@
    <addaction name="actionSave"/>
    <addaction name="separator"/>
    <addaction name="actionRemove"/>
+   <addaction name="actionEditor"/>
   </widget>
   <action name="actionClear">
    <property name="icon">
@@ -157,6 +158,19 @@
    </property>
    <property name="toolTip">
     <string>Remove selected profile</string>
+   </property>
+  </action>
+  <action name="actionEditor">
+   <property name="icon">
+    <iconset theme="document-open">
+     <normaloff/>
+    </iconset>
+   </property>
+   <property name="text">
+    <string>Open in editor</string>
+   </property>
+   <property name="toolTip">
+    <string>Open in an external editor</string>
    </property>
   </action>
  </widget>

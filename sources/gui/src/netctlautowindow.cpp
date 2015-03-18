@@ -25,16 +25,20 @@
 #include "calls.h"
 #include "commonfunctions.h"
 #include "dbusoperation.h"
+#include "errorwindow.h"
 #include "mainwindow.h"
 
 
 NetctlAutoWindow::NetctlAutoWindow(QWidget *parent, const QMap<QString, QString> settings, const bool debugCmd)
     : QMainWindow(parent),
-      ui(new Ui::NetctlAutoWindow),
-      debug(debugCmd)
+      debug(debugCmd),
+      configuration(settings)
 {
     mainWindow = dynamic_cast<MainWindow *>(parent);
-    useHelper = (settings[QString("USE_HELPER")] == QString("true"));
+    useHelper = (configuration[QString("USE_HELPER")] == QString("true"));
+
+    // ui
+    ui = new Ui::NetctlAutoWindow;
     ui->setupUi(this);
     ui->tableWidget->setColumnHidden(2, true);
     ui->tableWidget->setColumnHidden(3, true);
@@ -165,6 +169,10 @@ void NetctlAutoWindow::netctlAutoContextualMenu(const QPoint &pos)
 void NetctlAutoWindow::netctlAutoUpdateTable()
 {
     if (debug) qDebug() << PDEBUG;
+    if (!checkExternalApps(QString("netctl"), configuration, debug)) {
+        ErrorWindow::showWindow(1, externalApps(QString("netctl"), configuration).join(QChar('\n')), debug);
+        return mainWindow->emitNeedToBeConfigured();
+    }
 
     ui->tableWidget->setDisabled(true);
     netctlInformation info = generalInformation(mainWindow->netctlInterface,
@@ -255,6 +263,10 @@ void NetctlAutoWindow::netctlAutoUpdateTable()
 void NetctlAutoWindow::netctlAutoDisableAllProfiles()
 {
     if (debug) qDebug() << PDEBUG;
+    if (!checkExternalApps(QString("netctl"), configuration, debug)) {
+        ErrorWindow::showWindow(1, externalApps(QString("netctl"), configuration).join(QChar('\n')), debug);
+        return mainWindow->emitNeedToBeConfigured();
+    }
 
     ui->tableWidget->setDisabled(true);
     bool responce = false;
@@ -274,6 +286,10 @@ void NetctlAutoWindow::netctlAutoDisableAllProfiles()
 void NetctlAutoWindow::netctlAutoEnableProfile()
 {
     if (debug) qDebug() << PDEBUG;
+    if (!checkExternalApps(QString("netctl"), configuration, debug)) {
+        ErrorWindow::showWindow(1, externalApps(QString("netctl"), configuration).join(QChar('\n')), debug);
+        return mainWindow->emitNeedToBeConfigured();
+    }
     if (ui->tableWidget->currentItem() == nullptr) return;
 
     ui->tableWidget->setDisabled(true);
@@ -297,6 +313,10 @@ void NetctlAutoWindow::netctlAutoEnableProfile()
 void NetctlAutoWindow::netctlAutoEnableAllProfiles()
 {
     if (debug) qDebug() << PDEBUG;
+    if (!checkExternalApps(QString("netctl"), configuration, debug)) {
+        ErrorWindow::showWindow(1, externalApps(QString("netctl"), configuration).join(QChar('\n')), debug);
+        return mainWindow->emitNeedToBeConfigured();
+    }
 
     ui->tableWidget->setDisabled(true);
     bool responce = false;
@@ -316,6 +336,10 @@ void NetctlAutoWindow::netctlAutoEnableAllProfiles()
 void NetctlAutoWindow::netctlAutoStartProfile()
 {
     if (debug) qDebug() << PDEBUG;
+    if (!checkExternalApps(QString("netctl"), configuration, debug)) {
+        ErrorWindow::showWindow(1, externalApps(QString("netctl"), configuration).join(QChar('\n')), debug);
+        return mainWindow->emitNeedToBeConfigured();
+    }
     if (ui->tableWidget->currentItem() == nullptr) return;
 
     ui->tableWidget->setDisabled(true);
@@ -339,6 +363,10 @@ void NetctlAutoWindow::netctlAutoStartProfile()
 void NetctlAutoWindow::netctlAutoEnableService()
 {
     if (debug) qDebug() << PDEBUG;
+    if (!checkExternalApps(QString("netctl"), configuration, debug)) {
+        ErrorWindow::showWindow(1, externalApps(QString("netctl"), configuration).join(QChar('\n')), debug);
+        return mainWindow->emitNeedToBeConfigured();
+    }
 
     bool responce = false;
     if (!useHelper)
@@ -357,6 +385,10 @@ void NetctlAutoWindow::netctlAutoEnableService()
 void NetctlAutoWindow::netctlAutoRestartService()
 {
     if (debug) qDebug() << PDEBUG;
+    if (!checkExternalApps(QString("systemctl"), configuration, debug)) {
+        ErrorWindow::showWindow(1, externalApps(QString("systemctl"), configuration).join(QChar('\n')), debug);
+        return mainWindow->emitNeedToBeConfigured();
+    }
 
     bool responce = false;
     if (!useHelper)
@@ -375,6 +407,10 @@ void NetctlAutoWindow::netctlAutoRestartService()
 void NetctlAutoWindow::netctlAutoStartService()
 {
     if (debug) qDebug() << PDEBUG;
+    if (!checkExternalApps(QString("systemctl"), configuration, debug)) {
+        ErrorWindow::showWindow(1, externalApps(QString("systemctl"), configuration).join(QChar('\n')), debug);
+        return mainWindow->emitNeedToBeConfigured();
+    }
 
     bool responce = false;
     if (!useHelper)
@@ -400,9 +436,9 @@ void NetctlAutoWindow::netctlAutoRefreshButtons(QTableWidgetItem *current, QTabl
     ui->actionSwitch->setEnabled(selected && ui->tableWidget->item(current->row(), 2)->text().isEmpty());
     if (selected && !ui->tableWidget->item(current->row(), 3)->text().isEmpty()) {
         ui->actionEnable->setText(QApplication::translate("NetctlAutoWindow", "Disable"));
-        ui->actionEnable->setIcon(QIcon::fromTheme("list-add"));
+        ui->actionEnable->setIcon(QIcon::fromTheme("edit-delete"));
     } else {
         ui->actionEnable->setText(QApplication::translate("NetctlAutoWindow", "Enable"));
-        ui->actionEnable->setIcon(QIcon::fromTheme("edit-delete"));
+        ui->actionEnable->setIcon(QIcon::fromTheme("list-add"));
     }
 }

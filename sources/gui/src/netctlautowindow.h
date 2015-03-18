@@ -67,6 +67,7 @@ private:
     void createActions();
     bool debug = false;
     bool useHelper = true;
+    QMap<QString, QString> configuration;
 };
 
 

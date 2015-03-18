@@ -35,25 +35,7 @@ bool checkExternalApps(const QString apps, const QMap<QString, QString> configur
     cmd.append("which");
     // avoid null-lines arguments
     cmd.append("true");
-    if ((apps == QString("helper")) || (apps == QString("all"))) {
-        cmd.append(configuration[QString("HELPER_PATH")]);
-    }
-    if ((apps == QString("netctl")) || (apps == QString("all"))) {
-        cmd.append(configuration[QString("NETCTL_PATH")]);
-        cmd.append(configuration[QString("NETCTLAUTO_PATH")]);
-        cmd.append(configuration[QString("SUDO_PATH")]);
-    }
-    if ((apps == QString("sudo")) || (apps == QString("wpasup")) || (apps == QString("all"))) {
-        cmd.append(configuration[QString("SUDO_PATH")]);
-    }
-    if ((apps == QString("systemctl")) || (apps == QString("all"))) {
-        cmd.append(configuration[QString("SYSTEMCTL_PATH")]);
-        cmd.append(configuration[QString("SUDO_PATH")]);
-    }
-    if ((apps == QString("wpasup")) || (apps == QString("wpasup-only")) || (apps == QString("all"))) {
-        cmd.append(configuration[QString("WPACLI_PATH")]);
-        cmd.append(configuration[QString("WPASUP_PATH")]);
-    }
+    cmd.append(externalApps(apps, configuration));
 
     if (debug) qDebug() << PDEBUG << ":" << "Run cmd" << cmd.join(QChar(' '));
     TaskResult process = runTask(cmd.join(QChar(' ')), false);
@@ -77,25 +59,30 @@ QString checkStatus(const bool statusBool, const bool nullFalse)
 QStringList externalApps(const QString apps, const QMap<QString, QString> configuration)
 {
     QStringList app;
+    // editor works always over cmd
+    if ((apps == QString("editor")) || (apps == QString("all"))) {
+        app.append(configuration[QString("EDITOR_PATH")]);
+        app.append(configuration[QString("SUDO_PATH")]);
+    }
     if ((apps == QString("helper")) || (apps == QString("all"))) {
         app.append(configuration[QString("HELPER_PATH")]);
     }
     if ((apps == QString("netctl")) || (apps == QString("all"))) {
         app.append(configuration[QString("NETCTL_PATH")]);
         app.append(configuration[QString("NETCTLAUTO_PATH")]);
-        app.append(configuration[QString("SUDO_PATH")]);
-    }
-    if ((apps == QString("sudo")) || (apps == QString("wpasup")) || (apps == QString("all"))) {
-        app.append(configuration[QString("SUDO_PATH")]);
     }
     if ((apps == QString("systemctl")) || (apps == QString("all"))) {
         app.append(configuration[QString("SYSTEMCTL_PATH")]);
-        app.append(configuration[QString("SUDO_PATH")]);
     }
     if ((apps == QString("wpasup")) || (apps == QString("wpasup-only")) || (apps == QString("all"))) {
         app.append(configuration[QString("WPACLI_PATH")]);
         app.append(configuration[QString("WPASUP_PATH")]);
     }
+    // append sudo
+    // FORCE_SUDO is always true if helper is not running
+    if ((apps.contains(QRegExp(QString("(^all$|^editor$|^netctl$|^sudo$|^systemctl$|^wpasup$)")))) &&
+        (configuration[QString("FORCE_SUDO")] == QString("true")))
+        app.append(configuration[QString("SUDO_PATH")]);
 
     return app;
 }

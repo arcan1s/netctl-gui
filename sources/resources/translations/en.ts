@@ -1748,6 +1748,14 @@ Should be according to standards</translation>
         <source>New profile toolbar</source>
         <translation>New profile toolbar</translation>
     </message>
+    <message>
+        <source>Open in editor</source>
+        <translation>Open in editor</translation>
+    </message>
+    <message>
+        <source>Open in an external editor</source>
+        <translation>Open in an external editor</translation>
+    </message>
 </context>
 <context>
     <name>PasswdWidget</name>
@@ -2269,6 +2277,14 @@ Should be according to standards</translation>
         <source>WiFi toolbar</source>
         <translation>WiFi toolbar</translation>
     </message>
+    <message>
+        <source>Select editor command</source>
+        <translation>Select editor command</translation>
+    </message>
+    <message>
+        <source>External editor</source>
+        <translation>External editor</translation>
+    </message>
 </context>
 <context>
     <name>TrayIcon</name>
@@ -2518,7 +2534,7 @@ Should be according to standards</translation>
     </message>
     <message>
         <source>Processing...</source>
-        <translation>Processing...</translation>
+        <translation type="obsolete">Processing...</translation>
     </message>
     <message>
         <source>MHz</source>

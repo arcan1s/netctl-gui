@@ -1747,6 +1747,14 @@ Should be according to standards</source>
         <source>New profile toolbar</source>
         <translation>Управление профилями</translation>
     </message>
+    <message>
+        <source>Open in editor</source>
+        <translation>Открыть в редакторе</translation>
+    </message>
+    <message>
+        <source>Open in an external editor</source>
+        <translation>Открыть во внешнем редакторе</translation>
+    </message>
 </context>
 <context>
     <name>PasswdWidget</name>
@@ -2268,6 +2276,14 @@ Should be according to standards</source>
         <source>WiFi toolbar</source>
         <translation>Управление WiFi</translation>
     </message>
+    <message>
+        <source>Select editor command</source>
+        <translation>Выберете внешний редактор</translation>
+    </message>
+    <message>
+        <source>External editor</source>
+        <translation>Внешний редактор</translation>
+    </message>
 </context>
 <context>
     <name>TrayIcon</name>
@@ -2517,7 +2533,7 @@ Should be according to standards</source>
     </message>
     <message>
         <source>Processing...</source>
-        <translation>Обработка</translation>
+        <translation type="obsolete">Обработка</translation>
     </message>
     <message>
         <source>MHz</source>

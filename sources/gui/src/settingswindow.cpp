@@ -67,6 +67,7 @@ void SettingsWindow::createActions()
     connect(ui->treeWidget, SIGNAL(currentItemChanged(QTreeWidgetItem *, QTreeWidgetItem *)),
             this, SLOT(changePage(QTreeWidgetItem *, QTreeWidgetItem *)));
     // buttons
+    connect(ui->pushButton_editorPath, SIGNAL(clicked(bool)), this, SLOT(selectAbstractSomething()));
     connect(ui->pushButton_helperPath, SIGNAL(clicked(bool)), this, SLOT(selectAbstractSomething()));
     connect(ui->pushButton_interfacesDir, SIGNAL(clicked(bool)), this, SLOT(selectAbstractSomething()));
     connect(ui->pushButton_netctlPath, SIGNAL(clicked(bool)), this, SLOT(selectAbstractSomething()));
@@ -282,6 +283,7 @@ void SettingsWindow::saveSettings()
     settings.endGroup();
 
     settings.beginGroup(QString("Other"));
+    settings.setValue(QString("EDITOR_PATH"), config[QString("EDITOR_PATH")]);
     settings.setValue(QString("IFACE_DIR"), config[QString("IFACE_DIR")]);
     settings.setValue(QString("RFKILL_DIR"), config[QString("RFKILL_DIR")]);
     settings.setValue(QString("PREFERED_IFACE"), config[QString("PREFERED_IFACE")]);
@@ -365,8 +367,11 @@ void SettingsWindow::selectAbstractSomething()
     bool isDir = false;
     QString path = QString("/usr/bin");
     QString text = QApplication::translate("SettingsWindow", "Select helper command");
-    QLineEdit *lineEdit = ui->lineEdit_helperPath;
-    if (sender() == ui->pushButton_helperPath) {
+    QLineEdit *lineEdit = ui->lineEdit_editorPath;
+    if (sender() == ui->pushButton_editorPath) {
+        text = QApplication::translate("SettingsWindow", "Select editor command");
+        lineEdit = ui->lineEdit_editorPath;
+    } else if (sender() == ui->pushButton_helperPath) {
         text = QApplication::translate("SettingsWindow", "Select helper command");
         lineEdit = ui->lineEdit_helperPath;
     } else if (sender() == ui->pushButton_interfacesDir) {
@@ -448,6 +453,7 @@ QMap<QString, QString> SettingsWindow::readSettings()
         config[QString("FORCE_SUDO")] = QString("true");
     else
         config[QString("FORCE_SUDO")] = QString("false");
+    config[QString("EDITOR_PATH")] = ui->lineEdit_editorPath->text();
     config[QString("HELPER_PATH")] = ui->lineEdit_helperPath->text();
     config[QString("HELPER_SERVICE")] = ui->lineEdit_helperService->text();
     config[QString("IFACE_DIR")] = ui->lineEdit_interfacesDir->text();
@@ -511,6 +517,7 @@ void SettingsWindow::setSettings(const QMap<QString, QString> config)
         ui->checkBox_forceSudo->setCheckState(Qt::Checked);
     else
         ui->checkBox_forceSudo->setCheckState(Qt::Unchecked);
+    ui->lineEdit_editorPath->setText(config[QString("EDITOR_PATH")]);
     ui->lineEdit_helperPath->setText(config[QString("HELPER_PATH")]);
     ui->lineEdit_helperService->setText(config[QString("HELPER_SERVICE")]);
     ui->lineEdit_interfacesDir->setText(config[QString("IFACE_DIR")]);
@@ -615,6 +622,7 @@ QMap<QString, QString> SettingsWindow::getSettings(QString fileName)
     settings.endGroup();
 
     settings.beginGroup(QString("Other"));
+    config[QString("EDITOR_PATH")] = settings.value(QString("EDITOR_PATH"), QString("/usr/bin/gvim")).toString();
     config[QString("IFACE_DIR")] = settings.value(QString("IFACE_DIR"), QString("/sys/class/net/")).toString();
     config[QString("RFKILL_DIR")] = settings.value(QString("RFKILL_DIR"), QString("/sys/class/rfkill/")).toString();
     config[QString("PREFERED_IFACE")] = settings.value(QString("PREFERED_IFACE"), QString("")).toString();

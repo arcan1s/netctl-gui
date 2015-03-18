@@ -1252,11 +1252,57 @@
               <rect>
                <x>0</x>
                <y>0</y>
-               <width>436</width>
-               <height>107</height>
+               <width>542</width>
+               <height>330</height>
               </rect>
              </property>
              <layout class="QVBoxLayout" name="verticalLayout_11">
+              <item>
+               <layout class="QHBoxLayout" name="layout_editorPath">
+                <item>
+                 <widget class="QLabel" name="label_editorPath">
+                  <property name="sizePolicy">
+                   <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                    <horstretch>7</horstretch>
+                    <verstretch>0</verstretch>
+                   </sizepolicy>
+                  </property>
+                  <property name="text">
+                   <string>External editor</string>
+                  </property>
+                  <property name="alignment">
+                   <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QLineEdit" name="lineEdit_editorPath">
+                  <property name="sizePolicy">
+                   <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                    <horstretch>10</horstretch>
+                    <verstretch>0</verstretch>
+                   </sizepolicy>
+                  </property>
+                  <property name="toolTip">
+                   <string>Path to directory which contains network devices</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QPushButton" name="pushButton_editorPath">
+                  <property name="sizePolicy">
+                   <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+                    <horstretch>4</horstretch>
+                    <verstretch>0</verstretch>
+                   </sizepolicy>
+                  </property>
+                  <property name="text">
+                   <string>Browse</string>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
+              </item>
               <item>
                <layout class="QHBoxLayout" name="layout_interfacesDir">
                 <item>
@@ -1413,8 +1459,8 @@
               <rect>
                <x>0</x>
                <y>0</y>
-               <width>201</width>
-               <height>177</height>
+               <width>542</width>
+               <height>330</height>
               </rect>
              </property>
              <layout class="QVBoxLayout" name="verticalLayout_15">

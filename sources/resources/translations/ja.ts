@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.1" language="ja_JP">
+<TS version="2.0" language="ja_JP">
 <context>
     <name>About</name>
     <message>
@@ -234,7 +234,7 @@
         <translation>不明なエラーです</translation>
     </message>
     <message>
-        <location filename="../../gui/src/errorwindow.cpp" line="190"/>
+        <location filename="../../gui/src/errorwindow.cpp" line="192"/>
         <source>Sender : %1</source>
         <translation>送信元：%1</translation>
     </message>
@@ -265,7 +265,7 @@
         <source>Skip no carrier</source>
         <translation>存在しないキャリアをスキップ</translation>
     </message>
-    <message>
+    <message utf8="true">
         <location filename="../../../build/gui/src/ui_ethernetwidget.h" line="288"/>
         <source>Set to ‘yes’ to use 802.1x authentication</source>
         <translation>802.1.x 認証を使用「する」ように設定する</translation>
@@ -448,7 +448,7 @@
         <source>A command that is executed before a connection is brought down</source>
         <translation>接続切断前に実行されるコマンド</translation>
     </message>
-    <message>
+    <message utf8="true">
         <location filename="../../../build/gui/src/ui_generalwidget.h" line="426"/>
         <source>Set to ‘yes’ to force connecting even if the interface is up</source>
         <translation>インターフェースが有効であっても強制的に接続「する」ように設定する</translation>
@@ -513,7 +513,7 @@
         <source>Add</source>
         <translation>追加</translation>
     </message>
-    <message>
+    <message utf8="true">
         <location filename="../../../build/gui/src/ui_ipwidget.h" line="931"/>
         <source>An array of IP addresses suffixed with ‘/&lt;netmask&gt;’</source>
         <translation>&apos;&lt;/netmask&gt;&apos; が後続するIPアドレスの列</translation>
@@ -612,7 +612,7 @@
         <source>Timeout DAD</source>
         <translation>DAD のタイムアウト</translation>
     </message>
-    <message>
+    <message utf8="true">
         <location filename="../../../build/gui/src/ui_ipwidget.h" line="994"/>
         <source>Maximum time, in seconds, to wait for IPv6’s Duplicate Address Detection to succeed</source>
         <translation>IPv6 における重複アドレス検出の成功を待機する最大時間（秒）</translation>
@@ -696,7 +696,7 @@ Should be according to standards</source>
         <source>Maximum time, in seconds, to wait for DHCP to be successful</source>
         <translation>DHCP が成功するまでの最大待機時間（秒）</translation>
     </message>
-    <message>
+    <message utf8="true">
         <location filename="../../../build/gui/src/ui_ipwidget.h" line="1022"/>
         <source>Set to ‘yes’ to release the DHCP lease when the profile is stopped</source>
         <translation>プロファイル停止時に DHCP リースの解放のために &apos;yes&apos; を設定する</translation>
@@ -721,7 +721,7 @@ Should be according to standards</source>
         <source>DNS domain</source>
         <translation>DNS ドメイン</translation>
     </message>
-    <message>
+    <message utf8="true">
         <location filename="../../../build/gui/src/ui_ipwidget.h" line="1035"/>
         <source>A ‘domain’ line for /etc/resolv.conf</source>
         <translation>/etc/resolv.conf に対する &apos;domain&apos; 行</translation>
@@ -731,7 +731,7 @@ Should be according to standards</source>
         <source>DNS search</source>
         <translation>DNS 検索</translation>
     </message>
-    <message>
+    <message utf8="true">
         <location filename="../../../build/gui/src/ui_ipwidget.h" line="1039"/>
         <source>A ‘search’ line for /etc/resolv.conf</source>
         <translation>/etc/resolv.conf に対する &apos;search&apos; 行</translation>
@@ -741,7 +741,7 @@ Should be according to standards</source>
         <source>DNS options</source>
         <translation>DNS オプション</translation>
     </message>
-    <message>
+    <message utf8="true">
         <location filename="../../../build/gui/src/ui_ipwidget.h" line="1044"/>
         <source>An array of ‘options’ lines for /etc/resolv.conf</source>
         <translation>/etc/resolv.conf に対する &apos;options&apos; 行の列</translation>
@@ -1184,12 +1184,12 @@ Should be according to standards</source>
         <translation>用意</translation>
     </message>
     <message>
-        <location filename="../../gui/src/commonfunctions.cpp" line="70"/>
+        <location filename="../../gui/src/commonfunctions.cpp" line="52"/>
         <source>yes</source>
         <translation>はい</translation>
     </message>
     <message>
-        <location filename="../../gui/src/commonfunctions.cpp" line="71"/>
+        <location filename="../../gui/src/commonfunctions.cpp" line="53"/>
         <source>no</source>
         <translation>いいえ</translation>
     </message>
@@ -1456,22 +1456,22 @@ Should be according to standards</source>
         <translation type="obsolete">接続の確立に失敗しました。</translation>
     </message>
     <message>
-        <location filename="../../gui/src/wifimenuwidget.cpp" line="131"/>
+        <location filename="../../gui/src/wifimenuwidget.cpp" line="135"/>
         <source>Connection is successfully</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../gui/src/wifimenuwidget.cpp" line="134"/>
+        <location filename="../../gui/src/wifimenuwidget.cpp" line="138"/>
         <source>Connection failed</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../gui/src/wifimenuwidget.cpp" line="138"/>
+        <location filename="../../gui/src/wifimenuwidget.cpp" line="142"/>
         <source>Do you want to save profile %1?</source>
         <translation>プロファイル%1を保存しますか？</translation>
     </message>
     <message>
-        <location filename="../../gui/src/wifimenuwidget.cpp" line="139"/>
+        <location filename="../../gui/src/wifimenuwidget.cpp" line="143"/>
         <location filename="../../../build/gui/src/ui_mainwindow.h" line="215"/>
         <source>WiFi menu</source>
         <translation>WiFi メニュー</translation>
@@ -1671,30 +1671,30 @@ Should be according to standards</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../gui/src/netctlautowindow.cpp" line="199"/>
+        <location filename="../../gui/src/netctlautowindow.cpp" line="207"/>
         <location filename="../../../build/gui/src/ui_netctlautowindow.h" line="207"/>
         <source>Name</source>
         <translation>名前</translation>
     </message>
     <message>
-        <location filename="../../gui/src/netctlautowindow.cpp" line="200"/>
+        <location filename="../../gui/src/netctlautowindow.cpp" line="208"/>
         <location filename="../../../build/gui/src/ui_netctlautowindow.h" line="209"/>
         <source>Description</source>
         <translation>説明</translation>
     </message>
     <message>
-        <location filename="../../gui/src/netctlautowindow.cpp" line="201"/>
-        <location filename="../../gui/src/netctlautowindow.cpp" line="214"/>
+        <location filename="../../gui/src/netctlautowindow.cpp" line="209"/>
+        <location filename="../../gui/src/netctlautowindow.cpp" line="222"/>
         <source>Active</source>
         <translation>活性化</translation>
     </message>
     <message>
-        <location filename="../../gui/src/netctlautowindow.cpp" line="202"/>
+        <location filename="../../gui/src/netctlautowindow.cpp" line="210"/>
         <source>Enabled</source>
         <translation>有効</translation>
     </message>
     <message>
-        <location filename="../../gui/src/netctlautowindow.cpp" line="216"/>
+        <location filename="../../gui/src/netctlautowindow.cpp" line="224"/>
         <source>Disabled</source>
         <translation>無効</translation>
     </message>
@@ -1714,39 +1714,39 @@ Should be according to standards</source>
         <translation>メニュー</translation>
     </message>
     <message>
-        <location filename="../../gui/src/netctlautowindow.cpp" line="44"/>
+        <location filename="../../gui/src/netctlautowindow.cpp" line="48"/>
         <source>Ready</source>
         <translation>用意</translation>
     </message>
     <message>
-        <location filename="../../gui/src/netctlautowindow.cpp" line="178"/>
+        <location filename="../../gui/src/netctlautowindow.cpp" line="186"/>
         <source>Disable service</source>
         <translation>サービスを無効化</translation>
     </message>
     <message>
-        <location filename="../../gui/src/netctlautowindow.cpp" line="180"/>
+        <location filename="../../gui/src/netctlautowindow.cpp" line="188"/>
         <location filename="../../../build/gui/src/ui_netctlautowindow.h" line="189"/>
         <source>Enable service</source>
         <translation>サービスを有効化</translation>
     </message>
     <message>
-        <location filename="../../gui/src/netctlautowindow.cpp" line="182"/>
+        <location filename="../../gui/src/netctlautowindow.cpp" line="190"/>
         <source>netctl-auto is running</source>
         <translation>netctl-auto は実行中です</translation>
     </message>
     <message>
-        <location filename="../../gui/src/netctlautowindow.cpp" line="183"/>
+        <location filename="../../gui/src/netctlautowindow.cpp" line="191"/>
         <source>Stop service</source>
         <translation>サービスを停止</translation>
     </message>
     <message>
-        <location filename="../../gui/src/netctlautowindow.cpp" line="186"/>
+        <location filename="../../gui/src/netctlautowindow.cpp" line="194"/>
         <location filename="../../../build/gui/src/ui_netctlautowindow.h" line="184"/>
         <source>Start service</source>
         <translation>サービスを開始</translation>
     </message>
     <message>
-        <location filename="../../gui/src/netctlautowindow.cpp" line="185"/>
+        <location filename="../../gui/src/netctlautowindow.cpp" line="193"/>
         <source>netctl-auto is not running</source>
         <translation>netctl-auto は実行されていません</translation>
     </message>
@@ -1759,7 +1759,7 @@ Should be according to standards</source>
         <translation type="obsolete">いいえ</translation>
     </message>
     <message>
-        <location filename="../../gui/src/netctlautowindow.cpp" line="212"/>
+        <location filename="../../gui/src/netctlautowindow.cpp" line="220"/>
         <source>Profile</source>
         <translation>プロファイル</translation>
     </message>
@@ -1768,42 +1768,42 @@ Should be according to standards</source>
         <translation type="obsolete">最新</translation>
     </message>
     <message>
-        <location filename="../../gui/src/netctlautowindow.cpp" line="130"/>
+        <location filename="../../gui/src/netctlautowindow.cpp" line="134"/>
         <source>Enable profile</source>
         <translation>プロファイルを有効化</translation>
     </message>
     <message>
-        <location filename="../../gui/src/netctlautowindow.cpp" line="132"/>
+        <location filename="../../gui/src/netctlautowindow.cpp" line="136"/>
         <location filename="../../../build/gui/src/ui_netctlautowindow.h" line="182"/>
         <source>Enable all profiles</source>
         <translation>全てのプロファイルを有効化</translation>
     </message>
     <message>
-        <location filename="../../gui/src/netctlautowindow.cpp" line="134"/>
+        <location filename="../../gui/src/netctlautowindow.cpp" line="138"/>
         <location filename="../../../build/gui/src/ui_netctlautowindow.h" line="183"/>
         <source>Disable all profiles</source>
         <translation>全てのプロファイルを無効化</translation>
     </message>
     <message>
-        <location filename="../../gui/src/netctlautowindow.cpp" line="143"/>
-        <location filename="../../gui/src/netctlautowindow.cpp" line="405"/>
+        <location filename="../../gui/src/netctlautowindow.cpp" line="147"/>
+        <location filename="../../gui/src/netctlautowindow.cpp" line="441"/>
         <location filename="../../../build/gui/src/ui_netctlautowindow.h" line="198"/>
         <source>Enable</source>
         <translation>有効</translation>
     </message>
     <message>
-        <location filename="../../gui/src/netctlautowindow.cpp" line="140"/>
-        <location filename="../../gui/src/netctlautowindow.cpp" line="402"/>
+        <location filename="../../gui/src/netctlautowindow.cpp" line="144"/>
+        <location filename="../../gui/src/netctlautowindow.cpp" line="438"/>
         <source>Disable</source>
         <translation>無効</translation>
     </message>
     <message>
-        <location filename="../../gui/src/netctlautowindow.cpp" line="92"/>
+        <location filename="../../gui/src/netctlautowindow.cpp" line="96"/>
         <source>Done</source>
         <translation>完了</translation>
     </message>
     <message>
-        <location filename="../../gui/src/netctlautowindow.cpp" line="94"/>
+        <location filename="../../gui/src/netctlautowindow.cpp" line="98"/>
         <source>Error</source>
         <translation>エラー</translation>
     </message>
@@ -1812,7 +1812,7 @@ Should be according to standards</source>
         <translation type="obsolete">プロファイルを無効化</translation>
     </message>
     <message>
-        <location filename="../../gui/src/netctlautowindow.cpp" line="128"/>
+        <location filename="../../gui/src/netctlautowindow.cpp" line="132"/>
         <location filename="../../../build/gui/src/ui_netctlautowindow.h" line="204"/>
         <source>Switch to profile</source>
         <translation>プロファイルを切り替える</translation>
@@ -1826,57 +1826,67 @@ Should be according to standards</source>
 <context>
     <name>NewProfileWidget</name>
     <message>
-        <location filename="../../../build/gui/src/ui_newprofilewidget.h" line="162"/>
+        <location filename="../../../build/gui/src/ui_newprofilewidget.h" line="168"/>
         <source>Clear</source>
         <translation>クリア</translation>
     </message>
     <message>
-        <location filename="../../../build/gui/src/ui_newprofilewidget.h" line="164"/>
+        <location filename="../../../build/gui/src/ui_newprofilewidget.h" line="170"/>
         <source>Clear data</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../build/gui/src/ui_newprofilewidget.h" line="166"/>
+        <location filename="../../../build/gui/src/ui_newprofilewidget.h" line="172"/>
         <source>Ctrl+R</source>
         <translation>Ctrl+R</translation>
     </message>
     <message>
-        <location filename="../../../build/gui/src/ui_newprofilewidget.h" line="167"/>
+        <location filename="../../../build/gui/src/ui_newprofilewidget.h" line="173"/>
         <source>Load</source>
         <translation>読み込み</translation>
     </message>
     <message>
-        <location filename="../../../build/gui/src/ui_newprofilewidget.h" line="169"/>
+        <location filename="../../../build/gui/src/ui_newprofilewidget.h" line="175"/>
         <source>Load selected profile</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../build/gui/src/ui_newprofilewidget.h" line="171"/>
+        <location filename="../../../build/gui/src/ui_newprofilewidget.h" line="177"/>
         <source>Save</source>
         <translation>保存</translation>
     </message>
     <message>
-        <location filename="../../../build/gui/src/ui_newprofilewidget.h" line="173"/>
+        <location filename="../../../build/gui/src/ui_newprofilewidget.h" line="179"/>
         <source>Save selected profile</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../build/gui/src/ui_newprofilewidget.h" line="175"/>
+        <location filename="../../../build/gui/src/ui_newprofilewidget.h" line="181"/>
         <source>Remove</source>
         <translation>削除</translation>
     </message>
     <message>
-        <location filename="../../../build/gui/src/ui_newprofilewidget.h" line="177"/>
+        <location filename="../../../build/gui/src/ui_newprofilewidget.h" line="183"/>
         <source>Remove selected profile</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../build/gui/src/ui_newprofilewidget.h" line="179"/>
+        <location filename="../../../build/gui/src/ui_newprofilewidget.h" line="185"/>
+        <source>Open in editor</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../../build/gui/src/ui_newprofilewidget.h" line="187"/>
+        <source>Open in an external editor</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../../build/gui/src/ui_newprofilewidget.h" line="189"/>
         <source>Profile</source>
         <translation>プロファイル</translation>
     </message>
     <message>
-        <location filename="../../../build/gui/src/ui_newprofilewidget.h" line="180"/>
+        <location filename="../../../build/gui/src/ui_newprofilewidget.h" line="190"/>
         <source>New profile toolbar</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1956,7 +1966,7 @@ Should be according to standards</source>
         <source>Idle timeout</source>
         <translation>アイドル時のタイムアウト</translation>
     </message>
-    <message>
+    <message utf8="true">
         <location filename="../../../build/gui/src/ui_pppoewidget.h" line="524"/>
         <source>This option specifies the idle time (in seconds) after which ‘pppd’ should disconnect</source>
         <translation>&apos;pppd&apos; が切断されるべきアイドル時間（秒）を指定するオプション</translation>
@@ -2010,7 +2020,7 @@ Should be according to standards</source>
         <source>LCP echo interval</source>
         <translation>LCP エコー間隔</translation>
     </message>
-    <message>
+    <message utf8="true">
         <location filename="../../../build/gui/src/ui_pppoewidget.h" line="553"/>
         <location filename="../../../build/gui/src/ui_pppoewidget.h" line="557"/>
         <source>These options override default LCP parameters from ‘/etc/ppp/options’</source>
@@ -2104,322 +2114,328 @@ Should be according to standards</source>
 <context>
     <name>SettingsWindow</name>
     <message>
-        <location filename="../../../build/gui/src/ui_settingswindow.h" line="1234"/>
+        <location filename="../../../build/gui/src/ui_settingswindow.h" line="1265"/>
         <source>Settings</source>
         <translation>設定</translation>
     </message>
     <message>
-        <location filename="../../../build/gui/src/ui_settingswindow.h" line="1239"/>
+        <location filename="../../../build/gui/src/ui_settingswindow.h" line="1270"/>
         <source>General</source>
         <translation>一般</translation>
     </message>
     <message>
-        <location filename="../../../build/gui/src/ui_settingswindow.h" line="1254"/>
+        <location filename="../../../build/gui/src/ui_settingswindow.h" line="1285"/>
         <source>Language</source>
         <translation>言語</translation>
     </message>
     <message>
-        <location filename="../../../build/gui/src/ui_settingswindow.h" line="1256"/>
-        <location filename="../../../build/gui/src/ui_settingswindow.h" line="1276"/>
+        <location filename="../../../build/gui/src/ui_settingswindow.h" line="1287"/>
+        <location filename="../../../build/gui/src/ui_settingswindow.h" line="1307"/>
         <source>Select a language</source>
         <translation>言語を選択</translation>
     </message>
     <message>
-        <location filename="../../../build/gui/src/ui_settingswindow.h" line="1243"/>
+        <location filename="../../../build/gui/src/ui_settingswindow.h" line="1274"/>
         <source>netctl</source>
         <translation>netctl</translation>
     </message>
     <message>
-        <location filename="../../../build/gui/src/ui_settingswindow.h" line="1292"/>
+        <location filename="../../../build/gui/src/ui_settingswindow.h" line="1323"/>
         <source>netctl path</source>
         <translation>netctl のパス</translation>
     </message>
     <message>
-        <location filename="../../../build/gui/src/ui_settingswindow.h" line="1294"/>
+        <location filename="../../../build/gui/src/ui_settingswindow.h" line="1325"/>
         <source>Path to netctl</source>
         <translation>netctl のパス</translation>
     </message>
     <message>
-        <location filename="../../../build/gui/src/ui_settingswindow.h" line="1273"/>
-        <location filename="../../../build/gui/src/ui_settingswindow.h" line="1286"/>
-        <location filename="../../../build/gui/src/ui_settingswindow.h" line="1291"/>
-        <location filename="../../../build/gui/src/ui_settingswindow.h" line="1296"/>
-        <location filename="../../../build/gui/src/ui_settingswindow.h" line="1301"/>
-        <location filename="../../../build/gui/src/ui_settingswindow.h" line="1306"/>
-        <location filename="../../../build/gui/src/ui_settingswindow.h" line="1311"/>
-        <location filename="../../../build/gui/src/ui_settingswindow.h" line="1316"/>
+        <location filename="../../../build/gui/src/ui_settingswindow.h" line="1304"/>
+        <location filename="../../../build/gui/src/ui_settingswindow.h" line="1317"/>
+        <location filename="../../../build/gui/src/ui_settingswindow.h" line="1322"/>
+        <location filename="../../../build/gui/src/ui_settingswindow.h" line="1327"/>
+        <location filename="../../../build/gui/src/ui_settingswindow.h" line="1332"/>
         <location filename="../../../build/gui/src/ui_settingswindow.h" line="1337"/>
         <location filename="../../../build/gui/src/ui_settingswindow.h" line="1342"/>
+        <location filename="../../../build/gui/src/ui_settingswindow.h" line="1347"/>
+        <location filename="../../../build/gui/src/ui_settingswindow.h" line="1368"/>
+        <location filename="../../../build/gui/src/ui_settingswindow.h" line="1373"/>
+        <location filename="../../../build/gui/src/ui_settingswindow.h" line="1378"/>
         <source>Browse</source>
         <translation>ブラウズ</translation>
     </message>
     <message>
-        <location filename="../../../build/gui/src/ui_settingswindow.h" line="1282"/>
+        <location filename="../../../build/gui/src/ui_settingswindow.h" line="1313"/>
         <source>Profile path</source>
         <translation>プロファイルのパス</translation>
     </message>
     <message>
-        <location filename="../../../build/gui/src/ui_settingswindow.h" line="1284"/>
+        <location filename="../../../build/gui/src/ui_settingswindow.h" line="1315"/>
         <source>Path to profile directory</source>
         <translation>プロファイルがあるディレクトリのパス</translation>
     </message>
     <message>
-        <location filename="../../../build/gui/src/ui_settingswindow.h" line="1245"/>
+        <location filename="../../../build/gui/src/ui_settingswindow.h" line="1276"/>
         <source>sudo</source>
         <translation>sudo</translation>
     </message>
     <message>
-        <location filename="../../../build/gui/src/ui_settingswindow.h" line="1302"/>
+        <location filename="../../../build/gui/src/ui_settingswindow.h" line="1333"/>
         <source>sudo path</source>
         <translation>sudo path</translation>
     </message>
     <message>
-        <location filename="../../../build/gui/src/ui_settingswindow.h" line="1304"/>
+        <location filename="../../../build/gui/src/ui_settingswindow.h" line="1335"/>
         <source>Path to sudo</source>
         <translation>sudo へのパス</translation>
     </message>
     <message>
-        <location filename="../../../build/gui/src/ui_settingswindow.h" line="1247"/>
+        <location filename="../../../build/gui/src/ui_settingswindow.h" line="1278"/>
         <source>wpa_supplicant</source>
         <translation>wpa_supplicant</translation>
     </message>
     <message>
-        <location filename="../../../build/gui/src/ui_settingswindow.h" line="1241"/>
+        <location filename="../../../build/gui/src/ui_settingswindow.h" line="1272"/>
         <source>Helper</source>
         <translation>ヘルパ</translation>
     </message>
     <message>
-        <location filename="../../../build/gui/src/ui_settingswindow.h" line="1258"/>
+        <location filename="../../../build/gui/src/ui_settingswindow.h" line="1289"/>
         <source>Enable system tray</source>
         <translation>システムトレイでの表示を有効にする</translation>
     </message>
     <message>
-        <location filename="../../../build/gui/src/ui_settingswindow.h" line="1259"/>
+        <location filename="../../../build/gui/src/ui_settingswindow.h" line="1290"/>
         <source>Minimize to tray instead of closing</source>
         <translation>ウィンドウを閉じるかわりにシステムトレイへ最小化する</translation>
     </message>
     <message>
-        <location filename="../../../build/gui/src/ui_settingswindow.h" line="1260"/>
+        <location filename="../../../build/gui/src/ui_settingswindow.h" line="1291"/>
         <source>Start minimized to tray</source>
         <translation>システムトレイへ最小化された状態で起動する</translation>
     </message>
     <message>
-        <location filename="../../../build/gui/src/ui_settingswindow.h" line="1261"/>
+        <location filename="../../../build/gui/src/ui_settingswindow.h" line="1292"/>
         <source>Skip components checking</source>
         <translation>コンポーネントの確認をスキップする</translation>
     </message>
     <message>
-        <location filename="../../../build/gui/src/ui_settingswindow.h" line="1262"/>
+        <location filename="../../../build/gui/src/ui_settingswindow.h" line="1293"/>
         <source>It is recommended to use systemd integration. See `man 1 netctlgui-helper` for more details.</source>
         <translation>systemd へ統合された機能の仕様が推奨されます。詳細は `man 1 netctlgui-helper` を参照して下さい。</translation>
     </message>
     <message>
-        <location filename="../../../build/gui/src/ui_settingswindow.h" line="1263"/>
+        <location filename="../../../build/gui/src/ui_settingswindow.h" line="1294"/>
         <source>Helper status</source>
         <translation>ヘルパの状態</translation>
     </message>
     <message>
-        <location filename="../../../build/gui/src/ui_settingswindow.h" line="1265"/>
+        <location filename="../../../build/gui/src/ui_settingswindow.h" line="1296"/>
         <source>Use helper</source>
         <translation>ヘルパを使用する</translation>
     </message>
     <message>
-        <location filename="../../../build/gui/src/ui_settingswindow.h" line="1266"/>
+        <location filename="../../../build/gui/src/ui_settingswindow.h" line="1297"/>
         <source>Force use sudo in helper</source>
         <translation>ヘルパにて sudo の使用を強制する</translation>
     </message>
     <message>
-        <location filename="../../../build/gui/src/ui_settingswindow.h" line="1272"/>
+        <location filename="../../../build/gui/src/ui_settingswindow.h" line="1303"/>
         <source>Helper command</source>
         <translation>コマンド</translation>
     </message>
     <message>
-        <location filename="../../../build/gui/src/ui_settingswindow.h" line="1268"/>
+        <location filename="../../../build/gui/src/ui_settingswindow.h" line="1299"/>
         <source>Helper service</source>
         <translation>サービス</translation>
     </message>
     <message>
-        <location filename="../../../build/gui/src/ui_settingswindow.h" line="1270"/>
+        <location filename="../../../build/gui/src/ui_settingswindow.h" line="1301"/>
         <source>Name of netctlgui-helper service</source>
         <translation>Netctl GUIヘルパのサービス名</translation>
     </message>
     <message>
-        <location filename="../../../build/gui/src/ui_settingswindow.h" line="1287"/>
+        <location filename="../../../build/gui/src/ui_settingswindow.h" line="1318"/>
         <source>systemctl path</source>
         <translation>systemctl path</translation>
     </message>
     <message>
-        <location filename="../../../build/gui/src/ui_settingswindow.h" line="1289"/>
+        <location filename="../../../build/gui/src/ui_settingswindow.h" line="1320"/>
         <source>Path to systemctl</source>
         <translation>systemctl へのパス</translation>
     </message>
     <message>
-        <location filename="../../../build/gui/src/ui_settingswindow.h" line="1297"/>
+        <location filename="../../../build/gui/src/ui_settingswindow.h" line="1328"/>
         <source>netctl-auto path</source>
         <translation>netctl-auto へのパス</translation>
     </message>
     <message>
-        <location filename="../../../build/gui/src/ui_settingswindow.h" line="1299"/>
+        <location filename="../../../build/gui/src/ui_settingswindow.h" line="1330"/>
         <source>Path to netctl-auto</source>
         <translation>netctl-auto へのパス</translation>
     </message>
     <message>
-        <location filename="../../../build/gui/src/ui_settingswindow.h" line="1278"/>
+        <location filename="../../../build/gui/src/ui_settingswindow.h" line="1309"/>
         <source>netctl-auto service</source>
         <translation>netctl-auto サービスへのパス</translation>
     </message>
     <message>
-        <location filename="../../../build/gui/src/ui_settingswindow.h" line="1251"/>
+        <location filename="../../../build/gui/src/ui_settingswindow.h" line="1282"/>
         <source>Toolbars</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../build/gui/src/ui_settingswindow.h" line="1267"/>
+        <location filename="../../../build/gui/src/ui_settingswindow.h" line="1298"/>
         <source>Close helper after exit</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../build/gui/src/ui_settingswindow.h" line="1274"/>
+        <location filename="../../../build/gui/src/ui_settingswindow.h" line="1305"/>
         <source>Control group</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../build/gui/src/ui_settingswindow.h" line="1280"/>
+        <location filename="../../../build/gui/src/ui_settingswindow.h" line="1311"/>
         <source>Name of netctl-auto systemd service</source>
         <translation>netctl-auto サービスの名前</translation>
     </message>
     <message>
-        <location filename="../../../build/gui/src/ui_settingswindow.h" line="1307"/>
+        <location filename="../../../build/gui/src/ui_settingswindow.h" line="1338"/>
         <source>wpa_supplicant path</source>
         <translation>wpa_supplicant へのパス</translation>
     </message>
     <message>
-        <location filename="../../../build/gui/src/ui_settingswindow.h" line="1309"/>
+        <location filename="../../../build/gui/src/ui_settingswindow.h" line="1340"/>
         <source>Path to wpa_supplicant</source>
         <translation>wpa_supplicant へのパス</translation>
     </message>
     <message>
-        <location filename="../../../build/gui/src/ui_settingswindow.h" line="1312"/>
+        <location filename="../../../build/gui/src/ui_settingswindow.h" line="1343"/>
         <source>wpa_cli path</source>
         <translation>wpa_cli path</translation>
     </message>
     <message>
-        <location filename="../../../build/gui/src/ui_settingswindow.h" line="1314"/>
+        <location filename="../../../build/gui/src/ui_settingswindow.h" line="1345"/>
         <source>Path to wpa_cli</source>
         <translation>wpa_cli へのパス</translation>
     </message>
     <message>
-        <location filename="../../../build/gui/src/ui_settingswindow.h" line="1317"/>
+        <location filename="../../../build/gui/src/ui_settingswindow.h" line="1348"/>
         <source>PID file</source>
         <translation>PID ファイル</translation>
     </message>
     <message>
-        <location filename="../../../build/gui/src/ui_settingswindow.h" line="1319"/>
+        <location filename="../../../build/gui/src/ui_settingswindow.h" line="1350"/>
         <source>wpa_supplicant PID file</source>
         <translation>wpa_supplicant の PID ファイル</translation>
     </message>
     <message>
-        <location filename="../../../build/gui/src/ui_settingswindow.h" line="1321"/>
+        <location filename="../../../build/gui/src/ui_settingswindow.h" line="1352"/>
         <source>wpa_supplicant drivers</source>
         <translation>wpa_supplicant drivers</translation>
     </message>
     <message>
-        <location filename="../../../build/gui/src/ui_settingswindow.h" line="1323"/>
+        <location filename="../../../build/gui/src/ui_settingswindow.h" line="1354"/>
         <source>wpa_supplicant drivers comma separated</source>
         <translation>wpa_suppricant のドライバ（コンマで区切る）</translation>
     </message>
     <message>
-        <location filename="../../../build/gui/src/ui_settingswindow.h" line="1325"/>
+        <location filename="../../../build/gui/src/ui_settingswindow.h" line="1356"/>
         <source>ctrl_interface directory</source>
         <translation>ctrl_interface のディレクトリ</translation>
     </message>
     <message>
-        <location filename="../../../build/gui/src/ui_settingswindow.h" line="1327"/>
+        <location filename="../../../build/gui/src/ui_settingswindow.h" line="1358"/>
         <source>Path to control directory</source>
         <translation>Netctl GUI で管理するディレクトリのパス</translation>
     </message>
     <message>
-        <location filename="../../../build/gui/src/ui_settingswindow.h" line="1329"/>
+        <location filename="../../../build/gui/src/ui_settingswindow.h" line="1360"/>
         <source>ctrl_interface group</source>
         <translation>ctrl_interface 群</translation>
     </message>
     <message>
-        <location filename="../../../build/gui/src/ui_settingswindow.h" line="1331"/>
+        <location filename="../../../build/gui/src/ui_settingswindow.h" line="1362"/>
         <source>Group of control directory</source>
         <translation>Netctl GUI で管理しているディレクトリ群</translation>
     </message>
     <message>
-        <location filename="../../../build/gui/src/ui_settingswindow.h" line="1347"/>
-        <source>Main toolbar</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../../build/gui/src/ui_settingswindow.h" line="1350"/>
-        <location filename="../../../build/gui/src/ui_settingswindow.h" line="1359"/>
-        <location filename="../../../build/gui/src/ui_settingswindow.h" line="1368"/>
-        <location filename="../../../build/gui/src/ui_settingswindow.h" line="1377"/>
-        <location filename="../../../build/gui/src/ui_settingswindow.h" line="1386"/>
-        <source>Left</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../../build/gui/src/ui_settingswindow.h" line="1351"/>
-        <location filename="../../../build/gui/src/ui_settingswindow.h" line="1360"/>
-        <location filename="../../../build/gui/src/ui_settingswindow.h" line="1369"/>
-        <location filename="../../../build/gui/src/ui_settingswindow.h" line="1378"/>
-        <location filename="../../../build/gui/src/ui_settingswindow.h" line="1387"/>
-        <source>Right</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../../build/gui/src/ui_settingswindow.h" line="1352"/>
-        <location filename="../../../build/gui/src/ui_settingswindow.h" line="1361"/>
-        <location filename="../../../build/gui/src/ui_settingswindow.h" line="1370"/>
-        <location filename="../../../build/gui/src/ui_settingswindow.h" line="1379"/>
-        <location filename="../../../build/gui/src/ui_settingswindow.h" line="1388"/>
-        <source>Top</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../../build/gui/src/ui_settingswindow.h" line="1353"/>
-        <location filename="../../../build/gui/src/ui_settingswindow.h" line="1362"/>
-        <location filename="../../../build/gui/src/ui_settingswindow.h" line="1371"/>
-        <location filename="../../../build/gui/src/ui_settingswindow.h" line="1380"/>
-        <location filename="../../../build/gui/src/ui_settingswindow.h" line="1389"/>
-        <source>Bottom</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../../build/gui/src/ui_settingswindow.h" line="1354"/>
-        <location filename="../../../build/gui/src/ui_settingswindow.h" line="1363"/>
-        <location filename="../../../build/gui/src/ui_settingswindow.h" line="1372"/>
-        <location filename="../../../build/gui/src/ui_settingswindow.h" line="1381"/>
-        <location filename="../../../build/gui/src/ui_settingswindow.h" line="1390"/>
-        <source>Disabled</source>
-        <translation>無効</translation>
-    </message>
-    <message>
-        <location filename="../../../build/gui/src/ui_settingswindow.h" line="1356"/>
-        <source>netctl toolbar</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../../build/gui/src/ui_settingswindow.h" line="1365"/>
-        <source>netctl-auto toolbar</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../../build/gui/src/ui_settingswindow.h" line="1374"/>
-        <source>Profiles toolbar</source>
+        <location filename="../../../build/gui/src/ui_settingswindow.h" line="1364"/>
+        <source>External editor</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../../build/gui/src/ui_settingswindow.h" line="1383"/>
+        <source>Main toolbar</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../../build/gui/src/ui_settingswindow.h" line="1386"/>
+        <location filename="../../../build/gui/src/ui_settingswindow.h" line="1395"/>
+        <location filename="../../../build/gui/src/ui_settingswindow.h" line="1404"/>
+        <location filename="../../../build/gui/src/ui_settingswindow.h" line="1413"/>
+        <location filename="../../../build/gui/src/ui_settingswindow.h" line="1422"/>
+        <source>Left</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../../build/gui/src/ui_settingswindow.h" line="1387"/>
+        <location filename="../../../build/gui/src/ui_settingswindow.h" line="1396"/>
+        <location filename="../../../build/gui/src/ui_settingswindow.h" line="1405"/>
+        <location filename="../../../build/gui/src/ui_settingswindow.h" line="1414"/>
+        <location filename="../../../build/gui/src/ui_settingswindow.h" line="1423"/>
+        <source>Right</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../../build/gui/src/ui_settingswindow.h" line="1388"/>
+        <location filename="../../../build/gui/src/ui_settingswindow.h" line="1397"/>
+        <location filename="../../../build/gui/src/ui_settingswindow.h" line="1406"/>
+        <location filename="../../../build/gui/src/ui_settingswindow.h" line="1415"/>
+        <location filename="../../../build/gui/src/ui_settingswindow.h" line="1424"/>
+        <source>Top</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../../build/gui/src/ui_settingswindow.h" line="1389"/>
+        <location filename="../../../build/gui/src/ui_settingswindow.h" line="1398"/>
+        <location filename="../../../build/gui/src/ui_settingswindow.h" line="1407"/>
+        <location filename="../../../build/gui/src/ui_settingswindow.h" line="1416"/>
+        <location filename="../../../build/gui/src/ui_settingswindow.h" line="1425"/>
+        <source>Bottom</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../../build/gui/src/ui_settingswindow.h" line="1390"/>
+        <location filename="../../../build/gui/src/ui_settingswindow.h" line="1399"/>
+        <location filename="../../../build/gui/src/ui_settingswindow.h" line="1408"/>
+        <location filename="../../../build/gui/src/ui_settingswindow.h" line="1417"/>
+        <location filename="../../../build/gui/src/ui_settingswindow.h" line="1426"/>
+        <source>Disabled</source>
+        <translation>無効</translation>
+    </message>
+    <message>
+        <location filename="../../../build/gui/src/ui_settingswindow.h" line="1392"/>
+        <source>netctl toolbar</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../../build/gui/src/ui_settingswindow.h" line="1401"/>
+        <source>netctl-auto toolbar</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../../build/gui/src/ui_settingswindow.h" line="1410"/>
+        <source>Profiles toolbar</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../../build/gui/src/ui_settingswindow.h" line="1419"/>
         <source>WiFi toolbar</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../build/gui/src/ui_settingswindow.h" line="1249"/>
+        <location filename="../../../build/gui/src/ui_settingswindow.h" line="1280"/>
         <source>Other</source>
         <translation>その他</translation>
     </message>
@@ -2428,111 +2444,117 @@ Should be according to standards</source>
         <translation type="obsolete">終了後にヘルパを閉じる（systemd のサービスが有効となるまで機能しません）</translation>
     </message>
     <message>
-        <location filename="../../../build/gui/src/ui_settingswindow.h" line="1333"/>
+        <location filename="../../../build/gui/src/ui_settingswindow.h" line="1369"/>
         <source>Path to interface list</source>
         <translation>インターフェースリストのパス</translation>
     </message>
     <message>
-        <location filename="../../../build/gui/src/ui_settingswindow.h" line="1335"/>
+        <location filename="../../../build/gui/src/ui_settingswindow.h" line="1366"/>
+        <location filename="../../../build/gui/src/ui_settingswindow.h" line="1371"/>
         <source>Path to directory which contains network devices</source>
         <translation>ネットワークインターフェースがあるディレクトリへのパス</translation>
     </message>
     <message>
-        <location filename="../../../build/gui/src/ui_settingswindow.h" line="1338"/>
+        <location filename="../../../build/gui/src/ui_settingswindow.h" line="1374"/>
         <source>Path to rfkill device list</source>
         <translation>Rfkill デバイスリストのパス</translation>
     </message>
     <message>
-        <location filename="../../../build/gui/src/ui_settingswindow.h" line="1340"/>
+        <location filename="../../../build/gui/src/ui_settingswindow.h" line="1376"/>
         <source>Path to directory which contains rfkill devices</source>
         <translation>Rfkill デバイスがあるディレクトリのパス</translation>
     </message>
     <message>
-        <location filename="../../../build/gui/src/ui_settingswindow.h" line="1343"/>
-        <location filename="../../../build/gui/src/ui_settingswindow.h" line="1345"/>
+        <location filename="../../../build/gui/src/ui_settingswindow.h" line="1379"/>
+        <location filename="../../../build/gui/src/ui_settingswindow.h" line="1381"/>
         <source>Prefered wireless interface</source>
         <translation>優先する無線インターフェース</translation>
     </message>
     <message>
-        <location filename="../../gui/src/settingswindow.cpp" line="374"/>
+        <location filename="../../gui/src/settingswindow.cpp" line="379"/>
         <source>Select path to directory with interfaces</source>
         <translation>ネットワークインターフェースがあるディレクトリへのパス</translation>
     </message>
     <message>
-        <location filename="../../gui/src/settingswindow.cpp" line="378"/>
+        <location filename="../../gui/src/settingswindow.cpp" line="383"/>
         <source>Select netctl command</source>
         <translation>netctl コマンドを選択</translation>
     </message>
     <message>
-        <location filename="../../gui/src/settingswindow.cpp" line="412"/>
+        <location filename="../../gui/src/settingswindow.cpp" line="417"/>
         <source>All files (*)</source>
         <translation>全てのファイル (*)</translation>
     </message>
     <message>
-        <location filename="../../gui/src/settingswindow.cpp" line="367"/>
-        <location filename="../../gui/src/settingswindow.cpp" line="370"/>
+        <location filename="../../gui/src/settingswindow.cpp" line="369"/>
+        <location filename="../../gui/src/settingswindow.cpp" line="375"/>
         <source>Select helper command</source>
         <translation>ヘルパのコマンドを選択</translation>
     </message>
     <message>
-        <location filename="../../gui/src/settingswindow.cpp" line="381"/>
+        <location filename="../../gui/src/settingswindow.cpp" line="372"/>
+        <source>Select editor command</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../gui/src/settingswindow.cpp" line="386"/>
         <source>Select netctl-auto command</source>
         <translation>netctl-auto コマンドを選択</translation>
     </message>
     <message>
-        <location filename="../../gui/src/settingswindow.cpp" line="385"/>
+        <location filename="../../gui/src/settingswindow.cpp" line="390"/>
         <source>Select path to profile directory</source>
         <translation>プロファイルがあるディレクトリのパス</translation>
     </message>
     <message>
-        <location filename="../../gui/src/settingswindow.cpp" line="390"/>
+        <location filename="../../gui/src/settingswindow.cpp" line="395"/>
         <source>Select path to directory with rfkill devices</source>
         <translation>Rfkill デバイスがあるディレクトリのパス</translation>
     </message>
     <message>
-        <location filename="../../gui/src/settingswindow.cpp" line="394"/>
+        <location filename="../../gui/src/settingswindow.cpp" line="399"/>
         <source>Select sudo command</source>
         <translation>sudo コマンドを選択</translation>
     </message>
     <message>
-        <location filename="../../gui/src/settingswindow.cpp" line="397"/>
+        <location filename="../../gui/src/settingswindow.cpp" line="402"/>
         <source>Select systemctl command</source>
         <translation>systemctl コマンドを選択</translation>
     </message>
     <message>
-        <location filename="../../gui/src/settingswindow.cpp" line="400"/>
+        <location filename="../../gui/src/settingswindow.cpp" line="405"/>
         <source>Select wpa_cli command</source>
         <translation>wpa_cli コマンドを選択</translation>
     </message>
     <message>
-        <location filename="../../gui/src/settingswindow.cpp" line="403"/>
+        <location filename="../../gui/src/settingswindow.cpp" line="408"/>
         <source>Select wpa_supplicant command</source>
         <translation>wpa_supplicant コマンドを選択</translation>
     </message>
     <message>
-        <location filename="../../gui/src/settingswindow.cpp" line="652"/>
+        <location filename="../../gui/src/settingswindow.cpp" line="660"/>
         <source>Active (systemd)</source>
         <translation>有効 (systemd)</translation>
     </message>
     <message>
-        <location filename="../../gui/src/settingswindow.cpp" line="657"/>
+        <location filename="../../gui/src/settingswindow.cpp" line="665"/>
         <source>Active</source>
         <translation>有効</translation>
     </message>
     <message>
-        <location filename="../../gui/src/settingswindow.cpp" line="653"/>
-        <location filename="../../gui/src/settingswindow.cpp" line="658"/>
+        <location filename="../../gui/src/settingswindow.cpp" line="661"/>
+        <location filename="../../gui/src/settingswindow.cpp" line="666"/>
         <source>Stop</source>
         <translation>停止</translation>
     </message>
     <message>
-        <location filename="../../gui/src/settingswindow.cpp" line="662"/>
+        <location filename="../../gui/src/settingswindow.cpp" line="670"/>
         <source>Inactive</source>
         <translation>無効</translation>
     </message>
     <message>
-        <location filename="../../gui/src/settingswindow.cpp" line="663"/>
-        <location filename="../../../build/gui/src/ui_settingswindow.h" line="1264"/>
+        <location filename="../../gui/src/settingswindow.cpp" line="671"/>
+        <location filename="../../../build/gui/src/ui_settingswindow.h" line="1295"/>
         <source>Start</source>
         <translation>開始</translation>
     </message>
@@ -2746,7 +2768,7 @@ Should be according to standards</source>
         <source>Mode</source>
         <translation>モード</translation>
     </message>
-    <message>
+    <message utf8="true">
         <location filename="../../../build/gui/src/ui_tuntapwidget.h" line="149"/>
         <source>Either ‘tun’, or ‘tap’</source>
         <translation>&apos;TUN&apos; 又は &apos;TAP&apos; のどれか</translation>
@@ -2807,124 +2829,119 @@ Should be according to standards</source>
 <context>
     <name>WiFiMenuWidget</name>
     <message>
-        <location filename="../../gui/src/wifimenuwidget.cpp" line="173"/>
+        <location filename="../../gui/src/wifimenuwidget.cpp" line="177"/>
         <location filename="../../../build/gui/src/ui_wifimenuwidget.h" line="129"/>
         <source>Start</source>
         <translation>開始</translation>
     </message>
     <message>
-        <location filename="../../gui/src/wifimenuwidget.cpp" line="176"/>
+        <location filename="../../gui/src/wifimenuwidget.cpp" line="180"/>
         <source>Stop</source>
         <translation>停止</translation>
     </message>
     <message>
-        <location filename="../../gui/src/wifimenuwidget.cpp" line="190"/>
-        <source>Processing...</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../gui/src/wifimenuwidget.cpp" line="194"/>
-        <location filename="../../gui/src/wifimenuwidget.cpp" line="264"/>
+        <location filename="../../gui/src/wifimenuwidget.cpp" line="193"/>
+        <location filename="../../gui/src/wifimenuwidget.cpp" line="263"/>
         <source>MHz</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../gui/src/wifimenuwidget.cpp" line="225"/>
+        <location filename="../../gui/src/wifimenuwidget.cpp" line="224"/>
         <location filename="../../../build/gui/src/ui_wifimenuwidget.h" line="135"/>
         <source>Name</source>
         <translation>名前</translation>
     </message>
     <message>
-        <location filename="../../gui/src/wifimenuwidget.cpp" line="226"/>
-        <location filename="../../gui/src/wifimenuwidget.cpp" line="265"/>
+        <location filename="../../gui/src/wifimenuwidget.cpp" line="225"/>
+        <location filename="../../gui/src/wifimenuwidget.cpp" line="264"/>
         <location filename="../../../build/gui/src/ui_wifimenuwidget.h" line="137"/>
         <source>Type</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../gui/src/wifimenuwidget.cpp" line="227"/>
+        <location filename="../../gui/src/wifimenuwidget.cpp" line="226"/>
         <location filename="../../../build/gui/src/ui_wifimenuwidget.h" line="139"/>
         <source># of points</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../gui/src/wifimenuwidget.cpp" line="228"/>
+        <location filename="../../gui/src/wifimenuwidget.cpp" line="227"/>
         <location filename="../../../build/gui/src/ui_wifimenuwidget.h" line="141"/>
         <source>Signal</source>
         <translation>信号</translation>
     </message>
     <message>
-        <location filename="../../gui/src/wifimenuwidget.cpp" line="229"/>
+        <location filename="../../gui/src/wifimenuwidget.cpp" line="228"/>
         <location filename="../../../build/gui/src/ui_wifimenuwidget.h" line="143"/>
         <source>Security</source>
         <translation>セキュリティ</translation>
     </message>
     <message>
-        <location filename="../../gui/src/wifimenuwidget.cpp" line="230"/>
-        <location filename="../../gui/src/wifimenuwidget.cpp" line="267"/>
+        <location filename="../../gui/src/wifimenuwidget.cpp" line="229"/>
+        <location filename="../../gui/src/wifimenuwidget.cpp" line="266"/>
         <source>Active</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../gui/src/wifimenuwidget.cpp" line="231"/>
-        <location filename="../../gui/src/wifimenuwidget.cpp" line="269"/>
+        <location filename="../../gui/src/wifimenuwidget.cpp" line="230"/>
+        <location filename="../../gui/src/wifimenuwidget.cpp" line="268"/>
         <source>Exists</source>
         <translation>存在</translation>
     </message>
     <message>
-        <location filename="../../gui/src/wifimenuwidget.cpp" line="244"/>
+        <location filename="../../gui/src/wifimenuwidget.cpp" line="243"/>
         <source>2GHz</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../gui/src/wifimenuwidget.cpp" line="247"/>
+        <location filename="../../gui/src/wifimenuwidget.cpp" line="246"/>
         <source>5GHz</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../gui/src/wifimenuwidget.cpp" line="250"/>
+        <location filename="../../gui/src/wifimenuwidget.cpp" line="249"/>
         <source>2GHz and 5GHz</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../gui/src/wifimenuwidget.cpp" line="254"/>
+        <location filename="../../gui/src/wifimenuwidget.cpp" line="253"/>
         <source>N\A</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../gui/src/wifimenuwidget.cpp" line="260"/>
+        <location filename="../../gui/src/wifimenuwidget.cpp" line="259"/>
         <source>Point</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../gui/src/wifimenuwidget.cpp" line="324"/>
+        <location filename="../../gui/src/wifimenuwidget.cpp" line="323"/>
         <location filename="../../../build/gui/src/ui_wifimenuwidget.h" line="124"/>
         <source>Refresh</source>
         <translation>再読み込み</translation>
     </message>
     <message>
-        <location filename="../../gui/src/wifimenuwidget.cpp" line="327"/>
-        <location filename="../../gui/src/wifimenuwidget.cpp" line="331"/>
+        <location filename="../../gui/src/wifimenuwidget.cpp" line="326"/>
+        <location filename="../../gui/src/wifimenuwidget.cpp" line="330"/>
         <source>Start WiFi</source>
         <translation>WiFiを開始</translation>
     </message>
     <message>
-        <location filename="../../gui/src/wifimenuwidget.cpp" line="335"/>
+        <location filename="../../gui/src/wifimenuwidget.cpp" line="334"/>
         <source>Stop WiFi</source>
         <translation>WiFiを停止</translation>
     </message>
     <message>
-        <location filename="../../gui/src/wifimenuwidget.cpp" line="358"/>
+        <location filename="../../gui/src/wifimenuwidget.cpp" line="357"/>
         <source>Please install &apos;wpa_supplicant&apos; before use it</source>
         <translation>使用前に &apos;wpa_supplicant&apos; をインストールして下さい</translation>
     </message>
     <message>
-        <location filename="../../gui/src/wifimenuwidget.cpp" line="368"/>
+        <location filename="../../gui/src/wifimenuwidget.cpp" line="367"/>
         <source>Information</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../gui/src/wifimenuwidget.cpp" line="369"/>
+        <location filename="../../gui/src/wifimenuwidget.cpp" line="368"/>
         <source>This isn&apos;t the functionality you&apos;re looking for</source>
         <translation type="unfinished"></translation>
     </message>

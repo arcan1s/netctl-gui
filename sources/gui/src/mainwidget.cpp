@@ -316,6 +316,10 @@ void MainWidget::mainTabEnableProfile()
 void MainWidget::mainTabRemoveProfile()
 {
     if (debug) qDebug() << PDEBUG;
+    if (!checkExternalApps(QString("sudo"), configuration, debug)) {
+        ErrorWindow::showWindow(1, externalApps(QString("sudo"), configuration).join(QChar('\n')), debug);
+        return mainWindow->emitNeedToBeConfigured();
+    }
     if (ui->tableWidget_main->currentItem() == nullptr) return;
 
     mainWindow->setDisabled(true);
