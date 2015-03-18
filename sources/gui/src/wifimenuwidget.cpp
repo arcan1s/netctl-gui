@@ -189,8 +189,10 @@ void WiFiMenuWidget::updateText(const netctlWifiInfo current)
     if (!wifiTabSetEnabled(checkExternalApps(QString("wpasup-only"), configuration, debug))) return;
 
     QString text = QString("");
-    text += QString("%1 - %2 - %3 ").arg(current.name).arg(current.security).arg(current.macs[0]);
-    text += QString("(%1 %2)").arg(current.frequencies[0]).arg(QApplication::translate("WiFiMenuWidget", "MHz"));
+    if (!current.macs.isEmpty()) {
+        text += QString("%1 - %2 - %3 ").arg(current.name).arg(current.security).arg(current.macs[0]);
+        text += QString("(%1 %2)").arg(current.frequencies[0]).arg(QApplication::translate("WiFiMenuWidget", "MHz"));
+    }
 
     ui->label_wifi->setText(text);
 }
