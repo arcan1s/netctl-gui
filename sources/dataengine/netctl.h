@@ -29,15 +29,12 @@ class Netctl : public Plasma::DataEngine
 public:
     Netctl(QObject *parent, const QVariantList &args);
     ~Netctl();
-    QStringList getCurrentProfile(const QString cmdNetctl, const QString cmdNetctlAuto);
     QString getExtIp(const QString cmd);
-    QString getInfo();
+    QString getInfo(const QStringList profiles, const QStringList statuses);
     QStringList getInterfaceList();
     QString getIntIp(const QAbstractSocket::NetworkLayerProtocol protocol);
-    QString getNetctlAutoStatus(const QString cmdNetctlAuto);
     QStringList getProfileList(const QString cmdNetctl, const QString cmdNetctlAuto);
-    QStringList getProfileStringStatus(const QString cmdNetctl, const QString cmdNetctlAuto);
-    QString getStatus(const QString cmdNetctl, const QString cmdNetctlAuto);
+    QStringList getProfileStringStatus(const QString cmdNetctl);
     bool isNetworkActive();
 
 public slots:
@@ -49,13 +46,14 @@ protected:
     QStringList sources() const;
 
 private:
-    bool netctlAutoStatus;
-    QString currentProfile;
+    bool netctlAutoStatus = false;
+    bool status = false;
+    QStringList currentProfile;
+    QStringList currentStatus;
     // configuration
     bool debug;
-    QString current = QString("");
-    QString status = QString("");
     QMap<QString, QString> configuration;
+    QString getCmdOutput(const QString cmd);
     void readConfiguration();
 };
 
