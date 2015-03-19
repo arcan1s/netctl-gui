@@ -68,7 +68,6 @@ public slots:
     // configuration interface
     void configAccepted();
     void configChanged();
-    void setBigInterface();
     void setDataEngineExternalIp4();
     void setDataEngineExternalIp6();
     void setHelper();
@@ -78,7 +77,6 @@ public slots:
 private slots:
     // ui
     void updateIcon();
-    void updateInterface(bool setHidden);
     // configuration interface
     void selectAbstractSomething();
     // context menu
@@ -124,7 +122,6 @@ private:
     Ui::About uiAboutConfig;
     // configuration
     int autoUpdateInterval = 1000;
-    bool bigInterface = true;
     bool debug = false;
     QString textPattern = QString();
     QStringList formatLine;

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: https://github.com/arcan1s/netctl-gui/issues\n"
-"POT-Creation-Date: 2015-03-17 12:48+0300\n"
+"POT-Creation-Date: 2015-03-19 23:07+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,143 +17,139 @@ msgstr ""
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: plasmoid-kde4/netctl.cpp:234 plasmoid-kf5/plugin/netctladds.cpp:194
+#: plasmoid-kde4/netctl.cpp:222 plasmoid-kf5/plugin/netctladds.cpp:194
 msgid "Set profile %1 disabled"
 msgstr ""
 
-#: plasmoid-kde4/netctl.cpp:237 plasmoid-kf5/plugin/netctladds.cpp:197
+#: plasmoid-kde4/netctl.cpp:225 plasmoid-kf5/plugin/netctladds.cpp:197
 msgid "Set profile %1 enabled"
 msgstr ""
 
-#: plasmoid-kde4/netctl.cpp:257 plasmoid-kf5/plugin/netctladds.cpp:215
+#: plasmoid-kde4/netctl.cpp:245 plasmoid-kf5/plugin/netctladds.cpp:215
 msgid "Restart profile %1"
 msgstr ""
 
-#: plasmoid-kde4/netctl.cpp:277 plasmoid-kf5/plugin/netctladds.cpp:238
+#: plasmoid-kde4/netctl.cpp:265 plasmoid-kf5/plugin/netctladds.cpp:238
 msgid "Start profile %1"
 msgstr ""
 
-#: plasmoid-kde4/netctl.cpp:302 plasmoid-kf5/plugin/netctladds.cpp:262
+#: plasmoid-kde4/netctl.cpp:290 plasmoid-kf5/plugin/netctladds.cpp:262
 msgid "Stop profile %1"
 msgstr ""
 
-#: plasmoid-kde4/netctl.cpp:321 plasmoid-kde4/netctl.cpp:457
+#: plasmoid-kde4/netctl.cpp:309 plasmoid-kde4/netctl.cpp:446
 #: plasmoid-kf5/package/contents/ui/main.qml:106
 #: plasmoid-kf5/plugin/netctladds.cpp:279
 msgid "Stop all profiles"
 msgstr ""
 
-#: plasmoid-kde4/netctl.cpp:340 plasmoid-kf5/plugin/netctladds.cpp:300
+#: plasmoid-kde4/netctl.cpp:328 plasmoid-kf5/plugin/netctladds.cpp:300
 msgid "Switch to profile %1"
 msgstr ""
 
-#: plasmoid-kde4/netctl.cpp:412 plasmoid-kf5/package/contents/ui/main.qml:183
+#: plasmoid-kde4/netctl.cpp:400 plasmoid-kf5/package/contents/ui/main.qml:183
 msgid "Start another profile"
 msgstr ""
 
-#: plasmoid-kde4/netctl.cpp:413 plasmoid-kf5/package/contents/ui/main.qml:184
+#: plasmoid-kde4/netctl.cpp:401 plasmoid-kf5/package/contents/ui/main.qml:184
 msgid "Stop %1"
 msgstr ""
 
-#: plasmoid-kde4/netctl.cpp:414 plasmoid-kf5/package/contents/ui/main.qml:185
+#: plasmoid-kde4/netctl.cpp:402 plasmoid-kf5/package/contents/ui/main.qml:185
 msgid "Restart %1"
 msgstr ""
 
-#: plasmoid-kde4/netctl.cpp:416 plasmoid-kf5/package/contents/ui/main.qml:187
+#: plasmoid-kde4/netctl.cpp:404 plasmoid-kf5/package/contents/ui/main.qml:187
 msgid "Disable %1"
 msgstr ""
 
-#: plasmoid-kde4/netctl.cpp:418 plasmoid-kf5/package/contents/ui/main.qml:189
+#: plasmoid-kde4/netctl.cpp:406 plasmoid-kf5/package/contents/ui/main.qml:189
 msgid "Enable %1"
 msgstr ""
 
-#: plasmoid-kde4/netctl.cpp:421 plasmoid-kde4/netctl.cpp:444
+#: plasmoid-kde4/netctl.cpp:409 plasmoid-kde4/netctl.cpp:433
 #: plasmoid-kf5/package/contents/ui/main.qml:104
 #: plasmoid-kf5/package/contents/ui/main.qml:191
 msgid "Start profile"
 msgstr ""
 
-#: plasmoid-kde4/netctl.cpp:452 plasmoid-kf5/package/contents/ui/main.qml:105
+#: plasmoid-kde4/netctl.cpp:441 plasmoid-kf5/package/contents/ui/main.qml:105
 msgid "Stop profile"
 msgstr ""
 
-#: plasmoid-kde4/netctl.cpp:462 plasmoid-kf5/package/contents/ui/main.qml:107
+#: plasmoid-kde4/netctl.cpp:451 plasmoid-kf5/package/contents/ui/main.qml:107
 msgid "Switch to profile"
 msgstr ""
 
-#: plasmoid-kde4/netctl.cpp:470 plasmoid-kf5/package/contents/ui/main.qml:108
+#: plasmoid-kde4/netctl.cpp:459 plasmoid-kf5/package/contents/ui/main.qml:108
 msgid "Restart profile"
 msgstr ""
 
-#: plasmoid-kde4/netctl.cpp:475 plasmoid-kf5/package/contents/ui/main.qml:109
+#: plasmoid-kde4/netctl.cpp:464 plasmoid-kf5/package/contents/ui/main.qml:109
 msgid "Enable profile"
 msgstr ""
 
-#: plasmoid-kde4/netctl.cpp:479
-msgid "Show netctl-gui"
-msgstr ""
-
-#: plasmoid-kde4/netctl.cpp:484 plasmoid-kf5/package/contents/ui/main.qml:110
+#: plasmoid-kde4/netctl.cpp:468 plasmoid-kf5/package/contents/ui/main.qml:110
 msgid "Show WiFi menu"
 msgstr ""
 
-#: plasmoid-kde4/netctl.cpp:511
+#: plasmoid-kde4/netctl.cpp:495
 msgid "Start GUI"
 msgstr ""
 
-#: plasmoid-kde4/netctl.cpp:522
+#: plasmoid-kde4/netctl.cpp:506
 msgid "Start WiFi menu"
 msgstr ""
 
-#: plasmoid-kde4/netctl.cpp:563
+#: plasmoid-kde4/netctl.cpp:546
 msgid "Network is up"
 msgstr ""
 
-#: plasmoid-kde4/netctl.cpp:567
+#: plasmoid-kde4/netctl.cpp:550
 msgid "Network is down"
 msgstr ""
 
-#: plasmoid-kde4/netctl.cpp:754
+#: plasmoid-kde4/netctl.cpp:729
 msgid ""
 "Version %1\n"
 "(build date %2)"
 msgstr ""
 
-#: plasmoid-kde4/netctl.cpp:755 plasmoid-kf5/plugin/netctladds.cpp:88
+#: plasmoid-kde4/netctl.cpp:730 plasmoid-kf5/plugin/netctladds.cpp:88
 msgid "KDE widget which interacts with netctl."
 msgstr ""
 
-#: plasmoid-kde4/netctl.cpp:756 plasmoid-kf5/plugin/netctladds.cpp:90
+#: plasmoid-kde4/netctl.cpp:731 plasmoid-kf5/plugin/netctladds.cpp:90
 msgid "Links:"
 msgstr ""
 
-#: plasmoid-kde4/netctl.cpp:769 plasmoid-kf5/plugin/netctladds.cpp:99
+#: plasmoid-kde4/netctl.cpp:744 plasmoid-kf5/plugin/netctladds.cpp:99
 msgid "This software is licensed under %1"
 msgstr ""
 
-#: plasmoid-kde4/netctl.cpp:778 plasmoid-kf5/plugin/netctladds.cpp:102
+#: plasmoid-kde4/netctl.cpp:753 plasmoid-kf5/plugin/netctladds.cpp:102
 msgid "Translators: %1"
 msgstr ""
 
-#: plasmoid-kde4/netctl.cpp:779 plasmoid-kf5/plugin/netctladds.cpp:110
+#: plasmoid-kde4/netctl.cpp:754 plasmoid-kf5/plugin/netctladds.cpp:110
 msgid "This software uses: %1"
 msgstr ""
 
-#: plasmoid-kde4/netctl.cpp:781
+#: plasmoid-kde4/netctl.cpp:756
 msgid "Netctl plasmoid"
 msgstr ""
 
-#: plasmoid-kde4/netctl.cpp:782
+#: plasmoid-kde4/netctl.cpp:757
 #: plasmoid-kf5/package/contents/config/config.qml:31
 msgid "Appearance"
 msgstr ""
 
-#: plasmoid-kde4/netctl.cpp:783
+#: plasmoid-kde4/netctl.cpp:758
 #: plasmoid-kf5/package/contents/config/config.qml:37
 msgid "DataEngine"
 msgstr ""
 
-#: plasmoid-kde4/netctl.cpp:784
+#: plasmoid-kde4/netctl.cpp:759
 #: plasmoid-kf5/package/contents/config/config.qml:43
 #: plasmoid-kf5/package/contents/ui/about.qml:41
 msgid "About"
@@ -521,15 +517,9 @@ msgstr ""
 msgid "Set text align"
 msgstr ""
 
-#. i18n: file: plasmoid-kde4/widget.ui:353
-#. i18n: ectx: property (text), widget (QCheckBox, checkBox_showBigInterface)
-#: resources/translations-plasmoid/rc.cpp:114 rc.cpp:114
-msgid "Show more detailed interface"
-msgstr ""
-
-#. i18n: file: plasmoid-kde4/widget.ui:373
+#. i18n: file: plasmoid-kde4/widget.ui:343
 #. i18n: ectx: property (toolTip), widget (QPlainTextEdit, textEdit)
-#: resources/translations-plasmoid/rc.cpp:117 rc.cpp:117
+#: resources/translations-plasmoid/rc.cpp:114 rc.cpp:114
 msgid ""
 "$info - active profile information\n"
 "$current - current profile name\n"
@@ -542,12 +532,12 @@ msgid ""
 "$status - current profile status (static/enabled)"
 msgstr ""
 
-#: resources/translations-plasmoid/rc.cpp:126 rc.cpp:126
+#: resources/translations-plasmoid/rc.cpp:123 rc.cpp:123
 msgctxt "NAME OF TRANSLATORS"
 msgid "Your names"
 msgstr ""
 
-#: resources/translations-plasmoid/rc.cpp:127 rc.cpp:127
+#: resources/translations-plasmoid/rc.cpp:124 rc.cpp:124
 msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
 msgstr ""

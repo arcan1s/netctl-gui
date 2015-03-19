@@ -1,3 +1,53 @@
+Ver.1.4.1
+---------
+* all
+    + some Easter eggs
+    + add _DEFAULT_SOURCE to avoid gcc warnings
+    * refactoring
+    * fix cppcheck warnings
+    * update 3rdparty components
+    * fix language defilition
+    * replace General section to Common in settings (see http://doc.qt.io/qt-5/qsettings.html#Format-enum)
+* gui
+    + allow to change helper control group from UI (#36)
+    + allow to open profile in an external editor (#38)
+    + add IP validators (#34)
+    + add toolbar configuration
+    + add notification on hidding to tray
+    + add returnPressed() signal to lineEdits
+    + implement needToBeConfigured() signal
+    - remove margins
+    - fix bug with segfault on updating UI with KF5
+    * rewrite ErrorWindow class
+    * split MainWindow class
+    * update WiFi menu to new library functions
+    * improve UI (#25, #28)
+    * more correct component checking (#29, #37)
+    * more correct callbacks with exceptions
+* dataengine
+    + add desktop reconfiguration (#30)
+    * improve performance
+* helper
+    + add /interface interface
+    + add /ctrl/{CurrentWiFi,VerboseWiFi} calls
+    + add /netctl/VerboseProfiles call
+    + add /netctl/{netctlActiveProfile,netctlProfileList,netctlVerboseProfileList) calls
+* library
+    + add NetctlInterface class
+    + add WpaSup::CurrentWiFi method
+    + append structures some additional information
+    + mark Netctl::getProfileDescription() as deprecated
+    + now WpaSup can connect to already created session (by default)
+    * improve performance
+* plasmoid
+    + add desktop reconfiguration (#30)
+    - remove legacy functions from KDE4 plasmoid
+    * improve performance of KF5 plasmoid (#26)
+* test
+    * fix netctl tests
+
+***
+
 Ver.1.4.0
 ---------
 * all
@@ -6,9 +56,9 @@ Ver.1.4.0
     + create package for KF5
     * change NETCTLGUI_DEBUG=yes to DEBUG=yes
     * update url
-* gui:
+* gui
     + add workarounds to #22 and #23
-* plasmoid:
+* plasmoid
     + create package and plugin for KF5
     * change NETCTLGUI_DEBUG=yes to DEBUG=yes
     * update url
@@ -33,10 +83,10 @@ Ver.1.3.2
 
 Ver.1.3.1
 ---------
-* gui:
+* gui
     * more correct calls of boolean DBus methods
     * edit helper icon
-* helper:
+* helper
     * more correct calls of boolean DBus methods
     * more correct systemd service
     * add ability to create session bus
@@ -45,18 +95,18 @@ Ver.1.3.1
 
 Ver.1.3.0
 ---------
-* all:
+* all
     + add processes error messages
     + add support of several active profiles
     * some bug fixes and refactoring
     * rewrite debug messages
-* dataengine:
+* dataengine
     + add new sources: intIp6, extIp6, netctlAutoStatus
     * rewrite to use [tasks](https://github.com/mhogomchungu/tasks) (see #7)
     * change default command to define external IP
     * change interface list definition
     * change internal IP definition
-* gui:
+* gui
     + add 3rd party license information
     + add system tray icon as an alternative to the plasmoid
     + add DBus session interface org.netctlgui.netctlgui
@@ -73,11 +123,11 @@ Ver.1.3.0
     * rewrite tables to use toolTip
     * edit about window
     * change menuBar
-* helper:
+* helper
     + create daemon DBus system interface org.netctlgui.helper to the library:
       self control slots, netctl control slots and netctl information slots
     + add tests
-* library:
+* library
     + add custom structures netctlWifiInfo and netctlProfileInfo
     + add methods getActiveProfile(), autoGetActiveProfile()
     + add slot switchToProfile()
@@ -92,7 +142,7 @@ Ver.1.3.0
     * rewrite to use [tasks](https://github.com/mhogomchungu/tasks) (see #7)
     * rename getInterfaceList() to getWirelessInterfaceList()
     * change temporary directory from $HOME/.cache to system one
-* plasmoid:
+* plasmoid
     + add 3rd party license information
     + allow plasmoid to use system tray
     + add ability to use helper
@@ -105,14 +155,14 @@ Ver.1.3.0
 
 Ver.1.2.0
 ---------
-* all:
+* all
     + add icons
     + add support of netctl-auto
     * changes in the project architecture
     * refactoring
-* dataengine:
+* dataengine
     + add debug information (NETCTLGUI_DEBUG=yes)
-* gui:
+* gui
     + add support of macvlan
     + add ability to remove profile
     + add support of hidden wifi network
@@ -130,13 +180,13 @@ Ver.1.2.0
     * refactoring of configuration interface
     * change setting of the interface to profile tab
     * rewrite ErrorWindow class
-* library:
+* library
     + detach backend from frontend
     + add error checking
     + add doxygen documentation
     * more debug information
     * rewrite getSettingsFromProfile() function
-* plasmoid:
+* plasmoid
     + add dataengine configuration
     + add about window
     + add debug information (NETCTLGUI_DEBUG=yes)
@@ -148,26 +198,26 @@ Ver.1.2.0
 
 Ver.1.1.0 (netctl-1.7 update)
 -----------------------------
-* dataengine:
+* dataengine
     * change definition if profile is enabled
-* gui:
+* gui
     + add frequency
     * change definition if profile is enabled
-* plasmoid:
+* plasmoid
     + add menu title
 
 ***
 
 Ver.1.0.6
 ---------
-* gui:
+* gui
     * fix error checking
 
 ***
 
 Ver.1.0.5
 ---------
-* plasmoid:
+* plasmoid
     + add "Start WiFi menu" function
     * refactoring
     * edit icon
@@ -176,9 +226,9 @@ Ver.1.0.5
 
 Ver.1.0.4
 ---------
-* gui:
+* gui
     + add Qt5 gui (by default)
-* plasmoid:
+* plasmoid
     + add notifications
     * fix run command with sudo from plasmoid
 
@@ -186,23 +236,23 @@ Ver.1.0.4
 
 Ver.1.0.3
 ---------
-* all:
+* all
     * refactoring
-* plasmoid:
+* plasmoid
     + edit russian translation
 
 ***
 
 Ver.1.0.2
 ---------
-* plasmoid:
+* plasmoid
     - fix layout margins
 
 ***
 
 Ver.1.0.1
 ---------
-* all:
+* all
     - remove scripts
 
 ***

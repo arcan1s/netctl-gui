@@ -92,7 +92,7 @@ QString Netctl::getCmdOutput(const QString cmd)
     if (process.exitCode != 0)
         if (debug) qDebug() << PDEBUG << ":" << "Error" << process.error;
 
-    return QTextCodec::codecForMib(106)->toUnicode(process.output).trimmed();
+    return QTextCodec::codecForMib(106)->toUnicode(process.output);
 }
 
 
@@ -140,7 +140,7 @@ QString Netctl::getExtIp(const QString cmd)
     // test network connection
     if (!isNetworkActive()) return QString("N\\A");
 
-    return getCmdOutput(cmd);
+    return getCmdOutput(cmd).trimmed();
 }
 
 
@@ -203,6 +203,7 @@ QStringList Netctl::getProfileList(const QString cmdNetctl, const QString cmdNet
         output = getCmdOutput(QString("%1 list").arg(cmdNetctl));
         netctlAutoStatus = false;
     }
+    qDebug() << output;
 
     // parse
     QStringList currentProfiles;

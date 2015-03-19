@@ -330,36 +330,6 @@
     </layout>
    </item>
    <item>
-    <layout class="QHBoxLayout" name="layout_showBigInterface">
-     <item>
-      <widget class="QLabel" name="label_showBigInterface">
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-         <horstretch>1</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QCheckBox" name="checkBox_showBigInterface">
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
-         <horstretch>2</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
-       <property name="text">
-        <string>Show more detailed interface</string>
-       </property>
-       <property name="checked">
-        <bool>true</bool>
-       </property>
-      </widget>
-     </item>
-    </layout>
-   </item>
-   <item>
     <widget class="QPlainTextEdit" name="textEdit">
      <property name="toolTip">
       <string>$info - active profile information

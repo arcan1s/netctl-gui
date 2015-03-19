@@ -124,6 +124,8 @@ void Netctl::init()
     layout->addWidget(iconLabel);
     textLabel = new QLabel(graphicsWidget);
     layout->addWidget(textLabel);
+    graphicsWidget->adjustSize();
+    resize(0, 0);
     // read variables
     configChanged();
 }
@@ -206,20 +208,6 @@ void Netctl::updateIcon()
     QPixmap iconPixmap;
     iconPixmap.load(icon);
     iconLabel->setPixmap(iconPixmap);
-}
-
-
-void Netctl::updateInterface(bool setShown)
-{
-    if (debug) qDebug() << PDEBUG;
-    if (debug) qDebug() << PDEBUG << ":" << "State" << setShown;
-
-    if (setShown)
-        layout->addWidget(textLabel);
-    else
-        layout->removeWidget(textLabel);
-    graphicsWidget->adjustSize();
-    resize(0, 0);
 }
 
 
@@ -439,11 +427,12 @@ void Netctl::createActions()
     menuActions.clear();
 
     contextMenu[QString("title")] = new QAction(QString("netctl-gui"), this);
+    connect(contextMenu[QString("title")], SIGNAL(triggered(bool)), this, SLOT(showGui()));
     menuActions.append(contextMenu[QString("title")]);
 
     contextMenu[QString("start")] = new QAction(i18n("Start profile"), this);
     contextMenu[QString("start")]->setIcon(QIcon::fromTheme("dialog-apply"));
-    startProfileMenu = new QMenu(NULL);
+    startProfileMenu = new QMenu(nullptr);
     contextMenu[QString("start")]->setMenu(startProfileMenu);
     connect(startProfileMenu, SIGNAL(triggered(QAction *)), this,
             SLOT(startProfileSlot(QAction *)));
@@ -461,7 +450,7 @@ void Netctl::createActions()
 
     contextMenu[QString("switch")] = new QAction(i18n("Switch to profile"), this);
     contextMenu[QString("switch")]->setIcon(QIcon::fromTheme("dialog-apply"));
-    switchToProfileMenu = new QMenu(NULL);
+    switchToProfileMenu = new QMenu(nullptr);
     contextMenu[QString("switch")]->setMenu(switchToProfileMenu);
     connect(switchToProfileMenu, SIGNAL(triggered(QAction *)), this,
             SLOT(switchToProfileSlot(QAction *)));
@@ -475,11 +464,6 @@ void Netctl::createActions()
     contextMenu[QString("enable")] = new QAction(i18n("Enable profile"), this);
     connect(contextMenu[QString("enable")], SIGNAL(triggered(bool)), this, SLOT(enableProfileSlot()));
     menuActions.append(contextMenu[QString("enable")]);
-
-    contextMenu[QString("gui")] = new QAction(i18n("Show netctl-gui"), this);
-    contextMenu[QString("gui")]->setIcon(QIcon(":icon"));
-    connect(contextMenu[QString("gui")], SIGNAL(triggered(bool)), this, SLOT(showGui()));
-    menuActions.append(contextMenu[QString("gui")]);
 
     contextMenu[QString("wifi")] = new QAction(i18n("Show WiFi menu"), this);
     contextMenu[QString("wifi")]->setIcon(QIcon(":wifi"));
@@ -541,7 +525,6 @@ void Netctl::connectToEngine()
     netctlEngine->connectSource(QString("intip6"), this, autoUpdateInterval);
     netctlEngine->connectSource(QString("profiles"), this, autoUpdateInterval);
     netctlEngine->connectSource(QString("status"), this, autoUpdateInterval);
-    updateInterface(bigInterface);
 }
 
 
@@ -577,8 +560,7 @@ void Netctl::dataUpdated(const QString &sourceName, const Plasma::DataEngine::Da
     } else if (sourceName == QString("info")) {
         info[QString("info")] = value;
         // update text
-        if (bigInterface)
-            textLabel->setText(formatLine[0] + parsePattern(textPattern) + formatLine[1]);
+        textLabel->setText(formatLine[0] + parsePattern(textPattern) + formatLine[1]);
     } else if (sourceName == QString("interfaces")) {
         info[QString("interfaces")] = value;
     } else if (sourceName == QString("intip4")) {
@@ -610,8 +592,6 @@ void Netctl::disconnectFromEngine()
     netctlEngine->disconnectSource(QString("profiles"), this);
     netctlEngine->disconnectSource(QString("statusBool"), this);
     netctlEngine->disconnectSource(QString("statusString"), this);
-
-    updateInterface(false);
 }
 
 
@@ -708,13 +688,8 @@ void Netctl::createConfigurationInterface(KConfigDialog *parent)
         uiWidConfig.checkBox_wifi->setCheckState(Qt::Unchecked);
     uiWidConfig.lineEdit_wifi->setText(paths[QString("wifi")]);
     setWifi();
-    if (bigInterface)
-        uiWidConfig.checkBox_showBigInterface->setCheckState(Qt::Checked);
-    else
-        uiWidConfig.checkBox_showBigInterface->setCheckState(Qt::Unchecked);
     QString pattern = textPattern;
     uiWidConfig.textEdit->setPlainText(pattern.replace(QString("<br>"), QString("\n")));
-    setBigInterface();
 
     KConfigGroup cg = config();
     QString textAlign = cg.readEntry("textAlign", "center");
@@ -784,8 +759,6 @@ void Netctl::createConfigurationInterface(KConfigDialog *parent)
     parent->addPage(aboutWidget, i18n("About"), QString("help-about"));
 
     connect(uiWidConfig.checkBox_helper, SIGNAL(stateChanged(int)), this, SLOT(setHelper()));
-    connect(uiWidConfig.checkBox_showBigInterface, SIGNAL(stateChanged(int)), this,
-            SLOT(setBigInterface()));
     connect(uiWidConfig.checkBox_sudo, SIGNAL(stateChanged(int)), this, SLOT(setSudo()));
     connect(uiWidConfig.checkBox_wifi, SIGNAL(stateChanged(int)), this, SLOT(setWifi()));
     connect(uiDEConfig.checkBox_extIp4, SIGNAL(stateChanged(int)), this, SLOT(setDataEngineExternalIp4()));
@@ -826,7 +799,6 @@ void Netctl::configAccepted()
     cg.writeEntry("sudoPath", uiWidConfig.lineEdit_sudo->text());
     cg.writeEntry("useWifi", (uiWidConfig.checkBox_wifi->checkState() != 0));
     cg.writeEntry("wifiPath", uiWidConfig.lineEdit_wifi->text());
-    cg.writeEntry("showBigInterface", (uiWidConfig.checkBox_showBigInterface->checkState() != 0));
     QString pattern = uiWidConfig.textEdit->toPlainText();
     pattern.replace(QString("\n"), QString("<br>"));
     cg.writeEntry("textPattern", pattern);
@@ -872,7 +844,6 @@ void Netctl::configChanged()
     paths[QString("wifi")] = cg.readEntry("wifiPath", "/usr/bin/netctl-gui -t 3");
     useSudo = cg.readEntry("useSudo", true);
     useWifi = cg.readEntry("useWifi", false);
-    bigInterface = cg.readEntry("showBigInterface", true);
     useHelper = cg.readEntry("useHelper", true);
     textPattern = cg.readEntry("textPattern", "$info<br>IPv4: $intip4<br>IPv6: $intip6");
 
@@ -901,14 +872,6 @@ void Netctl::configChanged()
     if (useHelper) startHelper();
     checkHelperStatus();
     connectToEngine();
-}
-
-
-void Netctl::setBigInterface()
-{
-    if (debug) qDebug() << PDEBUG;
-
-    uiWidConfig.textEdit->setDisabled(uiWidConfig.checkBox_showBigInterface->checkState() == 0);
 }
 
 
