@@ -106,7 +106,7 @@ MainWindow::~MainWindow()
 {
     if (debug) qDebug() << PDEBUG;
 
-    if ((useHelper) && (configuration[QString("CLOSE_HELPER")] == QString("true")))
+    if (configuration[QString("CLOSE_HELPER")] == QString("true"))
         forceStopHelper();
     deleteObjects();
     delete ui;
@@ -383,13 +383,8 @@ void MainWindow::updateConfiguration(const QMap<QString, QVariant> args)
     QMap<QString, QString> optionsDict = parseOptions(args[QString("options")].toString());
     for (int i=0; i<optionsDict.keys().count(); i++)
         configuration[optionsDict.keys()[i]] = optionsDict[optionsDict.keys()[i]];
-    if ((configuration[QString("USE_HELPER")] == QString("true")) &&
-        (checkExternalApps(QString("helper"), configuration, debug)))
-        useHelper = true;
-    else {
-        useHelper = false;
-        configuration[QString("USE_HELPER")] = QString("false");
-    }
+    useHelper = ((configuration[QString("USE_HELPER")] == QString("true")) &&
+                 (checkExternalApps(QString("helper"), configuration, debug)));
 
     // update translation
     qApp->removeTranslator(translator);
@@ -462,9 +457,8 @@ bool MainWindow::checkHelperStatus()
     if (debug) qDebug() << PDEBUG;
 
     if (useHelper) useHelper = isHelperActive();
-    if (useHelper)
-        sendRequestToCtrl(QString("Update"), debug);
-    else {
+    if (!useHelper) {
+        configuration[QString("CLOSE_HELPER")] = QString("false");
         configuration[QString("FORCE_SUDO")] = QString("true");
         configuration[QString("USE_HELPER")] = QString("false");
     }

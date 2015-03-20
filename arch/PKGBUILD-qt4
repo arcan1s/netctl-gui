@@ -1,17 +1,18 @@
 # Maintainer: Evgeniy "arcanis" Alexeev <arcanis.arch at gmail dot com>
 
 pkgbase=netctl-gui-qt4
+_pkgbase=netctl-gui
 pkgname=('libnetctlgui-qt4' 'netctlgui-helper-qt4' 'netctl-gui-qt4'
          'kdeplasma-applets-netctl-gui')
-pkgver=1.4.1
+pkgver=1.4.2
 pkgrel=1
 pkgdesc="Qt4 GUI for netctl. Also provides a widget for KDE4"
 arch=('i686' 'x86_64')
 url="http://arcanis.name/projects/netctl-gui"
 license=('GPL3')
 makedepends=('automoc4' 'cmake' 'kdelibs')
-source=("https://github.com/arcan1s/netctl-gui/releases/download/V.${pkgver}/${pkgbase}-${pkgver}-src.tar.xz")
-md5sums=('f93be4d72fa63007f39d3b5516ccd3e4')
+source=("https://github.com/arcan1s/netctl-gui/releases/download/V.${pkgver}/${_pkgbase}-${pkgver}-src.tar.xz")
+md5sums=('3715129cf7d787b67576de9cc290eafa')
 
 
 prepare() {
@@ -28,7 +29,7 @@ build() {
         -DBUILD_LIBRARY:BOOL=0 \
         -DBUILD_HELPER:BOOL=0 \
         -DBUILD_KDE4:BOOL=1 \
-        "../${pkgbase}"
+        "../${_pkgbase}"
   make
 
   cd "${srcdir}/build-qt4"
@@ -38,7 +39,7 @@ build() {
         -DBUILD_PLASMOID:BOOL=0 \
         -DUSE_CAPABILITIES:BOOL=0 \
         -DUSE_QT5:BOOL=0 \
-        "../${pkgbase}"
+        "../${_pkgbase}"
   make
 }
 

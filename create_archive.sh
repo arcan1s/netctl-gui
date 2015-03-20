@@ -8,7 +8,7 @@ VERSION="${MAJOR}.${MINOR}.${PATCH}"
 
 ARCHIVE="netctl-gui"
 FILES="AUTHORS CHANGELOG COPYING README.md"
-IGNORELIST="build *.qm *.cppcheck .git* .kdev4 sources.kdev4"
+IGNORELIST="build *.qm *.cppcheck .git* *.kdev4"
 # update submodules
 git submodule update --init --recursive
 # create archive
@@ -16,7 +16,7 @@ git submodule update --init --recursive
 [[ -d ${ARCHIVE} ]] && rm -rf "${ARCHIVE}"
 cp -r "${SRCDIR}" "${ARCHIVE}"
 for FILE in ${FILES[*]}; do cp -r "$FILE" "${ARCHIVE}"; done
-for FILE in ${IGNORELIST[*]}; do find "${ARCHIVE}" -name "${FILE}" -exec rm -rf {} \;; done
+for FILE in ${IGNORELIST[*]}; do find "${ARCHIVE}" -name "${FILE}" -delete; done
 tar cJf "${ARCHIVE}-${VERSION}-src.tar.xz" "${ARCHIVE}"
 ln -sf "../${ARCHIVE}-${VERSION}-src.tar.xz" arch
 rm -rf "${ARCHIVE}"
@@ -26,5 +26,5 @@ MD5SUMS=$(md5sum ${ARCHIVE}-${VERSION}-src.tar.xz | awk '{print $1}')
 sed -i "/md5sums=('[0-9A-Fa-f]*/s/[^'][^)]*/md5sums=('${MD5SUMS}'/" arch/PKGBUILD{,-qt4}
 sed -i "s/pkgver=[0-9.]*/pkgver=${VERSION}/" arch/PKGBUILD{,-qt4}
 # clear
-find . -type f -name '*src.tar.xz' -not -name "*${VERSION}-src.tar.xz" -exec rm -rf {} \;
-find arch -type l -xtype l -exec rm -rf {} \;
+find . -type f -name '*src.tar.xz' -not -name "*${VERSION}-src.tar.xz" -delete
+find arch -type l -xtype l -delete
