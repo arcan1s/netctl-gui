@@ -51,12 +51,20 @@ set (DBUS_SYSTEMCONF_PATH "/etc/dbus-1/system.d/" CACHE STRING "Path to dbus sys
 set (SYSTEMD_SERVICE_PATH "lib/systemd/system" CACHE STRING "Path to systemd services")
 
 # flags
-if (CMAKE_COMPILER_IS_GNUCXX)
+if (CMAKE_CXX_COMPILER_ID MATCHES "GNU")
   set (CMAKE_CXX_FLAGS "-Wall -std=c++11")
   set (CMAKE_CXX_FLAGS_DEBUG "-g -O0")
   set (CMAKE_CXX_FLAGS_RELEASE "-O2 -DNDEBUG")
   # avoid newer gcc warnings
   add_definitions (-D_DEFAULT_SOURCE)
+elseif (CMAKE_CXX_COMPILER_ID MATCHES "Clang")
+  set (CMAKE_CXX_FLAGS "-Wall -std=c++11 -stdlib=libc++")
+  set (CMAKE_CXX_FLAGS_DEBUG "-g -O0")
+  set (CMAKE_CXX_FLAGS_RELEASE "-O2 -DNDEBUG")
+  # linker flags
+  set (CMAKE_EXE_LINKER_FLAGS "-lc++abi")
+  set (CMAKE_MODULE_LINKER_FLAGS "-lc++abi")
+  set (CMAKE_SHARED_LINKER_FLAGS "-lc++abi")
 else ()
   message (STATUS "Unknown compiler")
 endif ()

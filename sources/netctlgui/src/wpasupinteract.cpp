@@ -508,7 +508,7 @@ QString WpaSup::getWpaCliOutput(const QString commandLine)
     QStringList interfaces = netctlCommand->getWirelessInterfaceList();
     if (interfaces.isEmpty()) {
         if (debug) qDebug() << PDEBUG << ":" << "Could not find interfaces";
-        return false;
+        return QString();
     }
 
     QString cmd = QString("%1 -i %2 -p %3 %4").arg(wpaCliPath).arg(interfaces[0]).arg(ctrlDir).arg(commandLine);
