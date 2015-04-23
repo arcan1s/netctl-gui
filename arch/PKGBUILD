@@ -11,7 +11,7 @@ url="http://arcanis.name/projects/netctl-gui"
 license=('GPL3')
 makedepends=('cmake' 'extra-cmake-modules' 'plasma-framework' 'qt5-tools')
 source=("https://github.com/arcan1s/netctl-gui/releases/download/V.${pkgver}/${pkgbase}-${pkgver}-src.tar.xz")
-md5sums=('49f89f8568e910ac9b5cbf8bd0e97105')
+md5sums=('511ebd083932be0208836bd3d3566813')
 
 prepare() {
   rm -rf "${srcdir}/build-"{plasmoid,qt5}
