@@ -3,6 +3,7 @@ Ver.1.4.3
 * all
     - fix clang build (#41)
     - fix WPA_DRIVERS (#40)
+* library
     - fix bug in WpaSup class with invalid returning value
 
 ***
