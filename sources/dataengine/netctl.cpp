@@ -198,16 +198,15 @@ QStringList Netctl::getProfileList(const QString cmdNetctl, const QString cmdNet
     if (debug) qDebug() << PDEBUG;
 
     netctlAutoStatus = true;
-    QString output = getCmdOutput(QString("%1 list").arg(cmdNetctlAuto));
+    QString output = getCmdOutput(QString("%1 list").arg(cmdNetctlAuto)).trimmed();
     if (output.isEmpty()) {
-        output = getCmdOutput(QString("%1 list").arg(cmdNetctl));
+        output = getCmdOutput(QString("%1 list").arg(cmdNetctl)).trimmed();
         netctlAutoStatus = false;
     }
-    qDebug() << output;
 
     // parse
     QStringList currentProfiles;
-    QStringList profileList = output.split(QChar('\n'), QString::SkipEmptyParts);
+    QStringList profileList = output.split(QChar('\n'));
     for (int i=0; i<profileList.count(); i++) {
         if (profileList[i][0] != QChar('*')) continue;
         currentProfiles.append(profileList[i]);
