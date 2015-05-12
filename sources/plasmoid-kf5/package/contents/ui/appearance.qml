@@ -21,7 +21,7 @@ import QtQuick.Controls.Styles 1.3 as QtStyles
 import QtQuick.Dialogs 1.1 as QtDialogs
 import QtQuick.Layouts 1.0 as QtLayouts
 
-import org.kde.plasma.private.netctl 1.0
+import org.kde.plasma.netctl 1.0
 
 
 Item {
@@ -52,7 +52,7 @@ Item {
 
     Column {
         id: pageColumn
-        width: units.gridUnit * 25
+        anchors.fill: parent
         Row {
             height: implicitHeight
             width: parent.width

@@ -19,7 +19,7 @@ import QtQuick 2.0
 import QtQuick.Controls 1.3 as QtControls
 import QtQuick.Layouts 1.0 as QtLayouts
 
-import org.kde.plasma.private.netctl 1.0
+import org.kde.plasma.netctl 1.0
 
 
 Item {
@@ -33,7 +33,7 @@ Item {
 
     Column {
         id: pageColumn
-        width: units.gridUnit * 25
+        anchors.fill: parent
         QtControls.TabView {
             height: parent.height
             width: parent.width

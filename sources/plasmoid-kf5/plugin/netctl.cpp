@@ -32,7 +32,7 @@ static QObject *netctl_singletontype_provider(QQmlEngine *engine, QJSEngine *scr
 
 void NetctlPlugin::registerTypes(const char *uri)
 {
-    Q_ASSERT(uri == QLatin1String("org.kde.plasma.private.netctl"));
+    Q_ASSERT(uri == QLatin1String("org.kde.plasma.netctl"));
 
     qmlRegisterSingletonType<NetctlAdds>(uri, 1, 0, "NetctlAdds", netctl_singletontype_provider);
 }

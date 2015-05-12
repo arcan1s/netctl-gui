@@ -17,11 +17,12 @@
 
 import QtQuick 2.4
 import QtQuick.Controls 1.3 as QtControls
+import QtQuick.Layouts 1.1
 import org.kde.plasma.plasmoid 2.0
 import org.kde.plasma.core 2.0 as PlasmaCore
 import org.kde.plasma.components 2.0 as PlasmaComponents
 
-import org.kde.plasma.private.netctl 1.0
+import org.kde.plasma.netctl 1.0
 
 
 Item {
@@ -75,8 +76,8 @@ Item {
     }
 
     // ui
-    Grid {
-        id: mainGrid
+    GridLayout {
+        anchors.fill: parent
         columns: 2
 
         Image {
@@ -126,15 +127,6 @@ Item {
         text.text = NetctlAdds.parsePattern(plasmoid.configuration.textPattern)
         Plasmoid.toolTipSubText = NetctlAdds.valueByKey("info")
         needMenuUpdate()
-        // updae geometry
-        text.update()
-        icon.height = text.contentHeight
-        icon.width = text.contentHeight
-        icon.update()
-        height = text.contentHeight
-        width = icon.paintedWidth + text.contentWidth
-        update()
-
     }
 
     onNeedMenuUpdate: {

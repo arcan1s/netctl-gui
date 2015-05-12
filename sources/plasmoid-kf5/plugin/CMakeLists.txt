@@ -1,4 +1,5 @@
 set (PLUGIN_NAME netctlplugin)
+add_definitions(-DTRANSLATION_DOMAIN=\"plasma_applet_org.kde.plasma.netctl\")
 
 add_definitions (${Qt5Core_DEFINITIONS} ${Qt5DBus_DEFINITIONS} ${Qt5Qml_DEFINITIONS})
 set (Qt_INCLUDE ${Qt5Core_INCLUDE_DIRS}
@@ -26,6 +27,6 @@ file (GLOB SUBPROJECT_NOTIFY *.notifyrc)
 add_library (${PLUGIN_NAME} SHARED ${SUBPROJECT_SOURCE})
 target_link_libraries (${PLUGIN_NAME} ${Qt_LIBRARIES} ${Kf5_LIBRARIES})
 
-install (TARGETS ${PLUGIN_NAME} DESTINATION ${QML_INSTALL_DIR}/org/kde/plasma/private/netctl)
-install (FILES qmldir DESTINATION ${QML_INSTALL_DIR}/org/kde/plasma/private/netctl)
+install (TARGETS ${PLUGIN_NAME} DESTINATION ${QML_INSTALL_DIR}/org/kde/plasma/netctl)
+install (FILES qmldir DESTINATION ${QML_INSTALL_DIR}/org/kde/plasma/netctl)
 install (FILES ${SUBPROJECT_NOTIFY} DESTINATION ${KNOTIFYRC_INSTALL_DIR})

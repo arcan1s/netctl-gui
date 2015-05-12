@@ -1,3 +1,11 @@
+Ver.1.4.5
+---------
+* plasmoid
+    + add translation support to plugin part
+    * more correct interface painting
+    * more correct configuration interface painting
+    * move plugin from private
+
 Ver.1.4.4
 ---------
 * dataengine
