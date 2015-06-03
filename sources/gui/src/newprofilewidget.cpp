@@ -425,7 +425,9 @@ void NewProfileWidget::profileTabOpenInEditor()
         return mainWindow->emitNeedToBeConfigured();
     }
 
+    QString directory = QDir(configuration[QString("PROFILE_DIR")]).absolutePath();
     QString profile = QFileInfo(ui->comboBox_profile->currentText()).fileName();
+    profile = QString("%1/%2").arg(directory).arg(profile);
     QString cmd = QString("%1 %2 %3").arg(configuration[QString("SUDO_PATH")])
                                      .arg(configuration[QString("EDITOR_PATH")])
                                      .arg(profile);

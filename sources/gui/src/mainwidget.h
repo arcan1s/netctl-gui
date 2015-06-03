@@ -20,6 +20,7 @@
 
 #include <QMainWindow>
 #include <QTableWidgetItem>
+#include <QTimer>
 
 #include <netctlgui/netctlgui.h>
 
@@ -68,6 +69,7 @@ private:
     void createActions();
     QString configPath;
     bool debug = false;
+    QTimer timer;
     bool useHelper = true;
     // configuration
     QMap<QString, QString> configuration;

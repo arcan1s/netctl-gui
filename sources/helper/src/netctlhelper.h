@@ -29,7 +29,7 @@ class NetctlHelper : public QObject
 
 public:
     explicit NetctlHelper(QObject *parent = 0,
-                          QMap<QString, QVariant> args = QMap<QString, QVariant>());
+                          QVariantMap args = QVariantMap());
     ~NetctlHelper();
     QStringList printSettings();
 

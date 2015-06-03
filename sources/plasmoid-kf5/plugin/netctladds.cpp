@@ -148,7 +148,7 @@ void NetctlAdds::runCmd(const QString cmd)
 }
 
 
-void NetctlAdds::setDataBySource(const QString sourceName, const QMap<QString, QVariant> data)
+void NetctlAdds::setDataBySource(const QString sourceName, const QVariantMap data)
 {
     if (debug) qDebug() << PDEBUG;
     if (debug) qDebug() << PDEBUG << ":" << "Source" << sourceName;
@@ -310,11 +310,11 @@ void NetctlAdds::switchToProfileSlot(const bool useHelper, const QString cmd)
 }
 
 
-QMap<QString, QVariant> NetctlAdds::readDataEngineConfiguration()
+QVariantMap NetctlAdds::readDataEngineConfiguration()
 {
     if (debug) qDebug() << PDEBUG;
 
-    QMap<QString, QVariant> configuration;
+    QVariantMap configuration;
     QString fileName = QStandardPaths::locate(QStandardPaths::ConfigLocation, QString("plasma-dataengine-netctl.conf"));
 
     if (debug) qDebug() << PDEBUG << ":" << "Configuration file" << fileName;
@@ -336,7 +336,7 @@ QMap<QString, QVariant> NetctlAdds::readDataEngineConfiguration()
 }
 
 
-void NetctlAdds::writeDataEngineConfiguration(const QMap<QString, QVariant> configuration)
+void NetctlAdds::writeDataEngineConfiguration(const QVariantMap configuration)
 {
     if (debug) qDebug() << PDEBUG;
 

@@ -47,6 +47,10 @@ WiFiMenuWidget::WiFiMenuWidget(QWidget *parent, const QMap<QString, QString> set
     ui->tableWidget_wifi->setColumnHidden(6, true);
     updateToolBarState(static_cast<Qt::ToolBarArea>(configuration[QString("WIFI_TOOLBAR")].toInt()));
 
+    // auto update
+    timer.setSingleShot(true);
+    timer.setInterval(configuration[QString("WIFIUPDATE")].toInt() * 1000);
+
     createActions();
 }
 
@@ -73,6 +77,8 @@ void WiFiMenuWidget::update()
 
     updateWifiTab();
     updateMenuWifi();
+
+    if (timer.interval() != 0) return timer.start();
 }
 
 
@@ -430,6 +436,7 @@ void WiFiMenuWidget::createActions()
     if (debug) qDebug() << PDEBUG;
 
     // menu actions
+    connect(&timer, SIGNAL(timeout()), this, SLOT(update()));
     connect(ui->actionFunc, SIGNAL(triggered(bool)), this, SLOT(wifiTabShowInfo()));
     connect(ui->actionRefresh, SIGNAL(triggered(bool)), this, SLOT(updateWifiTab()));
     connect(ui->actionStart, SIGNAL(triggered(bool)), this, SLOT(wifiTabStart()));

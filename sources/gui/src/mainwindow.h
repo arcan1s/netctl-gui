@@ -43,7 +43,7 @@ class MainWindow : public QMainWindow
 
 public:
     explicit MainWindow(QWidget *parent = 0,
-                        const QMap<QString, QVariant> args = QMap<QString, QVariant>(),
+                        const QVariantMap args = QVariantMap(),
                         QTranslator *qtAppTranslator = 0,
                         QTranslator *appTranslator = 0);
     ~MainWindow();
@@ -82,7 +82,7 @@ public slots:
     void setTab(int tab);
     void showMessage(const bool status);
     void storeToolBars();
-    void updateConfiguration(const QMap<QString, QVariant> args = QMap<QString, QVariant>());
+    void updateConfiguration(const QVariantMap args = QVariantMap());
     void updateToolBarState(const Qt::ToolBarArea area = Qt::TopToolBarArea);
 
 signals:

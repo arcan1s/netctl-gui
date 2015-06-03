@@ -25,7 +25,7 @@
 
 
 QString errorMessage();
-QMap<QString, QVariant> getArgs();
+QVariantMap getArgs();
 QString helpMessage();
 QString infoMessage();
 QString versionMessage();

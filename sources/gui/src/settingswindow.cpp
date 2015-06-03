@@ -247,6 +247,8 @@ void SettingsWindow::saveSettings()
 
     settings.beginGroup(QString("Common"));
     settings.setValue(QString("LANGUAGE"), config[QString("LANGUAGE")]);
+    settings.setValue(QString("MAINUPDATE"), config[QString("MAINUPDATE")]);
+    settings.setValue(QString("WIFIUPDATE"), config[QString("WIFIUPDATE")]);
     settings.setValue(QString("SYSTRAY"), config[QString("SYSTRAY")]);
     settings.setValue(QString("CLOSETOTRAY"), config[QString("CLOSETOTRAY")]);
     settings.setValue(QString("STARTTOTRAY"), config[QString("STARTTOTRAY")]);
@@ -458,6 +460,7 @@ QMap<QString, QString> SettingsWindow::readSettings()
     config[QString("HELPER_SERVICE")] = ui->lineEdit_helperService->text();
     config[QString("IFACE_DIR")] = ui->lineEdit_interfacesDir->text();
     config[QString("LANGUAGE")] = ui->comboBox_language->currentText();
+    config[QString("MAINUPDATE")] = QString::number(ui->spinBox_mainAutoUpdate->value());
     config[QString("MAIN_TOOLBAR")] = QString::number(indexToToolBarPosition(ui->comboBox_mainToolbar->currentIndex()));
     config[QString("NETCTL_PATH")] = ui->lineEdit_netctlPath->text();
     config[QString("NETCTL_TOOLBAR")] = QString::number(indexToToolBarPosition(ui->comboBox_netctlToolbar->currentIndex()));
@@ -487,6 +490,7 @@ QMap<QString, QString> SettingsWindow::readSettings()
         config[QString("USE_HELPER")] = QString("true");
     else
         config[QString("USE_HELPER")] = QString("false");
+    config[QString("WIFIUPDATE")] = QString::number(ui->spinBox_wifiAutoUpdate->value());
     config[QString("WIFI_TOOLBAR")] = QString::number(indexToToolBarPosition(ui->comboBox_wifiToolbar->currentIndex()));
     config[QString("WPACLI_PATH")] = ui->lineEdit_wpaCliPath->text();
     config[QString("WPASUP_PATH")] = ui->lineEdit_wpaSupPath->text();
@@ -523,6 +527,7 @@ void SettingsWindow::setSettings(const QMap<QString, QString> config)
     ui->lineEdit_interfacesDir->setText(config[QString("IFACE_DIR")]);
     int index = ui->comboBox_language->findText(config[QString("LANGUAGE")]);
     ui->comboBox_language->setCurrentIndex(index);
+    ui->spinBox_mainAutoUpdate->setValue(config[QString("MAINUPDATE")].toInt());
     index = indexByToolBarPosition(static_cast<Qt::ToolBarArea>(config[QString("MAIN_TOOLBAR")].toInt()));
     ui->comboBox_mainToolbar->setCurrentIndex(index);
     ui->lineEdit_netctlPath->setText(config[QString("NETCTL_PATH")]);
@@ -556,6 +561,7 @@ void SettingsWindow::setSettings(const QMap<QString, QString> config)
         ui->checkBox_useHelper->setCheckState(Qt::Checked);
     else
         ui->checkBox_useHelper->setCheckState(Qt::Unchecked);
+    ui->spinBox_wifiAutoUpdate->setValue(config[QString("WIFIUPDATE")].toInt());
     index = indexByToolBarPosition(static_cast<Qt::ToolBarArea>(config[QString("WIFI_TOOLBAR")].toInt()));
     ui->comboBox_wifiToolbar->setCurrentIndex(index);
     ui->lineEdit_wpaCliPath->setText(config[QString("WPACLI_PATH")]);
@@ -586,6 +592,8 @@ QMap<QString, QString> SettingsWindow::getSettings(QString fileName)
     config[QString("LANGUAGE")] = Language::defineLanguage(fileName, QString());
     settings.beginGroup(QString("Common"));
     config[QString("LANGUAGE")] = settings.value(QString("LANGUAGE"), QString("en")).toString();
+    config[QString("MAINUPDATE")] = settings.value(QString("MAINUPDATE"), QString("0")).toString();
+    config[QString("WIFIUPDATE")] = settings.value(QString("WIFIUPDATE"), QString("0")).toString();
     config[QString("SYSTRAY")] = settings.value(QString("SYSTRAY"), QString("true")).toString();
     config[QString("CLOSETOTRAY")] = settings.value(QString("CLOSETOTRAY"), QString("true")).toString();
     config[QString("STARTTOTRAY")] = settings.value(QString("STARTTOTRAY"), QString("false")).toString();

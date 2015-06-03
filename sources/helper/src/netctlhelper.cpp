@@ -34,7 +34,7 @@
 #include "version.h"
 
 
-NetctlHelper::NetctlHelper(QObject *parent, QMap<QString, QVariant> args)
+NetctlHelper::NetctlHelper(QObject *parent, QVariantMap args)
     : QObject(parent),
       configPath(args[QString("config")].toString()),
       debug(args[QString("debug")].toBool()),

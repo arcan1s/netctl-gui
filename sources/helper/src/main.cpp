@@ -50,7 +50,7 @@ bool existingSessionOperation(const QString operation)
 
 int main(int argc, char *argv[])
 {
-    QMap<QString, QVariant> args = getArgs();
+    QVariantMap args = getArgs();
     // reading
     for (int i=1; i<argc; i++) {
         if ((QString(argv[i]) == QString("-c")) || (QString(argv[i]) == QString("--config"))) {

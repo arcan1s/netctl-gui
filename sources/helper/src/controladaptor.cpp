@@ -112,7 +112,7 @@ QString ControlAdaptor::SecurityDocs()
 
 bool ControlAdaptor::SelfDestruct(const QString approve)
 {
-    if (approve == QString("Yes, please")) return SelfDestruct(approve);
+    if (approve == QString("Yes please")) return SelfDestruct(approve);
 
     return false;
 }

@@ -62,7 +62,7 @@ unsigned int getUidFromSession(const int type = 0)
 
 int main(int argc, char *argv[])
 {
-    QMap<QString, QVariant> args = getArgs();
+    QVariantMap args = getArgs();
     // reading
     for (int i=1; i<argc; i++) {
         if (QString(argv[i]) == QString("--detached")) {

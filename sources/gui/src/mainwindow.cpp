@@ -51,10 +51,8 @@
 #include "wifimenuwidget.h"
 
 
-MainWindow::MainWindow(QWidget *parent,
-                       const QMap<QString, QVariant> args,
-                       QTranslator *qtAppTranslator,
-                       QTranslator *appTranslator)
+MainWindow::MainWindow(QWidget *parent, const QVariantMap args,
+                       QTranslator *qtAppTranslator, QTranslator *appTranslator)
     : QMainWindow(parent),
       configPath(args[QString("config")].toString()),
       debug(args[QString("debug")].toBool()),
@@ -369,7 +367,7 @@ void MainWindow::storeToolBars()
 }
 
 
-void MainWindow::updateConfiguration(const QMap<QString, QVariant> args)
+void MainWindow::updateConfiguration(const QVariantMap args)
 {
     if (debug) qDebug() << PDEBUG;
 

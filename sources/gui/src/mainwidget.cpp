@@ -52,6 +52,10 @@ MainWidget::MainWidget(QWidget *parent, const QMap<QString, QString> settings, c
     actionMenu->addAction(ui->actionEnable);
     ui->actionStart->setMenu(actionMenu);
 
+    // auto update
+    timer.setSingleShot(true);
+    timer.setInterval(configuration[QString("MAINUPDATE")].toInt() * 1000);
+
     createActions();
 }
 
@@ -92,6 +96,8 @@ void MainWidget::update()
 
     updateMainTab();
     updateMenuMain();
+
+    if (timer.interval() != 0) return timer.start();
 }
 
 
@@ -411,6 +417,7 @@ void MainWidget::createActions()
     if (debug) qDebug() << PDEBUG;
 
     // menu actions
+    connect(&timer, SIGNAL(timeout()), this, SLOT(update()));
     connect(ui->actionEnable, SIGNAL(triggered(bool)), this, SLOT(mainTabEnableProfile()));
     connect(ui->actionEdit, SIGNAL(triggered(bool)), this, SLOT(mainTabEditProfile()));
     connect(ui->actionRefresh, SIGNAL(triggered(bool)), this, SLOT(updateMainTab()));

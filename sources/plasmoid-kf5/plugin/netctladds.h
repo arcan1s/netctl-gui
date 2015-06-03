@@ -37,7 +37,7 @@ public:
     Q_INVOKABLE bool isDebugEnabled();
     Q_INVOKABLE QString parsePattern(const QString pattern);
     Q_INVOKABLE void runCmd(const QString cmd);
-    Q_INVOKABLE void setDataBySource(const QString sourceName, const QMap<QString, QVariant> data);
+    Q_INVOKABLE void setDataBySource(const QString sourceName, const QVariantMap data);
     Q_INVOKABLE static void sendNotification(const QString eventId, const QString message);
     Q_INVOKABLE QString valueByKey(const QString key);
     // context menu
@@ -59,8 +59,8 @@ public:
     Q_INVOKABLE void switchToProfileSlot(const bool useHelper = true,
                                          const QString cmd = QString("/usr/bin/netctl-auto"));
     // dataengine
-    Q_INVOKABLE QMap<QString, QVariant> readDataEngineConfiguration();
-    Q_INVOKABLE void writeDataEngineConfiguration(const QMap<QString, QVariant> configuration);
+    Q_INVOKABLE QVariantMap readDataEngineConfiguration();
+    Q_INVOKABLE void writeDataEngineConfiguration(const QVariantMap configuration);
 
 signals:
     void needToBeUpdated();

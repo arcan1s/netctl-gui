@@ -20,6 +20,7 @@
 
 #include <QApplication>
 #include <QMainWindow>
+#include <QTimer>
 
 #include <netctlgui/netctlgui.h>
 
@@ -70,6 +71,7 @@ private:
     void createActions();
     bool debug = false;
     bool hiddenNetwork = false;
+    QTimer timer;
     bool useHelper = true;
     // configuration
     QMap<QString, QString> configuration;

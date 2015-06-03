@@ -1,3 +1,7 @@
+* gui
+    + implement autoupdate feature
+    - fix invalid profile path for the external editor
+
 Ver.1.4.5
 ---------
 * plasmoid

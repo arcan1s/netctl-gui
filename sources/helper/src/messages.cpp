@@ -29,9 +29,9 @@ QString errorMessage()
 }
 
 
-QMap<QString, QVariant> getArgs()
+QVariantMap getArgs()
 {
-    QMap<QString, QVariant> args;
+    QVariantMap args;
     args[QString("config")] = QString("%1/.config/netctl-gui.conf").arg(QDir::homePath());
     args[QString("debug")] = false;
     args[QString("nodaemon")] = false;

@@ -29,9 +29,9 @@ QString errorMessage()
 }
 
 
-QMap<QString, QVariant> getArgs()
+QVariantMap getArgs()
 {
-    QMap<QString, QVariant> args;
+    QVariantMap args;
     // windows
     args[QString("detached")] = false;
     args[QString("minimized")] = static_cast<int>(0);
