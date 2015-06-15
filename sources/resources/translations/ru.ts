@@ -2284,6 +2284,14 @@ Should be according to standards</source>
         <source>External editor</source>
         <translation>Внешний редактор</translation>
     </message>
+    <message>
+        <source>Main tab autoupdate, sec</source>
+        <translation>Интервал обновления основной вкладки, сек</translation>
+    </message>
+    <message>
+        <source>WiFi tab autoupdate, sec</source>
+        <translation>Интервал обновления WiFi вкладки, сек</translation>
+    </message>
 </context>
 <context>
     <name>TrayIcon</name>

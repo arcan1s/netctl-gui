@@ -2285,6 +2285,14 @@ Should be according to standards</translation>
         <source>External editor</source>
         <translation>External editor</translation>
     </message>
+    <message>
+        <source>Main tab autoupdate, sec</source>
+        <translation>Main tab autoupdate, sec</translation>
+    </message>
+    <message>
+        <source>WiFi tab autoupdate, sec</source>
+        <translation>WiFi tab autoupdate, sec</translation>
+    </message>
 </context>
 <context>
     <name>TrayIcon</name>
