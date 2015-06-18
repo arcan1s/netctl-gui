@@ -1,5 +1,10 @@
 # set files
-file (GLOB_RECURSE SOURCES *.cpp ${PROJECT_TRDPARTY_DIR}/task/*.cpp)
+if (USE_QT5)
+  file (GLOB_RECURSE SOURCES *.cpp ${PROJECT_TRDPARTY_DIR}/task/*.cpp
+                                   ${PROJECT_TRDPARTY_DIR}/pdebug/*.cpp)
+else ()
+  file (GLOB_RECURSE SOURCES *.cpp ${PROJECT_TRDPARTY_DIR}/task/*.cpp)
+endif ()
 file (GLOB_RECURSE HEADERS *.h ${SUBPROJECT_INCLUDE_DIR}/*h
                                ${PROJECT_TRDPARTY_DIR}/task/*.h)
 

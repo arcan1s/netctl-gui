@@ -32,6 +32,10 @@
 #include "netctlhelper.h"
 #include "version.h"
 
+#if QT_VERSION >= 0x050000
+#include <pdebug/pdebug-time.h>
+#endif /* QT_VERSION >= 0x050000 */
+
 
 using namespace std;
 
@@ -115,6 +119,7 @@ int main(int argc, char *argv[])
 
 #if QT_VERSION >= 0x050000
     QCoreApplication::setSetuidAllowed(true);
+    qInstallMessageHandler(debugString);
 #endif
     QCoreApplication a(argc, argv);
     // reread translations according to flags

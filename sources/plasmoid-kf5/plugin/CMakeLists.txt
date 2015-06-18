@@ -21,7 +21,8 @@ include_directories (${CMAKE_SOURCE_DIR}
                      ${Qt_INCLUDE}
                      ${Kf5_INCLUDE})
 
-file (GLOB SUBPROJECT_SOURCE *.cpp)
+file (GLOB_RECURSE SUBPROJECT_SOURCE ${PROJECT_TRDPARTY_DIR}/pdebug/*.cpp
+                                     *.cpp)
 file (GLOB SUBPROJECT_NOTIFY *.notifyrc)
 
 add_library (${PLUGIN_NAME} SHARED ${SUBPROJECT_SOURCE})

@@ -32,6 +32,10 @@
 #include "messages.h"
 #include "version.h"
 
+#if QT_VERSION >= 0x050000
+#include <pdebug/pdebug-time.h>
+#endif /* QT_VERSION >= 0x050000 */
+
 
 using namespace std;
 
@@ -157,6 +161,9 @@ int main(int argc, char *argv[])
     // detach from console
     if (args[QString("detached")].toBool())
         daemon(0, 0);
+#if QT_VERSION >= 0x050000
+    qInstallMessageHandler(debugString);
+#endif
     QApplication a(argc, argv);
     QApplication::setQuitOnLastWindowClosed(false);
     // reread translations according to flags

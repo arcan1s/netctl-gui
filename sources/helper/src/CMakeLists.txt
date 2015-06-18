@@ -1,7 +1,14 @@
 # set files
-file (GLOB_RECURSE SOURCES *.cpp ${PROJECT_TRDPARTY_DIR}/task/*.cpp
-                                 ${PROJECT_TRDPARTY_DIR}/language/*.cpp
-                                 ${PROJECT_TRDPARTY_DIR}/listmap/*.cpp)
+if (USE_QT5)
+  file (GLOB_RECURSE SOURCES *.cpp ${PROJECT_TRDPARTY_DIR}/task/*.cpp
+                                   ${PROJECT_TRDPARTY_DIR}/language/*.cpp
+                                   ${PROJECT_TRDPARTY_DIR}/listmap/*.cpp
+                                   ${PROJECT_TRDPARTY_DIR}/pdebug/*.cpp)
+else ()
+  file (GLOB_RECURSE SOURCES *.cpp ${PROJECT_TRDPARTY_DIR}/task/*.cpp
+                                   ${PROJECT_TRDPARTY_DIR}/language/*.cpp
+                                   ${PROJECT_TRDPARTY_DIR}/listmap/*.cpp)
+endif ()
 file (GLOB_RECURSE HEADERS *.h ${PROJECT_TRDPARTY_DIR}/task/*.h
                                ${PROJECT_TRDPARTY_DIR}/language/*.h)
 

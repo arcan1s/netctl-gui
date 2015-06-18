@@ -27,6 +27,7 @@
 #include <QStandardPaths>
 
 #include <pdebug/pdebug.h>
+#include <pdebug/pdebug-time.h>
 
 #include "netctladds.h"
 #include "version.h"
@@ -35,6 +36,7 @@
 NetctlAdds::NetctlAdds(QObject *parent)
     : QObject(parent)
 {
+    qInstallMessageHandler(debugString);
     // debug
     QProcessEnvironment environment = QProcessEnvironment::systemEnvironment();
     QString debugEnv = environment.value(QString("DEBUG"), QString("no"));
@@ -169,6 +171,13 @@ void NetctlAdds::setDataBySource(const QString sourceName, const QVariantMap dat
 
 void NetctlAdds::sendNotification(const QString eventId, const QString message)
 {
+    QProcessEnvironment environment = QProcessEnvironment::systemEnvironment();
+    QString debugEnv = environment.value(QString("DEBUG"), QString("no"));
+    bool debugLocal = (debugEnv == QString("yes"));
+    if (debugLocal) qDebug() << PDEBUG;
+    if (debugLocal) qDebug() << PDEBUG << ":" << "Event" << eventId;
+    if (debugLocal) qDebug() << PDEBUG << ":" << "Message" << message;
+
     KNotification *notification = KNotification::event(eventId, QString("Netctl ::: %1").arg(eventId), message);
     notification->setComponentName(QString("plasma-applet-org.kde.plasma.netctl"));
 }

@@ -36,6 +36,7 @@
 #include <KStandardDirs>
 #else
 #include <QStandardPaths>
+#include <pdebug/pdebug-time.h>
 #endif /* BUILD_KDE4 */
 
 
@@ -44,6 +45,9 @@ Netctl::Netctl(QObject *parent, const QVariantList &args)
 {
     Q_UNUSED(args)
 
+#if QT_VERSION >= 0x050000
+    qInstallMessageHandler(debugString);
+#endif /* QT_VERSION >= 0x050000 */
     // debug
     QProcessEnvironment environment = QProcessEnvironment::systemEnvironment();
     QString debugEnv = environment.value(QString("DEBUG"), QString("no"));
