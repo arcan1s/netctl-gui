@@ -158,12 +158,12 @@ void NetctlAdds::setDataBySource(const QString sourceName, const QVariantMap dat
 
     bool needUpdate = (values[sourceName] != data[QString("value")].toString());
     values[sourceName] = data[QString("value")].toString();
-    if ((needUpdate) && (sourceName == QString("active"))) {
-        if (values[sourceName] == QString("true"))
-            sendNotification(QString("Info"), i18n("Network status has been changed to active"));
-        else
-            sendNotification(QString("Info"), i18n("Network status has been changed to inactive"));
-    }
+//     if ((needUpdate) && (sourceName == QString("active"))) {
+//         if (values[sourceName] == QString("true"))
+//             sendNotification(QString("Info"), i18n("Network status has been changed to active"));
+//         else
+//             sendNotification(QString("Info"), i18n("Network status has been changed to inactive"));
+//     }
 
     if (needUpdate) emit(needToBeUpdated());
 }
