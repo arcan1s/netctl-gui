@@ -41,12 +41,26 @@ NetctlAdds::NetctlAdds(QObject *parent)
     QProcessEnvironment environment = QProcessEnvironment::systemEnvironment();
     QString debugEnv = environment.value(QString("DEBUG"), QString("no"));
     debug = (debugEnv == QString("yes"));
+
+    connect(this, SIGNAL(needToNotify(bool)), this, SLOT(notifyAboutStatusChanging(bool)));
 }
 
 
 NetctlAdds::~NetctlAdds()
 {
     if (debug) qDebug() << PDEBUG;
+}
+
+
+void NetctlAdds::notifyAboutStatusChanging(const bool currentStatus)
+{
+    if (debug) qDebug() << PDEBUG;
+    if (debug) qDebug() << PDEBUG << ":" << "Status" << currentStatus;
+
+    if (currentStatus)
+        return NetctlAdds::sendNotification(QString("Info"), i18n("Network status has been changed to active"));
+    else
+        return NetctlAdds::sendNotification(QString("Info"), i18n("Network status has been changed to inactive"));
 }
 
 
@@ -158,28 +172,30 @@ void NetctlAdds::setDataBySource(const QString sourceName, const QVariantMap dat
 
     bool needUpdate = (values[sourceName] != data[QString("value")].toString());
     values[sourceName] = data[QString("value")].toString();
-//     if ((needUpdate) && (sourceName == QString("active"))) {
-//         if (values[sourceName] == QString("true"))
-//             sendNotification(QString("Info"), i18n("Network status has been changed to active"));
-//         else
-//             sendNotification(QString("Info"), i18n("Network status has been changed to inactive"));
-//     }
 
-    if (needUpdate) emit(needToBeUpdated());
+    if (needUpdate) {
+        emit(needToBeUpdated());
+//         if (sourceName == QString("active"))
+//             emit(needToNotify(values[QString("active")] == QString("true")));
+    }
 }
 
 
 void NetctlAdds::sendNotification(const QString eventId, const QString message)
 {
+    // since it is a static method we need to identify is debug enabled again
     QProcessEnvironment environment = QProcessEnvironment::systemEnvironment();
     QString debugEnv = environment.value(QString("DEBUG"), QString("no"));
     bool debugLocal = (debugEnv == QString("yes"));
+
     if (debugLocal) qDebug() << PDEBUG;
     if (debugLocal) qDebug() << PDEBUG << ":" << "Event" << eventId;
     if (debugLocal) qDebug() << PDEBUG << ":" << "Message" << message;
 
     KNotification *notification = KNotification::event(eventId, QString("Netctl ::: %1").arg(eventId), message);
     notification->setComponentName(QString("plasma-applet-org.kde.plasma.netctl"));
+
+    notification->deleteLater();
 }
 
 

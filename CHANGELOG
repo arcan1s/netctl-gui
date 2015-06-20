@@ -1,6 +1,15 @@
+Ver.1.4.6
+---------
+* all
+    + implement time logging feature
 * gui
     + implement autoupdate feature
     - fix invalid profile path for the external editor
+* library
+    + implement netctl-auto support to scanWiFi() method (#44)
+    - fix bug with invalid data in netctl-auto profile list output
+* plasmoid
+    - fix plasma crash on status updates (#43)
 
 Ver.1.4.5
 ---------

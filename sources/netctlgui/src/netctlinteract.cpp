@@ -238,7 +238,6 @@ QList<netctlProfileInfo> Netctl::getProfileListFromNetctlAuto()
         profileInfo.essid = profileValues[2];
         profileInfo.interface = profileValues[3];
         profileInfo.type = profileValues[0];
-        profileInfo.essid = profileValues[1];
         profileInfo.netctlAuto = true;
         fullProfilesInfo.append(profileInfo);
     }

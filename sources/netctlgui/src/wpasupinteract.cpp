@@ -346,7 +346,13 @@ QList<netctlWifiInfo> WpaSup::scanWifi()
     rawList.removeFirst();
     QStringList names;
 
-    QList<netctlProfileInfo> profiles = netctlCommand->getProfileList();
+    // init profile list
+    QList<netctlProfileInfo> profiles;
+    if (netctlCommand->isNetctlAutoRunning())
+        profiles = netctlCommand->getProfileListFromNetctlAuto();
+    else
+        profiles = netctlCommand->getProfileList();
+    // iterate by wifi output
     for (int i=0; i<rawList.count(); i++) {
         QStringList line = rawList[i].split(QChar('\t'));
         if (line.count() != 5) continue;

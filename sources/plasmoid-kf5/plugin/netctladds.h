@@ -64,6 +64,10 @@ public:
 
 signals:
     void needToBeUpdated();
+    void needToNotify(const bool currentStatus);
+
+private slots:
+    void notifyAboutStatusChanging(const bool currentStatus);
 
 private:
     bool debug = false;
