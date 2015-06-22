@@ -194,8 +194,6 @@ void NetctlAdds::sendNotification(const QString eventId, const QString message)
 
     KNotification *notification = KNotification::event(eventId, QString("Netctl ::: %1").arg(eventId), message);
     notification->setComponentName(QString("plasma-applet-org.kde.plasma.netctl"));
-
-    notification->deleteLater();
 }
 
 
