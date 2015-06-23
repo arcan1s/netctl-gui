@@ -93,10 +93,9 @@ QString Netctl::getCmdOutput(const QString cmd)
 
     TaskResult process = runTask(cmd);
     if (debug) qDebug() << PDEBUG << ":" << "Cmd returns" << process.exitCode;
-    if (process.exitCode != 0)
-        if (debug) qDebug() << PDEBUG << ":" << "Error" << process.error;
+    if (debug) qDebug() << PDEBUG << ":" << "Error" << process.error;
 
-    return QTextCodec::codecForMib(106)->toUnicode(process.output);
+    return QTextCodec::codecForMib(106)->toUnicode(process.output).trimmed();
 }
 
 
@@ -114,15 +113,15 @@ void Netctl::readConfiguration()
     QSettings settings(fileName, QSettings::IniFormat);
 
     settings.beginGroup(QString("Netctl commands"));
-    configuration[QString("NETCTLCMD")] = settings.value(QString("NETCTLCMD"), QString("/usr/bin/netctl")).toString();
-    configuration[QString("NETCTLAUTOCMD")] = settings.value(QString("NETCTLAUTOCMD"), QString("/usr/bin/netctl-auto")).toString();
+    configuration[QString("NETCTLCMD")] = settings.value(QString("NETCTLCMD"), QString("/usr/bin/netctl"));
+    configuration[QString("NETCTLAUTOCMD")] = settings.value(QString("NETCTLAUTOCMD"), QString("/usr/bin/netctl-auto"));
     settings.endGroup();
 
     settings.beginGroup(QString("External IP"));
-    configuration[QString("EXTIP4")] = settings.value(QString("EXTIP4"), QString("false")).toString();
-    configuration[QString("EXTIP4CMD")] = settings.value(QString("EXTIP4CMD"), QString("curl ip4.telize.com")).toString();
-    configuration[QString("EXTIP6")] = settings.value(QString("EXTIP6"), QString("false")).toString();
-    configuration[QString("EXTIP6CMD")] = settings.value(QString("EXTIP6CMD"), QString("curl ip6.telize.com")).toString();
+    configuration[QString("EXTIP4")] = settings.value(QString("EXTIP4"), QString("false"));
+    configuration[QString("EXTIP4CMD")] = settings.value(QString("EXTIP4CMD"), QString("curl ip4.telize.com"));
+    configuration[QString("EXTIP6")] = settings.value(QString("EXTIP6"), QString("false"));
+    configuration[QString("EXTIP6CMD")] = settings.value(QString("EXTIP6CMD"), QString("curl ip6.telize.com"));
     settings.endGroup();
 }
 
@@ -141,10 +140,7 @@ QString Netctl::getExtIp(const QString cmd)
     if (debug) qDebug() << PDEBUG;
     if (debug) qDebug() << PDEBUG << ":" << "Cmd" << cmd;
 
-    // test network connection
-    if (!isNetworkActive()) return QString("N\\A");
-
-    return getCmdOutput(cmd).trimmed();
+    return getCmdOutput(cmd);
 }
 
 
@@ -202,9 +198,9 @@ QStringList Netctl::getProfileList(const QString cmdNetctl, const QString cmdNet
     if (debug) qDebug() << PDEBUG;
 
     netctlAutoStatus = true;
-    QString output = getCmdOutput(QString("%1 list").arg(cmdNetctlAuto)).trimmed();
+    QString output = getCmdOutput(QString("%1 list").arg(cmdNetctlAuto));
     if (output.isEmpty()) {
-        output = getCmdOutput(QString("%1 list").arg(cmdNetctl)).trimmed();
+        output = getCmdOutput(QString("%1 list").arg(cmdNetctl));
         netctlAutoStatus = false;
     }
 
@@ -212,14 +208,10 @@ QStringList Netctl::getProfileList(const QString cmdNetctl, const QString cmdNet
     QStringList currentProfiles;
     QStringList profileList = output.split(QChar('\n'));
     for (int i=0; i<profileList.count(); i++) {
-        if (profileList[i][0] != QChar('*')) continue;
-        currentProfiles.append(profileList[i]);
-    }
-    // remove first symbols
-    for (int i=0; i<profileList.count(); i++)
+        bool isActive = (profileList[i][0] == QChar('*'));
         profileList[i].remove(0, 2);
-    for (int i=0; i<currentProfiles.count(); i++)
-        currentProfiles[i].remove(0, 2);
+        if (isActive) currentProfiles.append(profileList[i]);
+    }
 
     // return profiles
     currentProfile = currentProfiles;
@@ -241,11 +233,8 @@ QStringList Netctl::getProfileStringStatus(const QString cmdNetctl)
     for (int i=0; i<currentProfile.count(); i++) {
         TaskResult process = runTask(QString("%1 is-enabled %2").arg(cmdNetctl).arg(currentProfile[i]));
         if (debug) qDebug() << PDEBUG << ":" << "Cmd returns" << process.exitCode;
-        if (process.exitCode != 0) {
-            if (debug) qDebug() << PDEBUG << ":" << "Error" << process.error;
-            status.append(QString("static"));
-        } else
-            status.append(QString("enabled"));
+        if (debug) qDebug() << PDEBUG << ":" << "Error" << process.error;
+        status.append(process.exitCode == 0 ? QString("enabled") : QString("static"));
     }
 
     return status;
@@ -262,19 +251,6 @@ void Netctl::initSources()
 }
 
 
-bool Netctl::isNetworkActive()
-{
-    if (debug) qDebug() << PDEBUG;
-
-    QString cmd = QString("ping -c 1 google.com");
-    if (debug) qDebug() << PDEBUG << ":" << "Cmd" << cmd;
-    TaskResult process = runTask(cmd);
-    if (debug) qDebug() << PDEBUG << ":" << "Cmd returns" << process.exitCode;
-
-    return (process.exitCode == 0);
-}
-
-
 bool Netctl::updateSourceEvent(const QString &source)
 {
     if (debug) qDebug() << PDEBUG;
@@ -286,11 +262,11 @@ bool Netctl::updateSourceEvent(const QString &source)
     } else if (source == QString("current")) {
         value = currentProfile.join(QChar('|'));
     } else if (source == QString("extip4")) {
-        if (configuration[QString("EXTIP4")] == QString("true"))
-            value = getExtIp(configuration[QString("EXTIP4CMD")]);
+        if (configuration[QString("EXTIP4")].toString() == QString("true"))
+            value = getExtIp(configuration[QString("EXTIP4CMD")].toString());
     } else if (source == QString("extip6")) {
-        if (configuration[QString("EXTIP6")] == QString("true"))
-            value = getExtIp(configuration[QString("EXTIP6CMD")]);
+        if (configuration[QString("EXTIP6")].toString() == QString("true"))
+            value = getExtIp(configuration[QString("EXTIP6CMD")].toString());
     } else if (source == QString("info")) {
         value = getInfo(currentProfile, currentStatus);
     } else if (source == QString("interfaces")) {
@@ -302,10 +278,10 @@ bool Netctl::updateSourceEvent(const QString &source)
     } else if (source == QString("netctlauto")) {
         value = netctlAutoStatus ? QString("true") : QString("false");
     } else if (source == QString("profiles")) {
-        value = getProfileList(configuration[QString("NETCTLCMD")],
-                               configuration[QString("NETCTLAUTOCMD")]).join(QChar(','));
+        value = getProfileList(configuration[QString("NETCTLCMD")].toString(),
+                               configuration[QString("NETCTLAUTOCMD")].toString()).join(QChar(','));
     } else if (source == QString("status")) {
-        currentStatus = getProfileStringStatus(configuration[QString("NETCTLCMD")]);
+        currentStatus = getProfileStringStatus(configuration[QString("NETCTLCMD")].toString());
         value = currentStatus.join(QChar('|'));
     }
     setData(source, QString("value"), value);

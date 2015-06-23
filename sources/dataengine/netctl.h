@@ -35,7 +35,6 @@ public:
     QString getIntIp(const QAbstractSocket::NetworkLayerProtocol protocol);
     QStringList getProfileList(const QString cmdNetctl, const QString cmdNetctlAuto);
     QStringList getProfileStringStatus(const QString cmdNetctl);
-    bool isNetworkActive();
 
 public slots:
     void initSources();
@@ -46,13 +45,14 @@ protected:
     QStringList sources() const;
 
 private:
+    bool isNetctlCheckRunning = false;
     bool netctlAutoStatus = false;
     bool status = false;
     QStringList currentProfile;
     QStringList currentStatus;
     // configuration
     bool debug;
-    QMap<QString, QString> configuration;
+    QVariantMap configuration;
     QString getCmdOutput(const QString cmd);
     void readConfiguration();
 };
