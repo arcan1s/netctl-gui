@@ -175,8 +175,8 @@ void NetctlAdds::setDataBySource(const QString sourceName, const QVariantMap dat
 
     if (needUpdate) {
         emit(needToBeUpdated());
-//         if (sourceName == QString("active"))
-//             emit(needToNotify(values[QString("active")] == QString("true")));
+        if (sourceName == QString("active"))
+            emit(needToNotify(values[QString("active")] == QString("true")));
     }
 }
 
