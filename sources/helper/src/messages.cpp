@@ -36,7 +36,7 @@ QVariantMap getArgs()
     args[QString("debug")] = false;
     args[QString("nodaemon")] = false;
     args[QString("session")] = false;
-    args[QString("state")] = (int) 0;
+    args[QString("state")] = static_cast<int>(0);
     args[QString("system")] = false;
     args[QString("help")] = false;
     args[QString("info")] = false;

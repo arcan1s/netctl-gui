@@ -1,5 +1,11 @@
+Ver.1.4.7
 * all
+    + implement support of setting of default configuration values
     * fix language component (refer to #45)
+* gui
+    * more correct work with configuration file
+* helper
+    * more correct work with configuration file
 
 Ver.1.4.6
 ---------

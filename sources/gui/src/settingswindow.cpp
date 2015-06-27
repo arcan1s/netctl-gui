@@ -591,7 +591,7 @@ QMap<QString, QString> SettingsWindow::getSettings(QString fileName)
 
     config[QString("LANGUAGE")] = Language::defineLanguage(fileName, QString());
     settings.beginGroup(QString("Common"));
-    config[QString("LANGUAGE")] = settings.value(QString("LANGUAGE"), QString(LANGUAGE)).toString();
+    config[QString("LANGUAGE")] = settings.value(QString("LANGUAGE"), config[QString("LANGUAGE")]).toString();
     config[QString("MAINUPDATE")] = settings.value(QString("MAINUPDATE"), QString(MAINUPDATE)).toString();
     config[QString("WIFIUPDATE")] = settings.value(QString("WIFIUPDATE"), QString(WIFIUPDATE)).toString();
     config[QString("SYSTRAY")] = settings.value(QString("SYSTRAY"), QString(SYSTRAY)).toString();

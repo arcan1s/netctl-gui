@@ -373,7 +373,8 @@ void MainWindow::updateConfiguration(const QVariantMap args)
 
     deleteObjects();
 
-    settingsWin = new SettingsWindow(this, debug, configPath);
+    QString actualConfigPath = QFile(configPath).exists() ? configPath : QString("/etc/netctl-gui.conf");
+    settingsWin = new SettingsWindow(this, debug, actualConfigPath);
     if (args[QString("default")].toBool())
         settingsWin->setDefault();
     configuration = settingsWin->getSettings();
@@ -386,7 +387,7 @@ void MainWindow::updateConfiguration(const QVariantMap args)
 
     // update translation
     qApp->removeTranslator(translator);
-    QString language = Language::defineLanguage(configPath, args[QString("options")].toString());
+    QString language = Language::defineLanguage(actualConfigPath, args[QString("options")].toString());
     if (debug) qDebug() << PDEBUG << ":" << "Language is" << language;
     qtTranslator->load(QString("qt_%1").arg(language), QLibraryInfo::location(QLibraryInfo::TranslationsPath));
     qApp->installTranslator(qtTranslator);
