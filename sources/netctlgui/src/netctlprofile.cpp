@@ -46,7 +46,7 @@ NetctlProfile::NetctlProfile(const bool debugCmd, const QMap<QString, QString> s
     if (settings.contains(QString("PROFILE_DIR")))
         profileDirectory = new QDir(settings[QString("PROFILE_DIR")]);
     else
-        profileDirectory = new QDir(QString("/etc/netctl/"));
+        profileDirectory = new QDir(QString(PROFILE_DIR));
     if (settings.contains(QString("SUDO_PATH")))
         sudoCommand = settings[QString("SUDO_PATH")];
     if (settings.contains(QString("FORCE_SUDO")))

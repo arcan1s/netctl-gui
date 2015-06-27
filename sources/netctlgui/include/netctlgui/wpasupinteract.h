@@ -30,6 +30,8 @@
 #include <QMap>
 #include <QObject>
 
+#include "version.h"
+
 
 class Netctl;
 class NetctlProfile;
@@ -184,31 +186,31 @@ private:
     /**
      * @brief path to ctrl_directory. Defaults is "/run/wpa_supplicant"
      */
-    QString ctrlDir = QString("/run/wpa_supplicant");
+    QString ctrlDir = QString(CTRL_DIR);
     /**
      * @brief group which is owner of CTRL_DIR. Default is "users"
      */
-    QString ctrlGroup = QString("users");
+    QString ctrlGroup = QString(CTRL_GROUP);
     /**
      * @brief wpa_supplicant PID file. $i is interface. Default is "/run/wpa_supplicant_$i.pid"
      */
-    QString pidFile = QString("/run/wpa_supplicant_$i.pid");
+    QString pidFile = QString(PID_FILE);
     /**
-     * @brief path to sudo command. Default is "/usr/bin/kdesu"
+     * @brief path to sudo command. Default is "kdesu"
      */
-    QString sudoCommand = QString("/usr/bin/kdesu");
+    QString sudoCommand = QString(SUDO_PATH);
     /**
-     * @brief path to wpa_cli command. Default is "/usr/bin/wpa_cli"
+     * @brief path to wpa_cli command. Default is "wpa_cli"
      */
-    QString wpaCliPath = QString("/usr/bin/wpa_cli");
+    QString wpaCliPath = QString(WPACLI_PATH);
     /**
      * @brief wpa_supplicant drivers comma separated. Default is "nl80211,wext"
      */
-    QString wpaDrivers = QString("nl80211,wext");
+    QString wpaDrivers = QString(WPA_DRIVERS);
     /**
-     * @brief path to wpa_supplicant command. Default is "/usr/bin/wpa_supplicant"
+     * @brief path to wpa_supplicant command. Default is "wpa_supplicant"
      */
-    QString wpaSupPath = QString("/usr/bin/wpa_supplicant");
+    QString wpaSupPath = QString(WPASUP_PATH);
     // functions
     /**
      * @brief method which calls wpa_cli and returns its output

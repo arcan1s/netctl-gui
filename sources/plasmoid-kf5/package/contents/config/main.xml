@@ -11,22 +11,22 @@
       <default>100</default>
     </entry>
     <entry name="guiPath" type="string">
-      <default>/usr/bin/netctl-gui</default>
+      <default>netctl-gui</default>
     </entry>
     <entry name="helperPath" type="string">
-      <default>/usr/bin/netctlgui-helper</default>
+      <default>netctlgui-helper</default>
     </entry>
     <entry name="netctlPath" type="string">
-      <default>/usr/bin/netctl</default>
+      <default>netctl</default>
     </entry>
     <entry name="netctlAutoPath" type="string">
-      <default>/usr/bin/netctl-auto</default>
+      <default>netctl-auto</default>
     </entry>
     <entry name="sudoPath" type="string">
-      <default>/usr/bin/kdesu</default>
+      <default>kdesu</default>
     </entry>
     <entry name="wifiPath" type="string">
-      <default>/usr/bin/netctl-gui -t 3</default>
+      <default>netctl-gui -t 3</default>
     </entry>
     <entry name="useHelper" type="bool">
       <default>true</default>

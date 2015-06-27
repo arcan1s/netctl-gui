@@ -52,4 +52,40 @@
 #define DBUS_INTERFACE_PATH "/interface"
 #define DBUS_LIB_PATH "/netctl"
 
+// defaul configuration
+// [Common] section
+#define LANGUAGE "@CFG_LANGUAGE@"
+#define MAINUPDATE "@CFG_MAINUPDATE@"
+#define WIFIUPDATE "@CFG_WIFIUPDATE@"
+#define SYSTRAY "@CFG_SYSTRAY@"
+#define CLOSETOTRAY "@CFG_CLOSETOTRAY@"
+#define STARTTOTRAY "@CFG_STARTTOTRAY@"
+#define SKIPCOMPONENTS "@CFG_SKIPCOMPONENTS@"
+// [Helper] section
+#define USE_HELPER "@CFG_USE_HELPER@"
+#define FORCE_SUDO "@CFG_FORCE_SUDO@"
+#define CLOSE_HELPER "@CFG_CLOSE_HELPER@"
+#define HELPER_PATH "@CFG_HELPER_PATH@"
+#define HELPER_SERVICE "@CFG_HELPER_SERVICE@"
+// [netctl] section
+#define SYSTEMCTL_PATH "@CFG_SYSTEMCTL_PATH@"
+#define NETCTL_PATH "@CFG_NETCTL_PATH@"
+#define NETCTLAUTO_PATH "@CFG_NETCTLAUTO_PATH@"
+#define NETCTLAUTO_SERVICE "@CFG_NETCTLAUTO_SERVICE@"
+#define PROFILE_DIR "@CFG_PROFILE_DIR@"
+// [sudo] section
+#define SUDO_PATH "@CFG_SUDO_PATH@"
+// [wpa_supplicant] section
+#define WPASUP_PATH "@CFG_WPASUP_PATH@"
+#define WPACLI_PATH "@CFG_WPACLI_PATH@"
+#define PID_FILE "@CFG_PID_FILE@"
+#define WPA_DRIVERS "@CFG_WPA_DRIVERS@"
+#define CTRL_DIR "@CFG_CTRL_DIR@"
+#define CTRL_GROUP "@CFG_CTRL_GROUP@"
+// [Other] section
+#define EDITOR_PATH "@CFG_EDITOR_PATH@"
+#define IFACE_DIR "@CFG_IFACE_DIR@"
+#define RFKILL_DIR "@CFG_RFKILL_DIR@"
+#define PREFERED_IFACE "@CFG_PREFERED_IFACE@"
+
 #endif /* VERSION_H */

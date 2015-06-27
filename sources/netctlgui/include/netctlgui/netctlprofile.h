@@ -30,6 +30,8 @@
 #include <QMap>
 #include <QObject>
 
+#include "version.h"
+
 
 /**
  * @brief The NetctlProfile class interacts with netctl profiles
@@ -114,9 +116,9 @@ private:
      */
     QDir *profileDirectory = nullptr;
     /**
-     * @brief path to sudo command. Default is "/usr/bin/kdesu"
+     * @brief path to sudo command. Default is "kdesu"
      */
-    QString sudoCommand = QString("/usr/bin/kdesu");
+    QString sudoCommand = QString(SUDO_PATH);
 };
 
 

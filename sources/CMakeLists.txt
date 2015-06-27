@@ -23,6 +23,8 @@ message (STATUS "Build date: ${CURRENT_DATE}")
 # install options
 option (USE_CAPABILITIES "Use setcap to set capabilities for the helper" ON)
 option (USE_QT5 "Use Qt5 instead of Qt4" ON)
+# configuration
+include (config-defs.cmake)
 # components
 option (BUILD_GUI "Build GUI" ON)
 option (BUILD_HELPER "Build helper" ON)

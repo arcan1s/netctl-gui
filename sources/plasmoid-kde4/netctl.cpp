@@ -154,8 +154,8 @@ QMap<QString, QString> Netctl::readDataEngineConfiguration()
     QSettings settings(fileName, QSettings::IniFormat);
 
     settings.beginGroup(QString("Netctl commands"));
-    configuration[QString("NETCTLCMD")] = settings.value(QString("NETCTLCMD"), QString("/usr/bin/netctl")).toString();
-    configuration[QString("NETCTLAUTOCMD")] = settings.value(QString("NETCTLAUTOCMD"), QString("/usr/bin/netctl-auto")).toString();
+    configuration[QString("NETCTLCMD")] = settings.value(QString("NETCTLCMD"), QString("netctl")).toString();
+    configuration[QString("NETCTLAUTOCMD")] = settings.value(QString("NETCTLAUTOCMD"), QString("netctl-auto")).toString();
     settings.endGroup();
 
     settings.beginGroup(QString("External IP"));
@@ -836,12 +836,12 @@ void Netctl::configChanged()
     KConfigGroup cg = config();
 
     autoUpdateInterval = cg.readEntry("autoUpdateInterval", 1000);
-    paths[QString("gui")] = cg.readEntry("guiPath", "/usr/bin/netctl-gui");
-    paths[QString("helper")] = cg.readEntry("helperPath", "/usr/bin/netctlgui-helper");
-    paths[QString("netctl")] = cg.readEntry("netctlPath", "/usr/bin/netctl");
-    paths[QString("netctlAuto")] = cg.readEntry("netctlAutoPath", "/usr/bin/netctl-auto");
-    paths[QString("sudo")] = cg.readEntry("sudoPath", "/usr/bin/kdesu");
-    paths[QString("wifi")] = cg.readEntry("wifiPath", "/usr/bin/netctl-gui -t 3");
+    paths[QString("gui")] = cg.readEntry("guiPath", "netctl-gui");
+    paths[QString("helper")] = cg.readEntry("helperPath", "netctlgui-helper");
+    paths[QString("netctl")] = cg.readEntry("netctlPath", "netctl");
+    paths[QString("netctlAuto")] = cg.readEntry("netctlAutoPath", "netctl-auto");
+    paths[QString("sudo")] = cg.readEntry("sudoPath", "kdesu");
+    paths[QString("wifi")] = cg.readEntry("wifiPath", "netctl-gui -t 3");
     useSudo = cg.readEntry("useSudo", true);
     useWifi = cg.readEntry("useWifi", false);
     useHelper = cg.readEntry("useHelper", true);

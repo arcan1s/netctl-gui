@@ -42,22 +42,22 @@ public:
     Q_INVOKABLE QString valueByKey(const QString key);
     // context menu
     Q_INVOKABLE void enableProfileSlot(const bool useHelper = true,
-                                       const QString cmd = QString("/usr/bin/netctl"),
+                                       const QString cmd = QString("netctl"),
                                        const QString sudoCmd = QString(""));
     Q_INVOKABLE void restartProfileSlot(const bool useHelper = true,
-                                        const QString cmd = QString("/usr/bin/netctl"),
+                                        const QString cmd = QString("netctl"),
                                         const QString sudoCmd = QString(""));
     Q_INVOKABLE void startProfileSlot(const bool useHelper = true,
-                                      const QString cmd = QString("/usr/bin/netctl"),
+                                      const QString cmd = QString("netctl"),
                                       const QString sudoCmd = QString(""));
     Q_INVOKABLE void stopProfileSlot(const bool useHelper = true,
-                                     const QString cmd = QString("/usr/bin/netctl"),
+                                     const QString cmd = QString("netctl"),
                                      const QString sudoCmd = QString(""));
     Q_INVOKABLE void stopAllProfilesSlot(const bool useHelper = true,
-                                         const QString cmd = QString("/usr/bin/netctl"),
+                                         const QString cmd = QString("netctl"),
                                          const QString sudoCmd = QString(""));
     Q_INVOKABLE void switchToProfileSlot(const bool useHelper = true,
-                                         const QString cmd = QString("/usr/bin/netctl-auto"));
+                                         const QString cmd = QString("netctl-auto"));
     // dataengine
     Q_INVOKABLE QVariantMap readDataEngineConfiguration();
     Q_INVOKABLE void writeDataEngineConfiguration(const QVariantMap configuration);

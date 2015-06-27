@@ -30,6 +30,8 @@
 #include <QMap>
 #include <QObject>
 
+#include "version.h"
+
 
 class NetctlProfile;
 
@@ -303,27 +305,27 @@ private:
     /**
      * @brief prefered interface for WiFi. Default is ""
      */
-    QString mainInterface = QString("");
+    QString mainInterface = QString(PREFERED_IFACE);
     /**
-     * @brief path to netctl command. Default is "/usr/bin/netctl"
+     * @brief path to netctl command. Default is "netctl"
      */
-    QString netctlCommand = QString("/usr/bin/netctl");
+    QString netctlCommand = QString(NETCTL_PATH);
     /**
-     * @brief path to netctl-auto command. Default is "/usr/bin/netctl-auto"
+     * @brief path to netctl-auto command. Default is "netctl-auto"
      */
-    QString netctlAutoCommand = QString("/usr/bin/netctl-auto");
+    QString netctlAutoCommand = QString(NETCTLAUTO_PATH);
     /**
      * @brief netctl-auto service name. Default is "netctl-auto"
      */
-    QString netctlAutoService = QString("netctl-auto");
+    QString netctlAutoService = QString(NETCTLAUTO_SERVICE);
     /**
-     * @brief path to sudo command. Default is "/usr/bin/kdesu"
+     * @brief path to sudo command. Default is "kdesu"
      */
-    QString sudoCommand = QString("/usr/bin/kdesu");
+    QString sudoCommand = QString(SUDO_PATH);
     /**
-     * @brief path to systemctl command. Default is "/usr/bin/systemctl"
+     * @brief path to systemctl command. Default is "systemctl"
      */
-    QString systemctlCommand = QString("/usr/bin/systemctl");
+    QString systemctlCommand = QString(SYSTEMCTL_PATH);
     // functions
     /**
      * @brief method which calls command

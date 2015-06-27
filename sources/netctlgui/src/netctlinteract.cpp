@@ -45,7 +45,7 @@ Netctl::Netctl(const bool debugCmd, const QMap<QString, QString> settings)
     if (settings.contains(QString("IFACE_DIR")))
         ifaceDirectory = new QDir(settings[QString("IFACE_DIR")]);
     else
-        ifaceDirectory = new QDir(QString("/sys/class/net/"));
+        ifaceDirectory = new QDir(QString(IFACE_DIR));
     if (settings.contains(QString("PREFERED_IFACE")))
         mainInterface = settings[QString("PREFERED_IFACE")];
     if (settings.contains(QString("NETCTL_PATH")))

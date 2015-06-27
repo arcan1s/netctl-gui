@@ -113,8 +113,8 @@ void Netctl::readConfiguration()
     QSettings settings(fileName, QSettings::IniFormat);
 
     settings.beginGroup(QString("Netctl commands"));
-    configuration[QString("NETCTLCMD")] = settings.value(QString("NETCTLCMD"), QString("/usr/bin/netctl"));
-    configuration[QString("NETCTLAUTOCMD")] = settings.value(QString("NETCTLAUTOCMD"), QString("/usr/bin/netctl-auto"));
+    configuration[QString("NETCTLCMD")] = settings.value(QString("NETCTLCMD"), QString("netctl"));
+    configuration[QString("NETCTLAUTOCMD")] = settings.value(QString("NETCTLAUTOCMD"), QString("netctl-auto"));
     settings.endGroup();
 
     settings.beginGroup(QString("External IP"));
