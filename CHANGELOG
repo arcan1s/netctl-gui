@@ -1,6 +1,7 @@
 Ver.1.4.7
+---------
 * all
-    + implement support of setting of default configuration values
+    + implement support of setting of default configuration values while building
     * fix language component (refer to #45)
 * gui
     * more correct work with configuration file
