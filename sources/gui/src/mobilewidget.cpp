@@ -46,9 +46,11 @@ void MobileWidget::clear()
     ui->lineEdit_apn->clear();
     ui->lineEdit_pin->clear();
     ui->comboBox_mode->setCurrentIndex(0);
-    ui->spinBox_fail->setValue(5);
     ui->checkBox_route->setCheckState(Qt::Checked);
     ui->checkBox_dns->setCheckState(Qt::Checked);
+    ui->lineEdit_init->setText(QString("ATQ0 V1 E1 S0=0 &C1 &D2 +FCLASS=0"));
+    ui->spinBox_fail->setValue(5);
+    ui->lineEdit_chat->clear();
     ui->lineEdit_options->clear();
 
     ui->pushButton_mobileAdvanced->setChecked(false);;
@@ -59,7 +61,19 @@ void MobileWidget::clear()
 void MobileWidget::createActions()
 {
     connect(ui->pushButton_mobileAdvanced, SIGNAL(clicked(bool)), this, SLOT(showAdvanced()));
+    connect(ui->pushButton_chat, SIGNAL(clicked(bool)), this, SLOT(selectChatFile()));
     connect(ui->pushButton_options, SIGNAL(clicked(bool)), this, SLOT(selectOptionsFile()));
+}
+
+
+void MobileWidget::selectChatFile()
+{
+    QString filename = QFileDialog::getOpenFileName(this,
+                QApplication::translate("MobileWidget", "Select chat file"),
+                QDir::currentPath(),
+                QApplication::translate("MobileWidget", "All (*.*)"));
+    if (!filename.isEmpty())
+        ui->lineEdit_chat->setText(filename);
 }
 
 
@@ -102,12 +116,16 @@ QMap<QString, QString> MobileWidget::getSettings()
     else
         settings[QString("PIN")] = QString("None");
     settings[QString("Mode")] = ui->comboBox_mode->currentText();
-    if (ui->spinBox_fail->value() != 5)
-        settings[QString("MaxFail")] = QString::number(ui->spinBox_fail->value());
     if (ui->checkBox_route->checkState() == Qt::Unchecked)
         settings[QString("DefaultRoute")] = QString("false");
     if (ui->checkBox_dns->checkState() == Qt::Unchecked)
         settings[QString("UsePeerDNS")] = QString("false");
+    if (ui->lineEdit_init->text() != QString("ATQ0 V1 E1 S0=0 &C1 &D2 +FCLASS=0"))
+        settings[QString("Init")] = QString("'%1'").arg(ui->lineEdit_init->text());
+    if (ui->spinBox_fail->value() != 5)
+        settings[QString("MaxFail")] = QString::number(ui->spinBox_fail->value());
+    if (!ui->lineEdit_chat->text().isEmpty())
+        settings[QString("ChatScript")] = QString("'%1'").arg(ui->lineEdit_chat->text());
     if (!ui->lineEdit_options->text().isEmpty())
         settings[QString("OptionsFile")] = QString("'%1'").arg(ui->lineEdit_options->text());
 
@@ -143,14 +161,18 @@ void MobileWidget::setSettings(const QMap<QString, QString> settings)
         int index = ui->comboBox_mode->findText(settings[QString("Mode")]);
         ui->comboBox_mode->setCurrentIndex(index);
     }
-    if (settings.contains(QString("MaxFail")))
-        ui->spinBox_fail->setValue(settings[QString("MaxFail")].toInt());
     if (settings.contains(QString("DefaultRoute")))
         if (settings[QString("DefaultRoute")] == QString("false"))
             ui->checkBox_route->setCheckState(Qt::Unchecked);
     if (settings.contains(QString("UsePeerDNS")))
         if (settings[QString("UsePeerDNS")] == QString("false"))
             ui->checkBox_dns->setCheckState(Qt::Unchecked);
+    if (settings.contains(QString("Init")))
+        ui->lineEdit_init->setText(settings[QString("Init")]);
+    if (settings.contains(QString("MaxFail")))
+        ui->spinBox_fail->setValue(settings[QString("MaxFail")].toInt());
+    if (settings.contains(QString("ChatScript")))
+        ui->lineEdit_chat->setText(settings[QString("ChatScript")]);
     if (settings.contains(QString("OptionsFile")))
         ui->lineEdit_options->setText(settings[QString("OptionsFile")]);
 }

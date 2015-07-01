@@ -124,6 +124,10 @@ QStringList ErrorWindow::getMessage(const int mess)
         title = QApplication::translate("ErrorWindow", "Error!");
         message = QApplication::translate("ErrorWindow", "IP address does not match the standard");
         break;
+    case 21:
+        title = QApplication::translate("ErrorWindow", "Error!");
+        message = QApplication::translate("ErrorWindow", "Key is required for 'gre' mode");
+        break;
     default:
         title = QApplication::translate("ErrorWindow", "Error!");
         message = QApplication::translate("ErrorWindow", "Unknown error");
@@ -164,6 +168,7 @@ QMessageBox::Icon ErrorWindow::getIcon(const int mess)
     case 18:
     case 19:
     case 20:
+    case 21:
         icon = QMessageBox::Critical;
         break;
     default:

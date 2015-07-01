@@ -23,6 +23,7 @@
 #include <netctlgui/netctlgui.h>
 
 
+class BondWidget;
 class BridgeWidget;
 class EthernetWidget;
 class GeneralWidget;
@@ -71,6 +72,7 @@ private:
     // ui
     MainWindow *mainWindow;
     Ui::NewProfileWidget *ui = nullptr;
+    BondWidget *bondWid = nullptr;
     BridgeWidget *bridgeWid = nullptr;
     EthernetWidget *ethernetWid = nullptr;
     GeneralWidget *generalWid = nullptr;

@@ -77,7 +77,6 @@ void WirelessWidget::clear()
     }
     ui->comboBox_rfkill->setCurrentIndex(0);
     ui->spinBox_timeoutWpa->setValue(15);
-    ui->checkBox_exclude->setCheckState(Qt::Unchecked);
 
     ui->pushButton_wirelessAdvanced->setChecked(false);
     showAdvanced();
@@ -231,8 +230,6 @@ QMap<QString, QString> WirelessWidget::getSettings()
         settings[QString("RFKill")] = ui->comboBox_rfkill->currentText();
     if (ui->spinBox_timeoutWpa->value() != 15)
         settings[QString("TimeoutWPA")] = QString::number(ui->spinBox_timeoutWpa->value());
-    if (ui->checkBox_exclude->checkState() == Qt::Checked)
-        settings[QString("ExcludeAuto")] = QString("yes");
 
     return settings;
 }
@@ -310,9 +307,6 @@ void WirelessWidget::setSettings(const QMap<QString, QString> settings)
     }
     if (settings.contains(QString("TimeoutWPA")))
         ui->spinBox_timeoutWpa->setValue(settings[QString("TimeoutWPA")].toInt());
-    if (settings.contains(QString("ExcludeAuto")))
-        if (settings[QString("ExcludeAuto")] == QString("yes"))
-            ui->checkBox_exclude->setCheckState(Qt::Checked);
 
     changeSecurity(ui->comboBox_security->currentText());
 }

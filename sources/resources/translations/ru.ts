@@ -66,6 +66,21 @@
     </message>
 </context>
 <context>
+    <name>BondWidget</name>
+    <message>
+        <source>Bond settings</source>
+        <translation>Настройки bond соединения</translation>
+    </message>
+    <message>
+        <source>Mode</source>
+        <translation>Режим</translation>
+    </message>
+    <message>
+        <source>The bonding policy. See the kernel documentation on bonding for details</source>
+        <translation>Политка соединения. Обратитесь к документации ядра для более подробной информации</translation>
+    </message>
+</context>
+<context>
     <name>BridgeWidget</name>
     <message>
         <source>Form</source>
@@ -190,6 +205,10 @@
         <source>IP address does not match the standard</source>
         <translation>IP адрес не соответствует стандартам</translation>
     </message>
+    <message>
+        <source>Key is required for &apos;gre&apos; mode</source>
+        <translation>Необходимо указать ключ для &apos;gre&apos; режима</translation>
+    </message>
 </context>
 <context>
     <name>EthernetWidget</name>
@@ -280,6 +299,14 @@
     <message>
         <source>Maximum time, in seconds, to wait for 802.1x authentication to succeed</source>
         <translation>Максимальное время в секундах для ожидания выполнения 802.1x авторизации</translation>
+    </message>
+    <message>
+        <source>Priority</source>
+        <translation>Приоритет</translation>
+    </message>
+    <message>
+        <source>Priority level of the profile. In case of automatic profile selection, profiles are tried in decreasing order of priority</source>
+        <translation>Приоритет профиля. В случае автоматического выбора профиля, профили будут выбираться по уменьшению приоритета</translation>
     </message>
 </context>
 <context>
@@ -375,6 +402,14 @@
     <message>
         <source>A description of the profile</source>
         <translation>Описание профиля</translation>
+    </message>
+    <message>
+        <source>Whether or not to exclude this profile from automatic profile selection</source>
+        <translation>Исключить ли профиль из автоматического выбора</translation>
+    </message>
+    <message>
+        <source>Exclude auto</source>
+        <translation>Исключить профиль</translation>
     </message>
 </context>
 <context>
@@ -1518,6 +1553,30 @@ Should be according to standards</source>
         <source>Browse</source>
         <translation>Обзор</translation>
     </message>
+    <message>
+        <source>Select chat file</source>
+        <translation>Выберете скрипт с настройками чата</translation>
+    </message>
+    <message>
+        <source>All (*.*)</source>
+        <translation>Все (*.*)</translation>
+    </message>
+    <message>
+        <source>Init</source>
+        <translation>Инициализация</translation>
+    </message>
+    <message>
+        <source>An initialization string sent to the modem before dialing</source>
+        <translation>Команда, которая будет послана при инициализации модема</translation>
+    </message>
+    <message>
+        <source>Chat script</source>
+        <translation>Скрипт</translation>
+    </message>
+    <message>
+        <source>Path to a chat file</source>
+        <translation>Путь к скрипту с настройками чата</translation>
+    </message>
 </context>
 <context>
     <name>NetctlAutoWindow</name>
@@ -2466,6 +2525,14 @@ Should be according to standards</source>
         <source>The address of the remote end of the tunnel</source>
         <translation>Адрес удаленного конца туннеля</translation>
     </message>
+    <message>
+        <source>Key</source>
+        <translation>Ключ</translation>
+    </message>
+    <message>
+        <source>A key identifying an individual traffic flow within a tunnel</source>
+        <translation>Ключ, указывающий на отдельные потоки трафика в туннеле</translation>
+    </message>
 </context>
 <context>
     <name>TuntapWidget</name>
@@ -2808,11 +2875,11 @@ Should be according to standards</source>
     </message>
     <message>
         <source>Whether or not to exclude this profile from automatic profile selection</source>
-        <translation>Исключить ли профиль из автоматического выбора</translation>
+        <translation type="vanished">Исключить ли профиль из автоматического выбора</translation>
     </message>
     <message>
         <source>Exclude auto</source>
-        <translation>Исключить профиль</translation>
+        <translation type="vanished">Исключить профиль</translation>
     </message>
     <message>
         <source>Frequency</source>

@@ -25,8 +25,9 @@
 #include <pdebug/pdebug.h>
 #include <task/taskadds.h>
 
-#include "calls.h"
+#include "bondwidget.h"
 #include "bridgewidget.h"
+#include "calls.h"
 #include "commonfunctions.h"
 #include "dbusoperation.h"
 #include "errorwindow.h"
@@ -60,6 +61,8 @@ NewProfileWidget::NewProfileWidget(QWidget *parent, const QMap<QString, QString>
     ui->scrollAreaWidgetContents->layout()->addWidget(generalWid);
     ipWid = new IpWidget(this);
     ui->scrollAreaWidgetContents->layout()->addWidget(ipWid);
+    bondWid = new BondWidget(this);
+    ui->scrollAreaWidgetContents->layout()->addWidget(bondWid);
     bridgeWid = new BridgeWidget(this);
     ui->scrollAreaWidgetContents->layout()->addWidget(bridgeWid);
     ethernetWid = new EthernetWidget(this);
@@ -87,6 +90,7 @@ NewProfileWidget::~NewProfileWidget()
 {
     if (debug) qDebug() << PDEBUG;
 
+    if (bondWid != nullptr) delete bondWid;
     if (bridgeWid != nullptr) delete bridgeWid;
     if (ethernetWid != nullptr) delete ethernetWid;
     if (generalWid != nullptr) delete generalWid;
@@ -168,6 +172,7 @@ void NewProfileWidget::updateProfileTab()
 
     generalWid->clear();
     ipWid->clear();
+    bondWid->clear();
     bridgeWid->clear();
     ethernetWid->clear();
     macvlanWid->clear();
@@ -192,6 +197,7 @@ void NewProfileWidget::profileTabChangeState(const QString current)
 
     generalWid->setVisible(true);
     ipWid->setVisible((current != QString("pppoe")) && (current != QString("mobile_ppp")));
+    bondWid->setVisible(current == QString("bond"));
     bridgeWid->setVisible(current == QString("bridge"));
     ethernetWid->setVisible((current == QString("ethernet")) ||
                             (current == QString("vlan")) ||
@@ -250,6 +256,7 @@ void NewProfileWidget::profileTabCreateProfile()
             return ErrorWindow::showWindow(7, QString(PDEBUG), debug);
         else if (wirelessWid->isOk() == 5)
             return ErrorWindow::showWindow(11, QString(PDEBUG), debug);
+    } else if (generalWid->connectionType->currentText() == QString("bond")) {
     } else if (generalWid->connectionType->currentText() == QString("bridge")) {
     } else if (generalWid->connectionType->currentText() == QString("pppoe")) {
         if (pppoeWid->isOk() == 1)
@@ -269,11 +276,13 @@ void NewProfileWidget::profileTabCreateProfile()
     else if (generalWid->connectionType->currentText() == QString("tunnel")) {
         if (tunnelWid->isOk() == 1)
             return ErrorWindow::showWindow(20, QString(PDEBUG), debug);
+        else if (tunnelWid->isOk() == 2)
+            return ErrorWindow::showWindow(21, QString(PDEBUG), debug);
     }
     else if (generalWid->connectionType->currentText() == QString("tuntap")) {
         if (tuntapWid->isOk() == 1)
             return ErrorWindow::showWindow(15, QString(PDEBUG), debug);
-        if (tuntapWid->isOk() == 2)
+        else if (tuntapWid->isOk() == 2)
             return ErrorWindow::showWindow(15, QString(PDEBUG), debug);
     }
     else if (generalWid->connectionType->currentText() == QString("vlan")) {
@@ -304,17 +313,23 @@ void NewProfileWidget::profileTabCreateProfile()
         addSettings = wirelessWid->getSettings();
         for (int i=0; i<addSettings.keys().count(); i++)
             settings.insert(addSettings.keys()[i], addSettings[addSettings.keys()[i]]);
-    } else if ((generalWid->connectionType->currentText() == QString("bond")) ||
-               (generalWid->connectionType->currentText() == QString("dummy")) ||
+    } else if ((generalWid->connectionType->currentText() == QString("dummy")) ||
                (generalWid->connectionType->currentText() == QString("openvswitch"))) {
         QMap<QString, QString> addSettings = ipWid->getSettings();
+        for (int i=0; i<addSettings.keys().count(); i++)
+            settings.insert(addSettings.keys()[i], addSettings[addSettings.keys()[i]]);
+    } else if (generalWid->connectionType->currentText() == QString("bond")) {
+        QMap<QString, QString> addSettings = ipWid->getSettings();
+        for (int i=0; i<addSettings.keys().count(); i++)
+            settings.insert(addSettings.keys()[i], addSettings[addSettings.keys()[i]]);
+        addSettings = bondWid->getSettings();
         for (int i=0; i<addSettings.keys().count(); i++)
             settings.insert(addSettings.keys()[i], addSettings[addSettings.keys()[i]]);
     } else if (generalWid->connectionType->currentText() == QString("bridge")) {
         QMap<QString, QString> addSettings = ipWid->getSettings();
         for (int i=0; i<addSettings.keys().count(); i++)
             settings.insert(addSettings.keys()[i], addSettings[addSettings.keys()[i]]);
-        addSettings =  bridgeWid->getSettings();
+        addSettings = bridgeWid->getSettings();
         for (int i=0; i<addSettings.keys().count(); i++)
             settings.insert(addSettings.keys()[i], addSettings[addSettings.keys()[i]]);
     } else if (generalWid->connectionType->currentText() == QString("pppoe")) {
@@ -388,13 +403,15 @@ void NewProfileWidget::profileTabLoadProfile()
     } else if (generalWid->connectionType->currentText() == QString("wireless")) {
         ipWid->setSettings(settings);
         wirelessWid->setSettings(settings);
-    } else if ((generalWid->connectionType->currentText() == QString("bond")) ||
-               (generalWid->connectionType->currentText() == QString("dummy")) ||
+    } else if ((generalWid->connectionType->currentText() == QString("dummy")) ||
                (generalWid->connectionType->currentText() == QString("openvswitch"))) {
         ipWid->setSettings(settings);
     } else if (generalWid->connectionType->currentText() == QString("bridge")) {
         ipWid->setSettings(settings);
         bridgeWid->setSettings(settings);
+    } else if (generalWid->connectionType->currentText() == QString("bond")) {
+        ipWid->setSettings(settings);
+        bondWid->setSettings(settings);
     } else if (generalWid->connectionType->currentText() == QString("pppoe")) {
         pppoeWid->setSettings(settings);
     } else if (generalWid->connectionType->currentText() == QString("mobile_ppp")) {

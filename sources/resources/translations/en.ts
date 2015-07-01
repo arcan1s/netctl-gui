@@ -66,6 +66,21 @@
     </message>
 </context>
 <context>
+    <name>BondWidget</name>
+    <message>
+        <source>Bond settings</source>
+        <translation>Bond settings</translation>
+    </message>
+    <message>
+        <source>Mode</source>
+        <translation>Mode</translation>
+    </message>
+    <message>
+        <source>The bonding policy. See the kernel documentation on bonding for details</source>
+        <translation>The bonding policy. See the kernel documentation on bonding for details</translation>
+    </message>
+</context>
+<context>
     <name>BridgeWidget</name>
     <message>
         <source>Form</source>
@@ -190,6 +205,10 @@
         <source>IP address does not match the standard</source>
         <translation>IP address does not match the standard</translation>
     </message>
+    <message>
+        <source>Key is required for &apos;gre&apos; mode</source>
+        <translation>Key is required for &apos;gre&apos; mode</translation>
+    </message>
 </context>
 <context>
     <name>EthernetWidget</name>
@@ -280,6 +299,14 @@
     <message>
         <source>Maximum time, in seconds, to wait for 802.1x authentication to succeed</source>
         <translation>Maximum time, in seconds, to wait for 802.1x authentication to succeed</translation>
+    </message>
+    <message>
+        <source>Priority</source>
+        <translation>Priority</translation>
+    </message>
+    <message>
+        <source>Priority level of the profile. In case of automatic profile selection, profiles are tried in decreasing order of priority</source>
+        <translation>Priority level of the profile. In case of automatic profile selection, profiles are tried in decreasing order of priority</translation>
     </message>
 </context>
 <context>
@@ -375,6 +402,14 @@
     <message>
         <source>A description of the profile</source>
         <translation>A description of the profile</translation>
+    </message>
+    <message>
+        <source>Whether or not to exclude this profile from automatic profile selection</source>
+        <translation>Whether or not to exclude this profile from automatic profile selection</translation>
+    </message>
+    <message>
+        <source>Exclude auto</source>
+        <translation>Exclude auto</translation>
     </message>
 </context>
 <context>
@@ -1519,6 +1554,30 @@ Should be according to standards</translation>
         <source>Browse</source>
         <translation>Browse</translation>
     </message>
+    <message>
+        <source>Select chat file</source>
+        <translation>Select chat file</translation>
+    </message>
+    <message>
+        <source>All (*.*)</source>
+        <translation>All (*.*)</translation>
+    </message>
+    <message>
+        <source>Init</source>
+        <translation>Init</translation>
+    </message>
+    <message>
+        <source>An initialization string sent to the modem before dialing</source>
+        <translation>An initialization string sent to the modem before dialing</translation>
+    </message>
+    <message>
+        <source>Chat script</source>
+        <translation>Chat script</translation>
+    </message>
+    <message>
+        <source>Path to a chat file</source>
+        <translation>Path to a chat file</translation>
+    </message>
 </context>
 <context>
     <name>NetctlAutoWindow</name>
@@ -2467,6 +2526,14 @@ Should be according to standards</translation>
         <source>The address of the remote end of the tunnel</source>
         <translation>The address of the remote end of the tunnel</translation>
     </message>
+    <message>
+        <source>Key</source>
+        <translation>Key</translation>
+    </message>
+    <message>
+        <source>A key identifying an individual traffic flow within a tunnel</source>
+        <translation>A key identifying an individual traffic flow within a tunnel</translation>
+    </message>
 </context>
 <context>
     <name>TuntapWidget</name>
@@ -2809,11 +2876,11 @@ Should be according to standards</translation>
     </message>
     <message>
         <source>Whether or not to exclude this profile from automatic profile selection</source>
-        <translation>Whether or not to exclude this profile from automatic profile selection</translation>
+        <translation type="vanished">Whether or not to exclude this profile from automatic profile selection</translation>
     </message>
     <message>
         <source>Exclude auto</source>
-        <translation>Exclude auto</translation>
+        <translation type="vanished">Exclude auto</translation>
     </message>
     <message>
         <source>Frequency</source>

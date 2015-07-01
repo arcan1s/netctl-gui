@@ -15,39 +15,55 @@
  *   along with netctl-gui. If not, see http://www.gnu.org/licenses/       *
  ***************************************************************************/
 
-#ifndef MOBILEWIDGET_H
-#define MOBILEWIDGET_H
-
-#include <QWidget>
+#include "bondwidget.h"
+#include "ui_bondwidget.h"
 
 
-namespace Ui {
-class MobileWidget;
+BondWidget::BondWidget(QWidget *parent)
+    : QWidget(parent),
+      ui(new Ui::BondWidget)
+{
+    ui->setupUi(this);
+    clear();
 }
 
-class MobileWidget : public QWidget
+
+BondWidget::~BondWidget()
 {
-    Q_OBJECT
-
-public:
-    explicit MobileWidget(QWidget *parent = 0);
-    ~MobileWidget();
-    QMap<QString, QString> getSettings();
-    int isOk();
-    void setSettings(const QMap<QString, QString> settings);
-
-public slots:
-    void clear();
-
-private slots:
-    void selectChatFile();
-    void selectOptionsFile();
-    void showAdvanced();
-
-private:
-    Ui::MobileWidget *ui;
-    void createActions();
-};
+    delete ui;
+}
 
 
-#endif /* MOBILEWIDGET_H */
+void BondWidget::clear()
+{
+    ui->lineEdit_mode->setText(QString("balance-rr"));
+}
+
+
+QMap<QString, QString> BondWidget::getSettings()
+{
+    QMap<QString, QString> settings;
+
+    if (isOk() != 0) return settings;
+
+    if (ui->lineEdit_mode->text() != QString("balance-rr"))
+        settings[QString("Mode")] = ui->lineEdit_mode->text();
+
+    return settings;
+}
+
+
+int BondWidget::isOk()
+{
+    // all fine
+    return 0;
+}
+
+
+void BondWidget::setSettings(const QMap<QString, QString> settings)
+{
+    clear();
+
+    if (settings.contains(QString("Mode")))
+        ui->lineEdit_mode->setText(settings[QString("Mode")]);
+}

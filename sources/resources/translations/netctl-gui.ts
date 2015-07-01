@@ -79,6 +79,24 @@
     </message>
 </context>
 <context>
+    <name>BondWidget</name>
+    <message>
+        <location filename="../../../build/gui/src/ui_bondwidget.h" line="91"/>
+        <source>Bond settings</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../../build/gui/src/ui_bondwidget.h" line="92"/>
+        <source>Mode</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../../build/gui/src/ui_bondwidget.h" line="94"/>
+        <source>The bonding policy. See the kernel documentation on bonding for details</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>BridgeWidget</name>
     <message>
         <location filename="../../../build/gui/src/ui_bridgewidget.h" line="90"/>
@@ -120,6 +138,7 @@
         <location filename="../../gui/src/errorwindow.cpp" line="120"/>
         <location filename="../../gui/src/errorwindow.cpp" line="124"/>
         <location filename="../../gui/src/errorwindow.cpp" line="128"/>
+        <location filename="../../gui/src/errorwindow.cpp" line="132"/>
         <source>Error!</source>
         <translation type="unfinished"></translation>
     </message>
@@ -225,11 +244,16 @@
     </message>
     <message>
         <location filename="../../gui/src/errorwindow.cpp" line="129"/>
+        <source>Key is required for &apos;gre&apos; mode</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../gui/src/errorwindow.cpp" line="133"/>
         <source>Unknown error</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../gui/src/errorwindow.cpp" line="192"/>
+        <location filename="../../gui/src/errorwindow.cpp" line="197"/>
         <source>Sender : %1</source>
         <translation type="unfinished"></translation>
     </message>
@@ -237,99 +261,109 @@
 <context>
     <name>EthernetWidget</name>
     <message>
-        <location filename="../../../build/gui/src/ui_ethernetwidget.h" line="282"/>
+        <location filename="../../../build/gui/src/ui_ethernetwidget.h" line="307"/>
         <source>Ethernet options</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../build/gui/src/ui_ethernetwidget.h" line="284"/>
+        <location filename="../../../build/gui/src/ui_ethernetwidget.h" line="309"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Whether or not the absence of a carrier is acceptable&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../build/gui/src/ui_ethernetwidget.h" line="286"/>
+        <location filename="../../../build/gui/src/ui_ethernetwidget.h" line="311"/>
         <source>Skip no carrier</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../build/gui/src/ui_ethernetwidget.h" line="288"/>
+        <location filename="../../../build/gui/src/ui_ethernetwidget.h" line="313"/>
         <source>Set to ‘yes’ to use 802.1x authentication</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../build/gui/src/ui_ethernetwidget.h" line="290"/>
+        <location filename="../../../build/gui/src/ui_ethernetwidget.h" line="315"/>
         <source>802.1x authentication</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../build/gui/src/ui_ethernetwidget.h" line="291"/>
+        <location filename="../../../build/gui/src/ui_ethernetwidget.h" line="316"/>
         <source>WPA config file</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../build/gui/src/ui_ethernetwidget.h" line="293"/>
+        <location filename="../../../build/gui/src/ui_ethernetwidget.h" line="318"/>
         <source>Path to a wpa_supplicant configuration file</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../build/gui/src/ui_ethernetwidget.h" line="295"/>
+        <location filename="../../../build/gui/src/ui_ethernetwidget.h" line="320"/>
         <source>Browse</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../build/gui/src/ui_ethernetwidget.h" line="296"/>
+        <location filename="../../../build/gui/src/ui_ethernetwidget.h" line="321"/>
         <source>WPA driver</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../build/gui/src/ui_ethernetwidget.h" line="304"/>
+        <location filename="../../../build/gui/src/ui_ethernetwidget.h" line="329"/>
         <source>The wpa_supplicant driver to use for 802.1x authentication</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../build/gui/src/ui_ethernetwidget.h" line="299"/>
+        <location filename="../../../build/gui/src/ui_ethernetwidget.h" line="339"/>
+        <source>Priority</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../../build/gui/src/ui_ethernetwidget.h" line="341"/>
+        <source>Priority level of the profile. In case of automatic profile selection, profiles are tried in decreasing order of priority</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../../build/gui/src/ui_ethernetwidget.h" line="324"/>
         <source>wired</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../build/gui/src/ui_ethernetwidget.h" line="300"/>
+        <location filename="../../../build/gui/src/ui_ethernetwidget.h" line="325"/>
         <source>nl80211</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../build/gui/src/ui_ethernetwidget.h" line="301"/>
+        <location filename="../../../build/gui/src/ui_ethernetwidget.h" line="326"/>
         <source>wext</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../build/gui/src/ui_ethernetwidget.h" line="306"/>
+        <location filename="../../../build/gui/src/ui_ethernetwidget.h" line="331"/>
         <source>Timeout carrier</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../build/gui/src/ui_ethernetwidget.h" line="308"/>
+        <location filename="../../../build/gui/src/ui_ethernetwidget.h" line="333"/>
         <source>Maximum time, in seconds, to wait for a carrier</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../build/gui/src/ui_ethernetwidget.h" line="310"/>
+        <location filename="../../../build/gui/src/ui_ethernetwidget.h" line="335"/>
         <source>Timeout WPA</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../build/gui/src/ui_ethernetwidget.h" line="312"/>
+        <location filename="../../../build/gui/src/ui_ethernetwidget.h" line="337"/>
         <source>Maximum time, in seconds, to wait for 802.1x authentication to succeed</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../gui/src/wirelesswidget.cpp" line="154"/>
-        <location filename="../../gui/src/ethernetwidget.cpp" line="68"/>
+        <location filename="../../gui/src/wirelesswidget.cpp" line="153"/>
+        <location filename="../../gui/src/ethernetwidget.cpp" line="69"/>
         <source>Select wpa configuration file</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../gui/src/wirelesswidget.cpp" line="156"/>
-        <location filename="../../gui/src/ethernetwidget.cpp" line="70"/>
+        <location filename="../../gui/src/wirelesswidget.cpp" line="155"/>
+        <location filename="../../gui/src/ethernetwidget.cpp" line="71"/>
         <source>Configuration files (*.conf)</source>
         <translation type="unfinished"></translation>
     </message>
@@ -337,108 +371,118 @@
 <context>
     <name>GeneralWidget</name>
     <message>
-        <location filename="../../../build/gui/src/ui_generalwidget.h" line="394"/>
+        <location filename="../../../build/gui/src/ui_generalwidget.h" line="419"/>
         <source>General</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../build/gui/src/ui_generalwidget.h" line="395"/>
+        <location filename="../../../build/gui/src/ui_generalwidget.h" line="420"/>
         <source>Description</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../build/gui/src/ui_generalwidget.h" line="399"/>
+        <location filename="../../../build/gui/src/ui_generalwidget.h" line="424"/>
         <source>Connection</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../build/gui/src/ui_generalwidget.h" line="401"/>
+        <location filename="../../../build/gui/src/ui_generalwidget.h" line="426"/>
         <source>The connection type used by the profile</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../build/gui/src/ui_generalwidget.h" line="403"/>
+        <location filename="../../../build/gui/src/ui_generalwidget.h" line="428"/>
         <source>Interface</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../build/gui/src/ui_generalwidget.h" line="405"/>
+        <location filename="../../../build/gui/src/ui_generalwidget.h" line="430"/>
         <source>The name of the associated network interface</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../build/gui/src/ui_generalwidget.h" line="407"/>
+        <location filename="../../../build/gui/src/ui_generalwidget.h" line="432"/>
         <source>Binds to interfaces</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../build/gui/src/ui_generalwidget.h" line="408"/>
-        <location filename="../../../build/gui/src/ui_generalwidget.h" line="413"/>
+        <location filename="../../../build/gui/src/ui_generalwidget.h" line="433"/>
+        <location filename="../../../build/gui/src/ui_generalwidget.h" line="438"/>
         <source>Add</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../build/gui/src/ui_generalwidget.h" line="410"/>
+        <location filename="../../../build/gui/src/ui_generalwidget.h" line="435"/>
         <source>An array of physical network interfaces that this profile needs before it can be started</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../gui/src/generalwidget.cpp" line="109"/>
+        <location filename="../../gui/src/generalwidget.cpp" line="110"/>
         <source>Hide advanced</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../build/gui/src/ui_generalwidget.h" line="397"/>
+        <location filename="../../../build/gui/src/ui_generalwidget.h" line="422"/>
         <source>A description of the profile</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../build/gui/src/ui_generalwidget.h" line="412"/>
+        <location filename="../../../build/gui/src/ui_generalwidget.h" line="437"/>
         <source>After</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../build/gui/src/ui_generalwidget.h" line="415"/>
+        <location filename="../../../build/gui/src/ui_generalwidget.h" line="440"/>
         <source>An array of profile names that should be started before this profile is started</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../build/gui/src/ui_generalwidget.h" line="417"/>
+        <location filename="../../../build/gui/src/ui_generalwidget.h" line="442"/>
         <source>Command after starting</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../build/gui/src/ui_generalwidget.h" line="419"/>
+        <location filename="../../../build/gui/src/ui_generalwidget.h" line="444"/>
         <source>A command that is executed after a connection is established</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../build/gui/src/ui_generalwidget.h" line="421"/>
+        <location filename="../../../build/gui/src/ui_generalwidget.h" line="446"/>
         <source>Command before stoping</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../build/gui/src/ui_generalwidget.h" line="423"/>
+        <location filename="../../../build/gui/src/ui_generalwidget.h" line="448"/>
         <source>A command that is executed before a connection is brought down</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../build/gui/src/ui_generalwidget.h" line="426"/>
+        <location filename="../../../build/gui/src/ui_generalwidget.h" line="451"/>
+        <source>Whether or not to exclude this profile from automatic profile selection</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../../build/gui/src/ui_generalwidget.h" line="453"/>
+        <source>Exclude auto</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../../build/gui/src/ui_generalwidget.h" line="455"/>
         <source>Set to ‘yes’ to force connecting even if the interface is up</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../build/gui/src/ui_generalwidget.h" line="428"/>
+        <location filename="../../../build/gui/src/ui_generalwidget.h" line="457"/>
         <source>Force connect</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../build/gui/src/ui_generalwidget.h" line="429"/>
+        <location filename="../../../build/gui/src/ui_generalwidget.h" line="458"/>
         <source>Debug mode</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../gui/src/generalwidget.cpp" line="112"/>
+        <location filename="../../gui/src/generalwidget.cpp" line="113"/>
         <source>Show advanced</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1236,12 +1280,12 @@ Should be according to standards</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../gui/src/main.cpp" line="193"/>
+        <location filename="../../gui/src/main.cpp" line="200"/>
         <source>Restore existing session.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../gui/src/main.cpp" line="198"/>
+        <location filename="../../gui/src/main.cpp" line="205"/>
         <source>Close existing session.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1270,133 +1314,164 @@ Should be according to standards</source>
 <context>
     <name>MobileWidget</name>
     <message>
-        <location filename="../../../build/gui/src/ui_mobilewidget.h" line="348"/>
+        <location filename="../../../build/gui/src/ui_mobilewidget.h" line="402"/>
         <source>Mobile PPP settings</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../build/gui/src/ui_mobilewidget.h" line="349"/>
+        <location filename="../../../build/gui/src/ui_mobilewidget.h" line="403"/>
         <source>Username</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../build/gui/src/ui_mobilewidget.h" line="351"/>
-        <location filename="../../../build/gui/src/ui_mobilewidget.h" line="355"/>
+        <location filename="../../../build/gui/src/ui_mobilewidget.h" line="405"/>
+        <location filename="../../../build/gui/src/ui_mobilewidget.h" line="409"/>
         <source>The username and password to connect with</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../build/gui/src/ui_mobilewidget.h" line="353"/>
+        <location filename="../../../build/gui/src/ui_mobilewidget.h" line="407"/>
         <source>Password</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../build/gui/src/ui_mobilewidget.h" line="357"/>
+        <location filename="../../../build/gui/src/ui_mobilewidget.h" line="411"/>
         <source>Access point name</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../build/gui/src/ui_mobilewidget.h" line="359"/>
+        <location filename="../../../build/gui/src/ui_mobilewidget.h" line="413"/>
         <source>The access point (apn) to connect on</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../build/gui/src/ui_mobilewidget.h" line="361"/>
+        <location filename="../../../build/gui/src/ui_mobilewidget.h" line="415"/>
         <source>PIN</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../build/gui/src/ui_mobilewidget.h" line="363"/>
+        <location filename="../../../build/gui/src/ui_mobilewidget.h" line="417"/>
         <source>If your modem requires a PIN to unlock, use this option</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../build/gui/src/ui_mobilewidget.h" line="365"/>
+        <location filename="../../../build/gui/src/ui_mobilewidget.h" line="419"/>
         <source>Mode</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../build/gui/src/ui_mobilewidget.h" line="375"/>
+        <location filename="../../../build/gui/src/ui_mobilewidget.h" line="429"/>
         <source>This option is used to specify the connection mode</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../build/gui/src/ui_mobilewidget.h" line="368"/>
+        <location filename="../../../build/gui/src/ui_mobilewidget.h" line="422"/>
         <source>None</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../build/gui/src/ui_mobilewidget.h" line="369"/>
+        <location filename="../../../build/gui/src/ui_mobilewidget.h" line="423"/>
         <source>3Gpref</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../build/gui/src/ui_mobilewidget.h" line="370"/>
+        <location filename="../../../build/gui/src/ui_mobilewidget.h" line="424"/>
         <source>3Gonly</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../build/gui/src/ui_mobilewidget.h" line="371"/>
+        <location filename="../../../build/gui/src/ui_mobilewidget.h" line="425"/>
         <source>GPRSpref</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../build/gui/src/ui_mobilewidget.h" line="372"/>
+        <location filename="../../../build/gui/src/ui_mobilewidget.h" line="426"/>
         <source>GPRSonly</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../build/gui/src/ui_mobilewidget.h" line="385"/>
+        <location filename="../../../build/gui/src/ui_mobilewidget.h" line="439"/>
+        <source>Init</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../../build/gui/src/ui_mobilewidget.h" line="441"/>
+        <source>An initialization string sent to the modem before dialing</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../../build/gui/src/ui_mobilewidget.h" line="443"/>
         <source>Max fail</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../build/gui/src/ui_mobilewidget.h" line="387"/>
+        <location filename="../../../build/gui/src/ui_mobilewidget.h" line="445"/>
         <source>The number of consecutive failed connection attempts to tolerate</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../build/gui/src/ui_mobilewidget.h" line="378"/>
+        <location filename="../../../build/gui/src/ui_mobilewidget.h" line="432"/>
         <source>Use the default route provided by the peer</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../build/gui/src/ui_mobilewidget.h" line="380"/>
+        <location filename="../../../build/gui/src/ui_mobilewidget.h" line="434"/>
         <source>Default route</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../build/gui/src/ui_mobilewidget.h" line="382"/>
+        <location filename="../../../build/gui/src/ui_mobilewidget.h" line="436"/>
         <source>Use the DNS provided by the peer</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../build/gui/src/ui_mobilewidget.h" line="384"/>
+        <location filename="../../../build/gui/src/ui_mobilewidget.h" line="438"/>
         <source>Use peer DNS</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../build/gui/src/ui_mobilewidget.h" line="389"/>
+        <location filename="../../../build/gui/src/ui_mobilewidget.h" line="447"/>
+        <source>Chat script</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../../build/gui/src/ui_mobilewidget.h" line="449"/>
+        <source>Path to a chat file</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../../build/gui/src/ui_mobilewidget.h" line="452"/>
         <source>Options file</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../build/gui/src/ui_mobilewidget.h" line="391"/>
+        <location filename="../../../build/gui/src/ui_mobilewidget.h" line="454"/>
         <source>A file to read additional pppd options from</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../build/gui/src/ui_mobilewidget.h" line="393"/>
+        <location filename="../../../build/gui/src/ui_mobilewidget.h" line="451"/>
+        <location filename="../../../build/gui/src/ui_mobilewidget.h" line="456"/>
         <source>Browse</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../gui/src/mobilewidget.cpp" line="69"/>
+        <location filename="../../gui/src/mobilewidget.cpp" line="72"/>
+        <source>Select chat file</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../gui/src/mobilewidget.cpp" line="74"/>
+        <source>All (*.*)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../gui/src/mobilewidget.cpp" line="83"/>
         <source>Select options file</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../gui/src/mobilewidget.cpp" line="71"/>
+        <location filename="../../gui/src/mobilewidget.cpp" line="85"/>
         <source>Configuration files (*.conf)</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2397,78 +2472,88 @@ Should be according to standards</source>
 <context>
     <name>TunnelWidget</name>
     <message>
-        <location filename="../../../build/gui/src/ui_tunnelwidget.h" line="143"/>
+        <location filename="../../../build/gui/src/ui_tunnelwidget.h" line="166"/>
         <source>Tunnel settings</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../build/gui/src/ui_tunnelwidget.h" line="144"/>
+        <location filename="../../../build/gui/src/ui_tunnelwidget.h" line="167"/>
         <source>Mode</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../build/gui/src/ui_tunnelwidget.h" line="157"/>
+        <location filename="../../../build/gui/src/ui_tunnelwidget.h" line="180"/>
         <source>The tunnel type</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../build/gui/src/ui_tunnelwidget.h" line="147"/>
+        <location filename="../../../build/gui/src/ui_tunnelwidget.h" line="170"/>
         <source>ipip</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../build/gui/src/ui_tunnelwidget.h" line="148"/>
+        <location filename="../../../build/gui/src/ui_tunnelwidget.h" line="171"/>
         <source>gre</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../build/gui/src/ui_tunnelwidget.h" line="149"/>
+        <location filename="../../../build/gui/src/ui_tunnelwidget.h" line="172"/>
         <source>sit</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../build/gui/src/ui_tunnelwidget.h" line="150"/>
+        <location filename="../../../build/gui/src/ui_tunnelwidget.h" line="173"/>
         <source>isatap</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../build/gui/src/ui_tunnelwidget.h" line="151"/>
+        <location filename="../../../build/gui/src/ui_tunnelwidget.h" line="174"/>
         <source>ip6ip6</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../build/gui/src/ui_tunnelwidget.h" line="152"/>
+        <location filename="../../../build/gui/src/ui_tunnelwidget.h" line="175"/>
         <source>ipip6</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../build/gui/src/ui_tunnelwidget.h" line="153"/>
+        <location filename="../../../build/gui/src/ui_tunnelwidget.h" line="176"/>
         <source>ip6gre</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../build/gui/src/ui_tunnelwidget.h" line="154"/>
+        <location filename="../../../build/gui/src/ui_tunnelwidget.h" line="177"/>
         <source>any</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../build/gui/src/ui_tunnelwidget.h" line="159"/>
+        <location filename="../../../build/gui/src/ui_tunnelwidget.h" line="182"/>
         <source>Local</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../build/gui/src/ui_tunnelwidget.h" line="161"/>
+        <location filename="../../../build/gui/src/ui_tunnelwidget.h" line="184"/>
         <source>The address of the local end of the tunnel</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../build/gui/src/ui_tunnelwidget.h" line="163"/>
+        <location filename="../../../build/gui/src/ui_tunnelwidget.h" line="186"/>
         <source>Remote</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../build/gui/src/ui_tunnelwidget.h" line="165"/>
+        <location filename="../../../build/gui/src/ui_tunnelwidget.h" line="188"/>
         <source>The address of the remote end of the tunnel</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../../build/gui/src/ui_tunnelwidget.h" line="190"/>
+        <source>Key</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../../build/gui/src/ui_tunnelwidget.h" line="192"/>
+        <source>A key identifying an individual traffic flow within a tunnel</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -2686,211 +2771,201 @@ Should be according to standards</source>
 <context>
     <name>WirelessWidget</name>
     <message>
-        <location filename="../../../build/gui/src/ui_wirelesswidget.h" line="608"/>
+        <location filename="../../../build/gui/src/ui_wirelesswidget.h" line="589"/>
         <source>Wireless options</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../build/gui/src/ui_wirelesswidget.h" line="609"/>
+        <location filename="../../../build/gui/src/ui_wirelesswidget.h" line="590"/>
         <source>Security</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../build/gui/src/ui_wirelesswidget.h" line="612"/>
+        <location filename="../../../build/gui/src/ui_wirelesswidget.h" line="593"/>
         <source>none</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../build/gui/src/ui_wirelesswidget.h" line="613"/>
+        <location filename="../../../build/gui/src/ui_wirelesswidget.h" line="594"/>
         <source>wep</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../build/gui/src/ui_wirelesswidget.h" line="614"/>
+        <location filename="../../../build/gui/src/ui_wirelesswidget.h" line="595"/>
         <source>wpa</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../build/gui/src/ui_wirelesswidget.h" line="615"/>
+        <location filename="../../../build/gui/src/ui_wirelesswidget.h" line="596"/>
         <source>wpa-configsection</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../build/gui/src/ui_wirelesswidget.h" line="616"/>
+        <location filename="../../../build/gui/src/ui_wirelesswidget.h" line="597"/>
         <source>wpa-config</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../build/gui/src/ui_wirelesswidget.h" line="618"/>
+        <location filename="../../../build/gui/src/ui_wirelesswidget.h" line="599"/>
         <source>ESSID</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../build/gui/src/ui_wirelesswidget.h" line="620"/>
+        <location filename="../../../build/gui/src/ui_wirelesswidget.h" line="601"/>
         <source>The name of the network to connect to</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../build/gui/src/ui_wirelesswidget.h" line="622"/>
+        <location filename="../../../build/gui/src/ui_wirelesswidget.h" line="603"/>
         <source>Wpa config section</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../build/gui/src/ui_wirelesswidget.h" line="623"/>
-        <location filename="../../../build/gui/src/ui_wirelesswidget.h" line="649"/>
-        <location filename="../../../build/gui/src/ui_wirelesswidget.h" line="676"/>
+        <location filename="../../../build/gui/src/ui_wirelesswidget.h" line="604"/>
+        <location filename="../../../build/gui/src/ui_wirelesswidget.h" line="626"/>
+        <location filename="../../../build/gui/src/ui_wirelesswidget.h" line="653"/>
         <source>Add</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../build/gui/src/ui_wirelesswidget.h" line="625"/>
+        <location filename="../../../build/gui/src/ui_wirelesswidget.h" line="606"/>
         <source>Array of lines that form a network block for wpa_supplicant</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../build/gui/src/ui_wirelesswidget.h" line="627"/>
+        <location filename="../../../build/gui/src/ui_wirelesswidget.h" line="608"/>
         <source>Wpa config file</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../build/gui/src/ui_wirelesswidget.h" line="629"/>
+        <location filename="../../../build/gui/src/ui_wirelesswidget.h" line="610"/>
         <source>Path to a wpa_supplicant configuration file</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../build/gui/src/ui_wirelesswidget.h" line="631"/>
+        <location filename="../../../build/gui/src/ui_wirelesswidget.h" line="612"/>
         <source>Browse</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../build/gui/src/ui_wirelesswidget.h" line="632"/>
+        <location filename="../../../build/gui/src/ui_wirelesswidget.h" line="613"/>
         <source>Key</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../build/gui/src/ui_wirelesswidget.h" line="634"/>
+        <location filename="../../../build/gui/src/ui_wirelesswidget.h" line="615"/>
         <source>The secret key to a WEP, or WPA encrypted network</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../build/gui/src/ui_wirelesswidget.h" line="641"/>
+        <location filename="../../../build/gui/src/ui_wirelesswidget.h" line="618"/>
         <source>Whether or not the specified network is a hidden network</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../build/gui/src/ui_wirelesswidget.h" line="643"/>
+        <location filename="../../../build/gui/src/ui_wirelesswidget.h" line="620"/>
         <source>Hidden</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../build/gui/src/ui_wirelesswidget.h" line="645"/>
+        <location filename="../../../build/gui/src/ui_wirelesswidget.h" line="622"/>
         <source>Whether or not to use ad-hoc mode</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../build/gui/src/ui_wirelesswidget.h" line="647"/>
+        <location filename="../../../build/gui/src/ui_wirelesswidget.h" line="624"/>
         <source>Ad-hoc</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../build/gui/src/ui_wirelesswidget.h" line="648"/>
+        <location filename="../../../build/gui/src/ui_wirelesswidget.h" line="625"/>
         <source>Scan frequencies</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../build/gui/src/ui_wirelesswidget.h" line="651"/>
+        <location filename="../../../build/gui/src/ui_wirelesswidget.h" line="628"/>
         <source>A space-separated list of frequencies in MHz to scan when searching for the network</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../build/gui/src/ui_wirelesswidget.h" line="653"/>
+        <location filename="../../../build/gui/src/ui_wirelesswidget.h" line="630"/>
         <source>Frequency</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../build/gui/src/ui_wirelesswidget.h" line="655"/>
-        <location filename="../../../build/gui/src/ui_wirelesswidget.h" line="659"/>
+        <location filename="../../../build/gui/src/ui_wirelesswidget.h" line="632"/>
+        <location filename="../../../build/gui/src/ui_wirelesswidget.h" line="636"/>
         <source>Priority group for the network</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../build/gui/src/ui_wirelesswidget.h" line="657"/>
+        <location filename="../../../build/gui/src/ui_wirelesswidget.h" line="634"/>
         <source>Priority</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../build/gui/src/ui_wirelesswidget.h" line="661"/>
+        <location filename="../../../build/gui/src/ui_wirelesswidget.h" line="638"/>
         <source>Country</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../build/gui/src/ui_wirelesswidget.h" line="663"/>
+        <location filename="../../../build/gui/src/ui_wirelesswidget.h" line="640"/>
         <source>The country for which frequency regulations will be enforced</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../build/gui/src/ui_wirelesswidget.h" line="665"/>
+        <location filename="../../../build/gui/src/ui_wirelesswidget.h" line="642"/>
         <source>WPA group</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../build/gui/src/ui_wirelesswidget.h" line="667"/>
+        <location filename="../../../build/gui/src/ui_wirelesswidget.h" line="644"/>
         <source>Group that has the authority to configure wpa_supplicant via its control interface</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../build/gui/src/ui_wirelesswidget.h" line="669"/>
+        <location filename="../../../build/gui/src/ui_wirelesswidget.h" line="646"/>
         <source>Drivers</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../build/gui/src/ui_wirelesswidget.h" line="672"/>
+        <location filename="../../../build/gui/src/ui_wirelesswidget.h" line="649"/>
         <source>west</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../build/gui/src/ui_wirelesswidget.h" line="673"/>
+        <location filename="../../../build/gui/src/ui_wirelesswidget.h" line="650"/>
         <source>nl80211</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../build/gui/src/ui_wirelesswidget.h" line="674"/>
+        <location filename="../../../build/gui/src/ui_wirelesswidget.h" line="651"/>
         <source>wired</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../build/gui/src/ui_wirelesswidget.h" line="678"/>
+        <location filename="../../../build/gui/src/ui_wirelesswidget.h" line="655"/>
         <source>The wpa_supplicant driver to use</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../build/gui/src/ui_wirelesswidget.h" line="680"/>
+        <location filename="../../../build/gui/src/ui_wirelesswidget.h" line="657"/>
         <source>RFkill device</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../build/gui/src/ui_wirelesswidget.h" line="682"/>
+        <location filename="../../../build/gui/src/ui_wirelesswidget.h" line="659"/>
         <source>The name of an rfkill device</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../build/gui/src/ui_wirelesswidget.h" line="684"/>
+        <location filename="../../../build/gui/src/ui_wirelesswidget.h" line="661"/>
         <source>Timeout WPA</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../build/gui/src/ui_wirelesswidget.h" line="686"/>
+        <location filename="../../../build/gui/src/ui_wirelesswidget.h" line="663"/>
         <source>Maximum time, in seconds, to wait for steps in the association and authentication to succeed</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../../build/gui/src/ui_wirelesswidget.h" line="637"/>
-        <source>Whether or not to exclude this profile from automatic profile selection</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../../build/gui/src/ui_wirelesswidget.h" line="639"/>
-        <source>Exclude auto</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

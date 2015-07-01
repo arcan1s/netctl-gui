@@ -46,6 +46,7 @@ void EthernetWidget::clear()
     showWpa(ui->checkBox_8021x->checkState());
     ui->lineEdit_wpaConfig->clear();
     ui->comboBox_driver->setCurrentIndex(0);
+    ui->spinBox_priority->setValue(1);
     ui->spinBox_timeoutCarrier->setValue(5);
     ui->spinBox_timeoutWpa->setValue(15);
 
@@ -104,6 +105,8 @@ QMap<QString, QString> EthernetWidget::getSettings()
         settings[QString("WPAConfigFile")] = QString("'%1'").arg(ui->lineEdit_wpaConfig->text());
         settings[QString("WPADriver")] = ui->comboBox_driver->currentText();
     }
+    if (ui->spinBox_priority->value() != 1)
+        settings[QString("Priority")] = QString::number(ui->spinBox_priority->value());
     if (ui->spinBox_timeoutCarrier->value() != 5)
         settings[QString("TimeoutCarrier")] = QString::number(ui->spinBox_timeoutCarrier->value());
     if (ui->spinBox_timeoutWpa->value() != 15)
@@ -139,6 +142,8 @@ void EthernetWidget::setSettings(const QMap<QString, QString> settings)
         int index = ui->comboBox_driver->findText(settings[QString("WPADriver")]);
         ui->comboBox_driver->setCurrentIndex(index);
     }
+    if (settings.contains(QString("Priority")))
+        ui->spinBox_priority->setValue(settings[QString("Priority")].toInt());
     if (settings.contains(QString("TimeoutCarrier")))
         ui->spinBox_timeoutCarrier->setValue(settings[QString("TimeoutCarrier")].toInt());
     if (settings.contains(QString("TimeoutWPA")))

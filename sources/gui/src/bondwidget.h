@@ -15,23 +15,23 @@
  *   along with netctl-gui. If not, see http://www.gnu.org/licenses/       *
  ***************************************************************************/
 
-#ifndef MOBILEWIDGET_H
-#define MOBILEWIDGET_H
+#ifndef BONDWIDGET_H
+#define BONDWIDGET_H
 
 #include <QWidget>
 
 
 namespace Ui {
-class MobileWidget;
+class BondWidget;
 }
 
-class MobileWidget : public QWidget
+class BondWidget : public QWidget
 {
     Q_OBJECT
 
 public:
-    explicit MobileWidget(QWidget *parent = 0);
-    ~MobileWidget();
+    explicit BondWidget(QWidget *parent = 0);
+    ~BondWidget();
     QMap<QString, QString> getSettings();
     int isOk();
     void setSettings(const QMap<QString, QString> settings);
@@ -39,15 +39,9 @@ public:
 public slots:
     void clear();
 
-private slots:
-    void selectChatFile();
-    void selectOptionsFile();
-    void showAdvanced();
-
 private:
-    Ui::MobileWidget *ui;
-    void createActions();
+    Ui::BondWidget *ui;
 };
 
 
-#endif /* MOBILEWIDGET_H */
+#endif /* BONDWIDGET_H */

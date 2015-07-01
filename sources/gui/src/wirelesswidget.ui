@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>584</width>
-    <height>697</height>
+    <height>670</height>
    </rect>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
@@ -280,17 +280,11 @@
        <item>
         <layout class="QHBoxLayout" name="layout_wirelessAdvanced">
          <item>
-          <spacer name="spacer_wirelessAdvanced">
+          <widget class="Line" name="line">
            <property name="orientation">
             <enum>Qt::Horizontal</enum>
            </property>
-           <property name="sizeHint" stdset="0">
-            <size>
-             <width>40</width>
-             <height>20</height>
-            </size>
-           </property>
-          </spacer>
+          </widget>
          </item>
          <item>
           <widget class="QToolButton" name="pushButton_wirelessAdvanced">
@@ -313,36 +307,6 @@
           <property name="margin">
            <number>0</number>
           </property>
-          <item>
-           <layout class="QHBoxLayout" name="layout_exclude">
-            <item>
-             <widget class="QLabel" name="label_exclude">
-              <property name="sizePolicy">
-               <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-                <horstretch>1</horstretch>
-                <verstretch>0</verstretch>
-               </sizepolicy>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QCheckBox" name="checkBox_exclude">
-              <property name="sizePolicy">
-               <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
-                <horstretch>2</horstretch>
-                <verstretch>0</verstretch>
-               </sizepolicy>
-              </property>
-              <property name="toolTip">
-               <string>Whether or not to exclude this profile from automatic profile selection</string>
-              </property>
-              <property name="text">
-               <string>Exclude auto</string>
-              </property>
-             </widget>
-            </item>
-           </layout>
-          </item>
           <item>
            <layout class="QHBoxLayout" name="layout_hidden">
             <item>

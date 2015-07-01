@@ -42,6 +42,7 @@ void TunnelWidget::clear()
     ui->comboBox_mode->setCurrentIndex(0);
     ui->lineEdit_local->clear();
     ui->lineEdit_remote->clear();
+    ui->lineEdit_key->clear();
 }
 
 
@@ -62,6 +63,8 @@ QMap<QString, QString> TunnelWidget::getSettings()
     if (!IpRegExp::checkString(ui->lineEdit_local->text(), IpRegExp::ip4Regex()))
         settings[QString("Local")] = QString("'%1'").arg(ui->lineEdit_local->text());
     settings[QString("Remote")] = QString("'%1'").arg(ui->lineEdit_remote->text());
+    if (ui->comboBox_mode->currentText() == QString("gre"))
+        settings[QString("Key")] = QString("'%1'").arg(ui->lineEdit_key->text());
 
     return settings;
 }
@@ -71,6 +74,9 @@ int TunnelWidget::isOk()
 {
     // ip is not correct
     if (!IpRegExp::checkString(ui->lineEdit_remote->text(), IpRegExp::ip4Regex())) return 1;
+    // key is empty
+    if (ui->comboBox_mode->currentText() == QString("gre"))
+        if (ui->lineEdit_key->text().isEmpty()) return 2;
     // all fine
     return 0;
 }
@@ -88,4 +94,6 @@ void TunnelWidget::setSettings(const QMap<QString, QString> settings)
         ui->lineEdit_local->setText(settings[QString("Local")]);
     if (settings.contains(QString("Remote")))
         ui->lineEdit_remote->setText(settings[QString("Remote")]);
+    if (settings.contains(QString("Key")))
+        ui->lineEdit_key->setText(settings[QString("Key")]);
 }

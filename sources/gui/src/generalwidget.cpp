@@ -59,6 +59,7 @@ void GeneralWidget::clear()
     ui->listWidget_after->clear();
     ui->lineEdit_execUpPost->clear();
     ui->lineEdit_execDownPre->clear();
+    ui->checkBox_exclude->setCheckState(Qt::Unchecked);
     ui->checkBox_forceConnect->setCheckState(Qt::Unchecked);
     ui->checkBox_debug->setCheckState(Qt::Unchecked);
 
@@ -139,6 +140,8 @@ QMap<QString, QString> GeneralWidget::getSettings()
         settings[QString("ExecUpPost")] = QString("'%1'").arg(ui->lineEdit_execUpPost->text());
     if (!ui->lineEdit_execDownPre->text().isEmpty())
         settings[QString("ExecDownPre")] = QString("'%1'").arg(ui->lineEdit_execDownPre->text());
+    if (ui->checkBox_exclude->checkState() == Qt::Checked)
+        settings[QString("ExcludeAuto")] = QString("yes");
     if (ui->checkBox_forceConnect->checkState() == Qt::Checked)
         settings[QString("ForceConnect")] = QString("yes");
     if (ui->checkBox_debug->checkState() == Qt::Checked)
@@ -186,6 +189,9 @@ void GeneralWidget::setSettings(const QMap<QString, QString> settings)
         ui->lineEdit_execUpPost->setText(settings[QString("ExecUpPost")]);
     if (settings.contains(QString("ExecDownPre")))
         ui->lineEdit_execDownPre->setText(settings[QString("ExecDownPre")]);
+    if (settings.contains(QString("ExcludeAuto")))
+        if (settings[QString("ExcludeAuto")] == QString("yes"))
+            ui->checkBox_exclude->setCheckState(Qt::Checked);
     if (settings.contains(QString("ForceConnect")))
         if (settings[QString("ForceConnect")] == QString("yes"))
             ui->checkBox_forceConnect->setCheckState(Qt::Checked);
