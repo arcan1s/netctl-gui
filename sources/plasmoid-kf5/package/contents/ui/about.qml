@@ -58,6 +58,7 @@ Item {
                         horizontalAlignment: Text.AlignLeft
                         textFormat: Text.RichText
                         text: NetctlAdds.getAboutText("links")
+                        onLinkActivated: Qt.openUrlExternally(link);
                     }
 
                     QtControls.Label {
@@ -85,6 +86,7 @@ Item {
                         horizontalAlignment: Text.AlignJustify
                         textFormat: Text.RichText
                         text: NetctlAdds.getAboutText("3rdparty")
+                        onLinkActivated: Qt.openUrlExternally(link);
                     }
                 }
             }

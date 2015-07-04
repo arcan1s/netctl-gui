@@ -2,6 +2,8 @@ Ver.1.4.8
 ---------
 * gui
     * update profile tab to netclt 1.10 and 1.11 changes
+* plasmoid
+    * fix bug with no action on link activation
 
 Ver.1.4.7
 ---------
