@@ -65,7 +65,6 @@ package_libnetctlgui-qt4() {
               'wpa_supplicant: wifi support')
   provides=('libnetctlgui')
   conflicts=('libnetctlgui')
-  install=""
 
   cd "${srcdir}/build-qt4/netctlgui"
   make DESTDIR="${pkgdir}" install
