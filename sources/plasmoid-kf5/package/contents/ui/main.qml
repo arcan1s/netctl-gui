@@ -92,6 +92,7 @@ Item {
             font.pointSize: plasmoid.configuration.fontSize
             font.weight: fontWeight[plasmoid.configuration.fontWeight]
             horizontalAlignment: align[plasmoid.configuration.textAlign]
+            renderType: Text.NativeRendering
             textFormat: Text.RichText
             text: "N\\A"
         }
