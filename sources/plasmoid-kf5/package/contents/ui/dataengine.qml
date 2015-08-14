@@ -21,19 +21,23 @@ import QtQuick.Dialogs 1.1 as QtDialogs
 import QtQuick.Layouts 1.0 as QtLayouts
 import QtQuick.Controls.Styles 1.3 as QtStyles
 
-import org.kde.plasma.netctl 1.0
+import org.kde.plasma.private.netctl 1.0
 
 
 Item {
     id: dataenginePage
+    // backend
+    NetctlAdds {
+        id: netctlAdds;
+    }
     width: childrenRect.width
     height: childrenRect.height
     implicitWidth: pageColumn.implicitWidth
     implicitHeight: pageColumn.implicitHeight
 
-    property bool debug: NetctlAdds.isDebugEnabled()
+    property bool debug: netctlAdds.isDebugEnabled()
 
-    property variant cfg_dataengine: NetctlAdds.readDataEngineConfiguration()
+    property variant cfg_dataengine: netctlAdds.readDataEngineConfiguration()
 
     Column {
         id: pageColumn
@@ -228,6 +232,6 @@ Item {
     Component.onDestruction: {
         cfg_dataengine["EXTIP4"] = extIp4.checked ? "true" : "false"
         cfg_dataengine["EXTIP6"] = extIp6.checked ? "true" : "false"
-        NetctlAdds.writeDataEngineConfiguration(cfg_dataengine)
+        netctlAdds.writeDataEngineConfiguration(cfg_dataengine)
     }
 }

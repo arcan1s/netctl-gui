@@ -21,18 +21,9 @@
 #include "netctladds.h"
 
 
-static QObject *netctl_singletontype_provider(QQmlEngine *engine, QJSEngine *scriptEngine)
-{
-    Q_UNUSED(engine);
-    Q_UNUSED(scriptEngine);
-
-    return new NetctlAdds();
-}
-
-
 void NetctlPlugin::registerTypes(const char *uri)
 {
-    Q_ASSERT(uri == QLatin1String("org.kde.plasma.netctl"));
+    Q_ASSERT(uri == QLatin1String("org.kde.plasma.private.netctl"));
 
-    qmlRegisterSingletonType<NetctlAdds>(uri, 1, 0, "NetctlAdds", netctl_singletontype_provider);
+    qmlRegisterType<NetctlAdds>(uri, 1, 0, "NetctlAdds");
 }

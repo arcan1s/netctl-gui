@@ -21,13 +21,12 @@ include_directories (${CMAKE_SOURCE_DIR}
                      ${Qt_INCLUDE}
                      ${Kf5_INCLUDE})
 
-file (GLOB_RECURSE SUBPROJECT_SOURCE ${PROJECT_TRDPARTY_DIR}/pdebug/*.cpp
-                                     *.cpp)
+file (GLOB_RECURSE SUBPROJECT_SOURCE *.cpp)
 file (GLOB SUBPROJECT_NOTIFY *.notifyrc)
 
 add_library (${PLUGIN_NAME} SHARED ${SUBPROJECT_SOURCE})
 target_link_libraries (${PLUGIN_NAME} ${Qt_LIBRARIES} ${Kf5_LIBRARIES})
 
-install (TARGETS ${PLUGIN_NAME} DESTINATION ${QML_INSTALL_DIR}/org/kde/plasma/netctl)
-install (FILES qmldir DESTINATION ${QML_INSTALL_DIR}/org/kde/plasma/netctl)
+install (TARGETS ${PLUGIN_NAME} DESTINATION ${QML_INSTALL_DIR}/org/kde/plasma/private/netctl)
+install (FILES qmldir DESTINATION ${QML_INSTALL_DIR}/org/kde/plasma/private/netctl)
 install (FILES ${SUBPROJECT_NOTIFY} DESTINATION ${KNOTIFYRC_INSTALL_DIR})

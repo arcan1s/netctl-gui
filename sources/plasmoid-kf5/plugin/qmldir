@@ -1,3 +1,3 @@
-module org.kde.plasma.netctl
+module org.kde.plasma.private.netctl
 
 plugin netctlplugin

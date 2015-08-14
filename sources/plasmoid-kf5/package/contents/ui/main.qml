@@ -22,15 +22,19 @@ import org.kde.plasma.plasmoid 2.0
 import org.kde.plasma.core 2.0 as PlasmaCore
 import org.kde.plasma.components 2.0 as PlasmaComponents
 
-import org.kde.plasma.netctl 1.0
+import org.kde.plasma.private.netctl 1.0
 
 
 Item {
     id: main
+    // backend
+    NetctlAdds {
+        id: netctlAdds;
+    }
 
     // variables
     // internal
-    property bool debug: NetctlAdds.isDebugEnabled()
+    property bool debug: netctlAdds.isDebugEnabled()
     property variant fontWeight: {
         "light": Font.Light,
         "normal": Font.Normal,
@@ -52,8 +56,9 @@ Item {
     }
     property string sudoPath: plasmoid.configuration.useSudo ? plasmoid.configuration.sudoPath : ""
     // signals
-    signal needUpdate
-    signal needMenuUpdate
+    signal needIconUpdate(string newIcon)
+    signal needTextUpdate(string newText, string newToolTip)
+    signal needMenuUpdate(string current, string stringStatus, bool status)
 
     // init
     Plasmoid.icon: iconPath["false"]
@@ -71,7 +76,7 @@ Item {
         onNewData: {
             if (debug) console.log("[main::onNewData] : Update source " + sourceName)
 
-            NetctlAdds.setDataBySource(sourceName, data)
+            netctlAdds.setDataBySource(sourceName, data)
         }
     }
 
@@ -110,28 +115,30 @@ Item {
         plasmoid.setAction("restartProfile", i18n("Restart profile"), "view-refresh")
         plasmoid.setAction("enableProfile", i18n("Enable profile"))
         plasmoid.setAction("startWifi", i18n("Show WiFi menu"), "netctl-gui-wifi")
-        // helper
-        if (plasmoid.configuration.useHelper) {
-            NetctlAdds.runCmd(plasmoid.configuration.helperPath)
-            plasmoid.configuration.useHelper = NetctlAdds.checkHelperStatus()
-        }
+        // init submodule
+        Plasmoid.userConfiguringChanged(false)
 
-        NetctlAdds.needToBeUpdated.connect(needUpdate)
+        netctlAdds.needIconToBeUpdated.connect(needIconUpdate)
+        netctlAdds.needMenuUpdate.connect(needMenuUpdate)
+        netctlAdds.needTextToBeUpdated.connect(needTextUpdate)
     }
 
-    onNeedUpdate: {
-        if (debug) console.log("[main::onNeedUpdate]")
+    onNeedIconUpdate: {
+        if (debug) console.log("[main::onNeedIconUpdate]")
 
-        var iconStatus = NetctlAdds.valueByKey("active")
-        icon.source = iconPath[iconStatus]
-        Plasmoid.icon = iconPath[iconStatus]
-        text.text = NetctlAdds.parsePattern(plasmoid.configuration.textPattern)
-        Plasmoid.toolTipSubText = NetctlAdds.valueByKey("info")
-        needMenuUpdate()
+        icon.source = iconPath[newIcon]
+        Plasmoid.icon = iconPath[newIcon]
+    }
+
+    onNeedTextUpdate: {
+        if (debug) console.log("[main::onNeedTextUpdate]")
+
+        text.text = newText
+        Plasmoid.toolTipSubText = newToolTip
     }
 
     onNeedMenuUpdate: {
-        if (debug) console.log("[main::onNetctlStateChanged]")
+        if (debug) console.log("[main::onNeedMenuUpdate]")
 
         var titleAction = plasmoid.action("titleAction")
         var startAction = plasmoid.action("startProfile")
@@ -141,10 +148,6 @@ Item {
         var restartAction = plasmoid.action("restartProfile")
         var enableAction = plasmoid.action("enableProfile")
         var wifiAction = plasmoid.action("startWifi")
-
-        var current = NetctlAdds.valueByKey("current")
-        var status = NetctlAdds.valueByKey("active") == "true"
-        var stringStatus = NetctlAdds.valueByKey("status")
 
         titleAction.iconSource = plasmoid.icon
         titleAction.text = current + " " + stringStatus
@@ -187,16 +190,29 @@ Item {
         wifiAction.visible = plasmoid.configuration.useWifi
     }
 
+    Plasmoid.onUserConfiguringChanged: {
+        if (plasmoid.userConfiguring) return
+        if (debug) console.log("[main::onUserConfiguringChanged]")
+
+        // helper
+        if (plasmoid.configuration.useHelper) {
+            netctlAdds.runCmd(plasmoid.configuration.helperPath)
+            plasmoid.configuration.useHelper = netctlAdds.checkHelperStatus()
+        }
+        // init submodule
+        netctlAdds.setPattern(plasmoid.configuration.textPattern)
+    }
+
     function action_titleAction() {
         if (debug) console.log("[main::action_titleAction]")
 
-        NetctlAdds.runCmd(plasmoid.configuration.guiPath)
+        netctlAdds.runCmd(plasmoid.configuration.guiPath)
     }
 
     function action_startProfile() {
         if (debug) console.log("[main::action_startProfile]")
 
-        NetctlAdds.startProfileSlot(plasmoid.configuration.useHelper,
+        netctlAdds.startProfileSlot(plasmoid.configuration.useHelper,
                                     plasmoid.configuration.netctlPath,
                                     sudoPath)
     }
@@ -204,7 +220,7 @@ Item {
     function action_stopProfile() {
         if (debug) console.log("[main::action_stopProfile]")
 
-        NetctlAdds.stopProfileSlot(plasmoid.configuration.useHelper,
+        netctlAdds.stopProfileSlot(plasmoid.configuration.useHelper,
                                    plasmoid.configuration.netctlPath,
                                    sudoPath)
     }
@@ -212,7 +228,7 @@ Item {
     function action_stopAllProfiles() {
         if (debug) console.log("[main::action_stopAllProfiles]")
 
-        NetctlAdds.stopAllProfilesSlot(plasmoid.configuration.useHelper,
+        netctlAdds.stopAllProfilesSlot(plasmoid.configuration.useHelper,
                                        plasmoid.configuration.netctlPath,
                                        sudoPath)
     }
@@ -220,14 +236,14 @@ Item {
     function action_switchToProfile() {
         if (debug) console.log("[main::action_switchToProfile]")
 
-        NetctlAdds.switchToProfileSlot(plasmoid.configuration.useHelper,
+        netctlAdds.switchToProfileSlot(plasmoid.configuration.useHelper,
                                        plasmoid.configuration.netctlAutoPath)
     }
 
     function action_restartProfile() {
         if (debug) console.log("[main::action_restartProfile]")
 
-        NetctlAdds.restartProfileSlot(plasmoid.configuration.useHelper,
+        netctlAdds.restartProfileSlot(plasmoid.configuration.useHelper,
                                       plasmoid.configuration.netctlPath,
                                       sudoPath)
     }
@@ -235,7 +251,7 @@ Item {
     function action_enableProfile() {
         if (debug) console.log("[main::action_enableProfile]")
 
-        NetctlAdds.enableProfileSlot(plasmoid.configuration.useHelper,
+        netctlAdds.enableProfileSlot(plasmoid.configuration.useHelper,
                                      plasmoid.configuration.netctlPath,
                                      sudoPath)
     }
@@ -243,6 +259,6 @@ Item {
     function action_startWifi() {
         if (debug) console.log("[main::action_startWifi]")
 
-        NetctlAdds.runCmd(plasmoid.configuration.wifiPath)
+        netctlAdds.runCmd(plasmoid.configuration.wifiPath)
     }
 }

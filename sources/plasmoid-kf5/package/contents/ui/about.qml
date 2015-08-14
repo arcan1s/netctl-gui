@@ -19,17 +19,21 @@ import QtQuick 2.0
 import QtQuick.Controls 1.3 as QtControls
 import QtQuick.Layouts 1.0 as QtLayouts
 
-import org.kde.plasma.netctl 1.0
+import org.kde.plasma.private.netctl 1.0
 
 
 Item {
     id: aboutPage
+    // backend
+    NetctlAdds {
+        id: netctlAdds;
+    }
     width: childrenRect.width
     height: childrenRect.height
     implicitWidth: pageColumn.implicitWidth
     implicitHeight: pageColumn.implicitHeight
 
-    property bool debug: NetctlAdds.isDebugEnabled()
+    property bool debug: netctlAdds.isDebugEnabled()
 
     Column {
         id: pageColumn
@@ -44,20 +48,20 @@ Item {
                     QtControls.Label {
                         QtLayouts.Layout.fillWidth: true
                         horizontalAlignment: Text.AlignHCenter
-                        text: NetctlAdds.getAboutText("header")
+                        text: netctlAdds.getAboutText("header")
                     }
 
                     QtControls.Label {
                         QtLayouts.Layout.fillWidth: true
                         horizontalAlignment: Text.AlignJustify
-                        text: NetctlAdds.getAboutText("description")
+                        text: netctlAdds.getAboutText("description")
                     }
 
                     QtControls.Label {
                         QtLayouts.Layout.fillWidth: true
                         horizontalAlignment: Text.AlignLeft
                         textFormat: Text.RichText
-                        text: NetctlAdds.getAboutText("links")
+                        text: netctlAdds.getAboutText("links")
                         onLinkActivated: Qt.openUrlExternally(link);
                     }
 
@@ -66,7 +70,7 @@ Item {
                         font.capitalization: Font.SmallCaps
                         horizontalAlignment: Text.AlignHCenter
                         textFormat: Text.RichText
-                        text: NetctlAdds.getAboutText("copy")
+                        text: netctlAdds.getAboutText("copy")
                     }
                 }
             }
@@ -78,14 +82,14 @@ Item {
                     QtControls.Label {
                         QtLayouts.Layout.fillWidth: true
                         horizontalAlignment: Text.AlignJustify
-                        text: NetctlAdds.getAboutText("translators")
+                        text: netctlAdds.getAboutText("translators")
                     }
 
                     QtControls.Label {
                         QtLayouts.Layout.fillWidth: true
                         horizontalAlignment: Text.AlignJustify
                         textFormat: Text.RichText
-                        text: NetctlAdds.getAboutText("3rdparty")
+                        text: netctlAdds.getAboutText("3rdparty")
                         onLinkActivated: Qt.openUrlExternally(link);
                     }
                 }

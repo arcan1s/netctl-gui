@@ -27,14 +27,14 @@ class Netctl : public Plasma::DataEngine
     Q_OBJECT
 
 public:
-    Netctl(QObject *parent, const QVariantList &args);
-    ~Netctl();
-    QString getExtIp(const QString cmd);
-    QString getInfo(const QStringList profiles, const QStringList statuses);
-    QStringList getInterfaceList();
-    QString getIntIp(const QAbstractSocket::NetworkLayerProtocol protocol);
+    explicit Netctl(QObject *parent, const QVariantList &args);
+    virtual ~Netctl();
+    QString getExtIp(const QString cmd) const;
+    QString getInfo(const QStringList profiles, const QStringList statuses) const;
+    QStringList getInterfaceList() const;
+    QString getIntIp(const QAbstractSocket::NetworkLayerProtocol protocol) const;
     QStringList getProfileList(const QString cmdNetctl, const QString cmdNetctlAuto);
-    QStringList getProfileStringStatus(const QString cmdNetctl);
+    QStringList getProfileStringStatus(const QString cmdNetctl) const;
 
 public slots:
     void initSources();
@@ -53,7 +53,7 @@ private:
     // configuration
     bool debug;
     QVariantMap configuration;
-    QString getCmdOutput(const QString cmd);
+    QString getCmdOutput(const QString cmd) const;
     void readConfiguration();
 };
 

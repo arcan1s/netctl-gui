@@ -86,7 +86,7 @@ QStringList Netctl::sources() const
 }
 
 
-QString Netctl::getCmdOutput(const QString cmd)
+QString Netctl::getCmdOutput(const QString cmd) const
 {
     if (debug) qDebug() << PDEBUG;
     if (debug) qDebug() << PDEBUG << ":" << "Cmd" << cmd;
@@ -135,7 +135,7 @@ bool Netctl::sourceRequestEvent(const QString &name)
 }
 
 
-QString Netctl::getExtIp(const QString cmd)
+QString Netctl::getExtIp(const QString cmd) const
 {
     if (debug) qDebug() << PDEBUG;
     if (debug) qDebug() << PDEBUG << ":" << "Cmd" << cmd;
@@ -144,34 +144,34 @@ QString Netctl::getExtIp(const QString cmd)
 }
 
 
-QString Netctl::getInfo(const QStringList profiles, const QStringList statuses)
+QString Netctl::getInfo(const QStringList profiles, const QStringList statuses) const
 {
     if (debug) qDebug() << PDEBUG;
     if (profiles.count() != statuses.count()) return QString("N\\A");
 
     QStringList list;
     for (int i=0; i<profiles.count(); i++)
-        list.append(QString("%1 (%2)").arg(profiles[i]).arg(statuses[i]));
+        list.append(QString("%1 (%2)").arg(profiles.at(i)).arg(statuses.at(i)));
     if (list.isEmpty()) list.append(QString("N\\A"));
 
     return list.join(QString(" | "));
 }
 
 
-QStringList Netctl::getInterfaceList()
+QStringList Netctl::getInterfaceList() const
 {
     if (debug) qDebug() << PDEBUG;
 
     QList<QNetworkInterface> rawList = QNetworkInterface::allInterfaces();
     QStringList interfacesList;
-    for (int i=0; i<rawList.count(); i++)
-        interfacesList.append(rawList[i].name());
+    foreach(QNetworkInterface interface, rawList)
+        interfacesList.append(interface.name());
 
     return interfacesList;
 }
 
 
-QString Netctl::getIntIp(const QAbstractSocket::NetworkLayerProtocol protocol)
+QString Netctl::getIntIp(const QAbstractSocket::NetworkLayerProtocol protocol) const
 {
     if (debug) qDebug() << PDEBUG;
 
@@ -181,11 +181,11 @@ QString Netctl::getIntIp(const QAbstractSocket::NetworkLayerProtocol protocol)
     else if (protocol == QAbstractSocket::IPv6Protocol)
         intIp = QString("::1/128");
     QList<QHostAddress> rawList = QNetworkInterface::allAddresses();
-    for (int i=0; i<rawList.count(); i++) {
-        if(rawList[i] == QHostAddress(QHostAddress::LocalHost)) continue;
-        if(rawList[i] == QHostAddress(QHostAddress::LocalHostIPv6)) continue;
-        if (rawList[i].protocol() != protocol) continue;
-        intIp = rawList[i].toString();
+    foreach(QHostAddress address, rawList) {
+        if (address == QHostAddress(QHostAddress::LocalHost)) continue;
+        if (address == QHostAddress(QHostAddress::LocalHostIPv6)) continue;
+        if (address.protocol() != protocol) continue;
+        intIp = address.toString();
         break;
     }
 
@@ -197,21 +197,24 @@ QStringList Netctl::getProfileList(const QString cmdNetctl, const QString cmdNet
 {
     if (debug) qDebug() << PDEBUG;
 
-    netctlAutoStatus = true;
     QString output = getCmdOutput(QString("%1 list").arg(cmdNetctlAuto));
     if (output.isEmpty()) {
         output = getCmdOutput(QString("%1 list").arg(cmdNetctl));
         netctlAutoStatus = false;
-    }
+    } else
+        netctlAutoStatus = true;
 
     // parse
     QStringList currentProfiles;
-    QStringList profileList = output.split(QChar('\n'));
+    // workaround for first element spaces on which are trimmed
+    QStringList profileList = QString("  %1").arg(output).split(QChar('\n'));
     for (int i=0; i<profileList.count(); i++) {
-        bool isActive = (profileList[i][0] == QChar('*'));
+        bool isActive = (profileList.at(i)[0] == QChar('*'));
         profileList[i].remove(0, 2);
-        if (isActive) currentProfiles.append(profileList[i]);
+        if (isActive) currentProfiles.append(profileList.at(i));
     }
+    profileList.sort();
+    currentProfiles.sort();
 
     // return profiles
     currentProfile = currentProfiles;
@@ -220,7 +223,7 @@ QStringList Netctl::getProfileList(const QString cmdNetctl, const QString cmdNet
 }
 
 
-QStringList Netctl::getProfileStringStatus(const QString cmdNetctl)
+QStringList Netctl::getProfileStringStatus(const QString cmdNetctl) const
 {
     if (debug) qDebug() << PDEBUG;
 
@@ -230,8 +233,8 @@ QStringList Netctl::getProfileStringStatus(const QString cmdNetctl)
         return status;
     }
 
-    for (int i=0; i<currentProfile.count(); i++) {
-        TaskResult process = runTask(QString("%1 is-enabled %2").arg(cmdNetctl).arg(currentProfile[i]));
+    foreach(QString profile, currentProfile) {
+        TaskResult process = runTask(QString("%1 is-enabled %2").arg(cmdNetctl).arg(profile));
         if (debug) qDebug() << PDEBUG << ":" << "Cmd returns" << process.exitCode;
         if (debug) qDebug() << PDEBUG << ":" << "Error" << process.error;
         status.append(process.exitCode == 0 ? QString("enabled") : QString("static"));
@@ -246,8 +249,8 @@ void Netctl::initSources()
     if (debug) qDebug() << PDEBUG;
 
     QStringList sourcesList = sources();
-    for (int i=0; i<sourcesList.count(); i++)
-        setData(sourcesList[i], QString("value"), QString("N\\A"));
+    foreach(QString source, sourcesList)
+        setData(source, QString("value"), QString("N\\A"));
 }
 
 

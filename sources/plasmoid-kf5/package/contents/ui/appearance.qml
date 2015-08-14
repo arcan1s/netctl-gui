@@ -21,17 +21,21 @@ import QtQuick.Controls.Styles 1.3 as QtStyles
 import QtQuick.Dialogs 1.1 as QtDialogs
 import QtQuick.Layouts 1.0 as QtLayouts
 
-import org.kde.plasma.netctl 1.0
+import org.kde.plasma.private.netctl 1.0
 
 
 Item {
     id: appearancePage
+    // backend
+    NetctlAdds {
+        id: netctlAdds;
+    }
     width: childrenRect.width
     height: childrenRect.height
     implicitWidth: pageColumn.implicitWidth
     implicitHeight: pageColumn.implicitHeight
 
-    property bool debug: NetctlAdds.isDebugEnabled()
+    property bool debug: netctlAdds.isDebugEnabled()
     property variant weight: {
         25: 0,
         50: 1,
@@ -110,7 +114,10 @@ Item {
                 id: selectFont
                 width: parent.width * 2 / 3
                 text: plasmoid.configuration.fontFamily
-                onClicked: fontDialog.visible = true
+                onClicked: {
+                    fontDialog.setFont()
+                    fontDialog.visible = true
+                }
             }
         }
 
@@ -308,20 +315,27 @@ Item {
         id: colorDialog
         title: i18n("Select a color")
         color: selectColor.text
-        onAccepted: {
-            selectColor.text = colorDialog.color
-        }
+        onAccepted: selectColor.text = colorDialog.color
     }
 
     QtDialogs.FontDialog {
         id: fontDialog
         title: i18n("Select a font")
-        font: Qt.font({ family: selectFont.text, pointSize: fontSize.value, weight: Font.Normal })
+        signal setFont
+
         onAccepted: {
             selectFont.text = fontDialog.font.family
             fontSize.value = fontDialog.font.pointSize
             fontStyle.currentIndex = fontDialog.font.italic ? 1 : 0
             fontWeight.currentIndex = weight[fontDialog.font.weight]
+        }
+        onSetFont: {
+            fontDialog.font = Qt.font({
+                family: selectFont.text,
+                pointSize: fontSize.value > 0 ? fontSize.value : 12,
+                italic: fontStyle.currentIndex == 1,
+                weight: Font.Normal,
+            })
         }
     }
 

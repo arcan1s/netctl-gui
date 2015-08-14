@@ -21,17 +21,20 @@ import QtQuick.Dialogs 1.1 as QtDialogs
 import QtQuick.Layouts 1.0 as QtLayouts
 import QtQuick.Controls.Styles 1.3 as QtStyles
 
-import org.kde.plasma.netctl 1.0
+import org.kde.plasma.private.netctl 1.0
 
 
 Item {
     id: widgetPage
+    NetctlAdds {
+        id: netctlAdds;
+    }
     width: childrenRect.width
     height: childrenRect.height
     implicitWidth: pageColumn.implicitWidth
     implicitHeight: pageColumn.implicitHeight
 
-    property bool debug: NetctlAdds.isDebugEnabled()
+    property bool debug: netctlAdds.isDebugEnabled()
 
     property alias cfg_autoUpdateInterval: autoUpdate.value
     property alias cfg_guiPath: guiPath.text

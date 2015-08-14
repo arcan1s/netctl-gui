@@ -27,7 +27,6 @@
 #include <QStandardPaths>
 
 #include <pdebug/pdebug.h>
-#include <pdebug/pdebug-time.h>
 
 #include "netctladds.h"
 #include "version.h"
@@ -36,13 +35,13 @@
 NetctlAdds::NetctlAdds(QObject *parent)
     : QObject(parent)
 {
-    qInstallMessageHandler(debugString);
     // debug
     QProcessEnvironment environment = QProcessEnvironment::systemEnvironment();
     QString debugEnv = environment.value(QString("DEBUG"), QString("no"));
     debug = (debugEnv == QString("yes"));
 
     connect(this, SIGNAL(needToNotify(bool)), this, SLOT(notifyAboutStatusChanging(bool)));
+    connect(this, SIGNAL(needToBeUpdated()), this, SLOT(parsePattern()));
 }
 
 
@@ -52,7 +51,7 @@ NetctlAdds::~NetctlAdds()
 }
 
 
-void NetctlAdds::notifyAboutStatusChanging(const bool currentStatus)
+void NetctlAdds::notifyAboutStatusChanging(const bool currentStatus) const
 {
     if (debug) qDebug() << PDEBUG;
     if (debug) qDebug() << PDEBUG << ":" << "Status" << currentStatus;
@@ -64,7 +63,21 @@ void NetctlAdds::notifyAboutStatusChanging(const bool currentStatus)
 }
 
 
-QList<QVariant> NetctlAdds::sendDBusRequest(const QString cmd, const QList<QVariant> args)
+void NetctlAdds::parsePattern() const
+{
+    if (debug) qDebug() << PDEBUG;
+
+    QString parsed = pattern;
+    foreach(QString value, values.keys())
+        parsed.replace(QString("$%1").arg(value), values[value]);
+    // fix newline
+    parsed.replace(QString("\n"), QString("<br>"));
+
+    return emit(needTextToBeUpdated(parsed, values[QString("info")]));
+}
+
+
+QVariantList NetctlAdds::sendDBusRequest(const QString cmd, const QVariantList args) const
 {
     if (debug) qDebug() << PDEBUG;
     if (debug) qDebug() << PDEBUG << ":" << "cmd" << cmd;
@@ -73,26 +86,24 @@ QList<QVariant> NetctlAdds::sendDBusRequest(const QString cmd, const QList<QVari
     QDBusConnection bus = QDBusConnection::systemBus();
     QDBusMessage request = QDBusMessage::createMethodCall(DBUS_HELPER_SERVICE, DBUS_CTRL_PATH,
                                                           DBUS_HELPER_INTERFACE, cmd);
-    if (!args.isEmpty())
-        request.setArguments(args);
+    if (!args.isEmpty()) request.setArguments(args);
     QDBusMessage response = bus.call(request, QDBus::BlockWithGui);
-    QList<QVariant> arguments = response.arguments();
-    if (arguments.size() == 0)
-        if (debug) qDebug() << PDEBUG << ":" << "Error message" << response.errorMessage();
+    QVariantList arguments = response.arguments();
+    if (debug) qDebug() << PDEBUG << ":" << "Error message" << response.errorMessage();
 
     return arguments;
 }
 
 
-bool NetctlAdds::checkHelperStatus()
+bool NetctlAdds::checkHelperStatus() const
 {
     if (debug) qDebug() << PDEBUG;
 
-    return sendDBusRequest(QString("Active"), QList<QVariant>()).isEmpty();
+    return !sendDBusRequest(QString("Active")).isEmpty();
 }
 
 
-QString NetctlAdds::getAboutText(const QString type)
+QString NetctlAdds::getAboutText(const QString type) const
 {
     if (debug) qDebug() << PDEBUG;
     if (debug) qDebug() << PDEBUG << ":" << "Type" << type;
@@ -120,9 +131,9 @@ QString NetctlAdds::getAboutText(const QString type)
         QStringList trdPartyList = QString(TRDPARTY_LICENSE).split(QChar(';'), QString::SkipEmptyParts);
         for (int i=0; i<trdPartyList.count(); i++)
             trdPartyList[i] = QString("<a href=\"%3\">%1</a> (%2 license)")
-                    .arg(trdPartyList[i].split(QChar(','))[0])
-                    .arg(trdPartyList[i].split(QChar(','))[1])
-                    .arg(trdPartyList[i].split(QChar(','))[2]);
+                    .arg(trdPartyList.at(i).split(QChar(',')).at(0))
+                    .arg(trdPartyList.at(i).split(QChar(',')).at(1))
+                    .arg(trdPartyList.at(i).split(QChar(',')).at(2));
         text = i18n("This software uses: %1", trdPartyList.join(QString(", ")));
     }
 
@@ -130,7 +141,7 @@ QString NetctlAdds::getAboutText(const QString type)
 }
 
 
-bool NetctlAdds::isDebugEnabled()
+bool NetctlAdds::isDebugEnabled() const
 {
     if (debug) qDebug() << PDEBUG;
 
@@ -138,21 +149,7 @@ bool NetctlAdds::isDebugEnabled()
 }
 
 
-QString NetctlAdds::parsePattern(const QString pattern)
-{
-    if (debug) qDebug() << PDEBUG;
-
-    QString parsed = pattern;
-    for (int i=0; i<values.keys().count(); i++)
-        parsed.replace(QString("$%1").arg(values.keys()[i]), valueByKey(values.keys()[i]));
-    // fix newline
-    parsed.replace(QString("\n"), QString("<br>"));
-
-    return parsed;
-}
-
-
-void NetctlAdds::runCmd(const QString cmd)
+void NetctlAdds::runCmd(const QString cmd) const
 {
     if (debug) qDebug() << PDEBUG;
     if (debug) qDebug() << PDEBUG << ":" << "Cmd" << cmd;
@@ -174,10 +171,23 @@ void NetctlAdds::setDataBySource(const QString sourceName, const QVariantMap dat
     values[sourceName] = data[QString("value")].toString();
 
     if (needUpdate) {
-        emit(needToBeUpdated());
-        if (sourceName == QString("active"))
+        if (sourceName == QString("active")) {
             emit(needToNotify(values[QString("active")] == QString("true")));
+            emit(needIconToBeUpdated(values[QString("active")]));
+        }
+        emit(needToBeUpdated());
+        emit(needMenuUpdate(values[QString("current")], values[QString("status")],
+                            values[QString("active")] == QString("true")));
     }
+}
+
+
+void NetctlAdds::setPattern(const QString _pattern)
+{
+    if (debug) qDebug() << PDEBUG;
+    if (debug) qDebug() << PDEBUG << ":" << "Pattern" << _pattern;
+
+    pattern = _pattern;
 }
 
 
@@ -197,17 +207,8 @@ void NetctlAdds::sendNotification(const QString eventId, const QString message)
 }
 
 
-QString NetctlAdds::valueByKey(const QString key)
-{
-    if (debug) qDebug() << PDEBUG;
-    if (debug) qDebug() << PDEBUG << ":" << "Key" << key;
-
-    return values[key];
-}
-
-
 // context menu
-void NetctlAdds::enableProfileSlot(const bool useHelper, const QString cmd, const QString sudoCmd)
+void NetctlAdds::enableProfileSlot(const bool useHelper, const QString cmd, const QString sudoCmd) const
 {
     if (debug) qDebug() << PDEBUG;
 
@@ -220,82 +221,75 @@ void NetctlAdds::enableProfileSlot(const bool useHelper, const QString cmd, cons
         sendNotification(QString("Info"), i18n("Set profile %1 enabled", values[QString("current")]));
     }
     if (useHelper) {
-        QList<QVariant> args;
+        QVariantList args;
         args.append(values[QString("current")]);
         sendDBusRequest(QString("Enable"), args);
     } else {
-        QProcess command;
-        QString commandLine = QString("%1 %2%3%4").arg(sudoCmd).arg(cmd).arg(enableStatus).arg(values[QString("current")]);
-        command.startDetached(commandLine);
+        runCmd(QString("%1 %2%3%4").arg(sudoCmd).arg(cmd).arg(enableStatus).arg(values[QString("current")]));
     }
 }
 
 
-void NetctlAdds::restartProfileSlot(const bool useHelper, const QString cmd, const QString sudoCmd)
+void NetctlAdds::restartProfileSlot(const bool useHelper, const QString cmd, const QString sudoCmd) const
 {
     if (debug) qDebug() << PDEBUG;
 
     sendNotification(QString("Info"), i18n("Restart profile %1", values[QString("current")]));
     if (useHelper) {
-        QList<QVariant> args;
+        QVariantList args;
         args.append(values[QString("current")]);
         sendDBusRequest(QString("Restart"), args);
     } else {
-        QProcess command;
-        QString commandLine = QString("%1 %2 restart %3").arg(sudoCmd).arg(cmd).arg(values[QString("current")]);
-        command.startDetached(commandLine);
+        runCmd(QString("%1 %2 restart %3").arg(sudoCmd).arg(cmd).arg(values[QString("current")]));
     }
 }
 
 
-void NetctlAdds::startProfileSlot(const bool useHelper, const QString cmd, const QString sudoCmd)
+void NetctlAdds::startProfileSlot(const bool useHelper, const QString cmd, const QString sudoCmd) const
 {
     if (debug) qDebug() << PDEBUG;
 
     QStringList profiles = values[QString("profiles")].split(QChar(','));
     bool ok;
-    QString profile = QInputDialog::getItem(0, i18n("Select profile"), i18n("Profile:"),
+    QString profile = QInputDialog::getItem(nullptr, i18n("Select profile"), i18n("Profile:"),
                                             profiles, 0, false, &ok);
     if (!ok || profile.isEmpty()) return;
 
     sendNotification(QString("Info"), i18n("Start profile %1", profile));
     if (useHelper) {
-        QList<QVariant> args;
+        QVariantList args;
         args.append(profile);
         if (values[QString("active")] == QString("true"))
             sendDBusRequest(QString("SwitchTo"), args);
         else
             sendDBusRequest(QString("Start"), args);
     } else {
-        QProcess command;
         QString commandLine = QString("%1 %2").arg(sudoCmd).arg(cmd);
         if (values[QString("active")] == QString("true"))
             commandLine += QString(" switch-to %1").arg(profile);
         else
             commandLine += QString(" start %1").arg(profile);
-        command.startDetached(commandLine);
+        runCmd(commandLine);
     }
 }
 
 
-void NetctlAdds::stopProfileSlot(const bool useHelper, const QString cmd, const QString sudoCmd)
+void NetctlAdds::stopProfileSlot(const bool useHelper, const QString cmd, const QString sudoCmd) const
 {
     if (debug) qDebug() << PDEBUG;
 
     sendNotification(QString("Info"), i18n("Stop profile %1", values[QString("current")]));
     if (useHelper) {
-        QList<QVariant> args;
+        QVariantList args;
         args.append(values[QString("current")]);
         sendDBusRequest(QString("Start"), args);
     } else {
-        QProcess command;
-        QString commandLine = QString("%1 %2 stop %3").arg(sudoCmd).arg(cmd).arg(values[QString("current")]);
-        command.startDetached(commandLine);
+        runCmd(QString("%1 %2 stop %3").arg(sudoCmd).arg(cmd).arg(values[QString("current")]));
     }
 }
 
 
-void NetctlAdds::stopAllProfilesSlot(const bool useHelper, const QString cmd, const QString sudoCmd)
+void NetctlAdds::stopAllProfilesSlot(const bool useHelper, const QString cmd, const QString sudoCmd) const
 {
     if (debug) qDebug() << PDEBUG;
 
@@ -303,37 +297,33 @@ void NetctlAdds::stopAllProfilesSlot(const bool useHelper, const QString cmd, co
     if (useHelper)
         sendDBusRequest(QString("StopAll"), QList<QVariant>());
     else {
-        QProcess command;
-        QString commandLine = QString("%1 %2 stop-all").arg(sudoCmd).arg(cmd);
-        command.startDetached(commandLine);
+        runCmd(QString("%1 %2 stop-all").arg(sudoCmd).arg(cmd));
     }
 }
 
 
-void NetctlAdds::switchToProfileSlot(const bool useHelper, const QString cmd)
+void NetctlAdds::switchToProfileSlot(const bool useHelper, const QString cmd) const
 {
     if (debug) qDebug() << PDEBUG;
 
     QStringList profiles = values[QString("profiles")].split(QChar(','));
     bool ok;
-    QString profile = QInputDialog::getItem(0, i18n("Select profile"), i18n("Profile:"),
+    QString profile = QInputDialog::getItem(nullptr, i18n("Select profile"), i18n("Profile:"),
                                             profiles, 0, false, &ok);
     if (!ok || profile.isEmpty()) return;
 
     sendNotification(QString("Info"), i18n("Switch to profile %1", profile));
     if (useHelper) {
-        QList<QVariant> args;
+        QVariantList args;
         args.append(profile);
         sendDBusRequest(QString("autoStart"), args);
     } else {
-        QProcess command;
-        QString commandLine = QString("%1 switch-to %2").arg(cmd).arg(profile);
-        command.startDetached(commandLine);
+        runCmd(QString("%1 switch-to %2").arg(cmd).arg(profile));
     }
 }
 
 
-QVariantMap NetctlAdds::readDataEngineConfiguration()
+QVariantMap NetctlAdds::readDataEngineConfiguration() const
 {
     if (debug) qDebug() << PDEBUG;
 
@@ -359,7 +349,7 @@ QVariantMap NetctlAdds::readDataEngineConfiguration()
 }
 
 
-void NetctlAdds::writeDataEngineConfiguration(const QVariantMap configuration)
+void NetctlAdds::writeDataEngineConfiguration(const QVariantMap configuration) const
 {
     if (debug) qDebug() << PDEBUG;
 
