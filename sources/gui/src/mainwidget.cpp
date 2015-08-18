@@ -94,8 +94,10 @@ void MainWidget::update()
 {
     if (debug) qDebug() << PDEBUG;
 
-    updateMainTab();
-    updateMenuMain();
+    if (mainWindow->currentTab() == 0) {
+        updateMainTab();
+        updateMenuMain();
+    }
 
     if (timer.interval() != 0) return timer.start();
 }

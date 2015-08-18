@@ -75,8 +75,10 @@ void WiFiMenuWidget::update()
 {
     if (debug) qDebug() << PDEBUG;
 
-    updateWifiTab();
-    updateMenuWifi();
+    if (mainWindow->currentTab() == 2) {
+        updateWifiTab();
+        updateMenuWifi();
+    }
 
     if (timer.interval() != 0) return timer.start();
 }

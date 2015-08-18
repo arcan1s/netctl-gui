@@ -89,9 +89,6 @@
            <property name="toolTip">
             <string>The username and password to connect with</string>
            </property>
-           <property name="alignment">
-            <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-           </property>
           </widget>
          </item>
         </layout>
@@ -124,9 +121,6 @@
            </property>
            <property name="toolTip">
             <string>The access point (apn) to connect on</string>
-           </property>
-           <property name="alignment">
-            <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
            </property>
           </widget>
          </item>

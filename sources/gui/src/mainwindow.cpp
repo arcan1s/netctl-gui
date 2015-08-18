@@ -111,6 +111,14 @@ MainWindow::~MainWindow()
 }
 
 
+int MainWindow::currentTab()
+{
+    if (debug) qDebug() << PDEBUG;
+
+    return ui->stackedWidget->currentIndex();
+}
+
+
 Qt::ToolBarArea MainWindow::getToolBarArea()
 {
     if (debug) qDebug() << PDEBUG;

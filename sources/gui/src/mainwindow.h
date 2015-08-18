@@ -42,11 +42,12 @@ class MainWindow : public QMainWindow
     Q_OBJECT
 
 public:
-    explicit MainWindow(QWidget *parent = 0,
+    explicit MainWindow(QWidget *parent = nullptr,
                         const QVariantMap args = QVariantMap(),
-                        QTranslator *qtAppTranslator = 0,
-                        QTranslator *appTranslator = 0);
+                        QTranslator *qtAppTranslator = nullptr,
+                        QTranslator *appTranslator = nullptr);
     ~MainWindow();
+    int currentTab();
     Qt::ToolBarArea getToolBarArea();
     void emitNeedToBeConfigured();
     QStringList printSettings();
