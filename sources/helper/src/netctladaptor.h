@@ -37,8 +37,8 @@ public:
 
 public slots:
     // netctlCommand
-    QString ActiveProfile();
-    QString ActiveProfileStatus();
+    QStringList ActiveProfile();
+    QStringList ActiveProfileStatus();
     bool autoIsProfileActive(const QString profile);
     bool autoIsProfileEnabled(const QString profile);
     QStringList Information();
@@ -46,7 +46,7 @@ public slots:
     bool isNetctlAutoEnabled();
     bool isProfileActive(const QString profile);
     bool isProfileEnabled(const QString profile);
-    QString netctlActiveProfile();
+    QStringList netctlActiveProfile();
     QStringList netctlProfileList();
     QStringList netctlVerboseProfileList();
     QStringList ProfileList();

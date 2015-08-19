@@ -30,8 +30,6 @@
 #include <QMap>
 #include <QObject>
 
-#include "version.h"
-
 
 /**
  * @brief The NetctlProfile class interacts with netctl profiles
@@ -54,21 +52,21 @@ public:
     /**
       * @brief Netctl class destructor
       */
-    ~NetctlProfile();
+    virtual ~NetctlProfile();
     /**
      * @brief method which copies temporary profile to PROFILE_DIR
      * @param oldPath        path to temprorary profile
      * @return false if components are not found or command exit code is not equal to 0
      * @return true if the method was completed without errors
      */
-    bool copyProfile(const QString oldPath);
+    bool copyProfile(const QString oldPath) const;
     /**
      * @brief method which creates temporary profile
      * @param profile        profile name
      * @param settings       profile configuration. All available keys will be printed to the profile
      * @return temporary profile name
      */
-    QString createProfile(const QString profile, const QMap<QString, QString> settings);
+    QString createProfile(const QString profile, const QMap<QString, QString> settings) const;
     /**
      * @brief method which check system configuration and return recommended values to keys
      * @return recommended parametrs
@@ -79,28 +77,28 @@ public:
      * @param profile        profile name
      * @return settings from profile
      */
-    QMap<QString, QString> getSettingsFromProfile(const QString profile);
+    QMap<QString, QString> getSettingsFromProfile(const QString profile) const;
     /**
      * @brief method which return value from profile by key
      * @param profile        profile name
      * @param key            required key
      * @return value by key
      */
-    QString getValueFromProfile(const QString profile, const QString key);
+    QString getValueFromProfile(const QString profile, const QString key) const;
     /**
      * @brief method which return values from profile by keys
      * @param profile        profile name
      * @param keys           required keys
      * @return values by keys
      */
-    QStringList getValuesFromProfile(const QString profile, const QStringList keys);
+    QStringList getValuesFromProfile(const QString profile, const QStringList keys) const;
     /**
      * @brief method which removes profile
      * @param profile        profile name
      * @return false if components are not found or command exit code is not equal to 0
      * @return true if the method was completed without errors
      */
-    bool removeProfile(const QString profile);
+    bool removeProfile(const QString profile) const;
 
 private:
     /**
@@ -110,7 +108,7 @@ private:
     /**
      * @brief use RootProcess instead of QProcess. Default is true
      */
-    bool useSuid = true;
+    bool useSuid;
     /**
      * @brief directory which contains profiles. Default is "/etc/netctl"
      */
@@ -118,7 +116,7 @@ private:
     /**
      * @brief path to sudo command. Default is "kdesu"
      */
-    QString sudoCommand = QString(SUDO_PATH);
+    QString sudoCommand;
 };
 
 

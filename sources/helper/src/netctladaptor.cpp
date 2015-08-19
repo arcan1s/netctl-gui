@@ -39,25 +39,25 @@ NetctlAdaptor::~NetctlAdaptor()
 
 
 // netctlCommand
-QString NetctlAdaptor::ActiveProfile()
+QStringList NetctlAdaptor::ActiveProfile()
 {
     if (isNetctlAutoActive())
         return netctlCommand->autoGetActiveProfile();
     else
-        return netctlCommand->getActiveProfile().join(QChar('|'));
+        return netctlCommand->getActiveProfile();
 }
 
 
-QString NetctlAdaptor::ActiveProfileStatus()
+QStringList NetctlAdaptor::ActiveProfileStatus()
 {
     if (isNetctlAutoActive())
-        return QString("netctl-auto");
+        return QStringList() << QString("netctl-auto");
     else {
         QStringList status;
-        QStringList profiles = ActiveProfile().split(QChar('|'));
+        QStringList profiles = ActiveProfile();
         for (int i=0; i<profiles.count(); i++)
             status.append(netctlCommand->getProfileStatus(profiles[i]));
-        return status.join(QChar('|'));
+        return status;
     }
 }
 
@@ -108,9 +108,9 @@ bool NetctlAdaptor::isProfileEnabled(const QString profile)
 }
 
 
-QString NetctlAdaptor::netctlActiveProfile()
+QStringList NetctlAdaptor::netctlActiveProfile()
 {
-    return netctlCommand->getActiveProfile().join(QChar('|'));
+    return netctlCommand->getActiveProfile();
 }
 
 

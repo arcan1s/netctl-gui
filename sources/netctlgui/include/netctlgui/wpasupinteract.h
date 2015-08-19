@@ -30,8 +30,6 @@
 #include <QMap>
 #include <QObject>
 
-#include "version.h"
-
 
 class Netctl;
 class NetctlProfile;
@@ -113,14 +111,14 @@ public:
     /**
      * @brief WpaSup class destructor
      */
-    ~WpaSup();
+    virtual ~WpaSup();
     // general information
     /**
      * @brief method which gets profile name by ESSID
      * @param essid          ESSID name
      * @return profile name
      */
-    QString existentProfile(const QString essid);
+    QString existentProfile(const QString essid) const;
     /**
      * @brief method which check system configuration and return recommended values to keys
      * @return recommended parametrs
@@ -132,14 +130,7 @@ public:
      * @return false if profile is inactive
      * @return true if profile is active
      */
-    bool isProfileActive(const QString essid);
-    /**
-     * @brief method which checks profile existence by ESSID
-     * @param essid          ESSID name
-     * @return false if profile does not exist
-     * @return true if profile exists
-     */
-    Q_DECL_DEPRECATED bool isProfileExists(const QString essid);
+    bool isProfileActive(const QString essid) const;
 
 public slots:
     // functions
@@ -147,24 +138,24 @@ public slots:
      * @brief method which returns active point information
      * @return current point information
      */
-    netctlWifiInfo current();
+    netctlWifiInfo current() const;
     /**
      * @brief method which scans WiFi networks
      * @return list of essids
      */
-    QList<netctlWifiInfo> scanWifi();
+    QList<netctlWifiInfo> scanWifi() const;
     /**
      * @brief method which calls wpa_supplicant
      * @return false if components are not found or command exit code is not equal to 0
      * @return true if the method was completed without errors
      */
-    bool startWpaSupplicant();
+    bool startWpaSupplicant() const;
     /**
      * @brief method which send TERMINATE signal to wpa_supplicant
      * @return false if components are not found or command exit code is not equal to 0
      * @return true if the method was completed without errors
      */
-    bool stopWpaSupplicant();
+    bool stopWpaSupplicant() const;
 
 private:
     /**
@@ -182,54 +173,54 @@ private:
     /**
      * @brief use RootProcess instead of QProcess. Default is true
      */
-    bool useSuid = true;
+    bool useSuid;
     /**
      * @brief path to ctrl_directory. Defaults is "/run/wpa_supplicant"
      */
-    QString ctrlDir = QString(CTRL_DIR);
+    QString ctrlDir;
     /**
      * @brief group which is owner of CTRL_DIR. Default is "users"
      */
-    QString ctrlGroup = QString(CTRL_GROUP);
+    QString ctrlGroup;
     /**
      * @brief wpa_supplicant PID file. $i is interface. Default is "/run/wpa_supplicant_$i.pid"
      */
-    QString pidFile = QString(PID_FILE);
+    QString pidFile;
     /**
      * @brief path to sudo command. Default is "kdesu"
      */
-    QString sudoCommand = QString(SUDO_PATH);
+    QString sudoCommand;
     /**
      * @brief path to wpa_cli command. Default is "wpa_cli"
      */
-    QString wpaCliPath = QString(WPACLI_PATH);
+    QString wpaCliPath;
     /**
      * @brief wpa_supplicant drivers comma separated. Default is "nl80211,wext"
      */
-    QString wpaDrivers = QString(WPA_DRIVERS);
+    QString wpaDrivers;
     /**
      * @brief path to wpa_supplicant command. Default is "wpa_supplicant"
      */
-    QString wpaSupPath = QString(WPASUP_PATH);
+    QString wpaSupPath;
     // functions
     /**
      * @brief method which calls wpa_cli and returns its output
      * @param commandLine    command which will be passed to wpa_cli
      * @return wpa_cli output
      */
-    QString getWpaCliOutput(const QString commandLine);
+    QString getWpaCliOutput(const QString commandLine) const;
     /**
      * @brief method which will be called to sleep thread
      * @param sec            time interval, seconds
      */
-    bool waitForProcess(const int sec);
+    bool waitForProcess(const int sec) const;
     /**
      * @brief method which calls wpa_cli
      * @param commandLine    command which will be passed to wpa_cli
      * @return false if components are not found or command exit code is not equal to 0
      * @return true if the method was completed without errors
      */
-    bool wpaCliCall(const QString commandLine);
+    bool wpaCliCall(const QString commandLine) const;
 };
 
 

@@ -33,6 +33,8 @@
 #include <pdebug/pdebug.h>
 #include <task/taskadds.h>
 
+#include "version.h"
+
 
 /**
  * @class NetctlProfile
@@ -43,17 +45,11 @@
 NetctlProfile::NetctlProfile(const bool debugCmd, const QMap<QString, QString> settings)
     : debug(debugCmd)
 {
-    if (settings.contains(QString("PROFILE_DIR")))
-        profileDirectory = new QDir(settings[QString("PROFILE_DIR")]);
-    else
-        profileDirectory = new QDir(QString(PROFILE_DIR));
-    if (settings.contains(QString("SUDO_PATH")))
-        sudoCommand = settings[QString("SUDO_PATH")];
-    if (settings.contains(QString("FORCE_SUDO")))
-        useSuid = (settings[QString("FORCE_SUDO")] != QString("true"));
+    profileDirectory = new QDir(settings.value(QString("PROFILE_DIR"), QString(PROFILE_DIR)));
+    sudoCommand = settings.value(QString("SUDO_PATH"), QString(SUDO_PATH));
+    useSuid = (settings.value(QString("FORCE_SUDO"), QString("true")) != QString("true"));
 
-    if (useSuid)
-        sudoCommand = QString("");
+    if (useSuid) sudoCommand = QString("");
 }
 
 
@@ -71,7 +67,7 @@ NetctlProfile::~NetctlProfile()
 /**
  * @fn copyProfile
  */
-bool NetctlProfile::copyProfile(const QString oldPath)
+bool NetctlProfile::copyProfile(const QString oldPath) const
 {
     if (debug) qDebug() << PDEBUG;
     if (debug) qDebug() << PDEBUG << ":" << "Path" << oldPath;
@@ -87,17 +83,16 @@ bool NetctlProfile::copyProfile(const QString oldPath)
     if (debug) qDebug() << PDEBUG << ":" << "Run cmd" << cmd;
     TaskResult process = runTask(cmd, useSuid);
     if (debug) qDebug() << PDEBUG << ":" << "Cmd returns" << process.exitCode;
-    if (process.exitCode != 0)
-        if (debug) qDebug() << PDEBUG << ":" << "Error" << process.error;
+    if (debug) qDebug() << PDEBUG << ":" << "Error" << process.error;
 
-    return (process.exitCode == 0);
+    return process.status();
 }
 
 
 /**
  * @fn createProfile
  */
-QString NetctlProfile::createProfile(const QString profile, const QMap<QString, QString> settings)
+QString NetctlProfile::createProfile(const QString profile, const QMap<QString, QString> settings) const
 {
     if (debug) qDebug() << PDEBUG;
     if (debug) qDebug() << PDEBUG << ":" << "Profile" << profile;
@@ -108,22 +103,22 @@ QString NetctlProfile::createProfile(const QString profile, const QMap<QString, 
     if (!profileFile.open(QIODevice::WriteOnly | QIODevice::Text))
         return profileTempName;
     QTextStream out(&profileFile);
-    for (int i=0; i<settings.keys().count(); i++) {
-        out << settings.keys()[i] << QString("=");
-        if ((settings.keys()[i] == QString("BindsToInterfaces")) ||
-            (settings.keys()[i] == QString("After")) ||
-            (settings.keys()[i] == QString("Address")) ||
-            (settings.keys()[i] == QString("Routes")) ||
-            (settings.keys()[i] == QString("Address6")) ||
-            (settings.keys()[i] == QString("Routes6")) ||
-            (settings.keys()[i] == QString("IPCustom")) ||
-            (settings.keys()[i] == QString("DNS")) ||
-            (settings.keys()[i] == QString("DNSOptions")) ||
-            (settings.keys()[i] == QString("ScanFrequencies")) ||
-            (settings.keys()[i] == QString("WPAConfigSection")))
-            out << QString("(%1)").arg(settings[settings.keys()[i]]) << endl;
+    foreach(QString key, settings.keys()) {
+        out << key << QString("=");
+        if ((key == QString("BindsToInterfaces")) ||
+            (key == QString("After")) ||
+            (key == QString("Address")) ||
+            (key == QString("Routes")) ||
+            (key == QString("Address6")) ||
+            (key == QString("Routes6")) ||
+            (key == QString("IPCustom")) ||
+            (key == QString("DNS")) ||
+            (key == QString("DNSOptions")) ||
+            (key == QString("ScanFrequencies")) ||
+            (key == QString("WPAConfigSection")))
+            out << QString("(%1)").arg(settings[key]) << endl;
         else
-            out << settings[settings.keys()[i]] << endl;
+            out << settings[key] << endl;
     }
     profileFile.close();
 
@@ -145,9 +140,9 @@ QMap<QString, QString> NetctlProfile::getRecommendedConfiguration()
     recommended.clear();
     recommended.append(QString("netctlgui-helper"));
     recommended.append(QString("netctlgui-helper-suid"));
-    for (int i=0; i<recommended.count(); i++) {
-        process = runTask(QString("which %1").arg(recommended[i]), false);
-        if (process.exitCode == 0) {
+    foreach(QString rec, recommended) {
+        process = runTask(QString("which %1").arg(rec), false);
+        if (process.status()) {
             settings[QString("FORCE_SUDO")] = QString("false");
             break;
         }
@@ -172,9 +167,9 @@ QMap<QString, QString> NetctlProfile::getRecommendedConfiguration()
     recommended.append("sudo");
     recommended.append("kdesu");
     recommended.append("gksu");
-    for (int i=0; i<recommended.count(); i++) {
-        process = runTask(QString("which %1").arg(recommended[i]), false);
-        if (process.exitCode == 0) {
+    foreach(QString rec, recommended) {
+        process = runTask(QString("which %1").arg(rec), false);
+        if (process.status()) {
             settings[QString("SUDO_PATH")] = process.output.trimmed();
             break;
         }
@@ -187,7 +182,7 @@ QMap<QString, QString> NetctlProfile::getRecommendedConfiguration()
 /**
  * @fn getSettingsFromProfile
  */
-QMap<QString, QString> NetctlProfile::getSettingsFromProfile(const QString profile)
+QMap<QString, QString> NetctlProfile::getSettingsFromProfile(const QString profile) const
 {
     if (debug) qDebug() << PDEBUG;
     if (debug) qDebug() << PDEBUG << ":" << "Profile" << profile;
@@ -202,13 +197,12 @@ QMap<QString, QString> NetctlProfile::getSettingsFromProfile(const QString profi
     if (debug) qDebug() << PDEBUG << ":" << "Run cmd" << cmd;
     TaskResult process = runTask(cmd, false);
     if (debug) qDebug() << PDEBUG << ":" << "Cmd returns" << process.exitCode;
-    if (process.exitCode != 0)
-        if (debug) qDebug() << PDEBUG << ":" << "Error" << process.error;
+    if (debug) qDebug() << PDEBUG << ":" << "Error" << process.error;
     QStringList output = QString(process.output).trimmed().split(QChar('\n'));
     QStringList systemVariables;
     systemVariables.append(QString("PIPESTATUS"));
-    for (int i=0; i<output.count(); i++)
-        systemVariables.append(output[i].split(QChar('='))[0]);
+    foreach(QString str, output)
+        systemVariables.append(str.split(QChar('=')).first());
     // profile variables
     QMap<QString, QString> settings;
     QString profileUrl = QString("%1/%2").arg(profileDirectory->absolutePath()).arg(QFileInfo(profile).fileName());
@@ -216,20 +210,19 @@ QMap<QString, QString> NetctlProfile::getSettingsFromProfile(const QString profi
     if (debug) qDebug() << PDEBUG << ":" << "Run cmd" << cmd;
     process = runTask(cmd, false);
     if (debug) qDebug() << PDEBUG << ":" << "Cmd returns" << process.exitCode;
-    if (process.exitCode != 0)
-        if (debug) qDebug() << PDEBUG << ":" << "Error" << process.error;
+    if (debug) qDebug() << PDEBUG << ":" << "Error" << process.error;
     output = QString(process.output).trimmed().split(QChar('\n'));
 
     // read variables
     QStringList keys;
-    for (int i=0; i<output.count(); i++)
-        if (!systemVariables.contains(output[i].split(QChar('='))[0]))
-            keys.append(output[i].split(QChar('='))[0]);
-    for (int i=0; i<keys.count(); i++){
-        cmd = QString("env -i bash -c \"source '%1'; for i in ${!%2[@]}; do echo ${%2[$i]}; done\"").arg(profileUrl).arg(keys[i]);
+    foreach(QString str, output)
+        if (!systemVariables.contains(str.split(QChar('=')).first()))
+            keys.append(str.split(QChar('=')).first());
+    foreach(QString key, keys) {
+        cmd = QString("env -i bash -c \"source '%1'; for i in ${!%2[@]}; do echo ${%2[$i]}; done\"").arg(profileUrl).arg(key);
         process = runTask(cmd, false);
-        settings[keys[i]] = process.output.trimmed();
-        if (debug) qDebug() << PDEBUG << ":" << keys[i] << "=" << settings[keys[i]];
+        settings[key] = process.output.trimmed();
+        if (debug) qDebug() << PDEBUG << ":" << key << "=" << settings[key];
     }
 
     return settings;
@@ -239,20 +232,20 @@ QMap<QString, QString> NetctlProfile::getSettingsFromProfile(const QString profi
 /**
  * @fn getValueFromProfile
  */
-QString NetctlProfile::getValueFromProfile(const QString profile, const QString key)
+QString NetctlProfile::getValueFromProfile(const QString profile, const QString key) const
 {
     if (debug) qDebug() << PDEBUG;
     if (debug) qDebug() << PDEBUG << ":" << "Profile" << profile;
     if (debug) qDebug() << PDEBUG << ":" << "Key" << key;
 
-    return getValuesFromProfile(profile, QStringList() << key)[0];
+    return getValuesFromProfile(profile, QStringList() << key).first();
 }
 
 
 /**
  * @fn getValuesFromProfile
  */
-QStringList NetctlProfile::getValuesFromProfile(const QString profile, const QStringList keys)
+QStringList NetctlProfile::getValuesFromProfile(const QString profile, const QStringList keys) const
 {
     if (debug) qDebug() << PDEBUG;
     if (debug) qDebug() << PDEBUG << ":" << "Profile" << profile;
@@ -260,8 +253,8 @@ QStringList NetctlProfile::getValuesFromProfile(const QString profile, const QSt
 
     QMap<QString, QString> settings = getSettingsFromProfile(profile);
     QStringList values;
-    for (int i=0; i<keys.count(); i++)
-        values.append(settings[keys[i]]);
+    foreach(QString key, keys)
+        values.append(settings[key]);
 
     return values;
 }
@@ -270,7 +263,7 @@ QStringList NetctlProfile::getValuesFromProfile(const QString profile, const QSt
 /**
  * @fn removeProfile
  */
-bool NetctlProfile::removeProfile(const QString profile)
+bool NetctlProfile::removeProfile(const QString profile) const
 {
     if (debug) qDebug() << PDEBUG;
     if (debug) qDebug() << PDEBUG << ":" << "Profile" << profile;
@@ -284,8 +277,7 @@ bool NetctlProfile::removeProfile(const QString profile)
     if (debug) qDebug() << PDEBUG << ":" << "Run cmd" << cmd;
     TaskResult process = runTask(cmd, useSuid);
     if (debug) qDebug() << PDEBUG << ":" << "Cmd returns" << process.exitCode;
-    if (process.exitCode != 0)
-        if (debug) qDebug() << PDEBUG << ":" << "Error" << process.error;
+    if (debug) qDebug() << PDEBUG << ":" << "Error" << process.error;
 
-    return (process.exitCode == 0);
+    return process.status();
 }

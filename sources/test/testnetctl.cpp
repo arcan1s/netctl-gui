@@ -133,7 +133,7 @@ void TestNetctl::test_getActiveProfile()
     QStringList result = netctl->getActiveProfile();
     QStringList dbus;
     if (helper)
-        dbus = sendDBusRequest(QString("/netctl"), QString("netctlActiveProfile"))[0].toString().split(QChar('|'));
+        dbus = sendDBusRequest(QString("/netctl"), QString("netctlActiveProfile"))[0].toStringList();
     netctl->startProfile(QString("netctlgui-test-dummy"));
     delete netctl;
 

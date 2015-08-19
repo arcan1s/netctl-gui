@@ -30,6 +30,8 @@
 #include <pdebug/pdebug.h>
 #include <task/taskadds.h>
 
+#include "version.h"
+
 
 /**
  * @class WpaSup
@@ -43,25 +45,16 @@ WpaSup::WpaSup(const bool debugCmd, const QMap<QString, QString> settings)
     netctlCommand = new Netctl(debug, settings);
     netctlProfile = new NetctlProfile(debug, settings);
 
-    if (settings.contains(QString("CTRL_DIR")))
-        ctrlDir = settings[QString("CTRL_DIR")];
-    if (settings.contains(QString("CTRL_GROUP")))
-        ctrlGroup = settings[QString("CTRL_GROUP")];
-    if (settings.contains(QString("PID_FILE")))
-        pidFile = settings[QString("PID_FILE")];
-    if (settings.contains(QString("SUDO_PATH")))
-        sudoCommand = settings[QString("SUDO_PATH")];
-    if (settings.contains(QString("WPACLI_PATH")))
-        wpaCliPath = settings[QString("WPACLI_PATH")];
-    if (settings.contains(QString("WPA_DRIVERS")))
-        wpaDrivers = settings[QString("WPA_DRIVERS")];
-    if (settings.contains(QString("WPASUP_PATH")))
-        wpaSupPath = settings[QString("WPASUP_PATH")];
-    if (settings.contains(QString("FORCE_SUDO")))
-        useSuid = (settings[QString("FORCE_SUDO")] != QString("true"));
+    ctrlDir = settings.value(QString("CTRL_DIR"), QString(CTRL_DIR));
+    ctrlGroup = settings.value(QString("CTRL_GROUP"), QString(CTRL_GROUP));
+    pidFile = settings.value(QString("PID_FILE"), QString(PID_FILE));
+    sudoCommand = settings.value(QString("SUDO_PATH"), QString(SUDO_PATH));
+    wpaCliPath = settings.value(QString("WPACLI_PATH"), QString(WPACLI_PATH));
+    wpaDrivers = settings.value(QString("WPA_DRIVERS"), QString(WPA_DRIVERS));
+    wpaSupPath = settings.value(QString("WPASUP_PATH"), QString(WPASUP_PATH));
+    useSuid = (settings.value(QString("FORCE_SUDO"), QString("true")) != QString("true"));
 
-    if (useSuid)
-        sudoCommand = QString("");
+    if (useSuid) sudoCommand = QString("");
 }
 
 
@@ -81,7 +74,7 @@ WpaSup::~WpaSup()
 /**
  * @fn existentProfile
  */
-QString WpaSup::existentProfile(const QString essid)
+QString WpaSup::existentProfile(const QString essid) const
 {
     if (debug) qDebug() << PDEBUG;
     if (debug) qDebug() << PDEBUG << ":" << "ESSID" << essid;
@@ -94,11 +87,11 @@ QString WpaSup::existentProfile(const QString essid)
         return QString();
     }
 
-    QString profileFile = QString("");
+    QString profileFile;
     QList<netctlProfileInfo> profileList = netctlCommand->getProfileList();
-    for (int i=0; i<profileList.count(); i++) {
-        if (essid != profileList[i].essid) continue;
-        profileFile = profileList[i].name;
+    foreach(netctlProfileInfo profile, profileList) {
+        if (essid != profile.essid) continue;
+        profileFile = profile.name;
         break;
     }
 
@@ -121,16 +114,16 @@ QMap<QString, QString> WpaSup::getRecommendedConfiguration()
     // ctrl group
     // check group list and find out 'network', 'users', 'root'
     settings[QString("CTRL_GROUP")] = QString("");
-    gid_t gtpList[99];
+    gid_t gtpList[size];
     int grpSize = getgroups(size, gtpList);
     recommended.clear();
     recommended.append("network");
     recommended.append("users");
     recommended.append("root");
-    for (int i=0; i<recommended.count(); i++) {
-        for (int j=0; j<grpSize; j++)
-            if (recommended[i] == QString(getgrgid(gtpList[j])->gr_name)) {
-                settings[QString("CTRL_GROUP")] = recommended[i];
+    foreach(QString rec, recommended) {
+        for (int i=0; i<grpSize; i++)
+            if (rec == QString(getgrgid(gtpList[i])->gr_name)) {
+                settings[QString("CTRL_GROUP")] = rec;
                 break;
             }
         if (!settings[QString("CTRL_GROUP")].isEmpty()) break;
@@ -141,9 +134,9 @@ QMap<QString, QString> WpaSup::getRecommendedConfiguration()
     recommended.clear();
     recommended.append(QString("netctlgui-helper"));
     recommended.append(QString("netctlgui-helper-suid"));
-    for (int i=0; i<recommended.count(); i++) {
-        process = runTask(QString("which %1").arg(recommended[i]), false);
-        if (process.exitCode == 0) {
+    foreach(QString rec, recommended) {
+        process = runTask(QString("which %1").arg(rec), false);
+        if (process.status()) {
             settings[QString("FORCE_SUDO")] = QString("false");
             break;
         }
@@ -158,9 +151,9 @@ QMap<QString, QString> WpaSup::getRecommendedConfiguration()
     recommended.append("sudo");
     recommended.append("kdesu");
     recommended.append("gksu");
-    for (int i=0; i<recommended.count(); i++) {
-        process = runTask(QString("which %1").arg(recommended[i]), false);
-        if (process.exitCode == 0) {
+    foreach(QString rec, recommended) {
+        process = runTask(QString("which %1").arg(rec), false);
+        if (process.status()) {
             settings[QString("SUDO_PATH")] = process.output.trimmed();
             break;
         }
@@ -170,9 +163,9 @@ QMap<QString, QString> WpaSup::getRecommendedConfiguration()
     settings[QString("WPACLI_PATH")] = QString("true");
     recommended.clear();
     recommended.append("wpa_cli");
-    for (int i=0; i<recommended.count(); i++) {
-        process = runTask(QString("which %1").arg(recommended[i]), false);
-        if (process.exitCode == 0) {
+    foreach(QString rec, recommended) {
+        process = runTask(QString("which %1").arg(rec), false);
+        if (process.status()) {
             settings[QString("WPACLI_PATH")] = process.output.trimmed();
             break;
         }
@@ -185,9 +178,9 @@ QMap<QString, QString> WpaSup::getRecommendedConfiguration()
     settings[QString("WPASUP_PATH")] = QString("true");
     recommended.clear();
     recommended.append("wpa_supplicant");
-    for (int i=0; i<recommended.count(); i++) {
-        process = runTask(QString("which %1").arg(recommended[i]), false);
-        if (process.exitCode == 0) {
+    foreach(QString rec, recommended) {
+        process = runTask(QString("which %1").arg(rec), false);
+        if (process.status()) {
             settings[QString("WPASUP_PATH")] = process.output.trimmed();
             break;
         }
@@ -200,7 +193,7 @@ QMap<QString, QString> WpaSup::getRecommendedConfiguration()
 /**
  * @fn isProfileActive
  */
-bool WpaSup::isProfileActive(const QString essid)
+bool WpaSup::isProfileActive(const QString essid) const
 {
     if (debug) qDebug() << PDEBUG;
     if (debug) qDebug() << PDEBUG << ":" << "ESSID" << essid;
@@ -213,50 +206,14 @@ bool WpaSup::isProfileActive(const QString essid)
         return false;
     }
 
-    QString profileFile;
-    QList<netctlProfileInfo> profileList = netctlCommand->getProfileList();
-    for (int i=0; i<profileList.count(); i++) {
-        if (essid != profileList[i].essid) continue;
-        profileFile = profileList[i].name;
-        break;
-    }
-
-    return netctlCommand->isProfileActive(profileFile);
-}
-
-
-/**
- * @fn isProfileExists
- */
-bool WpaSup::isProfileExists(const QString essid)
-{
-    if (debug) qDebug() << PDEBUG;
-    if (debug) qDebug() << PDEBUG << ":" << "ESSID" << essid;
-    if (netctlCommand == nullptr) {
-        if (debug) qDebug() << PDEBUG << ":" << "Could not find library";
-        return false;
-    }
-    if (netctlProfile == nullptr) {
-        if (debug) qDebug() << PDEBUG << ":" << "Could not find library";
-        return false;
-    }
-
-    bool exists = false;
-    QList<netctlProfileInfo> profileList = netctlCommand->getProfileList();
-    for (int i=0; i<profileList.count(); i++) {
-        if (essid != profileList[i].essid) continue;
-        exists = true;
-        break;
-    }
-
-    return exists;
+    return netctlCommand->isProfileActive(existentProfile(essid));
 }
 
 
 /**
  * @fn current
  */
-netctlWifiInfo WpaSup::current()
+netctlWifiInfo WpaSup::current() const
 {
     if (debug) qDebug() << PDEBUG;
     if (pidFile.isEmpty()) {
@@ -269,7 +226,7 @@ netctlWifiInfo WpaSup::current()
         return netctlWifiInfo();
     }
     QString _pidFile = pidFile;
-    _pidFile.replace(QString("$i"), interfaces[0]);
+    _pidFile.replace(QString("$i"), interfaces.first());
     if (debug) qDebug() << PDEBUG << ":" << "PID file" << _pidFile << QFile(_pidFile).exists();
 
     netctlWifiInfo current;
@@ -278,21 +235,21 @@ netctlWifiInfo WpaSup::current()
     if (!rawText.contains(QString("wpa_state=COMPLETED\n"))) return current;
 
     QStringList rawList = rawText.split(QChar('\n'), QString::SkipEmptyParts);
-    for (int i=0; i<rawList.count(); i++) {
-        QStringList line = rawList[i].split(QChar('='));
+    foreach(QString element, rawList) {
+        QStringList line = element.split(QChar('='));
         if (line.count() != 2) continue;
-        if (line[0] == QString("bssid"))
-            current.macs.append(line[1]);
-        else if (line[0] == QString("freq")) {
-            if ((line[1].toInt() >= 5000) && (line[1].toInt() < 6000))
+        if (line.at(0) == QString("bssid"))
+            current.macs.append(line.at(1));
+        else if (line.at(0) == QString("freq")) {
+            if ((line.at(1).toInt() >= 5000) && (line.at(1).toInt() < 6000))
                 current.type = PointType::FiveG;
-            else if ((line[1].toInt() < 5000) && (line[1].toInt() > 2000))
+            else if ((line.at(1).toInt() < 5000) && (line.at(1).toInt() > 2000))
                 current.type = PointType::TwoG;
-            current.frequencies.append(line[1].toInt());
-        } else if (line[0] == QString("ssid"))
-            current.name = line[1];
-        else if (line[0] == QString("key_mgmt")) {
-            QString security = line[1];
+            current.frequencies.append(line.at(1).toInt());
+        } else if (line.at(0) == QString("ssid"))
+            current.name = line.at(1);
+        else if (line.at(0) == QString("key_mgmt")) {
+            QString security = line.at(1);
             if (security.contains(QString("WPA2")))
                 security = QString("WPA2");
             else if (security.contains(QString("WPA")))
@@ -316,7 +273,7 @@ netctlWifiInfo WpaSup::current()
 /**
  * @fn scanWifi
  */
-QList<netctlWifiInfo> WpaSup::scanWifi()
+QList<netctlWifiInfo> WpaSup::scanWifi() const
 {
     if (debug) qDebug() << PDEBUG;
     if (pidFile.isEmpty()) {
@@ -329,7 +286,7 @@ QList<netctlWifiInfo> WpaSup::scanWifi()
         return QList<netctlWifiInfo>();
     }
     QString _pidFile = pidFile;
-    _pidFile.replace(QString("$i"), interfaces[0]);
+    _pidFile.replace(QString("$i"), interfaces.first());
     if (debug) qDebug() << PDEBUG << ":" << "PID file" << _pidFile << QFile(_pidFile).exists();
 
     bool terminateOnExit = (!QFile(_pidFile).exists());
@@ -353,25 +310,25 @@ QList<netctlWifiInfo> WpaSup::scanWifi()
     else
         profiles = netctlCommand->getProfileList();
     // iterate by wifi output
-    for (int i=0; i<rawList.count(); i++) {
-        QStringList line = rawList[i].split(QChar('\t'));
+    foreach(QString element, rawList) {
+        QStringList line = element.split(QChar('\t'));
         if (line.count() != 5) continue;
-        QString name = line[4];
+        QString name = line.at(4);
         if (name.isEmpty()) name = QString("<hidden>");
         // append mac and frequency if exists
         int index = names.indexOf(name);
         if ((name != QString("<hidden>")) && (index > -1)) {
-            scanResults[index].frequencies.append(line[1].toInt());
-            scanResults[index].macs.append(line[0]);
-            if (scanResults[index].signal < line[2].toInt())
-                scanResults[index].signal = line[2].toInt();
+            scanResults[index].frequencies.append(line.at(1).toInt());
+            scanResults[index].macs.append(line.at(0));
+            if (scanResults[index].signal < line.at(2).toInt())
+                scanResults[index].signal = line.at(2).toInt();
             // check type
-            if ((line[1].toInt() >= 5000) && (line[1].toInt() < 6000)) {
+            if ((line.at(1).toInt() >= 5000) && (line.at(1).toInt() < 6000)) {
                 if (scanResults[index].type == PointType::None)
                     scanResults[index].type = PointType::FiveG;
                 else if (scanResults[index].type == PointType::TwoG)
                     scanResults[index].type = PointType::TwoAndFiveG;
-            } else if ((line[1].toInt() < 5000) && (line[1].toInt() > 2000)) {
+            } else if ((line.at(1).toInt() < 5000) && (line.at(1).toInt() > 2000)) {
                 if (scanResults[index].type == PointType::None)
                     scanResults[index].type = PointType::TwoG;
                 else if (scanResults[index].type == PointType::FiveG)
@@ -388,28 +345,28 @@ QList<netctlWifiInfo> WpaSup::scanWifi()
         netctlProfileInfo profile;
         profile.name = QString("");
         profile.active = false;
-        for (int j=0; j<profiles.count(); j++) {
-            if (wifiPoint.name != profiles[j].essid) continue;
-            profile = profiles[j];
+        foreach(netctlProfileInfo pr, profiles) {
+            if (wifiPoint.name != pr.essid) continue;
+            profile = pr;
             break;
         }
         wifiPoint.active = profile.active;
         wifiPoint.exists = (!profile.name.isEmpty());
         // mac
-        wifiPoint.macs.append(line[0]);
+        wifiPoint.macs.append(line.at(0));
         // frequencies
-        wifiPoint.frequencies.append(line[1].toInt());
+        wifiPoint.frequencies.append(line.at(1).toInt());
         // type
         // check type
-        if ((line[1].toInt() >= 5000) && (line[1].toInt() < 6000)) {
+        if ((line.at(1).toInt() >= 5000) && (line.at(1).toInt() < 6000)) {
             wifiPoint.type = PointType::FiveG;
-        } else if ((line[1].toInt() < 5000) && (line[1].toInt() > 2000)) {
+        } else if ((line.at(1).toInt() < 5000) && (line.at(1).toInt() > 2000)) {
             wifiPoint.type = PointType::TwoG;
         }
         // point signal
-        wifiPoint.signal = line[2].toInt();
+        wifiPoint.signal = line.at(2).toInt();
         // point security
-        QString security = line[3];
+        QString security = line.at(3);
         if (security.contains(QString("WPA2")))
             security = QString("WPA2");
         else if (security.contains(QString("WPA")))
@@ -433,7 +390,7 @@ QList<netctlWifiInfo> WpaSup::scanWifi()
 /**
  * @fn startWpaSupplicant
  */
-bool WpaSup::startWpaSupplicant()
+bool WpaSup::startWpaSupplicant() const
 {
     if (debug) qDebug() << PDEBUG;
     if (ctrlDir.isEmpty()) {
@@ -466,28 +423,27 @@ bool WpaSup::startWpaSupplicant()
         return false;
     }
     QString _pidFile = pidFile;
-    _pidFile.replace(QString("$i"), interfaces[0]);
+    _pidFile.replace(QString("$i"), interfaces.first());
     if (debug) qDebug() << PDEBUG << ":" << "PID file" << _pidFile << QFile(_pidFile).exists();
 
     if (QFile(_pidFile).exists()) return (QFileInfo(ctrlDir).group() == ctrlGroup);
     QString cmd = QString("%1 %2 -B -P \"%3\" -i %4 -D %5 -C \"DIR=%6 GROUP=%7\"")
-                    .arg(sudoCommand).arg(wpaSupPath).arg(_pidFile).arg(interfaces[0])
+                    .arg(sudoCommand).arg(wpaSupPath).arg(_pidFile).arg(interfaces.first())
                     .arg(wpaDrivers).arg(ctrlDir).arg(ctrlGroup);
     if (debug) qDebug() << PDEBUG << ":" << "Run cmd" << cmd;
     TaskResult process = runTask(cmd, useSuid);
     waitForProcess(1);
     if (debug) qDebug() << PDEBUG << ":" << "Cmd returns" << process.exitCode;
-    if (process.exitCode != 0)
-        if (debug) qDebug() << PDEBUG << ":" << "Error" << process.error;
+    if (debug) qDebug() << PDEBUG << ":" << "Error" << process.error;
 
-    return (process.exitCode == 0);
+    return process.status();
 }
 
 
 /**
  * @fn stopWpaSupplicant
  */
-bool WpaSup::stopWpaSupplicant()
+bool WpaSup::stopWpaSupplicant() const
 {
     if (debug) qDebug() << PDEBUG;
 
@@ -499,7 +455,7 @@ bool WpaSup::stopWpaSupplicant()
 /**
  * @fn getWpaCliOutput
  */
-QString WpaSup::getWpaCliOutput(const QString commandLine)
+QString WpaSup::getWpaCliOutput(const QString commandLine) const
 {
     if (debug) qDebug() << PDEBUG;
     if (debug) qDebug() << PDEBUG << ":" << "Command" << commandLine;
@@ -517,12 +473,11 @@ QString WpaSup::getWpaCliOutput(const QString commandLine)
         return QString();
     }
 
-    QString cmd = QString("%1 -i %2 -p %3 %4").arg(wpaCliPath).arg(interfaces[0]).arg(ctrlDir).arg(commandLine);
+    QString cmd = QString("%1 -i %2 -p %3 %4").arg(wpaCliPath).arg(interfaces.first()).arg(ctrlDir).arg(commandLine);
     if (debug) qDebug() << PDEBUG << ":" << "Run cmd" << cmd;
     TaskResult process = runTask(cmd);
     if (debug) qDebug() << PDEBUG << ":" << "Cmd returns" << process.exitCode;
-    if (process.exitCode != 0)
-        if (debug) qDebug() << PDEBUG << ":" << "Error" << process.error;
+    if (debug) qDebug() << PDEBUG << ":" << "Error" << process.error;
 
     return process.output;
 }
@@ -531,7 +486,7 @@ QString WpaSup::getWpaCliOutput(const QString commandLine)
 /**
  * @fn waitForProcess
  */
-bool WpaSup::waitForProcess(const int sec)
+bool WpaSup::waitForProcess(const int sec) const
 {
     if (debug) qDebug() << PDEBUG;
     if (debug) qDebug() << PDEBUG << ":" << "Interval" << sec;
@@ -546,7 +501,7 @@ bool WpaSup::waitForProcess(const int sec)
 /**
  * @fn wpaCliCall
  */
-bool WpaSup::wpaCliCall(const QString commandLine)
+bool WpaSup::wpaCliCall(const QString commandLine) const
 {
     if (debug) qDebug() << PDEBUG;
     if (debug) qDebug() << PDEBUG << ":" << "Command" << commandLine;
@@ -564,13 +519,12 @@ bool WpaSup::wpaCliCall(const QString commandLine)
         return false;
     }
 
-    QString cmd = QString("%1 -i %2 -p %3 %4").arg(wpaCliPath).arg(interfaces[0]).arg(ctrlDir).arg(commandLine);
+    QString cmd = QString("%1 -i %2 -p %3 %4").arg(wpaCliPath).arg(interfaces.first()).arg(ctrlDir).arg(commandLine);
     if (debug) qDebug() << PDEBUG << ":" << "Run cmd" << cmd;
     TaskResult process = runTask(cmd);
     waitForProcess(1);
     if (debug) qDebug() << PDEBUG << ":" << "Cmd returns" << process.exitCode;
-    if (process.exitCode != 0)
-        if (debug) qDebug() << PDEBUG << ":" << "Error" << process.error;
+    if (debug) qDebug() << PDEBUG << ":" << "Error" << process.error;
 
-    return (process.exitCode == 0);
+    return process.status();
 }

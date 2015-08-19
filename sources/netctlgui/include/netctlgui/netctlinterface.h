@@ -109,7 +109,7 @@ public:
     /**
      * @brief NetctlInterface class destructor
      */
-    ~NetctlInterface();
+    virtual ~NetctlInterface();
     // control methods
     /**
      * @brief method which creates and copies profile
@@ -120,7 +120,7 @@ public:
      * @return InterfaceAnswer::True if profile is created
      * @return InterfaceAnswer::Error if an error occurs
      */
-    InterfaceAnswer createProfile(const QString profile, const QMap<QString, QString> settings);
+    InterfaceAnswer createProfile(const QString profile, const QMap<QString, QString> settings) const;
     /**
      * @brief method which connects to ESSID
      * @remark netctl independ
@@ -130,7 +130,7 @@ public:
      * @return InterfaceAnswer::True if profile is active
      * @return InterfaceAnswer::Error if an error occurs
      */
-    InterfaceAnswer connectToEssid(const QString essid, QMap<QString, QString> settings);
+    InterfaceAnswer connectToEssid(const QString essid, QMap<QString, QString> settings) const;
     /**
      * @brief method which connects to existent profile by ESSID
      * @remark netctl independ
@@ -139,7 +139,7 @@ public:
      * @return InterfaceAnswer::True if profile is active
      * @return InterfaceAnswer::Error if an error occurs
      */
-    InterfaceAnswer connectToKnownEssid(const QString essid);
+    InterfaceAnswer connectToKnownEssid(const QString essid) const;
     /**
      * @brief method which creates wireless profile and connects to it
      * @remark netctl independ
@@ -149,7 +149,7 @@ public:
      * @return InterfaceAnswer::True if profile is active
      * @return InterfaceAnswer::Error if an error occurs
      */
-    InterfaceAnswer connectToUnknownEssid(const QString essid, QMap<QString, QString> settings);
+    InterfaceAnswer connectToUnknownEssid(const QString essid, QMap<QString, QString> settings) const;
     /**
      * @brief method which enables or disables selected profile and returns its status
      * @remark netctl only
@@ -158,7 +158,7 @@ public:
      * @return InterfaceAnswer::True if profile is enabled
      * @return InterfaceAnswer::Error if an error occurs
      */
-    InterfaceAnswer enableProfile(const QString profile);
+    InterfaceAnswer enableProfile(const QString profile) const;
     /**
      * @brief method which removes selected profile
      * @remark netctl independ
@@ -166,7 +166,7 @@ public:
      * @return InterfaceAnswer::True if profile does not exists anymore
      * @return InterfaceAnswer::Error if an error occurs
      */
-    InterfaceAnswer removeProfile(const QString profile);
+    InterfaceAnswer removeProfile(const QString profile) const;
     /**
      * @brief method which restarts selected profile and returns its status
      * @remark netctl only
@@ -175,7 +175,7 @@ public:
      * @return InterfaceAnswer::True if profile is active
      * @return InterfaceAnswer::Error if an error occurs
      */
-    InterfaceAnswer restartProfile(const QString profile);
+    InterfaceAnswer restartProfile(const QString profile) const;
     /**
      * @brief method which starts/stops or switchs to selected profile and returns its status
      * @remark netctl only
@@ -184,14 +184,14 @@ public:
      * @return InterfaceAnswer::True if profile is active
      * @return InterfaceAnswer::Error if an error occurs
      */
-    InterfaceAnswer startProfile(const QString profile);
+    InterfaceAnswer startProfile(const QString profile) const;
     /**
      * @brief method which stops all profiles
      * @remark netctl only
      * @return InterfaceAnswer::True if there are no errors
      * @return InterfaceAnswer::Error if an error occurs
      */
-    InterfaceAnswer stopAllProfiles();
+    InterfaceAnswer stopAllProfiles() const;
     /**
      * @brief method which switchs to selected profile and returns its status
      * @remark both netctl and netctl-auto
@@ -200,26 +200,26 @@ public:
      * @return InterfaceAnswer::True if profile is active
      * @return InterfaceAnswer::Error if an error occurs
      */
-    InterfaceAnswer switchToProfile(const QString profile);
+    InterfaceAnswer switchToProfile(const QString profile) const;
     // information
     /**
      * @brief method which returns general information
      * @remark both netctl and netctl-auto
      * @return netctlInformation structure
      */
-    netctlInformation information();
+    netctlInformation information() const;
     /**
      * @brief method which reads settings from profile
      * @param profile         profile name
      * @return settings from profile
      */
-    QMap<QString, QString> profileSettings(const QString profile);
+    QMap<QString, QString> profileSettings(const QString profile) const;
     /**
      * @brief method which returns current status
      * @remark both netctl and netctl-auto
      * @return netctlCurrent structure
      */
-    netctlCurrent status();
+    netctlCurrent status() const;
 
 private:
     /**

@@ -60,7 +60,8 @@ NetctlInterface::~NetctlInterface()
 /**
  * @fn connectToEssid
  */
-InterfaceAnswer NetctlInterface::connectToEssid(const QString essid, QMap<QString, QString> settings)
+InterfaceAnswer NetctlInterface::connectToEssid(const QString essid,
+                                                QMap<QString, QString> settings) const
 {
     if (debug) qDebug() << PDEBUG;
     if (netctlCommand == nullptr) {
@@ -83,7 +84,7 @@ InterfaceAnswer NetctlInterface::connectToEssid(const QString essid, QMap<QStrin
 /**
  * @fn connectToKnownEssid
  */
-InterfaceAnswer NetctlInterface::connectToKnownEssid(const QString essid)
+InterfaceAnswer NetctlInterface::connectToKnownEssid(const QString essid) const
 {
     if (debug) qDebug() << PDEBUG;
     if (netctlCommand == nullptr) {
@@ -105,7 +106,8 @@ InterfaceAnswer NetctlInterface::connectToKnownEssid(const QString essid)
 /**
  * @fn connectToUnknownEssid
  */
-InterfaceAnswer NetctlInterface::connectToUnknownEssid(const QString essid, QMap<QString, QString> settings)
+InterfaceAnswer NetctlInterface::connectToUnknownEssid(const QString essid,
+                                                       QMap<QString, QString> settings) const
 {
     if (debug) qDebug() << PDEBUG;
     if (netctlCommand == nullptr) {
@@ -121,7 +123,7 @@ InterfaceAnswer NetctlInterface::connectToUnknownEssid(const QString essid, QMap
     QStringList interfaces = netctlCommand->getWirelessInterfaceList();
     if (interfaces.isEmpty()) return InterfaceAnswer::Error;
     settings[QString("Description")] = QString("'Automatically generated profile by Netctl GUI'");
-    settings[QString("Interface")] = interfaces[0];
+    settings[QString("Interface")] = interfaces.first();
     settings[QString("Connection")] = QString("wireless");
     settings[QString("ESSID")] = QString("'%1'").arg(essid);
     settings[QString("IP")] = QString("dhcp");
@@ -139,7 +141,8 @@ InterfaceAnswer NetctlInterface::connectToUnknownEssid(const QString essid, QMap
 /**
  * @fn createProfile
  */
-InterfaceAnswer NetctlInterface::createProfile(const QString profile, const QMap<QString, QString> settings)
+InterfaceAnswer NetctlInterface::createProfile(const QString profile,
+                                               const QMap<QString, QString> settings) const
 {
     if (debug) qDebug() << PDEBUG;
     if (netctlCommand == nullptr) {
@@ -157,7 +160,7 @@ InterfaceAnswer NetctlInterface::createProfile(const QString profile, const QMap
 /**
  * @fn enableProfile
  */
-InterfaceAnswer NetctlInterface::enableProfile(const QString profile)
+InterfaceAnswer NetctlInterface::enableProfile(const QString profile) const
 {
     if (debug) qDebug() << PDEBUG;
     if (netctlCommand == nullptr) {
@@ -174,7 +177,7 @@ InterfaceAnswer NetctlInterface::enableProfile(const QString profile)
 /**
  * @fn removeProfile
  */
-InterfaceAnswer NetctlInterface::removeProfile(const QString profile)
+InterfaceAnswer NetctlInterface::removeProfile(const QString profile) const
 {
     if (debug) qDebug() << PDEBUG;
     if (netctlProfile == nullptr) {
@@ -189,7 +192,7 @@ InterfaceAnswer NetctlInterface::removeProfile(const QString profile)
 /**
  * @fn restartProfile
  */
-InterfaceAnswer NetctlInterface::restartProfile(const QString profile)
+InterfaceAnswer NetctlInterface::restartProfile(const QString profile) const
 {
     if (debug) qDebug() << PDEBUG;
     if (netctlCommand == nullptr) {
@@ -206,7 +209,7 @@ InterfaceAnswer NetctlInterface::restartProfile(const QString profile)
 /**
  * @fn startProfile
  */
-InterfaceAnswer NetctlInterface::startProfile(const QString profile)
+InterfaceAnswer NetctlInterface::startProfile(const QString profile) const
 {
     if (debug) qDebug() << PDEBUG;
     if (netctlCommand == nullptr) {
@@ -227,7 +230,7 @@ InterfaceAnswer NetctlInterface::startProfile(const QString profile)
 /**
  * @fn stopAllProfiles
  */
-InterfaceAnswer NetctlInterface::stopAllProfiles()
+InterfaceAnswer NetctlInterface::stopAllProfiles() const
 {
     if (debug) qDebug() << PDEBUG;
     if (netctlCommand == nullptr) {
@@ -242,7 +245,7 @@ InterfaceAnswer NetctlInterface::stopAllProfiles()
 /**
  * @fn switchToProfile
  */
-InterfaceAnswer NetctlInterface::switchToProfile(const QString profile)
+InterfaceAnswer NetctlInterface::switchToProfile(const QString profile) const
 {
     if (debug) qDebug() << PDEBUG;
     if (netctlCommand == nullptr) {
@@ -267,7 +270,7 @@ InterfaceAnswer NetctlInterface::switchToProfile(const QString profile)
 /**
  * @fn information
  */
-netctlInformation NetctlInterface::information()
+netctlInformation NetctlInterface::information() const
 {
     if (debug) qDebug() << PDEBUG;
     if (netctlCommand == nullptr) {
@@ -288,7 +291,7 @@ netctlInformation NetctlInterface::information()
 /**
  * @fn profileSettings
  */
-QMap<QString, QString> NetctlInterface::profileSettings(const QString profile)
+QMap<QString, QString> NetctlInterface::profileSettings(const QString profile) const
 {
     if (debug) qDebug() << PDEBUG;
     if (netctlProfile == nullptr) {
@@ -303,7 +306,7 @@ QMap<QString, QString> NetctlInterface::profileSettings(const QString profile)
 /**
  * @fn status
  */
-netctlCurrent NetctlInterface::status()
+netctlCurrent NetctlInterface::status() const
 {
     if (debug) qDebug() << PDEBUG;
     if (netctlCommand == nullptr) {
@@ -318,11 +321,11 @@ netctlCurrent NetctlInterface::status()
         profiles = netctlCommand->getProfileListFromNetctlAuto();
     else
         profiles = netctlCommand->getProfileList();
-    for (int i=0; i<profiles.count(); i++) {
-        current.profiles.append(profiles[i].name);
-        if (!profiles[i].active) continue;
-        current.current.append(profiles[i].name);
-        current.enables.append(profiles[i].enabled);
+    foreach(netctlProfileInfo profile, profiles) {
+        current.profiles.append(profile.name);
+        if (!profile.active) continue;
+        current.current.append(profile.name);
+        current.enables.append(profile.enabled);
     }
 
     return current;

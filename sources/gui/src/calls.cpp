@@ -177,7 +177,7 @@ InterfaceAnswer connectToEssid(const QString essid, QMap<QString,QString> settin
 }
 
 
-netctlInformation generalInformation(NetctlInterface* interface, const bool useHelper,
+netctlInformation generalInformation(NetctlInterface *interface, const bool useHelper,
                                      const bool debug)
 {
     if (debug) qDebug() << PDEBUG;
@@ -204,7 +204,7 @@ netctlInformation generalInformation(NetctlInterface* interface, const bool useH
 }
 
 
-QMap<QString, QString> profileInformation(const QString profile, NetctlInterface* interface,
+QMap<QString, QString> profileInformation(const QString profile, NetctlInterface *interface,
                                           const bool useHelper, const bool debug)
 {
     if (!useHelper) return interface->profileSettings(profile);
