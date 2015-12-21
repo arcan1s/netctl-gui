@@ -149,7 +149,7 @@ bool Netctl::isProfileEnabled(const QString profile) const
     if (debug) qDebug() << PDEBUG;
     if (debug) qDebug() << PDEBUG << ":" << "Profile" << profile;
 
-    return cmdCall(false, netctlCommand, QString("is-enabled"), profile).status();
+    return cmdCall(false, netctlCommand, QString("is-enabled"), profile).output == QString("enabled\n");
 }
 
 

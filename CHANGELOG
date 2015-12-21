@@ -1,7 +1,11 @@
 Ver.1.4.9
 ---------
+* library
+    * fix bug with invalid enabled profile definition (#46)
+    * some imrovements inside
 * plasmoid
     * change rendering from Qt to native
+    * update plasmoid to recent plasma changes
 
 Ver.1.4.8
 ---------
