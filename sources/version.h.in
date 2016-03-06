@@ -12,7 +12,7 @@
 #define DOCS_PATH "@CMAKE_INSTALL_PREFIX@/share/doc/netctl-gui/"
 
 // links
-#define HOMEPAGE "http://arcanis.name/projects/netctl-gui/"
+#define HOMEPAGE "https://arcanis.me/projects/netctl-gui/"
 #define REPOSITORY "https://github.com/arcan1s/netctl-gui"
 #define BUGTRACKER "https://github.com/arcan1s/netctl-gui/issues"
 #define TRANSLATION "https://github.com/arcan1s/netctl-gui/issues/3"
